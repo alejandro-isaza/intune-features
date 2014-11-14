@@ -1,0 +1,6 @@
+[submodule "Submodules/tempo"]
+	path = Submodules/tempo
+	url = git@github.com:venturemedia/tempo.git
+[submodule "Submodules/MusicKit"]
+	path = Submodules/MusicKit
+	url = git@github.com:venturemedia/musickit.git
