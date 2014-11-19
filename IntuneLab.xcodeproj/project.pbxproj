@@ -10,7 +10,6 @@
 		6171BD451A16BCC4004AB274 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD441A16BCC4004AB274 /* main.m */; };
 		6171BD481A16BCC4004AB274 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD471A16BCC4004AB274 /* AppDelegate.m */; };
 		6171BD4B1A16BCC4004AB274 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD4A1A16BCC4004AB274 /* MasterViewController.m */; };
-		6171BD4E1A16BCC4004AB274 /* DetailViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD4D1A16BCC4004AB274 /* DetailViewController.m */; };
 		6171BD511A16BCC4004AB274 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6171BD4F1A16BCC4004AB274 /* Main.storyboard */; };
 		6171BD531A16BCC4004AB274 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6171BD521A16BCC4004AB274 /* Images.xcassets */; };
 		6171BD561A16BCC4004AB274 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6171BD541A16BCC4004AB274 /* LaunchScreen.xib */; };
@@ -39,6 +38,8 @@
 		6171BEE71A16BFBA004AB274 /* SignalPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BED01A16BDE6004AB274 /* SignalPacket.cpp */; };
 		6171BEE91A16C272004AB274 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6171BEE81A16C272004AB274 /* AudioToolbox.framework */; };
 		6171BEEB1A16C283004AB274 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6171BEEA1A16C283004AB274 /* Accelerate.framework */; };
+		6171BEEF1A16C49C004AB274 /* VMWaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEEE1A16C49C004AB274 /* VMWaveformView.swift */; };
+		6171BEF41A16DB0E004AB274 /* RecordViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEF31A16DB0E004AB274 /* RecordViewController.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -59,8 +60,6 @@
 		6171BD471A16BCC4004AB274 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
 		6171BD491A16BCC4004AB274 /* MasterViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MasterViewController.h; sourceTree = "<group>"; };
 		6171BD4A1A16BCC4004AB274 /* MasterViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = MasterViewController.m; sourceTree = "<group>"; };
-		6171BD4C1A16BCC4004AB274 /* DetailViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DetailViewController.h; sourceTree = "<group>"; };
-		6171BD4D1A16BCC4004AB274 /* DetailViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = DetailViewController.m; sourceTree = "<group>"; };
 		6171BD501A16BCC4004AB274 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6171BD521A16BCC4004AB274 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		6171BD551A16BCC4004AB274 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/LaunchScreen.xib; sourceTree = "<group>"; };
@@ -416,6 +415,10 @@
 		6171BED11A16BDE6004AB274 /* SignalPacket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignalPacket.h; sourceTree = "<group>"; };
 		6171BEE81A16C272004AB274 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		6171BEEA1A16C283004AB274 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
+		6171BEED1A16C49C004AB274 /* IntuneLab-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IntuneLab-Bridging-Header.h"; sourceTree = "<group>"; };
+		6171BEEE1A16C49C004AB274 /* VMWaveformView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMWaveformView.swift; sourceTree = "<group>"; };
+		6171BEF21A16DB0E004AB274 /* RecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordViewController.h; sourceTree = "<group>"; };
+		6171BEF31A16DB0E004AB274 /* RecordViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RecordViewController.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -460,12 +463,13 @@
 		6171BD411A16BCC4004AB274 /* IntuneLab */ = {
 			isa = PBXGroup;
 			children = (
+				6171BEEC1A16C401004AB274 /* Views */,
 				6171BD461A16BCC4004AB274 /* AppDelegate.h */,
 				6171BD471A16BCC4004AB274 /* AppDelegate.m */,
 				6171BD491A16BCC4004AB274 /* MasterViewController.h */,
 				6171BD4A1A16BCC4004AB274 /* MasterViewController.m */,
-				6171BD4C1A16BCC4004AB274 /* DetailViewController.h */,
-				6171BD4D1A16BCC4004AB274 /* DetailViewController.m */,
+				6171BEF21A16DB0E004AB274 /* RecordViewController.h */,
+				6171BEF31A16DB0E004AB274 /* RecordViewController.mm */,
 				6171BD4F1A16BCC4004AB274 /* Main.storyboard */,
 				6171BD521A16BCC4004AB274 /* Images.xcassets */,
 				6171BD541A16BCC4004AB274 /* LaunchScreen.xib */,
@@ -477,6 +481,7 @@
 		6171BD421A16BCC4004AB274 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6171BEED1A16C49C004AB274 /* IntuneLab-Bridging-Header.h */,
 				6171BD431A16BCC4004AB274 /* Info.plist */,
 				6171BD441A16BCC4004AB274 /* main.m */,
 			);
@@ -936,6 +941,14 @@
 			path = modules;
 			sourceTree = "<group>";
 		};
+		6171BEEC1A16C401004AB274 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				6171BEEE1A16C49C004AB274 /* VMWaveformView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1039,8 +1052,10 @@
 				6171BEE61A16BFBA004AB274 /* SignalDescription.cpp in Sources */,
 				6171BD481A16BCC4004AB274 /* AppDelegate.m in Sources */,
 				6171BED21A16BFB5004AB274 /* AccumulatorModule.cpp in Sources */,
+				6171BEEF1A16C49C004AB274 /* VMWaveformView.swift in Sources */,
 				6171BEDF1A16BFB5004AB274 /* PascalizeModule.cpp in Sources */,
 				6171BEDB1A16BFB5004AB274 /* MeanModule.cpp in Sources */,
+				6171BEF41A16DB0E004AB274 /* RecordViewController.mm in Sources */,
 				6171BD4B1A16BCC4004AB274 /* MasterViewController.m in Sources */,
 				6171BED31A16BFB5004AB274 /* AdaptiveOscillatorModule.cpp in Sources */,
 				6171BEE51A16BFBA004AB274 /* PianoTranscription.cpp in Sources */,
@@ -1058,7 +1073,6 @@
 				6171BED51A16BFB5004AB274 /* DownsampleModule.cpp in Sources */,
 				6171BED91A16BFB5004AB274 /* HairCellTransductionModule.cpp in Sources */,
 				6171BED41A16BFB5004AB274 /* DiscretizeModule.cpp in Sources */,
-				6171BD4E1A16BCC4004AB274 /* DetailViewController.m in Sources */,
 				6171BED71A16BFB5004AB274 /* EnergyTransferModule.cpp in Sources */,
 				6171BED61A16BFB5004AB274 /* EnergyModule.cpp in Sources */,
 				6171BEE71A16BFBA004AB274 /* SignalPacket.cpp in Sources */,
@@ -1185,9 +1199,16 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/Libraries",
+				);
 				INFOPLIST_FILE = IntuneLab/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "IntuneLab/IntuneLab-Bridging-Header.h";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
 		};
@@ -1195,9 +1216,15 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ENABLE_MODULES = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"$(SRCROOT)/Libraries",
+				);
 				INFOPLIST_FILE = IntuneLab/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OBJC_BRIDGING_HEADER = "IntuneLab/IntuneLab-Bridging-Header.h";
 			};
 			name = Release;
 		};
@@ -1254,6 +1281,7 @@
 				6171BD671A16BCC4004AB274 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6171BD681A16BCC4004AB274 /* Build configuration list for PBXNativeTarget "IntuneLabTests" */ = {
 			isa = XCConfigurationList;
@@ -1262,6 +1290,7 @@
 				6171BD6A1A16BCC4004AB274 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

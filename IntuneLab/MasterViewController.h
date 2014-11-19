@@ -2,11 +2,11 @@
 
 #import <UIKit/UIKit.h>
 
-@class DetailViewController;
+@class RecordViewController;
 
 @interface MasterViewController : UITableViewController
 
-@property (strong, nonatomic) DetailViewController *detailViewController;
+@property (strong, nonatomic) RecordViewController *detailViewController;
 
 
 @end
