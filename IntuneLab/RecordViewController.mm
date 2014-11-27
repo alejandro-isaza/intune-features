@@ -11,7 +11,6 @@ using namespace mkit;
 
 static const NSTimeInterval kWaveformMaxDuration = 5;
 
-
 @interface RecordViewController ()
 
 @property(nonatomic, weak) IBOutlet VMWaveformView* waveformView;
@@ -29,8 +28,8 @@ static const NSTimeInterval kWaveformMaxDuration = 5;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    self.waveformView.backgroundColor = [UIColor whiteColor];
-    self.waveformView.lineColor = [UIColor blueColor];
+    _waveformView.backgroundColor = [UIColor whiteColor];
+    _waveformView.lineColor = [UIColor blueColor];
 }
 
 - (IBAction)startStop {
@@ -62,7 +61,7 @@ static const NSTimeInterval kWaveformMaxDuration = 5;
     _blockModule.reset(new BlockModule(^(const SignalPacket& signalPacket) {
         auto& samples = _accumulatorModule->accumulatedOutput();
         dispatch_async(dispatch_get_main_queue(), ^() {
-            [self.waveformView setSamples:samples.samples(0) count:samples.size()];
+            [self.waveformView setSamples:samples.samples(0) count:samples.size() capacity:samples.capacity()];
         });
     }));
 

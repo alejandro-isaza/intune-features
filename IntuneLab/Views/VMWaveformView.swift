@@ -7,18 +7,14 @@ import UIKit
   individual pixel.
 */
 public class VMWaveformView: UIView {
-    var samplesPerPoint: CGFloat = 500
+    var alignment: Int = 1 // 0 = Leading, !0 = Trailing
     var lineWidth: CGFloat = 1.0
     var lineColor: UIColor?
+    var samplesPerPoint: CGFloat = 500
 
     private var samples: UnsafePointer<Double> = nil
     private var samplesCount: Int = 0
-
-    public func setSamples(samples: UnsafePointer<Double>, count: Int) {
-        self.samples = samples
-        samplesCount = count
-        setNeedsDisplay()
-    }
+    private var samplesCapacity: Int = 0
     
     var sampleRate: CGFloat = 44100 {
         didSet {
@@ -31,7 +27,14 @@ public class VMWaveformView: UIView {
             samplesPerPoint = duration * sampleRate / bounds.size.width
         }
     }
-
+    
+    public func setSamples(samples: UnsafePointer<Double>, count: Int, capacity: Int) {
+        self.samples = samples
+        samplesCount = count
+        samplesCapacity = capacity
+        setNeedsDisplay()
+    }
+    
     override public func drawRect(rect: CGRect) {
         lineColor?.setFill()
         lineColor?.setStroke()
@@ -52,10 +55,17 @@ public class VMWaveformView: UIView {
         let height = bounds.size.height
         let pixelSize = contentScaleFactor
         let samplesPerPixel = Int(ceil(samplesPerPoint * pixelSize))
-
+        let samplesOffset = samplesCapacity - (samplesCapacity - samplesCount)
+        
+        var x:CGFloat = 0.0
+        if alignment != 0 {
+            x = bounds.size.width - CGFloat(samplesOffset) / samplesPerPoint
+        }
+        var point = CGPointMake(x, height/2);
+        
         let path = CGPathCreateMutable()
-        var point = CGPointMake(0, height/2);
         CGPathMoveToPoint(path, nil, point.x, point.y)
+        
         for var sampleIndex = 0; sampleIndex < samplesCount; sampleIndex += samplesPerPixel {
             // Get the RMS value for the current pixel
             var value: Double = 0.0
