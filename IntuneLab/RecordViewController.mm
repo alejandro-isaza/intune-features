@@ -41,9 +41,9 @@ static const NSTimeInterval kWaveformMaxDuration = 5;
 }
 
 - (void)start {
-    if (!_microphoneModule) {
+    if (!_microphoneModule)
         [self initializeModuleGraph];
-    }
+    
     _microphoneModule->start();
 
     [self.startStopButton setTitle:@"Stop" forState:UIControlStateNormal];
@@ -52,6 +52,7 @@ static const NSTimeInterval kWaveformMaxDuration = 5;
 - (void)stop {
     if (!_microphoneModule)
         return;
+    
     _microphoneModule->stop();
 
     [self.startStopButton setTitle:@"Record" forState:UIControlStateNormal];
@@ -66,6 +67,9 @@ static const NSTimeInterval kWaveformMaxDuration = 5;
     }));
 
     SignalDescription signalDescription;
+    _waveformView.sampleRate = signalDescription.sampleRate();
+    _waveformView.duration = kWaveformMaxDuration;
+    
     std::size_t capacity = signalDescription.sampleRate() * kWaveformMaxDuration;
     _accumulatorModule.reset(new AccumulatorModule(signalDescription, capacity));
     _accumulatorModule->addTarget(_blockModule.get());

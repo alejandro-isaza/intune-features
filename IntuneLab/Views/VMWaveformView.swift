@@ -7,7 +7,7 @@ import UIKit
   individual pixel.
 */
 public class VMWaveformView: UIView {
-    let samplesPerPoint: CGFloat = 500
+    var samplesPerPoint: CGFloat = 500
     var lineWidth: CGFloat = 1.0
     var lineColor: UIColor?
 
@@ -18,6 +18,18 @@ public class VMWaveformView: UIView {
         self.samples = samples
         samplesCount = count
         setNeedsDisplay()
+    }
+    
+    var sampleRate: CGFloat = 44100 {
+        didSet {
+            samplesPerPoint = duration * sampleRate / bounds.size.width
+        }
+    }
+    
+    var duration: CGFloat = 5 {
+        didSet {
+            samplesPerPoint = duration * sampleRate / bounds.size.width
+        }
     }
 
     override public func drawRect(rect: CGRect) {
