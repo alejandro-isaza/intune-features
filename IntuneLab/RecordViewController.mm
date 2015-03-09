@@ -6,6 +6,7 @@
 #include <tempo/modules/AccumulatorModule.h>
 #include <tempo/modules/BlockModule.h>
 #include <tempo/modules/MicrophoneModule.h>
+#include <tempo/modules/SaveToFileModule.h>
 
 using namespace mkit;
 
@@ -19,6 +20,7 @@ static const NSTimeInterval kWaveformMaxDuration = 5;
 @property(nonatomic) std::shared_ptr<MicrophoneModule> microphoneModule;
 @property(nonatomic) std::shared_ptr<AccumulatorModule> accumulatorModule;
 @property(nonatomic) std::shared_ptr<BlockModule> blockModule;
+@property(nonatomic) std::shared_ptr<SaveToFileModule> saveToFileModule;
 
 @end
 
@@ -76,6 +78,13 @@ static const NSTimeInterval kWaveformMaxDuration = 5;
     _microphoneModule.reset(new MicrophoneModule);
     _microphoneModule->addTarget(_accumulatorModule.get());
 
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
+    NSString* filePath = [basePath stringByAppendingPathComponent:@"saved.caf"];
+    NSLog(@"Saving to %@", filePath);
+
+    _saveToFileModule.reset(new SaveToFileModule(filePath.UTF8String, signalDescription));
+    _microphoneModule->addTarget(_saveToFileModule.get());
 }
 
 @end

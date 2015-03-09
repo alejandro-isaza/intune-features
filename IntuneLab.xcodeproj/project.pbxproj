@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		61239A5D1A62EFB300B3F0A3 /* SaveToFileModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61239A5B1A62EFB300B3F0A3 /* SaveToFileModule.cpp */; };
 		6171BD451A16BCC4004AB274 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD441A16BCC4004AB274 /* main.m */; };
 		6171BD481A16BCC4004AB274 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD471A16BCC4004AB274 /* AppDelegate.m */; };
 		6171BD4B1A16BCC4004AB274 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD4A1A16BCC4004AB274 /* MasterViewController.m */; };
@@ -53,6 +54,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		61239A5B1A62EFB300B3F0A3 /* SaveToFileModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SaveToFileModule.cpp; path = Submodules/tempo/src/modules/SaveToFileModule.cpp; sourceTree = SOURCE_ROOT; };
+		61239A5C1A62EFB300B3F0A3 /* SaveToFileModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SaveToFileModule.h; path = Submodules/tempo/src/modules/SaveToFileModule.h; sourceTree = SOURCE_ROOT; };
 		6171BD3F1A16BCC4004AB274 /* IntuneLab.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IntuneLab.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6171BD431A16BCC4004AB274 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6171BD441A16BCC4004AB274 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -935,6 +938,8 @@
 				6171BEC51A16BDE6004AB274 /* PascalizeModule.h */,
 				6171BEC61A16BDE6004AB274 /* RMSModule.cpp */,
 				6171BEC71A16BDE6004AB274 /* RMSModule.h */,
+				61239A5B1A62EFB300B3F0A3 /* SaveToFileModule.cpp */,
+				61239A5C1A62EFB300B3F0A3 /* SaveToFileModule.h */,
 				6171BEC81A16BDE6004AB274 /* ScoreModule.cpp */,
 				6171BEC91A16BDE6004AB274 /* ScoreModule.h */,
 			);
@@ -1070,6 +1075,7 @@
 				6171BD451A16BCC4004AB274 /* main.m in Sources */,
 				6171BEE31A16BFBA004AB274 /* ChannelDescription.cpp in Sources */,
 				6171BEE01A16BFB5004AB274 /* RMSModule.cpp in Sources */,
+				61239A5D1A62EFB300B3F0A3 /* SaveToFileModule.cpp in Sources */,
 				6171BED51A16BFB5004AB274 /* DownsampleModule.cpp in Sources */,
 				6171BED91A16BFB5004AB274 /* HairCellTransductionModule.cpp in Sources */,
 				6171BED41A16BFB5004AB274 /* DiscretizeModule.cpp in Sources */,
