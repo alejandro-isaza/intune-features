@@ -7,6 +7,88 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00EFC4BD1AAF8A75000C1D5B /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EFC4BC1AAF8A75000C1D5B /* libxml2.dylib */; };
+		00EFC4DB1AAF8E0E000C1D5B /* DoubleHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD6E1A16BDE6004AB274 /* DoubleHandler.cpp */; };
+		00EFC4DC1AAF8E0E000C1D5B /* IntegerHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD701A16BDE6004AB274 /* IntegerHandler.cpp */; };
+		00EFC4DD1AAF8E0E000C1D5B /* lxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD731A16BDE6004AB274 /* lxml.cpp */; };
+		00EFC4DE1AAF8E0E000C1D5B /* RootRecursiveHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD781A16BDE6004AB274 /* RootRecursiveHandler.cpp */; };
+		00EFC4DF1AAF8E0E000C1D5B /* StringHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD7B1A16BDE6004AB274 /* StringHandler.cpp */; };
+		00EFC4E01AAF8E19000C1D5B /* liblxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EFC4C21AAF8DF3000C1D5B /* liblxml.a */; };
+		00EFC4FC1AAF8E8D000C1D5B /* Identification.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BDE61A16BDE6004AB274 /* Identification.cpp */; };
+		00EFC4FD1AAF8E8D000C1D5B /* Measure.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BDEB1A16BDE6004AB274 /* Measure.cpp */; };
+		00EFC4FE1AAF8E8D000C1D5B /* Note.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BDF01A16BDE6004AB274 /* Note.cpp */; };
+		00EFC4FF1AAF8E8D000C1D5B /* Part.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BDF41A16BDE6004AB274 /* Part.cpp */; };
+		00EFC5001AAF8E90000C1D5B /* AccidentalGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE101A16BDE6004AB274 /* AccidentalGeometry.cpp */; };
+		00EFC5011AAF8E90000C1D5B /* ArticulationGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE121A16BDE6004AB274 /* ArticulationGeometry.cpp */; };
+		00EFC5021AAF8E90000C1D5B /* BarlineGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE141A16BDE6004AB274 /* BarlineGeometry.cpp */; };
+		00EFC5031AAF8E90000C1D5B /* BeamGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE161A16BDE6004AB274 /* BeamGeometry.cpp */; };
+		00EFC5041AAF8E90000C1D5B /* ChordGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE181A16BDE6004AB274 /* ChordGeometry.cpp */; };
+		00EFC5051AAF8E90000C1D5B /* ClefGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE1A1A16BDE6004AB274 /* ClefGeometry.cpp */; };
+		00EFC5061AAF8E90000C1D5B /* DirectionGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE1C1A16BDE6004AB274 /* DirectionGeometry.cpp */; };
+		00EFC5071AAF8E90000C1D5B /* DotGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE1E1A16BDE6004AB274 /* DotGeometry.cpp */; };
+		00EFC5081AAF8E90000C1D5B /* EndingGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE201A16BDE6004AB274 /* EndingGeometry.cpp */; };
+		00EFC5091AAF8E90000C1D5B /* FermataGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE221A16BDE6004AB274 /* FermataGeometry.cpp */; };
+		00EFC50A1AAF8E90000C1D5B /* Geometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE241A16BDE6004AB274 /* Geometry.cpp */; };
+		00EFC50B1AAF8E90000C1D5B /* KeyGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE261A16BDE6004AB274 /* KeyGeometry.cpp */; };
+		00EFC50C1AAF8E90000C1D5B /* LyricGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE291A16BDE6004AB274 /* LyricGeometry.cpp */; };
+		00EFC50D1AAF8E90000C1D5B /* MeasureGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE2C1A16BDE6004AB274 /* MeasureGeometry.cpp */; };
+		00EFC50E1AAF8E90000C1D5B /* NoteGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE2E1A16BDE6004AB274 /* NoteGeometry.cpp */; };
+		00EFC50F1AAF8E90000C1D5B /* OrnamentsGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE301A16BDE6004AB274 /* OrnamentsGeometry.cpp */; };
+		00EFC5101AAF8E90000C1D5B /* PartGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE321A16BDE6004AB274 /* PartGeometry.cpp */; };
+		00EFC5111AAF8E90000C1D5B /* PedalGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE341A16BDE6004AB274 /* PedalGeometry.cpp */; };
+		00EFC5121AAF8E90000C1D5B /* RestGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE381A16BDE6004AB274 /* RestGeometry.cpp */; };
+		00EFC5131AAF8E90000C1D5B /* ScoreGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE3A1A16BDE6004AB274 /* ScoreGeometry.cpp */; };
+		00EFC5141AAF8E90000C1D5B /* SpanDirectionGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE3D1A16BDE6004AB274 /* SpanDirectionGeometry.cpp */; };
+		00EFC5151AAF8E90000C1D5B /* SpanDirectionGeometryFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE3F1A16BDE6004AB274 /* SpanDirectionGeometryFactory.cpp */; };
+		00EFC5161AAF8E90000C1D5B /* StemGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE411A16BDE6004AB274 /* StemGeometry.cpp */; };
+		00EFC5171AAF8E90000C1D5B /* TieGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE441A16BDE6004AB274 /* TieGeometry.cpp */; };
+		00EFC5181AAF8E90000C1D5B /* TieGeometryFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE461A16BDE6004AB274 /* TieGeometryFactory.cpp */; };
+		00EFC5191AAF8E90000C1D5B /* TimeSignatureGeometry.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE481A16BDE6004AB274 /* TimeSignatureGeometry.cpp */; };
+		00EFC51A1AAF8E95000C1D5B /* ArticulationHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE4B1A16BDE6004AB274 /* ArticulationHandler.cpp */; };
+		00EFC51B1AAF8E95000C1D5B /* AttributesHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE4D1A16BDE6004AB274 /* AttributesHandler.cpp */; };
+		00EFC51C1AAF8E95000C1D5B /* BackupHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE4F1A16BDE6004AB274 /* BackupHandler.cpp */; };
+		00EFC51D1AAF8E95000C1D5B /* BarlineHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE511A16BDE6004AB274 /* BarlineHandler.cpp */; };
+		00EFC51E1AAF8E95000C1D5B /* BeamHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE541A16BDE6004AB274 /* BeamHandler.cpp */; };
+		00EFC51F1AAF8E95000C1D5B /* ClefHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE561A16BDE6004AB274 /* ClefHandler.cpp */; };
+		00EFC5201AAF8E95000C1D5B /* CreditHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE581A16BDE6004AB274 /* CreditHandler.cpp */; };
+		00EFC5211AAF8E95000C1D5B /* CreditWordsHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE5A1A16BDE6004AB274 /* CreditWordsHandler.cpp */; };
+		00EFC5221AAF8E95000C1D5B /* DefaultsHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE5C1A16BDE6004AB274 /* DefaultsHandler.cpp */; };
+		00EFC5231AAF8E95000C1D5B /* DirectionHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE5E1A16BDE6004AB274 /* DirectionHandler.cpp */; };
+		00EFC5241AAF8E95000C1D5B /* DirectionTypeHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE601A16BDE6004AB274 /* DirectionTypeHandler.cpp */; };
+		00EFC5251AAF8E95000C1D5B /* EmptyPlacementHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE621A16BDE6004AB274 /* EmptyPlacementHandler.cpp */; };
+		00EFC5261AAF8E95000C1D5B /* EndingHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE641A16BDE6004AB274 /* EndingHandler.cpp */; };
+		00EFC5271AAF8E95000C1D5B /* FermataHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE661A16BDE6004AB274 /* FermataHandler.cpp */; };
+		00EFC5281AAF8E95000C1D5B /* ForwardHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE691A16BDE6004AB274 /* ForwardHandler.cpp */; };
+		00EFC5291AAF8E95000C1D5B /* IdentificationHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE6B1A16BDE6004AB274 /* IdentificationHandler.cpp */; };
+		00EFC52A1AAF8E95000C1D5B /* KeyHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE6D1A16BDE6004AB274 /* KeyHandler.cpp */; };
+		00EFC52B1AAF8E95000C1D5B /* LyricHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE6F1A16BDE6004AB274 /* LyricHandler.cpp */; };
+		00EFC52C1AAF8E95000C1D5B /* MeasureHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE711A16BDE6004AB274 /* MeasureHandler.cpp */; };
+		00EFC52D1AAF8E95000C1D5B /* MordentHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE731A16BDE6004AB274 /* MordentHandler.cpp */; };
+		00EFC52E1AAF8E95000C1D5B /* NotationsHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE751A16BDE6004AB274 /* NotationsHandler.cpp */; };
+		00EFC52F1AAF8E95000C1D5B /* NoteHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE771A16BDE6004AB274 /* NoteHandler.cpp */; };
+		00EFC5301AAF8E95000C1D5B /* OrnamentsHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE791A16BDE6004AB274 /* OrnamentsHandler.cpp */; };
+		00EFC5311AAF8E95000C1D5B /* PartHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE7B1A16BDE6004AB274 /* PartHandler.cpp */; };
+		00EFC5321AAF8E95000C1D5B /* PitchHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE7D1A16BDE6004AB274 /* PitchHandler.cpp */; };
+		00EFC5331AAF8E95000C1D5B /* PrintHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE7F1A16BDE6004AB274 /* PrintHandler.cpp */; };
+		00EFC5341AAF8E95000C1D5B /* RepeatHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE811A16BDE6004AB274 /* RepeatHandler.cpp */; };
+		00EFC5351AAF8E95000C1D5B /* RestHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE831A16BDE6004AB274 /* RestHandler.cpp */; };
+		00EFC5361AAF8E95000C1D5B /* ScalingHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE851A16BDE6004AB274 /* ScalingHandler.cpp */; };
+		00EFC5371AAF8E95000C1D5B /* ScoreHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE871A16BDE6004AB274 /* ScoreHandler.cpp */; };
+		00EFC5381AAF8E95000C1D5B /* SlurHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE891A16BDE6004AB274 /* SlurHandler.cpp */; };
+		00EFC5391AAF8E95000C1D5B /* SoundHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE8B1A16BDE6004AB274 /* SoundHandler.cpp */; };
+		00EFC53A1AAF8E95000C1D5B /* StaffLayoutHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE8D1A16BDE6004AB274 /* StaffLayoutHandler.cpp */; };
+		00EFC53B1AAF8E95000C1D5B /* SyllabicHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE8F1A16BDE6004AB274 /* SyllabicHandler.cpp */; };
+		00EFC53C1AAF8E95000C1D5B /* TiedHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE911A16BDE6004AB274 /* TiedHandler.cpp */; };
+		00EFC53D1AAF8E95000C1D5B /* TieHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE931A16BDE6004AB274 /* TieHandler.cpp */; };
+		00EFC53E1AAF8E95000C1D5B /* TimeHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE951A16BDE6004AB274 /* TimeHandler.cpp */; };
+		00EFC53F1AAF8E95000C1D5B /* TurnHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE971A16BDE6004AB274 /* TurnHandler.cpp */; };
+		00EFC5401AAF8E95000C1D5B /* UnpitchedHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE991A16BDE6004AB274 /* UnpitchedHandler.cpp */; };
+		00EFC5411AAF8E95000C1D5B /* Event.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE091A16BDE6004AB274 /* Event.cpp */; };
+		00EFC5421AAF8E95000C1D5B /* EventFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE0B1A16BDE6004AB274 /* EventFactory.cpp */; };
+		00EFC5431AAF8E95000C1D5B /* EventSequence.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE0D1A16BDE6004AB274 /* EventSequence.cpp */; };
+		00EFC5441AAF8E95000C1D5B /* SpanCollection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE9C1A16BDE6004AB274 /* SpanCollection.cpp */; };
+		00EFC5451AAF8E95000C1D5B /* SpanFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BE9E1A16BDE6004AB274 /* SpanFactory.cpp */; };
+		00EFC5481AAF8EA3000C1D5B /* libmxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EFC4E51AAF8E73000C1D5B /* libmxml.a */; };
 		61239A5D1A62EFB300B3F0A3 /* SaveToFileModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61239A5B1A62EFB300B3F0A3 /* SaveToFileModule.cpp */; };
 		6171BD451A16BCC4004AB274 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD441A16BCC4004AB274 /* main.m */; };
 		6171BD481A16BCC4004AB274 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD471A16BCC4004AB274 /* AppDelegate.m */; };
@@ -44,6 +126,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		00EFC4D91AAF8DFB000C1D5B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6171BD371A16BCC4004AB274 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 00EFC4C11AAF8DF3000C1D5B;
+			remoteInfo = lxml;
+		};
+		00EFC5461AAF8E9F000C1D5B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6171BD371A16BCC4004AB274 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 00EFC4E41AAF8E73000C1D5B;
+			remoteInfo = mxml;
+		};
 		6171BD5C1A16BCC4004AB274 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6171BD371A16BCC4004AB274 /* Project object */;
@@ -53,7 +149,31 @@
 		};
 /* End PBXContainerItemProxy section */
 
+/* Begin PBXCopyFilesBuildPhase section */
+		00EFC4C01AAF8DF3000C1D5B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00EFC4E31AAF8E73000C1D5B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
 /* Begin PBXFileReference section */
+		00EFC4BC1AAF8A75000C1D5B /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
+		00EFC4C21AAF8DF3000C1D5B /* liblxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblxml.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		00EFC4E51AAF8E73000C1D5B /* libmxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libmxml.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		61239A5B1A62EFB300B3F0A3 /* SaveToFileModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SaveToFileModule.cpp; path = Submodules/tempo/src/modules/SaveToFileModule.cpp; sourceTree = SOURCE_ROOT; };
 		61239A5C1A62EFB300B3F0A3 /* SaveToFileModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SaveToFileModule.h; path = Submodules/tempo/src/modules/SaveToFileModule.h; sourceTree = SOURCE_ROOT; };
 		6171BD3F1A16BCC4004AB274 /* IntuneLab.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IntuneLab.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -425,10 +545,27 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		00EFC4BF1AAF8DF3000C1D5B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00EFC4E21AAF8E73000C1D5B /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6171BD3C1A16BCC4004AB274 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00EFC5481AAF8EA3000C1D5B /* libmxml.a in Frameworks */,
+				00EFC4E01AAF8E19000C1D5B /* liblxml.a in Frameworks */,
+				00EFC4BD1AAF8A75000C1D5B /* libxml2.dylib in Frameworks */,
 				6171BEEB1A16C283004AB274 /* Accelerate.framework in Frameworks */,
 				6171BEE91A16C272004AB274 /* AudioToolbox.framework in Frameworks */,
 			);
@@ -459,6 +596,8 @@
 			children = (
 				6171BD3F1A16BCC4004AB274 /* IntuneLab.app */,
 				6171BD5B1A16BCC4004AB274 /* IntuneLabTests.xctest */,
+				00EFC4C21AAF8DF3000C1D5B /* liblxml.a */,
+				00EFC4E51AAF8E73000C1D5B /* libmxml.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -511,6 +650,7 @@
 		6171BD6B1A16BDE6004AB274 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				00EFC4BC1AAF8A75000C1D5B /* libxml2.dylib */,
 				6171BEEA1A16C283004AB274 /* Accelerate.framework */,
 				6171BEE81A16C272004AB274 /* AudioToolbox.framework */,
 				6171BD6C1A16BDE6004AB274 /* lxml */,
@@ -957,6 +1097,40 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		00EFC4C11AAF8DF3000C1D5B /* lxml */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00EFC4D31AAF8DF3000C1D5B /* Build configuration list for PBXNativeTarget "lxml" */;
+			buildPhases = (
+				00EFC4BE1AAF8DF3000C1D5B /* Sources */,
+				00EFC4BF1AAF8DF3000C1D5B /* Frameworks */,
+				00EFC4C01AAF8DF3000C1D5B /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = lxml;
+			productName = lxml;
+			productReference = 00EFC4C21AAF8DF3000C1D5B /* liblxml.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+		00EFC4E41AAF8E73000C1D5B /* mxml */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 00EFC4F61AAF8E73000C1D5B /* Build configuration list for PBXNativeTarget "mxml" */;
+			buildPhases = (
+				00EFC4E11AAF8E73000C1D5B /* Sources */,
+				00EFC4E21AAF8E73000C1D5B /* Frameworks */,
+				00EFC4E31AAF8E73000C1D5B /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = mxml;
+			productName = mxml;
+			productReference = 00EFC4E51AAF8E73000C1D5B /* libmxml.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 		6171BD3E1A16BCC4004AB274 /* IntuneLab */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6171BD651A16BCC4004AB274 /* Build configuration list for PBXNativeTarget "IntuneLab" */;
@@ -968,6 +1142,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				00EFC5471AAF8E9F000C1D5B /* PBXTargetDependency */,
+				00EFC4DA1AAF8DFB000C1D5B /* PBXTargetDependency */,
 			);
 			name = IntuneLab;
 			productName = IntuneLab;
@@ -1001,6 +1177,12 @@
 				LastUpgradeCheck = 0610;
 				ORGANIZATIONNAME = "Venture Media Labs";
 				TargetAttributes = {
+					00EFC4C11AAF8DF3000C1D5B = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
+					00EFC4E41AAF8E73000C1D5B = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
 					6171BD3E1A16BCC4004AB274 = {
 						CreatedOnToolsVersion = 6.1;
 					};
@@ -1025,6 +1207,8 @@
 			targets = (
 				6171BD3E1A16BCC4004AB274 /* IntuneLab */,
 				6171BD5A1A16BCC4004AB274 /* IntuneLabTests */,
+				00EFC4C11AAF8DF3000C1D5B /* lxml */,
+				00EFC4E41AAF8E73000C1D5B /* mxml */,
 			);
 		};
 /* End PBXProject section */
@@ -1050,6 +1234,99 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		00EFC4BE1AAF8DF3000C1D5B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00EFC4DB1AAF8E0E000C1D5B /* DoubleHandler.cpp in Sources */,
+				00EFC4DF1AAF8E0E000C1D5B /* StringHandler.cpp in Sources */,
+				00EFC4DC1AAF8E0E000C1D5B /* IntegerHandler.cpp in Sources */,
+				00EFC4DD1AAF8E0E000C1D5B /* lxml.cpp in Sources */,
+				00EFC4DE1AAF8E0E000C1D5B /* RootRecursiveHandler.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		00EFC4E11AAF8E73000C1D5B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				00EFC5391AAF8E95000C1D5B /* SoundHandler.cpp in Sources */,
+				00EFC5021AAF8E90000C1D5B /* BarlineGeometry.cpp in Sources */,
+				00EFC50F1AAF8E90000C1D5B /* OrnamentsGeometry.cpp in Sources */,
+				00EFC4FF1AAF8E8D000C1D5B /* Part.cpp in Sources */,
+				00EFC51C1AAF8E95000C1D5B /* BackupHandler.cpp in Sources */,
+				00EFC5241AAF8E95000C1D5B /* DirectionTypeHandler.cpp in Sources */,
+				00EFC5031AAF8E90000C1D5B /* BeamGeometry.cpp in Sources */,
+				00EFC5181AAF8E90000C1D5B /* TieGeometryFactory.cpp in Sources */,
+				00EFC5371AAF8E95000C1D5B /* ScoreHandler.cpp in Sources */,
+				00EFC5101AAF8E90000C1D5B /* PartGeometry.cpp in Sources */,
+				00EFC5071AAF8E90000C1D5B /* DotGeometry.cpp in Sources */,
+				00EFC5301AAF8E95000C1D5B /* OrnamentsHandler.cpp in Sources */,
+				00EFC50D1AAF8E90000C1D5B /* MeasureGeometry.cpp in Sources */,
+				00EFC50E1AAF8E90000C1D5B /* NoteGeometry.cpp in Sources */,
+				00EFC5281AAF8E95000C1D5B /* ForwardHandler.cpp in Sources */,
+				00EFC5051AAF8E90000C1D5B /* ClefGeometry.cpp in Sources */,
+				00EFC50B1AAF8E90000C1D5B /* KeyGeometry.cpp in Sources */,
+				00EFC5421AAF8E95000C1D5B /* EventFactory.cpp in Sources */,
+				00EFC5361AAF8E95000C1D5B /* ScalingHandler.cpp in Sources */,
+				00EFC5291AAF8E95000C1D5B /* IdentificationHandler.cpp in Sources */,
+				00EFC51B1AAF8E95000C1D5B /* AttributesHandler.cpp in Sources */,
+				00EFC5221AAF8E95000C1D5B /* DefaultsHandler.cpp in Sources */,
+				00EFC52E1AAF8E95000C1D5B /* NotationsHandler.cpp in Sources */,
+				00EFC5411AAF8E95000C1D5B /* Event.cpp in Sources */,
+				00EFC53E1AAF8E95000C1D5B /* TimeHandler.cpp in Sources */,
+				00EFC5171AAF8E90000C1D5B /* TieGeometry.cpp in Sources */,
+				00EFC5331AAF8E95000C1D5B /* PrintHandler.cpp in Sources */,
+				00EFC5341AAF8E95000C1D5B /* RepeatHandler.cpp in Sources */,
+				00EFC53D1AAF8E95000C1D5B /* TieHandler.cpp in Sources */,
+				00EFC52B1AAF8E95000C1D5B /* LyricHandler.cpp in Sources */,
+				00EFC5451AAF8E95000C1D5B /* SpanFactory.cpp in Sources */,
+				00EFC4FE1AAF8E8D000C1D5B /* Note.cpp in Sources */,
+				00EFC5011AAF8E90000C1D5B /* ArticulationGeometry.cpp in Sources */,
+				00EFC51D1AAF8E95000C1D5B /* BarlineHandler.cpp in Sources */,
+				00EFC52A1AAF8E95000C1D5B /* KeyHandler.cpp in Sources */,
+				00EFC5151AAF8E90000C1D5B /* SpanDirectionGeometryFactory.cpp in Sources */,
+				00EFC5351AAF8E95000C1D5B /* RestHandler.cpp in Sources */,
+				00EFC53C1AAF8E95000C1D5B /* TiedHandler.cpp in Sources */,
+				00EFC5431AAF8E95000C1D5B /* EventSequence.cpp in Sources */,
+				00EFC5251AAF8E95000C1D5B /* EmptyPlacementHandler.cpp in Sources */,
+				00EFC5271AAF8E95000C1D5B /* FermataHandler.cpp in Sources */,
+				00EFC50C1AAF8E90000C1D5B /* LyricGeometry.cpp in Sources */,
+				00EFC51E1AAF8E95000C1D5B /* BeamHandler.cpp in Sources */,
+				00EFC50A1AAF8E90000C1D5B /* Geometry.cpp in Sources */,
+				00EFC52C1AAF8E95000C1D5B /* MeasureHandler.cpp in Sources */,
+				00EFC5191AAF8E90000C1D5B /* TimeSignatureGeometry.cpp in Sources */,
+				00EFC5321AAF8E95000C1D5B /* PitchHandler.cpp in Sources */,
+				00EFC5141AAF8E90000C1D5B /* SpanDirectionGeometry.cpp in Sources */,
+				00EFC5121AAF8E90000C1D5B /* RestGeometry.cpp in Sources */,
+				00EFC5381AAF8E95000C1D5B /* SlurHandler.cpp in Sources */,
+				00EFC4FD1AAF8E8D000C1D5B /* Measure.cpp in Sources */,
+				00EFC5091AAF8E90000C1D5B /* FermataGeometry.cpp in Sources */,
+				00EFC5111AAF8E90000C1D5B /* PedalGeometry.cpp in Sources */,
+				00EFC5161AAF8E90000C1D5B /* StemGeometry.cpp in Sources */,
+				00EFC51F1AAF8E95000C1D5B /* ClefHandler.cpp in Sources */,
+				00EFC51A1AAF8E95000C1D5B /* ArticulationHandler.cpp in Sources */,
+				00EFC5441AAF8E95000C1D5B /* SpanCollection.cpp in Sources */,
+				00EFC52F1AAF8E95000C1D5B /* NoteHandler.cpp in Sources */,
+				00EFC5261AAF8E95000C1D5B /* EndingHandler.cpp in Sources */,
+				00EFC52D1AAF8E95000C1D5B /* MordentHandler.cpp in Sources */,
+				00EFC5131AAF8E90000C1D5B /* ScoreGeometry.cpp in Sources */,
+				00EFC53B1AAF8E95000C1D5B /* SyllabicHandler.cpp in Sources */,
+				00EFC4FC1AAF8E8D000C1D5B /* Identification.cpp in Sources */,
+				00EFC5041AAF8E90000C1D5B /* ChordGeometry.cpp in Sources */,
+				00EFC53F1AAF8E95000C1D5B /* TurnHandler.cpp in Sources */,
+				00EFC5311AAF8E95000C1D5B /* PartHandler.cpp in Sources */,
+				00EFC5211AAF8E95000C1D5B /* CreditWordsHandler.cpp in Sources */,
+				00EFC5081AAF8E90000C1D5B /* EndingGeometry.cpp in Sources */,
+				00EFC5231AAF8E95000C1D5B /* DirectionHandler.cpp in Sources */,
+				00EFC5001AAF8E90000C1D5B /* AccidentalGeometry.cpp in Sources */,
+				00EFC5401AAF8E95000C1D5B /* UnpitchedHandler.cpp in Sources */,
+				00EFC5061AAF8E90000C1D5B /* DirectionGeometry.cpp in Sources */,
+				00EFC53A1AAF8E95000C1D5B /* StaffLayoutHandler.cpp in Sources */,
+				00EFC5201AAF8E95000C1D5B /* CreditHandler.cpp in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		6171BD3B1A16BCC4004AB274 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1096,6 +1373,16 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		00EFC4DA1AAF8DFB000C1D5B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 00EFC4C11AAF8DF3000C1D5B /* lxml */;
+			targetProxy = 00EFC4D91AAF8DFB000C1D5B /* PBXContainerItemProxy */;
+		};
+		00EFC5471AAF8E9F000C1D5B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 00EFC4E41AAF8E73000C1D5B /* mxml */;
+			targetProxy = 00EFC5461AAF8E9F000C1D5B /* PBXContainerItemProxy */;
+		};
 		6171BD5D1A16BCC4004AB274 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 6171BD3E1A16BCC4004AB274 /* IntuneLab */;
@@ -1123,6 +1410,50 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		00EFC4D41AAF8DF3000C1D5B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		00EFC4D51AAF8DF3000C1D5B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
+		00EFC4F71AAF8E73000C1D5B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		00EFC4F81AAF8E73000C1D5B /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 		6171BD631A16BCC4004AB274 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -1157,6 +1488,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/Libraries",
+					/usr/include/libxml2,
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -1193,6 +1530,12 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
+					"$(SRCROOT)/Libraries",
+					/usr/include/libxml2,
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
@@ -1212,6 +1555,7 @@
 				);
 				INFOPLIST_FILE = IntuneLab/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "IntuneLab/IntuneLab-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1229,6 +1573,7 @@
 				);
 				INFOPLIST_FILE = IntuneLab/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "IntuneLab/IntuneLab-Bridging-Header.h";
 			};
@@ -1271,6 +1616,22 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		00EFC4D31AAF8DF3000C1D5B /* Build configuration list for PBXNativeTarget "lxml" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00EFC4D41AAF8DF3000C1D5B /* Debug */,
+				00EFC4D51AAF8DF3000C1D5B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		00EFC4F61AAF8E73000C1D5B /* Build configuration list for PBXNativeTarget "mxml" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				00EFC4F71AAF8E73000C1D5B /* Debug */,
+				00EFC4F81AAF8E73000C1D5B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		6171BD3A1A16BCC4004AB274 /* Build configuration list for PBXProject "IntuneLab" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
