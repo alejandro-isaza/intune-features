@@ -138,7 +138,6 @@
 		00EFC4BD1AAF8A75000C1D5B /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EFC4BC1AAF8A75000C1D5B /* libxml2.dylib */; };
 		00EFC4E01AAF8E19000C1D5B /* liblxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EFC4C21AAF8DF3000C1D5B /* liblxml.a */; };
 		00EFC5481AAF8EA3000C1D5B /* libmxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EFC4E51AAF8E73000C1D5B /* libmxml.a */; };
-		61239A5D1A62EFB300B3F0A3 /* SaveToFileModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61239A5B1A62EFB300B3F0A3 /* SaveToFileModule.cpp */; };
 		6171BD451A16BCC4004AB274 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD441A16BCC4004AB274 /* main.m */; };
 		6171BD481A16BCC4004AB274 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD471A16BCC4004AB274 /* AppDelegate.m */; };
 		6171BD4B1A16BCC4004AB274 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD4A1A16BCC4004AB274 /* MasterViewController.m */; };
@@ -146,32 +145,20 @@
 		6171BD531A16BCC4004AB274 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6171BD521A16BCC4004AB274 /* Images.xcassets */; };
 		6171BD561A16BCC4004AB274 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6171BD541A16BCC4004AB274 /* LaunchScreen.xib */; };
 		6171BD621A16BCC4004AB274 /* IntuneLabTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD611A16BCC4004AB274 /* IntuneLabTests.m */; };
-		6171BED21A16BFB5004AB274 /* AccumulatorModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEA81A16BDE6004AB274 /* AccumulatorModule.cpp */; };
-		6171BED31A16BFB5004AB274 /* AdaptiveOscillatorModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEAA1A16BDE6004AB274 /* AdaptiveOscillatorModule.cpp */; };
-		6171BED41A16BFB5004AB274 /* DiscretizeModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEAD1A16BDE6004AB274 /* DiscretizeModule.cpp */; };
-		6171BED51A16BFB5004AB274 /* DownsampleModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEAF1A16BDE6004AB274 /* DownsampleModule.cpp */; };
-		6171BED61A16BFB5004AB274 /* EnergyModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEB11A16BDE6004AB274 /* EnergyModule.cpp */; };
-		6171BED71A16BFB5004AB274 /* EnergyTransferModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEB31A16BDE6004AB274 /* EnergyTransferModule.cpp */; };
-		6171BED81A16BFB5004AB274 /* GammatoneModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEB61A16BDE6004AB274 /* GammatoneModule.cpp */; };
-		6171BED91A16BFB5004AB274 /* HairCellTransductionModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEB81A16BDE6004AB274 /* HairCellTransductionModule.cpp */; };
-		6171BEDA1A16BFB5004AB274 /* MatcherModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEBA1A16BDE6004AB274 /* MatcherModule.cpp */; };
-		6171BEDB1A16BFB5004AB274 /* MeanModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEBC1A16BDE6004AB274 /* MeanModule.cpp */; };
-		6171BEDC1A16BFB5004AB274 /* MicrophoneModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEBE1A16BDE6004AB274 /* MicrophoneModule.cpp */; };
-		6171BEDD1A16BFB5004AB274 /* OnsetDetectionModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEC01A16BDE6004AB274 /* OnsetDetectionModule.cpp */; };
-		6171BEDE1A16BFB5004AB274 /* OnsetMaxModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEC21A16BDE6004AB274 /* OnsetMaxModule.cpp */; };
-		6171BEDF1A16BFB5004AB274 /* PascalizeModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEC41A16BDE6004AB274 /* PascalizeModule.cpp */; };
-		6171BEE01A16BFB5004AB274 /* RMSModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEC61A16BDE6004AB274 /* RMSModule.cpp */; };
-		6171BEE11A16BFB5004AB274 /* ScoreModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEC81A16BDE6004AB274 /* ScoreModule.cpp */; };
-		6171BEE21A16BFB5004AB274 /* SourceModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BECA1A16BDE6004AB274 /* SourceModule.cpp */; };
-		6171BEE31A16BFBA004AB274 /* ChannelDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEA11A16BDE6004AB274 /* ChannelDescription.cpp */; };
-		6171BEE41A16BFBA004AB274 /* FloatConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEA41A16BDE6004AB274 /* FloatConverter.cpp */; };
-		6171BEE51A16BFBA004AB274 /* PianoTranscription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BECC1A16BDE6004AB274 /* PianoTranscription.cpp */; };
-		6171BEE61A16BFBA004AB274 /* SignalDescription.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BECE1A16BDE6004AB274 /* SignalDescription.cpp */; };
-		6171BEE71A16BFBA004AB274 /* SignalPacket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 6171BED01A16BDE6004AB274 /* SignalPacket.cpp */; };
 		6171BEE91A16C272004AB274 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6171BEE81A16C272004AB274 /* AudioToolbox.framework */; };
 		6171BEEB1A16C283004AB274 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6171BEEA1A16C283004AB274 /* Accelerate.framework */; };
 		6171BEEF1A16C49C004AB274 /* VMWaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEEE1A16C49C004AB274 /* VMWaveformView.swift */; };
 		6171BEF41A16DB0E004AB274 /* RecordViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEF31A16DB0E004AB274 /* RecordViewController.mm */; };
+		61A81D711AB0E63C00E230A6 /* FloatConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D5E1AB0E63C00E230A6 /* FloatConverter.cpp */; };
+		61A81D721AB0E63C00E230A6 /* AccumulatorModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D611AB0E63C00E230A6 /* AccumulatorModule.cpp */; };
+		61A81D731AB0E63C00E230A6 /* DownsampleModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D631AB0E63C00E230A6 /* DownsampleModule.cpp */; };
+		61A81D741AB0E63C00E230A6 /* EnergyModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D651AB0E63C00E230A6 /* EnergyModule.cpp */; };
+		61A81D751AB0E63C00E230A6 /* FFTModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D671AB0E63C00E230A6 /* FFTModule.cpp */; };
+		61A81D761AB0E63C00E230A6 /* MeanModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D691AB0E63C00E230A6 /* MeanModule.cpp */; };
+		61A81D771AB0E63C00E230A6 /* MicrophoneModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D6B1AB0E63C00E230A6 /* MicrophoneModule.cpp */; };
+		61A81D781AB0E63C00E230A6 /* RMSModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D6D1AB0E63C00E230A6 /* RMSModule.cpp */; };
+		61A81D791AB0E63C00E230A6 /* SaveToFileModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D6F1AB0E63C00E230A6 /* SaveToFileModule.cpp */; };
+		61A81D7C1AB0E64E00E230A6 /* libtempo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A81D461AB0E62400E230A6 /* libtempo.a */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -196,6 +183,13 @@
 			remoteGlobalIDString = 6171BD3E1A16BCC4004AB274;
 			remoteInfo = IntuneLab;
 		};
+		61A81D7A1AB0E64900E230A6 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6171BD371A16BCC4004AB274 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 61A81D451AB0E62400E230A6;
+			remoteInfo = tempo;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -209,6 +203,15 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		00EFC4E31AAF8E73000C1D5B /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "include/$(PRODUCT_NAME)";
+			dstSubfolderSpec = 16;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		61A81D441AB0E62400E230A6 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = "include/$(PRODUCT_NAME)";
@@ -547,8 +550,6 @@
 		00EFC4BC1AAF8A75000C1D5B /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		00EFC4C21AAF8DF3000C1D5B /* liblxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblxml.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		00EFC4E51AAF8E73000C1D5B /* libmxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libmxml.a; sourceTree = BUILT_PRODUCTS_DIR; };
-		61239A5B1A62EFB300B3F0A3 /* SaveToFileModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = SaveToFileModule.cpp; path = Submodules/tempo/src/modules/SaveToFileModule.cpp; sourceTree = SOURCE_ROOT; };
-		61239A5C1A62EFB300B3F0A3 /* SaveToFileModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SaveToFileModule.h; path = Submodules/tempo/src/modules/SaveToFileModule.h; sourceTree = SOURCE_ROOT; };
 		6171BD3F1A16BCC4004AB274 /* IntuneLab.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IntuneLab.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6171BD431A16BCC4004AB274 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6171BD441A16BCC4004AB274 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -562,60 +563,31 @@
 		6171BD5B1A16BCC4004AB274 /* IntuneLabTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IntuneLabTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		6171BD601A16BCC4004AB274 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6171BD611A16BCC4004AB274 /* IntuneLabTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = IntuneLabTests.m; sourceTree = "<group>"; };
-		6171BEA11A16BDE6004AB274 /* ChannelDescription.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ChannelDescription.cpp; sourceTree = "<group>"; };
-		6171BEA21A16BDE6004AB274 /* ChannelDescription.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ChannelDescription.h; sourceTree = "<group>"; };
-		6171BEA31A16BDE6004AB274 /* ERBTools.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ERBTools.h; sourceTree = "<group>"; };
-		6171BEA41A16BDE6004AB274 /* FloatConverter.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = FloatConverter.cpp; sourceTree = "<group>"; };
-		6171BEA51A16BDE6004AB274 /* FloatConverter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FloatConverter.h; sourceTree = "<group>"; };
-		6171BEA61A16BDE6004AB274 /* Module.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Module.h; sourceTree = "<group>"; };
-		6171BEA81A16BDE6004AB274 /* AccumulatorModule.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AccumulatorModule.cpp; sourceTree = "<group>"; };
-		6171BEA91A16BDE6004AB274 /* AccumulatorModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AccumulatorModule.h; sourceTree = "<group>"; };
-		6171BEAA1A16BDE6004AB274 /* AdaptiveOscillatorModule.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = AdaptiveOscillatorModule.cpp; sourceTree = "<group>"; };
-		6171BEAB1A16BDE6004AB274 /* AdaptiveOscillatorModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AdaptiveOscillatorModule.h; sourceTree = "<group>"; };
-		6171BEAC1A16BDE6004AB274 /* BlockModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = BlockModule.h; sourceTree = "<group>"; };
-		6171BEAD1A16BDE6004AB274 /* DiscretizeModule.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DiscretizeModule.cpp; sourceTree = "<group>"; };
-		6171BEAE1A16BDE6004AB274 /* DiscretizeModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DiscretizeModule.h; sourceTree = "<group>"; };
-		6171BEAF1A16BDE6004AB274 /* DownsampleModule.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = DownsampleModule.cpp; sourceTree = "<group>"; };
-		6171BEB01A16BDE6004AB274 /* DownsampleModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = DownsampleModule.h; sourceTree = "<group>"; };
-		6171BEB11A16BDE6004AB274 /* EnergyModule.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EnergyModule.cpp; sourceTree = "<group>"; };
-		6171BEB21A16BDE6004AB274 /* EnergyModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EnergyModule.h; sourceTree = "<group>"; };
-		6171BEB31A16BDE6004AB274 /* EnergyTransferModule.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = EnergyTransferModule.cpp; sourceTree = "<group>"; };
-		6171BEB41A16BDE6004AB274 /* EnergyTransferModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = EnergyTransferModule.h; sourceTree = "<group>"; };
-		6171BEB51A16BDE6004AB274 /* FunctionModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FunctionModule.h; sourceTree = "<group>"; };
-		6171BEB61A16BDE6004AB274 /* GammatoneModule.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = GammatoneModule.cpp; sourceTree = "<group>"; };
-		6171BEB71A16BDE6004AB274 /* GammatoneModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = GammatoneModule.h; sourceTree = "<group>"; };
-		6171BEB81A16BDE6004AB274 /* HairCellTransductionModule.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = HairCellTransductionModule.cpp; sourceTree = "<group>"; };
-		6171BEB91A16BDE6004AB274 /* HairCellTransductionModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = HairCellTransductionModule.h; sourceTree = "<group>"; };
-		6171BEBA1A16BDE6004AB274 /* MatcherModule.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MatcherModule.cpp; sourceTree = "<group>"; };
-		6171BEBB1A16BDE6004AB274 /* MatcherModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MatcherModule.h; sourceTree = "<group>"; };
-		6171BEBC1A16BDE6004AB274 /* MeanModule.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MeanModule.cpp; sourceTree = "<group>"; };
-		6171BEBD1A16BDE6004AB274 /* MeanModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MeanModule.h; sourceTree = "<group>"; };
-		6171BEBE1A16BDE6004AB274 /* MicrophoneModule.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = MicrophoneModule.cpp; sourceTree = "<group>"; };
-		6171BEBF1A16BDE6004AB274 /* MicrophoneModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = MicrophoneModule.h; sourceTree = "<group>"; };
-		6171BEC01A16BDE6004AB274 /* OnsetDetectionModule.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OnsetDetectionModule.cpp; sourceTree = "<group>"; };
-		6171BEC11A16BDE6004AB274 /* OnsetDetectionModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OnsetDetectionModule.h; sourceTree = "<group>"; };
-		6171BEC21A16BDE6004AB274 /* OnsetMaxModule.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = OnsetMaxModule.cpp; sourceTree = "<group>"; };
-		6171BEC31A16BDE6004AB274 /* OnsetMaxModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = OnsetMaxModule.h; sourceTree = "<group>"; };
-		6171BEC41A16BDE6004AB274 /* PascalizeModule.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PascalizeModule.cpp; sourceTree = "<group>"; };
-		6171BEC51A16BDE6004AB274 /* PascalizeModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PascalizeModule.h; sourceTree = "<group>"; };
-		6171BEC61A16BDE6004AB274 /* RMSModule.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = RMSModule.cpp; sourceTree = "<group>"; };
-		6171BEC71A16BDE6004AB274 /* RMSModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = RMSModule.h; sourceTree = "<group>"; };
-		6171BEC81A16BDE6004AB274 /* ScoreModule.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = ScoreModule.cpp; sourceTree = "<group>"; };
-		6171BEC91A16BDE6004AB274 /* ScoreModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ScoreModule.h; sourceTree = "<group>"; };
-		6171BECA1A16BDE6004AB274 /* SourceModule.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SourceModule.cpp; sourceTree = "<group>"; };
-		6171BECB1A16BDE6004AB274 /* SourceModule.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SourceModule.h; sourceTree = "<group>"; };
-		6171BECC1A16BDE6004AB274 /* PianoTranscription.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = PianoTranscription.cpp; sourceTree = "<group>"; };
-		6171BECD1A16BDE6004AB274 /* PianoTranscription.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = PianoTranscription.h; sourceTree = "<group>"; };
-		6171BECE1A16BDE6004AB274 /* SignalDescription.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignalDescription.cpp; sourceTree = "<group>"; };
-		6171BECF1A16BDE6004AB274 /* SignalDescription.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignalDescription.h; sourceTree = "<group>"; };
-		6171BED01A16BDE6004AB274 /* SignalPacket.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = SignalPacket.cpp; sourceTree = "<group>"; };
-		6171BED11A16BDE6004AB274 /* SignalPacket.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SignalPacket.h; sourceTree = "<group>"; };
 		6171BEE81A16C272004AB274 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		6171BEEA1A16C283004AB274 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		6171BEED1A16C49C004AB274 /* IntuneLab-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IntuneLab-Bridging-Header.h"; sourceTree = "<group>"; };
 		6171BEEE1A16C49C004AB274 /* VMWaveformView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMWaveformView.swift; sourceTree = "<group>"; };
 		6171BEF21A16DB0E004AB274 /* RecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordViewController.h; sourceTree = "<group>"; };
 		6171BEF31A16DB0E004AB274 /* RecordViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RecordViewController.mm; sourceTree = "<group>"; };
+		61A81D461AB0E62400E230A6 /* libtempo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libtempo.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		61A81D5E1AB0E63C00E230A6 /* FloatConverter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FloatConverter.cpp; sourceTree = "<group>"; };
+		61A81D5F1AB0E63C00E230A6 /* FloatConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloatConverter.h; sourceTree = "<group>"; };
+		61A81D611AB0E63C00E230A6 /* AccumulatorModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AccumulatorModule.cpp; sourceTree = "<group>"; };
+		61A81D621AB0E63C00E230A6 /* AccumulatorModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccumulatorModule.h; sourceTree = "<group>"; };
+		61A81D631AB0E63C00E230A6 /* DownsampleModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DownsampleModule.cpp; sourceTree = "<group>"; };
+		61A81D641AB0E63C00E230A6 /* DownsampleModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownsampleModule.h; sourceTree = "<group>"; };
+		61A81D651AB0E63C00E230A6 /* EnergyModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EnergyModule.cpp; sourceTree = "<group>"; };
+		61A81D661AB0E63C00E230A6 /* EnergyModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnergyModule.h; sourceTree = "<group>"; };
+		61A81D671AB0E63C00E230A6 /* FFTModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FFTModule.cpp; sourceTree = "<group>"; };
+		61A81D681AB0E63C00E230A6 /* FFTModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTModule.h; sourceTree = "<group>"; };
+		61A81D691AB0E63C00E230A6 /* MeanModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeanModule.cpp; sourceTree = "<group>"; };
+		61A81D6A1AB0E63C00E230A6 /* MeanModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeanModule.h; sourceTree = "<group>"; };
+		61A81D6B1AB0E63C00E230A6 /* MicrophoneModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MicrophoneModule.cpp; sourceTree = "<group>"; };
+		61A81D6C1AB0E63C00E230A6 /* MicrophoneModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MicrophoneModule.h; sourceTree = "<group>"; };
+		61A81D6D1AB0E63C00E230A6 /* RMSModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = RMSModule.cpp; sourceTree = "<group>"; };
+		61A81D6E1AB0E63C00E230A6 /* RMSModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMSModule.h; sourceTree = "<group>"; };
+		61A81D6F1AB0E63C00E230A6 /* SaveToFileModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SaveToFileModule.cpp; sourceTree = "<group>"; };
+		61A81D701AB0E63C00E230A6 /* SaveToFileModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaveToFileModule.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -637,6 +609,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61A81D7C1AB0E64E00E230A6 /* libtempo.a in Frameworks */,
 				00EFC5481AAF8EA3000C1D5B /* libmxml.a in Frameworks */,
 				00EFC4E01AAF8E19000C1D5B /* liblxml.a in Frameworks */,
 				00EFC4BD1AAF8A75000C1D5B /* libxml2.dylib in Frameworks */,
@@ -646,6 +619,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		6171BD581A16BCC4004AB274 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		61A81D431AB0E62400E230A6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -1060,6 +1040,7 @@
 				6171BD5B1A16BCC4004AB274 /* IntuneLabTests.xctest */,
 				00EFC4C21AAF8DF3000C1D5B /* liblxml.a */,
 				00EFC4E51AAF8E73000C1D5B /* libmxml.a */,
+				61A81D461AB0E62400E230A6 /* libtempo.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1117,74 +1098,9 @@
 				6171BEE81A16C272004AB274 /* AudioToolbox.framework */,
 				00AF6C0A1AAF9218006525F5 /* lxml */,
 				00AF6C201AAF9222006525F5 /* mxml */,
-				6171BEA01A16BDE6004AB274 /* tempo */,
+				61A81D5D1AB0E63C00E230A6 /* tempo */,
 			);
 			path = Libraries;
-			sourceTree = "<group>";
-		};
-		6171BEA01A16BDE6004AB274 /* tempo */ = {
-			isa = PBXGroup;
-			children = (
-				6171BEA21A16BDE6004AB274 /* ChannelDescription.h */,
-				6171BEA11A16BDE6004AB274 /* ChannelDescription.cpp */,
-				6171BECF1A16BDE6004AB274 /* SignalDescription.h */,
-				6171BECE1A16BDE6004AB274 /* SignalDescription.cpp */,
-				6171BED11A16BDE6004AB274 /* SignalPacket.h */,
-				6171BED01A16BDE6004AB274 /* SignalPacket.cpp */,
-				6171BEA61A16BDE6004AB274 /* Module.h */,
-				6171BEA71A16BDE6004AB274 /* modules */,
-				6171BEA31A16BDE6004AB274 /* ERBTools.h */,
-				6171BEA41A16BDE6004AB274 /* FloatConverter.cpp */,
-				6171BEA51A16BDE6004AB274 /* FloatConverter.h */,
-				6171BECC1A16BDE6004AB274 /* PianoTranscription.cpp */,
-				6171BECD1A16BDE6004AB274 /* PianoTranscription.h */,
-			);
-			path = tempo;
-			sourceTree = "<group>";
-		};
-		6171BEA71A16BDE6004AB274 /* modules */ = {
-			isa = PBXGroup;
-			children = (
-				6171BEAC1A16BDE6004AB274 /* BlockModule.h */,
-				6171BECB1A16BDE6004AB274 /* SourceModule.h */,
-				6171BECA1A16BDE6004AB274 /* SourceModule.cpp */,
-				6171BEA91A16BDE6004AB274 /* AccumulatorModule.h */,
-				6171BEA81A16BDE6004AB274 /* AccumulatorModule.cpp */,
-				6171BEAA1A16BDE6004AB274 /* AdaptiveOscillatorModule.cpp */,
-				6171BEAB1A16BDE6004AB274 /* AdaptiveOscillatorModule.h */,
-				6171BEAD1A16BDE6004AB274 /* DiscretizeModule.cpp */,
-				6171BEAE1A16BDE6004AB274 /* DiscretizeModule.h */,
-				6171BEAF1A16BDE6004AB274 /* DownsampleModule.cpp */,
-				6171BEB01A16BDE6004AB274 /* DownsampleModule.h */,
-				6171BEB11A16BDE6004AB274 /* EnergyModule.cpp */,
-				6171BEB21A16BDE6004AB274 /* EnergyModule.h */,
-				6171BEB31A16BDE6004AB274 /* EnergyTransferModule.cpp */,
-				6171BEB41A16BDE6004AB274 /* EnergyTransferModule.h */,
-				6171BEB51A16BDE6004AB274 /* FunctionModule.h */,
-				6171BEB61A16BDE6004AB274 /* GammatoneModule.cpp */,
-				6171BEB71A16BDE6004AB274 /* GammatoneModule.h */,
-				6171BEB81A16BDE6004AB274 /* HairCellTransductionModule.cpp */,
-				6171BEB91A16BDE6004AB274 /* HairCellTransductionModule.h */,
-				6171BEBA1A16BDE6004AB274 /* MatcherModule.cpp */,
-				6171BEBB1A16BDE6004AB274 /* MatcherModule.h */,
-				6171BEBC1A16BDE6004AB274 /* MeanModule.cpp */,
-				6171BEBD1A16BDE6004AB274 /* MeanModule.h */,
-				6171BEBE1A16BDE6004AB274 /* MicrophoneModule.cpp */,
-				6171BEBF1A16BDE6004AB274 /* MicrophoneModule.h */,
-				6171BEC01A16BDE6004AB274 /* OnsetDetectionModule.cpp */,
-				6171BEC11A16BDE6004AB274 /* OnsetDetectionModule.h */,
-				6171BEC21A16BDE6004AB274 /* OnsetMaxModule.cpp */,
-				6171BEC31A16BDE6004AB274 /* OnsetMaxModule.h */,
-				6171BEC41A16BDE6004AB274 /* PascalizeModule.cpp */,
-				6171BEC51A16BDE6004AB274 /* PascalizeModule.h */,
-				6171BEC61A16BDE6004AB274 /* RMSModule.cpp */,
-				6171BEC71A16BDE6004AB274 /* RMSModule.h */,
-				61239A5B1A62EFB300B3F0A3 /* SaveToFileModule.cpp */,
-				61239A5C1A62EFB300B3F0A3 /* SaveToFileModule.h */,
-				6171BEC81A16BDE6004AB274 /* ScoreModule.cpp */,
-				6171BEC91A16BDE6004AB274 /* ScoreModule.h */,
-			);
-			path = modules;
 			sourceTree = "<group>";
 		};
 		6171BEEC1A16C401004AB274 /* Views */ = {
@@ -1193,6 +1109,40 @@
 				6171BEEE1A16C49C004AB274 /* VMWaveformView.swift */,
 			);
 			path = Views;
+			sourceTree = "<group>";
+		};
+		61A81D5D1AB0E63C00E230A6 /* tempo */ = {
+			isa = PBXGroup;
+			children = (
+				61A81D5E1AB0E63C00E230A6 /* FloatConverter.cpp */,
+				61A81D5F1AB0E63C00E230A6 /* FloatConverter.h */,
+				61A81D601AB0E63C00E230A6 /* modules */,
+			);
+			name = tempo;
+			path = Submodules/tempo/src/tempo;
+			sourceTree = SOURCE_ROOT;
+		};
+		61A81D601AB0E63C00E230A6 /* modules */ = {
+			isa = PBXGroup;
+			children = (
+				61A81D611AB0E63C00E230A6 /* AccumulatorModule.cpp */,
+				61A81D621AB0E63C00E230A6 /* AccumulatorModule.h */,
+				61A81D631AB0E63C00E230A6 /* DownsampleModule.cpp */,
+				61A81D641AB0E63C00E230A6 /* DownsampleModule.h */,
+				61A81D651AB0E63C00E230A6 /* EnergyModule.cpp */,
+				61A81D661AB0E63C00E230A6 /* EnergyModule.h */,
+				61A81D671AB0E63C00E230A6 /* FFTModule.cpp */,
+				61A81D681AB0E63C00E230A6 /* FFTModule.h */,
+				61A81D691AB0E63C00E230A6 /* MeanModule.cpp */,
+				61A81D6A1AB0E63C00E230A6 /* MeanModule.h */,
+				61A81D6B1AB0E63C00E230A6 /* MicrophoneModule.cpp */,
+				61A81D6C1AB0E63C00E230A6 /* MicrophoneModule.h */,
+				61A81D6D1AB0E63C00E230A6 /* RMSModule.cpp */,
+				61A81D6E1AB0E63C00E230A6 /* RMSModule.h */,
+				61A81D6F1AB0E63C00E230A6 /* SaveToFileModule.cpp */,
+				61A81D701AB0E63C00E230A6 /* SaveToFileModule.h */,
+			);
+			path = modules;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1243,6 +1193,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				61A81D7B1AB0E64900E230A6 /* PBXTargetDependency */,
 				00EFC5471AAF8E9F000C1D5B /* PBXTargetDependency */,
 				00EFC4DA1AAF8DFB000C1D5B /* PBXTargetDependency */,
 			);
@@ -1269,6 +1220,23 @@
 			productReference = 6171BD5B1A16BCC4004AB274 /* IntuneLabTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		61A81D451AB0E62400E230A6 /* tempo */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 61A81D571AB0E62500E230A6 /* Build configuration list for PBXNativeTarget "tempo" */;
+			buildPhases = (
+				61A81D421AB0E62400E230A6 /* Sources */,
+				61A81D431AB0E62400E230A6 /* Frameworks */,
+				61A81D441AB0E62400E230A6 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = tempo;
+			productName = tempo;
+			productReference = 61A81D461AB0E62400E230A6 /* libtempo.a */;
+			productType = "com.apple.product-type.library.static";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1291,6 +1259,9 @@
 						CreatedOnToolsVersion = 6.1;
 						TestTargetID = 6171BD3E1A16BCC4004AB274;
 					};
+					61A81D451AB0E62400E230A6 = {
+						CreatedOnToolsVersion = 6.1.1;
+					};
 				};
 			};
 			buildConfigurationList = 6171BD3A1A16BCC4004AB274 /* Build configuration list for PBXProject "IntuneLab" */;
@@ -1310,6 +1281,7 @@
 				6171BD5A1A16BCC4004AB274 /* IntuneLabTests */,
 				00EFC4C11AAF8DF3000C1D5B /* lxml */,
 				00EFC4E41AAF8E73000C1D5B /* mxml */,
+				61A81D451AB0E62400E230A6 /* tempo */,
 			);
 		};
 /* End PBXProject section */
@@ -1481,34 +1453,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6171BEE61A16BFBA004AB274 /* SignalDescription.cpp in Sources */,
 				6171BD481A16BCC4004AB274 /* AppDelegate.m in Sources */,
-				6171BED21A16BFB5004AB274 /* AccumulatorModule.cpp in Sources */,
 				6171BEEF1A16C49C004AB274 /* VMWaveformView.swift in Sources */,
-				6171BEDF1A16BFB5004AB274 /* PascalizeModule.cpp in Sources */,
-				6171BEDB1A16BFB5004AB274 /* MeanModule.cpp in Sources */,
 				6171BEF41A16DB0E004AB274 /* RecordViewController.mm in Sources */,
 				6171BD4B1A16BCC4004AB274 /* MasterViewController.m in Sources */,
-				6171BED31A16BFB5004AB274 /* AdaptiveOscillatorModule.cpp in Sources */,
-				6171BEE51A16BFBA004AB274 /* PianoTranscription.cpp in Sources */,
-				6171BEE11A16BFB5004AB274 /* ScoreModule.cpp in Sources */,
-				6171BEE41A16BFBA004AB274 /* FloatConverter.cpp in Sources */,
-				6171BEDE1A16BFB5004AB274 /* OnsetMaxModule.cpp in Sources */,
-				6171BED81A16BFB5004AB274 /* GammatoneModule.cpp in Sources */,
-				6171BEE21A16BFB5004AB274 /* SourceModule.cpp in Sources */,
-				6171BEDC1A16BFB5004AB274 /* MicrophoneModule.cpp in Sources */,
-				6171BEDD1A16BFB5004AB274 /* OnsetDetectionModule.cpp in Sources */,
-				6171BEDA1A16BFB5004AB274 /* MatcherModule.cpp in Sources */,
 				6171BD451A16BCC4004AB274 /* main.m in Sources */,
-				6171BEE31A16BFBA004AB274 /* ChannelDescription.cpp in Sources */,
-				6171BEE01A16BFB5004AB274 /* RMSModule.cpp in Sources */,
-				61239A5D1A62EFB300B3F0A3 /* SaveToFileModule.cpp in Sources */,
-				6171BED51A16BFB5004AB274 /* DownsampleModule.cpp in Sources */,
-				6171BED91A16BFB5004AB274 /* HairCellTransductionModule.cpp in Sources */,
-				6171BED41A16BFB5004AB274 /* DiscretizeModule.cpp in Sources */,
-				6171BED71A16BFB5004AB274 /* EnergyTransferModule.cpp in Sources */,
-				6171BED61A16BFB5004AB274 /* EnergyModule.cpp in Sources */,
-				6171BEE71A16BFBA004AB274 /* SignalPacket.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1517,6 +1466,22 @@
 			buildActionMask = 2147483647;
 			files = (
 				6171BD621A16BCC4004AB274 /* IntuneLabTests.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		61A81D421AB0E62400E230A6 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				61A81D791AB0E63C00E230A6 /* SaveToFileModule.cpp in Sources */,
+				61A81D771AB0E63C00E230A6 /* MicrophoneModule.cpp in Sources */,
+				61A81D751AB0E63C00E230A6 /* FFTModule.cpp in Sources */,
+				61A81D731AB0E63C00E230A6 /* DownsampleModule.cpp in Sources */,
+				61A81D761AB0E63C00E230A6 /* MeanModule.cpp in Sources */,
+				61A81D741AB0E63C00E230A6 /* EnergyModule.cpp in Sources */,
+				61A81D721AB0E63C00E230A6 /* AccumulatorModule.cpp in Sources */,
+				61A81D781AB0E63C00E230A6 /* RMSModule.cpp in Sources */,
+				61A81D711AB0E63C00E230A6 /* FloatConverter.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1537,6 +1502,11 @@
 			isa = PBXTargetDependency;
 			target = 6171BD3E1A16BCC4004AB274 /* IntuneLab */;
 			targetProxy = 6171BD5C1A16BCC4004AB274 /* PBXContainerItemProxy */;
+		};
+		61A81D7B1AB0E64900E230A6 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 61A81D451AB0E62400E230A6 /* tempo */;
+			targetProxy = 61A81D7A1AB0E64900E230A6 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -1640,11 +1610,12 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(SRCROOT)/Libraries",
+					"$(LOCALROOT)/usr/local/include",
 					/usr/include/libxml2,
+					"$(SRCROOT)/Libraries",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LOCALROOT = "$(HOME)/../..";
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
@@ -1682,11 +1653,12 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				HEADER_SEARCH_PATHS = (
 					"$(inherited)",
-					/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/include,
-					"$(SRCROOT)/Libraries",
+					"$(LOCALROOT)/usr/local/include",
 					/usr/include/libxml2,
+					"$(SRCROOT)/Libraries",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 8.1;
+				LOCALROOT = "$(HOME)/../..";
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -1763,6 +1735,28 @@
 			};
 			name = Release;
 		};
+		61A81D581AB0E62500E230A6 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Debug;
+		};
+		61A81D591AB0E62500E230A6 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				OTHER_LDFLAGS = "-ObjC";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SKIP_INSTALL = YES;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1810,6 +1804,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		61A81D571AB0E62500E230A6 /* Build configuration list for PBXNativeTarget "tempo" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				61A81D581AB0E62500E230A6 /* Debug */,
+				61A81D591AB0E62500E230A6 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 /* End XCConfigurationList section */
 	};

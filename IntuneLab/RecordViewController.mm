@@ -4,12 +4,12 @@
 #import "IntuneLab-Swift.h"
 
 #include <tempo/modules/AccumulatorModule.h>
-#include <tempo/modules/BlockModule.h>
 #include <tempo/modules/MicrophoneModule.h>
 #include <tempo/modules/SaveToFileModule.h>
 
-using namespace mkit;
+using namespace tempo;
 
+static const float kSampleRate = 44100;
 static const NSTimeInterval kWaveformMaxDuration = 5;
 
 @interface RecordViewController ()
@@ -19,7 +19,6 @@ static const NSTimeInterval kWaveformMaxDuration = 5;
 
 @property(nonatomic) std::shared_ptr<MicrophoneModule> microphoneModule;
 @property(nonatomic) std::shared_ptr<AccumulatorModule> accumulatorModule;
-@property(nonatomic) std::shared_ptr<BlockModule> blockModule;
 @property(nonatomic) std::shared_ptr<SaveToFileModule> saveToFileModule;
 
 @end
@@ -60,31 +59,30 @@ static const NSTimeInterval kWaveformMaxDuration = 5;
 }
 
 - (void)initializeModuleGraph {
-    _blockModule.reset(new BlockModule(^(const SignalPacket& signalPacket) {
-        auto& samples = _accumulatorModule->accumulatedOutput();
-        dispatch_async(dispatch_get_main_queue(), ^() {
-            [self.waveformView setSamples:samples.samples(0) count:samples.size() capacity:samples.capacity()];
-        });
-    }));
-
-    SignalDescription signalDescription;
-    _waveformView.sampleRate = signalDescription.sampleRate();
+    _waveformView.sampleRate = kSampleRate;
     _waveformView.duration = kWaveformMaxDuration;
     
-    std::size_t capacity = signalDescription.sampleRate() * kWaveformMaxDuration;
-    _accumulatorModule.reset(new AccumulatorModule(signalDescription, capacity));
-    _accumulatorModule->addTarget(_blockModule.get());
+    std::size_t capacity = kSampleRate * kWaveformMaxDuration;
+    _accumulatorModule.reset(new AccumulatorModule(capacity));
+    _accumulatorModule->connect([self](const float* data, std::size_t size) {
+        dispatch_async(dispatch_get_main_queue(), ^() {
+            [self.waveformView setSamples:data count:size];
+        });
+    });
 
+    auto accumulatorModule = _accumulatorModule.get();
     _microphoneModule.reset(new MicrophoneModule);
-    _microphoneModule->addTarget(_accumulatorModule.get());
+    _microphoneModule->connect([accumulatorModule](const float* data, std::size_t size) { (*accumulatorModule)(data, size); });
 
     NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
     NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
     NSString* filePath = [basePath stringByAppendingPathComponent:@"saved.caf"];
     NSLog(@"Saving to %@", filePath);
 
-    _saveToFileModule.reset(new SaveToFileModule(filePath.UTF8String, signalDescription));
-    _microphoneModule->addTarget(_saveToFileModule.get());
+    _saveToFileModule.reset(new SaveToFileModule(filePath.UTF8String, kSampleRate));
+    
+    auto saveToFileModule = _saveToFileModule.get();
+    _microphoneModule->connect([saveToFileModule](const float* data, std::size_t size) { (*saveToFileModule)(data, size); });
 }
 
 @end

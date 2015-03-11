@@ -12,9 +12,8 @@ public class VMWaveformView: UIView {
     var lineColor: UIColor?
     var samplesPerPoint: CGFloat = 500
 
-    private var samples: UnsafePointer<Double> = nil
+    private var samples: UnsafePointer<Float> = nil
     private var samplesCount: Int = 0
-    private var samplesCapacity: Int = 0
     
     var sampleRate: CGFloat = 44100 {
         didSet {
@@ -28,10 +27,9 @@ public class VMWaveformView: UIView {
         }
     }
     
-    public func setSamples(samples: UnsafePointer<Double>, count: Int, capacity: Int) {
+    public func setSamples(samples: UnsafePointer<Float>, count: Int) {
         self.samples = samples
         samplesCount = count
-        samplesCapacity = capacity
         setNeedsDisplay()
     }
     
@@ -55,7 +53,7 @@ public class VMWaveformView: UIView {
         let height = bounds.size.height
         let pixelSize = contentScaleFactor
         let samplesPerPixel = Int(ceil(samplesPerPoint * pixelSize))
-        let samplesOffset = samplesCapacity - (samplesCapacity - samplesCount)
+        let samplesOffset = samplesCount
         
         var x:CGFloat = 0.0
         if alignment != 0 {
@@ -68,9 +66,9 @@ public class VMWaveformView: UIView {
         
         for var sampleIndex = 0; sampleIndex < samplesCount; sampleIndex += samplesPerPixel {
             // Get the RMS value for the current pixel
-            var value: Double = 0.0
+            var value: Float = 0.0
             let size = vDSP_Length(min(samplesPerPixel, samplesCount - sampleIndex))
-            vDSP_rmsqvD(samples + sampleIndex, 1, &value, size)
+            vDSP_rmsqv(samples + sampleIndex, 1, &value, size)
 
             point.x += pixelSize;
             point.y = height/2 - CGFloat(value) * height/2;
