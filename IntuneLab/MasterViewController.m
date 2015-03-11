@@ -25,10 +25,9 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([[segue identifier] isEqualToString:@"showDetail"]) {
-        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
-        RecordViewController *controller = (RecordViewController *)[[segue destinationViewController] topViewController];
-        controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-        controller.navigationItem.leftItemsSupplementBackButton = YES;
+        UIViewController *detailController =  [[segue destinationViewController] topViewController];
+        detailController.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+        detailController.navigationItem.leftItemsSupplementBackButton = YES;
     }
 }
 

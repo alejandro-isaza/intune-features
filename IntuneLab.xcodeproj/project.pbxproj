@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		008685651AB10B4B00F415A2 /* VMPianoRollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008685631AB10B4B00F415A2 /* VMPianoRollViewController.swift */; };
+		008685681AB10B8A00F415A2 /* VMWaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008685671AB10B8A00F415A2 /* VMWaveformView.swift */; };
+		0086856B1AB10C1200F415A2 /* kiss_the_rain.xml in Resources */ = {isa = PBXBuildFile; fileRef = 00AF6DDA1AAF974A006525F5 /* kiss_the_rain.xml */; };
+		0086856C1AB10C1400F415A2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6171BD521A16BCC4004AB274 /* Images.xcassets */; };
+		0086859F1AB1148F00F415A2 /* VMPianoRollViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 008685691AB10BC400F415A2 /* VMPianoRollViewController.xib */; };
+		008685A31AB114B400F415A2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6171BD4F1A16BCC4004AB274 /* Main.storyboard */; };
 		00AF6C1B1AAF9218006525F5 /* DoubleHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00AF6C0C1AAF9218006525F5 /* DoubleHandler.cpp */; };
 		00AF6C1C1AAF9218006525F5 /* IntegerHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00AF6C0E1AAF9218006525F5 /* IntegerHandler.cpp */; };
 		00AF6C1D1AAF9218006525F5 /* lxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00AF6C111AAF9218006525F5 /* lxml.cpp */; };
@@ -135,19 +141,16 @@
 		00AF6DD31AAF9222006525F5 /* SpanCollection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00AF6D541AAF9222006525F5 /* SpanCollection.cpp */; };
 		00AF6DD41AAF9222006525F5 /* SpanFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00AF6D561AAF9222006525F5 /* SpanFactory.cpp */; };
 		00AF6DD51AAF9222006525F5 /* StringUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00AF6D591AAF9222006525F5 /* StringUtility.cpp */; };
+		00AF6DD81AAF92A7006525F5 /* MXMLViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00AF6DD71AAF92A7006525F5 /* MXMLViewController.mm */; };
 		00EFC4BD1AAF8A75000C1D5B /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EFC4BC1AAF8A75000C1D5B /* libxml2.dylib */; };
 		00EFC4E01AAF8E19000C1D5B /* liblxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EFC4C21AAF8DF3000C1D5B /* liblxml.a */; };
 		00EFC5481AAF8EA3000C1D5B /* libmxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EFC4E51AAF8E73000C1D5B /* libmxml.a */; };
 		6171BD451A16BCC4004AB274 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD441A16BCC4004AB274 /* main.m */; };
 		6171BD481A16BCC4004AB274 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD471A16BCC4004AB274 /* AppDelegate.m */; };
 		6171BD4B1A16BCC4004AB274 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD4A1A16BCC4004AB274 /* MasterViewController.m */; };
-		6171BD511A16BCC4004AB274 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6171BD4F1A16BCC4004AB274 /* Main.storyboard */; };
-		6171BD531A16BCC4004AB274 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6171BD521A16BCC4004AB274 /* Images.xcassets */; };
-		6171BD561A16BCC4004AB274 /* LaunchScreen.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6171BD541A16BCC4004AB274 /* LaunchScreen.xib */; };
 		6171BD621A16BCC4004AB274 /* IntuneLabTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD611A16BCC4004AB274 /* IntuneLabTests.m */; };
 		6171BEE91A16C272004AB274 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6171BEE81A16C272004AB274 /* AudioToolbox.framework */; };
 		6171BEEB1A16C283004AB274 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6171BEEA1A16C283004AB274 /* Accelerate.framework */; };
-		6171BEEF1A16C49C004AB274 /* VMWaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEEE1A16C49C004AB274 /* VMWaveformView.swift */; };
 		6171BEF41A16DB0E004AB274 /* RecordViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEF31A16DB0E004AB274 /* RecordViewController.mm */; };
 		61A81D711AB0E63C00E230A6 /* FloatConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D5E1AB0E63C00E230A6 /* FloatConverter.cpp */; };
 		61A81D721AB0E63C00E230A6 /* AccumulatorModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D611AB0E63C00E230A6 /* AccumulatorModule.cpp */; };
@@ -223,6 +226,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		003A49FA1AB0B85500A3E261 /* VMPianoRollViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VMPianoRollViewController.xib; sourceTree = "<group>"; };
+		008685631AB10B4B00F415A2 /* VMPianoRollViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMPianoRollViewController.swift; sourceTree = "<group>"; };
+		008685671AB10B8A00F415A2 /* VMWaveformView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMWaveformView.swift; sourceTree = "<group>"; };
+		008685691AB10BC400F415A2 /* VMPianoRollViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VMPianoRollViewController.xib; sourceTree = "<group>"; };
 		00AF6C0B1AAF9218006525F5 /* BaseRecursiveHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseRecursiveHandler.h; sourceTree = "<group>"; };
 		00AF6C0C1AAF9218006525F5 /* DoubleHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DoubleHandler.cpp; sourceTree = "<group>"; };
 		00AF6C0D1AAF9218006525F5 /* DoubleHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoubleHandler.h; sourceTree = "<group>"; };
@@ -547,6 +554,10 @@
 		00AF6D581AAF9222006525F5 /* StreamOperators.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamOperators.h; sourceTree = "<group>"; };
 		00AF6D591AAF9222006525F5 /* StringUtility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringUtility.cpp; sourceTree = "<group>"; };
 		00AF6D5A1AAF9222006525F5 /* StringUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringUtility.h; sourceTree = "<group>"; };
+		00AF6DD61AAF92A7006525F5 /* MXMLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXMLViewController.h; sourceTree = "<group>"; };
+		00AF6DD71AAF92A7006525F5 /* MXMLViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MXMLViewController.mm; sourceTree = "<group>"; };
+		00AF6DDA1AAF974A006525F5 /* kiss_the_rain.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = kiss_the_rain.xml; path = Resources/kiss_the_rain.xml; sourceTree = "<group>"; };
+		00AF6DDC1AAFA547006525F5 /* VMPianoRollViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMPianoRollViewController.swift; sourceTree = "<group>"; };
 		00EFC4BC1AAF8A75000C1D5B /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		00EFC4C21AAF8DF3000C1D5B /* liblxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblxml.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		00EFC4E51AAF8E73000C1D5B /* libmxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libmxml.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -566,7 +577,6 @@
 		6171BEE81A16C272004AB274 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		6171BEEA1A16C283004AB274 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		6171BEED1A16C49C004AB274 /* IntuneLab-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IntuneLab-Bridging-Header.h"; sourceTree = "<group>"; };
-		6171BEEE1A16C49C004AB274 /* VMWaveformView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMWaveformView.swift; sourceTree = "<group>"; };
 		6171BEF21A16DB0E004AB274 /* RecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordViewController.h; sourceTree = "<group>"; };
 		6171BEF31A16DB0E004AB274 /* RecordViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RecordViewController.mm; sourceTree = "<group>"; };
 		61A81D461AB0E62400E230A6 /* libtempo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libtempo.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1023,6 +1033,14 @@
 			path = parsing;
 			sourceTree = "<group>";
 		};
+		00AF6DD91AAF9712006525F5 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				00AF6DDA1AAF974A006525F5 /* kiss_the_rain.xml */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
 		6171BD361A16BCC4004AB274 = {
 			isa = PBXGroup;
 			children = (
@@ -1048,16 +1066,17 @@
 		6171BD411A16BCC4004AB274 /* IntuneLab */ = {
 			isa = PBXGroup;
 			children = (
-				6171BEEC1A16C401004AB274 /* Views */,
 				6171BD461A16BCC4004AB274 /* AppDelegate.h */,
 				6171BD471A16BCC4004AB274 /* AppDelegate.m */,
+				6171BD4F1A16BCC4004AB274 /* Main.storyboard */,
+				6171BEEC1A16C401004AB274 /* Views */,
 				6171BD491A16BCC4004AB274 /* MasterViewController.h */,
 				6171BD4A1A16BCC4004AB274 /* MasterViewController.m */,
 				6171BEF21A16DB0E004AB274 /* RecordViewController.h */,
 				6171BEF31A16DB0E004AB274 /* RecordViewController.mm */,
-				6171BD4F1A16BCC4004AB274 /* Main.storyboard */,
-				6171BD521A16BCC4004AB274 /* Images.xcassets */,
-				6171BD541A16BCC4004AB274 /* LaunchScreen.xib */,
+				00AF6DD61AAF92A7006525F5 /* MXMLViewController.h */,
+				00AF6DD71AAF92A7006525F5 /* MXMLViewController.mm */,
+				00AF6DD91AAF9712006525F5 /* Resources */,
 				6171BD421A16BCC4004AB274 /* Supporting Files */,
 			);
 			path = IntuneLab;
@@ -1066,6 +1085,8 @@
 		6171BD421A16BCC4004AB274 /* Supporting Files */ = {
 			isa = PBXGroup;
 			children = (
+				6171BD521A16BCC4004AB274 /* Images.xcassets */,
+				6171BD541A16BCC4004AB274 /* LaunchScreen.xib */,
 				6171BEED1A16C49C004AB274 /* IntuneLab-Bridging-Header.h */,
 				6171BD431A16BCC4004AB274 /* Info.plist */,
 				6171BD441A16BCC4004AB274 /* main.m */,
@@ -1106,7 +1127,9 @@
 		6171BEEC1A16C401004AB274 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				6171BEEE1A16C49C004AB274 /* VMWaveformView.swift */,
+				008685671AB10B8A00F415A2 /* VMWaveformView.swift */,
+				008685631AB10B4B00F415A2 /* VMPianoRollViewController.swift */,
+				008685691AB10BC400F415A2 /* VMPianoRollViewController.xib */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1141,6 +1164,8 @@
 				61A81D6E1AB0E63C00E230A6 /* RMSModule.h */,
 				61A81D6F1AB0E63C00E230A6 /* SaveToFileModule.cpp */,
 				61A81D701AB0E63C00E230A6 /* SaveToFileModule.h */,
+				00AF6DDC1AAFA547006525F5 /* VMPianoRollViewController.swift */,
+				003A49FA1AB0B85500A3E261 /* VMPianoRollViewController.xib */,
 			);
 			path = modules;
 			sourceTree = "<group>";
@@ -1291,9 +1316,10 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6171BD511A16BCC4004AB274 /* Main.storyboard in Resources */,
-				6171BD561A16BCC4004AB274 /* LaunchScreen.xib in Resources */,
-				6171BD531A16BCC4004AB274 /* Images.xcassets in Resources */,
+				0086859F1AB1148F00F415A2 /* VMPianoRollViewController.xib in Resources */,
+				0086856B1AB10C1200F415A2 /* kiss_the_rain.xml in Resources */,
+				0086856C1AB10C1400F415A2 /* Images.xcassets in Resources */,
+				008685A31AB114B400F415A2 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1454,9 +1480,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				6171BD481A16BCC4004AB274 /* AppDelegate.m in Sources */,
-				6171BEEF1A16C49C004AB274 /* VMWaveformView.swift in Sources */,
+				00AF6DD81AAF92A7006525F5 /* MXMLViewController.mm in Sources */,
+				008685651AB10B4B00F415A2 /* VMPianoRollViewController.swift in Sources */,
 				6171BEF41A16DB0E004AB274 /* RecordViewController.mm in Sources */,
 				6171BD4B1A16BCC4004AB274 /* MasterViewController.m in Sources */,
+				008685681AB10B8A00F415A2 /* VMWaveformView.swift in Sources */,
 				6171BD451A16BCC4004AB274 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1812,6 +1840,7 @@
 				61A81D591AB0E62500E230A6 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

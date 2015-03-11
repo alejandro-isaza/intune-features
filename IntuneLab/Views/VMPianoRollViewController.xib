@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6254" systemVersion="14C109" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6247"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="VMPianoRollViewController" customModule="IntuneLab" customModuleProvider="target">
+            <connections>
+                <outlet property="pianoRollContentView" destination="GbQ-gt-fmx" id="T1C-bb-tT3"/>
+                <outlet property="view" destination="iN0-l3-epB" id="qMa-QG-YOa"/>
+                <outlet property="visibleNotesSlider" destination="euw-uV-kUd" id="d1T-Up-UZl"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB">
+            <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="GbQ-gt-fmx" customClass="VMPianoRollContentView" customModule="IntuneLab" customModuleProvider="target">
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                </scrollView>
+                <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="euw-uV-kUd">
+                    <rect key="frame" x="18" y="566" width="564" height="31"/>
+                    <connections>
+                        <action selector="visibleWidthValueChanged:" destination="-1" eventType="valueChanged" id="J4q-0J-yfz"/>
+                    </connections>
+                </slider>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+            <constraints>
+                <constraint firstAttribute="trailing" secondItem="GbQ-gt-fmx" secondAttribute="trailing" id="HWN-ur-lmO"/>
+                <constraint firstItem="euw-uV-kUd" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" constant="20" id="JeB-eZ-peY"/>
+                <constraint firstAttribute="bottom" secondItem="euw-uV-kUd" secondAttribute="bottom" constant="4" id="M6b-Ef-kCC"/>
+                <constraint firstItem="GbQ-gt-fmx" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="W6w-Kh-LGK"/>
+                <constraint firstAttribute="bottom" secondItem="GbQ-gt-fmx" secondAttribute="bottom" id="nvL-C7-k8f"/>
+                <constraint firstItem="GbQ-gt-fmx" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="qSB-1Y-mcg"/>
+                <constraint firstAttribute="trailing" secondItem="euw-uV-kUd" secondAttribute="trailing" constant="20" id="sJe-it-e33"/>
+            </constraints>
+            <point key="canvasLocation" x="323" y="336"/>
+        </view>
+    </objects>
+</document>
