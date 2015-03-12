@@ -31,10 +31,12 @@ public class VMPianoRollViewController: UIViewController {
         visibleNotesSlider.value = Float(bounds.width)
         visibleNotesSlider.minimumValue = Float(bounds.width)
         visibleNotesSlider.maximumValue = Float(maximumVisibleNotes)
+        visibleWidthValueChanged(visibleNotesSlider)
     }
 
     @IBAction private func visibleWidthValueChanged(sender: UISlider) {
-        pianoRollContentView.numVisibleNotes = CGFloat(sender.value)
+        let numVisibleNotes = visibleNotesSlider.maximumValue - sender.value + visibleNotesSlider.minimumValue
+        pianoRollContentView.numVisibleNotes = CGFloat(numVisibleNotes)
     }
 }
 
@@ -47,12 +49,13 @@ internal class VMPianoRollContentView: UIScrollView {
     private var transformBeganScale = CGFloat()
 
     var noteColor = UIColor.blueColor()
+    var gridColor = UIColor.lightGrayColor()
     var eventRects: Array<NSValue> = [] {
         didSet {
             setNeedsLayout()
         }
     }
-    var numVisibleNotes: CGFloat = 1 {
+    var numVisibleNotes: CGFloat = maximumVisibleNotes {
         didSet {
             setNeedsLayout()
         }
@@ -73,8 +76,8 @@ internal class VMPianoRollContentView: UIScrollView {
 
         // UIScrollView zoom requires a content subview, because the pianoroll subview would be
         // to large we need to disable the default pinch recognizer and add our own
-        if let _gestureRecognizers = self.gestureRecognizers {
-            for recognizer in _gestureRecognizers {
+        if let gestureRecognizers = self.gestureRecognizers {
+            for recognizer in gestureRecognizers {
                 if let pinchRecognizer = recognizer as? UIPinchGestureRecognizer {
                     pinchRecognizer.enabled = false
                 }
@@ -94,7 +97,7 @@ internal class VMPianoRollContentView: UIScrollView {
             return CGRectZero
         }
 
-        let padding = maximumVisibleNotes - numVisibleNotes
+        let padding = numVisibleNotes - bounds.width
         var left = padding/2
         var right = padding - left
 
@@ -135,7 +138,8 @@ internal class VMPianoRollContentView: UIScrollView {
         let context = UIGraphicsGetCurrentContext()
         backgroundColor?.setFill()
         CGContextFillRect(context, rect)
-        drawOctaves(context, rect: rect)
+        drawOctaveLines(context, rect: rect)
+        drawTimeLines(context, rect: rect)
         drawEvents(context, rect: rect)
     }
 
@@ -149,12 +153,30 @@ internal class VMPianoRollContentView: UIScrollView {
         }
     }
 
-    internal func drawOctaves(context: CGContext, rect: CGRect) {
-        noteColor.setFill()
+    internal func drawOctaveLines(context: CGContext, rect: CGRect) {
+        gridColor.setStroke()
 
-        let notesPerOctave = 12
-        for var noteIndex = 0; noteIndex < Int(rect.width); noteIndex += notesPerOctave {
+        var octaveStartNote: CGFloat = 24
+        while octaveStartNote < maximumVisibleNotes {
+            let x = drawingTransform.a * octaveStartNote + drawingTransform.tx
+            CGContextMoveToPoint(context, x, rect.minY)
+            CGContextAddLineToPoint(context, x, rect.maxY)
+            CGContextStrokePath(context)
+            octaveStartNote += CGFloat(12)
+        }
+    }
 
+    internal func drawTimeLines(context: CGContext, rect: CGRect) {
+        gridColor.setStroke()
+
+        let eventBounds = eventsBounds()
+        var timeStart = eventBounds.minY
+        while timeStart < eventBounds.maxY {
+            let y = drawingTransform.d * timeStart + drawingTransform.ty
+            CGContextMoveToPoint(context, rect.minX, y)
+            CGContextAddLineToPoint(context, rect.maxX, y)
+            CGContextStrokePath(context)
+            timeStart += CGFloat(1)
         }
     }
 
