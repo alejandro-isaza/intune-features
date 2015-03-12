@@ -68,7 +68,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-Yq-33r" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="709" y="113"/>
+            <point key="canvasLocation" x="-38" y="868"/>
         </scene>
         <!--Navigation Controller-->
         <scene sceneID="dVQ-OG-CRA">
@@ -84,7 +84,23 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lCs-0l-pgo" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-38" y="844"/>
+            <point key="canvasLocation" x="709" y="113"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="l1f-h5-wYc">
+            <objects>
+                <navigationController id="EbE-dh-1vm" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="QYi-Jg-3T7">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="oNK-te-X2C" kind="relationship" relationship="rootViewController" id="hoF-he-pQd"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="VCw-bf-gdy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1457" y="113"/>
         </scene>
         <!--MusicXML-->
         <scene sceneID="kFM-uu-Iiq">
@@ -103,7 +119,54 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="2zE-9W-iO0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="709" y="844"/>
+            <point key="canvasLocation" x="709" y="868"/>
+        </scene>
+        <!--FFT-->
+        <scene sceneID="bS9-9f-X0l">
+            <objects>
+                <viewController id="oNK-te-X2C" customClass="FFTViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="K4U-Kc-T0m"/>
+                        <viewControllerLayoutGuide type="bottom" id="oGB-vx-5Pn"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="D9G-Qf-GmL">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hB0-7R-Kvv" customClass="VMEqualizerView" customModule="IntuneLab">
+                                <rect key="frame" x="0.0" y="64" width="600" height="466"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                            </view>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bcR-dx-qLY">
+                                <rect key="frame" x="275" y="550" width="50" height="30"/>
+                                <state key="normal" title="Record">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="startStop" destination="JEX-9P-axG" eventType="touchUpInside" id="IWS-Bf-ukC"/>
+                                    <action selector="startStop" destination="oNK-te-X2C" eventType="touchUpInside" id="zuf-oR-hGB"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="bcR-dx-qLY" firstAttribute="top" secondItem="hB0-7R-Kvv" secondAttribute="bottom" constant="20" id="7cQ-Oz-QgT"/>
+                            <constraint firstItem="hB0-7R-Kvv" firstAttribute="top" secondItem="K4U-Kc-T0m" secondAttribute="bottom" id="Fj9-TY-jYk"/>
+                            <constraint firstItem="oGB-vx-5Pn" firstAttribute="top" secondItem="bcR-dx-qLY" secondAttribute="bottom" constant="20" id="cS7-ya-Yul"/>
+                            <constraint firstAttribute="trailing" secondItem="hB0-7R-Kvv" secondAttribute="trailing" id="hWv-6I-8uD"/>
+                            <constraint firstItem="hB0-7R-Kvv" firstAttribute="leading" secondItem="D9G-Qf-GmL" secondAttribute="leading" id="qPZ-cq-F4y"/>
+                            <constraint firstAttribute="centerX" secondItem="bcR-dx-qLY" secondAttribute="centerX" id="wOS-ZP-gvl"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="FFT" id="LlF-tt-I5f"/>
+                    <connections>
+                        <outlet property="equalizerView" destination="hB0-7R-Kvv" id="56N-LI-gLr"/>
+                        <outlet property="startStopButton" destination="bcR-dx-qLY" id="cCN-L5-FOl"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="lih-zx-ztu" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1457" y="868"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="Nki-YV-4Qg">
@@ -117,7 +180,7 @@
                 </splitViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="cZU-Oi-B1e" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-856" y="-330"/>
+            <point key="canvasLocation" x="-817" y="-630"/>
         </scene>
         <!--Master-->
         <scene sceneID="smW-Zh-WAh">
@@ -168,6 +231,9 @@
                                             </subviews>
                                         </tableViewCellContentView>
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <segue destination="EbE-dh-1vm" kind="showDetail" id="IeS-e2-8gh"/>
+                                        </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="RPs-Ql-3wv" style="IBUITableViewCellStyleDefault" id="3un-3E-XBE">
                                         <rect key="frame" x="0.0" y="86" width="320" height="44"/>

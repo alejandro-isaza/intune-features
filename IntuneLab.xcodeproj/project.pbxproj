@@ -162,6 +162,8 @@
 		61A81D781AB0E63C00E230A6 /* RMSModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D6D1AB0E63C00E230A6 /* RMSModule.cpp */; };
 		61A81D791AB0E63C00E230A6 /* SaveToFileModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D6F1AB0E63C00E230A6 /* SaveToFileModule.cpp */; };
 		61A81D7C1AB0E64E00E230A6 /* libtempo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A81D461AB0E62400E230A6 /* libtempo.a */; };
+		61A81D7E1AB1015D00E230A6 /* VMEqualizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D7D1AB1015D00E230A6 /* VMEqualizerView.swift */; };
+		61A81D811AB103C600E230A6 /* FFTViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D801AB103C600E230A6 /* FFTViewController.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -226,7 +228,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		003A49FA1AB0B85500A3E261 /* VMPianoRollViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VMPianoRollViewController.xib; sourceTree = "<group>"; };
 		008685631AB10B4B00F415A2 /* VMPianoRollViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMPianoRollViewController.swift; sourceTree = "<group>"; };
 		008685671AB10B8A00F415A2 /* VMWaveformView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMWaveformView.swift; sourceTree = "<group>"; };
 		008685691AB10BC400F415A2 /* VMPianoRollViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VMPianoRollViewController.xib; sourceTree = "<group>"; };
@@ -557,7 +558,6 @@
 		00AF6DD61AAF92A7006525F5 /* MXMLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXMLViewController.h; sourceTree = "<group>"; };
 		00AF6DD71AAF92A7006525F5 /* MXMLViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MXMLViewController.mm; sourceTree = "<group>"; };
 		00AF6DDA1AAF974A006525F5 /* kiss_the_rain.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = kiss_the_rain.xml; path = Resources/kiss_the_rain.xml; sourceTree = "<group>"; };
-		00AF6DDC1AAFA547006525F5 /* VMPianoRollViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMPianoRollViewController.swift; sourceTree = "<group>"; };
 		00EFC4BC1AAF8A75000C1D5B /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		00EFC4C21AAF8DF3000C1D5B /* liblxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblxml.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		00EFC4E51AAF8E73000C1D5B /* libmxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libmxml.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -598,6 +598,9 @@
 		61A81D6E1AB0E63C00E230A6 /* RMSModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMSModule.h; sourceTree = "<group>"; };
 		61A81D6F1AB0E63C00E230A6 /* SaveToFileModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SaveToFileModule.cpp; sourceTree = "<group>"; };
 		61A81D701AB0E63C00E230A6 /* SaveToFileModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaveToFileModule.h; sourceTree = "<group>"; };
+		61A81D7D1AB1015D00E230A6 /* VMEqualizerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMEqualizerView.swift; sourceTree = "<group>"; };
+		61A81D7F1AB103C600E230A6 /* FFTViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTViewController.h; sourceTree = "<group>"; };
+		61A81D801AB103C600E230A6 /* FFTViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FFTViewController.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1076,6 +1079,8 @@
 				6171BEF31A16DB0E004AB274 /* RecordViewController.mm */,
 				00AF6DD61AAF92A7006525F5 /* MXMLViewController.h */,
 				00AF6DD71AAF92A7006525F5 /* MXMLViewController.mm */,
+				61A81D7F1AB103C600E230A6 /* FFTViewController.h */,
+				61A81D801AB103C600E230A6 /* FFTViewController.mm */,
 				00AF6DD91AAF9712006525F5 /* Resources */,
 				6171BD421A16BCC4004AB274 /* Supporting Files */,
 			);
@@ -1130,6 +1135,7 @@
 				008685671AB10B8A00F415A2 /* VMWaveformView.swift */,
 				008685631AB10B4B00F415A2 /* VMPianoRollViewController.swift */,
 				008685691AB10BC400F415A2 /* VMPianoRollViewController.xib */,
+				61A81D7D1AB1015D00E230A6 /* VMEqualizerView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1164,8 +1170,6 @@
 				61A81D6E1AB0E63C00E230A6 /* RMSModule.h */,
 				61A81D6F1AB0E63C00E230A6 /* SaveToFileModule.cpp */,
 				61A81D701AB0E63C00E230A6 /* SaveToFileModule.h */,
-				00AF6DDC1AAFA547006525F5 /* VMPianoRollViewController.swift */,
-				003A49FA1AB0B85500A3E261 /* VMPianoRollViewController.xib */,
 			);
 			path = modules;
 			sourceTree = "<group>";
@@ -1479,9 +1483,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61A81D7E1AB1015D00E230A6 /* VMEqualizerView.swift in Sources */,
 				6171BD481A16BCC4004AB274 /* AppDelegate.m in Sources */,
 				00AF6DD81AAF92A7006525F5 /* MXMLViewController.mm in Sources */,
 				008685651AB10B4B00F415A2 /* VMPianoRollViewController.swift in Sources */,
+				61A81D811AB103C600E230A6 /* FFTViewController.mm in Sources */,
 				6171BEF41A16DB0E004AB274 /* RecordViewController.mm in Sources */,
 				6171BD4B1A16BCC4004AB274 /* MasterViewController.m in Sources */,
 				008685681AB10B8A00F415A2 /* VMWaveformView.swift in Sources */,
