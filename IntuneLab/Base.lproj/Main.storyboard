@@ -134,34 +134,21 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hB0-7R-Kvv" customClass="VMEqualizerView" customModule="IntuneLab">
-                                <rect key="frame" x="0.0" y="64" width="600" height="466"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="536"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
-                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bcR-dx-qLY">
-                                <rect key="frame" x="275" y="550" width="50" height="30"/>
-                                <state key="normal" title="Record">
-                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
-                                </state>
-                                <connections>
-                                    <action selector="startStop" destination="JEX-9P-axG" eventType="touchUpInside" id="IWS-Bf-ukC"/>
-                                    <action selector="startStop" destination="oNK-te-X2C" eventType="touchUpInside" id="zuf-oR-hGB"/>
-                                </connections>
-                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstItem="bcR-dx-qLY" firstAttribute="top" secondItem="hB0-7R-Kvv" secondAttribute="bottom" constant="20" id="7cQ-Oz-QgT"/>
                             <constraint firstItem="hB0-7R-Kvv" firstAttribute="top" secondItem="K4U-Kc-T0m" secondAttribute="bottom" id="Fj9-TY-jYk"/>
-                            <constraint firstItem="oGB-vx-5Pn" firstAttribute="top" secondItem="bcR-dx-qLY" secondAttribute="bottom" constant="20" id="cS7-ya-Yul"/>
+                            <constraint firstItem="oGB-vx-5Pn" firstAttribute="top" secondItem="hB0-7R-Kvv" secondAttribute="bottom" id="eSB-vw-cxe"/>
                             <constraint firstAttribute="trailing" secondItem="hB0-7R-Kvv" secondAttribute="trailing" id="hWv-6I-8uD"/>
                             <constraint firstItem="hB0-7R-Kvv" firstAttribute="leading" secondItem="D9G-Qf-GmL" secondAttribute="leading" id="qPZ-cq-F4y"/>
-                            <constraint firstAttribute="centerX" secondItem="bcR-dx-qLY" secondAttribute="centerX" id="wOS-ZP-gvl"/>
                         </constraints>
                     </view>
                     <navigationItem key="navigationItem" title="FFT" id="LlF-tt-I5f"/>
                     <connections>
                         <outlet property="equalizerView" destination="hB0-7R-Kvv" id="56N-LI-gLr"/>
-                        <outlet property="startStopButton" destination="bcR-dx-qLY" id="cCN-L5-FOl"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lih-zx-ztu" userLabel="First Responder" sceneMemberID="firstResponder"/>
