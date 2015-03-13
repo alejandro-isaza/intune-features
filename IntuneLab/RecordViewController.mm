@@ -11,6 +11,7 @@ using namespace tempo;
 
 static const float kSampleRate = 44100;
 static const NSTimeInterval kWaveformMaxDuration = 5;
+static const std::size_t packetSize = 1024;
 
 @interface RecordViewController ()
 
@@ -19,7 +20,8 @@ static const NSTimeInterval kWaveformMaxDuration = 5;
 
 @property(nonatomic) std::shared_ptr<MicrophoneModule> microphoneModule;
 @property(nonatomic) std::shared_ptr<AccumulatorModule> accumulatorModule;
-@property(nonatomic) std::shared_ptr<SaveToFileModule> saveToFileModule;
+
+@property(nonatomic) std::size_t frameNumber;
 
 @end
 
@@ -45,7 +47,6 @@ static const NSTimeInterval kWaveformMaxDuration = 5;
         [self initializeModuleGraph];
     
     _microphoneModule->start();
-
     [self.startStopButton setTitle:@"Stop" forState:UIControlStateNormal];
 }
 
@@ -56,6 +57,15 @@ static const NSTimeInterval kWaveformMaxDuration = 5;
     _microphoneModule->stop();
 
     [self.startStopButton setTitle:@"Record" forState:UIControlStateNormal];
+}
+
+- (void)step {
+    float data[packetSize];
+    auto size = _microphoneModule->render(_frameNumber, packetSize, data);
+    if (size > 0) {
+        (*_accumulatorModule)(data, size);
+        _frameNumber += size;
+    }
 }
 
 - (void)initializeModuleGraph {
@@ -70,19 +80,10 @@ static const NSTimeInterval kWaveformMaxDuration = 5;
         });
     });
 
-    auto accumulatorModule = _accumulatorModule.get();
     _microphoneModule.reset(new MicrophoneModule);
-    _microphoneModule->connect([accumulatorModule](const float* data, std::size_t size) { (*accumulatorModule)(data, size); });
-
-    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    NSString *basePath = ([paths count] > 0) ? [paths objectAtIndex:0] : nil;
-    NSString* filePath = [basePath stringByAppendingPathComponent:@"saved.caf"];
-    NSLog(@"Saving to %@", filePath);
-
-    _saveToFileModule.reset(new SaveToFileModule(filePath.UTF8String, kSampleRate));
-    
-    auto saveToFileModule = _saveToFileModule.get();
-    _microphoneModule->connect([saveToFileModule](const float* data, std::size_t size) { (*saveToFileModule)(data, size); });
+    _microphoneModule->onDataAvailable([self](std::size_t size) {
+        [self step];
+    });
 }
 
 @end

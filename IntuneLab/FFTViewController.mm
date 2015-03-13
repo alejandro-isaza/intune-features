@@ -4,11 +4,10 @@
 #import "IntuneLab-Swift.h"
 
 #include <tempo/modules/FFTModule.h>
+#include <tempo/modules/SineWaveGeneratorModule.h>
 #include <tempo/modules/MicrophoneModule.h>
 
 using namespace tempo;
-
-static const float kSampleRate = 44100;
 
 
 @interface FFTViewController ()
@@ -16,8 +15,10 @@ static const float kSampleRate = 44100;
 @property(nonatomic, weak) IBOutlet VMEqualizerView* equalizerView;
 @property(nonatomic, weak) IBOutlet UIButton* startStopButton;
 
-@property(nonatomic) std::shared_ptr<MicrophoneModule> microphoneModule;
+@property(nonatomic) std::shared_ptr<SineWaveGeneratorModule> generatorModule;
 @property(nonatomic) std::shared_ptr<FFTModule> fftModule;
+
+@property(weak, nonatomic) NSTimer* timer;
 
 @end
 
@@ -31,43 +32,53 @@ static const float kSampleRate = 44100;
     _equalizerView.barColor = [UIColor blueColor];
 }
 
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self start];
+}
+
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    [self stop];
+}
+
 - (IBAction)startStop {
-    if (!_microphoneModule || !_microphoneModule->isRunning())
+    if (!_timer)
         [self start];
     else
         [self stop];
 }
 
 - (void)start {
-    if (!_microphoneModule)
+    if (!_generatorModule)
         [self initializeModuleGraph];
 
-    _microphoneModule->start();
+    _timer = [NSTimer scheduledTimerWithTimeInterval:1.0/60.0 target:self selector:@selector(step) userInfo:nil repeats:YES];
 
     [self.startStopButton setTitle:@"Stop" forState:UIControlStateNormal];
 }
 
 - (void)stop {
-    if (!_microphoneModule)
+    if (!_generatorModule)
         return;
 
-    _microphoneModule->stop();
+    [_timer invalidate];
 
     [self.startStopButton setTitle:@"Record" forState:UIControlStateNormal];
 }
 
+- (void)step {
+    float audioData[1024];
+    float fftData[1024];
+    _generatorModule->render(0, 1024, audioData);
+    _fftModule->process(1024, audioData, fftData);
+    [self.equalizerView setSamples:fftData count:512];
+}
+
 - (void)initializeModuleGraph {
-    _microphoneModule.reset(new MicrophoneModule{kSampleRate});
-    _fftModule.reset(new FFTModule{_microphoneModule->packetSize()});
-
-    auto fftModule = _fftModule.get();
-    _microphoneModule->connect([fftModule](const float* data, std::size_t size) { (*fftModule)(data, size); });
-
-    _fftModule->connect([self](const float* data, std::size_t size) {
-        dispatch_async(dispatch_get_main_queue(), ^() {
-            [self.equalizerView setSamples:data count:size];
-        });
-    });
+    _generatorModule.reset(new SineWaveGeneratorModule());
+    _generatorModule->setFrequency(1000);
+    _fftModule.reset(new FFTModule{1024});
 }
 
 @end

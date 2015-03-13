@@ -164,6 +164,7 @@
 		61A81D7C1AB0E64E00E230A6 /* libtempo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A81D461AB0E62400E230A6 /* libtempo.a */; };
 		61A81D7E1AB1015D00E230A6 /* VMEqualizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D7D1AB1015D00E230A6 /* VMEqualizerView.swift */; };
 		61A81D811AB103C600E230A6 /* FFTViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D801AB103C600E230A6 /* FFTViewController.mm */; };
+		61A81D8F1AB218DA00E230A6 /* SineWaveGeneratorModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D8E1AB218DA00E230A6 /* SineWaveGeneratorModule.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -601,6 +602,9 @@
 		61A81D7D1AB1015D00E230A6 /* VMEqualizerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMEqualizerView.swift; sourceTree = "<group>"; };
 		61A81D7F1AB103C600E230A6 /* FFTViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTViewController.h; sourceTree = "<group>"; };
 		61A81D801AB103C600E230A6 /* FFTViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FFTViewController.mm; sourceTree = "<group>"; };
+		61A81D8D1AB218DA00E230A6 /* SineWaveGeneratorModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SineWaveGeneratorModule.h; sourceTree = "<group>"; };
+		61A81D8E1AB218DA00E230A6 /* SineWaveGeneratorModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SineWaveGeneratorModule.cpp; sourceTree = "<group>"; };
+		61A81D911AB2607300E230A6 /* SourceModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SourceModule.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1170,6 +1174,9 @@
 				61A81D6E1AB0E63C00E230A6 /* RMSModule.h */,
 				61A81D6F1AB0E63C00E230A6 /* SaveToFileModule.cpp */,
 				61A81D701AB0E63C00E230A6 /* SaveToFileModule.h */,
+				61A81D911AB2607300E230A6 /* SourceModule.h */,
+				61A81D8E1AB218DA00E230A6 /* SineWaveGeneratorModule.cpp */,
+				61A81D8D1AB218DA00E230A6 /* SineWaveGeneratorModule.h */,
 			);
 			path = modules;
 			sourceTree = "<group>";
@@ -1514,6 +1521,7 @@
 				61A81D761AB0E63C00E230A6 /* MeanModule.cpp in Sources */,
 				61A81D741AB0E63C00E230A6 /* EnergyModule.cpp in Sources */,
 				61A81D721AB0E63C00E230A6 /* AccumulatorModule.cpp in Sources */,
+				61A81D8F1AB218DA00E230A6 /* SineWaveGeneratorModule.cpp in Sources */,
 				61A81D781AB0E63C00E230A6 /* RMSModule.cpp in Sources */,
 				61A81D711AB0E63C00E230A6 /* FloatConverter.cpp in Sources */,
 			);
