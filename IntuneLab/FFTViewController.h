@@ -4,4 +4,7 @@
 
 @interface FFTViewController : UIViewController
 
+@property(nonatomic) NSTimeInterval windowTime;
+@property(nonatomic) NSTimeInterval hopTime;
+
 @end

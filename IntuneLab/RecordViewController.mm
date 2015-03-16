@@ -21,8 +21,6 @@ static const std::size_t packetSize = 1024;
 @property(nonatomic) std::shared_ptr<MicrophoneModule> microphoneModule;
 @property(nonatomic) std::shared_ptr<AccumulatorModule> accumulatorModule;
 
-@property(nonatomic) std::size_t frameNumber;
-
 @end
 
 
@@ -60,11 +58,12 @@ static const std::size_t packetSize = 1024;
 }
 
 - (void)step {
-    float data[packetSize];
-    auto size = _microphoneModule->render(_frameNumber, packetSize, data);
-    if (size > 0) {
-        (*_accumulatorModule)(data, size);
-        _frameNumber += size;
+    tempo::UniqueBuffer<float> buffer(packetSize);
+    tempo::UniqueBuffer<float>::SizeType size = 0;
+    size = _microphoneModule->render(buffer);
+    while (size > 0) {
+        (*_accumulatorModule)(buffer.data(), size);
+        size = _microphoneModule->render(buffer);
     }
 }
 
