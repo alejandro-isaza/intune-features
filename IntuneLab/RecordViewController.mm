@@ -11,7 +11,7 @@ using namespace tempo;
 
 static const float kSampleRate = 44100;
 static const NSTimeInterval kWaveformMaxDuration = 5;
-static const std::size_t packetSize = 1024;
+static const std::size_t kPacketSize = 1024;
 
 @interface RecordViewController ()
 
@@ -58,31 +58,27 @@ static const std::size_t packetSize = 1024;
 }
 
 - (void)step {
-    tempo::UniqueBuffer<float> buffer(packetSize);
-    tempo::UniqueBuffer<float>::SizeType size = 0;
-    size = _microphoneModule->render(buffer);
-    while (size > 0) {
-        (*_accumulatorModule)(buffer.data(), size);
-        size = _microphoneModule->render(buffer);
-    }
+    tempo::UniqueBuffer<float> buffer(kPacketSize);
+    _accumulatorModule->render(buffer);
+    auto data = _accumulatorModule->data();
+    auto size = _accumulatorModule->size();
+    dispatch_async(dispatch_get_main_queue(), ^() {
+        [self.waveformView setSamples:data count:size];
+    });
 }
 
 - (void)initializeModuleGraph {
     _waveformView.sampleRate = kSampleRate;
     _waveformView.duration = kWaveformMaxDuration;
-    
-    std::size_t capacity = kSampleRate * kWaveformMaxDuration;
-    _accumulatorModule.reset(new AccumulatorModule(capacity));
-    _accumulatorModule->connect([self](const float* data, std::size_t size) {
-        dispatch_async(dispatch_get_main_queue(), ^() {
-            [self.waveformView setSamples:data count:size];
-        });
-    });
 
     _microphoneModule.reset(new MicrophoneModule);
     _microphoneModule->onDataAvailable([self](std::size_t size) {
         [self step];
     });
+
+    std::size_t capacity = kSampleRate * kWaveformMaxDuration;
+    _accumulatorModule.reset(new AccumulatorModule(capacity));
+    _accumulatorModule->setSource(_microphoneModule);
 }
 
 @end

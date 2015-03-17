@@ -3,6 +3,7 @@
 #import "FFTViewController.h"
 #import "IntuneLab-Swift.h"
 
+#include <tempo/modules/AccumulatorModule.h>
 #include <tempo/modules/FFTModule.h>
 #include <tempo/modules/HammingWindow.h>
 #include <tempo/modules/MicrophoneModule.h>
@@ -11,11 +12,16 @@
 using namespace tempo;
 
 static const double kSampleRate = 44100;
+static const NSTimeInterval kMaxDuration = 5;
 
 
 @interface FFTViewController ()
 
-@property(nonatomic, weak) IBOutlet VMEqualizerView* equalizerView;
+@property(nonatomic, weak) IBOutlet VMSpectrogramView* spectrogramView;
+@property(nonatomic, weak) IBOutlet UISlider* windowSlider;
+@property(nonatomic, weak) IBOutlet UISlider* hopSlider;
+@property(nonatomic, weak) IBOutlet UITextField* windowTextField;
+@property(nonatomic, weak) IBOutlet UITextField* hopTextField;
 @property(nonatomic, weak) IBOutlet UIButton* startStopButton;
 @property(nonatomic, strong) dispatch_queue_t queue;
 
@@ -23,6 +29,7 @@ static const double kSampleRate = 44100;
 @property(nonatomic) std::shared_ptr<WindowingModule> windowingModule;
 @property(nonatomic) std::shared_ptr<HammingWindow> windowModule;
 @property(nonatomic) std::shared_ptr<FFTModule> fftModule;
+@property(nonatomic) std::shared_ptr<AccumulatorModule> accumulatorModule;
 
 @end
 
@@ -44,18 +51,49 @@ static const double kSampleRate = 44100;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    _equalizerView.backgroundColor = [UIColor whiteColor];
-    _equalizerView.barColor = [UIColor blueColor];
+    const auto windowSize = static_cast<std::size_t>(_windowTime * kSampleRate);
+    self.spectrogramView.frequencyCount = windowSize / 2;
+
+    self.windowTextField.text = [NSString stringWithFormat:@"%.0fms", _windowTime * 1000.0];
+    self.windowSlider.value = _windowTime * 1000.0;
+    self.hopTextField.text = [NSString stringWithFormat:@"%.0fms", _hopTime * 1000.0];
+    self.hopSlider.value = _hopTime / _windowTime;
 }
 
 - (void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:animated];
-    [self start];
+    //[self start];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
     [super viewWillDisappear:animated];
     [self stop];
+}
+
+- (IBAction)didChangeWindow {
+    _windowTime = self.windowSlider.value / 1000.0;
+    _hopTime = self.hopSlider.value * _windowTime;
+    [self updateParams];
+}
+
+- (IBAction)didChangeHop {
+    _hopTime = self.hopSlider.value * _windowTime;
+    [self updateParams];
+}
+
+- (void)updateParams {
+    self.windowTextField.text = [NSString stringWithFormat:@"%.0fms", _windowTime * 1000.0];
+    self.hopTextField.text = [NSString stringWithFormat:@"%.0fms", _hopTime * 1000.0];
+
+    const auto windowSize = static_cast<std::size_t>(_windowTime * kSampleRate);
+
+    dispatch_async(_queue, ^() {
+        dispatch_sync(dispatch_get_main_queue(), ^() {
+            [self.spectrogramView setSamples:NULL count:0];
+            self.spectrogramView.frequencyCount = windowSize / 2;
+        });
+        [self updateModuleGraph];
+    });
 }
 
 - (IBAction)startStop {
@@ -85,15 +123,16 @@ static const double kSampleRate = 44100;
     const auto windowSize = static_cast<std::size_t>(_windowTime * kSampleRate);
     const auto binCount = windowSize / 2;
 
-    std::size_t size;
     UniqueBuffer<float> buffer(binCount);
-    do {
-        size = _fftModule->render(buffer);
-        auto data = buffer.data();
-        dispatch_sync(dispatch_get_main_queue(), ^() {
-            [self.equalizerView setSamples:data count:size];
-        });
-    } while (size > 0);
+    auto size = _accumulatorModule->render(buffer);
+    while (size > 0)
+        size = _accumulatorModule->render(buffer);
+
+    auto data = _accumulatorModule->data();
+    size = _accumulatorModule->size();
+    dispatch_sync(dispatch_get_main_queue(), ^() {
+        [self.spectrogramView setSamples:data count:size];
+    });
 }
 
 - (void)initializeModuleGraph {
@@ -114,7 +153,30 @@ static const double kSampleRate = 44100;
     _windowModule->setSource(_windowingModule);
     
     _fftModule.reset(new FFTModule{windowSize});
-    _fftModule->setSource(_windowingModule);
+    _fftModule->setSource(_windowModule);
+
+    std::size_t capacity = windowSize * kMaxDuration * kSampleRate / 2;
+    _accumulatorModule.reset(new AccumulatorModule(capacity));
+    _accumulatorModule->setSource(_fftModule);
+}
+
+- (void)updateModuleGraph {
+    if (!_microphoneModule)
+        return;
+
+    const auto windowSize = static_cast<std::size_t>(_windowTime * kSampleRate);
+    const auto hopSize = static_cast<std::size_t>(_hopTime * kSampleRate);
+
+    _windowingModule.reset(new WindowingModule{windowSize, hopSize});
+    _windowingModule->setSource(_microphoneModule);
+    _windowModule->setSource(_windowingModule);
+
+    _fftModule.reset(new FFTModule{windowSize});
+    _fftModule->setSource(_windowModule);
+
+    std::size_t capacity = windowSize * kMaxDuration * kSampleRate / 2;
+    _accumulatorModule.reset(new AccumulatorModule(capacity));
+    _accumulatorModule->setSource(_fftModule);
 }
 
 @end
