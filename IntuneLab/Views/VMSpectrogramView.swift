@@ -33,12 +33,20 @@ internal class VMSpectrogramView: UIScrollView {
     /// The time-axis range in seconds
     var timeScale: NSTimeInterval = 5 {
         didSet {
+            if timeScale < 0.05 {
+                timeScale = 0.05
+            }
             setNeedsLayout()
         }
     }
 
     /// The number of frequency bins in the samples
     var frequencyCount: Int = 2048
+
+
+    /// To convert pinch regocnizer scale into 'zoom'
+    private var recognizerScaleBegan = CGFloat()
+    private var timeScaleBegan = NSTimeInterval()
 
     @IBInspectable var gridColor: UIColor = UIColor.grayColor()
     @IBInspectable var lowColor: UIColor = UIColor.blueColor()
@@ -47,10 +55,47 @@ internal class VMSpectrogramView: UIScrollView {
     private var samples: UnsafePointer<Float> = UnsafePointer<Float>()
     private(set) internal var sampleCount: Int = 0
 
+    required init(coder aDecoder: NSCoder) {
+        super.init(coder: aDecoder)
+        setup()
+    }
+
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        setup()
+    }
+
     func setSamples(samples: UnsafePointer<Float>, count: Int) {
         self.samples = samples
         sampleCount = count
         setNeedsLayout()
+    }
+
+    private func setup() {
+        backgroundColor = UIColor.whiteColor()
+
+        // UIScrollView zoom requires a content subview, because the pianoroll subview would be
+        // to large we need to disable the default pinch recognizer and add our own
+        if let gestureRecognizers = self.gestureRecognizers {
+            for recognizer in gestureRecognizers {
+                if let pinchRecognizer = recognizer as? UIPinchGestureRecognizer {
+                    pinchRecognizer.enabled = false
+                }
+            }
+        }
+        let pinchRecognizer = UIPinchGestureRecognizer(target: self, action: Selector("handlePinch:"))
+        addGestureRecognizer(pinchRecognizer)
+    }
+
+    internal func handlePinch(recognizer: UIPinchGestureRecognizer) {
+        let scale = recognizer.scale
+        if recognizer.state == UIGestureRecognizerState.Began {
+            recognizerScaleBegan = scale
+            timeScaleBegan = timeScale
+        } else if recognizer.state == UIGestureRecognizerState.Changed {
+            let delta = NSTimeInterval(recognizerScaleBegan - scale) * timeScaleBegan
+            timeScale = timeScaleBegan + delta
+        }
     }
 
     internal override func layoutSubviews() {
