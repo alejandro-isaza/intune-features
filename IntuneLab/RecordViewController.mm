@@ -20,6 +20,7 @@ static const std::size_t kPacketSize = 1024;
 
 @property(nonatomic) std::shared_ptr<MicrophoneModule> microphoneModule;
 @property(nonatomic) std::shared_ptr<AccumulatorModule> accumulatorModule;
+@property(nonatomic) std::shared_ptr<SaveToFileModule> fileWriter;
 
 @end
 
@@ -59,15 +60,22 @@ static const std::size_t kPacketSize = 1024;
 
 - (void)step {
     tempo::UniqueBuffer<float> buffer(kPacketSize);
-    _accumulatorModule->render(buffer);
+    auto size = _accumulatorModule->render(buffer);
+    (*_fileWriter)(buffer.data(), size);
+
     auto data = _accumulatorModule->data();
-    auto size = _accumulatorModule->size();
+    auto totalSize = _accumulatorModule->size();
     dispatch_async(dispatch_get_main_queue(), ^() {
-        [self.waveformView setSamples:data count:size];
+        [self.waveformView setSamples:data count:totalSize];
     });
 }
 
 - (void)initializeModuleGraph {
+    NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    NSString* documentsPath = [paths objectAtIndex:0];
+    NSString* destination = [documentsPath stringByAppendingPathComponent:@"microphone.caf"];
+    _fileWriter.reset(new SaveToFileModule(destination.UTF8String, kSampleRate));
+
     _waveformView.sampleRate = kSampleRate;
     _waveformView.duration = kWaveformMaxDuration;
 

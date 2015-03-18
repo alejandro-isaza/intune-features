@@ -9,7 +9,6 @@
 /* Begin PBXBuildFile section */
 		008685651AB10B4B00F415A2 /* VMPianoRollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008685631AB10B4B00F415A2 /* VMPianoRollViewController.swift */; };
 		008685681AB10B8A00F415A2 /* VMWaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008685671AB10B8A00F415A2 /* VMWaveformView.swift */; };
-		0086856B1AB10C1200F415A2 /* kiss_the_rain.xml in Resources */ = {isa = PBXBuildFile; fileRef = 00AF6DDA1AAF974A006525F5 /* kiss_the_rain.xml */; };
 		0086856C1AB10C1400F415A2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6171BD521A16BCC4004AB274 /* Images.xcassets */; };
 		0086859F1AB1148F00F415A2 /* VMPianoRollViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 008685691AB10BC400F415A2 /* VMPianoRollViewController.xib */; };
 		008685A31AB114B400F415A2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6171BD4F1A16BCC4004AB274 /* Main.storyboard */; };
@@ -142,6 +141,11 @@
 		00AF6DD41AAF9222006525F5 /* SpanFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00AF6D561AAF9222006525F5 /* SpanFactory.cpp */; };
 		00AF6DD51AAF9222006525F5 /* StringUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00AF6D591AAF9222006525F5 /* StringUtility.cpp */; };
 		00AF6DD81AAF92A7006525F5 /* MXMLViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00AF6DD71AAF92A7006525F5 /* MXMLViewController.mm */; };
+		00E638A21AB8DC9B00F5B4C5 /* WaveformViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00E638A11AB8DC9B00F5B4C5 /* WaveformViewController.mm */; };
+		00E638A51AB8E54C00F5B4C5 /* VMFilePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E638A41AB8E54C00F5B4C5 /* VMFilePickerController.m */; };
+		00E638A91AB8F13500F5B4C5 /* Audio in Resources */ = {isa = PBXBuildFile; fileRef = 00E638A81AB8F13500F5B4C5 /* Audio */; };
+		00E638AC1AB8F4F100F5B4C5 /* ReadFromFileModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00E638AA1AB8F4F100F5B4C5 /* ReadFromFileModule.cpp */; };
+		00E638AE1AB8F6CE00F5B4C5 /* kiss_the_rain.xml in Resources */ = {isa = PBXBuildFile; fileRef = 00E638AD1AB8F6CE00F5B4C5 /* kiss_the_rain.xml */; };
 		00EFC4BD1AAF8A75000C1D5B /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EFC4BC1AAF8A75000C1D5B /* libxml2.dylib */; };
 		00EFC4E01AAF8E19000C1D5B /* liblxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EFC4C21AAF8DF3000C1D5B /* liblxml.a */; };
 		00EFC5481AAF8EA3000C1D5B /* libmxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EFC4E51AAF8E73000C1D5B /* libmxml.a */; };
@@ -560,7 +564,14 @@
 		00AF6D5A1AAF9222006525F5 /* StringUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringUtility.h; sourceTree = "<group>"; };
 		00AF6DD61AAF92A7006525F5 /* MXMLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXMLViewController.h; sourceTree = "<group>"; };
 		00AF6DD71AAF92A7006525F5 /* MXMLViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MXMLViewController.mm; sourceTree = "<group>"; };
-		00AF6DDA1AAF974A006525F5 /* kiss_the_rain.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = kiss_the_rain.xml; path = Resources/kiss_the_rain.xml; sourceTree = "<group>"; };
+		00E638A01AB8DC9B00F5B4C5 /* WaveformViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveformViewController.h; sourceTree = "<group>"; };
+		00E638A11AB8DC9B00F5B4C5 /* WaveformViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WaveformViewController.mm; sourceTree = "<group>"; };
+		00E638A31AB8E54C00F5B4C5 /* VMFilePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VMFilePickerController.h; path = Helpers/VMFilePickerController.h; sourceTree = "<group>"; };
+		00E638A41AB8E54C00F5B4C5 /* VMFilePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VMFilePickerController.m; path = Helpers/VMFilePickerController.m; sourceTree = "<group>"; };
+		00E638A81AB8F13500F5B4C5 /* Audio */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Audio; path = Resources/Audio; sourceTree = "<group>"; };
+		00E638AA1AB8F4F100F5B4C5 /* ReadFromFileModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ReadFromFileModule.cpp; sourceTree = "<group>"; };
+		00E638AB1AB8F4F100F5B4C5 /* ReadFromFileModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadFromFileModule.h; sourceTree = "<group>"; };
+		00E638AD1AB8F6CE00F5B4C5 /* kiss_the_rain.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = kiss_the_rain.xml; path = Resources/kiss_the_rain.xml; sourceTree = "<group>"; };
 		00EFC4BC1AAF8A75000C1D5B /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		00EFC4C21AAF8DF3000C1D5B /* liblxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblxml.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		00EFC4E51AAF8E73000C1D5B /* libmxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libmxml.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1051,9 +1062,19 @@
 		00AF6DD91AAF9712006525F5 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				00AF6DDA1AAF974A006525F5 /* kiss_the_rain.xml */,
+				00E638AD1AB8F6CE00F5B4C5 /* kiss_the_rain.xml */,
+				00E638A81AB8F13500F5B4C5 /* Audio */,
 			);
 			name = Resources;
+			sourceTree = "<group>";
+		};
+		00E638A61AB8E55300F5B4C5 /* Helpers */ = {
+			isa = PBXGroup;
+			children = (
+				00E638A31AB8E54C00F5B4C5 /* VMFilePickerController.h */,
+				00E638A41AB8E54C00F5B4C5 /* VMFilePickerController.m */,
+			);
+			name = Helpers;
 			sourceTree = "<group>";
 		};
 		6171BD361A16BCC4004AB274 = {
@@ -1084,6 +1105,7 @@
 				6171BD461A16BCC4004AB274 /* AppDelegate.h */,
 				6171BD471A16BCC4004AB274 /* AppDelegate.m */,
 				6171BD4F1A16BCC4004AB274 /* Main.storyboard */,
+				00E638A61AB8E55300F5B4C5 /* Helpers */,
 				6171BEEC1A16C401004AB274 /* Views */,
 				6171BD491A16BCC4004AB274 /* MasterViewController.h */,
 				6171BD4A1A16BCC4004AB274 /* MasterViewController.m */,
@@ -1093,6 +1115,8 @@
 				00AF6DD71AAF92A7006525F5 /* MXMLViewController.mm */,
 				61A81D7F1AB103C600E230A6 /* FFTViewController.h */,
 				61A81D801AB103C600E230A6 /* FFTViewController.mm */,
+				00E638A01AB8DC9B00F5B4C5 /* WaveformViewController.h */,
+				00E638A11AB8DC9B00F5B4C5 /* WaveformViewController.mm */,
 				00AF6DD91AAF9712006525F5 /* Resources */,
 				6171BD421A16BCC4004AB274 /* Supporting Files */,
 			);
@@ -1183,6 +1207,8 @@
 				61A81D6C1AB0E63C00E230A6 /* MicrophoneModule.h */,
 				61BE11C31AB773CB00BF2F6F /* Mixer.h */,
 				61BE11BF1AB773CB00BF2F6F /* PollingModule.h */,
+				00E638AA1AB8F4F100F5B4C5 /* ReadFromFileModule.cpp */,
+				00E638AB1AB8F4F100F5B4C5 /* ReadFromFileModule.h */,
 				61A81D6D1AB0E63C00E230A6 /* RMSModule.cpp */,
 				61A81D6E1AB0E63C00E230A6 /* RMSModule.h */,
 				61A81D6F1AB0E63C00E230A6 /* SaveToFileModule.cpp */,
@@ -1342,9 +1368,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				0086859F1AB1148F00F415A2 /* VMPianoRollViewController.xib in Resources */,
-				0086856B1AB10C1200F415A2 /* kiss_the_rain.xml in Resources */,
 				0086856C1AB10C1400F415A2 /* Images.xcassets in Resources */,
+				00E638AE1AB8F6CE00F5B4C5 /* kiss_the_rain.xml in Resources */,
 				008685A31AB114B400F415A2 /* Main.storyboard in Resources */,
+				00E638A91AB8F13500F5B4C5 /* Audio in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1511,9 +1538,12 @@
 				008685651AB10B4B00F415A2 /* VMPianoRollViewController.swift in Sources */,
 				61A81D811AB103C600E230A6 /* FFTViewController.mm in Sources */,
 				6171BEF41A16DB0E004AB274 /* RecordViewController.mm in Sources */,
+				00E638AC1AB8F4F100F5B4C5 /* ReadFromFileModule.cpp in Sources */,
 				6171BD4B1A16BCC4004AB274 /* MasterViewController.m in Sources */,
+				00E638A21AB8DC9B00F5B4C5 /* WaveformViewController.mm in Sources */,
 				008685681AB10B8A00F415A2 /* VMWaveformView.swift in Sources */,
 				6171BD451A16BCC4004AB274 /* main.m in Sources */,
+				00E638A51AB8E54C00F5B4C5 /* VMFilePickerController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

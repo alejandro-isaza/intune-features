@@ -87,6 +87,69 @@
             <point key="canvasLocation" x="709" y="113"/>
         </scene>
         <!--Navigation Controller-->
+        <scene sceneID="DuB-fR-Jh0">
+            <objects>
+                <navigationController id="2BQ-uK-78s" sceneMemberID="viewController">
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="1MW-u5-Thy">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="Ksq-gR-Yla" kind="relationship" relationship="rootViewController" id="zpy-WQ-lje"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="E95-MA-Knf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2189" y="113"/>
+        </scene>
+        <!--Waveform-->
+        <scene sceneID="p7f-0t-5lP">
+            <objects>
+                <viewController id="Ksq-gR-Yla" customClass="WaveformViewController" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="6HW-8M-VUW"/>
+                        <viewControllerLayoutGuide type="bottom" id="yJv-Bc-6zR"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="a8F-WX-W5A">
+                        <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="2Kf-SX-S38">
+                                <rect key="frame" x="267" y="104" width="66" height="30"/>
+                                <state key="normal" title="Open File">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="openFile:" destination="Ksq-gR-Yla" eventType="touchUpInside" id="tIG-8x-Xn1"/>
+                                </connections>
+                            </button>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="m52-8Y-sdN" customClass="VMWaveformView" customModule="IntuneLab" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="150" width="600" height="300"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="300" id="rM1-Y9-ToZ"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="2Kf-SX-S38" firstAttribute="top" secondItem="6HW-8M-VUW" secondAttribute="bottom" constant="40" id="1ZK-Zk-zE8"/>
+                            <constraint firstAttribute="centerX" secondItem="2Kf-SX-S38" secondAttribute="centerX" id="1vU-cC-8gv"/>
+                            <constraint firstItem="m52-8Y-sdN" firstAttribute="leading" secondItem="a8F-WX-W5A" secondAttribute="leading" id="272-L7-nVg"/>
+                            <constraint firstAttribute="trailing" secondItem="m52-8Y-sdN" secondAttribute="trailing" id="G0E-9L-AUi"/>
+                            <constraint firstAttribute="centerY" secondItem="m52-8Y-sdN" secondAttribute="centerY" id="M4h-ul-D8m"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" title="Waveform" id="eXk-ID-Mtg"/>
+                    <connections>
+                        <outlet property="waveformView" destination="m52-8Y-sdN" id="K77-lT-mIk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Aa6-ow-7oU" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2189" y="868"/>
+        </scene>
+        <!--Navigation Controller-->
         <scene sceneID="l1f-h5-wYc">
             <objects>
                 <navigationController id="EbE-dh-1vm" sceneMemberID="viewController">
@@ -324,6 +387,27 @@
                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                         <connections>
                                             <segue destination="3sf-BU-AIw" kind="showDetail" id="z8Y-Zq-yWj"/>
+                                        </connections>
+                                    </tableViewCell>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" textLabel="aaY-gZ-HEE" style="IBUITableViewCellStyleDefault" id="Kyh-0t-Spm">
+                                        <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                        <autoresizingMask key="autoresizingMask"/>
+                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Kyh-0t-Spm" id="VST-aH-e5N">
+                                            <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                            <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" text="Waveform" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aaY-gZ-HEE">
+                                                    <rect key="frame" x="15" y="0.0" width="290" height="43"/>
+                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <fontDescription key="fontDescription" type="boldSystem" pointSize="20"/>
+                                                    <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                                    <color key="highlightedColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                                </label>
+                                            </subviews>
+                                        </tableViewCellContentView>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <connections>
+                                            <segue destination="2BQ-uK-78s" kind="showDetail" id="Qnb-ud-DDS"/>
                                         </connections>
                                     </tableViewCell>
                                 </cells>
