@@ -11,9 +11,13 @@
 #include <tempo/modules/WindowingModule.h>
 
 using namespace tempo;
+using DataType = ReadFromFileModule::DataType;
+using SizeType = SourceModule<DataType>::SizeType;
+
 
 static const double kSampleRate = 44100;
 static const NSTimeInterval kMaxDuration = 5;
+static const SizeType kMaxDataSize = 128*1024*1024;
 
 
 @interface FFTViewController ()
@@ -56,7 +60,7 @@ static const NSTimeInterval kMaxDuration = 5;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    const auto windowSize = static_cast<std::size_t>(_windowTime * kSampleRate);
+    const auto windowSize = static_cast<SizeType>(_windowTime * kSampleRate);
     self.spectrogramView.frequencyCount = windowSize / 2;
 
     self.windowTextField.text = [NSString stringWithFormat:@"%.0fms", _windowTime * 1000.0];
@@ -112,13 +116,25 @@ static const NSTimeInterval kMaxDuration = 5;
 }
 
 - (void)render {
-    using DataType = ReadFromFileModule::DataType;
+    if (!self.filePath)
+        return;
 
     auto fileModule = std::make_shared<ReadFromFileModule>(self.filePath.UTF8String);
     const auto fileLength = fileModule->lengthInFrames();
 
-    const auto windowSize = static_cast<std::size_t>(_windowTime * kSampleRate);
-    const auto hopSize = static_cast<std::size_t>(_hopTime * kSampleRate);
+    const auto windowSize = static_cast<SizeType>(_windowTime * kSampleRate);
+    auto hopSize = static_cast<SizeType>(_hopTime * kSampleRate);
+    if (fileLength / hopSize >= kMaxDataSize / windowSize) {
+        hopSize = static_cast<decltype(hopSize)>(static_cast<uint64_t>(fileLength) * static_cast<uint64_t>(windowSize) / kMaxDataSize);
+
+        dispatch_async(dispatch_get_main_queue(), ^{
+            _hopTime = static_cast<NSTimeInterval>(hopSize) / kSampleRate;
+            self.hopSlider.value = _hopTime / _windowTime;
+            self.hopSlider.minimumValue = _hopTime / _windowTime;
+            self.hopTextField.text = [NSString stringWithFormat:@"%.0fms", _hopTime * 1000.0];
+        });
+    }
+
     auto windowingModule = std::make_shared<WindowingModule>(windowSize, hopSize);
     windowingModule->setSource(fileModule);
 
@@ -131,7 +147,7 @@ static const NSTimeInterval kMaxDuration = 5;
     auto pollingModule = std::make_shared<PollingModule<DataType>>();
     pollingModule->setSource(fftModule);
 
-    const auto dataLength = fileLength * windowSize / hopSize;
+    const auto dataLength = (fileLength / hopSize) * windowSize;
     delete [] _data;
     _data = new DataType[dataLength];
 
