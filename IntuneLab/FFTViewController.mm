@@ -34,12 +34,12 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 @property(nonatomic, strong) dispatch_queue_t queue;
 @property(nonatomic, strong) NSString* filePath;
 
-@property(nonatomic) float* data;
-
 @end
 
 
-@implementation FFTViewController
+@implementation FFTViewController {
+    std::unique_ptr<DataType[]> _data;
+}
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
     self = [super initWithCoder:coder];
@@ -51,10 +51,6 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     _hopTime = _windowTime / 2;
 
     return self;
-}
-
-- (void)dealloc {
-    delete [] _data;
 }
 
 - (void)viewDidLoad {
@@ -148,15 +144,14 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     pollingModule->setSource(fftModule);
 
     const auto dataLength = (fileLength / hopSize) * windowSize;
-    delete [] _data;
-    _data = new DataType[dataLength];
 
-    PointerBuffer<DataType> buffer(_data, dataLength);
+    _data.reset(new DataType[dataLength]);
+    PointerBuffer<DataType> buffer(_data.get(), dataLength);
     auto rendered = pollingModule->render(buffer);
     dispatch_sync(dispatch_get_main_queue(), ^() {
         self.spectrogramView.sampleTimeLength = _hopTime;
         self.spectrogramView.frequencyCount = windowSize / 2;
-        [self.spectrogramView setSamples:_data count:rendered];
+        [self.spectrogramView setSamples:_data.get() count:rendered];
     });
 }
 

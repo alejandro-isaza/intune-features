@@ -6,6 +6,10 @@
 #import "VMFilePickerController.h"
 #import <tempo/modules/ReadFromFileModule.h>
 
+using namespace tempo;
+using DataType = ReadFromFileModule::DataType;
+using SizeType = SourceModule<DataType>::SizeType;
+
 
 @interface WaveformViewController ()
 
@@ -14,7 +18,9 @@
 @end
 
 
-@implementation WaveformViewController
+@implementation WaveformViewController {
+    std::unique_ptr<DataType[]> _data;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -24,7 +30,9 @@
     tempo::ReadFromFileModule fileReader(file.UTF8String);
     auto length = fileReader.lengthInFrames();
 
-    tempo::UniqueBuffer<Float32> buffer(length);
+    _data.reset(new DataType[length]);
+    PointerBuffer<DataType> buffer(_data.get(), length);
+
     auto numberOfFramesRead = fileReader.render(buffer);
     [self.waveformView setSamples:buffer.data() count:numberOfFramesRead];
 }
