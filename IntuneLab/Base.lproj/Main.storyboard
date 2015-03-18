@@ -31,15 +31,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HJw-ja-GdU" customClass="VMWaveformView" customModule="IntuneLab" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="100" width="600" height="400"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" priority="750" constant="400" id="Ll2-l2-MJx"/>
-                                </constraints>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="09S-ux-Nqj">
-                                <rect key="frame" x="153" y="530" width="294" height="50"/>
+                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="09S-ux-Nqj">
+                                <rect key="frame" x="153" y="64" width="294" height="50"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="enter filename" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="n0y-Dh-mO5">
                                         <rect key="frame" x="0.0" y="10" width="188" height="30"/>
@@ -76,15 +69,23 @@
                                     <constraint firstAttribute="bottom" secondItem="eLC-8n-5AF" secondAttribute="bottom" id="gfw-zw-k6h"/>
                                 </constraints>
                             </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HJw-ja-GdU" customClass="VMWaveformView" customModule="IntuneLab" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="130" width="600" height="470"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" priority="750" constant="400" id="Ll2-l2-MJx"/>
+                                </constraints>
+                            </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                         <constraints>
-                            <constraint firstAttribute="centerY" secondItem="HJw-ja-GdU" secondAttribute="centerY" id="FOm-vK-euL"/>
-                            <constraint firstItem="GAO-Cl-Wes" firstAttribute="top" secondItem="09S-ux-Nqj" secondAttribute="bottom" constant="20" id="I2y-sT-cJb"/>
                             <constraint firstItem="HJw-ja-GdU" firstAttribute="leading" secondItem="svH-Pt-448" secondAttribute="leading" id="K7i-eO-Ohz"/>
+                            <constraint firstItem="HJw-ja-GdU" firstAttribute="top" secondItem="09S-ux-Nqj" secondAttribute="bottom" constant="8" id="KX8-bv-06t"/>
                             <constraint firstAttribute="trailing" secondItem="HJw-ja-GdU" secondAttribute="trailing" id="UGR-Nz-O20"/>
                             <constraint firstItem="HJw-ja-GdU" firstAttribute="top" relation="greaterThanOrEqual" secondItem="SYR-Wa-9uf" secondAttribute="bottom" constant="8" symbolic="YES" id="mvd-VT-hO7"/>
+                            <constraint firstItem="GAO-Cl-Wes" firstAttribute="top" secondItem="HJw-ja-GdU" secondAttribute="bottom" id="ohm-gj-YbL"/>
                             <constraint firstAttribute="centerX" secondItem="09S-ux-Nqj" secondAttribute="centerX" id="qRN-E3-WED"/>
+                            <constraint firstItem="09S-ux-Nqj" firstAttribute="top" secondItem="SYR-Wa-9uf" secondAttribute="bottom" constant="8" id="ydc-FT-NUn"/>
                         </constraints>
                     </view>
                     <toolbarItems/>
