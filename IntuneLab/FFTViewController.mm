@@ -89,13 +89,9 @@ static const NSTimeInterval kMaxDuration = 5;
     self.windowTextField.text = [NSString stringWithFormat:@"%.0fms", _windowTime * 1000.0];
     self.hopTextField.text = [NSString stringWithFormat:@"%.0fms", _hopTime * 1000.0];
 
-    const auto windowSize = static_cast<std::size_t>(_windowTime * kSampleRate);
+    [self.spectrogramView setSamples:NULL count:0];
 
     dispatch_async(_queue, ^() {
-        dispatch_sync(dispatch_get_main_queue(), ^() {
-            [self.spectrogramView setSamples:NULL count:0];
-            self.spectrogramView.frequencyCount = windowSize / 2;
-        });
         [self render];
     });
 }
@@ -119,7 +115,7 @@ static const NSTimeInterval kMaxDuration = 5;
     using DataType = ReadFromFileModule::DataType;
 
     auto fileModule = std::make_shared<ReadFromFileModule>(self.filePath.UTF8String);
-    auto length = fileModule->lengthInFrames();
+    const auto fileLength = fileModule->lengthInFrames();
 
     const auto windowSize = static_cast<std::size_t>(_windowTime * kSampleRate);
     const auto hopSize = static_cast<std::size_t>(_hopTime * kSampleRate);
@@ -135,12 +131,15 @@ static const NSTimeInterval kMaxDuration = 5;
     auto pollingModule = std::make_shared<PollingModule<DataType>>();
     pollingModule->setSource(fftModule);
 
+    const auto dataLength = fileLength * windowSize / hopSize;
     delete [] _data;
-    _data = new DataType[length];
+    _data = new DataType[dataLength];
 
-    PointerBuffer<DataType> buffer(_data, length);
+    PointerBuffer<DataType> buffer(_data, dataLength);
     auto rendered = pollingModule->render(buffer);
     dispatch_sync(dispatch_get_main_queue(), ^() {
+        self.spectrogramView.sampleTimeLength = _hopTime;
+        self.spectrogramView.frequencyCount = windowSize / 2;
         [self.spectrogramView setSamples:_data count:rendered];
     });
 }
