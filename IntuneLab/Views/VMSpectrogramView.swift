@@ -71,6 +71,15 @@ internal class VMSpectrogramView: UIScrollView {
         barRect.size.width = bounds.width * CGFloat(sampleTimeLength / timeScale)
 
         for var t = 0; t < timePoints; t += 1 {
+            if (barRect.maxX < bounds.minX) {
+                barRect.origin.x += barRect.width
+                continue
+            }
+
+            if (barRect.minX > bounds.maxX) {
+                break
+            }
+
             for var fi = 0; fi < frequencyCount; fi += 1 {
                 let f0 = Float(fi) * fs
                 let f1 = Float(fi + 1) * fs
@@ -89,6 +98,7 @@ internal class VMSpectrogramView: UIScrollView {
                 setFillColorForDecibel(dbValue)
                 CGContextFillRect(context, barRect)
             }
+
             barRect.origin.x += barRect.width
         }
     }
