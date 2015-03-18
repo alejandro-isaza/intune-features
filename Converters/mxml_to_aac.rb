@@ -3,7 +3,7 @@
 def process(file)
   mxml_to_midi(file)
   midi_to_wav(file)
-  wav_to_caf(file)
+  wav_to_aac(file)
 end
 
 def mxml_to_midi(file)
@@ -14,7 +14,7 @@ def midi_to_wav(file)
   `fluidsynth "bin/grand_piano.sf2" "#{file}.mid" -F "#{file}.wav" -O float -g 5`
 end
 
-def wav_to_caf(file)
+def wav_to_aac(file)
   `afconvert -d aac -f caff "#{file}.wav" "#{file}.caf"`
 end
 
