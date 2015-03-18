@@ -7,6 +7,11 @@ internal class VMSpectrogramView: UIScrollView {
     let maxFrequency: Float = 4000
 
     var sampleRate: Float = 44100
+    var decibelGround: Float = -100 {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
     var frequencyCount: Int = 2048
     var timeScale: Float = 5 {
         didSet {
@@ -68,7 +73,7 @@ internal class VMSpectrogramView: UIScrollView {
     }
 
     func setFillColorForDecibel(dbValue: Float) {
-        var value = (dbValue + 100) / 100
+        var value = (dbValue - decibelGround) / -decibelGround
         if value < 0 {
             value = 0
         }

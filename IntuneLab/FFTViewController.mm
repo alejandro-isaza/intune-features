@@ -1,12 +1,13 @@
 //  Copyright (c) 2015 Venture Media Labs. All rights reserved.
 
 #import "FFTViewController.h"
+#import "VMFilePickerController.h"
 #import "IntuneLab-Swift.h"
 
-#include <tempo/modules/AccumulatorModule.h>
 #include <tempo/modules/FFTModule.h>
 #include <tempo/modules/HammingWindow.h>
-#include <tempo/modules/MicrophoneModule.h>
+#include <tempo/modules/PollingModule.h>
+#include <tempo/modules/ReadFromFileModule.h>
 #include <tempo/modules/WindowingModule.h>
 
 using namespace tempo;
@@ -20,16 +21,16 @@ static const NSTimeInterval kMaxDuration = 5;
 @property(nonatomic, weak) IBOutlet VMSpectrogramView* spectrogramView;
 @property(nonatomic, weak) IBOutlet UISlider* windowSlider;
 @property(nonatomic, weak) IBOutlet UISlider* hopSlider;
+@property(nonatomic, weak) IBOutlet UISlider* groundSlider;
 @property(nonatomic, weak) IBOutlet UITextField* windowTextField;
 @property(nonatomic, weak) IBOutlet UITextField* hopTextField;
-@property(nonatomic, weak) IBOutlet UIButton* startStopButton;
-@property(nonatomic, strong) dispatch_queue_t queue;
+@property(nonatomic, weak) IBOutlet UITextField* groundTextField;
+@property(nonatomic, weak) IBOutlet UIButton* openButton;
 
-@property(nonatomic) std::shared_ptr<MicrophoneModule> microphoneModule;
-@property(nonatomic) std::shared_ptr<WindowingModule> windowingModule;
-@property(nonatomic) std::shared_ptr<HammingWindow> windowModule;
-@property(nonatomic) std::shared_ptr<FFTModule> fftModule;
-@property(nonatomic) std::shared_ptr<AccumulatorModule> accumulatorModule;
+@property(nonatomic, strong) dispatch_queue_t queue;
+@property(nonatomic, strong) NSString* filePath;
+
+@property(nonatomic) float* data;
 
 @end
 
@@ -48,6 +49,10 @@ static const NSTimeInterval kMaxDuration = 5;
     return self;
 }
 
+- (void)dealloc {
+    delete [] _data;
+}
+
 - (void)viewDidLoad {
     [super viewDidLoad];
 
@@ -58,16 +63,8 @@ static const NSTimeInterval kMaxDuration = 5;
     self.windowSlider.value = _windowTime * 1000.0;
     self.hopTextField.text = [NSString stringWithFormat:@"%.0fms", _hopTime * 1000.0];
     self.hopSlider.value = _hopTime / _windowTime;
-}
-
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
-    //[self start];
-}
-
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    [self stop];
+    self.groundTextField.text = [NSString stringWithFormat:@"%.0fdB", _spectrogramView.decibelGround];
+    self.groundSlider.value = _spectrogramView.decibelGround;
 }
 
 - (IBAction)didChangeWindow {
@@ -78,7 +75,14 @@ static const NSTimeInterval kMaxDuration = 5;
 
 - (IBAction)didChangeHop {
     _hopTime = self.hopSlider.value * _windowTime;
+    if (_hopTime == 0)
+        _hopTime = 1.0 / kSampleRate;
     [self updateParams];
+}
+
+- (IBAction)didChangeGround {
+    self.spectrogramView.decibelGround = self.groundSlider.value;
+    self.groundTextField.text = [NSString stringWithFormat:@"%.0fdB", self.spectrogramView.decibelGround];
 }
 
 - (void)updateParams {
@@ -92,91 +96,53 @@ static const NSTimeInterval kMaxDuration = 5;
             [self.spectrogramView setSamples:NULL count:0];
             self.spectrogramView.frequencyCount = windowSize / 2;
         });
-        [self updateModuleGraph];
+        [self render];
     });
 }
 
-- (IBAction)startStop {
-    if (!_microphoneModule || !_microphoneModule->isRunning())
-        [self start];
-    else
-        [self stop];
+- (IBAction)openFile:(UIButton*)sender {
+    VMFilePickerController *filePicker = [[VMFilePickerController alloc] init];
+    filePicker.selectionBlock = ^(NSString* file, NSString* filename) {
+        [self loadWaveform:file];
+    };
+    [filePicker presentInViewController:self sourceRect:sender.frame];
 }
 
-- (void)start {
-    if (!_microphoneModule)
-        [self initializeModuleGraph];
-
-    _microphoneModule->start();
-    [self.startStopButton setTitle:@"Stop" forState:UIControlStateNormal];
+- (void)loadWaveform:(NSString*)file {
+    self.filePath = file;
+    dispatch_async(_queue, ^() {
+        [self render];
+    });
 }
 
-- (void)stop {
-    if (!_microphoneModule)
-        return;
+- (void)render {
+    using DataType = ReadFromFileModule::DataType;
 
-    _microphoneModule->stop();
-    [self.startStopButton setTitle:@"Record" forState:UIControlStateNormal];
-}
+    auto fileModule = std::make_shared<ReadFromFileModule>(self.filePath.UTF8String);
+    auto length = fileModule->lengthInFrames();
 
-- (void)step {
     const auto windowSize = static_cast<std::size_t>(_windowTime * kSampleRate);
-    const auto binCount = windowSize / 2;
+    const auto hopSize = static_cast<std::size_t>(_hopTime * kSampleRate);
+    auto windowingModule = std::make_shared<WindowingModule>(windowSize, hopSize);
+    windowingModule->setSource(fileModule);
 
-    UniqueBuffer<float> buffer(binCount);
-    auto size = _accumulatorModule->render(buffer);
-    while (size > 0)
-        size = _accumulatorModule->render(buffer);
+    auto windowModule = std::make_shared<HammingWindow>();
+    windowModule->setSource(windowingModule);
 
-    auto data = _accumulatorModule->data();
-    size = _accumulatorModule->size();
+    auto fftModule = std::make_shared<FFTModule>(windowSize);
+    fftModule->setSource(windowModule);
+
+    auto pollingModule = std::make_shared<PollingModule<DataType>>();
+    pollingModule->setSource(fftModule);
+
+    delete [] _data;
+    _data = new DataType[length];
+
+    PointerBuffer<DataType> buffer(_data, length);
+    auto rendered = pollingModule->render(buffer);
     dispatch_sync(dispatch_get_main_queue(), ^() {
-        [self.spectrogramView setSamples:data count:size];
+        [self.spectrogramView setSamples:_data count:rendered];
     });
-}
-
-- (void)initializeModuleGraph {
-    const auto windowSize = static_cast<std::size_t>(_windowTime * kSampleRate);
-    const auto hopSize = static_cast<std::size_t>(_hopTime * kSampleRate);
-
-    _microphoneModule.reset(new MicrophoneModule{kSampleRate});
-    _microphoneModule->onDataAvailable([self](std::size_t size) {
-        dispatch_async(_queue, ^() {
-            [self step];
-        });
-    });
-
-    _windowingModule.reset(new WindowingModule{windowSize, hopSize});
-    _windowingModule->setSource(_microphoneModule);
-
-    _windowModule.reset(new HammingWindow{});
-    _windowModule->setSource(_windowingModule);
-    
-    _fftModule.reset(new FFTModule{windowSize});
-    _fftModule->setSource(_windowModule);
-
-    std::size_t capacity = windowSize * kMaxDuration * kSampleRate / 2;
-    _accumulatorModule.reset(new AccumulatorModule(capacity));
-    _accumulatorModule->setSource(_fftModule);
-}
-
-- (void)updateModuleGraph {
-    if (!_microphoneModule)
-        return;
-
-    const auto windowSize = static_cast<std::size_t>(_windowTime * kSampleRate);
-    const auto hopSize = static_cast<std::size_t>(_hopTime * kSampleRate);
-
-    _windowingModule.reset(new WindowingModule{windowSize, hopSize});
-    _windowingModule->setSource(_microphoneModule);
-    _windowModule->setSource(_windowingModule);
-
-    _fftModule.reset(new FFTModule{windowSize});
-    _fftModule->setSource(_windowModule);
-
-    std::size_t capacity = windowSize * kMaxDuration * kSampleRate / 2;
-    _accumulatorModule.reset(new AccumulatorModule(capacity));
-    _accumulatorModule->setSource(_fftModule);
 }
 
 @end
