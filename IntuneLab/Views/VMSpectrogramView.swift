@@ -10,7 +10,7 @@ internal class VMSpectrogramView: UIScrollView {
     let minFrequency: Float = 20
 
     /// The minimum frequency to display
-    let maxFrequency: Float = 4000
+    let maxFrequency: Float = 8000
 
     /// The minimum decibel value to display
     var decibelGround: Float = -100 {
@@ -128,14 +128,13 @@ internal class VMSpectrogramView: UIScrollView {
             for var fi = 0; fi < frequencyCount; fi += 1 {
                 let f0 = Float(fi) * fs
                 let f1 = Float(fi + 1) * fs
-                let m0 = 2595.0 * log10(1 + f0/700.0)
-                let m1 = 2595.0 * log10(1 + f1/700.0)
-                if m0 >= maxFrequency {
-                    break
-                }
 
-                let minY = bounds.height * CGFloat(m0 - minFrequency) / CGFloat(maxFrequency - minFrequency)
-                let maxY = bounds.height * CGFloat(m1 - minFrequency) / CGFloat(maxFrequency - minFrequency)
+                let minY = yForFrequencyMel(f1)
+                let maxY = yForFrequencyMel(f0)
+
+                //let minY = yForFrequencyLinear(f1)
+                //let maxY = yForFrequencyLinear(f0)
+
                 barRect.origin.y = minY
                 barRect.size.height = maxY - minY
 
@@ -146,6 +145,30 @@ internal class VMSpectrogramView: UIScrollView {
 
             barRect.origin.x += barRect.width
         }
+    }
+
+    func yForFrequencyMel(f: Float) -> CGFloat {
+        if f < minFrequency {
+            return bounds.height
+        }
+        if f >= maxFrequency {
+            return 0
+        }
+
+        let minM = 2595.0 * log10(1 + minFrequency/700.0)
+        let maxM = 2595.0 * log10(1 + maxFrequency/700.0)
+        let m = 2595.0 * log10(1 + f/700.0)
+        return bounds.height * (1 - CGFloat(m - minM) / CGFloat(maxM - minM))
+    }
+
+    func yForFrequencyLinear(f: Float) -> CGFloat {
+        if f < minFrequency {
+            return bounds.height
+        }
+        if f >= maxFrequency {
+            return 0
+        }
+        return bounds.height * (1 - CGFloat(f - minFrequency) / CGFloat(maxFrequency - minFrequency))
     }
 
     func setFillColorForDecibel(dbValue: Float) {
