@@ -36,7 +36,7 @@ typedef unsigned int MidiNumber;
 }
 
 - (std::unique_ptr<mxml::dom::Score>)loadScore:(NSString *)name {
-    NSString* path = [[NSBundle mainBundle] pathForResource:name ofType:@"xml"];
+    NSString* path = [[NSBundle mainBundle] pathForResource:[@"XML" stringByAppendingPathComponent:name] ofType:@"xml"];
     mxml::parsing::ScoreHandler handler;
     std::ifstream is([path UTF8String]);
     lxml::parse(is, [path UTF8String], handler);

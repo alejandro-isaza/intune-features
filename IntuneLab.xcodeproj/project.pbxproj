@@ -141,11 +141,11 @@
 		00AF6DD41AAF9222006525F5 /* SpanFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00AF6D561AAF9222006525F5 /* SpanFactory.cpp */; };
 		00AF6DD51AAF9222006525F5 /* StringUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00AF6D591AAF9222006525F5 /* StringUtility.cpp */; };
 		00AF6DD81AAF92A7006525F5 /* MXMLViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00AF6DD71AAF92A7006525F5 /* MXMLViewController.mm */; };
+		00BF7B6C1AB9E638003A31A7 /* XML in Resources */ = {isa = PBXBuildFile; fileRef = 00BF7B6B1AB9E638003A31A7 /* XML */; };
 		00E638A21AB8DC9B00F5B4C5 /* WaveformViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00E638A11AB8DC9B00F5B4C5 /* WaveformViewController.mm */; };
 		00E638A51AB8E54C00F5B4C5 /* VMFilePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E638A41AB8E54C00F5B4C5 /* VMFilePickerController.m */; };
 		00E638A91AB8F13500F5B4C5 /* Audio in Resources */ = {isa = PBXBuildFile; fileRef = 00E638A81AB8F13500F5B4C5 /* Audio */; };
 		00E638AC1AB8F4F100F5B4C5 /* ReadFromFileModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00E638AA1AB8F4F100F5B4C5 /* ReadFromFileModule.cpp */; };
-		00E638AE1AB8F6CE00F5B4C5 /* kiss_the_rain.xml in Resources */ = {isa = PBXBuildFile; fileRef = 00E638AD1AB8F6CE00F5B4C5 /* kiss_the_rain.xml */; };
 		00EFC4BD1AAF8A75000C1D5B /* libxml2.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EFC4BC1AAF8A75000C1D5B /* libxml2.dylib */; };
 		00EFC4E01AAF8E19000C1D5B /* liblxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EFC4C21AAF8DF3000C1D5B /* liblxml.a */; };
 		00EFC5481AAF8EA3000C1D5B /* libmxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EFC4E51AAF8E73000C1D5B /* libmxml.a */; };
@@ -564,6 +564,7 @@
 		00AF6D5A1AAF9222006525F5 /* StringUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringUtility.h; sourceTree = "<group>"; };
 		00AF6DD61AAF92A7006525F5 /* MXMLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXMLViewController.h; sourceTree = "<group>"; };
 		00AF6DD71AAF92A7006525F5 /* MXMLViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MXMLViewController.mm; sourceTree = "<group>"; };
+		00BF7B6B1AB9E638003A31A7 /* XML */ = {isa = PBXFileReference; lastKnownFileType = folder; name = XML; path = Resources/XML; sourceTree = "<group>"; };
 		00E638A01AB8DC9B00F5B4C5 /* WaveformViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveformViewController.h; sourceTree = "<group>"; };
 		00E638A11AB8DC9B00F5B4C5 /* WaveformViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WaveformViewController.mm; sourceTree = "<group>"; };
 		00E638A31AB8E54C00F5B4C5 /* VMFilePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VMFilePickerController.h; path = Helpers/VMFilePickerController.h; sourceTree = "<group>"; };
@@ -571,7 +572,6 @@
 		00E638A81AB8F13500F5B4C5 /* Audio */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Audio; path = Resources/Audio; sourceTree = "<group>"; };
 		00E638AA1AB8F4F100F5B4C5 /* ReadFromFileModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ReadFromFileModule.cpp; sourceTree = "<group>"; };
 		00E638AB1AB8F4F100F5B4C5 /* ReadFromFileModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ReadFromFileModule.h; sourceTree = "<group>"; };
-		00E638AD1AB8F6CE00F5B4C5 /* kiss_the_rain.xml */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = kiss_the_rain.xml; path = Resources/kiss_the_rain.xml; sourceTree = "<group>"; };
 		00EFC4BC1AAF8A75000C1D5B /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
 		00EFC4C21AAF8DF3000C1D5B /* liblxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblxml.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		00EFC4E51AAF8E73000C1D5B /* libmxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libmxml.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1062,7 +1062,7 @@
 		00AF6DD91AAF9712006525F5 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				00E638AD1AB8F6CE00F5B4C5 /* kiss_the_rain.xml */,
+				00BF7B6B1AB9E638003A31A7 /* XML */,
 				00E638A81AB8F13500F5B4C5 /* Audio */,
 			);
 			name = Resources;
@@ -1369,9 +1369,9 @@
 			files = (
 				0086859F1AB1148F00F415A2 /* VMPianoRollViewController.xib in Resources */,
 				0086856C1AB10C1400F415A2 /* Images.xcassets in Resources */,
-				00E638AE1AB8F6CE00F5B4C5 /* kiss_the_rain.xml in Resources */,
 				008685A31AB114B400F415A2 /* Main.storyboard in Resources */,
 				00E638A91AB8F13500F5B4C5 /* Audio in Resources */,
+				00BF7B6C1AB9E638003A31A7 /* XML in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
