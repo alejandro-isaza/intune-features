@@ -580,8 +580,10 @@
 		00EFC4C21AAF8DF3000C1D5B /* liblxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblxml.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		00EFC4E51AAF8E73000C1D5B /* libmxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libmxml.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		610325151AB7AAA300E4E3D3 /* VMSpectrogramView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMSpectrogramView.swift; sourceTree = "<group>"; };
+		6157FC931ABA49BF008C0D0D /* PeakExtraction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeakExtraction.h; sourceTree = "<group>"; };
 		6157FC951ABA4CD7008C0D0D /* FixedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FixedData.h; sourceTree = "<group>"; };
 		6157FC991ABB5568008C0D0D /* WindowingModule.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WindowingModule.hpp; sourceTree = "<group>"; };
+		6157FC9A1ABB5568008C0D0D /* PeakExtraction.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PeakExtraction.hpp; sourceTree = "<group>"; };
 		6157FC9B1ABB5568008C0D0D /* Mixer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Mixer.hpp; sourceTree = "<group>"; };
 		6157FC9C1ABB5568008C0D0D /* HammingWindow.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HammingWindow.hpp; sourceTree = "<group>"; };
 		6157FC9D1ABB5568008C0D0D /* AccumulatorModule.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AccumulatorModule.hpp; sourceTree = "<group>"; };
@@ -1219,6 +1221,8 @@
 				61A81D6C1AB0E63C00E230A6 /* MicrophoneModule.h */,
 				61BE11C31AB773CB00BF2F6F /* Mixer.h */,
 				6157FC9B1ABB5568008C0D0D /* Mixer.hpp */,
+				6157FC931ABA49BF008C0D0D /* PeakExtraction.h */,
+				6157FC9A1ABB5568008C0D0D /* PeakExtraction.hpp */,
 				61BE11BF1AB773CB00BF2F6F /* PollingModule.h */,
 				00E638AA1AB8F4F100F5B4C5 /* ReadFromFileModule.cpp */,
 				00E638AB1AB8F4F100F5B4C5 /* ReadFromFileModule.h */,

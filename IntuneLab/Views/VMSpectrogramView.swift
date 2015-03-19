@@ -51,6 +51,7 @@ internal class VMSpectrogramView: UIScrollView {
     @IBInspectable var gridColor: UIColor = UIColor.grayColor()
     @IBInspectable var lowColor: UIColor = UIColor.whiteColor()
     @IBInspectable var highColor: UIColor = UIColor.blueColor()
+    @IBInspectable var peakColor: UIColor = UIColor.blackColor()
 
     private(set) internal var samples: UnsafePointer<Double> = nil
     private(set) internal var sampleCount: Int = 0
@@ -60,6 +61,11 @@ internal class VMSpectrogramView: UIScrollView {
         setNeedsLayout()
     }
 
+    var peaks: UnsafePointer<Bool> = nil {
+        didSet {
+            setNeedsDisplay()
+        }
+    }
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -70,7 +76,6 @@ internal class VMSpectrogramView: UIScrollView {
         super.init(frame: frame)
         setup()
     }
-
 
     func sampleOffsetAtLocation(location: CGPoint) -> Int {
         let sampleOffsetInPoints = contentOffset.x + location.x
@@ -120,9 +125,12 @@ internal class VMSpectrogramView: UIScrollView {
 
         UIColor.whiteColor().setFill()
         CGContextFillRect(context, rect)
-
+        peakColor.setStroke()
+        
         var barRect = CGRectZero
         barRect.size.width = bounds.width * CGFloat(sampleTimeLength / timeScale)
+
+        let yScaling = yForFrequencyMel // yForFrequencyLinear
 
         for var t = 0; t < timePoints; t += 1 {
             if (barRect.maxX < bounds.minX) {
@@ -138,11 +146,8 @@ internal class VMSpectrogramView: UIScrollView {
                 let f0 = Float(fi) * fs
                 let f1 = Float(fi + 1) * fs
 
-                let minY = yForFrequencyMel(f1)
-                let maxY = yForFrequencyMel(f0)
-
-                //let minY = yForFrequencyLinear(f1)
-                //let maxY = yForFrequencyLinear(f0)
+                let minY = yScaling(f1)
+                let maxY = yScaling(f0)
 
                 barRect.origin.y = minY
                 barRect.size.height = maxY - minY
@@ -151,6 +156,10 @@ internal class VMSpectrogramView: UIScrollView {
                 let dbValue = 10.0 * log10(samples[index])
                 setFillColorForDecibel(dbValue)
                 CGContextFillRect(context, barRect)
+
+                if peaks != nil && peaks[fi + t * frequencyCount] {
+                    CGContextStrokeRect(context, barRect)
+                }
             }
 
             barRect.origin.x += barRect.width

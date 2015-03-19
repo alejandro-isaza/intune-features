@@ -45,6 +45,10 @@
     _spectrogramViewControllerBottom.didScrollBlock = ^(CGFloat dx) {
         [wself calculateDifference];
     };
+
+    // Configure
+    _spectrogramViewControllerTop.windowTime = 0.1;
+    _spectrogramViewControllerBottom.windowTime = 0.1;
 }
 
 - (void)calculateDifference {

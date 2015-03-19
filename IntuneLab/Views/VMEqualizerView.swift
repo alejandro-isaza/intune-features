@@ -46,12 +46,13 @@ public class VMEqualizerView: UIView {
         barRect.origin.x = barBounds.minX
         barRect.size.width = barBounds.width / CGFloat(samplesCount)
 
+        let xScaling = xForFrequencyLinear
         for var sampleIndex = 0; sampleIndex < samplesCount; sampleIndex += 1 {
             let f0 = Float(sampleIndex) * fs
             let f1 = Float(sampleIndex + 1) * fs
 
-            let minX = xForFrequencyMel(f0)
-            let maxX = xForFrequencyMel(f1)
+            let minX = xScaling(f0)
+            let maxX = xScaling(f1)
 
             let dbValue = 10 * log10(Double(samples[sampleIndex]) + DBL_EPSILON)
             var value = (dbValue - decibelGround) / -decibelGround

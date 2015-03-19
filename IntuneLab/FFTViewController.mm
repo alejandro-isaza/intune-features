@@ -6,7 +6,9 @@
 
 #include <tempo/modules/Converter.h>
 #include <tempo/modules/FFTModule.h>
+#include <tempo/modules/FixedData.h>
 #include <tempo/modules/HammingWindow.h>
+#include <tempo/modules/PeakExtraction.h>
 #include <tempo/modules/PollingModule.h>
 #include <tempo/modules/ReadFromFileModule.h>
 #include <tempo/modules/WindowingModule.h>
@@ -40,6 +42,7 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 
 @implementation FFTViewController {
     std::unique_ptr<DataType[]> _data;
+    std::unique_ptr<bool[]> _peaks;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
@@ -147,15 +150,33 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     auto pollingModule = std::make_shared<PollingModule<DataType>>();
     pollingModule->setSource(fftModule);
 
+
     const auto dataLength = (fileLength / hopSize) * windowSize;
 
+    // Render spectrogram
     _data.reset(new DataType[dataLength]);
     PointerBuffer<DataType> buffer(_data.get(), dataLength);
     auto rendered = pollingModule->render(buffer);
+
+
+    // Render peaks
+    auto fixedData = std::make_shared<FixedData<DataType>>(_data.get(), rendered);
+    auto window = std::make_shared<WindowingModule<DataType>>(windowSize/2, windowSize/2);
+    window->setSource(fixedData);
+    auto peakExtraction = std::make_shared<PeakExtraction<DataType>>(windowSize/2);
+    peakExtraction->setSource(window);
+    auto peakPolling = std::make_shared<PollingModule<bool>>();
+    peakPolling->setSource(peakExtraction);
+
+    _peaks.reset(new bool[rendered]);
+    PointerBuffer<bool> peakBuffer(_peaks.get(), rendered);
+    peakPolling->render(peakBuffer);
+
     dispatch_sync(dispatch_get_main_queue(), ^() {
         self.spectrogramView.sampleTimeLength = _hopTime;
         self.spectrogramView.frequencyCount = windowSize / 2;
         [self.spectrogramView setSamples:_data.get() count:rendered];
+        self.spectrogramView.peaks = _peaks.get();
     });
 }
 
