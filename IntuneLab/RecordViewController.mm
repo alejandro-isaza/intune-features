@@ -20,7 +20,7 @@ static const std::size_t kPacketSize = 1024;
 @property(nonatomic, weak) IBOutlet UITextField *filenameTextField;
 
 @property(nonatomic) std::shared_ptr<MicrophoneModule> microphoneModule;
-@property(nonatomic) std::shared_ptr<AccumulatorModule> accumulatorModule;
+@property(nonatomic) std::shared_ptr<AccumulatorModule<MicrophoneModule::DataType>> accumulatorModule;
 @property(nonatomic) std::shared_ptr<SaveToFileModule> fileWriter;
 
 @end
@@ -96,7 +96,7 @@ static const std::size_t kPacketSize = 1024;
     });
 
     std::size_t capacity = kSampleRate * kWaveformMaxDuration;
-    _accumulatorModule.reset(new AccumulatorModule(capacity));
+    _accumulatorModule.reset(new AccumulatorModule<MicrophoneModule::DataType>(capacity));
     _accumulatorModule->setSource(_microphoneModule);
 }
 

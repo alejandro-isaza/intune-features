@@ -131,13 +131,13 @@ static const SizeType kMaxDataSize = 128*1024*1024;
         });
     }
 
-    auto windowingModule = std::make_shared<WindowingModule>(windowSize, hopSize);
+    auto windowingModule = std::make_shared<WindowingModule<DataType>>(windowSize, hopSize);
     windowingModule->setSource(fileModule);
 
-    auto windowModule = std::make_shared<HammingWindow>();
+    auto windowModule = std::make_shared<HammingWindow<DataType>>();
     windowModule->setSource(windowingModule);
 
-    auto fftModule = std::make_shared<FFTModule>(windowSize);
+    auto fftModule = std::make_shared<FFTModule<DataType>>(windowSize);
     fftModule->setSource(windowModule);
 
     auto pollingModule = std::make_shared<PollingModule<DataType>>();

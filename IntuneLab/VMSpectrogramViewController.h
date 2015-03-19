@@ -4,9 +4,6 @@
 
 #include <tempo/modules/ReadFromFileModule.h>
 
-using namespace tempo;
-using DataType = ReadFromFileModule::DataType;
-using SizeType = SourceModule<DataType>::SizeType;
 
 @interface VMSpectrogramViewController : UIViewController
 
@@ -18,7 +15,7 @@ using SizeType = SourceModule<DataType>::SizeType;
 
 + (instancetype)create;
 
-- (void)getData:(DataType**)data count:(NSInteger*)count;
+- (void)getData:(void**)data count:(NSInteger*)count;
 - (void)scrollBy:(CGFloat)dx;
 
 @end

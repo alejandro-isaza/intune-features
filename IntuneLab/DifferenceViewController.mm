@@ -48,10 +48,10 @@
 }
 
 - (void)calculateDifference {
-    DataType* topData = nullptr;
+    void* topData = nullptr;
     [_spectrogramViewControllerTop getData:&topData count:nil];
 
-    DataType* bottomData = nullptr;
+    void* bottomData = nullptr;
     [_spectrogramViewControllerBottom getData:&bottomData count:nil];
 
     /*

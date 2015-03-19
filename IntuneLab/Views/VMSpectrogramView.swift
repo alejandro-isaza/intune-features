@@ -52,7 +52,7 @@ internal class VMSpectrogramView: UIScrollView {
     @IBInspectable var lowColor: UIColor = UIColor.whiteColor()
     @IBInspectable var highColor: UIColor = UIColor.blueColor()
 
-    private(set) internal var samples: UnsafePointer<Float> = UnsafePointer<Float>()
+    private(set) internal var samples: UnsafePointer<Float> = nil
     private(set) internal var sampleCount: Int = 0
 
     func setSamples(samples: UnsafePointer<Float>, count: Int) {

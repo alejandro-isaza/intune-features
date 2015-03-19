@@ -161,10 +161,8 @@
 		6171BEEB1A16C283004AB274 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6171BEEA1A16C283004AB274 /* Accelerate.framework */; };
 		6171BEF41A16DB0E004AB274 /* RecordViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEF31A16DB0E004AB274 /* RecordViewController.mm */; };
 		61A81D711AB0E63C00E230A6 /* FloatConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D5E1AB0E63C00E230A6 /* FloatConverter.cpp */; };
-		61A81D721AB0E63C00E230A6 /* AccumulatorModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D611AB0E63C00E230A6 /* AccumulatorModule.cpp */; };
 		61A81D731AB0E63C00E230A6 /* DownsampleModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D631AB0E63C00E230A6 /* DownsampleModule.cpp */; };
 		61A81D741AB0E63C00E230A6 /* EnergyModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D651AB0E63C00E230A6 /* EnergyModule.cpp */; };
-		61A81D751AB0E63C00E230A6 /* FFTModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D671AB0E63C00E230A6 /* FFTModule.cpp */; };
 		61A81D761AB0E63C00E230A6 /* MeanModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D691AB0E63C00E230A6 /* MeanModule.cpp */; };
 		61A81D771AB0E63C00E230A6 /* MicrophoneModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D6B1AB0E63C00E230A6 /* MicrophoneModule.cpp */; };
 		61A81D781AB0E63C00E230A6 /* RMSModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D6D1AB0E63C00E230A6 /* RMSModule.cpp */; };
@@ -172,8 +170,6 @@
 		61A81D7C1AB0E64E00E230A6 /* libtempo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A81D461AB0E62400E230A6 /* libtempo.a */; };
 		61A81D7E1AB1015D00E230A6 /* VMEqualizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D7D1AB1015D00E230A6 /* VMEqualizerView.swift */; };
 		61A81D811AB103C600E230A6 /* FFTViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D801AB103C600E230A6 /* FFTViewController.mm */; };
-		61BE11C51AB773CB00BF2F6F /* WindowingModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61BE11C01AB773CB00BF2F6F /* WindowingModule.cpp */; };
-		61BE11C61AB773CB00BF2F6F /* HammingWindow.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61BE11C11AB773CB00BF2F6F /* HammingWindow.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -584,6 +580,12 @@
 		00EFC4C21AAF8DF3000C1D5B /* liblxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblxml.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		00EFC4E51AAF8E73000C1D5B /* libmxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libmxml.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		610325151AB7AAA300E4E3D3 /* VMSpectrogramView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMSpectrogramView.swift; sourceTree = "<group>"; };
+		6157FC951ABA4CD7008C0D0D /* FixedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FixedData.h; sourceTree = "<group>"; };
+		6157FC991ABB5568008C0D0D /* WindowingModule.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WindowingModule.hpp; sourceTree = "<group>"; };
+		6157FC9B1ABB5568008C0D0D /* Mixer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Mixer.hpp; sourceTree = "<group>"; };
+		6157FC9C1ABB5568008C0D0D /* HammingWindow.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HammingWindow.hpp; sourceTree = "<group>"; };
+		6157FC9D1ABB5568008C0D0D /* AccumulatorModule.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AccumulatorModule.hpp; sourceTree = "<group>"; };
+		6157FC9E1ABB5568008C0D0D /* FFTModule.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FFTModule.hpp; sourceTree = "<group>"; };
 		6171BD3F1A16BCC4004AB274 /* IntuneLab.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IntuneLab.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6171BD431A16BCC4004AB274 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6171BD441A16BCC4004AB274 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -605,13 +607,11 @@
 		61A81D461AB0E62400E230A6 /* libtempo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libtempo.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		61A81D5E1AB0E63C00E230A6 /* FloatConverter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FloatConverter.cpp; sourceTree = "<group>"; };
 		61A81D5F1AB0E63C00E230A6 /* FloatConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloatConverter.h; sourceTree = "<group>"; };
-		61A81D611AB0E63C00E230A6 /* AccumulatorModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AccumulatorModule.cpp; sourceTree = "<group>"; };
 		61A81D621AB0E63C00E230A6 /* AccumulatorModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccumulatorModule.h; sourceTree = "<group>"; };
 		61A81D631AB0E63C00E230A6 /* DownsampleModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DownsampleModule.cpp; sourceTree = "<group>"; };
 		61A81D641AB0E63C00E230A6 /* DownsampleModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DownsampleModule.h; sourceTree = "<group>"; };
 		61A81D651AB0E63C00E230A6 /* EnergyModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = EnergyModule.cpp; sourceTree = "<group>"; };
 		61A81D661AB0E63C00E230A6 /* EnergyModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EnergyModule.h; sourceTree = "<group>"; };
-		61A81D671AB0E63C00E230A6 /* FFTModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FFTModule.cpp; sourceTree = "<group>"; };
 		61A81D681AB0E63C00E230A6 /* FFTModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTModule.h; sourceTree = "<group>"; };
 		61A81D691AB0E63C00E230A6 /* MeanModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MeanModule.cpp; sourceTree = "<group>"; };
 		61A81D6A1AB0E63C00E230A6 /* MeanModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MeanModule.h; sourceTree = "<group>"; };
@@ -627,8 +627,6 @@
 		61A81D8D1AB218DA00E230A6 /* SineWaveGeneratorModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SineWaveGeneratorModule.h; sourceTree = "<group>"; };
 		61A81D911AB2607300E230A6 /* SourceModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SourceModule.h; sourceTree = "<group>"; };
 		61BE11BF1AB773CB00BF2F6F /* PollingModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PollingModule.h; sourceTree = "<group>"; };
-		61BE11C01AB773CB00BF2F6F /* WindowingModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = WindowingModule.cpp; sourceTree = "<group>"; };
-		61BE11C11AB773CB00BF2F6F /* HammingWindow.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = HammingWindow.cpp; sourceTree = "<group>"; };
 		61BE11C21AB773CB00BF2F6F /* HammingWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HammingWindow.h; sourceTree = "<group>"; };
 		61BE11C31AB773CB00BF2F6F /* Mixer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mixer.h; sourceTree = "<group>"; };
 		61BE11C41AB773CB00BF2F6F /* WindowingModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowingModule.h; sourceTree = "<group>"; };
@@ -1204,21 +1202,23 @@
 		61A81D601AB0E63C00E230A6 /* modules */ = {
 			isa = PBXGroup;
 			children = (
-				61A81D611AB0E63C00E230A6 /* AccumulatorModule.cpp */,
 				61A81D621AB0E63C00E230A6 /* AccumulatorModule.h */,
+				6157FC9D1ABB5568008C0D0D /* AccumulatorModule.hpp */,
 				61A81D631AB0E63C00E230A6 /* DownsampleModule.cpp */,
 				61A81D641AB0E63C00E230A6 /* DownsampleModule.h */,
 				61A81D651AB0E63C00E230A6 /* EnergyModule.cpp */,
 				61A81D661AB0E63C00E230A6 /* EnergyModule.h */,
-				61A81D671AB0E63C00E230A6 /* FFTModule.cpp */,
 				61A81D681AB0E63C00E230A6 /* FFTModule.h */,
-				61BE11C11AB773CB00BF2F6F /* HammingWindow.cpp */,
+				6157FC9E1ABB5568008C0D0D /* FFTModule.hpp */,
+				6157FC951ABA4CD7008C0D0D /* FixedData.h */,
 				61BE11C21AB773CB00BF2F6F /* HammingWindow.h */,
+				6157FC9C1ABB5568008C0D0D /* HammingWindow.hpp */,
 				61A81D691AB0E63C00E230A6 /* MeanModule.cpp */,
 				61A81D6A1AB0E63C00E230A6 /* MeanModule.h */,
 				61A81D6B1AB0E63C00E230A6 /* MicrophoneModule.cpp */,
 				61A81D6C1AB0E63C00E230A6 /* MicrophoneModule.h */,
 				61BE11C31AB773CB00BF2F6F /* Mixer.h */,
+				6157FC9B1ABB5568008C0D0D /* Mixer.hpp */,
 				61BE11BF1AB773CB00BF2F6F /* PollingModule.h */,
 				00E638AA1AB8F4F100F5B4C5 /* ReadFromFileModule.cpp */,
 				00E638AB1AB8F4F100F5B4C5 /* ReadFromFileModule.h */,
@@ -1228,8 +1228,8 @@
 				61A81D701AB0E63C00E230A6 /* SaveToFileModule.h */,
 				61A81D8D1AB218DA00E230A6 /* SineWaveGeneratorModule.h */,
 				61A81D911AB2607300E230A6 /* SourceModule.h */,
-				61BE11C01AB773CB00BF2F6F /* WindowingModule.cpp */,
 				61BE11C41AB773CB00BF2F6F /* WindowingModule.h */,
+				6157FC991ABB5568008C0D0D /* WindowingModule.hpp */,
 			);
 			path = modules;
 			sourceTree = "<group>";
@@ -1577,13 +1577,9 @@
 			files = (
 				61A81D791AB0E63C00E230A6 /* SaveToFileModule.cpp in Sources */,
 				61A81D771AB0E63C00E230A6 /* MicrophoneModule.cpp in Sources */,
-				61A81D751AB0E63C00E230A6 /* FFTModule.cpp in Sources */,
 				61A81D731AB0E63C00E230A6 /* DownsampleModule.cpp in Sources */,
-				61BE11C51AB773CB00BF2F6F /* WindowingModule.cpp in Sources */,
 				61A81D761AB0E63C00E230A6 /* MeanModule.cpp in Sources */,
 				61A81D741AB0E63C00E230A6 /* EnergyModule.cpp in Sources */,
-				61A81D721AB0E63C00E230A6 /* AccumulatorModule.cpp in Sources */,
-				61BE11C61AB773CB00BF2F6F /* HammingWindow.cpp in Sources */,
 				61A81D781AB0E63C00E230A6 /* RMSModule.cpp in Sources */,
 				61A81D711AB0E63C00E230A6 /* FloatConverter.cpp in Sources */,
 			);
