@@ -5,6 +5,7 @@
 
 #import "VMFilePickerController.h"
 
+#include <tempo/modules/Converter.h>
 #include <tempo/modules/FFTModule.h>
 #include <tempo/modules/HammingWindow.h>
 #include <tempo/modules/PollingModule.h>
@@ -12,7 +13,7 @@
 
 
 using namespace tempo;
-using DataType = ReadFromFileModule::DataType;
+using DataType = double;
 using SizeType = SourceModule<DataType>::SizeType;
 
 static const double kSampleRate = 44100;
@@ -90,6 +91,9 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     auto fileModule = std::make_shared<ReadFromFileModule>(self.filePath.UTF8String);
     const auto fileLength = fileModule->lengthInFrames();
 
+    auto converter = std::make_shared<Converter<ReadFromFileModule::DataType, DataType>>();
+    converter->setSource(fileModule);
+
     const auto windowSize = static_cast<SizeType>(_windowTime * kSampleRate);
     auto hopSize = static_cast<SizeType>(_hopTime * kSampleRate);
     if (fileLength / hopSize >= kMaxDataSize / windowSize) {
@@ -98,7 +102,7 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     }
 
     auto windowingModule = std::make_shared<WindowingModule<DataType>>(windowSize, hopSize);
-    windowingModule->setSource(fileModule);
+    windowingModule->setSource(converter);
 
     auto windowModule = std::make_shared<HammingWindow<DataType>>();
     windowModule->setSource(windowingModule);

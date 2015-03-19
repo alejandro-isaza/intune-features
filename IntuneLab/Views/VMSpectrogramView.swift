@@ -52,10 +52,9 @@ internal class VMSpectrogramView: UIScrollView {
     @IBInspectable var lowColor: UIColor = UIColor.whiteColor()
     @IBInspectable var highColor: UIColor = UIColor.blueColor()
 
-    private(set) internal var samples: UnsafePointer<Float> = nil
+    private(set) internal var samples: UnsafePointer<Double> = nil
     private(set) internal var sampleCount: Int = 0
-
-    func setSamples(samples: UnsafePointer<Float>, count: Int) {
+    func setSamples(samples: UnsafePointer<Double>, count: Int) {
         self.samples = samples
         sampleCount = count
         setNeedsLayout()
@@ -148,7 +147,8 @@ internal class VMSpectrogramView: UIScrollView {
                 barRect.origin.y = minY
                 barRect.size.height = maxY - minY
 
-                let dbValue = 10 * log10(Double(samples[fi + t * frequencyCount]) + DBL_EPSILON)
+                let index = fi + t * frequencyCount
+                let dbValue = 10.0 * log10(samples[index])
                 setFillColorForDecibel(dbValue)
                 CGContextFillRect(context, barRect)
             }

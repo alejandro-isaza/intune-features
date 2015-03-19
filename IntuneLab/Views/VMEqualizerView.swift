@@ -26,10 +26,10 @@ public class VMEqualizerView: UIView {
 
     @IBInspectable var barColor: UIColor = UIColor.blueColor()
 
-    private(set) internal var samples: UnsafePointer<Float> = UnsafePointer<Float>()
+    private(set) internal var samples: UnsafePointer<Double> = nil
     private(set) internal var samplesCount: Int = 0
 
-    func setSamples(samples: UnsafePointer<Float>, count: Int) {
+    func setSamples(samples: UnsafePointer<Double>, count: Int) {
         self.samples = samples
         samplesCount = count
         setNeedsDisplay()
