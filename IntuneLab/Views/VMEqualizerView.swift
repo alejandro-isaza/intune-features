@@ -8,53 +8,88 @@ import UIKit
 public class VMEqualizerView: UIView {
     let decay: Float = 0.1
 
-    var gridColor: UIColor = UIColor.blackColor()
-    var barColor: UIColor = UIColor.blueColor()
+    /// The sample rate of the audio data
+    var sampleRate: Float = 44100
 
-    private var samples: [Float] = []
-    private var samplesCount: Int = 0
+    /// The maximum frequency to display
+    let minFrequency: Float = 20
 
-    public func setSamples(newSamples: UnsafePointer<Float>, count: Int) {
-        if count > samplesCount {
-            self.samples = [Float](count: count, repeatedValue: 0)
-            for var i = 0; i < count; i += 1 {
-                samples[i] = newSamples[i]
-            }
-            samplesCount = count
-        } else {
-            for var i = 0; i < count; i += 1 {
-                let newSample = newSamples[i] * 100
-                if newSample >= 1 {
-                    samples[i] = 1
-                } else if newSample > samples[i] {
-                    samples[i] = newSample
-                } else if samples[i] >= decay {
-                    samples[i] -= decay
-                } else {
-                    samples[i] = 0
-                }
-            }
+    /// The minimum frequency to display
+    let maxFrequency: Float = 8000
+
+    /// The minimum decibel value to display
+    var decibelGround: Double = -100 {
+        didSet {
+            setNeedsDisplay()
         }
+    }
+
+    @IBInspectable var barColor: UIColor = UIColor.blueColor()
+
+    private(set) internal var samples: UnsafePointer<Float> = UnsafePointer<Float>()
+    private(set) internal var samplesCount: Int = 0
+
+    func setSamples(samples: UnsafePointer<Float>, count: Int) {
+        self.samples = samples
+        samplesCount = count
         setNeedsDisplay()
     }
 
     override public func drawRect(rect: CGRect) {
-        let context = UIGraphicsGetCurrentContext()
-        let barBounds = CGRectInset(bounds, 20, 20)
+        let fs = sampleRate / Float(samplesCount)
 
-        gridColor.setStroke()
-        CGContextSetLineWidth(context, 1)
-        CGContextStrokeRect(context, barBounds)
+        let context = UIGraphicsGetCurrentContext()
+        let barBounds = bounds
 
         barColor.setFill()
         var barRect = CGRect()
         barRect.origin.x = barBounds.minX
-        barRect.size.width = bounds.width / CGFloat(samplesCount)
+        barRect.size.width = barBounds.width / CGFloat(samplesCount)
+
         for var sampleIndex = 0; sampleIndex < samplesCount; sampleIndex += 1 {
-            barRect.size.height = sqrt(CGFloat(samples[sampleIndex])) * barBounds.height
+            let f0 = Float(sampleIndex) * fs
+            let f1 = Float(sampleIndex + 1) * fs
+
+            let minX = xForFrequencyMel(f0)
+            let maxX = xForFrequencyMel(f1)
+
+            let dbValue = 10 * log10(Double(samples[sampleIndex]) + DBL_EPSILON)
+            var value = (dbValue - decibelGround) / -decibelGround
+            if value < 0 {
+                value = 0
+            }
+
+            barRect.size.height = CGFloat(value) * barBounds.height
+            barRect.size.width = maxX - minX
             barRect.origin.y = barBounds.maxY - barRect.height
+            barRect.origin.x = minX
+
             CGContextFillRect(context, barRect)
-            barRect.origin.x += barRect.width
+
         }
+    }
+
+    func xForFrequencyMel(f: Float) -> CGFloat {
+        if f < minFrequency {
+            return bounds.width
+        }
+        if f >= maxFrequency {
+            return 0
+        }
+
+        let minM = 2595.0 * log10(1 + minFrequency/700.0)
+        let maxM = 2595.0 * log10(1 + maxFrequency/700.0)
+        let m = 2595.0 * log10(1 + f/700.0)
+        return bounds.width * (1 - CGFloat(m - minM) / CGFloat(maxM - minM))
+    }
+
+    func xForFrequencyLinear(f: Float) -> CGFloat {
+        if f < minFrequency {
+            return bounds.width
+        }
+        if f >= maxFrequency {
+            return 0
+        }
+        return bounds.width * (1 - CGFloat(f - minFrequency) / CGFloat(maxFrequency - minFrequency))
     }
 }

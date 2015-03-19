@@ -142,6 +142,9 @@
 		00AF6DD51AAF9222006525F5 /* StringUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00AF6D591AAF9222006525F5 /* StringUtility.cpp */; };
 		00AF6DD81AAF92A7006525F5 /* MXMLViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00AF6DD71AAF92A7006525F5 /* MXMLViewController.mm */; };
 		00BF7B6C1AB9E638003A31A7 /* XML in Resources */ = {isa = PBXBuildFile; fileRef = 00BF7B6B1AB9E638003A31A7 /* XML */; };
+		00BF7B6F1ABA413A003A31A7 /* DifferenceViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00BF7B6E1ABA413A003A31A7 /* DifferenceViewController.mm */; };
+		00BF7B731ABA4577003A31A7 /* VMSpectrogramViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00BF7B721ABA4577003A31A7 /* VMSpectrogramViewController.xib */; };
+		00BF7B761ABA469D003A31A7 /* VMSpectrogramViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00BF7B751ABA469D003A31A7 /* VMSpectrogramViewController.mm */; };
 		00E638A21AB8DC9B00F5B4C5 /* WaveformViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00E638A11AB8DC9B00F5B4C5 /* WaveformViewController.mm */; };
 		00E638A51AB8E54C00F5B4C5 /* VMFilePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E638A41AB8E54C00F5B4C5 /* VMFilePickerController.m */; };
 		00E638A91AB8F13500F5B4C5 /* Audio in Resources */ = {isa = PBXBuildFile; fileRef = 00E638A81AB8F13500F5B4C5 /* Audio */; };
@@ -565,6 +568,11 @@
 		00AF6DD61AAF92A7006525F5 /* MXMLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXMLViewController.h; sourceTree = "<group>"; };
 		00AF6DD71AAF92A7006525F5 /* MXMLViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MXMLViewController.mm; sourceTree = "<group>"; };
 		00BF7B6B1AB9E638003A31A7 /* XML */ = {isa = PBXFileReference; lastKnownFileType = folder; name = XML; path = Resources/XML; sourceTree = "<group>"; };
+		00BF7B6D1ABA413A003A31A7 /* DifferenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DifferenceViewController.h; sourceTree = "<group>"; };
+		00BF7B6E1ABA413A003A31A7 /* DifferenceViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DifferenceViewController.mm; sourceTree = "<group>"; };
+		00BF7B721ABA4577003A31A7 /* VMSpectrogramViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VMSpectrogramViewController.xib; path = Views/VMSpectrogramViewController.xib; sourceTree = "<group>"; };
+		00BF7B741ABA469D003A31A7 /* VMSpectrogramViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMSpectrogramViewController.h; sourceTree = "<group>"; };
+		00BF7B751ABA469D003A31A7 /* VMSpectrogramViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VMSpectrogramViewController.mm; sourceTree = "<group>"; };
 		00E638A01AB8DC9B00F5B4C5 /* WaveformViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveformViewController.h; sourceTree = "<group>"; };
 		00E638A11AB8DC9B00F5B4C5 /* WaveformViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WaveformViewController.mm; sourceTree = "<group>"; };
 		00E638A31AB8E54C00F5B4C5 /* VMFilePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VMFilePickerController.h; path = Helpers/VMFilePickerController.h; sourceTree = "<group>"; };
@@ -1117,6 +1125,11 @@
 				61A81D801AB103C600E230A6 /* FFTViewController.mm */,
 				00E638A01AB8DC9B00F5B4C5 /* WaveformViewController.h */,
 				00E638A11AB8DC9B00F5B4C5 /* WaveformViewController.mm */,
+				00BF7B6D1ABA413A003A31A7 /* DifferenceViewController.h */,
+				00BF7B6E1ABA413A003A31A7 /* DifferenceViewController.mm */,
+				00BF7B741ABA469D003A31A7 /* VMSpectrogramViewController.h */,
+				00BF7B751ABA469D003A31A7 /* VMSpectrogramViewController.mm */,
+				00BF7B721ABA4577003A31A7 /* VMSpectrogramViewController.xib */,
 				00AF6DD91AAF9712006525F5 /* Resources */,
 				6171BD421A16BCC4004AB274 /* Supporting Files */,
 			);
@@ -1370,6 +1383,7 @@
 				0086859F1AB1148F00F415A2 /* VMPianoRollViewController.xib in Resources */,
 				0086856C1AB10C1400F415A2 /* Images.xcassets in Resources */,
 				008685A31AB114B400F415A2 /* Main.storyboard in Resources */,
+				00BF7B731ABA4577003A31A7 /* VMSpectrogramViewController.xib in Resources */,
 				00E638A91AB8F13500F5B4C5 /* Audio in Resources */,
 				00BF7B6C1AB9E638003A31A7 /* XML in Resources */,
 			);
@@ -1538,7 +1552,9 @@
 				008685651AB10B4B00F415A2 /* VMPianoRollViewController.swift in Sources */,
 				61A81D811AB103C600E230A6 /* FFTViewController.mm in Sources */,
 				6171BEF41A16DB0E004AB274 /* RecordViewController.mm in Sources */,
+				00BF7B6F1ABA413A003A31A7 /* DifferenceViewController.mm in Sources */,
 				00E638AC1AB8F4F100F5B4C5 /* ReadFromFileModule.cpp in Sources */,
+				00BF7B761ABA469D003A31A7 /* VMSpectrogramViewController.mm in Sources */,
 				6171BD4B1A16BCC4004AB274 /* MasterViewController.m in Sources */,
 				00E638A21AB8DC9B00F5B4C5 /* WaveformViewController.mm in Sources */,
 				008685681AB10B8A00F415A2 /* VMWaveformView.swift in Sources */,

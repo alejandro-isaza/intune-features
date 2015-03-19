@@ -13,7 +13,7 @@ internal class VMSpectrogramView: UIScrollView {
     let maxFrequency: Float = 8000
 
     /// The minimum decibel value to display
-    var decibelGround: Float = -100 {
+    var decibelGround: Double = -100 {
         didSet {
             setNeedsDisplay()
         }
@@ -49,11 +49,18 @@ internal class VMSpectrogramView: UIScrollView {
     private var timeScaleBegan = NSTimeInterval()
 
     @IBInspectable var gridColor: UIColor = UIColor.grayColor()
-    @IBInspectable var lowColor: UIColor = UIColor.blueColor()
+    @IBInspectable var lowColor: UIColor = UIColor.whiteColor()
     @IBInspectable var highColor: UIColor = UIColor.blueColor()
 
-    private var samples: UnsafePointer<Float> = UnsafePointer<Float>()
+    private(set) internal var samples: UnsafePointer<Float> = UnsafePointer<Float>()
     private(set) internal var sampleCount: Int = 0
+
+    func setSamples(samples: UnsafePointer<Float>, count: Int) {
+        self.samples = samples
+        sampleCount = count
+        setNeedsLayout()
+    }
+
 
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
@@ -65,13 +72,15 @@ internal class VMSpectrogramView: UIScrollView {
         setup()
     }
 
-    func setSamples(samples: UnsafePointer<Float>, count: Int) {
-        self.samples = samples
-        sampleCount = count
-        setNeedsLayout()
+
+    func sampleOffsetAtLocation(location: CGPoint) -> Int {
+        let sampleOffsetInPoints = contentOffset.x + location.x
+        let sampleWidth = bounds.width * CGFloat(sampleTimeLength / timeScale)
+        let sampleOffset = Int(round(sampleOffsetInPoints / sampleWidth))
+        return sampleOffset
     }
 
-    private func setup() {
+    internal func setup() {
         backgroundColor = UIColor.whiteColor()
 
         // UIScrollView zoom requires a content subview, because the pianoroll subview would be
@@ -99,6 +108,7 @@ internal class VMSpectrogramView: UIScrollView {
     }
 
     internal override func layoutSubviews() {
+        contentInset.top = 0
         contentSize.height = bounds.height
         contentSize.width = bounds.width * CGFloat(timeLength / timeScale)
         setNeedsDisplay()
@@ -138,7 +148,7 @@ internal class VMSpectrogramView: UIScrollView {
                 barRect.origin.y = minY
                 barRect.size.height = maxY - minY
 
-                let dbValue = 10 * log10(samples[fi + t * frequencyCount])
+                let dbValue = 10 * log10(Double(samples[fi + t * frequencyCount]) + DBL_EPSILON)
                 setFillColorForDecibel(dbValue)
                 CGContextFillRect(context, barRect)
             }
@@ -171,7 +181,7 @@ internal class VMSpectrogramView: UIScrollView {
         return bounds.height * (1 - CGFloat(f - minFrequency) / CGFloat(maxFrequency - minFrequency))
     }
 
-    func setFillColorForDecibel(dbValue: Float) {
+    func setFillColorForDecibel(dbValue: Double) {
         var value = (dbValue - decibelGround) / -decibelGround
         if value < 0 {
             value = 0

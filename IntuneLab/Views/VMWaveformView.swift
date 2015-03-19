@@ -7,9 +7,10 @@ import UIKit
   individual pixel.
 */
 public class VMWaveformView: UIView {
+    @IBInspectable var lineColor: UIColor?
+
     var alignment: Int = 1 // 0 = Leading, !0 = Trailing
     var lineWidth: CGFloat = 1.0
-    var lineColor: UIColor?
     var samplesPerPoint: CGFloat = 500
 
     private var samples: UnsafePointer<Float> = nil
