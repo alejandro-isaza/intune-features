@@ -24,11 +24,9 @@
 #pragma mark - Segues
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    if ([[segue identifier] isEqualToString:@"showDetail"]) {
-        UIViewController *detailController =  [[segue destinationViewController] topViewController];
-        detailController.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
-        detailController.navigationItem.leftItemsSupplementBackButton = YES;
-    }
+    UIViewController *detailController =  [[segue destinationViewController] topViewController];
+    detailController.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
+    detailController.navigationItem.leftItemsSupplementBackButton = YES;
 }
 
 @end
