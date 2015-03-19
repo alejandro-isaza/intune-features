@@ -53,8 +53,22 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
     _spectrogramView.delegate = self;
+}
+
+- (void)setWindowTime:(NSTimeInterval)windowTime hopTime:(NSTimeInterval)hopTime {
+    _windowTime = windowTime;
+    _hopTime = hopTime;
+    dispatch_async(_queue, ^() {
+        [self render];
+    });
+}
+
+- (void)setDecibelGround:(double)decibelGround {
+    _spectrogramView.decibelGround = decibelGround;
+    dispatch_async(_queue, ^() {
+        [self render];
+    });
 }
 
 - (void)getData:(DataType**)data count:(NSInteger*)count {
@@ -99,6 +113,7 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     if (fileLength / hopSize >= kMaxDataSize / windowSize) {
         hopSize = static_cast<decltype(hopSize)>(static_cast<uint64_t>(fileLength) * static_cast<uint64_t>(windowSize) / kMaxDataSize);
         _hopTime = static_cast<NSTimeInterval>(hopSize) / kSampleRate;
+        // TODO: Update settings view controller
     }
 
     auto windowingModule = std::make_shared<WindowingModule<DataType>>(windowSize, hopSize);
@@ -115,10 +130,12 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 
     const auto dataLength = (fileLength / hopSize) * windowSize;
 
-    _data.reset(new DataType[dataLength]);
-    PointerBuffer<DataType> buffer(_data.get(), dataLength);
-    auto rendered = pollingModule->render(buffer);
     dispatch_sync(dispatch_get_main_queue(), ^() {
+        // Fill buffer on main thread or we may write over a buffer being drawn
+        _data.reset(new DataType[dataLength]);
+        PointerBuffer<DataType> buffer(_data.get(), dataLength);
+        auto rendered = pollingModule->render(buffer);
+        
         self.spectrogramView.sampleTimeLength = _hopTime;
         self.spectrogramView.frequencyCount = windowSize / 2;
         [self.spectrogramView setSamples:_data.get() count:rendered];
@@ -135,13 +152,8 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 #pragma mark - Gestures
 
 - (IBAction)handleTap:(UITapGestureRecognizer *)sender {
-    NSLog(@"tap");
-
     CGPoint tapLocation = [sender locationInView:_spectrogramView];
     NSInteger sampleOffset = [_spectrogramView sampleOffsetAtLocation:tapLocation];
-
-
-    NSLog(@"tapLocation = %@, sampleOffset = %d", NSStringFromCGPoint(tapLocation), sampleOffset);
 
     DataType* start = _data.get() + (sampleOffset * _spectrogramView.frequencyCount);
     [_equalizerView setSamples:start count:_spectrogramView.frequencyCount];

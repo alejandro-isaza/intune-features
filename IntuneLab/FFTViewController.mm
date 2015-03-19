@@ -1,8 +1,10 @@
 //  Copyright (c) 2015 Venture Media Labs. All rights reserved.
 
 #import "FFTViewController.h"
-#import "VMFilePickerController.h"
 #import "IntuneLab-Swift.h"
+
+#import "VMFilePickerController.h"
+#import "FFTSettingsViewController.h"
 
 #include <tempo/modules/Converter.h>
 #include <tempo/modules/FFTModule.h>
@@ -19,19 +21,14 @@ using SizeType = SourceModule<DataType>::SizeType;
 
 
 static const double kSampleRate = 44100;
-static const NSTimeInterval kMaxDuration = 5;
 static const SizeType kMaxDataSize = 128*1024*1024;
 
 
 @interface FFTViewController ()
 
+@property(nonatomic, strong) FFTSettingsViewController* settingsViewController;
+@property(nonatomic, weak) IBOutlet UIView* settingsViewContainer;
 @property(nonatomic, weak) IBOutlet VMSpectrogramView* spectrogramView;
-@property(nonatomic, weak) IBOutlet UISlider* windowSlider;
-@property(nonatomic, weak) IBOutlet UISlider* hopSlider;
-@property(nonatomic, weak) IBOutlet UISlider* groundSlider;
-@property(nonatomic, weak) IBOutlet UITextField* windowTextField;
-@property(nonatomic, weak) IBOutlet UITextField* hopTextField;
-@property(nonatomic, weak) IBOutlet UITextField* groundTextField;
 @property(nonatomic, weak) IBOutlet UIButton* openButton;
 
 @property(nonatomic, strong) dispatch_queue_t queue;
@@ -51,8 +48,6 @@ static const SizeType kMaxDataSize = 128*1024*1024;
         return nil;
 
     _queue = dispatch_queue_create("FFTViewController", DISPATCH_QUEUE_SERIAL);
-    _windowTime = 0.05;
-    _hopTime = _windowTime / 2;
 
     return self;
 }
@@ -60,44 +55,28 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    _settingsViewController = [FFTSettingsViewController createWithSampleRate:kSampleRate];
+    [self addChildViewController:_settingsViewController];
+    _settingsViewController.view.frame = _settingsViewContainer.bounds;
+    [_settingsViewContainer addSubview:_settingsViewController.view];
+    [_settingsViewController didMoveToParentViewController:self];
+
+    __weak FFTViewController *wself = self;
+    _settingsViewController.didChangeTimings = ^(NSTimeInterval windowTime, NSTimeInterval hopTime) {
+        wself.windowTime = windowTime;
+        wself.hopTime = hopTime;
+        dispatch_async(wself.queue, ^() {
+            [wself render];
+        });
+    };
+    _settingsViewController.didChangeDecibelGround = ^(double decibelGround) {
+        wself.spectrogramView.decibelGround = decibelGround;
+    };
+
+    _windowTime = _settingsViewController.windowTime;
+    _hopTime = _settingsViewController.hopTime;
     const auto windowSize = static_cast<SizeType>(_windowTime * kSampleRate);
-    self.spectrogramView.frequencyCount = windowSize / 2;
-
-    self.windowTextField.text = [NSString stringWithFormat:@"%.0fms", _windowTime * 1000.0];
-    self.windowSlider.value = _windowTime * 1000.0;
-    self.hopTextField.text = [NSString stringWithFormat:@"%.0fms", _hopTime * 1000.0];
-    self.hopSlider.value = _hopTime / _windowTime;
-    self.groundTextField.text = [NSString stringWithFormat:@"%.0fdB", _spectrogramView.decibelGround];
-    self.groundSlider.value = _spectrogramView.decibelGround;
-}
-
-- (IBAction)didChangeWindow {
-    _windowTime = self.windowSlider.value / 1000.0;
-    _hopTime = self.hopSlider.value * _windowTime;
-    [self updateParams];
-}
-
-- (IBAction)didChangeHop {
-    _hopTime = self.hopSlider.value * _windowTime;
-    if (_hopTime == 0)
-        _hopTime = 1.0 / kSampleRate;
-    [self updateParams];
-}
-
-- (IBAction)didChangeGround {
-    self.spectrogramView.decibelGround = self.groundSlider.value;
-    self.groundTextField.text = [NSString stringWithFormat:@"%.0fdB", self.spectrogramView.decibelGround];
-}
-
-- (void)updateParams {
-    self.windowTextField.text = [NSString stringWithFormat:@"%.0fms", _windowTime * 1000.0];
-    self.hopTextField.text = [NSString stringWithFormat:@"%.0fms", _hopTime * 1000.0];
-
-    [self.spectrogramView setSamples:NULL count:0];
-
-    dispatch_async(_queue, ^() {
-        [self render];
-    });
+    _spectrogramView.frequencyCount = windowSize / 2;
 }
 
 - (IBAction)openFile:(UIButton*)sender {
@@ -132,9 +111,7 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 
         dispatch_async(dispatch_get_main_queue(), ^{
             _hopTime = static_cast<NSTimeInterval>(hopSize) / kSampleRate;
-            self.hopSlider.value = _hopTime / _windowTime;
-            self.hopSlider.minimumValue = _hopTime / _windowTime;
-            self.hopTextField.text = [NSString stringWithFormat:@"%.0fms", _hopTime * 1000.0];
+            _settingsViewController.hopTime = _hopTime;
         });
     }
 
@@ -150,29 +127,27 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     auto pollingModule = std::make_shared<PollingModule<DataType>>();
     pollingModule->setSource(fftModule);
 
-
     const auto dataLength = (fileLength / hopSize) * windowSize;
 
-    // Render spectrogram
-    _data.reset(new DataType[dataLength]);
-    PointerBuffer<DataType> buffer(_data.get(), dataLength);
-    auto rendered = pollingModule->render(buffer);
-
-
-    // Render peaks
-    auto fixedData = std::make_shared<FixedData<DataType>>(_data.get(), rendered);
-    auto window = std::make_shared<WindowingModule<DataType>>(windowSize/2, windowSize/2);
-    window->setSource(fixedData);
-    auto peakExtraction = std::make_shared<PeakExtraction<DataType>>(windowSize/2);
-    peakExtraction->setSource(window);
-    auto peakPolling = std::make_shared<PollingModule<bool>>();
-    peakPolling->setSource(peakExtraction);
-
-    _peaks.reset(new bool[rendered]);
-    PointerBuffer<bool> peakBuffer(_peaks.get(), rendered);
-    peakPolling->render(peakBuffer);
-
     dispatch_sync(dispatch_get_main_queue(), ^() {
+        // Render spectrogram
+        _data.reset(new DataType[dataLength]);
+        PointerBuffer<DataType> buffer(_data.get(), dataLength);
+        auto rendered = pollingModule->render(buffer);
+
+        // Render peaks
+        auto fixedData = std::make_shared<FixedData<DataType>>(_data.get(), rendered);
+        auto window = std::make_shared<WindowingModule<DataType>>(windowSize/2, windowSize/2);
+        window->setSource(fixedData);
+        auto peakExtraction = std::make_shared<PeakExtraction<DataType>>(windowSize/2);
+        peakExtraction->setSource(window);
+        auto peakPolling = std::make_shared<PollingModule<bool>>();
+        peakPolling->setSource(peakExtraction);
+
+        _peaks.reset(new bool[rendered]);
+        PointerBuffer<bool> peakBuffer(_peaks.get(), rendered);
+        peakPolling->render(peakBuffer);
+
         self.spectrogramView.sampleTimeLength = _hopTime;
         self.spectrogramView.frequencyCount = windowSize / 2;
         [self.spectrogramView setSamples:_data.get() count:rendered];

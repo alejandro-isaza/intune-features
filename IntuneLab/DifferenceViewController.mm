@@ -5,6 +5,7 @@
 
 #import "VMSpectrogramViewController.h"
 #import "VMFilePickerController.h"
+#import "FFTSettingsViewController.h"
 
 @interface DifferenceViewController ()
 
@@ -12,6 +13,7 @@
 @property(nonatomic, strong) VMSpectrogramViewController *spectrogramViewControllerBottom;
 @property(nonatomic, weak) IBOutlet UIView *spectrogramViewContainerTop;
 @property(nonatomic, weak) IBOutlet UIView *spectrogramViewContainerBottom;
+@property(nonatomic, strong) FFTSettingsViewController *settingsViewController;
 
 @end
 
@@ -46,9 +48,29 @@
         [wself calculateDifference];
     };
 
-    // Configure
-    _spectrogramViewControllerTop.windowTime = 0.1;
-    _spectrogramViewControllerBottom.windowTime = 0.1;
+    [self initializeSettings];
+}
+
+- (void)initializeSettings {
+    _settingsViewController = [FFTSettingsViewController createWithSampleRate:44100];
+    _settingsViewController.modalPresentationStyle = UIModalPresentationPopover;
+    _settingsViewController.preferredContentSize = CGSizeMake(600, 150);
+
+    __weak VMSpectrogramViewController* wtop = _spectrogramViewControllerTop;
+    __weak VMSpectrogramViewController* wbottom = _spectrogramViewControllerBottom;
+    _settingsViewController.didChangeTimings = ^(NSTimeInterval windowTime, NSTimeInterval hopTime) {
+        [wtop setWindowTime:windowTime hopTime:hopTime];
+        [wbottom setWindowTime:windowTime hopTime:hopTime];
+    };
+    _settingsViewController.didChangeDecibelGround = ^(double decibelGround) {
+        wtop.decibelGround = decibelGround;
+        wbottom.decibelGround = decibelGround;
+    };
+
+    [_spectrogramViewControllerTop setWindowTime:_settingsViewController.windowTime
+                                         hopTime:_settingsViewController.hopTime];
+    [_spectrogramViewControllerBottom setWindowTime:_settingsViewController.windowTime
+                                            hopTime:_settingsViewController.hopTime];
 }
 
 - (void)calculateDifference {
@@ -64,6 +86,16 @@
      [_distanceView calculateDifference];
      */
 }
+
+- (IBAction)openSettings:(UIButton*)sender {
+    [self presentViewController:_settingsViewController animated:YES completion:nil];
+
+    UIPopoverPresentationController *presentationController = [_settingsViewController popoverPresentationController];
+    presentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
+    presentationController.sourceView = self.view;
+    presentationController.sourceRect = sender.frame;
+}
+
 
 
 @end
