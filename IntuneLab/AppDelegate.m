@@ -3,6 +3,9 @@
 #import "AppDelegate.h"
 #import "RecordViewController.h"
 
+@import AVFoundation;
+
+
 @interface AppDelegate () <UISplitViewControllerDelegate>
 
 @end
@@ -10,12 +13,27 @@
 @implementation AppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
+    [self initializeAudioSession];
+
     // Override point for customization after application launch.
     UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
     UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
     navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
     splitViewController.delegate = self;
     return YES;
+}
+
+- (void)initializeAudioSession {
+    AVAudioSession *audioSession = [AVAudioSession sharedInstance];
+    NSError *error = nil;
+
+    if (![audioSession setCategory:AVAudioSessionCategoryRecord withOptions:AVAudioSessionCategoryOptionAllowBluetooth error:&error]) {
+        NSLog(@"Couldn't set audio session category: %@", error);
+    }
+
+    if (![audioSession setMode:AVAudioSessionModeMeasurement error:&error] ) {
+        NSLog(@"Couldn't set audio session mode: %@", error);
+    }
 }
 
 
