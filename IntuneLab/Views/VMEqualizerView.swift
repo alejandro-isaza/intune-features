@@ -25,14 +25,23 @@ public class VMEqualizerView: UIView {
     }
 
     @IBInspectable var barColor: UIColor = UIColor.blueColor()
+    @IBInspectable var peakColor: UIColor = UIColor.blackColor()
 
     private(set) internal var samples: UnsafePointer<Double> = nil
     private(set) internal var samplesCount: Int = 0
+    private(set) internal var samplesOffset: Int = 0
 
-    func setSamples(samples: UnsafePointer<Double>, count: Int) {
+    func setSamples(samples: UnsafePointer<Double>, count: Int, offset: Int) {
         self.samples = samples
         samplesCount = count
+        samplesOffset = offset
         setNeedsDisplay()
+    }
+    
+    var peaks: UnsafePointer<Bool> = nil {
+        didSet {
+            setNeedsDisplay()
+        }
     }
 
     override public func drawRect(rect: CGRect) {
@@ -65,8 +74,16 @@ public class VMEqualizerView: UIView {
             barRect.origin.y = barBounds.maxY - barRect.height
             barRect.origin.x = minX
 
-            CGContextFillRect(context, barRect)
+            if peaks != nil && peaks[sampleIndex + samplesOffset * samplesCount] {
+                var peakRect = barRect;
+                peakRect.origin.y = 0
+                peakRect.size.height = barBounds.height
+                peakColor.setFill()
+                CGContextFillRect(context, peakRect)
+            }
 
+            barColor.setFill()
+            CGContextFillRect(context, barRect)
         }
     }
 

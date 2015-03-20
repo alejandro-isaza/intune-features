@@ -112,7 +112,7 @@ static const SizeType kMaxDataSize = 128*1024*1024;
         self.spectrogramView.frequencyCount = 0;
         self.spectrogramView.peaks = nullptr;
         [self.spectrogramView setSamples:nullptr count:0];
-        [self.equalizerView setSamples:nullptr count:0];
+        [self.equalizerView setSamples:nullptr count:0 offset:0];
     });
 
     auto fileModule = std::make_shared<ReadFromFileModule>(self.filePath.UTF8String);
@@ -162,7 +162,6 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     peakPolling->render(peakBuffer);
 
     dispatch_sync(dispatch_get_main_queue(), ^() {
-        // Fill buffers on main thread or we may write over a buffer being drawn
         self.spectrogramView.sampleTimeLength = _hopTime;
         self.spectrogramView.frequencyCount = windowSize / 2;
         [self.spectrogramView setSamples:_data.get() count:rendered];
@@ -172,9 +171,10 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 }
 
 - (void)updateEqualizer {
-    NSInteger sampleOffset = [_spectrogramView sampleOffsetAtLocation:_tapLocation];
-    DataType* start = _data.get() + (sampleOffset * _spectrogramView.frequencyCount);
-    [_equalizerView setSamples:start count:_spectrogramView.frequencyCount];
+    NSInteger samplesOffset = [_spectrogramView sampleOffsetAtLocation:_tapLocation];
+    DataType* sampleStart = _data.get() + (samplesOffset * _spectrogramView.frequencyCount);
+    [_equalizerView setSamples:sampleStart count:_spectrogramView.frequencyCount offset:samplesOffset];
+    _equalizerView.peaks = _peaks.get();
 }
 
 - (void)scrollBy:(CGFloat)dx {
