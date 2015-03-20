@@ -38,7 +38,7 @@ public class VMEqualizerView: UIView {
         setNeedsDisplay()
     }
     
-    var peaks: UnsafePointer<Bool> = nil {
+    var peaks: UnsafePointer<Double> = nil {
         didSet {
             setNeedsDisplay()
         }
@@ -81,7 +81,7 @@ public class VMEqualizerView: UIView {
             barRect.origin.y = barBounds.maxY - barRect.height
             barRect.origin.x = minX
 
-            if peaks != nil && peaks[sampleIndex + samplesOffset * samplesCount] {
+            if peaks != nil && peaks[sampleIndex + samplesOffset * samplesCount] > 0 {
                 var peakRect = barRect;
                 peakRect.origin.y = 0
                 peakRect.size.height = barBounds.height

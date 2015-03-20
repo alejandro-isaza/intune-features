@@ -65,7 +65,7 @@ internal class VMSpectrogramView: UIScrollView {
         setNeedsLayout()
     }
 
-    var peaks: UnsafePointer<Bool> = nil {
+    var peaks: UnsafePointer<Double> = nil {
         didSet {
             setNeedsDisplay()
         }
@@ -174,7 +174,7 @@ internal class VMSpectrogramView: UIScrollView {
                 setFillColorForDecibel(dbValue, timeIndex: t)
                 CGContextFillRect(context, barRect)
 
-                if peaks != nil && peaks[index] {
+                if peaks != nil && peaks[index] > 0 {
                     CGContextStrokeRect(context, barRect)
                 }
             }

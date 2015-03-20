@@ -39,7 +39,7 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 
 @implementation FFTViewController {
     std::unique_ptr<DataType[]> _data;
-    std::unique_ptr<bool[]> _peaks;
+    std::unique_ptr<DataType[]> _peaks;
 }
 
 - (instancetype)initWithCoder:(NSCoder *)coder {
@@ -144,11 +144,11 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     window->setSource(fixedData);
     auto peakExtraction = std::make_shared<PeakExtraction<DataType>>(windowSize/2);
     peakExtraction->setSource(window);
-    auto peakPolling = std::make_shared<PollingModule<bool>>();
+    auto peakPolling = std::make_shared<PollingModule<DataType>>();
     peakPolling->setSource(peakExtraction);
 
-    _peaks.reset(new bool[rendered]);
-    PointerBuffer<bool> peakBuffer(_peaks.get(), rendered);
+    _peaks.reset(new DataType[rendered]);
+    PointerBuffer<DataType> peakBuffer(_peaks.get(), rendered);
     peakPolling->render(peakBuffer);
 
     dispatch_sync(dispatch_get_main_queue(), ^() {

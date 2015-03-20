@@ -37,7 +37,7 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 
 @implementation VMSpectrogramViewController {
     std::unique_ptr<DataType[]> _data;
-    std::unique_ptr<bool[]> _peaks;
+    std::unique_ptr<DataType[]> _peaks;
     SizeType _size;
 }
 
@@ -173,11 +173,11 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     window->setSource(fixedData);
     auto peakExtraction = std::make_shared<PeakExtraction<DataType>>(windowSize/2);
     peakExtraction->setSource(window);
-    auto peakPolling = std::make_shared<PollingModule<bool>>();
+    auto peakPolling = std::make_shared<PollingModule<DataType>>();
     peakPolling->setSource(peakExtraction);
 
-    _peaks.reset(new bool[_size]);
-    PointerBuffer<bool> peakBuffer(_peaks.get(), _size);
+    _peaks.reset(new DataType[_size]);
+    PointerBuffer<DataType> peakBuffer(_peaks.get(), _size);
     peakPolling->render(peakBuffer);
 
     dispatch_sync(dispatch_get_main_queue(), ^() {
