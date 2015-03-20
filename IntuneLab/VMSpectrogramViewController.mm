@@ -187,7 +187,7 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 #pragma mark - Gestures
 
 - (IBAction)handleTap:(UITapGestureRecognizer *)sender {
-    _tapLocation = [sender locationInView:_spectrogramView];
+    _tapLocation = [sender locationInView:self.view];
     [self updateEqualizer];
 }
 

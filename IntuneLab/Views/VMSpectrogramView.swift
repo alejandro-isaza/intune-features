@@ -80,7 +80,7 @@ internal class VMSpectrogramView: UIScrollView {
     func sampleOffsetAtLocation(location: CGPoint) -> Int {
         let sampleOffsetInPoints = contentOffset.x + location.x
         let sampleWidth = bounds.width * CGFloat(sampleTimeLength / timeScale)
-        let sampleOffset = Int(round(sampleOffsetInPoints / sampleWidth))
+        let sampleOffset = Int(floor(sampleOffsetInPoints / sampleWidth))
         return sampleOffset
     }
 
