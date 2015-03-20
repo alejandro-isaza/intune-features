@@ -30,7 +30,7 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 @property(nonatomic, strong) NSString* filePath;
 @property(nonatomic, strong) dispatch_queue_t queue;
 @property(nonatomic, assign) CGPoint previousOffset;
-@property(nonatomic, assign) CGPoint tapLocation;
+@property(nonatomic, assign) NSUInteger highlightedIndex;
 
 @end
 
@@ -38,6 +38,7 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 @implementation VMSpectrogramViewController {
     std::unique_ptr<DataType[]> _data;
     std::unique_ptr<bool[]> _peaks;
+    SizeType _size;
 }
 
 + (instancetype)create {
@@ -61,6 +62,14 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     _spectrogramView.delegate = self;
 }
 
+- (void)highlightTimeIndex:(NSUInteger)index {
+    _highlightedIndex = index;
+
+    [self updateEqualizerToTimeIndex:index];
+    _spectrogramView.highlightTimeIndex = index;
+    [_spectrogramView setNeedsDisplay];
+}
+
 - (void)setWindowTime:(NSTimeInterval)windowTime hopTime:(NSTimeInterval)hopTime {
     _windowTime = windowTime;
     _hopTime = hopTime;
@@ -77,12 +86,22 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     });
 }
 
-- (void)getData:(void**)data count:(NSInteger*)count {
-    *data = _data.get();
+- (void*)data {
+    return _data.get();
+}
+
+- (NSUInteger)dataSize {
+    return _size;
+}
+
+- (NSUInteger)frequencyBinCount {
+    const auto windowSize = static_cast<SizeType>(_windowTime * kSampleRate);
+    return windowSize / 2;
 }
 
 - (void)setSpectrogramHighColor:(UIColor *)spectrogramColor {
     _spectrogramView.highColor = spectrogramColor;
+    _equalizerView.barColor = spectrogramColor;
 }
 
 - (void)setSpectrogramLowColor:(UIColor *)spectrogramColor {
@@ -109,7 +128,7 @@ static const SizeType kMaxDataSize = 128*1024*1024;
         return;
 
     dispatch_sync(dispatch_get_main_queue(), ^{
-        self.spectrogramView.frequencyCount = 0;
+        self.spectrogramView.frequencyBinCount = 0;
         self.spectrogramView.peaks = nullptr;
         [self.spectrogramView setSamples:nullptr count:0];
         [self.equalizerView setSamples:nullptr count:0 offset:0];
@@ -146,10 +165,10 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     // Render spectrogram
     _data.reset(new DataType[dataLength]);
     PointerBuffer<DataType> buffer(_data.get(), dataLength);
-    auto rendered = pollingModule->render(buffer);
+    _size = pollingModule->render(buffer);
 
     // Render peaks
-    auto fixedData = std::make_shared<FixedData<DataType>>(_data.get(), rendered);
+    auto fixedData = std::make_shared<FixedData<DataType>>(_data.get(), _size);
     auto window = std::make_shared<WindowingModule<DataType>>(windowSize/2, windowSize/2);
     window->setSource(fixedData);
     auto peakExtraction = std::make_shared<PeakExtraction<DataType>>(windowSize/2);
@@ -157,23 +176,22 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     auto peakPolling = std::make_shared<PollingModule<bool>>();
     peakPolling->setSource(peakExtraction);
 
-    _peaks.reset(new bool[rendered]);
-    PointerBuffer<bool> peakBuffer(_peaks.get(), rendered);
+    _peaks.reset(new bool[_size]);
+    PointerBuffer<bool> peakBuffer(_peaks.get(), _size);
     peakPolling->render(peakBuffer);
 
     dispatch_sync(dispatch_get_main_queue(), ^() {
         self.spectrogramView.sampleTimeLength = _hopTime;
-        self.spectrogramView.frequencyCount = windowSize / 2;
-        [self.spectrogramView setSamples:_data.get() count:rendered];
+        self.spectrogramView.frequencyBinCount = windowSize / 2;
+        [self.spectrogramView setSamples:_data.get() count:_size];
         self.spectrogramView.peaks = _peaks.get();
-        [self updateEqualizer];
+        [self updateEqualizerToTimeIndex:_highlightedIndex];
     });
 }
 
-- (void)updateEqualizer {
-    NSInteger samplesOffset = [_spectrogramView sampleOffsetAtLocation:_tapLocation];
-    DataType* sampleStart = _data.get() + (samplesOffset * _spectrogramView.frequencyCount);
-    [_equalizerView setSamples:sampleStart count:_spectrogramView.frequencyCount offset:samplesOffset];
+- (void)updateEqualizerToTimeIndex:(NSUInteger)timeIndex {
+    DataType* sampleStart = _data.get() + (timeIndex * _spectrogramView.frequencyBinCount);
+    [_equalizerView setSamples:sampleStart count:_spectrogramView.frequencyBinCount offset:timeIndex];
     _equalizerView.peaks = _peaks.get();
 }
 
@@ -187,8 +205,15 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 #pragma mark - Gestures
 
 - (IBAction)handleTap:(UITapGestureRecognizer *)sender {
-    _tapLocation = [sender locationInView:self.view];
-    [self updateEqualizer];
+    CGPoint tapLocation = [sender locationInView:self.view];
+
+    _highlightedIndex = [_spectrogramView timeIndexAtLocation:tapLocation];
+    [self updateEqualizerToTimeIndex:_highlightedIndex];
+    [self highlightTimeIndex:_highlightedIndex];
+    
+    if (_didTapBlock) {
+        _didTapBlock(tapLocation, _highlightedIndex);
+    }
 }
 
 

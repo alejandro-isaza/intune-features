@@ -155,6 +155,7 @@
 		00EFC4E01AAF8E19000C1D5B /* liblxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EFC4C21AAF8DF3000C1D5B /* liblxml.a */; };
 		00EFC5481AAF8EA3000C1D5B /* libmxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EFC4E51AAF8E73000C1D5B /* libmxml.a */; };
 		610325171AB7AAA300E4E3D3 /* VMSpectrogramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610325151AB7AAA300E4E3D3 /* VMSpectrogramView.swift */; };
+		6157FCA21ABCBEA8008C0D0D /* VMDistancesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6157FCA11ABCBEA8008C0D0D /* VMDistancesView.m */; };
 		6171BD451A16BCC4004AB274 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD441A16BCC4004AB274 /* main.m */; };
 		6171BD481A16BCC4004AB274 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD471A16BCC4004AB274 /* AppDelegate.m */; };
 		6171BD4B1A16BCC4004AB274 /* MasterViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD4A1A16BCC4004AB274 /* MasterViewController.m */; };
@@ -593,6 +594,8 @@
 		6157FC9C1ABB5568008C0D0D /* HammingWindow.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HammingWindow.hpp; sourceTree = "<group>"; };
 		6157FC9D1ABB5568008C0D0D /* AccumulatorModule.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AccumulatorModule.hpp; sourceTree = "<group>"; };
 		6157FC9E1ABB5568008C0D0D /* FFTModule.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FFTModule.hpp; sourceTree = "<group>"; };
+		6157FCA01ABCBEA8008C0D0D /* VMDistancesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMDistancesView.h; sourceTree = "<group>"; };
+		6157FCA11ABCBEA8008C0D0D /* VMDistancesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMDistancesView.m; sourceTree = "<group>"; };
 		6171BD3F1A16BCC4004AB274 /* IntuneLab.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IntuneLab.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6171BD431A16BCC4004AB274 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6171BD441A16BCC4004AB274 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -1194,6 +1197,8 @@
 				008685691AB10BC400F415A2 /* VMPianoRollViewController.xib */,
 				61A81D7D1AB1015D00E230A6 /* VMEqualizerView.swift */,
 				610325151AB7AAA300E4E3D3 /* VMSpectrogramView.swift */,
+				6157FCA01ABCBEA8008C0D0D /* VMDistancesView.h */,
+				6157FCA11ABCBEA8008C0D0D /* VMDistancesView.m */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1572,6 +1577,7 @@
 				6171BD4B1A16BCC4004AB274 /* MasterViewController.m in Sources */,
 				00E638A21AB8DC9B00F5B4C5 /* WaveformViewController.mm in Sources */,
 				008685681AB10B8A00F415A2 /* VMWaveformView.swift in Sources */,
+				6157FCA21ABCBEA8008C0D0D /* VMDistancesView.m in Sources */,
 				6171BD451A16BCC4004AB274 /* main.m in Sources */,
 				00E638A51AB8E54C00F5B4C5 /* VMFilePickerController.m in Sources */,
 			);

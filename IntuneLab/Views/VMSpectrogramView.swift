@@ -25,7 +25,7 @@ internal class VMSpectrogramView: UIScrollView {
     /// The length of data in seconds
     var timeLength: NSTimeInterval {
         get {
-            let timePoints = NSTimeInterval(sampleCount) / NSTimeInterval(frequencyCount)
+            let timePoints = NSTimeInterval(sampleCount) / NSTimeInterval(frequencyBinCount)
             return timePoints * sampleTimeLength
         }
     }
@@ -41,8 +41,10 @@ internal class VMSpectrogramView: UIScrollView {
     }
 
     /// The number of frequency bins in the samples
-    var frequencyCount: Int = 2048
+    var frequencyBinCount: UInt = 2048
 
+    /// Time slice to highlight
+    var highlightTimeIndex: UInt = 0
 
     /// To convert pinch regocnizer scale into 'zoom'
     private var recognizerScaleBegan = CGFloat()
@@ -52,10 +54,12 @@ internal class VMSpectrogramView: UIScrollView {
     @IBInspectable var lowColor: UIColor = UIColor.whiteColor()
     @IBInspectable var highColor: UIColor = UIColor.blueColor()
     @IBInspectable var peakColor: UIColor = UIColor.blackColor()
+    @IBInspectable var highlightLowColor: UIColor = UIColor.whiteColor()
+    @IBInspectable var highlightHighColor: UIColor = UIColor.orangeColor()
 
     private(set) internal var samples: UnsafePointer<Double> = nil
-    private(set) internal var sampleCount: Int = 0
-    func setSamples(samples: UnsafePointer<Double>, count: Int) {
+    private(set) internal var sampleCount: UInt = 0
+    func setSamples(samples: UnsafePointer<Double>, count: UInt) {
         self.samples = samples
         sampleCount = count
         setNeedsLayout()
@@ -67,6 +71,12 @@ internal class VMSpectrogramView: UIScrollView {
         }
     }
 
+    enum Scale {
+        case Linear
+        case Mel
+    }
+    var yScale: Scale = .Mel
+
     required init(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
@@ -77,10 +87,10 @@ internal class VMSpectrogramView: UIScrollView {
         setup()
     }
 
-    func sampleOffsetAtLocation(location: CGPoint) -> Int {
+    func timeIndexAtLocation(location: CGPoint) -> UInt {
         let sampleOffsetInPoints = contentOffset.x + location.x
         let sampleWidth = bounds.width * CGFloat(sampleTimeLength / timeScale)
-        let sampleOffset = Int(floor(sampleOffsetInPoints / sampleWidth))
+        let sampleOffset = UInt(floor(sampleOffsetInPoints / sampleWidth))
         return sampleOffset
     }
 
@@ -119,13 +129,13 @@ internal class VMSpectrogramView: UIScrollView {
     }
 
     override func drawRect(rect: CGRect) {
-        if frequencyCount == 0 {
+        if frequencyBinCount == 0 {
             return
         }
         
         let context = UIGraphicsGetCurrentContext()
-        let fs = sampleRate / Float(frequencyCount)
-        let timePoints = sampleCount / frequencyCount
+        let fs = sampleRate / Float(frequencyBinCount)
+        let timePoints = sampleCount / frequencyBinCount
 
         UIColor.whiteColor().setFill()
         CGContextFillRect(context, rect)
@@ -134,9 +144,12 @@ internal class VMSpectrogramView: UIScrollView {
         var barRect = CGRectZero
         barRect.size.width = bounds.width * CGFloat(sampleTimeLength / timeScale)
 
-        let yScaling = yForFrequencyMel // yForFrequencyLinear
+        var yScaling = yForFrequencyMel
+        if yScale == .Linear {
+            yScaling = yForFrequencyLinear
+        }
 
-        for var t = 0; t < timePoints; t += 1 {
+        for var t: UInt = 0; t < timePoints; t += 1 {
             if (barRect.maxX < bounds.minX) {
                 barRect.origin.x += barRect.width
                 continue
@@ -146,7 +159,7 @@ internal class VMSpectrogramView: UIScrollView {
                 break
             }
 
-            for var fi = 0; fi < frequencyCount; fi += 1 {
+            for var fi: UInt = 0; fi < frequencyBinCount; fi += 1 {
                 let f0 = Float(fi) * fs
                 let f1 = Float(fi + 1) * fs
 
@@ -156,12 +169,12 @@ internal class VMSpectrogramView: UIScrollView {
                 barRect.origin.y = minY
                 barRect.size.height = maxY - minY
 
-                let index = fi + t * frequencyCount
+                let index = Int(fi + t * frequencyBinCount)
                 let dbValue = 10.0 * log10(samples[index])
-                setFillColorForDecibel(dbValue)
+                setFillColorForDecibel(dbValue, timeIndex: t)
                 CGContextFillRect(context, barRect)
 
-                if peaks != nil && peaks[fi + t * frequencyCount] {
+                if peaks != nil && peaks[index] {
                     CGContextStrokeRect(context, barRect)
                 }
             }
@@ -194,12 +207,16 @@ internal class VMSpectrogramView: UIScrollView {
         return bounds.height * (1 - CGFloat(f - minFrequency) / CGFloat(maxFrequency - minFrequency))
     }
 
-    func setFillColorForDecibel(dbValue: Double) {
+    func setFillColorForDecibel(dbValue: Double, timeIndex: UInt) {
         var value = (dbValue - decibelGround) / -decibelGround
         if value < 0 {
             value = 0
         }
-        VMSpectrogramView.colorLerp(lowColor, end: highColor, p: CGFloat(value)).setFill()
+        if timeIndex == highlightTimeIndex {
+            VMSpectrogramView.colorLerp(highlightLowColor, end: highlightHighColor, p: CGFloat(value)).setFill()
+        } else {
+            VMSpectrogramView.colorLerp(lowColor, end: highColor, p: CGFloat(value)).setFill()
+        }
     }
 
     class func colorLerp(start: UIColor, end: UIColor, p: CGFloat) -> UIColor {

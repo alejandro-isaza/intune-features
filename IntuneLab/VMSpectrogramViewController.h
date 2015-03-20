@@ -12,12 +12,18 @@
 @property(nonatomic) double decibelGround;
 @property(nonatomic, strong) UIColor* spectrogramHighColor;
 @property(nonatomic, strong) UIColor* spectrogramLowColor;
+
 @property(nonatomic, copy) void (^didScrollBlock)(CGFloat dx);
+@property(nonatomic, copy) void (^didTapBlock)(CGPoint location, NSUInteger timeIndex);
+
+@property(nonatomic, readonly) void* data;
+@property(nonatomic, readonly) NSUInteger dataSize;
+@property(nonatomic, readonly) NSUInteger frequencyBinCount;
 
 + (instancetype)create;
 
+- (void)highlightTimeIndex:(NSUInteger)index;
 - (void)setWindowTime:(NSTimeInterval)windowTime hopTime:(NSTimeInterval)hopTime;
-- (void)getData:(void**)data count:(NSInteger*)count;
 - (void)scrollBy:(CGFloat)dx;
 
 @end

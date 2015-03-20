@@ -2,7 +2,6 @@
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="H1p-Uh-vWS">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
-        <capability name="Constraints with non-1.0 multipliers" minToolsVersion="5.1"/>
     </dependencies>
     <scenes>
         <!--Master-->
@@ -32,8 +31,8 @@
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="09S-ux-Nqj">
-                                <rect key="frame" x="153" y="64" width="294" height="50"/>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="09S-ux-Nqj">
+                                <rect key="frame" x="153" y="72" width="294" height="50"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="enter filename" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="n0y-Dh-mO5">
                                         <rect key="frame" x="0.0" y="10" width="188" height="30"/>
@@ -311,30 +310,51 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T6t-CL-r9y" userLabel="Spectrogram View Top">
-                                <rect key="frame" x="0.0" y="64" width="600" height="230"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bZm-BY-IWI" userLabel="Difference View">
-                                <rect key="frame" x="0.0" y="294" width="600" height="76"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sE1-Wa-f0d" userLabel="Spectrogram View Bottom">
-                                <rect key="frame" x="0.0" y="370" width="600" height="230"/>
+                                <rect key="frame" x="0.0" y="64" width="600" height="228.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="LBH-cj-t41" userLabel="Divider View">
-                                <rect key="frame" x="0.0" y="293" width="600" height="1"/>
+                                <rect key="frame" x="0.0" y="291" width="600" height="1"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="Ls9-u1-NLm"/>
                                 </constraints>
                             </view>
+                            <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="SqM-t8-d3n">
+                                <rect key="frame" x="0.0" y="292" width="600" height="79"/>
+                                <subviews>
+                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bZm-BY-IWI" userLabel="Difference View" customClass="VMDistancesView">
+                                        <rect key="frame" x="0.0" y="0.0" width="600" height="79"/>
+                                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="600" placeholder="YES" id="I5s-cD-uNn"/>
+                                        </constraints>
+                                        <userDefinedRuntimeAttributes>
+                                            <userDefinedRuntimeAttribute type="color" keyPath="foregroundColor">
+                                                <color key="value" white="0.5" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                            </userDefinedRuntimeAttribute>
+                                        </userDefinedRuntimeAttributes>
+                                    </view>
+                                </subviews>
+                                <constraints>
+                                    <constraint firstAttribute="height" secondItem="bZm-BY-IWI" secondAttribute="height" id="66b-07-vOl"/>
+                                    <constraint firstItem="bZm-BY-IWI" firstAttribute="leading" secondItem="SqM-t8-d3n" secondAttribute="leading" id="Mt2-Gr-VvM"/>
+                                    <constraint firstAttribute="bottom" secondItem="bZm-BY-IWI" secondAttribute="bottom" id="PGf-t6-as1"/>
+                                    <constraint firstAttribute="height" constant="79" id="fEI-Bh-gUJ"/>
+                                    <constraint firstAttribute="trailing" secondItem="bZm-BY-IWI" secondAttribute="trailing" id="pTO-Eg-9e2"/>
+                                    <constraint firstItem="bZm-BY-IWI" firstAttribute="top" secondItem="SqM-t8-d3n" secondAttribute="top" id="tsv-W7-dVH"/>
+                                </constraints>
+                            </scrollView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="IzD-kV-FDX" userLabel="Divider View">
-                                <rect key="frame" x="0.0" y="370" width="600" height="1"/>
+                                <rect key="frame" x="0.0" y="371" width="600" height="1"/>
                                 <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="1" id="jas-ly-DHY"/>
                                 </constraints>
+                            </view>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sE1-Wa-f0d" userLabel="Spectrogram View Bottom">
+                                <rect key="frame" x="0.0" y="371" width="600" height="228"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                             </view>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="m62-lD-w6Z">
                                 <rect key="frame" x="6" y="68" width="57" height="30"/>
@@ -348,20 +368,19 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
+                            <constraint firstItem="SqM-t8-d3n" firstAttribute="leading" secondItem="n0l-nu-luk" secondAttribute="leading" id="6Tr-Ze-KX5"/>
                             <constraint firstAttribute="trailing" secondItem="LBH-cj-t41" secondAttribute="trailing" id="6Ue-4P-wkx"/>
-                            <constraint firstAttribute="trailing" secondItem="bZm-BY-IWI" secondAttribute="trailing" id="7hh-Yi-mFz"/>
                             <constraint firstItem="T6t-CL-r9y" firstAttribute="leading" secondItem="n0l-nu-luk" secondAttribute="leading" id="9Lc-2d-Yhl"/>
                             <constraint firstItem="sE1-Wa-f0d" firstAttribute="height" secondItem="T6t-CL-r9y" secondAttribute="height" id="CBc-em-Kf9"/>
                             <constraint firstAttribute="trailing" secondItem="T6t-CL-r9y" secondAttribute="trailing" id="EOX-Sk-N7i"/>
                             <constraint firstItem="m62-lD-w6Z" firstAttribute="leading" secondItem="n0l-nu-luk" secondAttribute="leading" constant="6" id="FBm-Tp-QDr"/>
                             <constraint firstAttribute="trailing" secondItem="sE1-Wa-f0d" secondAttribute="trailing" id="FR7-ky-482"/>
-                            <constraint firstItem="T6t-CL-r9y" firstAttribute="height" secondItem="bZm-BY-IWI" secondAttribute="height" multiplier="3:1" id="G5S-Oe-9w6"/>
-                            <constraint firstItem="bZm-BY-IWI" firstAttribute="leading" secondItem="n0l-nu-luk" secondAttribute="leading" id="JBK-VG-4rf"/>
-                            <constraint firstItem="T6t-CL-r9y" firstAttribute="bottom" secondItem="bZm-BY-IWI" secondAttribute="top" id="POj-sd-W0f"/>
+                            <constraint firstAttribute="trailing" secondItem="SqM-t8-d3n" secondAttribute="trailing" id="I2L-PS-6uP"/>
                             <constraint firstItem="m62-lD-w6Z" firstAttribute="top" secondItem="ewp-BS-Gwf" secondAttribute="bottom" constant="4" id="QxB-AW-SIY"/>
+                            <constraint firstItem="sE1-Wa-f0d" firstAttribute="top" secondItem="SqM-t8-d3n" secondAttribute="bottom" id="RHJ-ic-sh7"/>
                             <constraint firstItem="T6t-CL-r9y" firstAttribute="bottom" secondItem="LBH-cj-t41" secondAttribute="bottom" id="Rha-DO-MeK"/>
-                            <constraint firstItem="sE1-Wa-f0d" firstAttribute="top" secondItem="bZm-BY-IWI" secondAttribute="bottom" id="YXO-Wp-RN4"/>
                             <constraint firstItem="IzD-kV-FDX" firstAttribute="leading" secondItem="n0l-nu-luk" secondAttribute="leading" id="ZdE-Ca-o1Y"/>
+                            <constraint firstItem="SqM-t8-d3n" firstAttribute="top" secondItem="T6t-CL-r9y" secondAttribute="bottom" id="ZdU-sk-BMD"/>
                             <constraint firstItem="w65-rp-xvC" firstAttribute="bottom" secondItem="sE1-Wa-f0d" secondAttribute="bottom" id="bXX-sP-bcc"/>
                             <constraint firstItem="IzD-kV-FDX" firstAttribute="top" secondItem="sE1-Wa-f0d" secondAttribute="top" id="dAe-Go-ual"/>
                             <constraint firstItem="sE1-Wa-f0d" firstAttribute="leading" secondItem="n0l-nu-luk" secondAttribute="leading" id="fEa-Uk-41u"/>
@@ -372,13 +391,14 @@
                     </view>
                     <navigationItem key="navigationItem" title="Difference" id="w9C-TT-d4z"/>
                     <connections>
+                        <outlet property="distanceView" destination="bZm-BY-IWI" id="kdd-lT-Zj1"/>
                         <outlet property="spectrogramViewContainerBottom" destination="sE1-Wa-f0d" id="tCI-Zr-vGv"/>
                         <outlet property="spectrogramViewContainerTop" destination="T6t-CL-r9y" id="APL-2Y-8wm"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="0Vg-Br-eN0" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2917" y="868"/>
+            <point key="canvasLocation" x="2917" y="868.5"/>
         </scene>
         <!--Split View Controller-->
         <scene sceneID="Nki-YV-4Qg">

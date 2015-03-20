@@ -3,21 +3,32 @@
 #import "DifferenceViewController.h"
 #import "IntuneLab-Swift.h"
 
+#import "VMDistancesView.h"
 #import "VMSpectrogramViewController.h"
 #import "VMFilePickerController.h"
 #import "FFTSettingsViewController.h"
+#import <Accelerate/Accelerate.h>
+
+using DataType = double;
+using SizeType = vDSP_Length;
+
 
 @interface DifferenceViewController ()
 
 @property(nonatomic, strong) VMSpectrogramViewController *spectrogramViewControllerTop;
 @property(nonatomic, strong) VMSpectrogramViewController *spectrogramViewControllerBottom;
+@property(nonatomic, strong) FFTSettingsViewController *settingsViewController;
 @property(nonatomic, weak) IBOutlet UIView *spectrogramViewContainerTop;
 @property(nonatomic, weak) IBOutlet UIView *spectrogramViewContainerBottom;
-@property(nonatomic, strong) FFTSettingsViewController *settingsViewController;
+@property(nonatomic, weak) IBOutlet UIScrollView *distanceScrollView;
+@property(nonatomic, weak) IBOutlet VMDistancesView *distanceView;
 
 @end
 
-@implementation DifferenceViewController
+@implementation DifferenceViewController {
+    std::unique_ptr<DataType[]> _distances;
+    SizeType _distancesSize;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -35,19 +46,18 @@
     _spectrogramViewControllerBottom.view.frame = _spectrogramViewContainerBottom.bounds;
     [_spectrogramViewContainerBottom addSubview:_spectrogramViewControllerBottom.view];
     [_spectrogramViewControllerBottom didMoveToParentViewController:self];
-    _spectrogramViewControllerBottom.spectrogramHighColor = [UIColor greenColor];
+    _spectrogramViewControllerBottom.spectrogramHighColor = [UIColor purpleColor];
 
     // setup did scroll blocks
     __weak DifferenceViewController* wself = self;
     __weak VMSpectrogramViewController* wbottom = _spectrogramViewControllerBottom;
     _spectrogramViewControllerTop.didScrollBlock = ^(CGFloat dx) {
         [wbottom scrollBy:dx];
-        [wself calculateDifference];
     };
-    _spectrogramViewControllerBottom.didScrollBlock = ^(CGFloat dx) {
-        [wself calculateDifference];
+    _spectrogramViewControllerBottom.didTapBlock = ^(CGPoint location, NSUInteger index) {;
+        [wself calculateDifference:index];
     };
-
+    
     [self initializeSettings];
 }
 
@@ -73,18 +83,46 @@
     [_spectrogramViewControllerBottom setWindowTime:windowTime hopTime:hopTime];
 }
 
-- (void)calculateDifference {
-    void* topData = nullptr;
-    [_spectrogramViewControllerTop getData:&topData count:nil];
+- (void)calculateDifference:(NSUInteger)bottomIndex {
+    DataType* bottomData = (DataType*)_spectrogramViewControllerBottom.data;
+    DataType* topData = (DataType*)_spectrogramViewControllerTop.data;
+    vDSP_Length topDataSize = _spectrogramViewControllerTop.dataSize;
+    vDSP_Length frequencyBinCount = _spectrogramViewControllerTop.frequencyBinCount;
+    vDSP_Length timeIndexCount = topDataSize / frequencyBinCount;
 
-    void* bottomData = nullptr;
-    [_spectrogramViewControllerBottom getData:&bottomData count:nil];
+    if (timeIndexCount > _distancesSize) {
+        _distances.reset(new DataType[timeIndexCount]);
+        _distancesSize = timeIndexCount;
+    }
 
-    /*
-     [_distanceView setSamplesA:topData count:count offset:offset];
-     [_distanceView setSamplesB:topData count:count offset:offset];
-     [_distanceView calculateDifference];
-     */
+    DataType minDistance = DBL_MAX;
+    vDSP_Length minIndex = 0;
+    for (vDSP_Length t = 0; t < timeIndexCount; t += 1) {
+        DataType distance;
+        vDSP_distancesqD(topData + frequencyBinCount * t, 1, bottomData + frequencyBinCount * bottomIndex, 1, &distance, frequencyBinCount);
+        _distances[t] = std::min(1.0, frequencyBinCount * distance);
+
+        if (distance < minDistance) {
+            minDistance = distance;
+            minIndex = t;
+        }
+    }
+
+    auto hopTime = _spectrogramViewControllerTop.hopTime;
+    NSLog(@"Matched index %d, distance %f, walltime %f", (int)minIndex, minDistance, hopTime + hopTime * minIndex);
+    [_spectrogramViewControllerTop highlightTimeIndex:minIndex];
+
+    _distanceView.data = _distances.get();
+    _distanceView.dataSize = timeIndexCount;
+    [_distanceView clearMarkers];
+    [_distanceView addVerticalMarkerAtIndex:minIndex color:[[UIColor blueColor] colorWithAlphaComponent:0.5]];
+    [_distanceView addVerticalMarkerAtIndex:bottomIndex color:[[UIColor purpleColor] colorWithAlphaComponent:0.5]];
+    [_distanceView addHorizontalMarkerAtValue:100*minDistance color:[[UIColor orangeColor] colorWithAlphaComponent:0.5]];
+
+    CGSize size = [self.distanceView sizeThatFits:self.distanceView.bounds.size];
+    self.distanceView.frame = {CGPointZero, size};
+    self.distanceScrollView.contentSize = size;
+    [self.distanceScrollView layoutSubviews];
 }
 
 - (IBAction)openSettings:(UIButton*)sender {

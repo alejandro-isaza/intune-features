@@ -97,7 +97,7 @@ static const SizeType kMaxDataSize = 128*1024*1024;
         return;
 
     dispatch_sync(dispatch_get_main_queue(), ^{
-        self.spectrogramView.frequencyCount = 0;
+        self.spectrogramView.frequencyBinCount = 0;
         [self.spectrogramView setSamples:nullptr count:0];
         self.spectrogramView.peaks = nullptr;
     });
@@ -154,7 +154,7 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     dispatch_sync(dispatch_get_main_queue(), ^() {
         // Fill buffers on main thread or we may write over a buffer being drawn
         self.spectrogramView.sampleTimeLength = _hopTime;
-        self.spectrogramView.frequencyCount = windowSize / 2;
+        self.spectrogramView.frequencyBinCount = windowSize / 2;
         [self.spectrogramView setSamples:_data.get() count:rendered];
         self.spectrogramView.peaks = _peaks.get();
     });
