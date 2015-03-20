@@ -119,6 +119,10 @@ internal class VMSpectrogramView: UIScrollView {
     }
 
     override func drawRect(rect: CGRect) {
+        if frequencyCount == 0 {
+            return
+        }
+        
         let context = UIGraphicsGetCurrentContext()
         let fs = sampleRate / Float(frequencyCount)
         let timePoints = sampleCount / frequencyCount

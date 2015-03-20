@@ -67,10 +67,10 @@
         wbottom.decibelGround = decibelGround;
     };
 
-    [_spectrogramViewControllerTop setWindowTime:_settingsViewController.windowTime
-                                         hopTime:_settingsViewController.hopTime];
-    [_spectrogramViewControllerBottom setWindowTime:_settingsViewController.windowTime
-                                            hopTime:_settingsViewController.hopTime];
+    auto windowTime = _settingsViewController.windowTime;
+    auto hopTime = _settingsViewController.hopTime;
+    [_spectrogramViewControllerTop setWindowTime:windowTime hopTime:hopTime];
+    [_spectrogramViewControllerBottom setWindowTime:windowTime hopTime:hopTime];
 }
 
 - (void)calculateDifference {

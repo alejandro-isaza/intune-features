@@ -75,8 +75,6 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 
     _windowTime = _settingsViewController.windowTime;
     _hopTime = _settingsViewController.hopTime;
-    const auto windowSize = static_cast<SizeType>(_windowTime * kSampleRate);
-    _spectrogramView.frequencyCount = windowSize / 2;
 }
 
 - (IBAction)openFile:(UIButton*)sender {
@@ -97,6 +95,12 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 - (void)render {
     if (!self.filePath)
         return;
+
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        self.spectrogramView.frequencyCount = 0;
+        [self.spectrogramView setSamples:nullptr count:0];
+        self.spectrogramView.peaks = nullptr;
+    });
 
     auto fileModule = std::make_shared<ReadFromFileModule>(self.filePath.UTF8String);
     const auto fileLength = fileModule->lengthInFrames();
@@ -129,25 +133,26 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 
     const auto dataLength = (fileLength / hopSize) * windowSize;
 
+    // Render spectrogram
+    _data.reset(new DataType[dataLength]);
+    PointerBuffer<DataType> buffer(_data.get(), dataLength);
+    auto rendered = pollingModule->render(buffer);
+
+    // Render peaks
+    auto fixedData = std::make_shared<FixedData<DataType>>(_data.get(), rendered);
+    auto window = std::make_shared<WindowingModule<DataType>>(windowSize/2, windowSize/2);
+    window->setSource(fixedData);
+    auto peakExtraction = std::make_shared<PeakExtraction<DataType>>(windowSize/2);
+    peakExtraction->setSource(window);
+    auto peakPolling = std::make_shared<PollingModule<bool>>();
+    peakPolling->setSource(peakExtraction);
+
+    _peaks.reset(new bool[rendered]);
+    PointerBuffer<bool> peakBuffer(_peaks.get(), rendered);
+    peakPolling->render(peakBuffer);
+
     dispatch_sync(dispatch_get_main_queue(), ^() {
-        // Render spectrogram
-        _data.reset(new DataType[dataLength]);
-        PointerBuffer<DataType> buffer(_data.get(), dataLength);
-        auto rendered = pollingModule->render(buffer);
-
-        // Render peaks
-        auto fixedData = std::make_shared<FixedData<DataType>>(_data.get(), rendered);
-        auto window = std::make_shared<WindowingModule<DataType>>(windowSize/2, windowSize/2);
-        window->setSource(fixedData);
-        auto peakExtraction = std::make_shared<PeakExtraction<DataType>>(windowSize/2);
-        peakExtraction->setSource(window);
-        auto peakPolling = std::make_shared<PollingModule<bool>>();
-        peakPolling->setSource(peakExtraction);
-
-        _peaks.reset(new bool[rendered]);
-        PointerBuffer<bool> peakBuffer(_peaks.get(), rendered);
-        peakPolling->render(peakBuffer);
-
+        // Fill buffers on main thread or we may write over a buffer being drawn
         self.spectrogramView.sampleTimeLength = _hopTime;
         self.spectrogramView.frequencyCount = windowSize / 2;
         [self.spectrogramView setSamples:_data.get() count:rendered];

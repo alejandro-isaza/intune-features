@@ -6,8 +6,10 @@
 #import "VMFilePickerController.h"
 
 #include <tempo/modules/Converter.h>
+#include <tempo/modules/FixedData.h>
 #include <tempo/modules/FFTModule.h>
 #include <tempo/modules/HammingWindow.h>
+#include <tempo/modules/PeakExtraction.h>
 #include <tempo/modules/PollingModule.h>
 #include <tempo/modules/WindowingModule.h>
 
@@ -28,11 +30,14 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 @property(nonatomic, strong) NSString* filePath;
 @property(nonatomic, strong) dispatch_queue_t queue;
 @property(nonatomic, assign) CGPoint previousOffset;
+@property(nonatomic, assign) CGPoint tapLocation;
+
 @end
 
 
 @implementation VMSpectrogramViewController {
     std::unique_ptr<DataType[]> _data;
+    std::unique_ptr<bool[]> _peaks;
 }
 
 + (instancetype)create {
@@ -66,12 +71,13 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 
 - (void)setDecibelGround:(double)decibelGround {
     _spectrogramView.decibelGround = decibelGround;
+    _equalizerView.decibelGround = decibelGround;
     dispatch_async(_queue, ^() {
         [self render];
     });
 }
 
-- (void)getData:(DataType**)data count:(NSInteger*)count {
+- (void)getData:(void**)data count:(NSInteger*)count {
     *data = _data.get();
 }
 
@@ -102,6 +108,13 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     if (!self.filePath)
         return;
 
+    dispatch_sync(dispatch_get_main_queue(), ^{
+        self.spectrogramView.frequencyCount = 0;
+        self.spectrogramView.peaks = nullptr;
+        [self.spectrogramView setSamples:nullptr count:0];
+        [self.equalizerView setSamples:nullptr count:0];
+    });
+
     auto fileModule = std::make_shared<ReadFromFileModule>(self.filePath.UTF8String);
     const auto fileLength = fileModule->lengthInFrames();
 
@@ -130,16 +143,38 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 
     const auto dataLength = (fileLength / hopSize) * windowSize;
 
+    // Render spectrogram
+    _data.reset(new DataType[dataLength]);
+    PointerBuffer<DataType> buffer(_data.get(), dataLength);
+    auto rendered = pollingModule->render(buffer);
+
+    // Render peaks
+    auto fixedData = std::make_shared<FixedData<DataType>>(_data.get(), rendered);
+    auto window = std::make_shared<WindowingModule<DataType>>(windowSize/2, windowSize/2);
+    window->setSource(fixedData);
+    auto peakExtraction = std::make_shared<PeakExtraction<DataType>>(windowSize/2);
+    peakExtraction->setSource(window);
+    auto peakPolling = std::make_shared<PollingModule<bool>>();
+    peakPolling->setSource(peakExtraction);
+
+    _peaks.reset(new bool[rendered]);
+    PointerBuffer<bool> peakBuffer(_peaks.get(), rendered);
+    peakPolling->render(peakBuffer);
+
     dispatch_sync(dispatch_get_main_queue(), ^() {
-        // Fill buffer on main thread or we may write over a buffer being drawn
-        _data.reset(new DataType[dataLength]);
-        PointerBuffer<DataType> buffer(_data.get(), dataLength);
-        auto rendered = pollingModule->render(buffer);
-        
+        // Fill buffers on main thread or we may write over a buffer being drawn
         self.spectrogramView.sampleTimeLength = _hopTime;
         self.spectrogramView.frequencyCount = windowSize / 2;
         [self.spectrogramView setSamples:_data.get() count:rendered];
+        self.spectrogramView.peaks = _peaks.get();
+        [self updateEqualizer];
     });
+}
+
+- (void)updateEqualizer {
+    NSInteger sampleOffset = [_spectrogramView sampleOffsetAtLocation:_tapLocation];
+    DataType* start = _data.get() + (sampleOffset * _spectrogramView.frequencyCount);
+    [_equalizerView setSamples:start count:_spectrogramView.frequencyCount];
 }
 
 - (void)scrollBy:(CGFloat)dx {
@@ -152,11 +187,8 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 #pragma mark - Gestures
 
 - (IBAction)handleTap:(UITapGestureRecognizer *)sender {
-    CGPoint tapLocation = [sender locationInView:_spectrogramView];
-    NSInteger sampleOffset = [_spectrogramView sampleOffsetAtLocation:tapLocation];
-
-    DataType* start = _data.get() + (sampleOffset * _spectrogramView.frequencyCount);
-    [_equalizerView setSamples:start count:_spectrogramView.frequencyCount];
+    _tapLocation = [sender locationInView:_spectrogramView];
+    [self updateEqualizer];
 }
 
 
