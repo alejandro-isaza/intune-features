@@ -16,7 +16,8 @@
 @property(nonatomic, copy) void (^didScrollBlock)(CGFloat dx);
 @property(nonatomic, copy) void (^didTapBlock)(CGPoint location, NSUInteger timeIndex);
 
-@property(nonatomic, readonly) void* data;
+@property(nonatomic, readonly) double* data;
+@property(nonatomic, readonly) double* peaks;
 @property(nonatomic, readonly) NSUInteger dataSize;
 @property(nonatomic, readonly) NSUInteger frequencyBinCount;
 

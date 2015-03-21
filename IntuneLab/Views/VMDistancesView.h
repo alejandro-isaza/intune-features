@@ -6,6 +6,8 @@
 
 @property(nonatomic, strong) IBInspectable UIColor* foregroundColor;
 
+@property(nonatomic) double max;
+@property(nonatomic) double min;
 @property(nonatomic) double* data;
 @property(nonatomic) NSUInteger dataSize;
 

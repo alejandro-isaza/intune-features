@@ -86,8 +86,12 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     });
 }
 
-- (void*)data {
+- (double*)data {
     return _data.get();
+}
+
+- (double*)peaks {
+    return _peaks.get();
 }
 
 - (NSUInteger)dataSize {

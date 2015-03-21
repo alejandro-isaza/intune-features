@@ -17,6 +17,8 @@
     if (!self)
         return nil;
 
+    _min = 0;
+    _max = 1;
     _verticalMarkers = [NSMutableDictionary dictionary];
     _horizontalMarkers = [NSMutableDictionary dictionary];
     _foregroundColor = [UIColor darkGrayColor];
@@ -29,6 +31,8 @@
     if (!self)
         return nil;
 
+    _min = 0;
+    _max = 1;
     _verticalMarkers = [NSMutableDictionary dictionary];
     _horizontalMarkers = [NSMutableDictionary dictionary];
     _foregroundColor = [UIColor darkGrayColor];
@@ -108,7 +112,8 @@
 
 - (CGFloat)yForValue:(double)value {
     CGRect bounds = self.bounds;
-    return bounds.size.height - (10*log10(value) + 60) * bounds.size.height / 60;
+    double unitValue = (value - self.min) / (self.max - self.min);
+    return (1.0 - unitValue) * bounds.size.height;
 }
 
 - (CGSize)sizeThatFits:(CGSize)size {
