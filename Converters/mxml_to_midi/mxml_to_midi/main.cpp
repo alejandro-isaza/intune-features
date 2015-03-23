@@ -1,6 +1,7 @@
 //  Copyright (c) 2015 Venture Media. All rights reserved.
 
 #include "MusicSequenceGenerator.h"
+#include "MIDIAnnotationGenerator.h"
 
 #include <lxml/lxml.h>
 #include <mxml/EventFactory.h>
@@ -14,7 +15,7 @@
 #include <iostream>
 
 void printUsage(int argc, const char * argv[]);
-bool createMidiFile(std::string inputFile, std::string outputFile, float tempoMultiplier);
+void createMidiFiles(std::string inputFile, float tempoMultiplier);
 std::unique_ptr<mxml::dom::Score> loadScore(std::string file);
 std::unique_ptr<mxml::dom::Score> loadScoreFromXML(std::string file);
 std::unique_ptr<mxml::dom::Score> loadScoreFromMXL(std::string file);
@@ -22,46 +23,36 @@ bool stringHasSuffix(std::string string, std::string suffix);
 
 int main(int argc, const char * argv[]) {
     std::string inputFile;
-    std::string outputFile;
     float tempoMultiplier = 1.0f;
 
     for (int i = 1; i < argc; i += 1) {
         if (inputFile.empty())
             inputFile = argv[i];
-        else if (outputFile.empty())
-            outputFile = argv[i];
         else
             tempoMultiplier = std::stof(argv[i]);
     }
 
-    if (inputFile.empty() || outputFile.empty()) {
+    if (inputFile.empty()) {
         printUsage(argc, argv);
         return 1;
     }
 
-    int result = (int)createMidiFile(inputFile, outputFile, tempoMultiplier);
+    createMidiFiles(inputFile, tempoMultiplier);
 
-    return result;
+    return 0;
 }
 
 void printUsage(int argc, const char * argv[]) {
     std::cerr << "Usage: \n";
-    std::cerr << "    " << argv[0] << " <input> <output> [<tempoMultiplier>]\n\n";
+    std::cerr << "    " << argv[0] << " <input> [<tempoMultiplier>]\n\n";
     std::cerr << "    input            Input MusicXML file path. A music xml file.\n";
-    std::cerr << "    output           Output file path.\n";
     std::cerr << "    tempoMultiplier  Optional tempo multiplier to to the midi tempo events.\n";
 }
 
-bool createMidiFile(std::string inputFile, std::string outputFile, float tempoMultiplier) {
+void createMidiFiles(std::string inputFile, float tempoMultiplier) {
     auto score = loadScore(inputFile);
-    auto musicSequence = MusicSequenceGenerator::generateFromScore(*score, tempoMultiplier);
-
-    std::string outputFileURL = outputFile;
-    CFStringRef outputFileURLRef = CFStringCreateWithCString(NULL, outputFileURL.c_str(), kCFStringEncodingISOLatin1);
-    CFURLRef fileURL = CFURLCreateWithFileSystemPath(NULL, outputFileURLRef, kCFURLPOSIXPathStyle, false);
-    OSStatus status = MusicSequenceFileCreate(musicSequence.get(), fileURL, kMusicSequenceFile_MIDIType, kMusicSequenceFileFlags_EraseFile, 0);
-
-    return status == noErr;
+    MusicSequenceGenerator::generate(*score, tempoMultiplier, inputFile + ".mid");
+    MIDIAnnotationGenerator::generate(*score, tempoMultiplier, inputFile + ".json");
 }
 
 std::unique_ptr<mxml::dom::Score> loadScore(std::string file) {

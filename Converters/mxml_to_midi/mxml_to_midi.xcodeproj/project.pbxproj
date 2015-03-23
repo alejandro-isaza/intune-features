@@ -140,6 +140,8 @@
 		006ADE491AB77F36008C3305 /* CoreFoundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 006ADE481AB77F36008C3305 /* CoreFoundation.framework */; };
 		006ADE4B1AB77F3B008C3305 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 006ADE4A1AB77F3B008C3305 /* AudioToolbox.framework */; };
 		006ADE4E1AB77F5B008C3305 /* MusicSequenceGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 006ADE4D1AB77F5B008C3305 /* MusicSequenceGenerator.cpp */; };
+		00BB590F1AC096460066406A /* MIDIAnnotationGenerator.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00BB590D1AC096460066406A /* MIDIAnnotationGenerator.cpp */; };
+		00BB592C1AC0D9030066406A /* json11.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00BB59261AC0D9030066406A /* json11.cpp */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -486,6 +488,11 @@
 		006ADE4A1AB77F3B008C3305 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		006ADE4C1AB77F5B008C3305 /* MusicSequenceGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MusicSequenceGenerator.h; sourceTree = "<group>"; };
 		006ADE4D1AB77F5B008C3305 /* MusicSequenceGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MusicSequenceGenerator.cpp; sourceTree = "<group>"; };
+		00BB590D1AC096460066406A /* MIDIAnnotationGenerator.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MIDIAnnotationGenerator.cpp; sourceTree = "<group>"; };
+		00BB590E1AC096460066406A /* MIDIAnnotationGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MIDIAnnotationGenerator.h; sourceTree = "<group>"; };
+		00BB59261AC0D9030066406A /* json11.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = json11.cpp; sourceTree = "<group>"; };
+		00BB59271AC0D9030066406A /* json11.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = json11.hpp; sourceTree = "<group>"; };
+		00BB592A1AC0D9030066406A /* README.md */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -523,8 +530,10 @@
 			isa = PBXGroup;
 			children = (
 				006ADC721AB77EC4008C3305 /* main.cpp */,
-				006ADE4C1AB77F5B008C3305 /* MusicSequenceGenerator.h */,
 				006ADE4D1AB77F5B008C3305 /* MusicSequenceGenerator.cpp */,
+				006ADE4C1AB77F5B008C3305 /* MusicSequenceGenerator.h */,
+				00BB590D1AC096460066406A /* MIDIAnnotationGenerator.cpp */,
+				00BB590E1AC096460066406A /* MIDIAnnotationGenerator.h */,
 			);
 			path = mxml_to_midi;
 			sourceTree = "<group>";
@@ -532,6 +541,7 @@
 		006ADC791AB77EE9008C3305 /* Libraries */ = {
 			isa = PBXGroup;
 			children = (
+				00BB59241AC0D9030066406A /* json11 */,
 				006ADE4A1AB77F3B008C3305 /* AudioToolbox.framework */,
 				006ADE481AB77F36008C3305 /* CoreFoundation.framework */,
 				006ADE461AB77F32008C3305 /* libxml2.dylib */,
@@ -929,6 +939,17 @@
 			path = parsing;
 			sourceTree = "<group>";
 		};
+		00BB59241AC0D9030066406A /* json11 */ = {
+			isa = PBXGroup;
+			children = (
+				00BB59261AC0D9030066406A /* json11.cpp */,
+				00BB59271AC0D9030066406A /* json11.hpp */,
+				00BB592A1AC0D9030066406A /* README.md */,
+			);
+			name = json11;
+			path = ../../Submodules/json11;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -1085,6 +1106,7 @@
 				006ADDEA1AB77EF6008C3305 /* DirectionGeometryFactory.cpp in Sources */,
 				006ADDFB1AB77EF6008C3305 /* PartGeometry.cpp in Sources */,
 				006ADE221AB77EF6008C3305 /* MordentHandler.cpp in Sources */,
+				00BB590F1AC096460066406A /* MIDIAnnotationGenerator.cpp in Sources */,
 				006ADE091AB77EF6008C3305 /* Metrics.cpp in Sources */,
 				006ADE081AB77EF6008C3305 /* LoopFactory.cpp in Sources */,
 				006ADDC61AB77EF6008C3305 /* DoubleHandler.cpp in Sources */,
@@ -1107,6 +1129,7 @@
 				006ADDFD1AB77EF6008C3305 /* RestGeometry.cpp in Sources */,
 				006ADE141AB77EF6008C3305 /* DefaultsHandler.cpp in Sources */,
 				006ADE411AB77EF6008C3305 /* ScoreProperties.cpp in Sources */,
+				00BB592C1AC0D9030066406A /* json11.cpp in Sources */,
 				006ADE331AB77EF6008C3305 /* StaffLayoutHandler.cpp in Sources */,
 				006ADDCB1AB77EF6008C3305 /* AlterSequence.cpp in Sources */,
 				006ADE111AB77EF6008C3305 /* ClefHandler.cpp in Sources */,
@@ -1240,6 +1263,7 @@
 				006ADC781AB77EC4008C3305 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

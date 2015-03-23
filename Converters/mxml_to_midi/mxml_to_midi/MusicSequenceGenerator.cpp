@@ -2,21 +2,30 @@
 
 #include "MusicSequenceGenerator.h"
 
-
-MusicSequenceGenerator::MusicSequenceUniquePointer MusicSequenceGenerator::generateFromScore(const mxml::dom::Score& score, const float tempoMultiplier) {
-    MusicSequenceGenerator generator(score, tempoMultiplier);
+void MusicSequenceGenerator::generate(const mxml::dom::Score& score, const float tempoMultiplier, const std::string& outputFile) {
+    MusicSequenceGenerator generator(score, tempoMultiplier, outputFile);
     generator.buildMidiEvents();
     generator.buildMusicSequence();
-    return std::move(generator._musicSequence);
+    generator.writeMusicSequence();
 }
 
-MusicSequenceGenerator::MusicSequenceGenerator(const mxml::dom::Score& score, const float tempoMultiplier)
+MusicSequenceGenerator::MusicSequenceGenerator(const mxml::dom::Score& score, const float tempoMultiplier, const std::string& outputFile)
 : _score(score),
-  _tempoMultiplier(tempoMultiplier)
+  _tempoMultiplier(tempoMultiplier),
+  _outputFile(outputFile)
 {
     _scoreProperties.reset(new mxml::ScoreProperties(score));
     mxml::EventFactory eventFactory(score, *_scoreProperties);
     _eventSequence = eventFactory.build();
+}
+
+void MusicSequenceGenerator::writeMusicSequence() {
+    CFStringRef outputFileURLRef = CFStringCreateWithCString(NULL, _outputFile.c_str(), kCFStringEncodingISOLatin1);
+    CFURLRef fileURL = CFURLCreateWithFileSystemPath(NULL, outputFileURLRef, kCFURLPOSIXPathStyle, false);
+    OSStatus status = MusicSequenceFileCreate(_musicSequence.get(), fileURL, kMusicSequenceFile_MIDIType, kMusicSequenceFileFlags_EraseFile, 0);
+
+    if (status != noErr)
+        throw std::runtime_error("MusicSequenceGenerator::writeMusicSequence");
 }
 
 void MusicSequenceGenerator::buildMusicSequence() {

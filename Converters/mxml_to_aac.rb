@@ -9,7 +9,7 @@ def process(file)
 end
 
 def mxml_to_midi(file)
-  `bin/mxml_to_midi "#{file}" "#{file}.mid" #{TEMPO_MULTIPLIER}`
+  `bin/mxml_to_midi "#{file}" #{TEMPO_MULTIPLIER}`
 end
 
 def midi_to_wav(file)

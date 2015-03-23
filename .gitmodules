@@ -4,3 +4,6 @@
 [submodule "Submodules/MusicKit"]
 	path = Submodules/MusicKit
 	url = git@github.com:venturemedia/musickit.git
+[submodule "Submodules/json11"]
+	path = Submodules/json11
+	url = git@github.com:dropbox/json11.git
