@@ -26,7 +26,10 @@ static const std::size_t kPacketSize = 1024;
 @end
 
 
-@implementation RecordViewController
+@implementation RecordViewController {
+    std::unique_ptr<double[]> _displayData;
+    std::size_t _displayDataSize;
+}
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -78,8 +81,15 @@ static const std::size_t kPacketSize = 1024;
 
     auto data = _accumulatorModule->data();
     auto totalSize = _accumulatorModule->size();
+
+    if (_displayDataSize < kSampleRate * kWaveformMaxDuration) {
+        _displayDataSize = kSampleRate * kWaveformMaxDuration;
+        _displayData.reset(new double[_displayDataSize]);
+    }
+    std::copy(data, data + totalSize, _displayData.get());
+    
     dispatch_async(dispatch_get_main_queue(), ^() {
-        [self.waveformView setSamples:data count:totalSize];
+        [self.waveformView setSamples:_displayData.get() count:totalSize];
     });
 }
 

@@ -586,6 +586,8 @@
 		00EFC4C21AAF8DF3000C1D5B /* liblxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblxml.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		00EFC4E51AAF8E73000C1D5B /* libmxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libmxml.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		610325151AB7AAA300E4E3D3 /* VMSpectrogramView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMSpectrogramView.swift; sourceTree = "<group>"; };
+		612BFF6C1AC0B76D000D5772 /* VMFileLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMFileLoader.h; sourceTree = "<group>"; };
+		612BFF6D1AC0B76D000D5772 /* VMFileLoader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VMFileLoader.mm; sourceTree = "<group>"; };
 		6157FC931ABA49BF008C0D0D /* PeakExtraction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeakExtraction.h; sourceTree = "<group>"; };
 		6157FC951ABA4CD7008C0D0D /* FixedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FixedData.h; sourceTree = "<group>"; };
 		6157FC991ABB5568008C0D0D /* WindowingModule.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WindowingModule.hpp; sourceTree = "<group>"; };
@@ -1089,6 +1091,8 @@
 			children = (
 				00E638A31AB8E54C00F5B4C5 /* VMFilePickerController.h */,
 				00E638A41AB8E54C00F5B4C5 /* VMFilePickerController.m */,
+				612BFF6C1AC0B76D000D5772 /* VMFileLoader.h */,
+				612BFF6D1AC0B76D000D5772 /* VMFileLoader.mm */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -1565,6 +1569,7 @@
 			files = (
 				61A81D7E1AB1015D00E230A6 /* VMEqualizerView.swift in Sources */,
 				6171BD481A16BCC4004AB274 /* AppDelegate.m in Sources */,
+				612BFF6E1AC0B76D000D5772 /* VMFileLoader.mm in Sources */,
 				00AF6DD81AAF92A7006525F5 /* MXMLViewController.mm in Sources */,
 				610325171AB7AAA300E4E3D3 /* VMSpectrogramView.swift in Sources */,
 				008685651AB10B4B00F415A2 /* VMPianoRollViewController.swift in Sources */,

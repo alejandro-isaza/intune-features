@@ -3,6 +3,7 @@
 #import "VMSpectrogramViewController.h"
 #import "IntuneLab-Swift.h"
 
+#import "VMFileLoader.h"
 #import "VMFilePickerController.h"
 
 #include <tempo/modules/Converter.h>
@@ -19,7 +20,6 @@ using DataType = double;
 using SizeType = SourceModule<DataType>::SizeType;
 
 static const double kSampleRate = 44100;
-static const SizeType kMaxDataSize = 128*1024*1024;
 
 
 @interface VMSpectrogramViewController () <UIScrollViewDelegate>
@@ -27,19 +27,14 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 @property(nonatomic, weak) IBOutlet VMSpectrogramView *spectrogramView;
 @property(nonatomic, weak) IBOutlet VMEqualizerView *equalizerView;
 
-@property(nonatomic, strong) NSString* filePath;
-@property(nonatomic, strong) dispatch_queue_t queue;
+@property(nonatomic, strong) VMFileLoader* fileLoader;
 @property(nonatomic, assign) CGPoint previousOffset;
 @property(nonatomic, assign) NSUInteger highlightedIndex;
 
 @end
 
 
-@implementation VMSpectrogramViewController {
-    std::unique_ptr<DataType[]> _data;
-    std::unique_ptr<DataType[]> _peaks;
-    SizeType _size;
-}
+@implementation VMSpectrogramViewController
 
 + (instancetype)create {
     return [[VMSpectrogramViewController alloc] initWithNibName:@"VMSpectrogramViewController" bundle:nil];
@@ -50,7 +45,6 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     if (!self)
         return nil;
 
-    _queue = dispatch_queue_create("VMSpectrogramViewController", DISPATCH_QUEUE_SERIAL);
     _windowTime = 0.05;
     _hopTime = _windowTime / 2;
 
@@ -73,29 +67,28 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 - (void)setWindowTime:(NSTimeInterval)windowTime hopTime:(NSTimeInterval)hopTime {
     _windowTime = windowTime;
     _hopTime = hopTime;
-    dispatch_async(_queue, ^() {
-        [self render];
-    });
+    [self render];
 }
 
 - (void)setDecibelGround:(double)decibelGround {
     _spectrogramView.decibelGround = decibelGround;
     _equalizerView.decibelGround = decibelGround;
-    dispatch_async(_queue, ^() {
-        [self render];
-    });
+    [self render];
 }
 
 - (double*)data {
-    return _data.get();
+    auto audioData = [self.fileLoader audioData];
+    return audioData->data();
 }
 
 - (double*)peaks {
-    return _peaks.get();
+    auto peakData = [self.fileLoader peakData];
+    return peakData->data();
 }
 
 - (NSUInteger)dataSize {
-    return _size;
+    auto audioData = [self.fileLoader audioData];
+    return audioData->capacity();
 }
 
 - (NSUInteger)frequencyBinCount {
@@ -121,82 +114,45 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 }
 
 - (void)loadWaveform:(NSString*)file {
-    self.filePath = file;
-    dispatch_async(_queue, ^() {
-        [self render];
-    });
+    self.fileLoader = [VMFileLoader fileLoaderWithPath:file];
+    [self render];
 }
 
 - (void)render {
-    if (!self.filePath)
-        return;
+    self.fileLoader.windowTime = self.windowTime;
+    self.fileLoader.hopTime = self.hopTime;
+    
+    // Clear existing data to avoid data access errors
+    self.spectrogramView.frequencyBinCount = 0;
+    self.spectrogramView.peaks = nullptr;
+    [self.spectrogramView setSamples:nullptr count:0];
+    [self.equalizerView setSamples:nullptr count:0 offset:0];
 
-    dispatch_sync(dispatch_get_main_queue(), ^{
-        self.spectrogramView.frequencyBinCount = 0;
-        self.spectrogramView.peaks = nullptr;
-        [self.spectrogramView setSamples:nullptr count:0];
-        [self.equalizerView setSamples:nullptr count:0 offset:0];
-    });
-
-    auto fileModule = std::make_shared<ReadFromFileModule>(self.filePath.UTF8String);
-    const auto fileLength = fileModule->lengthInFrames();
-
-    auto converter = std::make_shared<Converter<ReadFromFileModule::DataType, DataType>>();
-    converter->setSource(fileModule);
-
-    const auto windowSize = static_cast<SizeType>(_windowTime * kSampleRate);
-    auto hopSize = static_cast<SizeType>(_hopTime * kSampleRate);
-    if (fileLength / hopSize >= kMaxDataSize / windowSize) {
-        hopSize = static_cast<decltype(hopSize)>(static_cast<uint64_t>(fileLength) * static_cast<uint64_t>(windowSize) / kMaxDataSize);
-        _hopTime = static_cast<NSTimeInterval>(hopSize) / kSampleRate;
-        // TODO: Update settings view controller
-    }
-
-    auto windowingModule = std::make_shared<WindowingModule<DataType>>(windowSize, hopSize);
-    windowingModule->setSource(converter);
-
-    auto windowModule = std::make_shared<HammingWindow<DataType>>();
-    windowModule->setSource(windowingModule);
-
-    auto fftModule = std::make_shared<FFTModule<DataType>>(windowSize);
-    fftModule->setSource(windowModule);
-
-    auto pollingModule = std::make_shared<PollingModule<DataType>>();
-    pollingModule->setSource(fftModule);
-
-    const auto dataLength = (fileLength / hopSize) * windowSize;
-
-    // Render spectrogram
-    _data.reset(new DataType[dataLength]);
-    PointerBuffer<DataType> buffer(_data.get(), dataLength);
-    _size = pollingModule->render(buffer);
-
-    // Render peaks
-    auto fixedData = std::make_shared<FixedData<DataType>>(_data.get(), _size);
-    auto window = std::make_shared<WindowingModule<DataType>>(windowSize/2, windowSize/2);
-    window->setSource(fixedData);
-    auto peakExtraction = std::make_shared<PeakExtraction<DataType>>(windowSize/2);
-    peakExtraction->setSource(window);
-    auto peakPolling = std::make_shared<PollingModule<DataType>>();
-    peakPolling->setSource(peakExtraction);
-
-    _peaks.reset(new DataType[_size]);
-    PointerBuffer<DataType> peakBuffer(_peaks.get(), _size);
-    peakPolling->render(peakBuffer);
-
-    dispatch_sync(dispatch_get_main_queue(), ^() {
-        self.spectrogramView.sampleTimeLength = _hopTime;
-        self.spectrogramView.frequencyBinCount = windowSize / 2;
-        [self.spectrogramView setSamples:_data.get() count:_size];
-        self.spectrogramView.peaks = _peaks.get();
+    // Load spectrogram
+    [self.fileLoader loadSpectrogramData:^(const Buffer<DataType>& buffer) {
+        self.spectrogramView.sampleTimeLength = self.fileLoader.hopTime;
+        self.spectrogramView.frequencyBinCount = self.fileLoader.windowSize / 2;
+        [self.spectrogramView setSamples:buffer.data() count:buffer.capacity()];
         [self updateEqualizerToTimeIndex:_highlightedIndex];
-    });
+
+        // Load peaks
+        [self.fileLoader loadPeakData:^(const Buffer<DataType>& buffer) {
+            self.spectrogramView.peaks = buffer.data();
+        }];
+    }];
 }
 
 - (void)updateEqualizerToTimeIndex:(NSUInteger)timeIndex {
-    DataType* sampleStart = _data.get() + (timeIndex * _spectrogramView.frequencyBinCount);
+    auto data = [self.fileLoader spectrogramData];
+    if (!data)
+        return;
+
+    DataType* sampleStart = data->data() + (timeIndex * _spectrogramView.frequencyBinCount);
     [_equalizerView setSamples:sampleStart count:_spectrogramView.frequencyBinCount offset:timeIndex];
-    _equalizerView.peaks = _peaks.get();
+
+    auto peaks = [self.fileLoader peakData];
+    if (peaks)
+        _equalizerView.peaks = peaks->data();
 }
 
 - (void)scrollBy:(CGFloat)dx {

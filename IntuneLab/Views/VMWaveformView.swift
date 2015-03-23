@@ -13,7 +13,7 @@ public class VMWaveformView: UIView {
     var lineWidth: CGFloat = 1.0
     var samplesPerPoint: CGFloat = 500
 
-    private var samples: UnsafePointer<Float> = nil
+    private var samples: UnsafePointer<Double> = nil
     private var samplesCount: Int = 0
     
     var sampleRate: CGFloat = 44100 {
@@ -28,7 +28,7 @@ public class VMWaveformView: UIView {
         }
     }
     
-    public func setSamples(samples: UnsafePointer<Float>, count: Int) {
+    public func setSamples(samples: UnsafePointer<Double>, count: Int) {
         self.samples = samples
         samplesCount = count
         setNeedsDisplay()
@@ -67,9 +67,9 @@ public class VMWaveformView: UIView {
         
         for var sampleIndex = 0; sampleIndex < samplesCount; sampleIndex += samplesPerPixel {
             // Get the RMS value for the current pixel
-            var value: Float = 0.0
+            var value: Double = 0.0
             let size = vDSP_Length(min(samplesPerPixel, samplesCount - sampleIndex))
-            vDSP_rmsqv(samples + sampleIndex, 1, &value, size)
+            vDSP_rmsqvD(samples + sampleIndex, 1, &value, size)
 
             point.x += pixelSize;
             point.y = height/2 - CGFloat(value) * height/2;

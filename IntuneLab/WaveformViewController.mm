@@ -3,6 +3,7 @@
 #import "WaveformViewController.h"
 #import "IntuneLab-Swift.h"
 
+#import "VMFileLoader.h"
 #import "VMFilePickerController.h"
 #import <tempo/modules/ReadFromFileModule.h>
 
@@ -14,28 +15,12 @@ using SizeType = SourceModule<DataType>::SizeType;
 @interface WaveformViewController ()
 
 @property (weak, nonatomic) IBOutlet VMWaveformView *waveformView;
+@property (strong, nonatomic) VMFileLoader* fileLoader;
 
 @end
 
 
-@implementation WaveformViewController {
-    std::unique_ptr<DataType[]> _data;
-}
-
-- (void)viewDidLoad {
-    [super viewDidLoad];
-}
-
-- (void)loadWaveform:(NSString*)file {
-    tempo::ReadFromFileModule fileReader(file.UTF8String);
-    auto length = fileReader.lengthInFrames();
-
-    _data.reset(new DataType[length]);
-    PointerBuffer<DataType> buffer(_data.get(), length);
-
-    auto numberOfFramesRead = fileReader.render(buffer);
-    [self.waveformView setSamples:buffer.data() count:numberOfFramesRead];
-}
+@implementation WaveformViewController
 
 - (IBAction)openFile:(UIButton*)sender {
     VMFilePickerController *filePicker = [[VMFilePickerController alloc] init];
@@ -43,6 +28,13 @@ using SizeType = SourceModule<DataType>::SizeType;
         [self loadWaveform:file];
     };
     [filePicker presentInViewController:self sourceRect:sender.frame];
+}
+
+- (void)loadWaveform:(NSString*)file {
+    self.fileLoader = [VMFileLoader fileLoaderWithPath:file];
+    [self.fileLoader loadAudioData:^(const tempo::Buffer<double>& buffer) {
+        [self.waveformView setSamples:buffer.data() count:buffer.capacity()];
+    }];
 }
 
 @end
