@@ -31,11 +31,11 @@ public:
         }
     };
 
-    using MidiNumber = unsigned int ;
+    using MidiNumber = unsigned int;
     using MusicSequenceUniquePointer = std::unique_ptr<OpaqueMusicSequence, MusicSequenceDeleter>;
 
 public:
-    static MusicSequenceUniquePointer generateFromScore(const mxml::dom::Score& score);
+    static MusicSequenceUniquePointer generateFromScore(const mxml::dom::Score& score, const float tempoMultiplier);
 
 private:
     struct NoteEvent {
@@ -48,7 +48,7 @@ private:
     };
 
 private:
-    MusicSequenceGenerator(const mxml::dom::Score& score);
+    MusicSequenceGenerator(const mxml::dom::Score& score, const float tempoMultiplier);
     void buildMidiEvents();
     void buildMusicSequence();
     NoteEvent buildNoteEventFromNote(const mxml::dom::Note& note, Float32 duration, MusicTimeStamp timeStamp);
@@ -63,4 +63,5 @@ private:
     std::unique_ptr<mxml::EventSequence> _eventSequence;
     std::vector<TempoEvent> _tempoEvents;
     std::vector<NoteEvent> _noteEvents;
+    float _tempoMultiplier;
 };

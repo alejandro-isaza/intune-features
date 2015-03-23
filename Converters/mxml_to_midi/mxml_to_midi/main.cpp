@@ -14,7 +14,7 @@
 #include <iostream>
 
 void printUsage(int argc, const char * argv[]);
-bool createMidiFile(std::string inputFile, std::string outputFile);
+bool createMidiFile(std::string inputFile, std::string outputFile, float tempoMultiplier);
 std::unique_ptr<mxml::dom::Score> loadScore(std::string file);
 std::unique_ptr<mxml::dom::Score> loadScoreFromXML(std::string file);
 std::unique_ptr<mxml::dom::Score> loadScoreFromMXL(std::string file);
@@ -23,12 +23,15 @@ bool stringHasSuffix(std::string string, std::string suffix);
 int main(int argc, const char * argv[]) {
     std::string inputFile;
     std::string outputFile;
+    float tempoMultiplier = 1.0f;
 
     for (int i = 1; i < argc; i += 1) {
         if (inputFile.empty())
             inputFile = argv[i];
         else if (outputFile.empty())
             outputFile = argv[i];
+        else
+            tempoMultiplier = std::stof(argv[i]);
     }
 
     if (inputFile.empty() || outputFile.empty()) {
@@ -36,21 +39,22 @@ int main(int argc, const char * argv[]) {
         return 1;
     }
 
-    int result = (int)createMidiFile(inputFile, outputFile);
+    int result = (int)createMidiFile(inputFile, outputFile, tempoMultiplier);
 
     return result;
 }
 
 void printUsage(int argc, const char * argv[]) {
     std::cerr << "Usage: \n";
-    std::cerr << "    " << argv[0] << " <input> [<output>]\n\n";
-    std::cerr << "    input   Input MusicXML file path. A compressed .mxl file.\n";
-    std::cerr << "    output  Optional output file path.\n";
+    std::cerr << "    " << argv[0] << " <input> <output> [<tempoMultiplier>]\n\n";
+    std::cerr << "    input            Input MusicXML file path. A music xml file.\n";
+    std::cerr << "    output           Output file path.\n";
+    std::cerr << "    tempoMultiplier  Optional tempo multiplier to to the midi tempo events.\n";
 }
 
-bool createMidiFile(std::string inputFile, std::string outputFile) {
+bool createMidiFile(std::string inputFile, std::string outputFile, float tempoMultiplier) {
     auto score = loadScore(inputFile);
-    auto musicSequence = MusicSequenceGenerator::generateFromScore(*score);
+    auto musicSequence = MusicSequenceGenerator::generateFromScore(*score, tempoMultiplier);
 
     std::string outputFileURL = outputFile;
     CFStringRef outputFileURLRef = CFStringCreateWithCString(NULL, outputFileURL.c_str(), kCFStringEncodingISOLatin1);

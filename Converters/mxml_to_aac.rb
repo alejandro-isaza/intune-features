@@ -1,5 +1,7 @@
 #!/usr/bin/env ruby
 
+TEMPO_MULTIPLIER = 1.0
+
 def process(file)
   mxml_to_midi(file)
   midi_to_wav(file)
@@ -7,11 +9,11 @@ def process(file)
 end
 
 def mxml_to_midi(file)
-  `bin/mxml_to_midi "#{file}" "#{file}.mid"`
+  `bin/mxml_to_midi "#{file}" "#{file}.mid" #{TEMPO_MULTIPLIER}`
 end
 
 def midi_to_wav(file)
-  `fluidsynth "bin/grand_piano.sf2" "#{file}.mid" -F "#{file}.wav" -O float -g 5`
+  `fluidsynth "bin/grand_piano.sf2" "#{file}.mid" -F "#{file}.wav" -O float -g 4`
 end
 
 def wav_to_aac(file)

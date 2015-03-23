@@ -3,14 +3,17 @@
 #include "MusicSequenceGenerator.h"
 
 
-MusicSequenceGenerator::MusicSequenceUniquePointer MusicSequenceGenerator::generateFromScore(const mxml::dom::Score& score) {
-    MusicSequenceGenerator generator(score);
+MusicSequenceGenerator::MusicSequenceUniquePointer MusicSequenceGenerator::generateFromScore(const mxml::dom::Score& score, const float tempoMultiplier) {
+    MusicSequenceGenerator generator(score, tempoMultiplier);
     generator.buildMidiEvents();
     generator.buildMusicSequence();
     return std::move(generator._musicSequence);
 }
 
-MusicSequenceGenerator::MusicSequenceGenerator(const mxml::dom::Score& score) : _score(score) {
+MusicSequenceGenerator::MusicSequenceGenerator(const mxml::dom::Score& score, const float tempoMultiplier)
+: _score(score),
+  _tempoMultiplier(tempoMultiplier)
+{
     _scoreProperties.reset(new mxml::ScoreProperties(score));
     mxml::EventFactory eventFactory(score, *_scoreProperties);
     _eventSequence = eventFactory.build();
@@ -50,7 +53,7 @@ void MusicSequenceGenerator::buildMidiEvents() {
 
             TempoEvent tempoEvent = {
                 .timeStamp = currentBeat,
-                .bpm = currentTempo
+                .bpm = currentTempo * _tempoMultiplier
             };
             _tempoEvents.push_back(tempoEvent);
         }
