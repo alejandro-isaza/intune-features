@@ -52,9 +52,13 @@ public class VMWaveformView: UIView {
     }
 
     override public func drawRect(rect: CGRect) {
+        let context = UIGraphicsGetCurrentContext()
+
+        backgroundColor?.setFill()
+        CGContextFillRect(context, rect)
+
         lineColor?.setFill()
         lineColor?.setStroke()
-        let context = UIGraphicsGetCurrentContext()
         CGContextSetLineWidth(context, lineWidth)
 
         let path = createPath()

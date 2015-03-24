@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1514" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="H1p-Uh-vWS">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="6751" systemVersion="14C1510" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" initialViewController="H1p-Uh-vWS">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6736"/>
     </dependencies>
@@ -32,7 +32,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="09S-ux-Nqj">
-                                <rect key="frame" x="153" y="72" width="294" height="50"/>
+                                <rect key="frame" x="138" y="72" width="324" height="50"/>
                                 <subviews>
                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="enter filename" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="n0y-Dh-mO5">
                                         <rect key="frame" x="0.0" y="10" width="188" height="30"/>
@@ -46,10 +46,10 @@
                                         </connections>
                                     </textField>
                                     <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="eLC-8n-5AF">
-                                        <rect key="frame" x="196" y="0.0" width="90" height="50"/>
+                                        <rect key="frame" x="196" y="0.0" width="70" height="50"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="50" id="11d-1a-UMr"/>
-                                            <constraint firstAttribute="width" constant="90" id="3Ce-hC-6wg"/>
+                                            <constraint firstAttribute="width" constant="70" id="3Ce-hC-6wg"/>
                                         </constraints>
                                         <state key="normal" title="Record">
                                             <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
@@ -58,23 +58,43 @@
                                             <action selector="startStop" destination="JEX-9P-axG" eventType="touchUpInside" id="mPc-Ec-WTc"/>
                                         </connections>
                                     </button>
+                                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="x4H-8k-vJV">
+                                        <rect key="frame" x="274" y="0.0" width="50" height="50"/>
+                                        <constraints>
+                                            <constraint firstAttribute="width" constant="50" id="YEd-jb-UY1"/>
+                                        </constraints>
+                                        <state key="normal" title="Save">
+                                            <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                        </state>
+                                        <connections>
+                                            <action selector="save" destination="JEX-9P-axG" eventType="touchUpInside" id="pj1-aN-TaS"/>
+                                        </connections>
+                                    </button>
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="x4H-8k-vJV" secondAttribute="trailing" id="8so-3I-Wgq"/>
                                     <constraint firstAttribute="centerY" secondItem="n0y-Dh-mO5" secondAttribute="centerY" id="LBD-Sp-xhr"/>
-                                    <constraint firstAttribute="trailing" secondItem="eLC-8n-5AF" secondAttribute="trailing" constant="8" id="OPJ-Z5-t9D"/>
+                                    <constraint firstAttribute="bottom" secondItem="x4H-8k-vJV" secondAttribute="bottom" id="Mru-fw-TnA"/>
+                                    <constraint firstItem="x4H-8k-vJV" firstAttribute="top" secondItem="09S-ux-Nqj" secondAttribute="top" id="POI-Ih-2op"/>
                                     <constraint firstItem="eLC-8n-5AF" firstAttribute="leading" secondItem="n0y-Dh-mO5" secondAttribute="trailing" constant="8" id="YOM-Sg-iq1"/>
                                     <constraint firstItem="eLC-8n-5AF" firstAttribute="top" secondItem="09S-ux-Nqj" secondAttribute="top" id="ZZ1-qh-LVl"/>
                                     <constraint firstItem="n0y-Dh-mO5" firstAttribute="leading" secondItem="09S-ux-Nqj" secondAttribute="leading" id="dgV-xM-exN"/>
+                                    <constraint firstItem="x4H-8k-vJV" firstAttribute="leading" secondItem="eLC-8n-5AF" secondAttribute="trailing" constant="8" id="f0n-wP-58w"/>
                                     <constraint firstAttribute="bottom" secondItem="eLC-8n-5AF" secondAttribute="bottom" id="gfw-zw-k6h"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="HJw-ja-GdU" customClass="VMWaveformView" customModule="IntuneLab" customModuleProvider="target">
                                 <rect key="frame" x="0.0" y="130" width="600" height="470"/>
-                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
                                     <constraint firstAttribute="height" priority="750" constant="400" id="Ll2-l2-MJx"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="lineColor">
+                                        <color key="value" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
@@ -159,6 +179,11 @@
                                 <constraints>
                                     <constraint firstAttribute="height" constant="300" id="rM1-Y9-ToZ"/>
                                 </constraints>
+                                <userDefinedRuntimeAttributes>
+                                    <userDefinedRuntimeAttribute type="color" keyPath="lineColor">
+                                        <color key="value" red="0.0" green="0.0" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                    </userDefinedRuntimeAttribute>
+                                </userDefinedRuntimeAttributes>
                             </view>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>

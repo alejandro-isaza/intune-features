@@ -33,9 +33,6 @@ static const std::size_t kPacketSize = 1024;
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
-    _waveformView.backgroundColor = [UIColor whiteColor];
-    _waveformView.lineColor = [UIColor blueColor];
 }
 
 - (IBAction)startStop {
@@ -45,13 +42,22 @@ static const std::size_t kPacketSize = 1024;
         [self stop];
 }
 
+- (IBAction)save {
+    if (!_microphoneModule)
+        return;
+
+    [self reset];
+    _fileWriter.reset();
+    [[[UIAlertView alloc] initWithTitle:@"Recording saved"
+                                message:@"\U0001F604" delegate:nil
+                      cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
+}
+
 - (void)tryStart {
-    if ([self recordingFileExists]) {
+    if (!_microphoneModule && [self recordingFileExists]) {
         [[[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"File \"%@\" exists", [self recordingFilename]]
-                                    message:@"Overwrite?"
-                                   delegate:self
-                          cancelButtonTitle:@"NO"
-                          otherButtonTitles:@"YES", nil] show];
+                                    message:@"Overwrite? \U0001F633" delegate:self
+                          cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil] show];
         return;
     }
 
@@ -72,6 +78,19 @@ static const std::size_t kPacketSize = 1024;
 
     _microphoneModule->stop();
     [self.startStopButton setTitle:@"Record" forState:UIControlStateNormal];
+}
+
+- (void)reset {
+    if (!_microphoneModule)
+        return;
+
+    [self stop];
+    _microphoneModule.reset();
+    _accumulatorModule.reset();
+    _displayData.reset();
+    dispatch_async(dispatch_get_main_queue(), ^() {
+        [self.waveformView setSamples:nil count:0];
+    });
 }
 
 - (void)step {
@@ -95,7 +114,7 @@ static const std::size_t kPacketSize = 1024;
 
 - (void)initializeModuleGraph {
     _fileWriter.reset(new SaveToFileModule([self recordingFile].UTF8String, kSampleRate));
-    
+
     _waveformView.sampleRate = kSampleRate;
     _waveformView.endFrame = kWaveformMaxDuration * kSampleRate;
 
