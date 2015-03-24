@@ -157,6 +157,7 @@
 		610325171AB7AAA300E4E3D3 /* VMSpectrogramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610325151AB7AAA300E4E3D3 /* VMSpectrogramView.swift */; };
 		612BFF6B1AC09AB8000D5772 /* AnnotationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 612BFF6A1AC09AB8000D5772 /* AnnotationViewController.mm */; };
 		612BFF6E1AC0B76D000D5772 /* VMFileLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 612BFF6D1AC0B76D000D5772 /* VMFileLoader.mm */; };
+		612BFF731AC1DECB000D5772 /* Annotations in Resources */ = {isa = PBXBuildFile; fileRef = 612BFF721AC1DECB000D5772 /* Annotations */; };
 		6157FCA21ABCBEA8008C0D0D /* VMDistancesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6157FCA11ABCBEA8008C0D0D /* VMDistancesView.m */; };
 		6171BD451A16BCC4004AB274 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD441A16BCC4004AB274 /* main.m */; };
 		6171BD481A16BCC4004AB274 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD471A16BCC4004AB274 /* AppDelegate.m */; };
@@ -592,6 +593,7 @@
 		612BFF6A1AC09AB8000D5772 /* AnnotationViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AnnotationViewController.mm; sourceTree = "<group>"; };
 		612BFF6C1AC0B76D000D5772 /* VMFileLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMFileLoader.h; sourceTree = "<group>"; };
 		612BFF6D1AC0B76D000D5772 /* VMFileLoader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VMFileLoader.mm; sourceTree = "<group>"; };
+		612BFF721AC1DECB000D5772 /* Annotations */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Annotations; path = Resources/Annotations; sourceTree = "<group>"; };
 		6157FC931ABA49BF008C0D0D /* PeakExtraction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeakExtraction.h; sourceTree = "<group>"; };
 		6157FC951ABA4CD7008C0D0D /* FixedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FixedData.h; sourceTree = "<group>"; };
 		6157FC991ABB5568008C0D0D /* WindowingModule.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WindowingModule.hpp; sourceTree = "<group>"; };
@@ -1084,6 +1086,7 @@
 		00AF6DD91AAF9712006525F5 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				612BFF721AC1DECB000D5772 /* Annotations */,
 				00BF7B6B1AB9E638003A31A7 /* XML */,
 				00E638A81AB8F13500F5B4C5 /* Audio */,
 			);
@@ -1408,6 +1411,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				0086859F1AB1148F00F415A2 /* VMPianoRollViewController.xib in Resources */,
+				612BFF731AC1DECB000D5772 /* Annotations in Resources */,
 				0086856C1AB10C1400F415A2 /* Images.xcassets in Resources */,
 				00587A2E1ABB4C1B0043564B /* FFTSettingsViewController.xib in Resources */,
 				008685A31AB114B400F415A2 /* Main.storyboard in Resources */,
