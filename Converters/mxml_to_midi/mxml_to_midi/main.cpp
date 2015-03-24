@@ -50,7 +50,7 @@ void printUsage(int argc, const char * argv[]) {
 }
 
 void createMidiFiles(std::string inputFile, float tempoMultiplier) {
-    auto score = loadScore(inputFile);
+    auto score = loadScore(inputFile + ".xml");
     MusicSequenceGenerator::generate(*score, tempoMultiplier, inputFile + ".mid");
     MIDIAnnotationGenerator::generate(*score, tempoMultiplier, inputFile + ".json");
 }

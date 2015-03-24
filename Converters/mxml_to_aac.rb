@@ -3,6 +3,7 @@
 TEMPO_MULTIPLIER = 1.0
 
 def process(file)
+  file = File.dirname(file) + "/" + File.basename(file, ".xml")
   mxml_to_midi(file)
   midi_to_wav(file)
   wav_to_aac(file)
