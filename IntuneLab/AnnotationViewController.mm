@@ -64,11 +64,12 @@
     CGPoint tapLocation = [sender locationInView:self.spectrogramView];
     self.selectedIndex = [self.spectrogramView timeIndexAtLocation:tapLocation];
 
-    _spectrogramView.highlightTimeIndex = self.selectedIndex;
-    [_spectrogramView setNeedsDisplay];
+    self.spectrogramView.highlightTimeIndex = self.selectedIndex;
+    [self.spectrogramView setNeedsDisplay];
 
-    int time = self.selectedIndex * self.fileLoader.hopTime * 1000.0;
-    self.wallTimeTextField.text = [NSString stringWithFormat:@"%d", time];
+    NSTimeInterval time = self.selectedIndex * self.fileLoader.hopTime;
+    [self.waveformView markWithTime:time];
+    self.wallTimeTextField.text = [NSString stringWithFormat:@"%d", int(1000 * time)];
 }
 
 

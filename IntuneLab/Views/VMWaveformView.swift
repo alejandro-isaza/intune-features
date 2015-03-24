@@ -8,13 +8,15 @@ import UIKit
 */
 public class VMWaveformView: UIView {
     @IBInspectable var lineColor: UIColor?
+    @IBInspectable var markerColor: UIColor?
 
     var alignment: Int = 1 // 0 = Leading, !0 = Trailing
     var lineWidth: CGFloat = 1.0
 
     private var samples: UnsafePointer<Double> = nil
     private var samplesCount: Int = 0
-    
+    private var markIndex: Int = -1
+
     var sampleRate: Double = 44100
     var startFrame: Int = 0 {
         didSet {
@@ -43,7 +45,12 @@ public class VMWaveformView: UIView {
         samplesCount = count
         setNeedsDisplay()
     }
-    
+
+    public func mark(#time: NSTimeInterval) {
+        markIndex = Int(time * sampleRate)
+        setNeedsDisplay()
+    }
+
     override public func drawRect(rect: CGRect) {
         lineColor?.setFill()
         lineColor?.setStroke()
@@ -54,10 +61,16 @@ public class VMWaveformView: UIView {
         CGContextAddPath(context, path)
         CGContextFillPath(context)
 
+        CGContextSaveGState(context)
         CGContextTranslateCTM(context, 0, bounds.size.height)
         CGContextScaleCTM(context, 1, -1)
         CGContextAddPath(context, path)
         CGContextFillPath(context)
+        CGContextRestoreGState(context)
+
+        markerColor?.setFill()
+        let x = self.bounds.width * CGFloat(markIndex - startFrame) / CGFloat(endFrame - startFrame)
+        CGContextFillRect(context, CGRect(x: x - 0.5, y: 0, width: 1, height: self.bounds.height))
     }
 
     private func createPath() -> CGPathRef {
