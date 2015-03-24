@@ -13,7 +13,8 @@ def mxml_to_midi(file)
 end
 
 def midi_to_wav(file)
-  `fluidsynth "bin/grand_piano.sf2" "#{file}.mid" -F "#{file}.wav" -O float -g 4`
+  #`fluidsynth "bin/grand_piano.sf2" "#{file}.mid" -F "#{file}.wav" -O float -g 4`
+  `timidity "#{file}.mid" --config-string="soundfont bin/grand_piano.sf2" -Ow -o "#{file}.wav"`
 end
 
 def wav_to_aac(file)
