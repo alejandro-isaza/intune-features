@@ -97,7 +97,7 @@ static const std::size_t kPacketSize = 1024;
     _fileWriter.reset(new SaveToFileModule([self recordingFile].UTF8String, kSampleRate));
     
     _waveformView.sampleRate = kSampleRate;
-    _waveformView.duration = kWaveformMaxDuration;
+    _waveformView.endFrame = kWaveformMaxDuration * kSampleRate;
 
     _microphoneModule.reset(new MicrophoneModule);
     __weak RecordViewController* wself = self;

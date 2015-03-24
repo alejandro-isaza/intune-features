@@ -95,13 +95,19 @@ internal class VMSpectrogramView: UIScrollView {
     }
 
     func timeIndexAtLocation(location: CGPoint) -> UInt {
-        var sampleOffsetInPoints = contentOffset.x + location.x
-        if sampleOffsetInPoints < 0 {
-            sampleOffsetInPoints = 0
+        if sampleCount == 0 {
+            return 0
         }
+
+        let sampleOffsetInPoints = location.x
         let sampleWidth = bounds.width * CGFloat(sampleTimeLength / timeScale)
-        let sampleOffset = UInt(floor(sampleOffsetInPoints / sampleWidth))
-        return sampleOffset
+        var sampleOffset = floor(sampleOffsetInPoints / sampleWidth)
+        if sampleOffset < 0 {
+            sampleOffset = 0
+        } else if sampleOffset >= CGFloat(sampleCount) {
+            sampleOffset = CGFloat(sampleCount - 1)
+        }
+        return UInt(sampleOffset)
     }
 
     internal func setup() {

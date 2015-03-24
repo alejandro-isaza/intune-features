@@ -165,7 +165,7 @@ static const double kSampleRate = 44100;
 #pragma mark - Gestures
 
 - (IBAction)handleTap:(UITapGestureRecognizer *)sender {
-    CGPoint tapLocation = [sender locationInView:self.view];
+    CGPoint tapLocation = [sender locationInView:self.spectrogramView];
 
     _highlightedIndex = [_spectrogramView timeIndexAtLocation:tapLocation];
     [self updateEqualizerToTimeIndex:_highlightedIndex];

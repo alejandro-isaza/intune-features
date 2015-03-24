@@ -75,14 +75,13 @@
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGPoint currentOffset = scrollView.contentOffset;
-    NSUInteger firstIndex = [self.spectrogramView timeIndexAtLocation:currentOffset];
+    NSUInteger firstIndex = [self.spectrogramView timeIndexAtLocation:self.spectrogramView.contentOffset];
+    NSUInteger lastIndex = [self.spectrogramView timeIndexAtLocation:CGPointMake(self.spectrogramView.contentOffset.x + self.spectrogramView.bounds.size.width, 0)];
 
     auto audioData = [self.fileLoader audioData];
     if (audioData) {
-        const auto visibleSlices = self.spectrogramView.bounds.size.width / self.spectrogramView.sliceWidth;
         self.waveformView.startFrame = firstIndex * self.fileLoader.hopSize;
-        self.waveformView.endFrame = (firstIndex + visibleSlices) * self.fileLoader.hopSize;
+        self.waveformView.endFrame = lastIndex * self.fileLoader.hopSize;
     }
 }
 
@@ -107,9 +106,10 @@
         self.spectrogramView.frequencyBinCount = self.fileLoader.windowSize / 2;
         [self.spectrogramView setSamples:buffer.data() count:buffer.capacity()];
 
-        const auto visibleSlices = self.spectrogramView.bounds.size.width / self.spectrogramView.sliceWidth;
-        self.waveformView.startFrame = 0;
-        self.waveformView.endFrame = visibleSlices * self.fileLoader.hopSize;
+        NSUInteger firstIndex = [self.spectrogramView timeIndexAtLocation:self.spectrogramView.contentOffset];
+        NSUInteger lastIndex = [self.spectrogramView timeIndexAtLocation:CGPointMake(self.spectrogramView.contentOffset.x + self.spectrogramView.bounds.size.width, 0)];
+        self.waveformView.startFrame = firstIndex * self.fileLoader.hopSize;
+        self.waveformView.endFrame = lastIndex * self.fileLoader.hopSize;
     }];
 }
 
