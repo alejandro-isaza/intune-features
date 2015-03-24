@@ -155,6 +155,8 @@
 		00EFC4E01AAF8E19000C1D5B /* liblxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EFC4C21AAF8DF3000C1D5B /* liblxml.a */; };
 		00EFC5481AAF8EA3000C1D5B /* libmxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EFC4E51AAF8E73000C1D5B /* libmxml.a */; };
 		610325171AB7AAA300E4E3D3 /* VMSpectrogramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610325151AB7AAA300E4E3D3 /* VMSpectrogramView.swift */; };
+		612BFF6B1AC09AB8000D5772 /* AnnotationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 612BFF6A1AC09AB8000D5772 /* AnnotationViewController.mm */; };
+		612BFF6E1AC0B76D000D5772 /* VMFileLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 612BFF6D1AC0B76D000D5772 /* VMFileLoader.mm */; };
 		6157FCA21ABCBEA8008C0D0D /* VMDistancesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6157FCA11ABCBEA8008C0D0D /* VMDistancesView.m */; };
 		6171BD451A16BCC4004AB274 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD441A16BCC4004AB274 /* main.m */; };
 		6171BD481A16BCC4004AB274 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD471A16BCC4004AB274 /* AppDelegate.m */; };
@@ -586,6 +588,8 @@
 		00EFC4C21AAF8DF3000C1D5B /* liblxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblxml.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		00EFC4E51AAF8E73000C1D5B /* libmxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libmxml.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		610325151AB7AAA300E4E3D3 /* VMSpectrogramView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMSpectrogramView.swift; sourceTree = "<group>"; };
+		612BFF691AC09AB8000D5772 /* AnnotationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnotationViewController.h; sourceTree = "<group>"; };
+		612BFF6A1AC09AB8000D5772 /* AnnotationViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AnnotationViewController.mm; sourceTree = "<group>"; };
 		612BFF6C1AC0B76D000D5772 /* VMFileLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMFileLoader.h; sourceTree = "<group>"; };
 		612BFF6D1AC0B76D000D5772 /* VMFileLoader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VMFileLoader.mm; sourceTree = "<group>"; };
 		6157FC931ABA49BF008C0D0D /* PeakExtraction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeakExtraction.h; sourceTree = "<group>"; };
@@ -1145,6 +1149,8 @@
 				00587A2A1ABB4BA80043564B /* FFTSettingsViewController.h */,
 				00587A2B1ABB4BA80043564B /* FFTSettingsViewController.m */,
 				00587A2D1ABB4C1B0043564B /* FFTSettingsViewController.xib */,
+				612BFF691AC09AB8000D5772 /* AnnotationViewController.h */,
+				612BFF6A1AC09AB8000D5772 /* AnnotationViewController.mm */,
 				00AF6DD91AAF9712006525F5 /* Resources */,
 				6171BD421A16BCC4004AB274 /* Supporting Files */,
 			);
@@ -1577,6 +1583,7 @@
 				00587A2C1ABB4BA80043564B /* FFTSettingsViewController.m in Sources */,
 				6171BEF41A16DB0E004AB274 /* RecordViewController.mm in Sources */,
 				00BF7B6F1ABA413A003A31A7 /* DifferenceViewController.mm in Sources */,
+				612BFF6B1AC09AB8000D5772 /* AnnotationViewController.mm in Sources */,
 				00E638AC1AB8F4F100F5B4C5 /* ReadFromFileModule.cpp in Sources */,
 				00BF7B761ABA469D003A31A7 /* VMSpectrogramViewController.mm in Sources */,
 				6171BD4B1A16BCC4004AB274 /* MasterViewController.m in Sources */,

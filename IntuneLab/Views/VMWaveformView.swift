@@ -11,20 +11,30 @@ public class VMWaveformView: UIView {
 
     var alignment: Int = 1 // 0 = Leading, !0 = Trailing
     var lineWidth: CGFloat = 1.0
-    var samplesPerPoint: CGFloat = 500
 
     private var samples: UnsafePointer<Double> = nil
     private var samplesCount: Int = 0
     
-    var sampleRate: CGFloat = 44100 {
+    var sampleRate: Double = 44100
+    var startFrame: Int = 0 {
         didSet {
-            samplesPerPoint = duration * sampleRate / bounds.size.width
+            setNeedsDisplay()
         }
     }
-    
-    var duration: CGFloat = 5 {
+    var endFrame: Int = 5 * 44100 {
         didSet {
-            samplesPerPoint = duration * sampleRate / bounds.size.width
+            setNeedsDisplay()
+        }
+    }
+
+    var duration: NSTimeInterval {
+        get {
+            return NSTimeInterval(endFrame - startFrame) /  sampleRate
+        }
+    }
+    var samplesPerPoint: CGFloat {
+        get {
+            return CGFloat(endFrame - startFrame) / bounds.size.width
         }
     }
     
@@ -65,7 +75,7 @@ public class VMWaveformView: UIView {
         let path = CGPathCreateMutable()
         CGPathMoveToPoint(path, nil, point.x, point.y)
         
-        for var sampleIndex = 0; sampleIndex < samplesCount; sampleIndex += samplesPerPixel {
+        for var sampleIndex = startFrame; sampleIndex < samplesCount && sampleIndex < endFrame; sampleIndex += samplesPerPixel {
             // Get the RMS value for the current pixel
             var value: Double = 0.0
             let size = vDSP_Length(min(samplesPerPixel, samplesCount - sampleIndex))

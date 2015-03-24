@@ -40,6 +40,13 @@ internal class VMSpectrogramView: UIScrollView {
         }
     }
 
+    /// The width of a time slice in points
+    var sliceWidth: CGFloat {
+        get {
+            return bounds.width * CGFloat(sampleTimeLength / timeScale)
+        }
+    }
+
     /// The number of frequency bins in the samples
     var frequencyBinCount: UInt = 2048
 
@@ -88,7 +95,10 @@ internal class VMSpectrogramView: UIScrollView {
     }
 
     func timeIndexAtLocation(location: CGPoint) -> UInt {
-        let sampleOffsetInPoints = contentOffset.x + location.x
+        var sampleOffsetInPoints = contentOffset.x + location.x
+        if sampleOffsetInPoints < 0 {
+            sampleOffsetInPoints = 0
+        }
         let sampleWidth = bounds.width * CGFloat(sampleTimeLength / timeScale)
         let sampleOffset = UInt(floor(sampleOffsetInPoints / sampleWidth))
         return sampleOffset
@@ -142,7 +152,7 @@ internal class VMSpectrogramView: UIScrollView {
         peakColor.setStroke()
         
         var barRect = CGRectZero
-        barRect.size.width = bounds.width * CGFloat(sampleTimeLength / timeScale)
+        barRect.size.width = sliceWidth
 
         var yScaling = yForFrequencyMel
         if yScale == .Linear {
