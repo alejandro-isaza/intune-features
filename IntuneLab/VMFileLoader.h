@@ -23,6 +23,7 @@ typedef void (^VMFileLoaderInvalidatedBlock)();
 @property(nonatomic) std::size_t windowSize;
 @property(nonatomic) NSTimeInterval hopTime;
 @property(nonatomic) std::size_t hopSize;
+@property(nonatomic) BOOL normalize;
 
 - (const tempo::Buffer<VMFileLoaderDataType>*)audioData;
 - (const tempo::Buffer<VMFileLoaderDataType>*)spectrogramData;

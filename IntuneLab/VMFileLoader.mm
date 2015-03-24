@@ -6,6 +6,7 @@
 #include <tempo/modules/FixedData.h>
 #include <tempo/modules/FFTModule.h>
 #include <tempo/modules/HammingWindow.h>
+#include <tempo/modules/Normalize.h>
 #include <tempo/modules/PeakExtraction.h>
 #include <tempo/modules/PollingModule.h>
 #include <tempo/modules/ReadFromFileModule.h>
@@ -49,6 +50,7 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     _sampleRate = 44100;
     _windowSize = 1024;
     _hopSize = 512;
+    _normalize = YES;
     _queue = dispatch_queue_create("VMFileLoader", DISPATCH_QUEUE_SERIAL);
     return self;
 }
@@ -102,7 +104,14 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 
     delete _audioData;
     _audioData = new UniqueBuffer<DataType>(fileLength);
-    converter->render(*_audioData);
+
+    if (self.normalize) {
+        auto normalize = std::make_shared<Normalize<DataType>>();
+        normalize->setSource(converter);
+        normalize->render(*_audioData);
+    } else {
+        converter->render(*_audioData);
+    }
     
     dispatch_sync(dispatch_get_main_queue(), ^() {
         if (completion)
