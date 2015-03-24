@@ -103,10 +103,13 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     });
 
     auto fileModule = std::make_shared<ReadFromFileModule>(self.filePath.UTF8String);
-    const auto fileLength = fileModule->lengthInFrames();
+    const auto fileLength = fileModule->size();
+
+    auto adapter = std::make_shared<FixedSourceToSourceAdapterModule<ReadFromFileModule::DataType>>();
+    adapter->setSource(fileModule);
 
     auto converter = std::make_shared<Converter<ReadFromFileModule::DataType, DataType>>();
-    converter->setSource(fileModule);
+    converter->setSource(adapter);
 
     const auto windowSize = static_cast<SizeType>(_windowTime * kSampleRate);
     auto hopSize = static_cast<SizeType>(_hopTime * kSampleRate);
@@ -140,10 +143,16 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 
     // Render peaks
     auto fixedData = std::make_shared<FixedData<DataType>>(_data.get(), rendered);
+
+    auto peaksAdapter = std::make_shared<FixedSourceToSourceAdapterModule<DataType>>();
+    peaksAdapter->setSource(fixedData);
+
     auto window = std::make_shared<WindowingModule<DataType>>(windowSize/2, windowSize/2);
-    window->setSource(fixedData);
+    window->setSource(peaksAdapter);
+
     auto peakExtraction = std::make_shared<PeakExtraction<DataType>>(windowSize/2);
     peakExtraction->setSource(window);
+
     auto peakPolling = std::make_shared<PollingModule<DataType>>();
     peakPolling->setSource(peakExtraction);
 

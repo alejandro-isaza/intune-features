@@ -243,6 +243,7 @@
 		00587A2A1ABB4BA80043564B /* FFTSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTSettingsViewController.h; sourceTree = "<group>"; };
 		00587A2B1ABB4BA80043564B /* FFTSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFTSettingsViewController.m; sourceTree = "<group>"; };
 		00587A2D1ABB4C1B0043564B /* FFTSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FFTSettingsViewController.xib; sourceTree = "<group>"; };
+		006518FF1AC2079700E0ADB9 /* Difference.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Difference.h; sourceTree = "<group>"; };
 		008685631AB10B4B00F415A2 /* VMPianoRollViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMPianoRollViewController.swift; sourceTree = "<group>"; };
 		008685671AB10B8A00F415A2 /* VMWaveformView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMWaveformView.swift; sourceTree = "<group>"; };
 		008685691AB10BC400F415A2 /* VMPianoRollViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VMPianoRollViewController.xib; sourceTree = "<group>"; };
@@ -1234,6 +1235,7 @@
 				6157FC9D1ABB5568008C0D0D /* AccumulatorModule.hpp */,
 				61A81D631AB0E63C00E230A6 /* DownsampleModule.cpp */,
 				61A81D641AB0E63C00E230A6 /* DownsampleModule.h */,
+				006518FF1AC2079700E0ADB9 /* Difference.h */,
 				61A81D651AB0E63C00E230A6 /* EnergyModule.cpp */,
 				61A81D661AB0E63C00E230A6 /* EnergyModule.h */,
 				61A81D681AB0E63C00E230A6 /* FFTModule.h */,

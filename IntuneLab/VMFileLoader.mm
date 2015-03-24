@@ -97,10 +97,13 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 
 - (void)_loadAudioData:(VMFileLoaderLoadedBlock)completion {
     auto fileModule = std::make_shared<ReadFromFileModule>(self.filePath.UTF8String);
-    const auto fileLength = fileModule->lengthInFrames();
+    const auto fileLength = fileModule->size();
+
+    auto adapter = std::make_shared<FixedSourceToSourceAdapterModule<ReadFromFileModule::DataType>>();
+    adapter->setSource(fileModule);
 
     auto converter = std::make_shared<Converter<ReadFromFileModule::DataType, DataType>>();
-    converter->setSource(fileModule);
+    converter->setSource(adapter);
 
     delete _audioData;
     _audioData = new UniqueBuffer<DataType>(fileLength);
@@ -141,8 +144,11 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 
     auto fixedAudioData = std::make_shared<FixedData<DataType>>(_audioData->data(), fileLength);
 
+    auto adapter = std::make_shared<FixedSourceToSourceAdapterModule<DataType>>();
+    adapter->setSource(fixedAudioData);
+
     auto windowingModule = std::make_shared<WindowingModule<DataType>>(_windowSize, _hopSize);
-    windowingModule->setSource(fixedAudioData);
+    windowingModule->setSource(adapter);
 
     auto windowModule = std::make_shared<HammingWindow<DataType>>();
     windowModule->setSource(windowingModule);
@@ -180,8 +186,11 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 
     auto fixedData = std::make_shared<FixedData<DataType>>(_spectrogramData->data(), spectrogramSize);
 
+    auto adapter = std::make_shared<FixedSourceToSourceAdapterModule<DataType>>();
+    adapter->setSource(fixedData);
+
     auto window = std::make_shared<WindowingModule<DataType>>(_windowSize/2, _windowSize/2);
-    window->setSource(fixedData);
+    window->setSource(adapter);
 
     auto peakExtraction = std::make_shared<PeakExtraction<DataType>>(_windowSize/2);
     peakExtraction->setSource(window);
