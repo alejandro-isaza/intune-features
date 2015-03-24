@@ -23,13 +23,16 @@ private:
     void writeAnnotationEvents();
 
 private:
+    using MidiNoteVector = std::vector<int>;
     struct AnnotationEvent {
         int timeStamp; // event time in milliseconds
         float measureNumber; // fractional event measure number
+        MidiNoteVector midiNotes; // vector of midi note numbers at this event
         json11::Json to_json() const {
             return json11::Json::object {
                 {"timeStamp", timeStamp},
-                {"measureNumber", measureNumber}
+                {"measureNumber", measureNumber},
+                {"midiNotes", midiNotes}
             };
         }
     };

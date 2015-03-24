@@ -26,13 +26,18 @@ void MIDIAnnotationGenerator::buildAnnotationEvents() {
         auto measureNumber = event.absoluteTime() / divisionsPerMeasure;
         auto timeStamp = static_cast<int>(event.wallTime() * 1000 * _tempoMultiplier);
 
+        MidiNoteVector midiNotes;
         for (auto& onNote : event.onNotes()) {
             if (onNote->rest)
                 continue;
+            midiNotes.push_back(onNote->midiNumber());
+        }
 
+        if (midiNotes.size() > 0) {
             AnnotationEvent annotationEvent = {
                 .timeStamp = timeStamp,
-                .measureNumber = measureNumber
+                .measureNumber = measureNumber,
+                .midiNotes = midiNotes
             };
             _annotationEvents.push_back(annotationEvent);
         }
