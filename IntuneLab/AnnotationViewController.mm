@@ -14,7 +14,7 @@
 @property(nonatomic, weak) IBOutlet UITextField* wallTimeTextField;
 @property(nonatomic, weak) IBOutlet UITextField* measureNumberTextField;
 @property(nonatomic, weak) IBOutlet UITextField* measureFractionTextField;
-@property(nonatomic, weak) IBOutlet UITextField* fileNameTextFielx;
+@property(nonatomic, weak) IBOutlet UITextField* fileNameTextField;
 @property(nonatomic, weak) IBOutlet UIButton* openButton;
 @property(nonatomic, weak) IBOutlet UIButton* addButton;
 @property(nonatomic, weak) IBOutlet UIButton* saveButton;
@@ -22,8 +22,10 @@
 
 @property(nonatomic, strong) VMFileLoader* fileLoader;
 @property(nonatomic) NSUInteger selectedIndex;
+@property(nonatomic, strong) NSMutableArray* dataPoints;
 
 @end
+
 
 @implementation AnnotationViewController
 
@@ -46,15 +48,31 @@
 
 - (void)loadWaveform:(NSString*)file {
     self.fileLoader = [VMFileLoader fileLoaderWithPath:file];
+    self.fileNameTextField.text = [[[file lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"json"];
     [self loadAudioData];
 }
 
 - (IBAction)add {
+    if (!self.dataPoints)
+        self.dataPoints = [NSMutableArray array];
 
+    NSTimeInterval timeStamp = [self.wallTimeTextField.text doubleValue];
+    double measureNumber = [self.measureNumberTextField.text integerValue] + [self.measureFractionTextField.text doubleValue] / 64.0;
+    NSDictionary* point = @{
+        @"timeStamp": @(timeStamp),
+        @"measureNumber": @(measureNumber)
+    };
+
+    [self.dataPoints addObject:point];
+    self.dataPointCountLabel.text = [NSString stringWithFormat:@"%d data points", (int)self.dataPoints.count];
 }
 
 - (IBAction)save {
+    NSData* data = [NSJSONSerialization dataWithJSONObject:self.dataPoints options:0 error:NULL];
 
+    NSString* documentsPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    NSString* filePath = [documentsPath stringByAppendingPathComponent:self.fileNameTextField.text];
+    [data writeToFile:filePath atomically:YES];
 }
 
 

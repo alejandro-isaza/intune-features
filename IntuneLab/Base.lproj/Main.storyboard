@@ -522,7 +522,7 @@
                     <connections>
                         <outlet property="addButton" destination="lLm-dL-0wn" id="wny-YD-0Uy"/>
                         <outlet property="dataPointCountLabel" destination="M8G-yH-sga" id="Cba-5t-o8Q"/>
-                        <outlet property="fileNameTextFielx" destination="k8v-ti-V68" id="miO-n5-MoZ"/>
+                        <outlet property="fileNameTextField" destination="k8v-ti-V68" id="lyT-ys-CAr"/>
                         <outlet property="measureFractionTextField" destination="t83-nM-Jua" id="q9Z-Zb-pmn"/>
                         <outlet property="measureNumberTextField" destination="6pu-b4-5cg" id="2sS-Uy-67G"/>
                         <outlet property="openButton" destination="qnZ-zJ-6bQ" id="WkQ-yp-ChW"/>
