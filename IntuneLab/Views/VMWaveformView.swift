@@ -10,7 +10,6 @@ public class VMWaveformView: UIView {
     @IBInspectable var lineColor: UIColor?
     @IBInspectable var markerColor: UIColor?
 
-    var alignment: Int = 1 // 0 = Leading, !0 = Trailing
     var lineWidth: CGFloat = 1.0
 
     private var samples: UnsafePointer<Double> = nil
@@ -82,12 +81,8 @@ public class VMWaveformView: UIView {
         let pixelSize = contentScaleFactor
         let samplesPerPixel = Int(ceil(samplesPerPoint * pixelSize))
         let samplesOffset = samplesCount
-        
-        var x:CGFloat = 0.0
-        if alignment != 0 {
-            x = bounds.size.width - CGFloat(samplesOffset) / samplesPerPoint
-        }
-        var point = CGPointMake(x, height/2);
+
+        var point = CGPointMake(0.0, height/2);
         
         let path = CGPathCreateMutable()
         CGPathMoveToPoint(path, nil, point.x, point.y)

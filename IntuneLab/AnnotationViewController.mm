@@ -31,7 +31,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.waveformView.alignment = 0;
     self.spectrogramView.delegate = self;
 }
 
