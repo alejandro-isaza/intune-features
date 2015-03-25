@@ -77,18 +77,18 @@ static const double kSampleRate = 44100;
 }
 
 - (double*)data {
-    auto audioData = [self.fileLoader audioData];
-    return audioData->data();
+    auto& audioData = [self.fileLoader audioData];
+    return audioData.data();
 }
 
 - (double*)peaks {
-    auto peakData = [self.fileLoader peakData];
-    return peakData->data();
+    auto& peakData = [self.fileLoader peakData];
+    return peakData.data();
 }
 
 - (NSUInteger)dataSize {
-    auto audioData = [self.fileLoader audioData];
-    return audioData->capacity();
+    auto& audioData = [self.fileLoader audioData];
+    return audioData.capacity();
 }
 
 - (NSUInteger)frequencyBinCount {
@@ -143,16 +143,16 @@ static const double kSampleRate = 44100;
 }
 
 - (void)updateEqualizerToTimeIndex:(NSUInteger)timeIndex {
-    auto data = [self.fileLoader spectrogramData];
-    if (!data)
+    auto& data = [self.fileLoader spectrogramData];
+    if (!data.data())
         return;
 
-    DataType* sampleStart = data->data() + (timeIndex * _spectrogramView.frequencyBinCount);
+    DataType* sampleStart = data.data() + (timeIndex * _spectrogramView.frequencyBinCount);
     [_equalizerView setSamples:sampleStart count:_spectrogramView.frequencyBinCount offset:timeIndex];
 
-    auto peaks = [self.fileLoader peakData];
-    if (peaks)
-        _equalizerView.peaks = peaks->data();
+    auto& peaks = [self.fileLoader peakData];
+    if (peaks.data())
+        _equalizerView.peaks = peaks.data();
 }
 
 - (void)scrollBy:(CGFloat)dx {

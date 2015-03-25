@@ -4,13 +4,12 @@
 
 #include <tempo/modules/Converter.h>
 #include <tempo/modules/FixedData.h>
-#include <tempo/modules/FFTModule.h>
-#include <tempo/modules/HammingWindow.h>
 #include <tempo/modules/Normalize.h>
 #include <tempo/modules/PeakExtraction.h>
 #include <tempo/modules/PollingModule.h>
 #include <tempo/modules/ReadFromFileModule.h>
 #include <tempo/modules/WindowingModule.h>
+#include <tempo/algorithms/Spectrogram.h>
 
 using namespace tempo;
 using DataType = VMFileLoaderDataType;
@@ -28,9 +27,9 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 
 
 @implementation VMFileLoader {
-    UniqueBuffer<DataType>* _audioData;
-    UniqueBuffer<DataType>* _spectrogramData;
-    UniqueBuffer<DataType>* _peakData;
+    UniqueBuffer<DataType> _audioData;
+    UniqueBuffer<DataType> _peakData;
+    Spectrogram _spectrogram;
 }
 
 + (instancetype)fileLoaderWithPath:(NSString*)path {
@@ -55,12 +54,6 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     return self;
 }
 
-- (void)dealloc {
-    delete _audioData;
-    delete _spectrogramData;
-    delete _peakData;
-}
-
 - (NSTimeInterval)windowTime {
     return static_cast<NSTimeInterval>(_windowSize) / _sampleRate;
 }
@@ -77,15 +70,15 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     _hopSize = std::round(hopTime * _sampleRate);
 }
 
-- (const tempo::Buffer<DataType>*)audioData {
+- (const tempo::Buffer<DataType>&)audioData {
     return _audioData;
 }
 
-- (const tempo::Buffer<DataType>*)spectrogramData {
-    return _spectrogramData;
+- (const tempo::Buffer<DataType>&)spectrogramData {
+    return _spectrogram.buffer();
 }
 
-- (const tempo::Buffer<VMFileLoaderDataType>*)peakData {
+- (const tempo::Buffer<VMFileLoaderDataType>&)peakData {
     return _peakData;
 }
 
@@ -105,20 +98,19 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     auto converter = std::make_shared<Converter<ReadFromFileModule::DataType, DataType>>();
     converter->setSource(adapter);
 
-    delete _audioData;
-    _audioData = new UniqueBuffer<DataType>(fileLength);
+    _audioData.reset(fileLength);
 
     if (self.normalize) {
         auto normalize = std::make_shared<Normalize<DataType>>();
         normalize->setSource(converter);
-        normalize->render(*_audioData);
+        normalize->render(_audioData);
     } else {
-        converter->render(*_audioData);
+        converter->render(_audioData);
     }
     
     dispatch_sync(dispatch_get_main_queue(), ^() {
         if (completion)
-            completion(*_audioData);
+            completion(_audioData);
     });
 }
 
@@ -129,7 +121,7 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 }
 
 - (void)_loadSpectrogramData:(VMFileLoaderLoadedBlock)completion {
-    if (!_audioData) {
+    if (_audioData.capacity() == 0) {
         [self _loadAudioData:^(const Buffer<DataType>& buffer) {
             [self loadSpectrogramData:completion];
         }];
@@ -137,41 +129,20 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     }
 
     // Cap hop size to avoid memory overflow
-    const auto fileLength = _audioData->capacity();
+    const auto fileLength = _audioData.capacity();
     if (fileLength / _hopSize >= kMaxDataSize / _windowSize) {
         _hopSize = static_cast<decltype(_hopSize)>(static_cast<uint64_t>(fileLength) * static_cast<uint64_t>(_windowSize) / kMaxDataSize);
     }
 
-    auto fixedAudioData = std::make_shared<FixedData<DataType>>(_audioData->data(), fileLength);
-
-    auto adapter = std::make_shared<FixedSourceToSourceAdapterModule<DataType>>();
-    adapter->setSource(fixedAudioData);
-
-    auto windowingModule = std::make_shared<WindowingModule<DataType>>(_windowSize, _hopSize);
-    windowingModule->setSource(adapter);
-
-    auto windowModule = std::make_shared<HammingWindow<DataType>>();
-    windowModule->setSource(windowingModule);
-
-    auto fftModule = std::make_shared<FFTModule<DataType>>(_windowSize);
-    fftModule->setSource(windowModule);
-
-    auto pollingModule = std::make_shared<PollingModule<DataType>>();
-    pollingModule->setSource(fftModule);
-
-    const auto frequencyBinCount = _windowSize / 2;
-    const auto hopCount = (fileLength - _windowSize + _hopSize) / _hopSize;
-    const auto dataLength = hopCount * frequencyBinCount;
-
-    // Render spectrogram
-    delete _spectrogramData;
-    _spectrogramData = new UniqueBuffer<DataType>(dataLength);
-    const auto size = pollingModule->render(*_spectrogramData);
-    assert(size == dataLength);
+    _spectrogram.setSampleRate(_sampleRate);
+    _spectrogram.setWindowSize(_windowSize);
+    _spectrogram.setHopSize(_hopSize);
+    _spectrogram.setNormalize(_normalize);
+    _spectrogram.generateFromData(_audioData.data(), fileLength);
 
     dispatch_sync(dispatch_get_main_queue(), ^() {
         if (completion)
-            completion(*_spectrogramData);
+            completion(_spectrogram.buffer());
     });
 }
 
@@ -182,9 +153,9 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 }
 
 - (void)_loadPeakData:(VMFileLoaderLoadedBlock)completion {
-    const auto spectrogramSize = _spectrogramData->capacity();
+    const auto spectrogramSize = _spectrogram.size();
 
-    auto fixedData = std::make_shared<FixedData<DataType>>(_spectrogramData->data(), spectrogramSize);
+    auto fixedData = std::make_shared<FixedData<DataType>>(_spectrogram.data(), spectrogramSize);
 
     auto adapter = std::make_shared<FixedSourceToSourceAdapterModule<DataType>>();
     adapter->setSource(fixedData);
@@ -198,13 +169,12 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     auto peakPolling = std::make_shared<PollingModule<DataType>>();
     peakPolling->setSource(peakExtraction);
 
-    delete _peakData;
-    _peakData = new UniqueBuffer<DataType>(spectrogramSize);
-    peakPolling->render(*_peakData);
+    _peakData.reset(spectrogramSize);
+    peakPolling->render(_peakData);
 
     dispatch_sync(dispatch_get_main_queue(), ^() {
         if (completion)
-            completion(*_peakData);
+            completion(_peakData);
     });
 }
 

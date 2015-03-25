@@ -25,9 +25,9 @@ typedef void (^VMFileLoaderInvalidatedBlock)();
 @property(nonatomic) std::size_t hopSize;
 @property(nonatomic) BOOL normalize;
 
-- (const tempo::Buffer<VMFileLoaderDataType>*)audioData;
-- (const tempo::Buffer<VMFileLoaderDataType>*)spectrogramData;
-- (const tempo::Buffer<VMFileLoaderDataType>*)peakData;
+- (const tempo::Buffer<VMFileLoaderDataType>&)audioData;
+- (const tempo::Buffer<VMFileLoaderDataType>&)spectrogramData;
+- (const tempo::Buffer<VMFileLoaderDataType>&)peakData;
 
 - (void)loadAudioData:(VMFileLoaderLoadedBlock)completion;
 - (void)loadSpectrogramData:(VMFileLoaderLoadedBlock)completion;

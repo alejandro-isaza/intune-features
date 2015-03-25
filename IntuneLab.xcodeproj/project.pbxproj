@@ -166,6 +166,7 @@
 		6171BEE91A16C272004AB274 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6171BEE81A16C272004AB274 /* AudioToolbox.framework */; };
 		6171BEEB1A16C283004AB274 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6171BEEA1A16C283004AB274 /* Accelerate.framework */; };
 		6171BEF41A16DB0E004AB274 /* RecordViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEF31A16DB0E004AB274 /* RecordViewController.mm */; };
+		617DC66C1AC33CE30019E841 /* Spectrogram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 617DC6681AC33CE30019E841 /* Spectrogram.cpp */; };
 		61A81D711AB0E63C00E230A6 /* FloatConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D5E1AB0E63C00E230A6 /* FloatConverter.cpp */; };
 		61A81D731AB0E63C00E230A6 /* DownsampleModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D631AB0E63C00E230A6 /* DownsampleModule.cpp */; };
 		61A81D741AB0E63C00E230A6 /* EnergyModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D651AB0E63C00E230A6 /* EnergyModule.cpp */; };
@@ -623,6 +624,10 @@
 		6171BEED1A16C49C004AB274 /* IntuneLab-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IntuneLab-Bridging-Header.h"; sourceTree = "<group>"; };
 		6171BEF21A16DB0E004AB274 /* RecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordViewController.h; sourceTree = "<group>"; };
 		6171BEF31A16DB0E004AB274 /* RecordViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RecordViewController.mm; sourceTree = "<group>"; };
+		617DC6681AC33CE30019E841 /* Spectrogram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Spectrogram.cpp; sourceTree = "<group>"; };
+		617DC6691AC33CE30019E841 /* Spectrogram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Spectrogram.h; sourceTree = "<group>"; };
+		617DC66A1AC33CE30019E841 /* Buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Buffer.h; sourceTree = "<group>"; };
+		617DC66B1AC33CE30019E841 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		61A81D461AB0E62400E230A6 /* libtempo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libtempo.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		61A81D5E1AB0E63C00E230A6 /* FloatConverter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FloatConverter.cpp; sourceTree = "<group>"; };
 		61A81D5F1AB0E63C00E230A6 /* FloatConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloatConverter.h; sourceTree = "<group>"; };
@@ -1217,12 +1222,24 @@
 			path = Views;
 			sourceTree = "<group>";
 		};
+		617DC6671AC33CE30019E841 /* algorithms */ = {
+			isa = PBXGroup;
+			children = (
+				617DC6681AC33CE30019E841 /* Spectrogram.cpp */,
+				617DC6691AC33CE30019E841 /* Spectrogram.h */,
+			);
+			path = algorithms;
+			sourceTree = "<group>";
+		};
 		61A81D5D1AB0E63C00E230A6 /* tempo */ = {
 			isa = PBXGroup;
 			children = (
+				617DC66A1AC33CE30019E841 /* Buffer.h */,
+				617DC66B1AC33CE30019E841 /* Utilities.h */,
 				61A81D5E1AB0E63C00E230A6 /* FloatConverter.cpp */,
 				61A81D5F1AB0E63C00E230A6 /* FloatConverter.h */,
 				61A81D601AB0E63C00E230A6 /* modules */,
+				617DC6671AC33CE30019E841 /* algorithms */,
 			);
 			name = tempo;
 			path = Submodules/tempo/src/tempo;
@@ -1620,6 +1637,7 @@
 				61A81D741AB0E63C00E230A6 /* EnergyModule.cpp in Sources */,
 				61A81D781AB0E63C00E230A6 /* RMSModule.cpp in Sources */,
 				61A81D711AB0E63C00E230A6 /* FloatConverter.cpp in Sources */,
+				617DC66C1AC33CE30019E841 /* Spectrogram.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

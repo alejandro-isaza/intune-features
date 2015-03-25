@@ -93,11 +93,14 @@
 #pragma mark - UIScrollViewDelegate
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    if (!self.fileLoader)
+        return;
+    
     NSUInteger firstIndex = [self.spectrogramView timeIndexAtLocation:self.spectrogramView.contentOffset];
     NSUInteger lastIndex = [self.spectrogramView timeIndexAtLocation:CGPointMake(self.spectrogramView.contentOffset.x + self.spectrogramView.bounds.size.width, 0)];
 
-    auto audioData = [self.fileLoader audioData];
-    if (audioData) {
+    auto& audioData = [self.fileLoader audioData];
+    if (audioData.capacity() > 0) {
         self.waveformView.startFrame = firstIndex * self.fileLoader.hopSize;
         self.waveformView.endFrame = lastIndex * self.fileLoader.hopSize;
     }
