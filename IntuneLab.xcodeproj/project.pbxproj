@@ -178,7 +178,6 @@
 		61A81D791AB0E63C00E230A6 /* SaveToFileModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D6F1AB0E63C00E230A6 /* SaveToFileModule.cpp */; };
 		61A81D7C1AB0E64E00E230A6 /* libtempo.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A81D461AB0E62400E230A6 /* libtempo.a */; };
 		61A81D7E1AB1015D00E230A6 /* VMEqualizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D7D1AB1015D00E230A6 /* VMEqualizerView.swift */; };
-		61A81D811AB103C600E230A6 /* FFTViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D801AB103C600E230A6 /* FFTViewController.mm */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -654,8 +653,6 @@
 		61A81D6F1AB0E63C00E230A6 /* SaveToFileModule.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = SaveToFileModule.cpp; sourceTree = "<group>"; };
 		61A81D701AB0E63C00E230A6 /* SaveToFileModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SaveToFileModule.h; sourceTree = "<group>"; };
 		61A81D7D1AB1015D00E230A6 /* VMEqualizerView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMEqualizerView.swift; sourceTree = "<group>"; };
-		61A81D7F1AB103C600E230A6 /* FFTViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTViewController.h; sourceTree = "<group>"; };
-		61A81D801AB103C600E230A6 /* FFTViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = FFTViewController.mm; sourceTree = "<group>"; };
 		61A81D8D1AB218DA00E230A6 /* SineWaveGeneratorModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SineWaveGeneratorModule.h; sourceTree = "<group>"; };
 		61A81D911AB2607300E230A6 /* SourceModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SourceModule.h; sourceTree = "<group>"; };
 		61BE11BF1AB773CB00BF2F6F /* PollingModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PollingModule.h; sourceTree = "<group>"; };
@@ -1154,8 +1151,6 @@
 				6171BEF31A16DB0E004AB274 /* RecordViewController.mm */,
 				00AF6DD61AAF92A7006525F5 /* MXMLViewController.h */,
 				00AF6DD71AAF92A7006525F5 /* MXMLViewController.mm */,
-				61A81D7F1AB103C600E230A6 /* FFTViewController.h */,
-				61A81D801AB103C600E230A6 /* FFTViewController.mm */,
 				00E638A01AB8DC9B00F5B4C5 /* WaveformViewController.h */,
 				00E638A11AB8DC9B00F5B4C5 /* WaveformViewController.mm */,
 				00BF7B6D1ABA413A003A31A7 /* DifferenceViewController.h */,
@@ -1616,7 +1611,6 @@
 				00AF6DD81AAF92A7006525F5 /* MXMLViewController.mm in Sources */,
 				610325171AB7AAA300E4E3D3 /* VMSpectrogramView.swift in Sources */,
 				008685651AB10B4B00F415A2 /* VMPianoRollViewController.swift in Sources */,
-				61A81D811AB103C600E230A6 /* FFTViewController.mm in Sources */,
 				00587A2C1ABB4BA80043564B /* FFTSettingsViewController.m in Sources */,
 				6171BEF41A16DB0E004AB274 /* RecordViewController.mm in Sources */,
 				00BF7B6F1ABA413A003A31A7 /* DifferenceViewController.mm in Sources */,

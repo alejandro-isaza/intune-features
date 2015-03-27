@@ -7,8 +7,8 @@
 
 @interface VMSpectrogramViewController : UIViewController
 
-@property(nonatomic, readonly) NSTimeInterval windowTime;
-@property(nonatomic, readonly) NSTimeInterval hopTime;
+@property(nonatomic, readonly) NSUInteger windowSize;
+@property(nonatomic, readonly) double hopFraction;
 @property(nonatomic) double decibelGround;
 @property(nonatomic, strong) UIColor* spectrogramHighColor;
 @property(nonatomic, strong) UIColor* spectrogramLowColor;
@@ -24,7 +24,7 @@
 + (instancetype)create;
 
 - (void)highlightTimeIndex:(NSUInteger)index;
-- (void)setWindowTime:(NSTimeInterval)windowTime hopTime:(NSTimeInterval)hopTime;
+- (void)setWindowSize:(NSUInteger)windowTime hopFraction:(double)hopFraction;
 - (void)scrollBy:(CGFloat)dx;
 
 @end

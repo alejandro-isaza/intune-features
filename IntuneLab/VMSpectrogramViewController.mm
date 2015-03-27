@@ -18,8 +18,6 @@
 using namespace tempo;
 using DataType = double;
 
-static const double kSampleRate = 44100;
-
 
 @interface VMSpectrogramViewController () <UIScrollViewDelegate>
 
@@ -44,8 +42,8 @@ static const double kSampleRate = 44100;
     if (!self)
         return nil;
 
-    _windowTime = 0.05;
-    _hopTime = _windowTime / 2;
+    _windowSize = 1024;
+    _hopFraction = 0.5;
 
     return self;
 }
@@ -63,9 +61,9 @@ static const double kSampleRate = 44100;
     [_spectrogramView setNeedsDisplay];
 }
 
-- (void)setWindowTime:(NSTimeInterval)windowTime hopTime:(NSTimeInterval)hopTime {
-    _windowTime = windowTime;
-    _hopTime = hopTime;
+- (void)setWindowSize:(NSUInteger)windowSize hopFraction:(double)hopFraction {
+    _windowSize = windowSize;
+    _hopFraction = hopFraction;
     [self render];
 }
 
@@ -91,8 +89,7 @@ static const double kSampleRate = 44100;
 }
 
 - (NSUInteger)frequencyBinCount {
-    const auto windowSize = static_cast<SizeType>(_windowTime * kSampleRate);
-    return windowSize / 2;
+    return _windowSize / 2;
 }
 
 - (void)setSpectrogramHighColor:(UIColor *)spectrogramColor {
@@ -118,8 +115,8 @@ static const double kSampleRate = 44100;
 }
 
 - (void)render {
-    self.fileLoader.windowTime = self.windowTime;
-    self.fileLoader.hopTime = self.hopTime;
+    self.fileLoader.windowSize = self.windowSize;
+    self.fileLoader.hopFraction = self.hopFraction;
     
     // Clear existing data to avoid data access errors
     self.spectrogramView.frequencyBinCount = 0;
@@ -142,6 +139,9 @@ static const double kSampleRate = 44100;
 }
 
 - (void)updateEqualizerToTimeIndex:(NSUInteger)timeIndex {
+    if (!self.fileLoader)
+        return;
+    
     auto& data = [self.fileLoader spectrogramData];
     if (!data.data())
         return;

@@ -71,19 +71,19 @@ using SizeType = vDSP_Length;
 
     __weak VMSpectrogramViewController* wtop = _spectrogramViewControllerTop;
     __weak VMSpectrogramViewController* wbottom = _spectrogramViewControllerBottom;
-    _settingsViewController.didChangeTimings = ^(NSTimeInterval windowTime, NSTimeInterval hopTime) {
-        [wtop setWindowTime:windowTime hopTime:hopTime];
-        [wbottom setWindowTime:windowTime hopTime:hopTime];
+    _settingsViewController.didChangeTimings = ^(NSUInteger windowSize, double hopFraction) {
+        [wtop setWindowSize:windowSize hopFraction:hopFraction];
+        [wbottom setWindowSize:windowSize hopFraction:hopFraction];
     };
     _settingsViewController.didChangeDecibelGround = ^(double decibelGround) {
         wtop.decibelGround = decibelGround;
         wbottom.decibelGround = decibelGround;
     };
 
-    auto windowTime = _settingsViewController.windowTime;
-    auto hopTime = _settingsViewController.hopTime;
-    [_spectrogramViewControllerTop setWindowTime:windowTime hopTime:hopTime];
-    [_spectrogramViewControllerBottom setWindowTime:windowTime hopTime:hopTime];
+    auto windowSize = _settingsViewController.windowSize;
+    auto hopFraction = _settingsViewController.hopFraction;
+    [wtop setWindowSize:windowSize hopFraction:hopFraction];
+    [wbottom setWindowSize:windowSize hopFraction:hopFraction];
 }
 
 - (void)calculateDifference:(NSUInteger)bottomIndex {
@@ -101,7 +101,7 @@ using SizeType = vDSP_Length;
     for (vDSP_Length t = 0; t < timeIndexCount; t += 1) {
         DataType distance;
         vDSP_distancesqD(topData + frequencyBinCount * t, 1, bottomData + frequencyBinCount * bottomIndex, 1, &distance, frequencyBinCount);
-        _distances[t] = std::min(1.0, 1000 * distance);
+        _distances[t] = std::min(1.0, distance/frequencyBinCount);
     }
 
     // Convert to decibles
@@ -117,8 +117,6 @@ using SizeType = vDSP_Length;
     vDSP_Length mini;
     vDSP_minviD(_distances.get(), 1, &min, &mini, timeIndexCount);
 
-    auto hopTime = _spectrogramViewControllerTop.hopTime;
-    NSLog(@"Min distance %f, walltime %f", min, hopTime + hopTime * mini);
     [_spectrogramViewControllerTop highlightTimeIndex:mini];
 
     _distanceView.min = -100;

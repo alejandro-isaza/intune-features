@@ -6,11 +6,11 @@
 
 + (instancetype)createWithSampleRate:(double)sampleRate;
 
-@property(nonatomic, readonly) NSTimeInterval windowTime;
-@property(nonatomic) NSTimeInterval hopTime;
+@property(nonatomic, readonly) NSUInteger windowSize;
+@property(nonatomic, readonly) double hopFraction;
 @property(nonatomic, readonly) double decibelGround;
 
-@property (nonatomic, copy) void (^didChangeTimings)(NSTimeInterval, NSTimeInterval);
+@property (nonatomic, copy) void (^didChangeTimings)(NSUInteger, double);
 @property (nonatomic, copy) void (^didChangeDecibelGround)(double);
 
 @end

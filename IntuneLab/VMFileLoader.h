@@ -19,11 +19,13 @@ typedef void (^VMFileLoaderInvalidatedBlock)();
 @property(nonatomic, strong, readonly) NSString* filePath;
 
 @property(nonatomic) double sampleRate;
-@property(nonatomic) NSTimeInterval windowTime;
 @property(nonatomic) std::size_t windowSize;
-@property(nonatomic) NSTimeInterval hopTime;
-@property(nonatomic) std::size_t hopSize;
+@property(nonatomic) double hopFraction;
 @property(nonatomic) BOOL normalize;
+
+@property(nonatomic, readonly) NSTimeInterval windowTime;
+@property(nonatomic, readonly) NSTimeInterval hopTime;
+@property(nonatomic, readonly) std::size_t hopSize;
 
 - (const tempo::Buffer<VMFileLoaderDataType>&)audioData;
 - (const tempo::Buffer<VMFileLoaderDataType>&)spectrogramData;

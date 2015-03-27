@@ -228,10 +228,13 @@ internal class VMSpectrogramView: UIScrollView {
         if value < 0 {
             value = 0
         }
+        
         if timeIndex == highlightTimeIndex {
-            VMSpectrogramView.colorLerp(highlightLowColor, end: highlightHighColor, p: CGFloat(value)).setFill()
+            let color = VMSpectrogramView.colorLerp(highlightLowColor, end: highlightHighColor, p: CGFloat(value))
+                color.setFill()
         } else {
-            VMSpectrogramView.colorLerp(lowColor, end: highColor, p: CGFloat(value)).setFill()
+            let color = VMSpectrogramView.colorLerp(lowColor, end: highColor, p: CGFloat(value))
+                color.setFill()
         }
     }
 

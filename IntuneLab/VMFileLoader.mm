@@ -47,7 +47,7 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 
     _sampleRate = 44100;
     _windowSize = 1024;
-    _hopSize = 512;
+    _hopFraction = 0.5;
     _normalize = YES;
     _queue = dispatch_queue_create("VMFileLoader", DISPATCH_QUEUE_SERIAL);
     return self;
@@ -57,16 +57,12 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     return static_cast<NSTimeInterval>(_windowSize) / _sampleRate;
 }
 
-- (void)setWindowTime:(NSTimeInterval)windowTime {
-    _windowSize = std::round(windowTime * _sampleRate);
-}
-
 - (NSTimeInterval)hopTime {
-    return static_cast<NSTimeInterval>(_hopSize) / _sampleRate;
+    return static_cast<NSTimeInterval>(self.hopSize) / _sampleRate;
 }
 
-- (void)setHopTime:(NSTimeInterval)hopTime {
-    _hopSize = std::round(hopTime * _sampleRate);
+- (std::size_t)hopSize {
+    return static_cast<std::size_t>(std::round(_windowSize * _hopFraction));
 }
 
 - (const tempo::Buffer<DataType>&)audioData {
@@ -129,14 +125,15 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 
     // Cap hop size to avoid memory overflow
     const auto fileLength = _audioData.capacity();
-    if (fileLength / _hopSize >= kMaxDataSize / _windowSize) {
-        _hopSize = static_cast<decltype(_hopSize)>(static_cast<uint64_t>(fileLength) * static_cast<uint64_t>(_windowSize) / kMaxDataSize);
+    if (fileLength / self.hopSize >= kMaxDataSize / _windowSize) {
+        const auto hopSize = static_cast<uint64_t>(fileLength) * static_cast<uint64_t>(_windowSize) / kMaxDataSize;
+        _hopFraction = hopSize / _windowSize;
     }
 
     Spectrogram::Parameters params;
     params.sampleRate = _sampleRate;
-    params.windowSize = _windowSize;
-    params.hopSize = _hopSize;
+    params.windowSizeLog2 = std::round(std::log2(_windowSize));
+    params.hopFraction = _hopFraction;
     params.normalize = _normalize;
     _spectrogramData = Spectrogram::generateFromData(_audioData.data(), fileLength, params);
 

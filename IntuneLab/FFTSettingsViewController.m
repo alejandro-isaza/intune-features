@@ -2,8 +2,8 @@
 
 #import "FFTSettingsViewController.h"
 
-static NSString* const kWindowTimeKey = @"WindowTimeKey";
-static NSString* const kHopTimeKey = @"HopTimeKey";
+static NSString* const kWindowSizeKey = @"WindowSizeKey";
+static NSString* const kHopFractionKey = @"HopFractionKey";
 static NSString* const kDecibelGroundKey = @"DecibelGroundKey";
 
 
@@ -16,7 +16,8 @@ static NSString* const kDecibelGroundKey = @"DecibelGroundKey";
 @property(nonatomic, weak) IBOutlet UITextField* hopTextField;
 @property(nonatomic, weak) IBOutlet UITextField* groundTextField;
 
-@property(nonatomic) NSTimeInterval windowTime;
+@property(nonatomic) NSUInteger windowSize;
+@property(nonatomic) double hopFraction;
 @property(nonatomic) double decibelGround;
 @property(nonatomic) double sampleRate;
 
@@ -44,25 +45,25 @@ static NSString* const kDecibelGroundKey = @"DecibelGroundKey";
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    _windowSlider.value = _windowTime * 1000.0;
-    _hopSlider.value = _hopTime / _windowTime;
+    _windowSlider.value = _windowSize;
+    _hopSlider.value = _hopFraction;
     _groundSlider.value = _decibelGround;
 
-    _windowTextField.text = [NSString stringWithFormat:@"%.0fms", _windowTime * 1000.0];
-    _hopTextField.text = [NSString stringWithFormat:@"%.0fms", _hopTime * 1000.0];
+    _windowTextField.text = [NSString stringWithFormat:@"%.0fms", 1000.0 * _windowSize / _sampleRate];
+    _hopTextField.text = [NSString stringWithFormat:@"%.0fms", 1000.0 * _hopFraction * _windowSize / _sampleRate];
     _groundTextField.text = [NSString stringWithFormat:@"%.0fdB", _decibelGround];
 }
 
 - (void)loadPreferences {
-    _windowTime = [self preferenceForKey:kWindowTimeKey defaultValue:0.1];
-    _hopTime = [self preferenceForKey:kHopTimeKey defaultValue:0.05];
+    _windowSize = [self preferenceForKey:kWindowSizeKey defaultValue:1024];
+    _hopFraction = [self preferenceForKey:kHopFractionKey defaultValue:0.5];
     _decibelGround = [self preferenceForKey:kDecibelGroundKey defaultValue:-100.0];
 }
 
 - (void)savePreferences {
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setDouble:_windowTime forKey:kWindowTimeKey];
-    [defaults setDouble:_hopTime forKey:kHopTimeKey];
+    [defaults setInteger:_windowSize forKey:kWindowSizeKey];
+    [defaults setDouble:_hopFraction forKey:kHopFractionKey];
     [defaults setDouble:_decibelGround forKey:kDecibelGroundKey];
     [defaults synchronize];
 }
@@ -79,24 +80,23 @@ static NSString* const kDecibelGroundKey = @"DecibelGroundKey";
 
 - (void)saveDefaults {
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setDouble:_windowTime forKey:kWindowTimeKey];
-    [defaults setDouble:_hopTime forKey:kHopTimeKey];
+    [defaults setInteger:_windowSize forKey:kWindowSizeKey];
+    [defaults setDouble:_hopFraction forKey:kHopFractionKey];
     [defaults setDouble:_decibelGround forKey:kDecibelGroundKey];
 }
 
 - (IBAction)updateWindow {
-    _windowTime = _windowSlider.value / 1000.0;
-    _hopTime = _hopSlider.value * _windowTime;
-    _windowTextField.text = [NSString stringWithFormat:@"%.0fms", _windowTime * 1000.0];
-    _hopTextField.text = [NSString stringWithFormat:@"%.0fms", _hopTime * 1000.0];
+    _windowSize = exp2(round(log2(_windowSlider.value)));
+    _hopFraction = _hopSlider.value;
+    _windowTextField.text = [NSString stringWithFormat:@"%.0fms", 1000.0 * _windowSize / _sampleRate];
+    _hopTextField.text = [NSString stringWithFormat:@"%.0fms", 1000.0 * _hopFraction * _windowSize / _sampleRate];
 }
 
 - (IBAction)updateHop {
-    NSTimeInterval hopTime = _hopSlider.value * _windowTime;
-    if (hopTime == 0)
-        hopTime = 1.0 / _sampleRate;
-    _hopTime = hopTime;
-    _hopTextField.text = [NSString stringWithFormat:@"%.0fms", _hopTime * 1000.0];
+    _hopFraction = _hopSlider.value;
+    if (_hopFraction == 0)
+        _hopFraction = 1 / _windowSize;
+    _hopTextField.text = [NSString stringWithFormat:@"%.0fms", 1000.0 * _hopFraction * _windowSize / _sampleRate];
 }
 
 - (IBAction)updateGround {
@@ -106,13 +106,13 @@ static NSString* const kDecibelGroundKey = @"DecibelGroundKey";
 
 - (IBAction)didChangeWindow {
     if (_didChangeTimings)
-        _didChangeTimings(_windowTime, _hopTime);
+        _didChangeTimings(_windowSize, _hopFraction);
     [self savePreferences];
 }
 
 - (IBAction)didChangeHop {
     if (_didChangeTimings)
-        _didChangeTimings(_windowTime, _hopTime);
+        _didChangeTimings(_windowSize, _hopFraction);
     [self savePreferences];
 }
 
@@ -120,11 +120,6 @@ static NSString* const kDecibelGroundKey = @"DecibelGroundKey";
     if (_didChangeDecibelGround)
         _didChangeDecibelGround(_decibelGround);
     [self savePreferences];
-}
-
-- (void)setHopTime:(NSTimeInterval)hopTime {
-    _hopTime = hopTime;
-    [self updateHop];
 }
 
 @end
