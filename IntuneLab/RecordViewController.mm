@@ -96,7 +96,7 @@ static const std::size_t kPacketSize = 1024;
 - (void)step {
     tempo::UniqueBuffer<float> buffer(kPacketSize);
     auto size = _accumulatorModule->render(buffer);
-    (*_fileWriter)(buffer.data(), size);
+    _fileWriter->process(buffer.data(), size);
 
     auto data = _accumulatorModule->data();
     auto totalSize = _accumulatorModule->size();

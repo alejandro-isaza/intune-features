@@ -17,7 +17,6 @@
 
 using namespace tempo;
 using DataType = double;
-using SizeType = SourceModule<DataType>::SizeType;
 
 static const double kSampleRate = 44100;
 

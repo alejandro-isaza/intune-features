@@ -167,6 +167,8 @@
 		6171BEEB1A16C283004AB274 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6171BEEA1A16C283004AB274 /* Accelerate.framework */; };
 		6171BEF41A16DB0E004AB274 /* RecordViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEF31A16DB0E004AB274 /* RecordViewController.mm */; };
 		617DC66C1AC33CE30019E841 /* Spectrogram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 617DC6681AC33CE30019E841 /* Spectrogram.cpp */; };
+		617DC6AE1AC4D9660019E841 /* ClosestSpectrogramDistance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 617DC6AA1AC4D9660019E841 /* ClosestSpectrogramDistance.cpp */; };
+		617DC6AF1AC4D9660019E841 /* NoiseCancellingSpectrogram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 617DC6AC1AC4D9660019E841 /* NoiseCancellingSpectrogram.cpp */; };
 		61A81D711AB0E63C00E230A6 /* FloatConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D5E1AB0E63C00E230A6 /* FloatConverter.cpp */; };
 		61A81D731AB0E63C00E230A6 /* DownsampleModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D631AB0E63C00E230A6 /* DownsampleModule.cpp */; };
 		61A81D741AB0E63C00E230A6 /* EnergyModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D651AB0E63C00E230A6 /* EnergyModule.cpp */; };
@@ -628,6 +630,12 @@
 		617DC6691AC33CE30019E841 /* Spectrogram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Spectrogram.h; sourceTree = "<group>"; };
 		617DC66A1AC33CE30019E841 /* Buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Buffer.h; sourceTree = "<group>"; };
 		617DC66B1AC33CE30019E841 /* Utilities.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
+		617DC6A81AC4D9590019E841 /* Converter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Converter.h; sourceTree = "<group>"; };
+		617DC6A91AC4D9590019E841 /* Normalize.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Normalize.h; sourceTree = "<group>"; };
+		617DC6AA1AC4D9660019E841 /* ClosestSpectrogramDistance.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClosestSpectrogramDistance.cpp; sourceTree = "<group>"; };
+		617DC6AB1AC4D9660019E841 /* ClosestSpectrogramDistance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClosestSpectrogramDistance.h; sourceTree = "<group>"; };
+		617DC6AC1AC4D9660019E841 /* NoiseCancellingSpectrogram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NoiseCancellingSpectrogram.cpp; sourceTree = "<group>"; };
+		617DC6AD1AC4D9660019E841 /* NoiseCancellingSpectrogram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoiseCancellingSpectrogram.h; sourceTree = "<group>"; };
 		61A81D461AB0E62400E230A6 /* libtempo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libtempo.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		61A81D5E1AB0E63C00E230A6 /* FloatConverter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FloatConverter.cpp; sourceTree = "<group>"; };
 		61A81D5F1AB0E63C00E230A6 /* FloatConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloatConverter.h; sourceTree = "<group>"; };
@@ -1225,6 +1233,10 @@
 		617DC6671AC33CE30019E841 /* algorithms */ = {
 			isa = PBXGroup;
 			children = (
+				617DC6AA1AC4D9660019E841 /* ClosestSpectrogramDistance.cpp */,
+				617DC6AB1AC4D9660019E841 /* ClosestSpectrogramDistance.h */,
+				617DC6AC1AC4D9660019E841 /* NoiseCancellingSpectrogram.cpp */,
+				617DC6AD1AC4D9660019E841 /* NoiseCancellingSpectrogram.h */,
 				617DC6681AC33CE30019E841 /* Spectrogram.cpp */,
 				617DC6691AC33CE30019E841 /* Spectrogram.h */,
 			);
@@ -1250,9 +1262,10 @@
 			children = (
 				61A81D621AB0E63C00E230A6 /* AccumulatorModule.h */,
 				6157FC9D1ABB5568008C0D0D /* AccumulatorModule.hpp */,
+				617DC6A81AC4D9590019E841 /* Converter.h */,
+				006518FF1AC2079700E0ADB9 /* Difference.h */,
 				61A81D631AB0E63C00E230A6 /* DownsampleModule.cpp */,
 				61A81D641AB0E63C00E230A6 /* DownsampleModule.h */,
-				006518FF1AC2079700E0ADB9 /* Difference.h */,
 				61A81D651AB0E63C00E230A6 /* EnergyModule.cpp */,
 				61A81D661AB0E63C00E230A6 /* EnergyModule.h */,
 				61A81D681AB0E63C00E230A6 /* FFTModule.h */,
@@ -1266,6 +1279,7 @@
 				61A81D6C1AB0E63C00E230A6 /* MicrophoneModule.h */,
 				61BE11C31AB773CB00BF2F6F /* Mixer.h */,
 				6157FC9B1ABB5568008C0D0D /* Mixer.hpp */,
+				617DC6A91AC4D9590019E841 /* Normalize.h */,
 				6157FC931ABA49BF008C0D0D /* PeakExtraction.h */,
 				6157FC9A1ABB5568008C0D0D /* PeakExtraction.hpp */,
 				61BE11BF1AB773CB00BF2F6F /* PollingModule.h */,
@@ -1632,8 +1646,10 @@
 			files = (
 				61A81D791AB0E63C00E230A6 /* SaveToFileModule.cpp in Sources */,
 				61A81D771AB0E63C00E230A6 /* MicrophoneModule.cpp in Sources */,
+				617DC6AF1AC4D9660019E841 /* NoiseCancellingSpectrogram.cpp in Sources */,
 				61A81D731AB0E63C00E230A6 /* DownsampleModule.cpp in Sources */,
 				61A81D761AB0E63C00E230A6 /* MeanModule.cpp in Sources */,
+				617DC6AE1AC4D9660019E841 /* ClosestSpectrogramDistance.cpp in Sources */,
 				61A81D741AB0E63C00E230A6 /* EnergyModule.cpp in Sources */,
 				61A81D781AB0E63C00E230A6 /* RMSModule.cpp in Sources */,
 				61A81D711AB0E63C00E230A6 /* FloatConverter.cpp in Sources */,

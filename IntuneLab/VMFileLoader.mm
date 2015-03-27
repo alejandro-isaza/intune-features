@@ -13,7 +13,6 @@
 
 using namespace tempo;
 using DataType = VMFileLoaderDataType;
-using SizeType = SourceModule<DataType>::SizeType;
 
 static const SizeType kMaxDataSize = 128*1024*1024;
 
@@ -29,7 +28,7 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 @implementation VMFileLoader {
     UniqueBuffer<DataType> _audioData;
     UniqueBuffer<DataType> _peakData;
-    Spectrogram _spectrogram;
+    UniqueBuffer<DataType> _spectrogramData;
 }
 
 + (instancetype)fileLoaderWithPath:(NSString*)path {
@@ -75,7 +74,7 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 }
 
 - (const tempo::Buffer<DataType>&)spectrogramData {
-    return _spectrogram.buffer();
+    return _spectrogramData;
 }
 
 - (const tempo::Buffer<VMFileLoaderDataType>&)peakData {
@@ -134,15 +133,16 @@ static const SizeType kMaxDataSize = 128*1024*1024;
         _hopSize = static_cast<decltype(_hopSize)>(static_cast<uint64_t>(fileLength) * static_cast<uint64_t>(_windowSize) / kMaxDataSize);
     }
 
-    _spectrogram.setSampleRate(_sampleRate);
-    _spectrogram.setWindowSize(_windowSize);
-    _spectrogram.setHopSize(_hopSize);
-    _spectrogram.setNormalize(_normalize);
-    _spectrogram.generateFromData(_audioData.data(), fileLength);
+    Spectrogram::Parameters params;
+    params.sampleRate = _sampleRate;
+    params.windowSize = _windowSize;
+    params.hopSize = _hopSize;
+    params.normalize = _normalize;
+    _spectrogramData = Spectrogram::generateFromData(_audioData.data(), fileLength, params);
 
     dispatch_sync(dispatch_get_main_queue(), ^() {
         if (completion)
-            completion(_spectrogram.buffer());
+            completion(_spectrogramData);
     });
 }
 
@@ -153,9 +153,9 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 }
 
 - (void)_loadPeakData:(VMFileLoaderLoadedBlock)completion {
-    const auto spectrogramSize = _spectrogram.size();
+    const auto spectrogramSize = _spectrogramData.capacity();
 
-    auto fixedData = std::make_shared<FixedData<DataType>>(_spectrogram.data(), spectrogramSize);
+    auto fixedData = std::make_shared<FixedData<DataType>>(_spectrogramData.data(), spectrogramSize);
 
     auto adapter = std::make_shared<FixedSourceToSourceAdapterModule<DataType>>();
     adapter->setSource(fixedData);

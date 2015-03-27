@@ -9,7 +9,6 @@
 
 using namespace tempo;
 using DataType = ReadFromFileModule::DataType;
-using SizeType = SourceModule<DataType>::SizeType;
 
 
 @interface WaveformViewController ()
