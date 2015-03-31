@@ -15,7 +15,7 @@
 #include <iostream>
 
 void printUsage(int argc, const char * argv[]);
-void createMidiFiles(std::string inputFile, float tempoMultiplier);
+bool createMidiFiles(std::string inputFile, float tempoMultiplier);
 std::unique_ptr<mxml::dom::Score> loadScore(std::string file);
 std::unique_ptr<mxml::dom::Score> loadScoreFromXML(std::string file);
 std::unique_ptr<mxml::dom::Score> loadScoreFromMXL(std::string file);
@@ -37,7 +37,8 @@ int main(int argc, const char * argv[]) {
         return 1;
     }
 
-    createMidiFiles(inputFile, tempoMultiplier);
+    if (!createMidiFiles(inputFile, tempoMultiplier))
+        return 1;
 
     return 0;
 }
@@ -49,10 +50,16 @@ void printUsage(int argc, const char * argv[]) {
     std::cerr << "    tempoMultiplier  Optional tempo multiplier to to the midi tempo events.\n";
 }
 
-void createMidiFiles(std::string inputFile, float tempoMultiplier) {
+bool createMidiFiles(std::string inputFile, float tempoMultiplier) {
     auto score = loadScore(inputFile + ".xml");
+    if (!score) {
+        std::cerr << "File not found " << inputFile << ".xml\n";
+        return false;
+    }
+
     MusicSequenceGenerator::generate(*score, tempoMultiplier, inputFile + ".mid");
     MIDIAnnotationGenerator::generate(*score, tempoMultiplier, inputFile + ".json");
+    return true;
 }
 
 std::unique_ptr<mxml::dom::Score> loadScore(std::string file) {

@@ -21,24 +21,36 @@ MIDIAnnotationGenerator::MIDIAnnotationGenerator(const mxml::dom::Score& score, 
 }
 
 void MIDIAnnotationGenerator::buildAnnotationEvents() {
+    std::map<int, int> noteOnTimes;
+
     for (auto& event : _eventSequence->events()) {
         auto divisionsPerMeasure = static_cast<float>(_scoreProperties->divisionsPerMeasure(event.measureIndex()));
         auto measureNumber = event.absoluteTime() / divisionsPerMeasure;
         auto timeStamp = static_cast<int>(event.wallTime() * 1000 * _tempoMultiplier);
 
-        MidiNoteVector midiNotes;
+        for (auto& onNote : event.offNotes()) {
+            auto midiNumber = onNote->midiNumber();
+            if (midiNumber != 0)
+                noteOnTimes.erase(midiNumber);
+        }
         for (auto& onNote : event.onNotes()) {
-            if (onNote->rest)
-                continue;
-            midiNotes.push_back(onNote->midiNumber());
+            auto midiNumber = onNote->midiNumber();
+            if (midiNumber != 0)
+                noteOnTimes[midiNumber] = timeStamp;
         }
 
-        if (midiNotes.size() > 0) {
+        if (noteOnTimes.size() > 0) {
             AnnotationEvent annotationEvent = {
                 .timeStamp = timeStamp,
-                .measureNumber = measureNumber,
-                .midiNotes = midiNotes
+                .measureNumber = measureNumber
             };
+            for (auto& pair : noteOnTimes) {
+                NoteState state = {
+                    .midiNumber = pair.first,
+                    .onDuration = timeStamp - pair.second
+                };
+                annotationEvent.notes.push_back(state);
+            }
             _annotationEvents.push_back(annotationEvent);
         }
     }

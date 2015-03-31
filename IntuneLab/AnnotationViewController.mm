@@ -58,8 +58,8 @@
     NSTimeInterval timeStamp = [self.wallTimeTextField.text doubleValue];
     double measureNumber = [self.measureNumberTextField.text integerValue] + [self.measureFractionTextField.text doubleValue] / 64.0;
     NSDictionary* point = @{
-        @"timeStamp": @(timeStamp),
-        @"measureNumber": @(measureNumber)
+        @"time_stamp": @(timeStamp),
+        @"measure_number": @(measureNumber)
     };
 
     [self.dataPoints addObject:point];

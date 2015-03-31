@@ -8,9 +8,11 @@ xcuserdata/
 
 # build output
 build/
+bin/
 
 # Cocoapods
 Pods
 
 # Docs
 doc/
+

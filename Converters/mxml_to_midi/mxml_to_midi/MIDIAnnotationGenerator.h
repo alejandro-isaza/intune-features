@@ -23,16 +23,33 @@ private:
     void writeAnnotationEvents();
 
 private:
-    using MidiNoteVector = std::vector<int>;
+    struct NoteState {
+        int midiNumber;  // The note's MIDI number
+        int onDuration; // Now long the note has been on, in milliseconds
+
+        json11::Json to_json() const {
+            return json11::Json::object {
+                {"midi_number", midiNumber},
+                {"on_duration", onDuration}
+            };
+        }
+    };
+
+    using NoteCollection = std::vector<NoteState>;
     struct AnnotationEvent {
         int timeStamp; // event time in milliseconds
         float measureNumber; // fractional event measure number
-        MidiNoteVector midiNotes; // vector of midi note numbers at this event
+        NoteCollection notes; // collection of on notes and their current duration
+
         json11::Json to_json() const {
+            json11::Json::array notesJson;
+            for (auto& note : notes)
+                notesJson.push_back(note.to_json());
+
             return json11::Json::object {
-                {"timeStamp", timeStamp},
-                {"measureNumber", measureNumber},
-                {"midiNotes", midiNotes}
+                {"time_stamp", timeStamp},
+                {"measure_number", measureNumber},
+                {"notes", notesJson}
             };
         }
     };
