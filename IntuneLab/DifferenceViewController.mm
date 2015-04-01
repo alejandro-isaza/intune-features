@@ -84,6 +84,8 @@ using SizeType = vDSP_Length;
     auto hopFraction = _settingsViewController.hopFraction;
     [wtop setWindowSize:windowSize hopFraction:hopFraction];
     [wbottom setWindowSize:windowSize hopFraction:hopFraction];
+    wtop.decibelGround = _settingsViewController.decibelGround;
+    wbottom.decibelGround = _settingsViewController.decibelGround;
 }
 
 - (void)calculateDifference:(NSUInteger)bottomIndex {
