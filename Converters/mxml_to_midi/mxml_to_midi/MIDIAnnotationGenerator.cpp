@@ -2,7 +2,11 @@
 
 #include "MIDIAnnotationGenerator.h"
 
+#include <tempo/AnnotationsSerialization.h>
 #include <fstream>
+
+using namespace tempo;
+
 
 void MIDIAnnotationGenerator::generate(const mxml::dom::Score& score, const float tempoMultiplier, const std::string& outputFile) {
     MIDIAnnotationGenerator generator(score, tempoMultiplier, outputFile);
@@ -21,12 +25,17 @@ MIDIAnnotationGenerator::MIDIAnnotationGenerator(const mxml::dom::Score& score, 
 }
 
 void MIDIAnnotationGenerator::buildAnnotationEvents() {
-    std::map<int, int> noteOnTimes;
+    using TimeType = Annotation::DurationType::rep;
+    std::map<Annotation::NoteType, TimeType> noteOnTimes;
 
     for (auto& event : _eventSequence->events()) {
-        auto divisionsPerMeasure = static_cast<float>(_scoreProperties->divisionsPerMeasure(event.measureIndex()));
-        auto measureNumber = event.absoluteTime() / divisionsPerMeasure;
-        auto timeStamp = static_cast<int>(event.wallTime() * 1000 * _tempoMultiplier);
+        auto timeStamp = static_cast<TimeType>(event.wallTime() * 1000 * _tempoMultiplier);
+
+        Annotation annotation;
+        annotation.setTimeStamp(Annotation::DurationType(timeStamp));
+        annotation.setMeasureIndex(event.measureIndex());
+        annotation.setDivision(event.measureTime());
+        annotation.setDivisionCount(static_cast<float>(_scoreProperties->divisionsPerMeasure(event.measureIndex())));
 
         for (auto& onNote : event.offNotes()) {
             auto midiNumber = onNote->midiNumber();
@@ -39,25 +48,17 @@ void MIDIAnnotationGenerator::buildAnnotationEvents() {
                 noteOnTimes[midiNumber] = timeStamp;
         }
 
-        if (noteOnTimes.size() > 0) {
-            AnnotationEvent annotationEvent = {
-                .timeStamp = timeStamp,
-                .measureNumber = measureNumber
-            };
-            for (auto& pair : noteOnTimes) {
-                NoteState state = {
-                    .midiNumber = pair.first,
-                    .onDuration = timeStamp - pair.second
-                };
-                annotationEvent.notes.push_back(state);
-            }
-            _annotationEvents.push_back(annotationEvent);
+        for (auto& pair : noteOnTimes) {
+            annotation.addOnNote(pair.first, Annotation::DurationType(timeStamp - pair.second));
         }
+
+        _annotations.addAnnotation(annotation);
     }
 }
 
 void MIDIAnnotationGenerator::writeAnnotationEvents() {
     std::ofstream os(_outputFile);
-    os << json11::Json(_annotationEvents).dump();
+    auto json = AnnotationsSerialization::serializeAnnotations(_annotations);
+    os << json;
     os.close();
 }
