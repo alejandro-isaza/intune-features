@@ -14,6 +14,7 @@
 		0086856C1AB10C1400F415A2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6171BD521A16BCC4004AB274 /* Images.xcassets */; };
 		0086859F1AB1148F00F415A2 /* VMPianoRollViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 008685691AB10BC400F415A2 /* VMPianoRollViewController.xib */; };
 		008685A31AB114B400F415A2 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6171BD4F1A16BCC4004AB274 /* Main.storyboard */; };
+		008C85DF1ACCB38000BE9BC3 /* Fitting.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 008C85DB1ACCB38000BE9BC3 /* Fitting.cpp */; };
 		00AF6C1B1AAF9218006525F5 /* DoubleHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00AF6C0C1AAF9218006525F5 /* DoubleHandler.cpp */; };
 		00AF6C1C1AAF9218006525F5 /* IntegerHandler.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00AF6C0E1AAF9218006525F5 /* IntegerHandler.cpp */; };
 		00AF6C1D1AAF9218006525F5 /* lxml.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00AF6C111AAF9218006525F5 /* lxml.cpp */; };
@@ -249,6 +250,10 @@
 		008685631AB10B4B00F415A2 /* VMPianoRollViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMPianoRollViewController.swift; sourceTree = "<group>"; };
 		008685671AB10B8A00F415A2 /* VMWaveformView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMWaveformView.swift; sourceTree = "<group>"; };
 		008685691AB10BC400F415A2 /* VMPianoRollViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VMPianoRollViewController.xib; sourceTree = "<group>"; };
+		008C85DB1ACCB38000BE9BC3 /* Fitting.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Fitting.cpp; sourceTree = "<group>"; };
+		008C85DC1ACCB38000BE9BC3 /* Fitting.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Fitting.h; sourceTree = "<group>"; };
+		008C85DD1ACCB38000BE9BC3 /* NRGauss.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRGauss.h; sourceTree = "<group>"; };
+		008C85DE1ACCB38000BE9BC3 /* NRTypes.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NRTypes.h; sourceTree = "<group>"; };
 		00AF6C0B1AAF9218006525F5 /* BaseRecursiveHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BaseRecursiveHandler.h; sourceTree = "<group>"; };
 		00AF6C0C1AAF9218006525F5 /* DoubleHandler.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = DoubleHandler.cpp; sourceTree = "<group>"; };
 		00AF6C0D1AAF9218006525F5 /* DoubleHandler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DoubleHandler.h; sourceTree = "<group>"; };
@@ -1234,6 +1239,10 @@
 				617DC6AD1AC4D9660019E841 /* NoiseCancellingSpectrogram.h */,
 				617DC6681AC33CE30019E841 /* Spectrogram.cpp */,
 				617DC6691AC33CE30019E841 /* Spectrogram.h */,
+				008C85DB1ACCB38000BE9BC3 /* Fitting.cpp */,
+				008C85DC1ACCB38000BE9BC3 /* Fitting.h */,
+				008C85DD1ACCB38000BE9BC3 /* NRGauss.h */,
+				008C85DE1ACCB38000BE9BC3 /* NRTypes.h */,
 			);
 			path = algorithms;
 			sourceTree = "<group>";
@@ -1648,6 +1657,7 @@
 				61A81D781AB0E63C00E230A6 /* RMSModule.cpp in Sources */,
 				61A81D711AB0E63C00E230A6 /* FloatConverter.cpp in Sources */,
 				617DC66C1AC33CE30019E841 /* Spectrogram.cpp in Sources */,
+				008C85DF1ACCB38000BE9BC3 /* Fitting.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

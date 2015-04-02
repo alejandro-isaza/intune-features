@@ -33,6 +33,7 @@ typedef void (^VMFileLoaderInvalidatedBlock)();
 
 - (void)loadAudioData:(VMFileLoaderLoadedBlock)completion;
 - (void)loadSpectrogramData:(VMFileLoaderLoadedBlock)completion;
+- (void)loadSpectrogramDataWithNoise:(const tempo::Buffer<VMFileLoaderDataType>*)noiseData completion:(VMFileLoaderLoadedBlock)completion;
 - (void)loadPeakData:(VMFileLoaderLoadedBlock)completion;
 
 @end

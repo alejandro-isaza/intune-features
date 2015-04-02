@@ -10,6 +10,7 @@
 #include <tempo/modules/ReadFromFileModule.h>
 #include <tempo/modules/WindowingModule.h>
 #include <tempo/algorithms/Spectrogram.h>
+#include <tempo/algorithms/NoiseCancellingSpectrogram.h>
 
 using namespace tempo;
 using DataType = VMFileLoaderDataType;
@@ -111,14 +112,20 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 
 - (void)loadSpectrogramData:(VMFileLoaderLoadedBlock)completion {
     dispatch_async(self.queue, ^() {
-        [self _loadSpectrogramData:completion];
+        [self _loadSpectrogramData:nullptr completion:completion];
     });
 }
 
-- (void)_loadSpectrogramData:(VMFileLoaderLoadedBlock)completion {
+- (void)loadSpectrogramDataWithNoise:(const tempo::Buffer<VMFileLoaderDataType>*)noiseData completion:(VMFileLoaderLoadedBlock)completion {
+    dispatch_async(self.queue, ^() {
+        [self _loadSpectrogramData:noiseData completion:completion];
+    });
+}
+
+- (void)_loadSpectrogramData:(const tempo::Buffer<VMFileLoaderDataType>*)noiseData completion:(VMFileLoaderLoadedBlock)completion {
     if (_audioData.capacity() == 0) {
         [self _loadAudioData:^(const Buffer<DataType>& buffer) {
-            [self loadSpectrogramData:completion];
+            [self loadSpectrogramDataWithNoise:noiseData completion:completion];
         }];
         return;
     }
@@ -134,8 +141,10 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     params.sampleRate = _sampleRate;
     params.windowSizeLog2 = std::round(std::log2(_windowSize));
     params.hopFraction = _hopFraction;
-    params.normalize = _normalize;
-    _spectrogramData = Spectrogram::generateFromData(_audioData.data(), fileLength, params);
+    if (noiseData)
+        _spectrogramData = NoiseCancellingSpectrogram::generateFromData(_audioData.data(), fileLength, noiseData->data(), noiseData->capacity(), params);
+    else
+        _spectrogramData = Spectrogram::generateFromData(_audioData.data(), fileLength, params);
 
     dispatch_sync(dispatch_get_main_queue(), ^() {
         if (completion)

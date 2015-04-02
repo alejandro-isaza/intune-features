@@ -25,13 +25,19 @@ using DataType = double;
 @property(nonatomic, weak) IBOutlet VMEqualizerView *equalizerView;
 
 @property(nonatomic, strong) VMFileLoader* fileLoader;
+@property(nonatomic, strong) VMFileLoader* noiseFileLoader;
+@property(nonatomic, strong) NSString* audioFile;
+@property(nonatomic, strong) NSString* noiseFile;
+
 @property(nonatomic, assign) CGPoint previousOffset;
 @property(nonatomic, assign) NSUInteger highlightedIndex;
 
 @end
 
 
-@implementation VMSpectrogramViewController
+@implementation VMSpectrogramViewController {
+    UniqueBuffer<DataType> _noiseData;
+}
 
 + (instancetype)create {
     return [[VMSpectrogramViewController alloc] initWithNibName:@"VMSpectrogramViewController" bundle:nil];
@@ -101,20 +107,46 @@ using DataType = double;
     _spectrogramView.lowColor = spectrogramColor;
 }
 
-- (IBAction)open:(UIButton *)sender {
+- (IBAction)openAudio:(UIButton *)sender {
     VMFilePickerController *filePicker = [[VMFilePickerController alloc] init];
     filePicker.selectionBlock = ^(NSString* file, NSString* filename) {
-        [self loadWaveform:file];
+        _audioFile = file;
+        [self loadWaveform];
     };
     [filePicker presentInViewController:self sourceRect:sender.frame];
 }
 
-- (void)loadWaveform:(NSString*)file {
-    self.fileLoader = [VMFileLoader fileLoaderWithPath:file];
+- (IBAction)openNoise:(UIButton *)sender {
+    VMFilePickerController *filePicker = [[VMFilePickerController alloc] init];
+    filePicker.selectionBlock = ^(NSString* file, NSString* filename) {
+        _noiseFile = file;
+        [self loadWaveform];
+    };
+    [filePicker presentInViewController:self sourceRect:sender.frame];
+}
+
+- (void)loadWaveform {
+    self.fileLoader = [VMFileLoader fileLoaderWithPath:_audioFile];
+    self.fileLoader.normalize = YES;
+
+    self.noiseFileLoader = [VMFileLoader fileLoaderWithPath:_noiseFile];
+    self.noiseFileLoader.normalize = YES;
+
     [self render];
 }
 
 - (void)render {
+    if (!self.fileLoader)
+        return;
+
+    // If noise has been set, first load the noise data
+    if (self.noiseFileLoader && !self.noiseFileLoader.audioData.data()) {
+        [self.noiseFileLoader loadAudioData:^(const tempo::Buffer<VMFileLoaderDataType> &buffer) {
+            [self render];
+        }];
+        return;
+    }
+
     self.fileLoader.windowSize = self.windowSize;
     self.fileLoader.hopFraction = self.hopFraction;
     
@@ -125,7 +157,7 @@ using DataType = double;
     [self.equalizerView setSamples:nullptr count:0 offset:0];
 
     // Load spectrogram
-    [self.fileLoader loadSpectrogramData:^(const Buffer<DataType>& buffer) {
+    [self.fileLoader loadSpectrogramDataWithNoise:&self.noiseFileLoader.audioData completion:^(const tempo::Buffer<VMFileLoaderDataType> &buffer) {
         self.spectrogramView.sampleTimeLength = self.fileLoader.hopTime;
         self.spectrogramView.frequencyBinCount = self.fileLoader.windowSize / 2;
         [self.spectrogramView setSamples:buffer.data() count:buffer.capacity()];
