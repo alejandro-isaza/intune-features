@@ -575,6 +575,10 @@
 		00AF6D5A1AAF9222006525F5 /* StringUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringUtility.h; sourceTree = "<group>"; };
 		00AF6DD61AAF92A7006525F5 /* MXMLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXMLViewController.h; sourceTree = "<group>"; };
 		00AF6DD71AAF92A7006525F5 /* MXMLViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MXMLViewController.mm; sourceTree = "<group>"; };
+		00BB63AF1ACDF06900A65779 /* BartlettWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BartlettWindow.h; sourceTree = "<group>"; };
+		00BB63B01ACDF06900A65779 /* HammingWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HammingWindow.h; sourceTree = "<group>"; };
+		00BB63B21ACDF06900A65779 /* HannWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HannWindow.h; sourceTree = "<group>"; };
+		00BB63B31ACDF06900A65779 /* WelchWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelchWindow.h; sourceTree = "<group>"; };
 		00BF7B6B1AB9E638003A31A7 /* XML */ = {isa = PBXFileReference; lastKnownFileType = folder; name = XML; path = Resources/XML; sourceTree = "<group>"; };
 		00BF7B6D1ABA413A003A31A7 /* DifferenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DifferenceViewController.h; sourceTree = "<group>"; };
 		00BF7B6E1ABA413A003A31A7 /* DifferenceViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DifferenceViewController.mm; sourceTree = "<group>"; };
@@ -602,7 +606,6 @@
 		6157FC991ABB5568008C0D0D /* WindowingModule.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = WindowingModule.hpp; sourceTree = "<group>"; };
 		6157FC9A1ABB5568008C0D0D /* PeakExtraction.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = PeakExtraction.hpp; sourceTree = "<group>"; };
 		6157FC9B1ABB5568008C0D0D /* Mixer.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = Mixer.hpp; sourceTree = "<group>"; };
-		6157FC9C1ABB5568008C0D0D /* HammingWindow.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = HammingWindow.hpp; sourceTree = "<group>"; };
 		6157FC9D1ABB5568008C0D0D /* AccumulatorModule.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AccumulatorModule.hpp; sourceTree = "<group>"; };
 		6157FC9E1ABB5568008C0D0D /* FFTModule.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FFTModule.hpp; sourceTree = "<group>"; };
 		6157FCA01ABCBEA8008C0D0D /* VMDistancesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMDistancesView.h; sourceTree = "<group>"; };
@@ -656,7 +659,6 @@
 		61A81D8D1AB218DA00E230A6 /* SineWaveGeneratorModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SineWaveGeneratorModule.h; sourceTree = "<group>"; };
 		61A81D911AB2607300E230A6 /* SourceModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SourceModule.h; sourceTree = "<group>"; };
 		61BE11BF1AB773CB00BF2F6F /* PollingModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PollingModule.h; sourceTree = "<group>"; };
-		61BE11C21AB773CB00BF2F6F /* HammingWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HammingWindow.h; sourceTree = "<group>"; };
 		61BE11C31AB773CB00BF2F6F /* Mixer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Mixer.h; sourceTree = "<group>"; };
 		61BE11C41AB773CB00BF2F6F /* WindowingModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WindowingModule.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -1104,6 +1106,17 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		00BB63AE1ACDF06900A65779 /* windows */ = {
+			isa = PBXGroup;
+			children = (
+				00BB63AF1ACDF06900A65779 /* BartlettWindow.h */,
+				00BB63B01ACDF06900A65779 /* HammingWindow.h */,
+				00BB63B21ACDF06900A65779 /* HannWindow.h */,
+				00BB63B31ACDF06900A65779 /* WelchWindow.h */,
+			);
+			path = windows;
+			sourceTree = "<group>";
+		};
 		00E638A61AB8E55300F5B4C5 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1255,6 +1268,7 @@
 		61A81D601AB0E63C00E230A6 /* modules */ = {
 			isa = PBXGroup;
 			children = (
+				00BB63AE1ACDF06900A65779 /* windows */,
 				61A81D621AB0E63C00E230A6 /* AccumulatorModule.h */,
 				6157FC9D1ABB5568008C0D0D /* AccumulatorModule.hpp */,
 				617DC6A81AC4D9590019E841 /* Converter.h */,
@@ -1266,8 +1280,6 @@
 				61A81D681AB0E63C00E230A6 /* FFTModule.h */,
 				6157FC9E1ABB5568008C0D0D /* FFTModule.hpp */,
 				6157FC951ABA4CD7008C0D0D /* FixedData.h */,
-				61BE11C21AB773CB00BF2F6F /* HammingWindow.h */,
-				6157FC9C1ABB5568008C0D0D /* HammingWindow.hpp */,
 				61A81D691AB0E63C00E230A6 /* MeanModule.cpp */,
 				61A81D6A1AB0E63C00E230A6 /* MeanModule.h */,
 				61A81D6B1AB0E63C00E230A6 /* MicrophoneModule.cpp */,

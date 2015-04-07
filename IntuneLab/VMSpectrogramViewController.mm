@@ -9,10 +9,10 @@
 #include <tempo/modules/Converter.h>
 #include <tempo/modules/FixedData.h>
 #include <tempo/modules/FFTModule.h>
-#include <tempo/modules/HammingWindow.h>
 #include <tempo/modules/PeakExtraction.h>
 #include <tempo/modules/PollingModule.h>
 #include <tempo/modules/WindowingModule.h>
+#include <tempo/modules/windows/HammingWindow.h>
 
 
 using namespace tempo;
