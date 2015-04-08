@@ -52,8 +52,9 @@ private:
     void writeMusicSequence();
     void buildMidiEvents();
     void buildMusicSequence();
-    NoteEvent buildNoteEventFromNote(const mxml::dom::Note& note, Float32 duration, MusicTimeStamp timeStamp);
-    MIDINoteMessage buildMidiNoteFromNote(const mxml::dom::Note& note, Float32 duration);
+
+    NoteEvent buildNoteEventFromNote(const mxml::dom::Note& note, bool on, MusicTimeStamp timeStamp);
+    MIDINoteMessage buildMidiNoteFromNote(const mxml::dom::Note& note, bool on);
     UInt8 velocityForNote(const mxml::dom::Note& note);
 
 private:

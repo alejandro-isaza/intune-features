@@ -67,30 +67,36 @@ void MusicSequenceGenerator::buildMidiEvents() {
             _tempoEvents.push_back(tempoEvent);
         }
 
+        for (auto& offNote : event.offNotes()) {
+            if (offNote->rest)
+                continue;
+
+            auto noteEvent = buildNoteEventFromNote(*offNote, false, currentBeat);
+            _noteEvents.push_back(noteEvent);
+        }
         for (auto& onNote : event.onNotes()) {
             if (onNote->rest)
                 continue;
 
-            auto noteEvent = buildNoteEventFromNote(*onNote, event.wallTimeDuration(), currentBeat);
+            auto noteEvent = buildNoteEventFromNote(*onNote, true, currentBeat);
             _noteEvents.push_back(noteEvent);
         }
     }
 }
 
-MusicSequenceGenerator::NoteEvent MusicSequenceGenerator::buildNoteEventFromNote(const mxml::dom::Note& note, Float32 duration, MusicTimeStamp timeStamp) {
+MusicSequenceGenerator::NoteEvent MusicSequenceGenerator::buildNoteEventFromNote(const mxml::dom::Note& note, bool on, MusicTimeStamp timeStamp) {
     NoteEvent noteEvent = {
-        noteEvent.message = buildMidiNoteFromNote(note, duration),
+        noteEvent.message = buildMidiNoteFromNote(note, on),
         noteEvent.timeStamp = timeStamp
     };
 
     return noteEvent;
 }
 
-MIDINoteMessage MusicSequenceGenerator::buildMidiNoteFromNote(const mxml::dom::Note& note, Float32 duration) {
+MIDINoteMessage MusicSequenceGenerator::buildMidiNoteFromNote(const mxml::dom::Note& note, bool on) {
     MIDINoteMessage midiNote = {
         .note = static_cast<UInt8>(note.midiNumber()),
-        .velocity = velocityForNote(note),
-        .duration = duration
+        .velocity = on ? velocityForNote(note) : static_cast<UInt8>(0)
     };
 
     return midiNote;

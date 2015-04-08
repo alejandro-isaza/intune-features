@@ -33,12 +33,12 @@ void MIDIAnnotationGenerator::buildAnnotationEvents() {
 
         Annotation annotation;
         annotation.setTimeStamp(Annotation::DurationType(timeStamp));
-        annotation.setMeasureIndex(event.measureIndex());
+        annotation.setMeasureIndex(static_cast<int>(event.measureIndex()));
         annotation.setDivision(event.measureTime());
         annotation.setDivisionCount(static_cast<float>(_scoreProperties->divisionsPerMeasure(event.measureIndex())));
 
-        for (auto& onNote : event.offNotes()) {
-            auto midiNumber = onNote->midiNumber();
+        for (auto& offNote : event.offNotes()) {
+            auto midiNumber = offNote->midiNumber();
             if (midiNumber != 0)
                 noteOnTimes.erase(midiNumber);
         }
@@ -48,9 +48,8 @@ void MIDIAnnotationGenerator::buildAnnotationEvents() {
                 noteOnTimes[midiNumber] = timeStamp;
         }
 
-        for (auto& pair : noteOnTimes) {
+        for (auto& pair : noteOnTimes)
             annotation.addOnNote(pair.first, Annotation::DurationType(timeStamp - pair.second));
-        }
 
         _annotations.addAnnotation(annotation);
     }
