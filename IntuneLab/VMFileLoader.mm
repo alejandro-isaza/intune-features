@@ -134,8 +134,7 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     params.sampleRate = _sampleRate;
     params.windowSizeLog2 = std::round(std::log2(_windowSize));
     params.hopFraction = _hopFraction;
-    params.normalize = _normalize;
-    _spectrogramData = Spectrogram::generateFromData(_audioData.data(), fileLength, params);
+    _spectrogramData = Spectrogram::generateFromData(_audioData.data(), fileLength, params, true);
 
     dispatch_sync(dispatch_get_main_queue(), ^() {
         if (completion)
