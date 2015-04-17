@@ -7,8 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00587A2C1ABB4BA80043564B /* FFTSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00587A2B1ABB4BA80043564B /* FFTSettingsViewController.m */; };
-		00587A2E1ABB4C1B0043564B /* FFTSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00587A2D1ABB4C1B0043564B /* FFTSettingsViewController.xib */; };
 		008685651AB10B4B00F415A2 /* VMPianoRollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008685631AB10B4B00F415A2 /* VMPianoRollViewController.swift */; };
 		008685681AB10B8A00F415A2 /* VMWaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008685671AB10B8A00F415A2 /* VMWaveformView.swift */; };
 		0086856C1AB10C1400F415A2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6171BD521A16BCC4004AB274 /* Images.xcassets */; };
@@ -142,12 +140,17 @@
 		00AF6DD31AAF9222006525F5 /* SpanCollection.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00AF6D541AAF9222006525F5 /* SpanCollection.cpp */; };
 		00AF6DD41AAF9222006525F5 /* SpanFactory.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00AF6D561AAF9222006525F5 /* SpanFactory.cpp */; };
 		00AF6DD51AAF9222006525F5 /* StringUtility.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00AF6D591AAF9222006525F5 /* StringUtility.cpp */; };
-		00AF6DD81AAF92A7006525F5 /* MXMLViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00AF6DD71AAF92A7006525F5 /* MXMLViewController.mm */; };
 		00BF7B6C1AB9E638003A31A7 /* XML in Resources */ = {isa = PBXBuildFile; fileRef = 00BF7B6B1AB9E638003A31A7 /* XML */; };
-		00BF7B6F1ABA413A003A31A7 /* DifferenceViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00BF7B6E1ABA413A003A31A7 /* DifferenceViewController.mm */; };
-		00BF7B731ABA4577003A31A7 /* VMSpectrogramViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00BF7B721ABA4577003A31A7 /* VMSpectrogramViewController.xib */; };
-		00BF7B761ABA469D003A31A7 /* VMSpectrogramViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00BF7B751ABA469D003A31A7 /* VMSpectrogramViewController.mm */; };
-		00E638A21AB8DC9B00F5B4C5 /* WaveformViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00E638A11AB8DC9B00F5B4C5 /* WaveformViewController.mm */; };
+		00D9E2C81AE1869A004C2505 /* AnnotationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00D9E2B81AE1869A004C2505 /* AnnotationViewController.mm */; };
+		00D9E2C91AE1869A004C2505 /* DifferenceViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00D9E2BB1AE1869A004C2505 /* DifferenceViewController.mm */; };
+		00D9E2CA1AE1869A004C2505 /* VMSpectrogramViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00D9E2BD1AE1869A004C2505 /* VMSpectrogramViewController.mm */; };
+		00D9E2CB1AE1869A004C2505 /* VMSpectrogramViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00D9E2BE1AE1869A004C2505 /* VMSpectrogramViewController.xib */; };
+		00D9E2CC1AE1869A004C2505 /* MXMLViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00D9E2C11AE1869A004C2505 /* MXMLViewController.mm */; };
+		00D9E2CD1AE1869A004C2505 /* RecordViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00D9E2C41AE1869A004C2505 /* RecordViewController.mm */; };
+		00D9E2CE1AE1869A004C2505 /* WaveformViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00D9E2C71AE1869A004C2505 /* WaveformViewController.mm */; };
+		00D9E2D21AE186E6004C2505 /* FFTSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00D9E2D01AE186E6004C2505 /* FFTSettingsViewController.m */; };
+		00D9E2D31AE186E6004C2505 /* FFTSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00D9E2D11AE186E6004C2505 /* FFTSettingsViewController.xib */; };
+		00D9E2D61AE186F5004C2505 /* VMFileLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00D9E2D51AE186F5004C2505 /* VMFileLoader.mm */; };
 		00E638A51AB8E54C00F5B4C5 /* VMFilePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E638A41AB8E54C00F5B4C5 /* VMFilePickerController.m */; };
 		00E638A91AB8F13500F5B4C5 /* Audio in Resources */ = {isa = PBXBuildFile; fileRef = 00E638A81AB8F13500F5B4C5 /* Audio */; };
 		00E638AC1AB8F4F100F5B4C5 /* ReadFromFileModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00E638AA1AB8F4F100F5B4C5 /* ReadFromFileModule.cpp */; };
@@ -155,8 +158,6 @@
 		00EFC4E01AAF8E19000C1D5B /* liblxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EFC4C21AAF8DF3000C1D5B /* liblxml.a */; };
 		00EFC5481AAF8EA3000C1D5B /* libmxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EFC4E51AAF8E73000C1D5B /* libmxml.a */; };
 		610325171AB7AAA300E4E3D3 /* VMSpectrogramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610325151AB7AAA300E4E3D3 /* VMSpectrogramView.swift */; };
-		612BFF6B1AC09AB8000D5772 /* AnnotationViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 612BFF6A1AC09AB8000D5772 /* AnnotationViewController.mm */; };
-		612BFF6E1AC0B76D000D5772 /* VMFileLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 612BFF6D1AC0B76D000D5772 /* VMFileLoader.mm */; };
 		612BFF731AC1DECB000D5772 /* Annotations in Resources */ = {isa = PBXBuildFile; fileRef = 612BFF721AC1DECB000D5772 /* Annotations */; };
 		6157FCA21ABCBEA8008C0D0D /* VMDistancesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6157FCA11ABCBEA8008C0D0D /* VMDistancesView.m */; };
 		6171BD451A16BCC4004AB274 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD441A16BCC4004AB274 /* main.m */; };
@@ -165,7 +166,6 @@
 		6171BD621A16BCC4004AB274 /* IntuneLabTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD611A16BCC4004AB274 /* IntuneLabTests.m */; };
 		6171BEE91A16C272004AB274 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6171BEE81A16C272004AB274 /* AudioToolbox.framework */; };
 		6171BEEB1A16C283004AB274 /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6171BEEA1A16C283004AB274 /* Accelerate.framework */; };
-		6171BEF41A16DB0E004AB274 /* RecordViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 6171BEF31A16DB0E004AB274 /* RecordViewController.mm */; };
 		617DC66C1AC33CE30019E841 /* Spectrogram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 617DC6681AC33CE30019E841 /* Spectrogram.cpp */; };
 		617DC6AE1AC4D9660019E841 /* ClosestSpectrogramDistance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 617DC6AA1AC4D9660019E841 /* ClosestSpectrogramDistance.cpp */; };
 		617DC6AF1AC4D9660019E841 /* NoiseCancellingSpectrogram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 617DC6AC1AC4D9660019E841 /* NoiseCancellingSpectrogram.cpp */; };
@@ -242,9 +242,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		00587A2A1ABB4BA80043564B /* FFTSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTSettingsViewController.h; sourceTree = "<group>"; };
-		00587A2B1ABB4BA80043564B /* FFTSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FFTSettingsViewController.m; sourceTree = "<group>"; };
-		00587A2D1ABB4C1B0043564B /* FFTSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = FFTSettingsViewController.xib; sourceTree = "<group>"; };
 		006518FF1AC2079700E0ADB9 /* Difference.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Difference.h; sourceTree = "<group>"; };
 		008685631AB10B4B00F415A2 /* VMPianoRollViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMPianoRollViewController.swift; sourceTree = "<group>"; };
 		008685671AB10B8A00F415A2 /* VMWaveformView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMWaveformView.swift; sourceTree = "<group>"; };
@@ -573,20 +570,29 @@
 		00AF6D581AAF9222006525F5 /* StreamOperators.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StreamOperators.h; sourceTree = "<group>"; };
 		00AF6D591AAF9222006525F5 /* StringUtility.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = StringUtility.cpp; sourceTree = "<group>"; };
 		00AF6D5A1AAF9222006525F5 /* StringUtility.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = StringUtility.h; sourceTree = "<group>"; };
-		00AF6DD61AAF92A7006525F5 /* MXMLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXMLViewController.h; sourceTree = "<group>"; };
-		00AF6DD71AAF92A7006525F5 /* MXMLViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MXMLViewController.mm; sourceTree = "<group>"; };
 		00BB63AF1ACDF06900A65779 /* BartlettWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BartlettWindow.h; sourceTree = "<group>"; };
 		00BB63B01ACDF06900A65779 /* HammingWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HammingWindow.h; sourceTree = "<group>"; };
 		00BB63B21ACDF06900A65779 /* HannWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HannWindow.h; sourceTree = "<group>"; };
 		00BB63B31ACDF06900A65779 /* WelchWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelchWindow.h; sourceTree = "<group>"; };
 		00BF7B6B1AB9E638003A31A7 /* XML */ = {isa = PBXFileReference; lastKnownFileType = folder; name = XML; path = Resources/XML; sourceTree = "<group>"; };
-		00BF7B6D1ABA413A003A31A7 /* DifferenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DifferenceViewController.h; sourceTree = "<group>"; };
-		00BF7B6E1ABA413A003A31A7 /* DifferenceViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DifferenceViewController.mm; sourceTree = "<group>"; };
-		00BF7B721ABA4577003A31A7 /* VMSpectrogramViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = VMSpectrogramViewController.xib; path = Views/VMSpectrogramViewController.xib; sourceTree = "<group>"; };
-		00BF7B741ABA469D003A31A7 /* VMSpectrogramViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMSpectrogramViewController.h; sourceTree = "<group>"; };
-		00BF7B751ABA469D003A31A7 /* VMSpectrogramViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VMSpectrogramViewController.mm; sourceTree = "<group>"; };
-		00E638A01AB8DC9B00F5B4C5 /* WaveformViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveformViewController.h; sourceTree = "<group>"; };
-		00E638A11AB8DC9B00F5B4C5 /* WaveformViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WaveformViewController.mm; sourceTree = "<group>"; };
+		00D9E2B71AE1869A004C2505 /* AnnotationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnotationViewController.h; sourceTree = "<group>"; };
+		00D9E2B81AE1869A004C2505 /* AnnotationViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AnnotationViewController.mm; sourceTree = "<group>"; };
+		00D9E2BA1AE1869A004C2505 /* DifferenceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DifferenceViewController.h; sourceTree = "<group>"; };
+		00D9E2BB1AE1869A004C2505 /* DifferenceViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = DifferenceViewController.mm; sourceTree = "<group>"; };
+		00D9E2BC1AE1869A004C2505 /* VMSpectrogramViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMSpectrogramViewController.h; sourceTree = "<group>"; };
+		00D9E2BD1AE1869A004C2505 /* VMSpectrogramViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VMSpectrogramViewController.mm; sourceTree = "<group>"; };
+		00D9E2BE1AE1869A004C2505 /* VMSpectrogramViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VMSpectrogramViewController.xib; sourceTree = "<group>"; };
+		00D9E2C01AE1869A004C2505 /* MXMLViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MXMLViewController.h; sourceTree = "<group>"; };
+		00D9E2C11AE1869A004C2505 /* MXMLViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = MXMLViewController.mm; sourceTree = "<group>"; };
+		00D9E2C31AE1869A004C2505 /* RecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordViewController.h; sourceTree = "<group>"; };
+		00D9E2C41AE1869A004C2505 /* RecordViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RecordViewController.mm; sourceTree = "<group>"; };
+		00D9E2C61AE1869A004C2505 /* WaveformViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WaveformViewController.h; sourceTree = "<group>"; };
+		00D9E2C71AE1869A004C2505 /* WaveformViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = WaveformViewController.mm; sourceTree = "<group>"; };
+		00D9E2CF1AE186E6004C2505 /* FFTSettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = FFTSettingsViewController.h; path = Helpers/FFTSettingsViewController.h; sourceTree = "<group>"; };
+		00D9E2D01AE186E6004C2505 /* FFTSettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = FFTSettingsViewController.m; path = Helpers/FFTSettingsViewController.m; sourceTree = "<group>"; };
+		00D9E2D11AE186E6004C2505 /* FFTSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FFTSettingsViewController.xib; path = Helpers/FFTSettingsViewController.xib; sourceTree = "<group>"; };
+		00D9E2D41AE186F5004C2505 /* VMFileLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VMFileLoader.h; path = Helpers/VMFileLoader.h; sourceTree = "<group>"; };
+		00D9E2D51AE186F5004C2505 /* VMFileLoader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = VMFileLoader.mm; path = Helpers/VMFileLoader.mm; sourceTree = "<group>"; };
 		00E638A31AB8E54C00F5B4C5 /* VMFilePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VMFilePickerController.h; path = Helpers/VMFilePickerController.h; sourceTree = "<group>"; };
 		00E638A41AB8E54C00F5B4C5 /* VMFilePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VMFilePickerController.m; path = Helpers/VMFilePickerController.m; sourceTree = "<group>"; };
 		00E638A81AB8F13500F5B4C5 /* Audio */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Audio; path = Resources/Audio; sourceTree = "<group>"; };
@@ -596,10 +602,6 @@
 		00EFC4C21AAF8DF3000C1D5B /* liblxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblxml.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		00EFC4E51AAF8E73000C1D5B /* libmxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libmxml.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		610325151AB7AAA300E4E3D3 /* VMSpectrogramView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMSpectrogramView.swift; sourceTree = "<group>"; };
-		612BFF691AC09AB8000D5772 /* AnnotationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnotationViewController.h; sourceTree = "<group>"; };
-		612BFF6A1AC09AB8000D5772 /* AnnotationViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AnnotationViewController.mm; sourceTree = "<group>"; };
-		612BFF6C1AC0B76D000D5772 /* VMFileLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMFileLoader.h; sourceTree = "<group>"; };
-		612BFF6D1AC0B76D000D5772 /* VMFileLoader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = VMFileLoader.mm; sourceTree = "<group>"; };
 		612BFF721AC1DECB000D5772 /* Annotations */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Annotations; path = Resources/Annotations; sourceTree = "<group>"; };
 		6157FC931ABA49BF008C0D0D /* PeakExtraction.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeakExtraction.h; sourceTree = "<group>"; };
 		6157FC951ABA4CD7008C0D0D /* FixedData.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FixedData.h; sourceTree = "<group>"; };
@@ -626,8 +628,6 @@
 		6171BEE81A16C272004AB274 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		6171BEEA1A16C283004AB274 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		6171BEED1A16C49C004AB274 /* IntuneLab-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "IntuneLab-Bridging-Header.h"; sourceTree = "<group>"; };
-		6171BEF21A16DB0E004AB274 /* RecordViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RecordViewController.h; sourceTree = "<group>"; };
-		6171BEF31A16DB0E004AB274 /* RecordViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = RecordViewController.mm; sourceTree = "<group>"; };
 		617DC6681AC33CE30019E841 /* Spectrogram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Spectrogram.cpp; sourceTree = "<group>"; };
 		617DC6691AC33CE30019E841 /* Spectrogram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Spectrogram.h; sourceTree = "<group>"; };
 		617DC66A1AC33CE30019E841 /* Buffer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Buffer.h; sourceTree = "<group>"; };
@@ -1117,13 +1117,64 @@
 			path = windows;
 			sourceTree = "<group>";
 		};
+		00D9E2B61AE1869A004C2505 /* Annotation */ = {
+			isa = PBXGroup;
+			children = (
+				00D9E2B71AE1869A004C2505 /* AnnotationViewController.h */,
+				00D9E2B81AE1869A004C2505 /* AnnotationViewController.mm */,
+			);
+			path = Annotation;
+			sourceTree = "<group>";
+		};
+		00D9E2B91AE1869A004C2505 /* Difference */ = {
+			isa = PBXGroup;
+			children = (
+				00D9E2BA1AE1869A004C2505 /* DifferenceViewController.h */,
+				00D9E2BB1AE1869A004C2505 /* DifferenceViewController.mm */,
+				00D9E2BC1AE1869A004C2505 /* VMSpectrogramViewController.h */,
+				00D9E2BD1AE1869A004C2505 /* VMSpectrogramViewController.mm */,
+				00D9E2BE1AE1869A004C2505 /* VMSpectrogramViewController.xib */,
+			);
+			path = Difference;
+			sourceTree = "<group>";
+		};
+		00D9E2BF1AE1869A004C2505 /* MXML */ = {
+			isa = PBXGroup;
+			children = (
+				00D9E2C01AE1869A004C2505 /* MXMLViewController.h */,
+				00D9E2C11AE1869A004C2505 /* MXMLViewController.mm */,
+			);
+			path = MXML;
+			sourceTree = "<group>";
+		};
+		00D9E2C21AE1869A004C2505 /* Record */ = {
+			isa = PBXGroup;
+			children = (
+				00D9E2C31AE1869A004C2505 /* RecordViewController.h */,
+				00D9E2C41AE1869A004C2505 /* RecordViewController.mm */,
+			);
+			path = Record;
+			sourceTree = "<group>";
+		};
+		00D9E2C51AE1869A004C2505 /* Waveform */ = {
+			isa = PBXGroup;
+			children = (
+				00D9E2C61AE1869A004C2505 /* WaveformViewController.h */,
+				00D9E2C71AE1869A004C2505 /* WaveformViewController.mm */,
+			);
+			path = Waveform;
+			sourceTree = "<group>";
+		};
 		00E638A61AB8E55300F5B4C5 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
+				00D9E2CF1AE186E6004C2505 /* FFTSettingsViewController.h */,
+				00D9E2D01AE186E6004C2505 /* FFTSettingsViewController.m */,
+				00D9E2D11AE186E6004C2505 /* FFTSettingsViewController.xib */,
 				00E638A31AB8E54C00F5B4C5 /* VMFilePickerController.h */,
 				00E638A41AB8E54C00F5B4C5 /* VMFilePickerController.m */,
-				612BFF6C1AC0B76D000D5772 /* VMFileLoader.h */,
-				612BFF6D1AC0B76D000D5772 /* VMFileLoader.mm */,
+				00D9E2D41AE186F5004C2505 /* VMFileLoader.h */,
+				00D9E2D51AE186F5004C2505 /* VMFileLoader.mm */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -1153,29 +1204,18 @@
 		6171BD411A16BCC4004AB274 /* IntuneLab */ = {
 			isa = PBXGroup;
 			children = (
+				6171BD4F1A16BCC4004AB274 /* Main.storyboard */,
 				6171BD461A16BCC4004AB274 /* AppDelegate.h */,
 				6171BD471A16BCC4004AB274 /* AppDelegate.m */,
-				6171BD4F1A16BCC4004AB274 /* Main.storyboard */,
-				00E638A61AB8E55300F5B4C5 /* Helpers */,
-				6171BEEC1A16C401004AB274 /* Views */,
 				6171BD491A16BCC4004AB274 /* MasterViewController.h */,
 				6171BD4A1A16BCC4004AB274 /* MasterViewController.m */,
-				6171BEF21A16DB0E004AB274 /* RecordViewController.h */,
-				6171BEF31A16DB0E004AB274 /* RecordViewController.mm */,
-				00AF6DD61AAF92A7006525F5 /* MXMLViewController.h */,
-				00AF6DD71AAF92A7006525F5 /* MXMLViewController.mm */,
-				00E638A01AB8DC9B00F5B4C5 /* WaveformViewController.h */,
-				00E638A11AB8DC9B00F5B4C5 /* WaveformViewController.mm */,
-				00BF7B6D1ABA413A003A31A7 /* DifferenceViewController.h */,
-				00BF7B6E1ABA413A003A31A7 /* DifferenceViewController.mm */,
-				00BF7B741ABA469D003A31A7 /* VMSpectrogramViewController.h */,
-				00BF7B751ABA469D003A31A7 /* VMSpectrogramViewController.mm */,
-				00BF7B721ABA4577003A31A7 /* VMSpectrogramViewController.xib */,
-				00587A2A1ABB4BA80043564B /* FFTSettingsViewController.h */,
-				00587A2B1ABB4BA80043564B /* FFTSettingsViewController.m */,
-				00587A2D1ABB4C1B0043564B /* FFTSettingsViewController.xib */,
-				612BFF691AC09AB8000D5772 /* AnnotationViewController.h */,
-				612BFF6A1AC09AB8000D5772 /* AnnotationViewController.mm */,
+				00D9E2C21AE1869A004C2505 /* Record */,
+				00D9E2BF1AE1869A004C2505 /* MXML */,
+				00D9E2C51AE1869A004C2505 /* Waveform */,
+				00D9E2B91AE1869A004C2505 /* Difference */,
+				00D9E2B61AE1869A004C2505 /* Annotation */,
+				00E638A61AB8E55300F5B4C5 /* Helpers */,
+				6171BEEC1A16C401004AB274 /* Views */,
 				00AF6DD91AAF9712006525F5 /* Resources */,
 				6171BD421A16BCC4004AB274 /* Supporting Files */,
 			);
@@ -1451,12 +1491,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				0086859F1AB1148F00F415A2 /* VMPianoRollViewController.xib in Resources */,
+				00D9E2CB1AE1869A004C2505 /* VMSpectrogramViewController.xib in Resources */,
 				612BFF731AC1DECB000D5772 /* Annotations in Resources */,
 				0086856C1AB10C1400F415A2 /* Images.xcassets in Resources */,
-				00587A2E1ABB4C1B0043564B /* FFTSettingsViewController.xib in Resources */,
 				008685A31AB114B400F415A2 /* Main.storyboard in Resources */,
-				00BF7B731ABA4577003A31A7 /* VMSpectrogramViewController.xib in Resources */,
 				00E638A91AB8F13500F5B4C5 /* Audio in Resources */,
+				00D9E2D31AE186E6004C2505 /* FFTSettingsViewController.xib in Resources */,
 				00BF7B6C1AB9E638003A31A7 /* XML in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1618,23 +1658,23 @@
 			buildActionMask = 2147483647;
 			files = (
 				61A81D7E1AB1015D00E230A6 /* VMEqualizerView.swift in Sources */,
+				00D9E2D61AE186F5004C2505 /* VMFileLoader.mm in Sources */,
 				6171BD481A16BCC4004AB274 /* AppDelegate.m in Sources */,
-				612BFF6E1AC0B76D000D5772 /* VMFileLoader.mm in Sources */,
-				00AF6DD81AAF92A7006525F5 /* MXMLViewController.mm in Sources */,
 				610325171AB7AAA300E4E3D3 /* VMSpectrogramView.swift in Sources */,
 				008685651AB10B4B00F415A2 /* VMPianoRollViewController.swift in Sources */,
-				00587A2C1ABB4BA80043564B /* FFTSettingsViewController.m in Sources */,
-				6171BEF41A16DB0E004AB274 /* RecordViewController.mm in Sources */,
-				00BF7B6F1ABA413A003A31A7 /* DifferenceViewController.mm in Sources */,
-				612BFF6B1AC09AB8000D5772 /* AnnotationViewController.mm in Sources */,
 				00E638AC1AB8F4F100F5B4C5 /* ReadFromFileModule.cpp in Sources */,
-				00BF7B761ABA469D003A31A7 /* VMSpectrogramViewController.mm in Sources */,
+				00D9E2CD1AE1869A004C2505 /* RecordViewController.mm in Sources */,
+				00D9E2C81AE1869A004C2505 /* AnnotationViewController.mm in Sources */,
 				6171BD4B1A16BCC4004AB274 /* MasterViewController.m in Sources */,
-				00E638A21AB8DC9B00F5B4C5 /* WaveformViewController.mm in Sources */,
 				008685681AB10B8A00F415A2 /* VMWaveformView.swift in Sources */,
+				00D9E2CC1AE1869A004C2505 /* MXMLViewController.mm in Sources */,
 				6157FCA21ABCBEA8008C0D0D /* VMDistancesView.m in Sources */,
+				00D9E2CA1AE1869A004C2505 /* VMSpectrogramViewController.mm in Sources */,
+				00D9E2C91AE1869A004C2505 /* DifferenceViewController.mm in Sources */,
 				6171BD451A16BCC4004AB274 /* main.m in Sources */,
 				00E638A51AB8E54C00F5B4C5 /* VMFilePickerController.m in Sources */,
+				00D9E2D21AE186E6004C2505 /* FFTSettingsViewController.m in Sources */,
+				00D9E2CE1AE1869A004C2505 /* WaveformViewController.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
