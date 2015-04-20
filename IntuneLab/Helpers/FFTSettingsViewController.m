@@ -54,6 +54,12 @@ static NSString* const kDecibelGroundKey = @"DecibelGroundKey";
     _groundTextField.text = [NSString stringWithFormat:@"%.0fdB", _decibelGround];
 }
 
+- (void)viewWillDisappear:(BOOL)animated {
+    [super viewWillDisappear:animated];
+    if (_didChangeTimings)
+        _didChangeTimings(_windowSize, _hopFraction);
+}
+
 - (void)loadPreferences {
     _windowSize = [self preferenceForKey:kWindowSizeKey defaultValue:1024];
     _hopFraction = [self preferenceForKey:kHopFractionKey defaultValue:0.5];

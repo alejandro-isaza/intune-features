@@ -151,6 +151,8 @@
 		00D9E2D21AE186E6004C2505 /* FFTSettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00D9E2D01AE186E6004C2505 /* FFTSettingsViewController.m */; };
 		00D9E2D31AE186E6004C2505 /* FFTSettingsViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 00D9E2D11AE186E6004C2505 /* FFTSettingsViewController.xib */; };
 		00D9E2D61AE186F5004C2505 /* VMFileLoader.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00D9E2D51AE186F5004C2505 /* VMFileLoader.mm */; };
+		00D9E2DA1AE18991004C2505 /* PeakInspectorViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 00D9E2D91AE18991004C2505 /* PeakInspectorViewController.mm */; };
+		00D9E2DC1AE190B8004C2505 /* VMFrequencyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00D9E2DB1AE190B8004C2505 /* VMFrequencyView.swift */; };
 		00E638A51AB8E54C00F5B4C5 /* VMFilePickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E638A41AB8E54C00F5B4C5 /* VMFilePickerController.m */; };
 		00E638A91AB8F13500F5B4C5 /* Audio in Resources */ = {isa = PBXBuildFile; fileRef = 00E638A81AB8F13500F5B4C5 /* Audio */; };
 		00E638AC1AB8F4F100F5B4C5 /* ReadFromFileModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 00E638AA1AB8F4F100F5B4C5 /* ReadFromFileModule.cpp */; };
@@ -593,6 +595,9 @@
 		00D9E2D11AE186E6004C2505 /* FFTSettingsViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = FFTSettingsViewController.xib; path = Helpers/FFTSettingsViewController.xib; sourceTree = "<group>"; };
 		00D9E2D41AE186F5004C2505 /* VMFileLoader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VMFileLoader.h; path = Helpers/VMFileLoader.h; sourceTree = "<group>"; };
 		00D9E2D51AE186F5004C2505 /* VMFileLoader.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = VMFileLoader.mm; path = Helpers/VMFileLoader.mm; sourceTree = "<group>"; };
+		00D9E2D81AE18991004C2505 /* PeakInspectorViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PeakInspectorViewController.h; sourceTree = "<group>"; };
+		00D9E2D91AE18991004C2505 /* PeakInspectorViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = PeakInspectorViewController.mm; sourceTree = "<group>"; };
+		00D9E2DB1AE190B8004C2505 /* VMFrequencyView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMFrequencyView.swift; sourceTree = "<group>"; };
 		00E638A31AB8E54C00F5B4C5 /* VMFilePickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = VMFilePickerController.h; path = Helpers/VMFilePickerController.h; sourceTree = "<group>"; };
 		00E638A41AB8E54C00F5B4C5 /* VMFilePickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = VMFilePickerController.m; path = Helpers/VMFilePickerController.m; sourceTree = "<group>"; };
 		00E638A81AB8F13500F5B4C5 /* Audio */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Audio; path = Resources/Audio; sourceTree = "<group>"; };
@@ -1165,6 +1170,15 @@
 			path = Waveform;
 			sourceTree = "<group>";
 		};
+		00D9E2D71AE18978004C2505 /* Peaks */ = {
+			isa = PBXGroup;
+			children = (
+				00D9E2D81AE18991004C2505 /* PeakInspectorViewController.h */,
+				00D9E2D91AE18991004C2505 /* PeakInspectorViewController.mm */,
+			);
+			path = Peaks;
+			sourceTree = "<group>";
+		};
 		00E638A61AB8E55300F5B4C5 /* Helpers */ = {
 			isa = PBXGroup;
 			children = (
@@ -1214,6 +1228,7 @@
 				00D9E2C51AE1869A004C2505 /* Waveform */,
 				00D9E2B91AE1869A004C2505 /* Difference */,
 				00D9E2B61AE1869A004C2505 /* Annotation */,
+				00D9E2D71AE18978004C2505 /* Peaks */,
 				00E638A61AB8E55300F5B4C5 /* Helpers */,
 				6171BEEC1A16C401004AB274 /* Views */,
 				00AF6DD91AAF9712006525F5 /* Resources */,
@@ -1267,13 +1282,14 @@
 		6171BEEC1A16C401004AB274 /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				008685671AB10B8A00F415A2 /* VMWaveformView.swift */,
-				008685631AB10B4B00F415A2 /* VMPianoRollViewController.swift */,
-				008685691AB10BC400F415A2 /* VMPianoRollViewController.xib */,
-				61A81D7D1AB1015D00E230A6 /* VMEqualizerView.swift */,
-				610325151AB7AAA300E4E3D3 /* VMSpectrogramView.swift */,
 				6157FCA01ABCBEA8008C0D0D /* VMDistancesView.h */,
 				6157FCA11ABCBEA8008C0D0D /* VMDistancesView.m */,
+				61A81D7D1AB1015D00E230A6 /* VMEqualizerView.swift */,
+				00D9E2DB1AE190B8004C2505 /* VMFrequencyView.swift */,
+				008685631AB10B4B00F415A2 /* VMPianoRollViewController.swift */,
+				008685691AB10BC400F415A2 /* VMPianoRollViewController.xib */,
+				610325151AB7AAA300E4E3D3 /* VMSpectrogramView.swift */,
+				008685671AB10B8A00F415A2 /* VMWaveformView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1661,6 +1677,7 @@
 				00D9E2D61AE186F5004C2505 /* VMFileLoader.mm in Sources */,
 				6171BD481A16BCC4004AB274 /* AppDelegate.m in Sources */,
 				610325171AB7AAA300E4E3D3 /* VMSpectrogramView.swift in Sources */,
+				00D9E2DC1AE190B8004C2505 /* VMFrequencyView.swift in Sources */,
 				008685651AB10B4B00F415A2 /* VMPianoRollViewController.swift in Sources */,
 				00E638AC1AB8F4F100F5B4C5 /* ReadFromFileModule.cpp in Sources */,
 				00D9E2CD1AE1869A004C2505 /* RecordViewController.mm in Sources */,
@@ -1673,6 +1690,7 @@
 				00D9E2C91AE1869A004C2505 /* DifferenceViewController.mm in Sources */,
 				6171BD451A16BCC4004AB274 /* main.m in Sources */,
 				00E638A51AB8E54C00F5B4C5 /* VMFilePickerController.m in Sources */,
+				00D9E2DA1AE18991004C2505 /* PeakInspectorViewController.mm in Sources */,
 				00D9E2D21AE186E6004C2505 /* FFTSettingsViewController.m in Sources */,
 				00D9E2CE1AE1869A004C2505 /* WaveformViewController.mm in Sources */,
 			);

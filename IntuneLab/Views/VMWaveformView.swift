@@ -6,7 +6,7 @@ import UIKit
   A UIView that displays waveform samples. It uses RMS (root mean square) to combine multiple samples into an
   individual pixel.
 */
-public class VMWaveformView: UIView {
+public class VMWaveformView: UIScrollView {
     @IBInspectable var lineColor: UIColor?
     @IBInspectable var markerColor: UIColor?
 
@@ -17,32 +17,41 @@ public class VMWaveformView: UIView {
     private var markIndex: Int = -1
 
     var sampleRate: Double = 44100
+
     var startFrame: Int = 0 {
         didSet {
             setNeedsDisplay()
         }
     }
-    var endFrame: Int = 5 * 44100 {
-        didSet {
-            setNeedsDisplay()
+
+    private var endFrame: Int {
+        get {
+            return startFrame + Int(visibleDuration * Double(sampleRate))
         }
     }
 
     var duration: NSTimeInterval {
         get {
-            return NSTimeInterval(endFrame - startFrame) /  sampleRate
+            return NSTimeInterval(samplesCount) / sampleRate
         }
     }
+
+    var visibleDuration: NSTimeInterval = 5 {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+
     var samplesPerPoint: CGFloat {
         get {
             return CGFloat(endFrame - startFrame) / bounds.size.width
         }
     }
-    
+
     public func setSamples(samples: UnsafePointer<Double>, count: Int) {
         self.samples = samples
         samplesCount = count
-        setNeedsDisplay()
+        setNeedsLayout()
     }
 
     public func mark(#time: NSTimeInterval) {
@@ -76,13 +85,20 @@ public class VMWaveformView: UIView {
         CGContextFillRect(context, CGRect(x: x - 0.5, y: 0, width: 1, height: self.bounds.height))
     }
 
+    override public func layoutSubviews() {
+        contentInset.top = 0
+        contentSize.height = bounds.height
+        contentSize.width = CGFloat(samplesCount) / samplesPerPoint
+        startFrame = max(0, Int(samplesPerPoint * bounds.minX))
+        setNeedsDisplay()
+    }
+
     private func createPath() -> CGPathRef {
         let height = bounds.size.height
         let pixelSize = contentScaleFactor
         let samplesPerPixel = Int(ceil(samplesPerPoint * pixelSize))
-        let samplesOffset = samplesCount
 
-        var point = CGPointMake(0.0, height/2);
+        var point = CGPointMake(bounds.minX, height/2);
         
         let path = CGPathCreateMutable()
         CGPathMoveToPoint(path, nil, point.x, point.y)
