@@ -142,6 +142,13 @@ static const SourceDataType kGainValue = 4.0;
     _params.hopFraction = _settingsViewController.hopFraction;
     [self updateWindowView];
 
+    _topSpectrogramView.hidden = !_settingsViewController.spectrogramEnabled;
+    _bottomSpectrogramView.hidden = !_settingsViewController.spectrogramEnabled;
+    _topSmoothedView.hidden = !_settingsViewController.smoothedSpectrogramEnabled;
+    _bottomSmoothedView.hidden = !_settingsViewController.smoothedSpectrogramEnabled;
+    _topPeaksView.hidden = !_settingsViewController.peaksEnabled;
+    _bottomPeaksView.hidden = !_settingsViewController.peaksEnabled;
+
     __weak PeakInspectorViewController* wself = self;
     _settingsViewController.didChangeTimings = ^(NSUInteger windowSize, double hopFraction) {
         PeakInspectorViewController* sself = wself;
@@ -152,9 +159,25 @@ static const SourceDataType kGainValue = 4.0;
         [wself updateWindowView];
         [wself renderReference];
     };
+
+    _settingsViewController.didChangeDisplaySpectrogram = ^(BOOL display) {
+        wself.topSpectrogramView.hidden = !display;
+        wself.bottomSpectrogramView.hidden = !display;
+    };
+    _settingsViewController.didChangeDisplaySmoothedSpectrogram = ^(BOOL display) {
+        wself.topSmoothedView.hidden = !display;
+        wself.bottomSmoothedView.hidden = !display;
+    };
+    _settingsViewController.didChangeDisplayPeaks = ^(BOOL display) {
+        wself.topPeaksView.hidden = !display;
+        wself.bottomPeaksView.hidden = !display;
+    };
 }
 
 - (void)renderReference {
+    if (!self.fileLoader)
+        return;
+    
     // Audio data
     auto source = std::make_shared<FixedData<SourceDataType>>(self.fileLoader.audioData.data() + _frameOffset, _params.windowSize());
     auto adapter = std::make_shared<FixedSourceToSourceAdapterModule<SourceDataType>>();
@@ -246,6 +269,7 @@ static const SourceDataType kGainValue = 4.0;
     // Sleep to allow _microphone->onDataAvailable() to return
     usleep(1000);
 
+    _settingsViewController.preferredContentSize = CGSizeMake(600, 290);
     [self presentViewController:_settingsViewController animated:YES completion:nil];
 
     UIPopoverPresentationController *presentationController = [_settingsViewController popoverPresentationController];

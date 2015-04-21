@@ -5,6 +5,9 @@
 static NSString* const kWindowSizeKey = @"WindowSizeKey";
 static NSString* const kHopFractionKey = @"HopFractionKey";
 static NSString* const kDecibelGroundKey = @"DecibelGroundKey";
+static NSString* const kSpectrogramEnabledKey = @"SpectrogramEnabled";
+static NSString* const kSmoothedSpectrogramEnabledKey = @"SmoothedSpectrogramEnabled";
+static NSString* const kPeaksEnabledKey = @"PeaksEnabled";
 
 
 @interface FFTSettingsViewController ()
@@ -15,11 +18,17 @@ static NSString* const kDecibelGroundKey = @"DecibelGroundKey";
 @property(nonatomic, weak) IBOutlet UITextField* windowTextField;
 @property(nonatomic, weak) IBOutlet UITextField* hopTextField;
 @property(nonatomic, weak) IBOutlet UITextField* groundTextField;
+@property(nonatomic, weak) IBOutlet UISwitch* spectrogramSwitch;
+@property(nonatomic, weak) IBOutlet UISwitch* smoothedSwitch;
+@property(nonatomic, weak) IBOutlet UISwitch* peaksSwitch;
 
 @property(nonatomic) NSUInteger windowSize;
 @property(nonatomic) double hopFraction;
 @property(nonatomic) double decibelGround;
 @property(nonatomic) double sampleRate;
+@property(nonatomic) BOOL spectrogramEnabled;
+@property(nonatomic) BOOL smoothedSpectrogramEnabled;
+@property(nonatomic) BOOL peaksEnabled;
 
 @end
 
@@ -48,6 +57,9 @@ static NSString* const kDecibelGroundKey = @"DecibelGroundKey";
     _windowSlider.value = _windowSize;
     _hopSlider.value = _hopFraction;
     _groundSlider.value = _decibelGround;
+    _spectrogramSwitch.on = _spectrogramEnabled;
+    _smoothedSwitch.on = _smoothedSpectrogramEnabled;
+    _peaksSwitch.on = _peaksEnabled;
 
     _windowTextField.text = [NSString stringWithFormat:@"%.0fms", 1000.0 * _windowSize / _sampleRate];
     _hopTextField.text = [NSString stringWithFormat:@"%.0fms", 1000.0 * _hopFraction * _windowSize / _sampleRate];
@@ -61,9 +73,18 @@ static NSString* const kDecibelGroundKey = @"DecibelGroundKey";
 }
 
 - (void)loadPreferences {
+    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
+
     _windowSize = [self preferenceForKey:kWindowSizeKey defaultValue:1024];
     _hopFraction = [self preferenceForKey:kHopFractionKey defaultValue:0.5];
     _decibelGround = [self preferenceForKey:kDecibelGroundKey defaultValue:-100.0];
+
+    if ([defaults objectForKey:kSpectrogramEnabledKey])
+        _spectrogramEnabled = [defaults boolForKey:kSpectrogramEnabledKey];
+    if ([defaults objectForKey:kSmoothedSpectrogramEnabledKey])
+        _smoothedSpectrogramEnabled = [defaults boolForKey:kSmoothedSpectrogramEnabledKey];
+    if ([defaults objectForKey:kPeaksEnabledKey])
+        _peaksEnabled = [defaults boolForKey:kPeaksEnabledKey];
 }
 
 - (void)savePreferences {
@@ -71,6 +92,9 @@ static NSString* const kDecibelGroundKey = @"DecibelGroundKey";
     [defaults setInteger:_windowSize forKey:kWindowSizeKey];
     [defaults setDouble:_hopFraction forKey:kHopFractionKey];
     [defaults setDouble:_decibelGround forKey:kDecibelGroundKey];
+    [defaults setBool:_spectrogramEnabled forKey:kSpectrogramEnabledKey];
+    [defaults setBool:_smoothedSpectrogramEnabled forKey:kSmoothedSpectrogramEnabledKey];
+    [defaults setBool:_peaksEnabled forKey:kPeaksEnabledKey];
     [defaults synchronize];
 }
 
@@ -126,6 +150,24 @@ static NSString* const kDecibelGroundKey = @"DecibelGroundKey";
     if (_didChangeDecibelGround)
         _didChangeDecibelGround(_decibelGround);
     [self savePreferences];
+}
+
+- (IBAction)didChangeSpectrogram {
+    _spectrogramEnabled = _spectrogramSwitch.on;
+    if (_didChangeDisplaySpectrogram)
+        _didChangeDisplaySpectrogram(_spectrogramEnabled);
+}
+
+- (IBAction)didChangeSmoothed {
+    _smoothedSpectrogramEnabled = _smoothedSwitch.on;
+    if (_didChangeDisplaySmoothedSpectrogram)
+        _didChangeDisplaySmoothedSpectrogram(_smoothedSpectrogramEnabled);
+}
+
+- (IBAction)didChangePeaks {
+    _peaksEnabled = _peaksSwitch.on;
+    if (_didChangeDisplayPeaks)
+        _didChangeDisplayPeaks(_peaksEnabled);
 }
 
 @end

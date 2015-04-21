@@ -9,8 +9,14 @@
 @property(nonatomic, readonly) NSUInteger windowSize;
 @property(nonatomic, readonly) double hopFraction;
 @property(nonatomic, readonly) double decibelGround;
+@property(nonatomic, readonly) BOOL spectrogramEnabled;
+@property(nonatomic, readonly) BOOL smoothedSpectrogramEnabled;
+@property(nonatomic, readonly) BOOL peaksEnabled;
 
 @property (nonatomic, copy) void (^didChangeTimings)(NSUInteger, double);
 @property (nonatomic, copy) void (^didChangeDecibelGround)(double);
+@property (nonatomic, copy) void (^didChangeDisplaySpectrogram)(BOOL);
+@property (nonatomic, copy) void (^didChangeDisplaySmoothedSpectrogram)(BOOL);
+@property (nonatomic, copy) void (^didChangeDisplayPeaks)(BOOL);
 
 @end
