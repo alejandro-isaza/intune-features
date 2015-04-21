@@ -171,6 +171,8 @@
 		617DC66C1AC33CE30019E841 /* Spectrogram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 617DC6681AC33CE30019E841 /* Spectrogram.cpp */; };
 		617DC6AE1AC4D9660019E841 /* ClosestSpectrogramDistance.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 617DC6AA1AC4D9660019E841 /* ClosestSpectrogramDistance.cpp */; };
 		617DC6AF1AC4D9660019E841 /* NoiseCancellingSpectrogram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 617DC6AC1AC4D9660019E841 /* NoiseCancellingSpectrogram.cpp */; };
+		618EB9B91AE5CE3A00E51A9E /* ClosestPeaks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 618EB9B51AE5CE3A00E51A9E /* ClosestPeaks.cpp */; };
+		618EB9BA1AE5CE3A00E51A9E /* NoteTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 618EB9B71AE5CE3A00E51A9E /* NoteTracker.cpp */; };
 		61A81D711AB0E63C00E230A6 /* FloatConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D5E1AB0E63C00E230A6 /* FloatConverter.cpp */; };
 		61A81D731AB0E63C00E230A6 /* DownsampleModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D631AB0E63C00E230A6 /* DownsampleModule.cpp */; };
 		61A81D741AB0E63C00E230A6 /* EnergyModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D651AB0E63C00E230A6 /* EnergyModule.cpp */; };
@@ -643,6 +645,10 @@
 		617DC6AB1AC4D9660019E841 /* ClosestSpectrogramDistance.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClosestSpectrogramDistance.h; sourceTree = "<group>"; };
 		617DC6AC1AC4D9660019E841 /* NoiseCancellingSpectrogram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NoiseCancellingSpectrogram.cpp; sourceTree = "<group>"; };
 		617DC6AD1AC4D9660019E841 /* NoiseCancellingSpectrogram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoiseCancellingSpectrogram.h; sourceTree = "<group>"; };
+		618EB9B51AE5CE3A00E51A9E /* ClosestPeaks.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ClosestPeaks.cpp; sourceTree = "<group>"; };
+		618EB9B61AE5CE3A00E51A9E /* ClosestPeaks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClosestPeaks.h; sourceTree = "<group>"; };
+		618EB9B71AE5CE3A00E51A9E /* NoteTracker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NoteTracker.cpp; sourceTree = "<group>"; };
+		618EB9B81AE5CE3A00E51A9E /* NoteTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteTracker.h; sourceTree = "<group>"; };
 		61A81D461AB0E62400E230A6 /* libtempo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libtempo.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		61A81D5E1AB0E63C00E230A6 /* FloatConverter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FloatConverter.cpp; sourceTree = "<group>"; };
 		61A81D5F1AB0E63C00E230A6 /* FloatConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloatConverter.h; sourceTree = "<group>"; };
@@ -1297,10 +1303,14 @@
 		617DC6671AC33CE30019E841 /* algorithms */ = {
 			isa = PBXGroup;
 			children = (
+				618EB9B51AE5CE3A00E51A9E /* ClosestPeaks.cpp */,
+				618EB9B61AE5CE3A00E51A9E /* ClosestPeaks.h */,
 				617DC6AA1AC4D9660019E841 /* ClosestSpectrogramDistance.cpp */,
 				617DC6AB1AC4D9660019E841 /* ClosestSpectrogramDistance.h */,
 				617DC6AC1AC4D9660019E841 /* NoiseCancellingSpectrogram.cpp */,
 				617DC6AD1AC4D9660019E841 /* NoiseCancellingSpectrogram.h */,
+				618EB9B71AE5CE3A00E51A9E /* NoteTracker.cpp */,
+				618EB9B81AE5CE3A00E51A9E /* NoteTracker.h */,
 				617DC6681AC33CE30019E841 /* Spectrogram.cpp */,
 				617DC6691AC33CE30019E841 /* Spectrogram.h */,
 			);
@@ -1715,8 +1725,10 @@
 				61A81D761AB0E63C00E230A6 /* MeanModule.cpp in Sources */,
 				617DC6AE1AC4D9660019E841 /* ClosestSpectrogramDistance.cpp in Sources */,
 				61A81D741AB0E63C00E230A6 /* EnergyModule.cpp in Sources */,
+				618EB9B91AE5CE3A00E51A9E /* ClosestPeaks.cpp in Sources */,
 				61A81D781AB0E63C00E230A6 /* RMSModule.cpp in Sources */,
 				61A81D711AB0E63C00E230A6 /* FloatConverter.cpp in Sources */,
+				618EB9BA1AE5CE3A00E51A9E /* NoteTracker.cpp in Sources */,
 				617DC66C1AC33CE30019E841 /* Spectrogram.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
