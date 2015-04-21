@@ -42,7 +42,7 @@ public class VMFrequencyView: UIView {
     }
 
     private func createPath() -> CGPathRef {
-        let showSize = min(dataSize, 1024);
+        let showSize = dataSize
         let height = bounds.size.height
         let spacing = bounds.width / CGFloat(showSize)
 

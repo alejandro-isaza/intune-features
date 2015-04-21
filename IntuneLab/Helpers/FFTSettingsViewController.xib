@@ -32,7 +32,7 @@
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="100" minValue="8" maxValue="4096" translatesAutoresizingMaskIntoConstraints="NO" id="4Mp-Yo-Otm">
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="100" minValue="8" maxValue="32768" translatesAutoresizingMaskIntoConstraints="NO" id="4Mp-Yo-Otm">
                             <rect key="frame" x="138" y="85" width="369" height="31"/>
                             <connections>
                                 <action selector="didChangeWindow" destination="-1" eventType="touchUpInside" id="1Yw-en-am8"/>
