@@ -578,6 +578,8 @@
 		00BB63B01ACDF06900A65779 /* HammingWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HammingWindow.h; sourceTree = "<group>"; };
 		00BB63B21ACDF06900A65779 /* HannWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HannWindow.h; sourceTree = "<group>"; };
 		00BB63B31ACDF06900A65779 /* WelchWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WelchWindow.h; sourceTree = "<group>"; };
+		00BE64761AE5C4610092908A /* Splitter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Splitter.h; sourceTree = "<group>"; };
+		00BE64771AE5CA5A0092908A /* Buffering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Buffering.h; sourceTree = "<group>"; };
 		00BF7B6B1AB9E638003A31A7 /* XML */ = {isa = PBXFileReference; lastKnownFileType = folder; name = XML; path = Resources/XML; sourceTree = "<group>"; };
 		00D9E2B71AE1869A004C2505 /* AnnotationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnotationViewController.h; sourceTree = "<group>"; };
 		00D9E2B81AE1869A004C2505 /* AnnotationViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = AnnotationViewController.mm; sourceTree = "<group>"; };
@@ -1337,6 +1339,7 @@
 				00BB63AE1ACDF06900A65779 /* windows */,
 				61A81D621AB0E63C00E230A6 /* AccumulatorModule.h */,
 				6157FC9D1ABB5568008C0D0D /* AccumulatorModule.hpp */,
+				00BE64771AE5CA5A0092908A /* Buffering.h */,
 				617DC6A81AC4D9590019E841 /* Converter.h */,
 				006518FF1AC2079700E0ADB9 /* Difference.h */,
 				61A81D631AB0E63C00E230A6 /* DownsampleModule.cpp */,
@@ -1364,6 +1367,7 @@
 				61A81D701AB0E63C00E230A6 /* SaveToFileModule.h */,
 				61A81D8D1AB218DA00E230A6 /* SineWaveGeneratorModule.h */,
 				61A81D911AB2607300E230A6 /* SourceModule.h */,
+				00BE64761AE5C4610092908A /* Splitter.h */,
 				61BE11C41AB773CB00BF2F6F /* WindowingModule.h */,
 				6157FC991ABB5568008C0D0D /* WindowingModule.hpp */,
 			);

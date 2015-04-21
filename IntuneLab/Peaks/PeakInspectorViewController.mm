@@ -11,6 +11,7 @@
 #include <tempo/modules/Buffering.h>
 #include <tempo/modules/Converter.h>
 #include <tempo/modules/Gain.h>
+#include <tempo/modules/Splitter.h>
 #include <tempo/modules/MicrophoneModule.h>
 
 using namespace tempo;
@@ -43,7 +44,9 @@ static const SourceDataType kGainValue = 4.0;
 @property(nonatomic) std::shared_ptr<Converter<MicrophoneModule::DataType, SourceDataType>> converter;
 @property(nonatomic) std::shared_ptr<Buffering<SourceDataType>> buffering;
 @property(nonatomic) std::shared_ptr<Gain<SourceDataType>> gain;
+@property(nonatomic) std::shared_ptr<Splitter<SourceDataType>> splitter;
 @property(nonatomic) std::shared_ptr<Spectrogram> sourceSpectrogram;
+@property(nonatomic) std::shared_ptr<Spectrogram> sourcePeaks;
 
 @end
 
@@ -145,12 +148,20 @@ static const SourceDataType kGainValue = 4.0;
 
 - (void)renderSource {
     const auto sliceSize = _params.sliceSize();
+
+    if (_sourceSpectrogramData.capacity() != sliceSize)
+        _sourceSpectrogramData.reset(sliceSize);
     if (_sourcePeakData.capacity() != sliceSize)
         _sourcePeakData.reset(sliceSize);
-    auto size = _sourceSpectrogram->render(_sourcePeakData);
+
+    auto size = _sourceSpectrogram->render(_sourceSpectrogramData);
     if (size == 0)
         return;
+    [_topSpectrogramView setData:_sourceSpectrogramData.data() count:size];
 
+    size = _sourcePeaks->render(_sourcePeakData);
+    if (size == 0)
+        return;
     [_topPeaksView setData:_sourcePeakData.data() count:size];
 }
 
@@ -195,11 +206,13 @@ static const SourceDataType kGainValue = 4.0;
     _converter.reset(new Converter<MicrophoneModule::DataType, SourceDataType>);
     _buffering.reset(new Buffering<SourceDataType>(_params.windowSize()));
     _gain.reset(new Gain<SourceDataType>(kGainValue));
-    _microphone >> _converter >> _gain;
+    _splitter.reset(new Splitter<SourceDataType>(_params.windowSize(), 2));
+    _microphone >> _converter >> _gain >> _splitter;
 
     tempo::Spectrogram::Parameters params = _params;
+    _sourceSpectrogram.reset(new Spectrogram(params, _splitter));
     params.peaks = true;
-    _sourceSpectrogram.reset(new Spectrogram(params, _gain));
+    _sourcePeaks.reset(new Spectrogram(params, _splitter));
 
     __weak PeakInspectorViewController* wself = self;
     _microphone->onDataAvailable([wself](std::size_t size) {
