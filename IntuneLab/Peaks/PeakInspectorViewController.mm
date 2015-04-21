@@ -75,11 +75,12 @@ static const SourceDataType kGainValue = 4.0;
     [self loadContainerView:_bottomContainerView spectrogram:_bottomSpectrogramView peaks:_bottomPeaksView];
     [self loadWaveformView];
     [self loadSettings];
-    [self initializeSourceGraph];
-    _microphone->start();
 
     NSString* file = [[NSBundle mainBundle] pathForResource:[@"Audio" stringByAppendingPathComponent:@"twinkle_twinkle.xml"] ofType:@"caf"];
     [self loadFile:file];
+
+    [self initializeSourceGraph];
+    _microphone->start();
 }
 
 - (void)viewDidLayoutSubviews {
@@ -158,16 +159,15 @@ static const SourceDataType kGainValue = 4.0;
     if (_sourcePeakData.capacity() != sliceSize)
         _sourcePeakData.reset(sliceSize);
 
-    auto size = _sourceSpectrogram->render(_sourceSpectrogramData);
-    if (size == 0)
-        return;
-    [_topSpectrogramView setData:_sourceSpectrogramData.data() count:size];
+    auto sourceSize = _sourceSpectrogram->render(_sourceSpectrogramData);
+    if (sourceSize != 0)
+        [_topSpectrogramView setData:_sourceSpectrogramData.data() count:sourceSize];
 
-    size = _sourcePeaks->render(_sourcePeakData);
-    if (size == 0)
-        return;
-    [_topPeaksView setData:_sourcePeakData.data() count:size];
-    [_bottomPeaksView setMatchData:_sourcePeakData.data() count:_sourcePeakData.capacity()];
+    auto peaksSize = _sourcePeaks->render(_sourcePeakData);
+    if (peaksSize != 0) {
+        [_topPeaksView setData:_sourcePeakData.data() count:peaksSize];
+        [_bottomPeaksView setMatchData:_sourcePeakData.data() count:_sourcePeakData.capacity()];
+    }
 
     NSMutableString* labelText = [NSMutableString string];
     auto notes = _noteTracker->matchOnNotes();
@@ -225,13 +225,16 @@ static const SourceDataType kGainValue = 4.0;
     _converter.reset(new Converter<MicrophoneModule::DataType, SourceDataType>);
     _buffering.reset(new Buffering<SourceDataType>(_params.windowSize()));
     _gain.reset(new Gain<SourceDataType>(kGainValue));
-    _splitter.reset(new Splitter<SourceDataType>(_params.windowSize(), 2));
-    _microphone >> _converter >> _gain >> _splitter;
+    _splitter.reset(new Splitter<SourceDataType>());
+    _microphone >> _converter >> _buffering >> _gain >> _splitter;
 
     auto params = _params;
     _sourceSpectrogram.reset(new Spectrogram(params, _splitter));
+    _splitter->addNode();
+
     params.peaks = true;
     _sourcePeaks.reset(new Spectrogram(params, _splitter));
+    _splitter->addNode();
 
     // Set up note tracker
     _noteTracker.reset(new NoteTracker);
@@ -239,6 +242,7 @@ static const SourceDataType kGainValue = 4.0;
     noteTrackerParams.spectrogram = _params;
     _noteTracker->setParameters(noteTrackerParams);
     _noteTracker->setSource(_splitter);
+    _splitter->addNode();
     if (self.fileLoader) {
         _noteTracker->setReferenceFile([self.fileLoader.filePath UTF8String]);
         NSString* annotationsFile = [VMFilePickerController annotationsForFilePath:self.fileLoader.filePath];

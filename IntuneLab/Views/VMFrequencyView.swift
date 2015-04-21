@@ -11,7 +11,7 @@ public class VMFrequencyView: UIView {
     @IBInspectable var matchColor: UIColor? = UIColor.greenColor()
 
     var sampleRate = 44100.0
-    var maxFrequency = 4000.0
+    var maxFrequency = 6000.0
 
     var peaks: Bool = false
     var peakWidth: CGFloat = 3.0
