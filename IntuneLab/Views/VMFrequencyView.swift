@@ -7,8 +7,10 @@ A UIView that displays frequency samples.
 */
 public class VMFrequencyView: UIView {
     @IBInspectable var lineColor: UIColor?
+    @IBInspectable var lineWidth: CGFloat = 1.0
 
-    var lineWidth: CGFloat = 1.0
+    var sampleRate = 44100.0
+    var maxFrequency = 4000.0
 
     /// The minimum decibel value to display
     var decibelGround: Double = -100 {
@@ -32,6 +34,10 @@ public class VMFrequencyView: UIView {
         backgroundColor?.setFill()
         CGContextFillRect(context, rect)
 
+        if dataSize == 0 {
+            return
+        }
+
         lineColor?.setFill()
         lineColor?.setStroke()
         CGContextSetLineWidth(context, lineWidth)
@@ -42,16 +48,19 @@ public class VMFrequencyView: UIView {
     }
 
     private func createPath() -> CGPathRef {
-        let showSize = dataSize
+        let windowSize = 2*dataSize
+        let baseFrequency = sampleRate / Double(windowSize)
+        let maxIndex = Int(maxFrequency / baseFrequency)
+
         let height = bounds.size.height
-        let spacing = bounds.width / CGFloat(showSize)
+        let spacing = bounds.width / CGFloat(maxIndex)
 
         var point = CGPointMake(0.0, height);
 
         let path = CGPathCreateMutable()
         CGPathMoveToPoint(path, nil, point.x, point.y)
 
-        for var index = 0; index < showSize; index += 1 {
+        for var index = 0; index < maxIndex; index += 1 {
             let value = (data + index).memory
             point.y = height - yForSampleDecibels(value) * height;
             CGPathAddLineToPoint(path, nil, point.x, point.y)
