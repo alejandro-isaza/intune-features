@@ -56,6 +56,23 @@
     presentationController.sourceRect = sourceRect;
 }
 
++ (NSString*)annotationsForFilePath:(NSString*)path {
+    NSString* audioBundlePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Audio"];
+    if ([path hasPrefix:audioBundlePath]) {
+        NSString* annotationsBundlePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Annotations"];
+        NSString* fileName = [[[path lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"json"];
+        return [annotationsBundlePath stringByAppendingPathComponent:fileName];
+    }
+
+    NSString* documentsPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+    if ([path hasPrefix:documentsPath]) {
+        NSString* fileName = [[[path lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"json"];
+        return [documentsPath stringByAppendingPathComponent:fileName];
+    }
+
+    return nil;
+}
+
 
 #pragma mark - UITableViewDataSource
 

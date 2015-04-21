@@ -173,6 +173,8 @@
 		617DC6AF1AC4D9660019E841 /* NoiseCancellingSpectrogram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 617DC6AC1AC4D9660019E841 /* NoiseCancellingSpectrogram.cpp */; };
 		618EB9B91AE5CE3A00E51A9E /* ClosestPeaks.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 618EB9B51AE5CE3A00E51A9E /* ClosestPeaks.cpp */; };
 		618EB9BA1AE5CE3A00E51A9E /* NoteTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 618EB9B71AE5CE3A00E51A9E /* NoteTracker.cpp */; };
+		618EB9BF1AE6BBBD00E51A9E /* Annotation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 618EB9BB1AE6BBBD00E51A9E /* Annotation.cpp */; };
+		618EB9C01AE6BBBD00E51A9E /* AnnotationsSerialization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 618EB9BD1AE6BBBD00E51A9E /* AnnotationsSerialization.cpp */; };
 		61A81D711AB0E63C00E230A6 /* FloatConverter.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D5E1AB0E63C00E230A6 /* FloatConverter.cpp */; };
 		61A81D731AB0E63C00E230A6 /* DownsampleModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D631AB0E63C00E230A6 /* DownsampleModule.cpp */; };
 		61A81D741AB0E63C00E230A6 /* EnergyModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A81D651AB0E63C00E230A6 /* EnergyModule.cpp */; };
@@ -651,6 +653,10 @@
 		618EB9B61AE5CE3A00E51A9E /* ClosestPeaks.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ClosestPeaks.h; sourceTree = "<group>"; };
 		618EB9B71AE5CE3A00E51A9E /* NoteTracker.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = NoteTracker.cpp; sourceTree = "<group>"; };
 		618EB9B81AE5CE3A00E51A9E /* NoteTracker.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NoteTracker.h; sourceTree = "<group>"; };
+		618EB9BB1AE6BBBD00E51A9E /* Annotation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Annotation.cpp; sourceTree = "<group>"; };
+		618EB9BC1AE6BBBD00E51A9E /* Annotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Annotation.h; sourceTree = "<group>"; };
+		618EB9BD1AE6BBBD00E51A9E /* AnnotationsSerialization.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnnotationsSerialization.cpp; sourceTree = "<group>"; };
+		618EB9BE1AE6BBBD00E51A9E /* AnnotationsSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnotationsSerialization.h; sourceTree = "<group>"; };
 		61A81D461AB0E62400E230A6 /* libtempo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libtempo.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		61A81D5E1AB0E63C00E230A6 /* FloatConverter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FloatConverter.cpp; sourceTree = "<group>"; };
 		61A81D5F1AB0E63C00E230A6 /* FloatConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloatConverter.h; sourceTree = "<group>"; };
@@ -1322,6 +1328,10 @@
 		61A81D5D1AB0E63C00E230A6 /* tempo */ = {
 			isa = PBXGroup;
 			children = (
+				618EB9BB1AE6BBBD00E51A9E /* Annotation.cpp */,
+				618EB9BC1AE6BBBD00E51A9E /* Annotation.h */,
+				618EB9BD1AE6BBBD00E51A9E /* AnnotationsSerialization.cpp */,
+				618EB9BE1AE6BBBD00E51A9E /* AnnotationsSerialization.h */,
 				617DC66A1AC33CE30019E841 /* Buffer.h */,
 				617DC66B1AC33CE30019E841 /* Utilities.h */,
 				61A81D5E1AB0E63C00E230A6 /* FloatConverter.cpp */,
@@ -1734,6 +1744,8 @@
 				61A81D711AB0E63C00E230A6 /* FloatConverter.cpp in Sources */,
 				618EB9BA1AE5CE3A00E51A9E /* NoteTracker.cpp in Sources */,
 				617DC66C1AC33CE30019E841 /* Spectrogram.cpp in Sources */,
+				618EB9BF1AE6BBBD00E51A9E /* Annotation.cpp in Sources */,
+				618EB9C01AE6BBBD00E51A9E /* AnnotationsSerialization.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -8,5 +8,6 @@
 @property (nonatomic, copy) void (^selectionBlock)(NSString*, NSString*);
 
 - (void)presentInViewController:(UIViewController*)sourceViewController sourceRect:(CGRect)sourceRect;
++ (NSString*)annotationsForFilePath:(NSString*)path;
 
 @end

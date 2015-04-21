@@ -7,6 +7,7 @@
 #import "VMFilePickerController.h"
 #import "VMFileLoader.h"
 
+#include <tempo/algorithms/NoteTracker.h>
 #include <tempo/algorithms/Spectrogram.h>
 #include <tempo/modules/Buffering.h>
 #include <tempo/modules/Converter.h>
@@ -31,6 +32,7 @@ static const SourceDataType kGainValue = 4.0;
 @property(nonatomic, weak) IBOutlet UIView* bottomContainerView;
 @property(nonatomic, weak) IBOutlet UIView* waveformContainerView;
 @property(nonatomic, weak) IBOutlet UIView* windowView;
+@property(nonatomic, weak) IBOutlet UILabel* notesLabel;
 
 @property(nonatomic, strong) VMFrequencyView* topSpectrogramView;
 @property(nonatomic, strong) VMFrequencyView* topPeaksView;
@@ -47,6 +49,7 @@ static const SourceDataType kGainValue = 4.0;
 @property(nonatomic) std::shared_ptr<Splitter<SourceDataType>> splitter;
 @property(nonatomic) std::shared_ptr<Spectrogram> sourceSpectrogram;
 @property(nonatomic) std::shared_ptr<Spectrogram> sourcePeaks;
+@property(nonatomic) std::shared_ptr<NoteTracker> noteTracker;
 
 @end
 
@@ -165,6 +168,13 @@ static const SourceDataType kGainValue = 4.0;
         return;
     [_topPeaksView setData:_sourcePeakData.data() count:size];
     [_bottomPeaksView setMatchData:_sourcePeakData.data() count:_sourcePeakData.capacity()];
+
+    NSMutableString* labelText = [NSMutableString string];
+    auto notes = _noteTracker->matchOnNotes();
+    for (auto& item : notes) {
+        [labelText appendFormat:@"%d(%d)", item.first, (int)item.second.count()];
+    }
+    self.notesLabel.text = labelText;
 }
 
 - (IBAction)openFile:(UIButton*)sender {
@@ -195,6 +205,13 @@ static const SourceDataType kGainValue = 4.0;
         [self.waveformView setSamples:buffer.data() count:buffer.capacity()];
         [self renderReference];
     }];
+
+    if (file) {
+        _noteTracker->setReferenceFile([file UTF8String]);
+        NSString* annotationsFile = [VMFilePickerController annotationsForFilePath:file];
+        if (annotationsFile)
+            _noteTracker->setReferenceAnnotationsFile([annotationsFile UTF8String]);
+    }
 }
 
 - (void)updateWindowView {
@@ -211,10 +228,23 @@ static const SourceDataType kGainValue = 4.0;
     _splitter.reset(new Splitter<SourceDataType>(_params.windowSize(), 2));
     _microphone >> _converter >> _gain >> _splitter;
 
-    tempo::Spectrogram::Parameters params = _params;
+    auto params = _params;
     _sourceSpectrogram.reset(new Spectrogram(params, _splitter));
     params.peaks = true;
     _sourcePeaks.reset(new Spectrogram(params, _splitter));
+
+    // Set up note tracker
+    _noteTracker.reset(new NoteTracker);
+    auto noteTrackerParams = _noteTracker->parameters();
+    noteTrackerParams.spectrogram = _params;
+    _noteTracker->setParameters(noteTrackerParams);
+    _noteTracker->setSource(_splitter);
+    if (self.fileLoader) {
+        _noteTracker->setReferenceFile([self.fileLoader.filePath UTF8String]);
+        NSString* annotationsFile = [VMFilePickerController annotationsForFilePath:self.fileLoader.filePath];
+        if (annotationsFile)
+            _noteTracker->setReferenceAnnotationsFile([annotationsFile UTF8String]);
+    }
 
     __weak PeakInspectorViewController* wself = self;
     _microphone->onDataAvailable([wself](std::size_t size) {
