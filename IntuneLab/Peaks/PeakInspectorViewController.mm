@@ -8,9 +8,9 @@
 #import "VMFileLoader.h"
 
 #include <tempo/algorithms/NoteTracker.h>
-#include <tempo/algorithms/Spectrogram.h>
 #include <tempo/modules/Buffering.h>
 #include <tempo/modules/Converter.h>
+#include <tempo/modules/FixedData.h>
 #include <tempo/modules/Gain.h>
 #include <tempo/modules/Splitter.h>
 #include <tempo/modules/MicrophoneModule.h>
@@ -36,19 +36,20 @@ static const SourceDataType kGainValue = 4.0;
 
 @property(nonatomic, strong) VMFrequencyView* topSpectrogramView;
 @property(nonatomic, strong) VMFrequencyView* topPeaksView;
+@property(nonatomic, strong) VMFrequencyView* topSmoothedView;
 @property(nonatomic, strong) VMFrequencyView* bottomSpectrogramView;
 @property(nonatomic, strong) VMFrequencyView* bottomPeaksView;
+@property(nonatomic, strong) VMFrequencyView* bottomSmoothedView;
 @property(nonatomic, strong) VMWaveformView* waveformView;
 @property(nonatomic, strong) FFTSettingsViewController *settingsViewController;
 @property(nonatomic, assign) NSUInteger frameOffset;
 
 @property(nonatomic) std::shared_ptr<MicrophoneModule> microphone;
-@property(nonatomic) std::shared_ptr<Converter<MicrophoneModule::DataType, SourceDataType>> converter;
-@property(nonatomic) std::shared_ptr<Buffering<SourceDataType>> buffering;
-@property(nonatomic) std::shared_ptr<Gain<SourceDataType>> gain;
-@property(nonatomic) std::shared_ptr<Splitter<SourceDataType>> splitter;
-@property(nonatomic) std::shared_ptr<Spectrogram> sourceSpectrogram;
-@property(nonatomic) std::shared_ptr<Spectrogram> sourcePeaks;
+@property(nonatomic) std::shared_ptr<Splitter<SourceDataType>> audioSplitter;
+@property(nonatomic) std::shared_ptr<Splitter<SourceDataType>> smoothingSplitter;
+@property(nonatomic) std::shared_ptr<PollingModule<SourceDataType>> fftPolling;
+@property(nonatomic) std::shared_ptr<PollingModule<SourceDataType>> peakPolling;
+
 @property(nonatomic) std::shared_ptr<NoteTracker> noteTracker;
 
 @end
@@ -58,9 +59,11 @@ static const SourceDataType kGainValue = 4.0;
 
     tempo::UniqueBuffer<ReferenceDataType> _peakData;
     tempo::UniqueBuffer<ReferenceDataType> _spectrogramData;
+    tempo::UniqueBuffer<SourceDataType> _smoothedData;
 
     tempo::UniqueBuffer<SourceDataType> _sourcePeakData;
     tempo::UniqueBuffer<SourceDataType> _sourceSpectrogramData;
+    tempo::UniqueBuffer<SourceDataType> _sourceSmoothedData;
 }
 
 - (void)viewDidLoad {
@@ -69,10 +72,12 @@ static const SourceDataType kGainValue = 4.0;
     _topSpectrogramView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
     _bottomSpectrogramView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
     _topPeaksView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
+    _topSmoothedView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
     _bottomPeaksView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
+    _bottomSmoothedView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
 
-    [self loadContainerView:_topContainerView spectrogram:_topSpectrogramView peaks:_topPeaksView];
-    [self loadContainerView:_bottomContainerView spectrogram:_bottomSpectrogramView peaks:_bottomPeaksView];
+    [self loadContainerView:_topContainerView spectrogram:_topSpectrogramView smoothed:_topSmoothedView peaks:_topPeaksView];
+    [self loadContainerView:_bottomContainerView spectrogram:_bottomSpectrogramView smoothed:_bottomSmoothedView peaks:_bottomPeaksView];
     [self loadWaveformView];
     [self loadSettings];
 
@@ -88,7 +93,7 @@ static const SourceDataType kGainValue = 4.0;
     [self updateWindowView];
 }
 
-- (void)loadContainerView:(UIView*)containerView spectrogram:(VMFrequencyView*)spectrogramView peaks:(VMFrequencyView*)peaksView {
+- (void)loadContainerView:(UIView*)containerView spectrogram:(VMFrequencyView*)spectrogramView smoothed:(VMFrequencyView*)smoothed peaks:(VMFrequencyView*)peaksView {
     peaksView.frame = containerView.bounds;
     peaksView.translatesAutoresizingMaskIntoConstraints = NO;
     peaksView.backgroundColor = [UIColor clearColor];
@@ -105,6 +110,14 @@ static const SourceDataType kGainValue = 4.0;
     [containerView addSubview:spectrogramView];
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|" options:0 metrics:nil views:@{@"view": spectrogramView}]];
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:@{@"view": spectrogramView}]];
+
+    smoothed.frame = containerView.bounds;
+    smoothed.translatesAutoresizingMaskIntoConstraints = NO;
+    smoothed.backgroundColor = [UIColor clearColor];
+    smoothed.lineColor = [UIColor greenColor];
+    [containerView addSubview:smoothed];
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|" options:0 metrics:nil views:@{@"view": smoothed}]];
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:@{@"view": smoothed}]];
 }
 
 - (void)loadWaveformView {
@@ -142,13 +155,50 @@ static const SourceDataType kGainValue = 4.0;
 }
 
 - (void)renderReference {
-    _spectrogramData = tempo::Spectrogram::generateFromData(self.fileLoader.audioData.data() + _frameOffset, _params.windowSize(), _params, false);
-    [_bottomSpectrogramView setData:_spectrogramData.data() count:_spectrogramData.capacity()];
+    // Audio data
+    auto source = std::make_shared<FixedData<SourceDataType>>(self.fileLoader.audioData.data() + _frameOffset, _params.windowSize());
+    auto adapter = std::make_shared<FixedSourceToSourceAdapterModule<SourceDataType>>();
+    auto gain = std::make_shared<Gain<SourceDataType>>(kGainValue);
+    source >> adapter >> gain;
 
-    tempo::Spectrogram::Parameters params = _params;
-    params.peaks = true;
-    _peakData = tempo::Spectrogram::generateFromData(self.fileLoader.audioData.data() + _frameOffset, _params.windowSize(), params, false);
-    [_bottomPeaksView setData:_peakData.data() count:_peakData.capacity()];
+    // Spectrogram
+    auto windowing = std::make_shared<WindowingModule<SourceDataType>>(_params.windowSize(), _params.hopSize());
+    auto window = std::make_shared<HammingWindow<SourceDataType>>();
+    auto fft = std::make_shared<FFTModule<SourceDataType>>(_params.windowSize());
+    auto fftSplitter = std::make_shared<Splitter<SourceDataType>>();
+    gain >> windowing >> window >> fft >> fftSplitter;
+
+    // Peaks
+    auto smoothing = std::make_shared<TriangularSmooth<SourceDataType>>(5);
+    auto smoothingSplitter = std::make_shared<Splitter<SourceDataType>>();
+    auto peakExtraction = std::make_shared<PeakExtraction<SourceDataType>>(_params.sliceSize());
+    fftSplitter >> smoothing >> smoothingSplitter >> peakExtraction;
+    fftSplitter->addNode();
+    smoothingSplitter->addNode();
+
+    // Manual render calls
+    fftSplitter->addNode();
+    smoothingSplitter->addNode();
+
+    const auto sliceSize = _params.sliceSize();
+
+    if (_spectrogramData.capacity() != sliceSize)
+        _spectrogramData.reset(sliceSize);
+    auto fftSize = fftSplitter->render(_spectrogramData);
+    if (fftSize != 0)
+        [_bottomSpectrogramView setData:_spectrogramData.data() count:fftSize];
+
+    if (_peakData.capacity() != sliceSize)
+        _peakData.reset(sliceSize);
+    auto peaksSize = peakExtraction->render(_peakData);
+    if (peaksSize != 0)
+        [_bottomPeaksView setData:_peakData.data() count:peaksSize];
+
+    if (_smoothedData.capacity() != sliceSize)
+        _smoothedData.reset(sliceSize);
+    auto smoothedSize = smoothingSplitter->render(_smoothedData);
+    if (smoothedSize > 0)
+        [_bottomSmoothedView setData:_smoothedData.data() count:smoothedSize];
 }
 
 - (void)renderSource {
@@ -156,18 +206,23 @@ static const SourceDataType kGainValue = 4.0;
 
     if (_sourceSpectrogramData.capacity() != sliceSize)
         _sourceSpectrogramData.reset(sliceSize);
+    auto fftSize = _fftPolling->render(_sourceSpectrogramData);
+    if (fftSize != 0)
+        [_topSpectrogramView setData:_sourceSpectrogramData.data() count:fftSize];
+
     if (_sourcePeakData.capacity() != sliceSize)
         _sourcePeakData.reset(sliceSize);
-
-    auto sourceSize = _sourceSpectrogram->render(_sourceSpectrogramData);
-    if (sourceSize != 0)
-        [_topSpectrogramView setData:_sourceSpectrogramData.data() count:sourceSize];
-
-    auto peaksSize = _sourcePeaks->render(_sourcePeakData);
+    auto peaksSize = _peakPolling->render(_sourcePeakData);
     if (peaksSize != 0) {
         [_topPeaksView setData:_sourcePeakData.data() count:peaksSize];
         [_bottomPeaksView setMatchData:_sourcePeakData.data() count:_sourcePeakData.capacity()];
     }
+
+    if (_sourceSmoothedData.capacity() != sliceSize)
+        _sourceSmoothedData.reset(sliceSize);
+    auto smoothedSize = _smoothingSplitter->render(_sourceSmoothedData);
+    if (smoothedSize > 0)
+        [_topSmoothedView setData:_sourceSmoothedData.data() count:smoothedSize];
 
     NSMutableString* labelText = [NSMutableString string];
     auto notes = _noteTracker->matchOnNotes();
@@ -221,34 +276,54 @@ static const SourceDataType kGainValue = 4.0;
 }
 
 - (void)initializeSourceGraph {
+    _audioSplitter.reset(new Splitter<SourceDataType>());
+
+    // Microphone
     _microphone.reset(new MicrophoneModule);
-    _converter.reset(new Converter<MicrophoneModule::DataType, SourceDataType>);
-    _buffering.reset(new Buffering<SourceDataType>(_params.windowSize()));
-    _gain.reset(new Gain<SourceDataType>(kGainValue));
-    _splitter.reset(new Splitter<SourceDataType>());
-    _microphone >> _converter >> _buffering >> _gain >> _splitter;
+    auto converter = std::make_shared<Converter<MicrophoneModule::DataType, SourceDataType>>();
+    auto buffering = std::make_shared<Buffering<SourceDataType>>(_params.windowSize());
+    auto gain = std::make_shared<Gain<SourceDataType>>(kGainValue);
+    _microphone >> converter >> buffering >> gain >> _audioSplitter;
 
-    auto params = _params;
-    _sourceSpectrogram.reset(new Spectrogram(params, _splitter));
-    _splitter->addNode();
+    // Spectrogram
+    auto windowing = std::make_shared<WindowingModule<SourceDataType>>(_params.windowSize(), _params.hopSize());
+    auto window = std::make_shared<HammingWindow<SourceDataType>>();
+    auto fft = std::make_shared<FFTModule<SourceDataType>>(_params.windowSize());
+    auto fftSplitter = std::make_shared<Splitter<SourceDataType>>();
+    _audioSplitter >> windowing >> window >> fft >> fftSplitter;
+    _audioSplitter->addNode();
 
-    params.peaks = true;
-    _sourcePeaks.reset(new Spectrogram(params, _splitter));
-    _splitter->addNode();
+    // Peaks
+    auto smoothing = std::make_shared<TriangularSmooth<SourceDataType>>(5);
+    _smoothingSplitter.reset(new Splitter<SourceDataType>());
+    auto peakExtraction = std::make_shared<PeakExtraction<SourceDataType>>(_params.sliceSize());
+    _peakPolling.reset(new PollingModule<SourceDataType>());
+    fftSplitter >> smoothing >> _smoothingSplitter >> peakExtraction >> _peakPolling;
+    fftSplitter->addNode();
+    _smoothingSplitter->addNode();
+
+    // No peaks
+    _fftPolling.reset(new PollingModule<SourceDataType>());
+    fftSplitter >> _fftPolling;
+    fftSplitter->addNode();
+
 
     // Set up note tracker
     _noteTracker.reset(new NoteTracker);
     auto noteTrackerParams = _noteTracker->parameters();
     noteTrackerParams.spectrogram = _params;
     _noteTracker->setParameters(noteTrackerParams);
-    _noteTracker->setSource(_splitter);
-    _splitter->addNode();
+    _noteTracker->setSource(_audioSplitter);
+    _audioSplitter->addNode();
     if (self.fileLoader) {
         _noteTracker->setReferenceFile([self.fileLoader.filePath UTF8String]);
         NSString* annotationsFile = [VMFilePickerController annotationsForFilePath:self.fileLoader.filePath];
         if (annotationsFile)
             _noteTracker->setReferenceAnnotationsFile([annotationsFile UTF8String]);
     }
+
+    // Account for data renders that we do manually
+    _smoothingSplitter->addNode();
 
     __weak PeakInspectorViewController* wself = self;
     _microphone->onDataAvailable([wself](std::size_t size) {
