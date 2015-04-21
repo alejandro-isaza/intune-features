@@ -89,6 +89,7 @@ static const SourceDataType kGainValue = 4.0;
     peaksView.translatesAutoresizingMaskIntoConstraints = NO;
     peaksView.backgroundColor = [UIColor clearColor];
     peaksView.lineColor = [UIColor redColor];
+    peaksView.peaks = YES;
     [containerView addSubview:peaksView];
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|" options:0 metrics:nil views:@{@"view": peaksView}]];
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:@{@"view": peaksView}]];
@@ -163,6 +164,7 @@ static const SourceDataType kGainValue = 4.0;
     if (size == 0)
         return;
     [_topPeaksView setData:_sourcePeakData.data() count:size];
+    [_bottomPeaksView setMatchData:_sourcePeakData.data() count:_sourcePeakData.capacity()];
 }
 
 - (IBAction)openFile:(UIButton*)sender {
