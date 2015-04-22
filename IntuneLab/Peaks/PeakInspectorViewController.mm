@@ -168,6 +168,9 @@ static const SourceDataType kGainValue = 4.0;
         [wself updateWindowView];
         [wself renderReference];
     };
+    _settingsViewController.didChangeSmoothWidthBlock = ^(NSUInteger smoothWidth) {
+        [wself renderReference];
+    };
 
     _settingsViewController.didChangeDisplaySpectrogram = ^(BOOL display) {
         wself.topSpectrogramView.hidden = !display;
@@ -201,7 +204,7 @@ static const SourceDataType kGainValue = 4.0;
     gain >> windowing >> window >> fft >> fftSplitter;
 
     // Peaks
-    auto smoothing = std::make_shared<TriangularSmooth<SourceDataType>>(5);
+    auto smoothing = std::make_shared<TriangularSmooth<SourceDataType>>(_settingsViewController.smoothWidth);
     auto smoothingSplitter = std::make_shared<Splitter<SourceDataType>>();
     auto peakExtraction = std::make_shared<PeakExtraction<SourceDataType>>(_params.sliceSize());
     fftSplitter >> smoothing >> smoothingSplitter >> peakExtraction;
@@ -332,7 +335,7 @@ static const SourceDataType kGainValue = 4.0;
     _audioSplitter->addNode();
 
     // Peaks
-    auto smoothing = std::make_shared<TriangularSmooth<SourceDataType>>(5);
+    auto smoothing = std::make_shared<TriangularSmooth<SourceDataType>>(_settingsViewController.smoothWidth);
     _smoothingSplitter.reset(new Splitter<SourceDataType>());
     auto peakExtraction = std::make_shared<PeakExtraction<SourceDataType>>(_params.sliceSize());
     _peakPolling.reset(new PollingModule<SourceDataType>());
