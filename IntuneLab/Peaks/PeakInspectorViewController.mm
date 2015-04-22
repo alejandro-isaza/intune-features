@@ -33,6 +33,7 @@ static const SourceDataType kGainValue = 4.0;
 @property(nonatomic, weak) IBOutlet UIView* waveformContainerView;
 @property(nonatomic, weak) IBOutlet UIView* windowView;
 @property(nonatomic, weak) IBOutlet UILabel* notesLabel;
+@property(nonatomic, weak) IBOutlet NSLayoutConstraint* windowWidthConstraint;
 
 @property(nonatomic, strong) VMFrequencyView* topSpectrogramView;
 @property(nonatomic, strong) VMFrequencyView* topPeaksView;
@@ -294,9 +295,14 @@ static const SourceDataType kGainValue = 4.0;
 }
 
 - (void)updateWindowView {
-    CGRect frame = _windowView.frame;
-    frame.size.width = (CGFloat)_params.windowSize() / (CGFloat)_waveformView.samplesPerPoint;
-    _windowView.frame = frame;
+    CGFloat windowWidth = (CGFloat)_params.windowSize() / (CGFloat)_waveformView.samplesPerPoint;
+    UIEdgeInsets insets = UIEdgeInsetsZero;
+    insets.left = (_windowView.bounds.size.width - windowWidth) / 2;
+    insets.right = (_windowView.bounds.size.width - windowWidth) / 2;;
+
+    _waveformView.contentInset = insets;
+    _windowWidthConstraint.constant = windowWidth;
+    [_windowView setNeedsLayout];
 }
 
 - (void)initializeSourceGraph {
@@ -363,7 +369,7 @@ static const SourceDataType kGainValue = 4.0;
     if (!self.fileLoader)
         return;
 
-    _frameOffset = _waveformView.startFrame;
+    _frameOffset = MAX(0, _waveformView.samplesPerPoint * (_waveformView.contentOffset.x + _waveformView.contentInset.left));
     [self renderReference];
 }
 

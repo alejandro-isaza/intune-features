@@ -95,11 +95,11 @@ public class VMWaveformView: UIScrollView {
 
     private func createPath() -> CGPathRef {
         let height = bounds.size.height
-        let pixelSize = contentScaleFactor
+        let pixelSize = 1.0 / contentScaleFactor
         let samplesPerPixel = Int(ceil(samplesPerPoint * pixelSize))
 
-        var point = CGPointMake(bounds.minX, height/2);
-        
+        var point = CGPointMake(max(bounds.minX, 0), height/2);
+
         let path = CGPathCreateMutable()
         CGPathMoveToPoint(path, nil, point.x, point.y)
         
