@@ -108,13 +108,6 @@ static NSString* const kPeaksEnabledKey = @"PeaksEnabled";
     return value;
 }
 
-- (void)saveDefaults {
-    NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
-    [defaults setInteger:_windowSize forKey:kWindowSizeKey];
-    [defaults setDouble:_hopFraction forKey:kHopFractionKey];
-    [defaults setDouble:_decibelGround forKey:kDecibelGroundKey];
-}
-
 - (IBAction)updateWindow {
     _windowSize = exp2(round(log2(_windowSlider.value)));
     _hopFraction = _hopSlider.value;
@@ -156,18 +149,21 @@ static NSString* const kPeaksEnabledKey = @"PeaksEnabled";
     _spectrogramEnabled = _spectrogramSwitch.on;
     if (_didChangeDisplaySpectrogram)
         _didChangeDisplaySpectrogram(_spectrogramEnabled);
+    [self savePreferences];
 }
 
 - (IBAction)didChangeSmoothed {
     _smoothedSpectrogramEnabled = _smoothedSwitch.on;
     if (_didChangeDisplaySmoothedSpectrogram)
         _didChangeDisplaySmoothedSpectrogram(_smoothedSpectrogramEnabled);
+    [self savePreferences];
 }
 
 - (IBAction)didChangePeaks {
     _peaksEnabled = _peaksSwitch.on;
     if (_didChangeDisplayPeaks)
         _didChangeDisplayPeaks(_peaksEnabled);
+    [self savePreferences];
 }
 
 @end
