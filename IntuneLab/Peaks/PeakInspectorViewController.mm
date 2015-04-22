@@ -50,8 +50,11 @@ static const SourceDataType kGainValue = 4.0;
 @property(nonatomic) std::shared_ptr<Splitter<SourceDataType>> smoothingSplitter;
 @property(nonatomic) std::shared_ptr<PollingModule<SourceDataType>> fftPolling;
 @property(nonatomic) std::shared_ptr<PollingModule<SourceDataType>> peakPolling;
-
 @property(nonatomic) std::shared_ptr<NoteTracker> noteTracker;
+
+@property(nonatomic) CGPoint previousPoint;
+@property(nonatomic) CGFloat previousScale;
+@property(nonatomic) CGFloat frequencyZoom;
 
 @end
 
@@ -70,6 +73,8 @@ static const SourceDataType kGainValue = 4.0;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
+    _frequencyZoom = 1.0;
+
     _topSpectrogramView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
     _bottomSpectrogramView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
     _topPeaksView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
@@ -81,12 +86,10 @@ static const SourceDataType kGainValue = 4.0;
     [self loadContainerView:_bottomContainerView spectrogram:_bottomSpectrogramView smoothed:_bottomSmoothedView peaks:_bottomPeaksView];
     [self loadWaveformView];
     [self loadSettings];
-
-    NSString* file = [[NSBundle mainBundle] pathForResource:[@"Audio" stringByAppendingPathComponent:@"twinkle_twinkle.xml"] ofType:@"caf"];
-    [self loadFile:file];
-
     [self initializeSourceGraph];
-    _microphone->start();
+
+    NSString* file = [[NSBundle mainBundle] pathForResource:[@"Audio" stringByAppendingPathComponent:@"twinkle_twinkle"] ofType:@"caf"];
+    [self loadFile:file];
 }
 
 - (void)viewDidLayoutSubviews {
@@ -96,26 +99,32 @@ static const SourceDataType kGainValue = 4.0;
 
 - (void)loadContainerView:(UIView*)containerView spectrogram:(VMFrequencyView*)spectrogramView smoothed:(VMFrequencyView*)smoothed peaks:(VMFrequencyView*)peaksView {
     peaksView.frame = containerView.bounds;
+    peaksView.userInteractionEnabled = NO;
     peaksView.translatesAutoresizingMaskIntoConstraints = NO;
     peaksView.backgroundColor = [UIColor clearColor];
     peaksView.lineColor = [UIColor redColor];
     peaksView.peaks = YES;
+    peaksView.frequencyZoom = _frequencyZoom;
     [containerView addSubview:peaksView];
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|" options:0 metrics:nil views:@{@"view": peaksView}]];
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:@{@"view": peaksView}]];
 
     spectrogramView.frame = containerView.bounds;
+    spectrogramView.userInteractionEnabled = NO;
     spectrogramView.translatesAutoresizingMaskIntoConstraints = NO;
     spectrogramView.backgroundColor = [UIColor clearColor];
     spectrogramView.lineColor = [UIColor blueColor];
+    spectrogramView.frequencyZoom = _frequencyZoom;
     [containerView addSubview:spectrogramView];
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|" options:0 metrics:nil views:@{@"view": spectrogramView}]];
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:@{@"view": spectrogramView}]];
 
     smoothed.frame = containerView.bounds;
+    smoothed.userInteractionEnabled = NO;
     smoothed.translatesAutoresizingMaskIntoConstraints = NO;
     smoothed.backgroundColor = [UIColor clearColor];
     smoothed.lineColor = [UIColor greenColor];
+    smoothed.frequencyZoom = _frequencyZoom;
     [containerView addSubview:smoothed];
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|" options:0 metrics:nil views:@{@"view": smoothed}]];
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:@{@"view": smoothed}]];
@@ -156,7 +165,6 @@ static const SourceDataType kGainValue = 4.0;
         sself->_params.windowSizeLog2 = std::round(std::log2(windowSize));
         sself->_params.hopFraction = hopFraction;
         [sself initializeSourceGraph];
-        sself->_microphone->start();
         [wself updateWindowView];
         [wself renderReference];
     };
@@ -337,7 +345,6 @@ static const SourceDataType kGainValue = 4.0;
     fftSplitter >> _fftPolling;
     fftSplitter->addNode();
 
-
     // Set up note tracker
     _noteTracker.reset(new NoteTracker);
     auto noteTrackerParams = _noteTracker->parameters();
@@ -361,7 +368,10 @@ static const SourceDataType kGainValue = 4.0;
             [wself renderSource];
         });
     });
+
+    _microphone->start();
 }
+
 
 #pragma mark - UIScrollViewDelegate
 
@@ -373,5 +383,55 @@ static const SourceDataType kGainValue = 4.0;
     [self renderReference];
 }
 
-@end
 
+#pragma mark - Gesture Recognizers
+
+- (IBAction)pinchRecognizer:(UIPinchGestureRecognizer *)recognizer {
+    CGFloat scale = recognizer.scale;
+    if (recognizer.state == UIGestureRecognizerStateBegan) {
+        _previousScale = scale;
+    } else if (recognizer.state == UIGestureRecognizerStateChanged) {
+        CGFloat delta = _previousScale - scale;
+        delta *= _bottomSmoothedView.bounds.size.width / _bottomSmoothedView.contentSize.width;
+        _previousScale = scale;
+
+        _frequencyZoom += delta;
+        if (_frequencyZoom < 0)
+            _frequencyZoom = 0;
+        if (_frequencyZoom > 1)
+            _frequencyZoom = 1;
+
+        _topPeaksView.frequencyZoom = _frequencyZoom;
+        _topSmoothedView.frequencyZoom = _frequencyZoom;
+        _topSpectrogramView.frequencyZoom = _frequencyZoom;
+        _bottomPeaksView.frequencyZoom = _frequencyZoom;
+        _bottomSmoothedView.frequencyZoom = _frequencyZoom;
+        _bottomSpectrogramView.frequencyZoom = _frequencyZoom;
+    }
+}
+
+- (IBAction)panRecognizer:(UIPanGestureRecognizer *)recognizer {
+    CGPoint point = [recognizer translationInView:self.view];
+    if (recognizer.state == UIGestureRecognizerStateBegan) {
+        _previousPoint = point;
+    } else if (recognizer.state == UIGestureRecognizerStateChanged) {
+        CGFloat delta = _previousPoint.x - point.x;
+        _previousPoint = point;
+
+        CGPoint offset = _bottomSmoothedView.contentOffset;
+        offset.x += delta;
+        if (offset.x < 0)
+            offset.x = 0;
+        if (offset.x > _bottomSmoothedView.contentSize.width - _bottomSmoothedView.bounds.size.width)
+            offset.x = _bottomSmoothedView.contentSize.width - _bottomSmoothedView.bounds.size.width;
+
+        _topPeaksView.contentOffset = offset;
+        _topSmoothedView.contentOffset = offset;
+        _topSpectrogramView.contentOffset = offset;
+        _bottomPeaksView.contentOffset = offset;
+        _bottomSmoothedView.contentOffset = offset;
+        _bottomSpectrogramView.contentOffset = offset;
+    }
+}
+
+@end

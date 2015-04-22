@@ -5,13 +5,24 @@ import UIKit
 /**
 A UIView that displays frequency samples.
 */
-public class VMFrequencyView: UIView {
+public class VMFrequencyView: UIScrollView {
     @IBInspectable var lineColor: UIColor?
     @IBInspectable var lineWidth: CGFloat = 1.0
     @IBInspectable var matchColor: UIColor? = UIColor.greenColor()
 
-    var sampleRate = 44100.0
-    var maxFrequency = 6000.0
+    var frequencyZoom: CGFloat = 1 {
+        didSet {
+            setNeedsLayout()
+        }
+    }
+
+    var binsPerPoint: CGFloat {
+        get {
+            let max = CGFloat(dataSize) / bounds.width
+            let min = CGFloat(0.25)
+            return min + (max - min) * frequencyZoom
+        }
+    }
 
     var peaks: Bool = false
     var peakWidth: CGFloat = 3.0
@@ -23,11 +34,13 @@ public class VMFrequencyView: UIView {
         }
     }
 
+
     private var data: UnsafePointer<Double> = nil
     private var dataSize: Int = 0
     public func setData(data: UnsafePointer<Double>, count: Int) {
         self.data = data
         self.dataSize = count
+        self.matchDataSize = 0
         setNeedsDisplay()
     }
 
@@ -36,6 +49,23 @@ public class VMFrequencyView: UIView {
     public func setMatchData(data: UnsafePointer<Double>, count: Int) {
         self.matchData = data
         self.matchDataSize = count
+        setNeedsDisplay()
+    }
+
+    override public func layoutSubviews() {
+        let previousOffset = contentOffset
+        let previousWidth = contentSize.width
+        contentInset.top = 0
+        contentSize.height = bounds.height
+
+        if binsPerPoint != 0 {
+            contentSize.width = CGFloat(dataSize) / binsPerPoint
+        }
+        if previousWidth != 0 {
+            let scale = contentSize.width / previousWidth
+            contentOffset.x = scale * (previousOffset.x + bounds.width/2) - bounds.width/2
+        }
+
         setNeedsDisplay()
     }
 
@@ -53,55 +83,45 @@ public class VMFrequencyView: UIView {
         lineColor?.setStroke()
         CGContextSetLineWidth(context, lineWidth)
 
+        let start = max(0, Int(bounds.minX * binsPerPoint))
+        let end = start + Int(bounds.width * binsPerPoint)
         if (peaks) {
-            drawPeaks()
+            drawPeaks(startIndex:start, endIndex:end)
         } else {
-            drawFrequency()
+            drawFrequency(startIndex:start, endIndex:end)
         }
     }
 
-    private func drawFrequency() {
+    private func drawFrequency(#startIndex: Int, endIndex: Int) {
         let context = UIGraphicsGetCurrentContext()
-
-        let windowSize = 2*dataSize
-        let baseFrequency = sampleRate / Double(windowSize)
-        let maxIndex = Int(maxFrequency / baseFrequency)
-
         let height = bounds.size.height
-        let spacing = bounds.width / CGFloat(maxIndex)
-        var point = CGPointMake(0.0, height);
+        let spacing = 1.0 / binsPerPoint
+
+        var point = CGPointMake(bounds.minX, height);
+        point.y = height - yForSampleDecibels((data).memory) * height;
 
         let path = CGPathCreateMutable()
         CGPathMoveToPoint(path, nil, point.x, point.y)
-
-        for var index = 0; index < maxIndex; index += 1 {
+        for (var index = startIndex; index < endIndex && index < dataSize; index += 1) {
             let value = (data + index).memory
             point.y = height - yForSampleDecibels(value) * height;
             CGPathAddLineToPoint(path, nil, point.x, point.y)
             point.x += spacing;
         }
-        CGPathAddLineToPoint(path, nil, point.x, height)
-
         CGContextAddPath(context, path)
         CGContextStrokePath(context)
     }
 
-    private func drawPeaks() {
+    private func drawPeaks(#startIndex: Int, endIndex: Int) {
         let context = UIGraphicsGetCurrentContext()
-
-        let windowSize = 2*dataSize
-        let baseFrequency = sampleRate / Double(windowSize)
-        let maxIndex = Int(maxFrequency / baseFrequency)
-
         let height = bounds.size.height
-        let spacing = bounds.width / CGFloat(maxIndex)
-        var point = CGPointMake(0.0, height);
+        let spacing = 1.0 / binsPerPoint
 
         var barRect = CGRect()
         barRect.origin.x = bounds.minX - (spacing / 2)
         barRect.size.width = spacing
 
-        for var index = 0; index < maxIndex; index += 1 {
+        for (var index = startIndex; index < endIndex && index < dataSize; index += 1) {
             let value = CGFloat((data + index).memory)
             var matchValue: CGFloat = 0
 
