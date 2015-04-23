@@ -5,6 +5,7 @@
 static NSString* const kWindowSizeKey = @"WindowSizeKey";
 static NSString* const kHopFractionKey = @"HopFractionKey";
 static NSString* const kDecibelGroundKey = @"DecibelGroundKey";
+static NSString* const kPeaksMinSlopeKey = @"PeaksMinSlope";
 static NSString* const kSmoothWidthKey = @"SmoothWidth";
 static NSString* const kSpectrogramEnabledKey = @"SpectrogramEnabled";
 static NSString* const kSmoothedSpectrogramEnabledKey = @"SmoothedSpectrogramEnabled";
@@ -17,10 +18,12 @@ static NSString* const kPeaksEnabledKey = @"PeaksEnabled";
 @property(nonatomic, weak) IBOutlet UISlider* hopSlider;
 @property(nonatomic, weak) IBOutlet UISlider* groundSlider;
 @property(nonatomic, weak) IBOutlet UISlider* smoothWidthSlider;
+@property(nonatomic, weak) IBOutlet UISlider* peaksMinSlopeSlider;
 @property(nonatomic, weak) IBOutlet UITextField* windowTextField;
 @property(nonatomic, weak) IBOutlet UITextField* hopTextField;
 @property(nonatomic, weak) IBOutlet UITextField* groundTextField;
 @property(nonatomic, weak) IBOutlet UITextField* smoothWidthTextField;
+@property(nonatomic, weak) IBOutlet UITextField* peaksMinSlopeTextField;
 @property(nonatomic, weak) IBOutlet UISwitch* spectrogramSwitch;
 @property(nonatomic, weak) IBOutlet UISwitch* smoothedSwitch;
 @property(nonatomic, weak) IBOutlet UISwitch* peaksSwitch;
@@ -29,6 +32,7 @@ static NSString* const kPeaksEnabledKey = @"PeaksEnabled";
 @property(nonatomic) double hopFraction;
 @property(nonatomic) double decibelGround;
 @property(nonatomic) double sampleRate;
+@property(nonatomic) double peaksMinSlope;
 @property(nonatomic) NSUInteger smoothWidth;
 @property(nonatomic) BOOL spectrogramEnabled;
 @property(nonatomic) BOOL smoothedSpectrogramEnabled;
@@ -62,6 +66,7 @@ static NSString* const kPeaksEnabledKey = @"PeaksEnabled";
     _hopSlider.value = _hopFraction;
     _groundSlider.value = _decibelGround;
     _smoothWidthSlider.value = _smoothWidth;
+    _peaksMinSlopeSlider.value = _peaksMinSlope;
     _spectrogramSwitch.on = _spectrogramEnabled;
     _smoothedSwitch.on = _smoothedSpectrogramEnabled;
     _peaksSwitch.on = _peaksEnabled;
@@ -70,6 +75,7 @@ static NSString* const kPeaksEnabledKey = @"PeaksEnabled";
     _hopTextField.text = [NSString stringWithFormat:@"%.0fms", 1000.0 * _hopFraction * _windowSize / _sampleRate];
     _groundTextField.text = [NSString stringWithFormat:@"%.0fdB", _decibelGround];
     _smoothWidthTextField.text = [NSString stringWithFormat:@"%d frames", (int)_smoothWidth];
+    _peaksMinSlopeTextField.text = [NSString stringWithFormat:@"%f", _peaksMinSlope];
 }
 
 - (void)viewWillDisappear:(BOOL)animated {
@@ -84,6 +90,7 @@ static NSString* const kPeaksEnabledKey = @"PeaksEnabled";
     _windowSize = [self preferenceForKey:kWindowSizeKey defaultValue:1024];
     _hopFraction = [self preferenceForKey:kHopFractionKey defaultValue:0.5];
     _decibelGround = [self preferenceForKey:kDecibelGroundKey defaultValue:-100.0];
+    _peaksMinSlope = [self preferenceForKey:kPeaksMinSlopeKey defaultValue:2.3];
 
     if ([defaults objectForKey:kSmoothWidthKey])
         _smoothWidth = [defaults integerForKey:kSmoothWidthKey];
@@ -101,6 +108,7 @@ static NSString* const kPeaksEnabledKey = @"PeaksEnabled";
     [defaults setInteger:_windowSize forKey:kWindowSizeKey];
     [defaults setDouble:_hopFraction forKey:kHopFractionKey];
     [defaults setDouble:_decibelGround forKey:kDecibelGroundKey];
+    [defaults setDouble:_peaksMinSlope forKey:kPeaksMinSlopeKey];
     [defaults setInteger:_smoothWidth forKey:kSmoothWidthKey];
     [defaults setBool:_spectrogramEnabled forKey:kSpectrogramEnabledKey];
     [defaults setBool:_smoothedSpectrogramEnabled forKey:kSmoothedSpectrogramEnabledKey];
@@ -142,6 +150,11 @@ static NSString* const kPeaksEnabledKey = @"PeaksEnabled";
     _smoothWidthTextField.text = [NSString stringWithFormat:@"%d frames", (int)_smoothWidth];
 }
 
+- (IBAction)updatePeaksMinSlope {
+    _peaksMinSlope = _peaksMinSlopeSlider.value;
+    _peaksMinSlopeTextField.text = [NSString stringWithFormat:@"%f", _peaksMinSlope];
+}
+
 - (IBAction)didChangeWindow {
     if (_didChangeTimings)
         _didChangeTimings(_windowSize, _hopFraction);
@@ -157,6 +170,12 @@ static NSString* const kPeaksEnabledKey = @"PeaksEnabled";
 - (IBAction)didChangeGround {
     if (_didChangeDecibelGround)
         _didChangeDecibelGround(_decibelGround);
+    [self savePreferences];
+}
+
+- (IBAction)didChangePeaksMinSlope {
+    if (_didChangePeaksMinSlopeBlock)
+        _didChangePeaksMinSlopeBlock(_peaksMinSlope);
     [self savePreferences];
 }
 

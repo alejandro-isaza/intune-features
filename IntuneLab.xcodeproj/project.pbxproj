@@ -657,6 +657,11 @@
 		618EB9BC1AE6BBBD00E51A9E /* Annotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Annotation.h; sourceTree = "<group>"; };
 		618EB9BD1AE6BBBD00E51A9E /* AnnotationsSerialization.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnnotationsSerialization.cpp; sourceTree = "<group>"; };
 		618EB9BE1AE6BBBD00E51A9E /* AnnotationsSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnotationsSerialization.h; sourceTree = "<group>"; };
+		619CB0041AE874F800062BDD /* TriangularSmooth.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TriangularSmooth.h; sourceTree = "<group>"; };
+		619CB0051AE874F800062BDD /* TextWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextWriter.h; sourceTree = "<group>"; };
+		619CB0061AE874F800062BDD /* TextReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextReader.h; sourceTree = "<group>"; };
+		619CB0071AE874F800062BDD /* Gain.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Gain.h; sourceTree = "<group>"; };
+		619CB0081AE874F800062BDD /* SlopeDifference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SlopeDifference.h; sourceTree = "<group>"; };
 		61A81D461AB0E62400E230A6 /* libtempo.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libtempo.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		61A81D5E1AB0E63C00E230A6 /* FloatConverter.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FloatConverter.cpp; sourceTree = "<group>"; };
 		61A81D5F1AB0E63C00E230A6 /* FloatConverter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FloatConverter.h; sourceTree = "<group>"; };
@@ -1346,7 +1351,6 @@
 		61A81D601AB0E63C00E230A6 /* modules */ = {
 			isa = PBXGroup;
 			children = (
-				00BB63AE1ACDF06900A65779 /* windows */,
 				61A81D621AB0E63C00E230A6 /* AccumulatorModule.h */,
 				6157FC9D1ABB5568008C0D0D /* AccumulatorModule.hpp */,
 				00BE64771AE5CA5A0092908A /* Buffering.h */,
@@ -1359,6 +1363,7 @@
 				61A81D681AB0E63C00E230A6 /* FFTModule.h */,
 				6157FC9E1ABB5568008C0D0D /* FFTModule.hpp */,
 				6157FC951ABA4CD7008C0D0D /* FixedData.h */,
+				619CB0071AE874F800062BDD /* Gain.h */,
 				61A81D691AB0E63C00E230A6 /* MeanModule.cpp */,
 				61A81D6A1AB0E63C00E230A6 /* MeanModule.h */,
 				61A81D6B1AB0E63C00E230A6 /* MicrophoneModule.cpp */,
@@ -1376,10 +1381,15 @@
 				61A81D6F1AB0E63C00E230A6 /* SaveToFileModule.cpp */,
 				61A81D701AB0E63C00E230A6 /* SaveToFileModule.h */,
 				61A81D8D1AB218DA00E230A6 /* SineWaveGeneratorModule.h */,
+				619CB0081AE874F800062BDD /* SlopeDifference.h */,
 				61A81D911AB2607300E230A6 /* SourceModule.h */,
 				00BE64761AE5C4610092908A /* Splitter.h */,
+				619CB0061AE874F800062BDD /* TextReader.h */,
+				619CB0051AE874F800062BDD /* TextWriter.h */,
+				619CB0041AE874F800062BDD /* TriangularSmooth.h */,
 				61BE11C41AB773CB00BF2F6F /* WindowingModule.h */,
 				6157FC991ABB5568008C0D0D /* WindowingModule.hpp */,
+				00BB63AE1ACDF06900A65779 /* windows */,
 			);
 			path = modules;
 			sourceTree = "<group>";

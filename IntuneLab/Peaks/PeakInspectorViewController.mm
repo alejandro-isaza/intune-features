@@ -169,9 +169,13 @@ static const SourceDataType kGainValue = 4.0;
         [wself renderReference];
     };
     _settingsViewController.didChangeSmoothWidthBlock = ^(NSUInteger smoothWidth) {
+        [wself initializeSourceGraph];
         [wself renderReference];
     };
-
+    _settingsViewController.didChangePeaksMinSlopeBlock = ^(double slope) {
+        [wself initializeSourceGraph];
+        [wself renderReference];
+    };
     _settingsViewController.didChangeDisplaySpectrogram = ^(BOOL display) {
         wself.topSpectrogramView.hidden = !display;
         wself.bottomSpectrogramView.hidden = !display;
@@ -207,6 +211,7 @@ static const SourceDataType kGainValue = 4.0;
     auto smoothing = std::make_shared<TriangularSmooth<SourceDataType>>(_settingsViewController.smoothWidth);
     auto smoothingSplitter = std::make_shared<Splitter<SourceDataType>>();
     auto peakExtraction = std::make_shared<PeakExtraction<SourceDataType>>(_params.sliceSize());
+    peakExtraction->setMinSlope(_settingsViewController.peaksMinSlope);
     fftSplitter >> smoothing >> smoothingSplitter >> peakExtraction;
     fftSplitter->addNode();
     smoothingSplitter->addNode();
@@ -338,6 +343,7 @@ static const SourceDataType kGainValue = 4.0;
     auto smoothing = std::make_shared<TriangularSmooth<SourceDataType>>(_settingsViewController.smoothWidth);
     _smoothingSplitter.reset(new Splitter<SourceDataType>());
     auto peakExtraction = std::make_shared<PeakExtraction<SourceDataType>>(_params.sliceSize());
+    peakExtraction->setMinSlope(_settingsViewController.peaksMinSlope);
     _peakPolling.reset(new PollingModule<SourceDataType>());
     fftSplitter >> smoothing >> _smoothingSplitter >> peakExtraction >> _peakPolling;
     fftSplitter->addNode();
