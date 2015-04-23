@@ -25,6 +25,7 @@ public class VMFrequencyView: UIScrollView {
     }
 
     var peaks: Bool = false
+    var peaksIntensity: Bool = false
     var peakWidth: CGFloat = 3.0
 
     /// The minimum decibel value to display
@@ -102,7 +103,7 @@ public class VMFrequencyView: UIScrollView {
 
         let path = CGPathCreateMutable()
         CGPathMoveToPoint(path, nil, point.x, point.y)
-        for (var index = startIndex; index < endIndex && index < dataSize; index += 1) {
+        for var index = startIndex; index < endIndex && index < dataSize; index += 1 {
             let value = (data + index).memory
             point.y = height - yForSampleDecibels(value) * height;
             CGPathAddLineToPoint(path, nil, point.x, point.y)
@@ -121,14 +122,19 @@ public class VMFrequencyView: UIScrollView {
         barRect.origin.x = bounds.minX - (spacing / 2)
         barRect.size.width = spacing
 
-        for (var index = startIndex; index < endIndex && index < dataSize; index += 1) {
-            let value = CGFloat((data + index).memory)
+        for var index = startIndex; index < endIndex && index < dataSize; index += 1 {
+            var value = CGFloat((data + index).memory)
             var matchValue: CGFloat = 0
 
-            if (index < matchDataSize) {
+            if index < matchDataSize {
                 matchValue = CGFloat((matchData + index).memory)
             }
-            let color = value == matchValue ? matchColor : lineColor
+            var color = value == matchValue ? matchColor : lineColor
+
+            if peaksIntensity {
+                color = color?.colorWithAlphaComponent(value)
+                value = 1.0
+            }
             color?.setFill()
 
             barRect.size.height = value * bounds.height

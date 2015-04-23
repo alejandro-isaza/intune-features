@@ -5,7 +5,9 @@
 
 #import "FFTSettingsViewController.h"
 #import "VMFilePickerController.h"
+#import "VMMidiPickerController.h"
 #import "VMFileLoader.h"
+#import "FrequencyGenerator.h"
 
 #include <tempo/algorithms/NoteTracker.h>
 #include <tempo/modules/Buffering.h>
@@ -38,11 +40,14 @@ static const SourceDataType kGainValue = 4.0;
 @property(nonatomic, strong) VMFrequencyView* topSpectrogramView;
 @property(nonatomic, strong) VMFrequencyView* topPeaksView;
 @property(nonatomic, strong) VMFrequencyView* topSmoothedView;
+@property(nonatomic, strong) VMFrequencyView* topMidiView;
 @property(nonatomic, strong) VMFrequencyView* bottomSpectrogramView;
 @property(nonatomic, strong) VMFrequencyView* bottomPeaksView;
 @property(nonatomic, strong) VMFrequencyView* bottomSmoothedView;
+@property(nonatomic, strong) VMFrequencyView* bottomMidiView;
+@property(nonatomic, strong) NSArray* frequencyViews;
+
 @property(nonatomic, strong) VMWaveformView* waveformView;
-@property(nonatomic, strong) FFTSettingsViewController *settingsViewController;
 @property(nonatomic, assign) NSUInteger frameOffset;
 
 @property(nonatomic) std::shared_ptr<MicrophoneModule> microphone;
@@ -56,11 +61,16 @@ static const SourceDataType kGainValue = 4.0;
 @property(nonatomic) CGFloat previousScale;
 @property(nonatomic) CGFloat frequencyZoom;
 
+@property(nonatomic, strong) FFTSettingsViewController *settingsViewController;
+@property(nonatomic, strong) VMMidiPickerController* midiPicker;
+@property(nonatomic, strong) NSSet* midiNotes;
+
 @end
 
 @implementation PeakInspectorViewController {
     tempo::Spectrogram::Parameters _params;
 
+    tempo::UniqueBuffer<ReferenceDataType> _midiData;
     tempo::UniqueBuffer<ReferenceDataType> _peakData;
     tempo::UniqueBuffer<ReferenceDataType> _spectrogramData;
     tempo::UniqueBuffer<SourceDataType> _smoothedData;
@@ -75,15 +85,32 @@ static const SourceDataType kGainValue = 4.0;
 
     _frequencyZoom = 1.0;
 
+    __weak PeakInspectorViewController *wself = self;
+    _midiPicker = [[VMMidiPickerController alloc] init];
+    _midiPicker.selectionBlock = ^(NSSet* midiNotes) {
+        wself.midiNotes = midiNotes;
+        [wself renderMIDI];
+    };
+
     _topSpectrogramView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
-    _bottomSpectrogramView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
     _topPeaksView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
     _topSmoothedView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
+    _topMidiView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
     _bottomPeaksView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
     _bottomSmoothedView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
+    _bottomSpectrogramView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
+    _bottomMidiView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
+    _frequencyViews = @[_topSpectrogramView,
+                        _topPeaksView,
+                        _topSmoothedView,
+                        _topMidiView,
+                        _bottomPeaksView,
+                        _bottomSmoothedView,
+                        _bottomSpectrogramView,
+                        _bottomMidiView];
 
-    [self loadContainerView:_topContainerView spectrogram:_topSpectrogramView smoothed:_topSmoothedView peaks:_topPeaksView];
-    [self loadContainerView:_bottomContainerView spectrogram:_bottomSpectrogramView smoothed:_bottomSmoothedView peaks:_bottomPeaksView];
+    [self loadContainerView:_topContainerView spectrogram:_topSpectrogramView smoothed:_topSmoothedView peaks:_topPeaksView midi:_topMidiView];
+    [self loadContainerView:_bottomContainerView spectrogram:_bottomSpectrogramView smoothed:_bottomSmoothedView peaks:_bottomPeaksView midi:_bottomMidiView];
     [self loadWaveformView];
     [self loadSettings];
     [self initializeSourceGraph];
@@ -97,37 +124,49 @@ static const SourceDataType kGainValue = 4.0;
     [self updateWindowView];
 }
 
-- (void)loadContainerView:(UIView*)containerView spectrogram:(VMFrequencyView*)spectrogramView smoothed:(VMFrequencyView*)smoothed peaks:(VMFrequencyView*)peaksView {
-    peaksView.frame = containerView.bounds;
-    peaksView.userInteractionEnabled = NO;
-    peaksView.translatesAutoresizingMaskIntoConstraints = NO;
-    peaksView.backgroundColor = [UIColor clearColor];
-    peaksView.lineColor = [UIColor redColor];
-    peaksView.peaks = YES;
-    peaksView.frequencyZoom = _frequencyZoom;
-    [containerView addSubview:peaksView];
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|" options:0 metrics:nil views:@{@"view": peaksView}]];
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:@{@"view": peaksView}]];
+- (void)loadContainerView:(UIView*)containerView spectrogram:(VMFrequencyView*)spectrogram smoothed:(VMFrequencyView*)smoothed peaks:(VMFrequencyView*)peaks midi:(VMFrequencyView*)midi {
+    peaks.frame = containerView.bounds;
+    peaks.userInteractionEnabled = NO;
+    peaks.translatesAutoresizingMaskIntoConstraints = NO;
+    peaks.backgroundColor = [UIColor clearColor];
+    peaks.lineColor = [UIColor redColor];
+    peaks.peaks = YES;
+    peaks.frequencyZoom = _frequencyZoom;
+    [containerView addSubview:peaks];
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|" options:0 metrics:nil views:@{@"view": peaks}]];
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:@{@"view": peaks}]];
 
-    spectrogramView.frame = containerView.bounds;
-    spectrogramView.userInteractionEnabled = NO;
-    spectrogramView.translatesAutoresizingMaskIntoConstraints = NO;
-    spectrogramView.backgroundColor = [UIColor clearColor];
-    spectrogramView.lineColor = [UIColor blueColor];
-    spectrogramView.frequencyZoom = _frequencyZoom;
-    [containerView addSubview:spectrogramView];
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|" options:0 metrics:nil views:@{@"view": spectrogramView}]];
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:@{@"view": spectrogramView}]];
+    spectrogram.frame = containerView.bounds;
+    spectrogram.userInteractionEnabled = NO;
+    spectrogram.translatesAutoresizingMaskIntoConstraints = NO;
+    spectrogram.backgroundColor = [UIColor clearColor];
+    spectrogram.lineColor = [UIColor grayColor];
+    spectrogram.frequencyZoom = _frequencyZoom;
+    [containerView addSubview:spectrogram];
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|" options:0 metrics:nil views:@{@"view": spectrogram}]];
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:@{@"view": spectrogram}]];
 
     smoothed.frame = containerView.bounds;
     smoothed.userInteractionEnabled = NO;
     smoothed.translatesAutoresizingMaskIntoConstraints = NO;
     smoothed.backgroundColor = [UIColor clearColor];
-    smoothed.lineColor = [UIColor greenColor];
+    smoothed.lineColor = [UIColor blackColor];
     smoothed.frequencyZoom = _frequencyZoom;
     [containerView addSubview:smoothed];
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|" options:0 metrics:nil views:@{@"view": smoothed}]];
     [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:@{@"view": smoothed}]];
+
+    midi.frame = containerView.bounds;
+    midi.userInteractionEnabled = NO;
+    midi.translatesAutoresizingMaskIntoConstraints = NO;
+    midi.backgroundColor = [UIColor clearColor];
+    midi.lineColor = [UIColor blueColor];
+    midi.frequencyZoom = _frequencyZoom;
+    midi.peaks = YES;
+    midi.peaksIntensity = YES;
+    [containerView addSubview:midi];
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|" options:0 metrics:nil views:@{@"view": midi}]];
+    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:@{@"view": midi}]];
 }
 
 - (void)loadWaveformView {
@@ -190,6 +229,18 @@ static const SourceDataType kGainValue = 4.0;
     };
 }
 
+- (void)renderMIDI {
+    const auto sliceSize = _params.sliceSize();
+    if (_midiData.capacity() != sliceSize)
+        _midiData.reset(sliceSize);
+
+    std::fill(_midiData.data(), _midiData.data() + sliceSize, 0);
+    for (NSNumber *midiNote in _midiNotes)
+        FrequencyGenerator<ReferenceDataType>::generate([midiNote intValue], _midiData, kSampleRate);
+    [_topMidiView setData:_midiData.data() count:sliceSize];
+    [_bottomMidiView setData:_midiData.data() count:sliceSize];
+}
+
 - (void)renderReference {
     if (!self.fileLoader)
         return;
@@ -239,6 +290,8 @@ static const SourceDataType kGainValue = 4.0;
     auto smoothedSize = smoothingSplitter->render(_smoothedData);
     if (smoothedSize > 0)
         [_bottomSmoothedView setData:_smoothedData.data() count:smoothedSize];
+
+    [self renderMIDI];
 }
 
 - (void)renderSource {
@@ -278,6 +331,10 @@ static const SourceDataType kGainValue = 4.0;
         [self loadFile:file];
     };
     [filePicker presentInViewController:self sourceRect:sender.frame];
+}
+
+- (IBAction)openNotes:(UIButton*)sender {
+    [_midiPicker presentInViewController:self sourceRect:sender.frame];
 }
 
 - (IBAction)openSettings:(UIButton*)sender {
@@ -410,12 +467,8 @@ static const SourceDataType kGainValue = 4.0;
         if (_frequencyZoom > 1)
             _frequencyZoom = 1;
 
-        _topPeaksView.frequencyZoom = _frequencyZoom;
-        _topSmoothedView.frequencyZoom = _frequencyZoom;
-        _topSpectrogramView.frequencyZoom = _frequencyZoom;
-        _bottomPeaksView.frequencyZoom = _frequencyZoom;
-        _bottomSmoothedView.frequencyZoom = _frequencyZoom;
-        _bottomSpectrogramView.frequencyZoom = _frequencyZoom;
+        for (VMFrequencyView* frequencyView in _frequencyViews)
+            frequencyView.frequencyZoom = _frequencyZoom;
     }
 }
 
@@ -433,13 +486,9 @@ static const SourceDataType kGainValue = 4.0;
             offset.x = 0;
         if (offset.x > _bottomSmoothedView.contentSize.width - _bottomSmoothedView.bounds.size.width)
             offset.x = _bottomSmoothedView.contentSize.width - _bottomSmoothedView.bounds.size.width;
-
-        _topPeaksView.contentOffset = offset;
-        _topSmoothedView.contentOffset = offset;
-        _topSpectrogramView.contentOffset = offset;
-        _bottomPeaksView.contentOffset = offset;
-        _bottomSmoothedView.contentOffset = offset;
-        _bottomSpectrogramView.contentOffset = offset;
+        
+        for (VMFrequencyView* frequencyView in _frequencyViews)
+            frequencyView.contentOffset = offset;
     }
 }
 

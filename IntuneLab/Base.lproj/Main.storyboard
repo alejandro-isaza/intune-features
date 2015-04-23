@@ -357,6 +357,15 @@
                                     <action selector="openSettings:" destination="XQH-y4-d5A" eventType="touchUpInside" id="s0B-jC-kee"/>
                                 </connections>
                             </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="cbQ-cW-6Do">
+                                <rect key="frame" x="549" y="333" width="41" height="30"/>
+                                <state key="normal" title="Notes">
+                                    <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                                </state>
+                                <connections>
+                                    <action selector="openNotes:" destination="XQH-y4-d5A" eventType="touchUpInside" id="CDU-Gc-9tQ"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <constraints>
@@ -369,7 +378,9 @@
                             <constraint firstItem="CBL-uK-hdN" firstAttribute="leading" secondItem="JuP-6R-jIM" secondAttribute="leading" id="JKd-KG-ciY"/>
                             <constraint firstItem="uDg-Cf-vR3" firstAttribute="bottom" secondItem="CBL-uK-hdN" secondAttribute="top" id="K0C-tl-ZHL"/>
                             <constraint firstItem="uDg-Cf-vR3" firstAttribute="trailing" secondItem="vZm-M7-d1a" secondAttribute="trailing" constant="10" id="Lbw-hB-WMj"/>
+                            <constraint firstAttribute="trailing" secondItem="cbQ-cW-6Do" secondAttribute="trailing" constant="10" id="NmV-t7-CUz"/>
                             <constraint firstAttribute="trailing" secondItem="zGE-aA-Jxc" secondAttribute="trailing" id="O5I-wV-0Ko"/>
+                            <constraint firstItem="cbQ-cW-6Do" firstAttribute="top" secondItem="vZm-M7-d1a" secondAttribute="bottom" id="PZN-uk-w6L"/>
                             <constraint firstAttribute="trailing" secondItem="eUi-TS-Czq" secondAttribute="trailing" constant="20" symbolic="YES" id="Pgb-dr-s1D"/>
                             <constraint firstItem="CBL-uK-hdN" firstAttribute="leading" secondItem="uLt-RB-f9c" secondAttribute="leading" id="Qkh-ir-Xno"/>
                             <constraint firstItem="bD9-Lf-f9Z" firstAttribute="bottom" secondItem="uDg-Cf-vR3" secondAttribute="bottom" id="Qu6-7n-QT8"/>

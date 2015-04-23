@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		003E62571AE9653600BC5C26 /* VMMidiPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 003E62561AE9653600BC5C26 /* VMMidiPickerController.m */; };
 		008685651AB10B4B00F415A2 /* VMPianoRollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008685631AB10B4B00F415A2 /* VMPianoRollViewController.swift */; };
 		008685681AB10B8A00F415A2 /* VMWaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008685671AB10B8A00F415A2 /* VMWaveformView.swift */; };
 		0086856C1AB10C1400F415A2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6171BD521A16BCC4004AB274 /* Images.xcassets */; };
@@ -248,6 +249,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		003E62521AE8746D00BC5C26 /* FrequencyGenerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FrequencyGenerator.h; sourceTree = "<group>"; };
+		003E62551AE9653600BC5C26 /* VMMidiPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMMidiPickerController.h; sourceTree = "<group>"; };
+		003E62561AE9653600BC5C26 /* VMMidiPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMMidiPickerController.m; sourceTree = "<group>"; };
 		006518FF1AC2079700E0ADB9 /* Difference.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Difference.h; sourceTree = "<group>"; };
 		008685631AB10B4B00F415A2 /* VMPianoRollViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMPianoRollViewController.swift; sourceTree = "<group>"; };
 		008685671AB10B8A00F415A2 /* VMWaveformView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMWaveformView.swift; sourceTree = "<group>"; };
@@ -1194,6 +1198,9 @@
 			children = (
 				00D9E2D81AE18991004C2505 /* PeakInspectorViewController.h */,
 				00D9E2D91AE18991004C2505 /* PeakInspectorViewController.mm */,
+				003E62521AE8746D00BC5C26 /* FrequencyGenerator.h */,
+				003E62551AE9653600BC5C26 /* VMMidiPickerController.h */,
+				003E62561AE9653600BC5C26 /* VMMidiPickerController.m */,
 			);
 			path = Peaks;
 			sourceTree = "<group>";
@@ -1727,6 +1734,7 @@
 				00D9E2DA1AE18991004C2505 /* PeakInspectorViewController.mm in Sources */,
 				00D9E2D21AE186E6004C2505 /* FFTSettingsViewController.m in Sources */,
 				00D9E2CE1AE1869A004C2505 /* WaveformViewController.mm in Sources */,
+				003E62571AE9653600BC5C26 /* VMMidiPickerController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
