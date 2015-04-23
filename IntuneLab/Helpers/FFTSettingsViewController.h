@@ -11,6 +11,7 @@
 @property(nonatomic, readonly) double decibelGround;
 @property(nonatomic, readonly) NSUInteger smoothWidth;
 @property(nonatomic, readonly) double peaksMinSlope;
+@property(nonatomic, readonly) double peakWidth;
 @property(nonatomic, readonly) BOOL spectrogramEnabled;
 @property(nonatomic, readonly) BOOL smoothedSpectrogramEnabled;
 @property(nonatomic, readonly) BOOL peaksEnabled;
@@ -19,6 +20,7 @@
 @property (nonatomic, copy) void (^didChangeDecibelGround)(double);
 @property (nonatomic, copy) void (^didChangeSmoothWidthBlock)(NSUInteger);
 @property (nonatomic, copy) void (^didChangePeaksMinSlopeBlock)(double);
+@property (nonatomic, copy) void (^didChangePeakWidthBlock)(double);
 @property (nonatomic, copy) void (^didChangeDisplaySpectrogram)(BOOL);
 @property (nonatomic, copy) void (^didChangeDisplaySmoothedSpectrogram)(BOOL);
 @property (nonatomic, copy) void (^didChangeDisplayPeaks)(BOOL);

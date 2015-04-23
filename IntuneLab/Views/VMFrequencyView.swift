@@ -26,6 +26,8 @@ public class VMFrequencyView: UIScrollView {
 
     var peaks: Bool = false
     var peaksIntensity: Bool = false
+
+    /// Peak width in bins
     var peakWidth: CGFloat = 3.0
 
     /// The minimum decibel value to display
@@ -119,8 +121,8 @@ public class VMFrequencyView: UIScrollView {
         let spacing = 1.0 / binsPerPoint
 
         var barRect = CGRect()
-        barRect.origin.x = bounds.minX - (spacing / 2)
-        barRect.size.width = spacing
+        barRect.size.width = peakWidth / binsPerPoint
+        barRect.origin.x = bounds.minX - (barRect.size.width / 2)
 
         for var index = startIndex; index < endIndex && index < dataSize; index += 1 {
             var value = CGFloat((data + index).memory)
@@ -140,7 +142,7 @@ public class VMFrequencyView: UIScrollView {
             barRect.size.height = value * bounds.height
             CGContextFillRect(context, barRect);
 
-            barRect.origin.x += barRect.width
+            barRect.origin.x += spacing
         }
     }
 

@@ -68,7 +68,7 @@ static const SourceDataType kGainValue = 4.0;
 @end
 
 @implementation PeakInspectorViewController {
-    tempo::Spectrogram::Parameters _params;
+    tempo::NoteTracker::Parameters _params;
 
     tempo::UniqueBuffer<ReferenceDataType> _midiData;
     tempo::UniqueBuffer<ReferenceDataType> _peakData;
@@ -186,9 +186,15 @@ static const SourceDataType kGainValue = 4.0;
     _settingsViewController.modalPresentationStyle = UIModalPresentationPopover;
     _settingsViewController.preferredContentSize = CGSizeMake(600, 150);
 
-    _params.sampleRate = kSampleRate;
-    _params.windowSizeLog2 = std::round(std::log2(_settingsViewController.windowSize));
-    _params.hopFraction = _settingsViewController.hopFraction;
+    _params.spectrogram.sampleRate = kSampleRate;
+    _params.spectrogram.windowSizeLog2 = std::round(std::log2(_settingsViewController.windowSize));
+    _params.spectrogram.hopFraction = _settingsViewController.hopFraction;
+    _params.peakWidth = _settingsViewController.peakWidth;
+
+    _topPeaksView.peakWidth = std::max(1.0, _params.peakWidth / _params.spectrogram.baseFrequency());
+    _bottomPeaksView.peakWidth = std::max(1.0, _params.peakWidth / _params.spectrogram.baseFrequency());
+    _topMidiView.peakWidth = std::max(1.0, _params.peakWidth / _params.spectrogram.baseFrequency());
+    _bottomMidiView.peakWidth = std::max(1.0, _params.peakWidth / _params.spectrogram.baseFrequency());
     [self updateWindowView];
 
     _topSpectrogramView.hidden = !_settingsViewController.spectrogramEnabled;
@@ -201,8 +207,8 @@ static const SourceDataType kGainValue = 4.0;
     __weak PeakInspectorViewController* wself = self;
     _settingsViewController.didChangeTimings = ^(NSUInteger windowSize, double hopFraction) {
         PeakInspectorViewController* sself = wself;
-        sself->_params.windowSizeLog2 = std::round(std::log2(windowSize));
-        sself->_params.hopFraction = hopFraction;
+        sself->_params.spectrogram.windowSizeLog2 = std::round(std::log2(windowSize));
+        sself->_params.spectrogram.hopFraction = hopFraction;
         [sself initializeSourceGraph];
         [wself updateWindowView];
         [wself renderReference];
@@ -212,6 +218,17 @@ static const SourceDataType kGainValue = 4.0;
         [wself renderReference];
     };
     _settingsViewController.didChangePeaksMinSlopeBlock = ^(double slope) {
+        [wself initializeSourceGraph];
+        [wself renderReference];
+    };
+    _settingsViewController.didChangePeakWidthBlock = ^(double width) {
+        PeakInspectorViewController* sself = wself;
+        sself->_params.peakWidth = width;
+        wself.topPeaksView.peakWidth = std::max(1.0, _params.peakWidth / _params.spectrogram.baseFrequency());
+        wself.bottomPeaksView.peakWidth = std::max(1.0, _params.peakWidth / _params.spectrogram.baseFrequency());
+        wself.topMidiView.peakWidth = std::max(1.0, _params.peakWidth / _params.spectrogram.baseFrequency());
+        wself.bottomMidiView.peakWidth = std::max(1.0, _params.peakWidth / _params.spectrogram.baseFrequency());
+
         [wself initializeSourceGraph];
         [wself renderReference];
     };
@@ -230,7 +247,7 @@ static const SourceDataType kGainValue = 4.0;
 }
 
 - (void)renderMIDI {
-    const auto sliceSize = _params.sliceSize();
+    const auto sliceSize = _params.spectrogram.sliceSize();
     if (_midiData.capacity() != sliceSize)
         _midiData.reset(sliceSize);
 
@@ -246,22 +263,22 @@ static const SourceDataType kGainValue = 4.0;
         return;
     
     // Audio data
-    auto source = std::make_shared<FixedData<SourceDataType>>(self.fileLoader.audioData.data() + _frameOffset, _params.windowSize());
+    auto source = std::make_shared<FixedData<SourceDataType>>(self.fileLoader.audioData.data() + _frameOffset, _params.spectrogram.windowSize());
     auto adapter = std::make_shared<FixedSourceToSourceAdapterModule<SourceDataType>>();
     auto gain = std::make_shared<Gain<SourceDataType>>(kGainValue);
     source >> adapter >> gain;
 
     // Spectrogram
-    auto windowing = std::make_shared<WindowingModule<SourceDataType>>(_params.windowSize(), _params.hopSize());
+    auto windowing = std::make_shared<WindowingModule<SourceDataType>>(_params.spectrogram.windowSize(), _params.spectrogram.hopSize());
     auto window = std::make_shared<HammingWindow<SourceDataType>>();
-    auto fft = std::make_shared<FFTModule<SourceDataType>>(_params.windowSize());
+    auto fft = std::make_shared<FFTModule<SourceDataType>>(_params.spectrogram.windowSize());
     auto fftSplitter = std::make_shared<Splitter<SourceDataType>>();
     gain >> windowing >> window >> fft >> fftSplitter;
 
     // Peaks
     auto smoothing = std::make_shared<TriangularSmooth<SourceDataType>>(_settingsViewController.smoothWidth);
     auto smoothingSplitter = std::make_shared<Splitter<SourceDataType>>();
-    auto peakExtraction = std::make_shared<PeakExtraction<SourceDataType>>(_params.sliceSize());
+    auto peakExtraction = std::make_shared<PeakExtraction<SourceDataType>>(_params.spectrogram.sliceSize());
     peakExtraction->setMinSlope(_settingsViewController.peaksMinSlope);
     fftSplitter >> smoothing >> smoothingSplitter >> peakExtraction;
     fftSplitter->addNode();
@@ -271,7 +288,7 @@ static const SourceDataType kGainValue = 4.0;
     fftSplitter->addNode();
     smoothingSplitter->addNode();
 
-    const auto sliceSize = _params.sliceSize();
+    const auto sliceSize = _params.spectrogram.sliceSize();
 
     if (_spectrogramData.capacity() != sliceSize)
         _spectrogramData.reset(sliceSize);
@@ -295,7 +312,7 @@ static const SourceDataType kGainValue = 4.0;
 }
 
 - (void)renderSource {
-    const auto sliceSize = _params.sliceSize();
+    const auto sliceSize = _params.spectrogram.sliceSize();
 
     if (_sourceSpectrogramData.capacity() != sliceSize)
         _sourceSpectrogramData.reset(sliceSize);
@@ -368,7 +385,7 @@ static const SourceDataType kGainValue = 4.0;
 }
 
 - (void)updateWindowView {
-    CGFloat windowWidth = (CGFloat)_params.windowSize() / (CGFloat)_waveformView.samplesPerPoint;
+    CGFloat windowWidth = (CGFloat)_params.spectrogram.windowSize() / (CGFloat)_waveformView.samplesPerPoint;
     UIEdgeInsets insets = UIEdgeInsetsZero;
     insets.left = (_windowView.bounds.size.width - windowWidth) / 2;
     insets.right = (_windowView.bounds.size.width - windowWidth) / 2;;
@@ -384,14 +401,14 @@ static const SourceDataType kGainValue = 4.0;
     // Microphone
     _microphone.reset(new MicrophoneModule);
     auto converter = std::make_shared<Converter<MicrophoneModule::DataType, SourceDataType>>();
-    auto buffering = std::make_shared<Buffering<SourceDataType>>(_params.windowSize());
+    auto buffering = std::make_shared<Buffering<SourceDataType>>(_params.spectrogram.windowSize());
     auto gain = std::make_shared<Gain<SourceDataType>>(kGainValue);
     _microphone >> converter >> buffering >> gain >> _audioSplitter;
 
     // Spectrogram
-    auto windowing = std::make_shared<WindowingModule<SourceDataType>>(_params.windowSize(), _params.hopSize());
+    auto windowing = std::make_shared<WindowingModule<SourceDataType>>(_params.spectrogram.windowSize(), _params.spectrogram.hopSize());
     auto window = std::make_shared<HammingWindow<SourceDataType>>();
-    auto fft = std::make_shared<FFTModule<SourceDataType>>(_params.windowSize());
+    auto fft = std::make_shared<FFTModule<SourceDataType>>(_params.spectrogram.windowSize());
     auto fftSplitter = std::make_shared<Splitter<SourceDataType>>();
     _audioSplitter >> windowing >> window >> fft >> fftSplitter;
     _audioSplitter->addNode();
@@ -399,7 +416,7 @@ static const SourceDataType kGainValue = 4.0;
     // Peaks
     auto smoothing = std::make_shared<TriangularSmooth<SourceDataType>>(_settingsViewController.smoothWidth);
     _smoothingSplitter.reset(new Splitter<SourceDataType>());
-    auto peakExtraction = std::make_shared<PeakExtraction<SourceDataType>>(_params.sliceSize());
+    auto peakExtraction = std::make_shared<PeakExtraction<SourceDataType>>(_params.spectrogram.sliceSize());
     peakExtraction->setMinSlope(_settingsViewController.peaksMinSlope);
     _peakPolling.reset(new PollingModule<SourceDataType>());
     fftSplitter >> smoothing >> _smoothingSplitter >> peakExtraction >> _peakPolling;
@@ -413,9 +430,7 @@ static const SourceDataType kGainValue = 4.0;
 
     // Set up note tracker
     _noteTracker.reset(new NoteTracker);
-    auto noteTrackerParams = _noteTracker->parameters();
-    noteTrackerParams.spectrogram = _params;
-    _noteTracker->setParameters(noteTrackerParams);
+    _noteTracker->setParameters(_params);
     _noteTracker->setSource(_audioSplitter);
     _audioSplitter->addNode();
     if (self.fileLoader) {

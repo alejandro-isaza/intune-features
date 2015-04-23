@@ -10,6 +10,8 @@
                 <outlet property="groundTextField" destination="Q7f-6V-b8Y" id="ZeZ-a1-2iu"/>
                 <outlet property="hopSlider" destination="16r-3g-uf3" id="Hjz-3v-77D"/>
                 <outlet property="hopTextField" destination="YjK-1E-sra" id="cqQ-1K-jBf"/>
+                <outlet property="peakWidthSlider" destination="Zh4-SD-7Rp" id="hk2-IQ-Q1D"/>
+                <outlet property="peakWidthTextField" destination="dvn-pB-QE0" id="UFr-Iu-dT2"/>
                 <outlet property="peaksMinSlopeSlider" destination="vld-bo-kB5" id="ciL-nN-fr9"/>
                 <outlet property="peaksMinSlopeTextField" destination="O7B-fP-RPK" id="vpH-vc-6p7"/>
                 <outlet property="peaksSwitch" destination="XYl-TS-eHn" id="i48-Nm-GRy"/>
@@ -24,14 +26,14 @@
         </placeholder>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
         <view contentMode="scaleToFill" id="iN0-l3-epB">
-            <rect key="frame" x="0.0" y="0.0" width="600" height="554"/>
+            <rect key="frame" x="0.0" y="0.0" width="600" height="520"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Umv-jI-iLM" userLabel="Window View">
-                    <rect key="frame" x="0.0" y="0.0" width="600" height="96"/>
+                    <rect key="frame" x="0.0" y="0.0" width="600" height="74"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Window Length" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Vsj-7z-z3Y">
-                            <rect key="frame" x="0.0" y="37" width="130" height="21"/>
+                            <rect key="frame" x="0.0" y="27" width="130" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="130" id="AZ8-zD-zJU"/>
                             </constraints>
@@ -40,7 +42,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="15" minValue="10" maxValue="15" translatesAutoresizingMaskIntoConstraints="NO" id="4Mp-Yo-Otm">
-                            <rect key="frame" x="138" y="33" width="329" height="31"/>
+                            <rect key="frame" x="138" y="22" width="329" height="31"/>
                             <color key="minimumTrackTintColor" red="1" green="0.36862745099999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="didChangeWindow" destination="-1" eventType="touchUpInside" id="1Yw-en-am8"/>
@@ -49,7 +51,7 @@
                             </connections>
                         </slider>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="50ms" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="PSx-35-PBV">
-                            <rect key="frame" x="475" y="33" width="120" height="30"/>
+                            <rect key="frame" x="475" y="22" width="120" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="120" id="l8M-Cr-cLX"/>
                             </constraints>
@@ -69,10 +71,10 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZOs-BO-cVQ" userLabel="Hop View">
-                    <rect key="frame" x="0.0" y="96" width="600" height="95"/>
+                    <rect key="frame" x="0.0" y="74" width="600" height="74"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Hop Length" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="uxW-Yg-3c6">
-                            <rect key="frame" x="0.0" y="37" width="130" height="21"/>
+                            <rect key="frame" x="0.0" y="27" width="130" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="130" id="DFs-GP-WO0"/>
                             </constraints>
@@ -81,7 +83,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="1" minValue="0.0" maxValue="1" translatesAutoresizingMaskIntoConstraints="NO" id="16r-3g-uf3">
-                            <rect key="frame" x="138" y="32" width="329" height="31"/>
+                            <rect key="frame" x="138" y="22" width="329" height="31"/>
                             <color key="minimumTrackTintColor" red="1" green="0.36862745099999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="didChangeHop" destination="-1" eventType="touchUpOutside" id="1lC-9R-F0y"/>
@@ -90,7 +92,7 @@
                             </connections>
                         </slider>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="25ms" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="YjK-1E-sra">
-                            <rect key="frame" x="475" y="32" width="120" height="30"/>
+                            <rect key="frame" x="475" y="22" width="120" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="120" id="8an-pI-2BS"/>
                             </constraints>
@@ -110,10 +112,10 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="iHJ-ui-ZdX" userLabel="Ground View">
-                    <rect key="frame" x="0.0" y="191" width="600" height="96"/>
+                    <rect key="frame" x="0.0" y="148" width="600" height="74"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="dB Ground level" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="up0-eT-Mnm">
-                            <rect key="frame" x="0.0" y="38" width="130" height="21"/>
+                            <rect key="frame" x="0.0" y="26" width="130" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="130" id="xkh-aM-UKS"/>
                             </constraints>
@@ -122,7 +124,7 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="-100" minValue="-200" maxValue="-10" translatesAutoresizingMaskIntoConstraints="NO" id="6e3-cr-BKv">
-                            <rect key="frame" x="138" y="33" width="329" height="31"/>
+                            <rect key="frame" x="138" y="22" width="329" height="31"/>
                             <color key="minimumTrackTintColor" red="1" green="0.36862745099999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="didChangeGround" destination="-1" eventType="touchUpInside" id="3L2-nr-8mo"/>
@@ -131,7 +133,7 @@
                             </connections>
                         </slider>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="-100dB" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Q7f-6V-b8Y">
-                            <rect key="frame" x="475" y="33" width="120" height="30"/>
+                            <rect key="frame" x="475" y="22" width="120" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="120" id="s9A-kH-5FH"/>
                             </constraints>
@@ -150,11 +152,52 @@
                         <constraint firstAttribute="centerY" secondItem="Q7f-6V-b8Y" secondAttribute="centerY" id="sLv-kL-Q8O"/>
                     </constraints>
                 </view>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rzm-Sk-Rpu">
+                    <rect key="frame" x="0.0" y="222" width="600" height="74"/>
+                    <subviews>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Smooth width" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AuE-Qu-aiU">
+                            <rect key="frame" x="0.0" y="26" width="130" height="21"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="130" id="ShI-Jc-qnG"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="5" minValue="0.0" maxValue="50" translatesAutoresizingMaskIntoConstraints="NO" id="wZ0-jp-qZH">
+                            <rect key="frame" x="138" y="22" width="329" height="31"/>
+                            <color key="minimumTrackTintColor" red="1" green="0.36862745099999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
+                            <connections>
+                                <action selector="didChangeSmoothWidth" destination="-1" eventType="touchUpOutside" id="Wn7-0G-Mou"/>
+                                <action selector="didChangeSmoothWidth" destination="-1" eventType="touchUpInside" id="ZVC-vi-Hhr"/>
+                                <action selector="updateSmoothWidth" destination="-1" eventType="valueChanged" id="T8c-J6-0Nz"/>
+                            </connections>
+                        </slider>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="5fr (50ms)" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jp1-jc-gzU">
+                            <rect key="frame" x="475" y="22" width="120" height="30"/>
+                            <constraints>
+                                <constraint firstAttribute="width" constant="120" id="yk0-YJ-Grs"/>
+                            </constraints>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits"/>
+                        </textField>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <constraints>
+                        <constraint firstItem="Jp1-jc-gzU" firstAttribute="leading" secondItem="wZ0-jp-qZH" secondAttribute="trailing" constant="10" id="Aex-Ud-Ofb"/>
+                        <constraint firstAttribute="centerY" secondItem="wZ0-jp-qZH" secondAttribute="centerY" id="NId-wR-Y1x"/>
+                        <constraint firstItem="AuE-Qu-aiU" firstAttribute="leading" secondItem="Rzm-Sk-Rpu" secondAttribute="leading" id="RiF-yc-fXg"/>
+                        <constraint firstAttribute="centerY" secondItem="Jp1-jc-gzU" secondAttribute="centerY" id="YRc-5u-b33"/>
+                        <constraint firstAttribute="trailing" secondItem="Jp1-jc-gzU" secondAttribute="trailing" constant="5" id="n2d-zs-hOZ"/>
+                        <constraint firstItem="wZ0-jp-qZH" firstAttribute="leading" secondItem="AuE-Qu-aiU" secondAttribute="trailing" constant="10" id="v8l-AL-Fft"/>
+                        <constraint firstAttribute="centerY" secondItem="AuE-Qu-aiU" secondAttribute="centerY" id="zJV-AI-6Nf"/>
+                    </constraints>
+                </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="k5G-Xh-RVM">
-                    <rect key="frame" x="0.0" y="382" width="600" height="96"/>
+                    <rect key="frame" x="0.0" y="296" width="600" height="74"/>
                     <subviews>
                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Peak min slope" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="eKY-d1-E70">
-                            <rect key="frame" x="0.0" y="38" width="130" height="21"/>
+                            <rect key="frame" x="0.0" y="27" width="130" height="21"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="130" id="laR-5f-gHz"/>
                             </constraints>
@@ -163,22 +206,16 @@
                             <nil key="highlightedColor"/>
                         </label>
                         <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="2" minValue="0.0" maxValue="5" translatesAutoresizingMaskIntoConstraints="NO" id="vld-bo-kB5">
-                            <rect key="frame" x="138" y="33" width="329" height="31"/>
+                            <rect key="frame" x="138" y="22" width="329" height="31"/>
                             <color key="minimumTrackTintColor" red="1" green="0.36862745099999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
                                 <action selector="didChangePeaksMinSlope" destination="-1" eventType="touchUpOutside" id="CFm-iW-h9r"/>
                                 <action selector="didChangePeaksMinSlope" destination="-1" eventType="touchUpInside" id="sVg-XP-UfI"/>
-                                <action selector="didChangeSmoothWidth" destination="-1" eventType="touchUpInside" id="gf0-NG-J7N"/>
-                                <action selector="didChangeSmoothWidth" destination="-1" eventType="touchUpOutside" id="uOA-iZ-vCc"/>
-                                <action selector="didChangeWindow" destination="-1" eventType="touchUpOutside" id="DNu-Rh-qu9"/>
-                                <action selector="didChangeWindow" destination="-1" eventType="touchUpInside" id="yIg-pQ-qYX"/>
                                 <action selector="updatePeaksMinSlope" destination="-1" eventType="valueChanged" id="WtT-aU-6HQ"/>
-                                <action selector="updateSmoothWidth" destination="-1" eventType="valueChanged" id="tEu-q5-mKn"/>
-                                <action selector="updateWindow" destination="-1" eventType="valueChanged" id="XIx-wP-ppm"/>
                             </connections>
                         </slider>
                         <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="2" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="O7B-fP-RPK">
-                            <rect key="frame" x="475" y="33" width="120" height="30"/>
+                            <rect key="frame" x="475" y="22" width="120" height="30"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="120" id="Hw3-2X-HXX"/>
                             </constraints>
@@ -198,7 +235,7 @@
                     </constraints>
                 </view>
                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="dRe-NY-cnZ">
-                    <rect key="frame" x="0.0" y="478" width="600" height="76"/>
+                    <rect key="frame" x="0.0" y="444" width="600" height="76"/>
                     <subviews>
                         <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Dgx-Vm-E4o">
                             <rect key="frame" x="80" y="37" width="51" height="31"/>
@@ -262,34 +299,31 @@
                         <constraint firstItem="Q0I-RF-sY3" firstAttribute="centerX" secondItem="Dgx-Vm-E4o" secondAttribute="centerX" id="xUF-B7-cML"/>
                     </constraints>
                 </view>
-                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Rzm-Sk-Rpu">
-                    <rect key="frame" x="0.0" y="287" width="600" height="95"/>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rNn-o8-iJT">
+                    <rect key="frame" x="0.0" y="370" width="600" height="74"/>
                     <subviews>
-                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Smooth width" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="AuE-Qu-aiU">
-                            <rect key="frame" x="0.0" y="37" width="130" height="21"/>
+                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Peak Width" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ans-it-EPK">
+                            <rect key="frame" x="0.0" y="26" width="130" height="21"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="130" id="ShI-Jc-qnG"/>
+                                <constraint firstAttribute="width" constant="130" id="vFN-3n-caN"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
                             <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                             <nil key="highlightedColor"/>
                         </label>
-                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="5" minValue="0.0" maxValue="50" translatesAutoresizingMaskIntoConstraints="NO" id="wZ0-jp-qZH">
-                            <rect key="frame" x="138" y="33" width="329" height="31"/>
+                        <slider opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" value="2" minValue="0.0" maxValue="100" translatesAutoresizingMaskIntoConstraints="NO" id="Zh4-SD-7Rp">
+                            <rect key="frame" x="138" y="22" width="329" height="31"/>
                             <color key="minimumTrackTintColor" red="1" green="0.36862745099999999" blue="0.22352941179999999" alpha="1" colorSpace="calibratedRGB"/>
                             <connections>
-                                <action selector="didChangeSmoothWidth" destination="-1" eventType="touchUpOutside" id="Wn7-0G-Mou"/>
-                                <action selector="didChangeSmoothWidth" destination="-1" eventType="touchUpInside" id="ZVC-vi-Hhr"/>
-                                <action selector="didChangeWindow" destination="-1" eventType="touchUpOutside" id="1Dw-8M-Ngg"/>
-                                <action selector="didChangeWindow" destination="-1" eventType="touchUpInside" id="bIO-i4-kgq"/>
-                                <action selector="updateSmoothWidth" destination="-1" eventType="valueChanged" id="T8c-J6-0Nz"/>
-                                <action selector="updateWindow" destination="-1" eventType="valueChanged" id="LMg-Ca-UEO"/>
+                                <action selector="didChangePeakWidth" destination="-1" eventType="touchUpInside" id="M36-ZG-Y0t"/>
+                                <action selector="didChangePeakWidth" destination="-1" eventType="touchUpOutside" id="z3j-NY-xTu"/>
+                                <action selector="updatePeakWidth" destination="-1" eventType="valueChanged" id="UNO-gb-HIl"/>
                             </connections>
                         </slider>
-                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="5fr (50ms)" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Jp1-jc-gzU">
-                            <rect key="frame" x="475" y="33" width="120" height="30"/>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="2 Hz" borderStyle="roundedRect" textAlignment="center" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dvn-pB-QE0">
+                            <rect key="frame" x="475" y="22" width="120" height="30"/>
                             <constraints>
-                                <constraint firstAttribute="width" constant="120" id="yk0-YJ-Grs"/>
+                                <constraint firstAttribute="width" constant="120" id="auB-wn-yPZ"/>
                             </constraints>
                             <fontDescription key="fontDescription" type="system" pointSize="14"/>
                             <textInputTraits key="textInputTraits"/>
@@ -297,13 +331,13 @@
                     </subviews>
                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                     <constraints>
-                        <constraint firstItem="Jp1-jc-gzU" firstAttribute="leading" secondItem="wZ0-jp-qZH" secondAttribute="trailing" constant="10" id="Aex-Ud-Ofb"/>
-                        <constraint firstAttribute="centerY" secondItem="wZ0-jp-qZH" secondAttribute="centerY" id="NId-wR-Y1x"/>
-                        <constraint firstItem="AuE-Qu-aiU" firstAttribute="leading" secondItem="Rzm-Sk-Rpu" secondAttribute="leading" id="RiF-yc-fXg"/>
-                        <constraint firstAttribute="centerY" secondItem="Jp1-jc-gzU" secondAttribute="centerY" id="YRc-5u-b33"/>
-                        <constraint firstAttribute="trailing" secondItem="Jp1-jc-gzU" secondAttribute="trailing" constant="5" id="n2d-zs-hOZ"/>
-                        <constraint firstItem="wZ0-jp-qZH" firstAttribute="leading" secondItem="AuE-Qu-aiU" secondAttribute="trailing" constant="10" id="v8l-AL-Fft"/>
-                        <constraint firstAttribute="centerY" secondItem="AuE-Qu-aiU" secondAttribute="centerY" id="zJV-AI-6Nf"/>
+                        <constraint firstAttribute="trailing" secondItem="dvn-pB-QE0" secondAttribute="trailing" constant="5" id="0oI-FI-PVs"/>
+                        <constraint firstAttribute="centerY" secondItem="dvn-pB-QE0" secondAttribute="centerY" id="C0l-qN-8OR"/>
+                        <constraint firstAttribute="centerY" secondItem="ans-it-EPK" secondAttribute="centerY" id="bu6-HD-JwE"/>
+                        <constraint firstItem="ans-it-EPK" firstAttribute="leading" secondItem="rNn-o8-iJT" secondAttribute="leading" id="kZH-pj-K60"/>
+                        <constraint firstItem="dvn-pB-QE0" firstAttribute="leading" secondItem="Zh4-SD-7Rp" secondAttribute="trailing" constant="10" id="o70-X2-B5z"/>
+                        <constraint firstItem="Zh4-SD-7Rp" firstAttribute="leading" secondItem="ans-it-EPK" secondAttribute="trailing" constant="10" id="sdW-xf-Qy7"/>
+                        <constraint firstAttribute="centerY" secondItem="Zh4-SD-7Rp" secondAttribute="centerY" id="yMh-ac-Dtu"/>
                     </constraints>
                 </view>
             </subviews>
@@ -322,19 +356,23 @@
                 <constraint firstAttribute="trailing" secondItem="Rzm-Sk-Rpu" secondAttribute="trailing" id="QW0-3h-zrv"/>
                 <constraint firstItem="k5G-Xh-RVM" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="SNm-1t-uoj"/>
                 <constraint firstItem="ZOs-BO-cVQ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="TVo-FK-58s"/>
-                <constraint firstItem="dRe-NY-cnZ" firstAttribute="top" secondItem="k5G-Xh-RVM" secondAttribute="bottom" id="WZS-Zm-zbW"/>
+                <constraint firstItem="rNn-o8-iJT" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="U1g-AP-ojB"/>
+                <constraint firstAttribute="trailing" secondItem="rNn-o8-iJT" secondAttribute="trailing" id="VBp-D0-H1M"/>
+                <constraint firstItem="rNn-o8-iJT" firstAttribute="height" secondItem="k5G-Xh-RVM" secondAttribute="height" id="Vhd-Or-6lx"/>
                 <constraint firstAttribute="trailing" secondItem="ZOs-BO-cVQ" secondAttribute="trailing" id="XkF-Hs-Muu"/>
                 <constraint firstItem="Rzm-Sk-Rpu" firstAttribute="top" secondItem="iHJ-ui-ZdX" secondAttribute="bottom" id="bwe-va-SQK"/>
                 <constraint firstItem="dRe-NY-cnZ" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="fc2-QC-Jo5"/>
                 <constraint firstItem="Rzm-Sk-Rpu" firstAttribute="height" secondItem="iHJ-ui-ZdX" secondAttribute="height" id="hFr-y3-Rpk"/>
                 <constraint firstAttribute="trailing" secondItem="Umv-jI-iLM" secondAttribute="trailing" id="iCO-Kk-pl6"/>
                 <constraint firstItem="k5G-Xh-RVM" firstAttribute="top" secondItem="Rzm-Sk-Rpu" secondAttribute="bottom" id="j9a-0b-hQt"/>
+                <constraint firstItem="dRe-NY-cnZ" firstAttribute="top" secondItem="rNn-o8-iJT" secondAttribute="bottom" id="nA9-SO-PLw"/>
                 <constraint firstAttribute="bottom" secondItem="dRe-NY-cnZ" secondAttribute="bottom" id="qPE-X8-3QM"/>
                 <constraint firstItem="Umv-jI-iLM" firstAttribute="height" secondItem="ZOs-BO-cVQ" secondAttribute="height" id="rDV-OV-Ad5"/>
+                <constraint firstItem="rNn-o8-iJT" firstAttribute="top" secondItem="k5G-Xh-RVM" secondAttribute="bottom" id="sEh-iA-dx2"/>
                 <constraint firstItem="Umv-jI-iLM" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="wsr-St-2j7"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <point key="canvasLocation" x="567" y="400"/>
+            <point key="canvasLocation" x="567" y="383"/>
         </view>
     </objects>
 </document>
