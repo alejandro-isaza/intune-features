@@ -2,10 +2,13 @@
 
 #import "VMFilePickerController.h"
 
+static NSString* const kRootPath = @"Audio";
+
 @interface VMFilePickerController () <UITableViewDataSource, UITableViewDelegate>
 
 @property(nonatomic, strong) NSMutableArray* filesArray;
 @property(nonatomic, strong) UITableView* tableView;
+@property(nonatomic, strong) NSString* filesPath;
 
 @end
 
@@ -17,6 +20,7 @@
         return self;
 
     _filesArray = [NSMutableArray array];
+    _filesPath = kRootPath;
 
     _tableView = [[UITableView alloc] initWithFrame:CGRectZero];
     _tableView.translatesAutoresizingMaskIntoConstraints = NO;
@@ -33,15 +37,19 @@
 }
 
 - (void)loadDataSource {
-    NSString* bundlePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Audio"];
+    [_filesArray removeAllObjects];
+
+    NSString* bundlePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:_filesPath];
     NSArray* bundleFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:bundlePath error:nil];
     for (NSString *file in bundleFiles)
         [_filesArray addObject:@{@"file": [bundlePath stringByAppendingPathComponent:file], @"filename": file}];
 
-    NSString* documentsPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
-    NSArray* documentsFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsPath error:nil];
-    for (NSString *file in documentsFiles)
-        [_filesArray addObject:@{@"file": [documentsPath stringByAppendingPathComponent:file], @"filename": file}];
+    if (![self isShowingBack]) {
+        NSString* documentsPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
+        NSArray* documentsFiles = [[NSFileManager defaultManager] contentsOfDirectoryAtPath:documentsPath error:nil];
+        for (NSString *file in documentsFiles)
+            [_filesArray addObject:@{@"file": [documentsPath stringByAppendingPathComponent:file], @"filename": file}];
+    }
 
     [_tableView reloadData];
 }
@@ -59,9 +67,9 @@
 + (NSString*)annotationsForFilePath:(NSString*)path {
     NSString* audioBundlePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Audio"];
     if ([path hasPrefix:audioBundlePath]) {
-        NSString* annotationsBundlePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Annotations"];
-        NSString* fileName = [[[path lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"json"];
-        return [annotationsBundlePath stringByAppendingPathComponent:fileName];
+        path = [path stringByReplacingOccurrencesOfString:@"Audio" withString:@"Annotations"];
+        path = [path stringByReplacingOccurrencesOfString:@".caf" withString:@".json"];
+        return path;
     }
 
     NSString* documentsPath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES)[0];
@@ -73,18 +81,35 @@
     return nil;
 }
 
+- (BOOL)isFolder:(NSString*)path {
+    return [[path pathExtension] isEqual:@""];
+}
+
+- (NSInteger)indexForRow:(NSInteger)row {
+    return [_filesPath isEqual:kRootPath] ? row : row - 1;
+}
+
+- (BOOL)isShowingBack {
+    return [_filesPath isEqual:kRootPath] == NO;
+}
+
 
 #pragma mark - UITableViewDataSource
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
-    return _filesArray.count;
+    NSInteger additionalRows = [self isShowingBack] ? 1 : 0;
+    return _filesArray.count + additionalRows;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     UITableViewCell *cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleValue1 reuseIdentifier:@"fileCell"];
 
-    NSDictionary *fileDictionary = [_filesArray objectAtIndex:indexPath.row];
-    cell.textLabel.text = fileDictionary[@"filename"];
+    if (indexPath.row == 0 && [self isShowingBack]) {
+        cell.textLabel.text = @"Back";
+    } else {
+        NSDictionary *fileDictionary = [_filesArray objectAtIndex:[self indexForRow:indexPath.row]];
+        cell.textLabel.text = fileDictionary[@"filename"];
+    }
 
     return cell;
 }
@@ -93,10 +118,24 @@
 #pragma mark - UITableViewDelegate
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    NSDictionary *fileDictionary = [_filesArray objectAtIndex:indexPath.row];
+    // Back tapped
+    if (indexPath.row == 0 && [self isShowingBack]) {
+        _filesPath = [_filesPath stringByDeletingLastPathComponent];
+        [self loadDataSource];
+        return;
+    }
+
+    // Folder tapped
+    NSDictionary *fileDictionary = [_filesArray objectAtIndex:[self indexForRow:indexPath.row]];
+    if ([self isFolder:fileDictionary[@"file"]]) {
+        _filesPath = [_filesPath stringByAppendingPathComponent:fileDictionary[@"filename"]];
+        [self loadDataSource];
+        return;
+    }
+
+    // File tapped
     if (_selectionBlock)
         _selectionBlock(fileDictionary[@"file"], fileDictionary[@"filename"]);
-
     [self dismissViewControllerAnimated:YES completion:nil];
 }
 
