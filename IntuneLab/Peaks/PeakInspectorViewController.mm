@@ -355,11 +355,6 @@ static const SourceDataType kGainValue = 4.0;
 }
 
 - (IBAction)openSettings:(UIButton*)sender {
-    _microphone->stop();
-
-    // Sleep to allow _microphone->onDataAvailable() to return
-    usleep(1000);
-
     _settingsViewController.preferredContentSize = CGSizeMake(600, 290);
     [self presentViewController:_settingsViewController animated:YES completion:nil];
 
@@ -456,7 +451,7 @@ static const SourceDataType kGainValue = 4.0;
 
 #pragma mark - UIScrollViewDelegate
 
-- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+- (void)scrollViewDidScroll:(UIScrollView*)scrollView {
     if (!self.fileLoader)
         return;
 
@@ -467,7 +462,7 @@ static const SourceDataType kGainValue = 4.0;
 
 #pragma mark - Gesture Recognizers
 
-- (IBAction)pinchRecognizer:(UIPinchGestureRecognizer *)recognizer {
+- (IBAction)pinchRecognizer:(UIPinchGestureRecognizer*)recognizer {
     CGFloat scale = recognizer.scale;
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         _previousScale = scale;
@@ -487,7 +482,7 @@ static const SourceDataType kGainValue = 4.0;
     }
 }
 
-- (IBAction)panRecognizer:(UIPanGestureRecognizer *)recognizer {
+- (IBAction)panRecognizer:(UIPanGestureRecognizer*)recognizer {
     CGPoint point = [recognizer translationInView:self.view];
     if (recognizer.state == UIGestureRecognizerStateBegan) {
         _previousPoint = point;
@@ -505,6 +500,13 @@ static const SourceDataType kGainValue = 4.0;
         for (VMFrequencyView* frequencyView in _frequencyViews)
             frequencyView.contentOffset = offset;
     }
+}
+
+- (IBAction)tapRecognizer:(UITapGestureRecognizer*)recognizer {
+    if (_microphone->isRunning())
+        _microphone->stop();
+    else
+        _microphone->start();
 }
 
 @end

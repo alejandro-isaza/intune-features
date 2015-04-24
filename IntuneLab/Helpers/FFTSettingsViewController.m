@@ -84,12 +84,6 @@ static NSString* const kPeaksEnabledKey = @"PeaksEnabled";
     _peakWidthTextField.text = [NSString stringWithFormat:@"%f Hz", _peakWidth];
 }
 
-- (void)viewWillDisappear:(BOOL)animated {
-    [super viewWillDisappear:animated];
-    if (_didChangeTimings)
-        _didChangeTimings(_windowSize, _hopFraction);
-}
-
 - (void)loadPreferences {
     NSUserDefaults* defaults = [NSUserDefaults standardUserDefaults];
 
