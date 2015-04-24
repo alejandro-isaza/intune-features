@@ -2,9 +2,8 @@
 
 require 'nokogiri'
 
-def step_has_sharp(step)
-  sharps = ["C", "D", "F", "G", "A"]
-  return sharps.include?(step)
+def midi_value(octave, note)
+  return 12 + (octave * 12) + note
 end
 
 ARGV.each do |file|
@@ -16,19 +15,15 @@ ARGV.each do |file|
   doc_octave  = doc.at_xpath("/score-partwise/part/measure/note/pitch/octave")
   doc_alter   = doc.at_xpath("/score-partwise/part/measure/note/pitch/alter")
 
-  steps = ["C", "D", "E", "F", "G", "A", "B"]
+  notes = ["C", "C#", "D", "D#", "E", "F", "F#", "G", "G#", "A", "A#", "B"]
   for octave in 1..7
-    for step in steps
+    notes.each_with_index do |note, note_index|
       doc_octave.content = octave
-      doc_step.content = step
-      doc_alter.content = "0"
-      File.open("out/#{step}#{octave}.xml", "w") { |f| f.print(doc.to_xml) }
-
-      if step_has_sharp(step)
-        doc_alter.content = "1"
-        File.open("out/#{step}#{octave}#.xml", "w") { |f| f.print(doc.to_xml) }
-      end
+      doc_step.content = note[0]
+      doc_alter.content = note.length == 1 ? "0" : "1"
+      midi_value = midi_value(octave, note_index)
+      note_str = note.dup.insert(1, octave.to_s)
+      File.open("out/#{midi_value} - #{note_str}.xml", "w") { |f| f.print(doc.to_xml) }
     end
   end
-
 end
