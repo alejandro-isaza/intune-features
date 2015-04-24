@@ -51,6 +51,10 @@ static NSString* const kRootPath = @"Audio";
             [_filesArray addObject:@{@"file": [documentsPath stringByAppendingPathComponent:file], @"filename": file}];
     }
 
+    [_filesArray sortWithOptions:0 usingComparator:^NSComparisonResult(NSDictionary* obj1, NSDictionary* obj2) {
+        return [obj1[@"filename"] compare:obj2[@"filename"] options:NSNumericSearch];
+    }];
+
     [_tableView reloadData];
 }
 
