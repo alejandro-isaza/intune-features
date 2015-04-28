@@ -16,6 +16,7 @@
 #include <tempo/modules/Gain.h>
 #include <tempo/modules/Splitter.h>
 #include <tempo/modules/MicrophoneModule.h>
+#include <tempo/modules/windows/HammingWindow.h>
 
 using namespace tempo;
 using ReferenceDataType = VMFileLoaderDataType;
@@ -83,7 +84,7 @@ static const SourceDataType kGainValue = 4.0;
 - (void)viewDidLoad {
     [super viewDidLoad];
 
-    _frequencyZoom = 1.0;
+    _frequencyZoom = 0.25;
 
     __weak PeakInspectorViewController *wself = self;
     _midiPicker = [[VMMidiPickerController alloc] init];
@@ -278,8 +279,7 @@ static const SourceDataType kGainValue = 4.0;
     // Peaks
     auto smoothing = std::make_shared<TriangularSmooth<SourceDataType>>(_settingsViewController.smoothWidth);
     auto smoothingSplitter = std::make_shared<Splitter<SourceDataType>>();
-    auto peakExtraction = std::make_shared<PeakExtraction<SourceDataType>>(_params.spectrogram.sliceSize());
-    peakExtraction->setMinSlope(_settingsViewController.peaksMinSlope);
+    auto peakExtraction = std::make_shared<PeakExtraction<SourceDataType>>(_params.spectrogram.sliceSize(), _settingsViewController.peaksMinSlope);
     fftSplitter >> smoothing >> smoothingSplitter >> peakExtraction;
     fftSplitter->addNode();
     smoothingSplitter->addNode();
@@ -411,8 +411,7 @@ static const SourceDataType kGainValue = 4.0;
     // Peaks
     auto smoothing = std::make_shared<TriangularSmooth<SourceDataType>>(_settingsViewController.smoothWidth);
     _smoothingSplitter.reset(new Splitter<SourceDataType>());
-    auto peakExtraction = std::make_shared<PeakExtraction<SourceDataType>>(_params.spectrogram.sliceSize());
-    peakExtraction->setMinSlope(_settingsViewController.peaksMinSlope);
+    auto peakExtraction = std::make_shared<PeakExtraction<SourceDataType>>(_params.spectrogram.sliceSize(), _settingsViewController.peaksMinSlope);
     _peakPolling.reset(new PollingModule<SourceDataType>());
     fftSplitter >> smoothing >> _smoothingSplitter >> peakExtraction >> _peakPolling;
     fftSplitter->addNode();

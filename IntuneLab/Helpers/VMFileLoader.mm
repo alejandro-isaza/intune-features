@@ -2,7 +2,7 @@
 
 #import "VMFileLoader.h"
 
-#include <tempo/modules/Converter.h>
+#include <tempo/modules/FixedConverter.h>
 #include <tempo/modules/FixedData.h>
 #include <tempo/modules/Normalize.h>
 #include <tempo/modules/PeakExtraction.h>
@@ -15,6 +15,7 @@ using namespace tempo;
 using DataType = VMFileLoaderDataType;
 
 static const SizeType kMaxDataSize = 128*1024*1024;
+static const DataType kPeakMinSlope = 2.0;
 
 
 @interface VMFileLoader ()
@@ -84,24 +85,14 @@ static const SizeType kMaxDataSize = 128*1024*1024;
 }
 
 - (void)_loadAudioData:(VMFileLoaderLoadedBlock)completion {
-    auto fileModule = std::make_shared<ReadFromFileModule>(self.filePath.UTF8String);
-    const auto fileLength = fileModule->size();
+    std::shared_ptr<FixedSourceModule<DataType>> source;
+    auto reader = std::make_shared<ReadFromFileModule>(self.filePath.UTF8String);
+    source = std::make_shared<FixedConverter<ReadFromFileModule::DataType, DataType>>(reader);
+    if (self.normalize)
+        source = std::make_shared<Normalize<DataType>>(source);
 
-    auto adapter = std::make_shared<FixedSourceToSourceAdapterModule<ReadFromFileModule::DataType>>();
-    adapter->setSource(fileModule);
-
-    auto converter = std::make_shared<Converter<ReadFromFileModule::DataType, DataType>>();
-    converter->setSource(adapter);
-
-    _audioData.reset(fileLength);
-
-    if (self.normalize) {
-        auto normalize = std::make_shared<Normalize<DataType>>();
-        normalize->setSource(converter);
-        normalize->render(_audioData);
-    } else {
-        converter->render(_audioData);
-    }
+    _audioData.reset(reader->size());
+    source->render(_audioData);
     
     dispatch_sync(dispatch_get_main_queue(), ^() {
         if (completion)
@@ -159,7 +150,7 @@ static const SizeType kMaxDataSize = 128*1024*1024;
     auto window = std::make_shared<WindowingModule<DataType>>(_windowSize/2, _windowSize/2);
     window->setSource(adapter);
 
-    auto peakExtraction = std::make_shared<PeakExtraction<DataType>>(_windowSize/2);
+    auto peakExtraction = std::make_shared<PeakExtraction<DataType>>(_windowSize/2, kPeakMinSlope);
     peakExtraction->setSource(window);
 
     auto peakPolling = std::make_shared<PollingModule<DataType>>();

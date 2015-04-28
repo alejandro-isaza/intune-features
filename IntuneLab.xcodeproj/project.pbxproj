@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		003E62571AE9653600BC5C26 /* VMMidiPickerController.m in Sources */ = {isa = PBXBuildFile; fileRef = 003E62561AE9653600BC5C26 /* VMMidiPickerController.m */; };
+		007507111AF0086B0081743A /* FixedSpectrogram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0075070F1AF0086B0081743A /* FixedSpectrogram.cpp */; };
 		008685651AB10B4B00F415A2 /* VMPianoRollViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008685631AB10B4B00F415A2 /* VMPianoRollViewController.swift */; };
 		008685681AB10B8A00F415A2 /* VMWaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 008685671AB10B8A00F415A2 /* VMWaveformView.swift */; };
 		0086856C1AB10C1400F415A2 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6171BD521A16BCC4004AB274 /* Images.xcassets */; };
@@ -253,6 +254,9 @@
 		003E62551AE9653600BC5C26 /* VMMidiPickerController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMMidiPickerController.h; sourceTree = "<group>"; };
 		003E62561AE9653600BC5C26 /* VMMidiPickerController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMMidiPickerController.m; sourceTree = "<group>"; };
 		006518FF1AC2079700E0ADB9 /* Difference.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Difference.h; sourceTree = "<group>"; };
+		0075070E1AF005820081743A /* FixedConverter.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FixedConverter.h; sourceTree = "<group>"; };
+		0075070F1AF0086B0081743A /* FixedSpectrogram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = FixedSpectrogram.cpp; sourceTree = "<group>"; };
+		007507101AF0086B0081743A /* FixedSpectrogram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FixedSpectrogram.h; sourceTree = "<group>"; };
 		008685631AB10B4B00F415A2 /* VMPianoRollViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMPianoRollViewController.swift; sourceTree = "<group>"; };
 		008685671AB10B8A00F415A2 /* VMWaveformView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMWaveformView.swift; sourceTree = "<group>"; };
 		008685691AB10BC400F415A2 /* VMPianoRollViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = VMPianoRollViewController.xib; sourceTree = "<group>"; };
@@ -1327,6 +1331,8 @@
 				618EB9B61AE5CE3A00E51A9E /* ClosestPeaks.h */,
 				617DC6AA1AC4D9660019E841 /* ClosestSpectrogramDistance.cpp */,
 				617DC6AB1AC4D9660019E841 /* ClosestSpectrogramDistance.h */,
+				0075070F1AF0086B0081743A /* FixedSpectrogram.cpp */,
+				007507101AF0086B0081743A /* FixedSpectrogram.h */,
 				617DC6AC1AC4D9660019E841 /* NoiseCancellingSpectrogram.cpp */,
 				617DC6AD1AC4D9660019E841 /* NoiseCancellingSpectrogram.h */,
 				618EB9B71AE5CE3A00E51A9E /* NoteTracker.cpp */,
@@ -1369,6 +1375,7 @@
 				61A81D661AB0E63C00E230A6 /* EnergyModule.h */,
 				61A81D681AB0E63C00E230A6 /* FFTModule.h */,
 				6157FC9E1ABB5568008C0D0D /* FFTModule.hpp */,
+				0075070E1AF005820081743A /* FixedConverter.h */,
 				6157FC951ABA4CD7008C0D0D /* FixedData.h */,
 				619CB0071AE874F800062BDD /* Gain.h */,
 				61A81D691AB0E63C00E230A6 /* MeanModule.cpp */,
@@ -1759,6 +1766,7 @@
 				61A81D741AB0E63C00E230A6 /* EnergyModule.cpp in Sources */,
 				618EB9B91AE5CE3A00E51A9E /* ClosestPeaks.cpp in Sources */,
 				61A81D781AB0E63C00E230A6 /* RMSModule.cpp in Sources */,
+				007507111AF0086B0081743A /* FixedSpectrogram.cpp in Sources */,
 				61A81D711AB0E63C00E230A6 /* FloatConverter.cpp in Sources */,
 				618EB9BA1AE5CE3A00E51A9E /* NoteTracker.cpp in Sources */,
 				617DC66C1AC33CE30019E841 /* Spectrogram.cpp in Sources */,
