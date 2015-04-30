@@ -4,6 +4,7 @@
 
 #include <tempo/AnnotationsSerialization.h>
 #include <fstream>
+#include "Utilities.h"
 
 using namespace tempo;
 
@@ -38,11 +39,17 @@ void MIDIAnnotationGenerator::buildAnnotationEvents() {
         annotation.setDivisionCount(static_cast<float>(_scoreProperties->divisionsPerMeasure(event.measureIndex())));
 
         for (auto& offNote : event.offNotes()) {
+            if (!util::isValidNote(*offNote))
+                continue;
+
             auto midiNumber = offNote->midiNumber();
             if (midiNumber != 0)
                 noteOnTimes.erase(midiNumber);
         }
         for (auto& onNote : event.onNotes()) {
+            if (!util::isValidNote(*onNote))
+                continue;
+
             auto midiNumber = onNote->midiNumber();
             if (midiNumber != 0)
                 noteOnTimes[midiNumber] = timeStamp;

@@ -171,6 +171,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		003175C61AF1AF3B00AD30E8 /* Utilities.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Utilities.h; sourceTree = "<group>"; };
 		006ADC6F1AB77EC4008C3305 /* mxml_to_midi */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = mxml_to_midi; sourceTree = BUILT_PRODUCTS_DIR; };
 		006ADC721AB77EC4008C3305 /* main.cpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.cpp; path = main.cpp; sourceTree = "<group>"; };
 		006ADE461AB77F32008C3305 /* libxml2.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libxml2.dylib; path = usr/lib/libxml2.dylib; sourceTree = SDKROOT; };
@@ -598,6 +599,7 @@
 				006ADE4C1AB77F5B008C3305 /* MusicSequenceGenerator.h */,
 				00BB590D1AC096460066406A /* MIDIAnnotationGenerator.cpp */,
 				00BB590E1AC096460066406A /* MIDIAnnotationGenerator.h */,
+				003175C61AF1AF3B00AD30E8 /* Utilities.h */,
 			);
 			path = mxml_to_midi;
 			sourceTree = "<group>";

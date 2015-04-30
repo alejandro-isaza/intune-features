@@ -2,6 +2,8 @@
 
 #include "MusicSequenceGenerator.h"
 
+#include "Utilities.h"
+
 void MusicSequenceGenerator::generate(const mxml::dom::Score& score, const float tempoMultiplier, const std::string& outputFile) {
     MusicSequenceGenerator generator(score, tempoMultiplier, outputFile);
     generator.buildMidiEvents();
@@ -68,14 +70,14 @@ void MusicSequenceGenerator::buildMidiEvents() {
         }
 
         for (auto& offNote : event.offNotes()) {
-            if (offNote->rest)
+            if (!util::isValidNote(*offNote))
                 continue;
 
             auto noteEvent = buildNoteEventFromNote(*offNote, false, currentBeat);
             _noteEvents.push_back(noteEvent);
         }
         for (auto& onNote : event.onNotes()) {
-            if (onNote->rest)
+            if (!util::isValidNote(*onNote))
                 continue;
 
             auto noteEvent = buildNoteEventFromNote(*onNote, true, currentBeat);
