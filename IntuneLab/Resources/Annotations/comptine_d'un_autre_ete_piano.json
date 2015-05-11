@@ -1,1 +1,706 @@
-[{"measure_index":0,"time_stamp":534},{"measure_index":1,"time_stamp":2728},{"measure_index":2,"time_stamp":5120},{"measure_index":3,"time_stamp":7523},{"measure_index":4,"time_stamp":9914},{"measure_index":5,"time_stamp":12341},{"measure_index":6,"time_stamp":14721},{"measure_index":7,"time_stamp":17124},{"measure_index":8,"time_stamp":19516},{"measure_index":9,"time_stamp":21919},{"measure_index":10,"time_stamp":24334},{"measure_index":11,"time_stamp":26726}]
+[
+    {
+        "division": 0,
+        "division_count": 3072,
+        "measure_index": 0,
+        "time_stamp": 548
+    },
+    {
+        "division": 384,
+        "division_count": 3072,
+        "measure_index": 0,
+        "time_stamp": 738
+    },
+    {
+        "division": 768,
+        "division_count": 3072,
+        "measure_index": 0,
+        "time_stamp": 1045
+    },
+    {
+        "division": 1152,
+        "division_count": 3072,
+        "measure_index": 0, 
+        "time_stamp": 1272
+    },
+    {
+        "division": 1536,
+        "division_count": 3072,
+        "measure_index": 0,
+        "time_stamp": 1585
+    },
+    {
+        "division": 1920,
+        "division_count": 3072,
+        "measure_index": 0,
+        "time_stamp": 1890
+    },
+    {
+        "division": 2304,
+        "division_count": 3072,
+        "measure_index": 0,
+        "time_stamp": 2164
+    },
+    {
+        "division": 2688,
+        "division_count": 3072,
+        "measure_index": 0,
+        "time_stamp": 2416
+    },
+    {
+        "division": 0,
+        "division_count": 3072,
+        "measure_index": 1, 
+        "time_stamp": 2784
+    },
+    {
+        "division": 384,
+        "division_count": 3072,
+        "measure_index": 1,
+        "time_stamp": 3059
+    },
+    {
+        "division": 768,
+        "division_count": 3072,
+        "measure_index": 1,
+        "time_stamp": 3371
+    },
+    {
+        "division": 1152,
+        "division_count": 3072,
+        "measure_index": 1,
+        "time_stamp": 3619
+    },
+    {
+        "division": 1536,
+        "division_count": 3072,
+        "measure_index": 1,
+        "time_stamp": 3936
+    },
+    {
+        "division": 1920,
+        "division_count": 3072,
+        "measure_index": 1,
+        "time_stamp": 4232
+    },
+    {
+        "division": 2304,
+        "division_count": 3072,
+        "measure_index": 1,
+        "time_stamp": 4543
+    },
+    {
+        "division": 2688,
+        "division_count": 3072,
+        "measure_index": 1,
+        "time_stamp": 4821
+    },
+    {
+        "division": 0,
+        "division_count": 3072,
+        "measure_index": 2,
+        "time_stamp": 5129
+    },
+    {
+        "division": 384,
+        "division_count": 3072,
+        "measure_index": 2,
+        "time_stamp": 5437
+    },
+    {
+        "division": 768,
+        "division_count": 3072,
+        "measure_index": 2,
+        "time_stamp": 5742
+    },
+    {
+        "division": 1152,
+        "division_count": 3072,
+        "measure_index": 2,
+        "time_stamp": 6013
+    },
+    {
+        "division": 1536,
+        "division_count": 3072,
+        "measure_index": 2,
+        "time_stamp": 6339
+    },
+    {
+        "division": 1920,
+        "division_count": 3072,
+        "measure_index": 2,
+        "time_stamp": 6604
+    },
+    {
+        "division": 2304,
+        "division_count": 3072,
+        "measure_index": 2,
+        "time_stamp": 6904
+    },
+    {
+        "division": 2688,
+        "division_count": 3072,
+        "measure_index": 2,
+        "time_stamp": 7230
+    },
+    {
+        "division": 0,
+        "division_count": 3072,
+        "measure_index": 3,
+        "time_stamp": 7544
+    },
+    {
+        "division": 384,
+        "division_count": 3072,
+        "measure_index": 3,
+        "time_stamp": 7827
+    },
+    {
+        "division": 768,
+        "division_count": 3072,
+        "measure_index": 3,
+        "time_stamp": 8130
+    },
+    {
+        "division": 1152,
+        "division_count": 3072,
+        "measure_index": 3,
+        "time_stamp": 8409
+    },
+    {
+        "division": 1536,
+        "division_count": 3072,
+        "measure_index": 3,
+        "time_stamp": 8746
+    },
+    {
+        "division": 1920,
+        "division_count": 3072,
+        "measure_index": 3,
+        "time_stamp": 9062
+    },
+    {
+        "division": 2304,
+        "division_count": 3072,
+        "measure_index": 3,
+        "time_stamp": 9369
+    },
+    {
+        "division": 2688,
+        "division_count": 3072,
+        "measure_index": 3,
+        "time_stamp": 9634
+    },
+    {
+        "division": 0,
+        "division_count": 3072,
+        "measure_index": 4,
+        "time_stamp": 9951
+    },
+    {
+        "division": 384,
+        "division_count": 3072,
+        "measure_index": 4,
+        "time_stamp": 10266
+    },
+    {
+        "division": 576,
+        "division_count": 3072,
+        "measure_index": 4,
+        "time_stamp": 10412
+    },
+    {
+        "division": 768,
+        "division_count": 3072,
+        "measure_index": 4,
+        "time_stamp": 10524
+    },
+    {
+        "division": 1152,
+        "division_count": 3072,
+        "measure_index": 4,
+        "time_stamp": 10821
+    },
+    {
+        "division": 1344,
+        "division_count": 3072,
+        "measure_index": 4,
+        "time_stamp": 10995
+    },
+    {
+        "division": 1536,
+        "division_count": 3072,
+        "measure_index": 4,
+        "time_stamp": 11132
+    },
+    {
+        "division": 1920,
+        "division_count": 3072,
+        "measure_index": 4,
+        "time_stamp": 11434
+    },
+    {
+        "division": 2304,
+        "division_count": 3072,
+        "measure_index": 4,
+        "time_stamp": 11719
+    },
+    {
+        "division": 2688,
+        "division_count": 3072,
+        "measure_index": 4, 
+        "time_stamp": 12079
+    },
+    {
+        "division": 0,
+        "division_count": 3072,
+        "measure_index": 5,
+
+        "time_stamp": 12338
+    },
+    {
+        "division": 384,
+        "division_count": 3072,
+        "measure_index": 5,
+        "time_stamp": 12628
+    },
+    {
+        "division": 576,
+        "division_count": 3072,
+        "measure_index": 5,
+        "time_stamp": 12806
+    },
+    {
+        "division": 768,
+        "division_count": 3072,
+        "measure_index": 5,
+        "time_stamp": 12984
+    },
+    {
+        "division": 1152,
+        "division_count": 3072,
+        "measure_index": 5,
+        "time_stamp": 13257
+    },
+    {
+        "division": 1344,
+        "division_count": 3072,
+        "measure_index": 5,
+        "time_stamp": 13360
+    },
+    {
+        "division": 1536,
+        "division_count": 3072,
+        "measure_index": 5,
+        "time_stamp": 13521
+    },
+    {
+        "division": 1920,
+        "division_count": 3072,
+        "measure_index": 5,
+        "time_stamp": 13825
+    },
+    {
+        "division": 2304,
+        "division_count": 3072,
+        "measure_index": 5,
+        "time_stamp": 14122
+    },
+    {
+        "division": 2688,
+        "division_count": 3072,
+        "measure_index": 5,
+        "time_stamp": 14471
+    },
+    {
+        "division": 0,
+        "division_count": 3072,
+        "measure_index": 6,
+        "time_stamp": 14747
+    },
+    {
+        "division": 384,
+        "division_count": 3072,
+        "measure_index": 6,
+        "time_stamp": 15061
+    },
+    {
+        "division": 576,
+        "division_count": 3072,
+        "measure_index": 6,
+        "time_stamp": 15183
+    },
+    {
+        "division": 768,
+        "division_count": 3072,
+        "measure_index": 6,
+        "time_stamp": 15348
+    },
+    {
+        "division": 1152,
+        "division_count": 3072,
+        "measure_index": 6,
+        "time_stamp": 15616
+    },
+    {
+        "division": 1344,
+        "division_count": 3072,
+        "measure_index": 6,
+        "time_stamp": 15789
+    },
+    {
+        "division": 1536,
+        "division_count": 3072,
+        "measure_index": 6,
+        "time_stamp": 15987
+    },
+    {
+        "division": 1920,
+        "division_count": 3072,
+        "measure_index": 6,
+
+        "time_stamp": 16212
+    },
+    {
+        "division": 2304,
+        "division_count": 3072,
+        "measure_index": 6,
+        "time_stamp": 16509
+    },
+    {
+        "division": 2688,
+        "division_count": 3072,
+        "measure_index": 6,
+        "time_stamp": 16859
+    },
+    {
+        "division": 0,
+        "division_count": 3072,
+        "measure_index": 7,
+        "time_stamp": 17136
+    },
+    {
+        "division": 384,
+        "division_count": 3072,
+        "measure_index": 7,
+        "time_stamp": 17484
+    },
+    {
+        "division": 576,
+        "division_count": 3072,
+        "measure_index": 7,
+        "time_stamp": 17628
+    },
+    {
+        "division": 768,
+        "division_count": 3072,
+        "measure_index": 7,
+        "time_stamp": 17807
+    },
+    {
+        "division": 1152,
+        "division_count": 3072,
+        "measure_index": 7,
+        "time_stamp": 18062
+    },
+    {
+        "division": 1536,
+        "division_count": 3072,
+        "measure_index": 7,
+        "time_stamp": 18349
+    },
+    {
+        "division": 1920,
+        "division_count": 3072,
+        "measure_index": 7,
+        "time_stamp": 18648
+    },
+    {
+        "division": 2304,
+        "division_count": 3072,
+        "measure_index": 7,
+        "time_stamp": 18948
+    },
+    {
+        "division": 2688,
+        "division_count": 3072,
+        "measure_index": 7,
+        "time_stamp": 19240
+    },
+    {
+        "division": 0,
+        "division_count": 3072,
+        "measure_index": 4,
+        "time_stamp": 19539
+    },
+    {
+        "division": 384,
+        "division_count": 3072,
+        "measure_index": 4,
+        "time_stamp": 19858
+    },
+    {
+        "division": 576,
+        "division_count": 3072,
+        "measure_index": 4,
+        "time_stamp": 19975
+    },
+    {
+        "division": 768,
+        "division_count": 3072,
+        "measure_index": 4,
+        "time_stamp": 20123
+    },
+    {
+        "division": 1152,
+        "division_count": 3072,
+        "measure_index": 4,
+        "time_stamp": 20436
+    },
+    {
+        "division": 1344,
+        "division_count": 3072,
+        "measure_index": 4,
+        "time_stamp": 20546
+    },
+    {
+        "division": 1536,
+        "division_count": 3072,
+        "measure_index": 4,
+        "time_stamp": 20730
+    },
+    {
+        "division": 1920,
+        "division_count": 3072,
+        "measure_index": 4,
+        "time_stamp": 21014
+    },
+    {
+        "division": 2304,
+        "division_count": 3072,
+        "measure_index": 4,
+        "time_stamp": 21301
+    },
+    {
+        "division": 2688,
+        "division_count": 3072,
+        "measure_index": 4,
+        "time_stamp": 21666
+    },
+    {
+        "division": 0,
+        "division_count": 3072,
+        "measure_index": 5,
+        "time_stamp": 21933
+    },
+    {
+        "division": 384,
+        "division_count": 3072,
+        "measure_index": 5,
+        "time_stamp": 22256
+    },
+    {
+        "division": 576,
+        "division_count": 3072,
+        "measure_index": 5,
+        "time_stamp": 22381
+    },
+    {
+        "division": 768,
+        "division_count": 3072,
+        "measure_index": 5,
+        "time_stamp": 22581
+    },
+    {
+        "division": 1152,
+        "division_count": 3072,
+        "measure_index": 5,
+        "time_stamp": 22837
+    },
+    {
+        "division": 1344,
+        "division_count": 3072,
+        "measure_index": 5,
+        "time_stamp": 22949
+    },
+    {
+        "division": 1536,
+        "division_count": 3072,
+        "measure_index": 5,
+        "time_stamp": 23110
+    },
+    {
+        "division": 1920,
+        "division_count": 3072,
+        "measure_index": 5,
+        "time_stamp": 23428
+    },
+    {
+        "division": 2304,
+        "division_count": 3072,
+        "measure_index": 5,
+        "time_stamp": 23737
+    },
+    {
+        "division": 2688,
+        "division_count": 3072,
+        "measure_index": 5,
+        "time_stamp": 24026
+    },
+    {
+        "division": 0,
+        "division_count": 3072,
+        "measure_index": 6,
+        "time_stamp": 24343
+    },
+    {
+        "division": 384,
+        "division_count": 3072,
+        "measure_index": 6,
+        "time_stamp": 24647
+    },
+    {
+        "division": 576,
+        "division_count": 3072,
+        "measure_index": 6,
+        "time_stamp": 24838
+    },
+    {
+        "division": 768,
+        "division_count": 3072,
+        "measure_index": 6,
+        "time_stamp": 24938
+    },
+    {
+        "division": 1152,
+        "division_count": 3072,
+        "measure_index": 6,
+        "time_stamp": 25221
+    },
+    {
+        "division": 1344,
+        "division_count": 3072,
+        "measure_index": 6,
+        "time_stamp": 25396
+    },
+    {
+        "division": 1536,
+        "division_count": 3072,
+        "measure_index": 6,
+        "time_stamp": 25533
+    },
+    {
+        "division": 1920,
+        "division_count": 3072,
+        "measure_index": 6,
+        "time_stamp": 25850
+    },
+    {
+        "division": 2304,
+        "division_count": 3072,
+        "measure_index": 6,
+        "time_stamp": 26121
+    },
+    {
+        "division": 2688,
+        "division_count": 3072,
+        "measure_index": 6,
+        "time_stamp": 26434
+    },
+    {
+        "division": 0,
+        "division_count": 3072,
+        "measure_index": 7,
+        "time_stamp": 26748
+    },
+    {
+        "division": 384,
+        "division_count": 3072,
+        "measure_index": 7,
+        "time_stamp": 27096
+    },
+    {
+        "division": 576,
+        "division_count": 3072,
+        "measure_index": 7,
+        "time_stamp": 27227
+    },
+    {
+        "division": 768,
+        "division_count": 3072,
+        "measure_index": 7,
+        "time_stamp": 27374
+    },
+    {
+        "division": 1152,
+        "division_count": 3072,
+        "measure_index": 7,
+        "time_stamp": 27653
+    },
+    {
+        "division": 1536,
+        "division_count": 3072,
+        "measure_index": 7,
+        "time_stamp": 27953
+    },
+    {
+        "division": 1920,
+        "division_count": 3072,
+        "measure_index": 7,
+        "time_stamp": 28256
+    },
+    {
+        "division": 2304,
+        "division_count": 3072,
+        "measure_index": 7,
+        "time_stamp": 28541
+    },
+    {
+        "division": 2688,
+        "division_count": 3072,
+        "measure_index": 7,
+        "time_stamp": 28834
+    },
+    {
+        "division": 0,
+        "division_count": 3072,
+        "measure_index": 8,
+        "time_stamp": 29140
+    },
+    {
+        "division": 384,
+        "division_count": 3072,
+        "measure_index": 8,
+        "time_stamp": 29454
+    },
+    {
+        "division": 768,
+        "division_count": 3072,
+        "measure_index": 8,
+        "time_stamp": 29713
+    },
+    {
+        "division": 1152,
+        "division_count": 3072,
+        "measure_index": 8,
+        "time_stamp": 30002
+    },
+    {
+        "division": 1536,
+        "division_count": 3072,
+        "measure_index": 8,
+        "time_stamp": 30312
+    },
+    {
+        "division": 1920,
+        "division_count": 3072,
+        "measure_index": 8,
+        "time_stamp": 30589
+    },
+    {
+        "division": 2304,
+        "division_count": 3072,
+        "measure_index": 8,
+        "time_stamp": 30896
+    }
+]
