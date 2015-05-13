@@ -5,13 +5,13 @@
 
 #include <tempo/modules/AccumulatorModule.h>
 #include <tempo/modules/MicrophoneModule.h>
+#include <tempo/modules/Probe.h>
 #include <tempo/modules/SaveToFileModule.h>
 
 using namespace tempo;
 
 static const float kSampleRate = 44100;
 static const NSTimeInterval kWaveformMaxDuration = 5;
-static const std::size_t kPacketSize = 1024;
 
 @interface RecordViewController () <UIAlertViewDelegate, UITextFieldDelegate>
 
@@ -19,14 +19,14 @@ static const std::size_t kPacketSize = 1024;
 @property(nonatomic, weak) IBOutlet UIButton* startStopButton;
 @property(nonatomic, weak) IBOutlet UITextField *filenameTextField;
 
-@property(nonatomic) std::shared_ptr<MicrophoneModule> microphoneModule;
-@property(nonatomic) std::shared_ptr<AccumulatorModule<MicrophoneModule::DataType>> accumulatorModule;
-@property(nonatomic) std::shared_ptr<SaveToFileModule> fileWriter;
-
 @end
 
 
 @implementation RecordViewController {
+    Graph _graph;
+    MicrophoneModule* _microphone;
+    AccumulatorModule* _accumulator;
+
     std::unique_ptr<double[]> _displayData;
     std::size_t _displayDataSize;
 }
@@ -36,25 +36,24 @@ static const std::size_t kPacketSize = 1024;
 }
 
 - (IBAction)startStop {
-    if (!_microphoneModule || !_microphoneModule->isRunning())
+    if (!_microphone || !_microphone->isRunning())
         [self tryStart];
     else
         [self stop];
 }
 
 - (IBAction)save {
-    if (!_microphoneModule)
+    if (!_microphone)
         return;
 
     [self reset];
-    _fileWriter.reset();
     [[[UIAlertView alloc] initWithTitle:@"Recording saved"
                                 message:@"\U0001F604" delegate:nil
                       cancelButtonTitle:@"OK" otherButtonTitles:nil] show];
 }
 
 - (void)tryStart {
-    if (!_microphoneModule && [self recordingFileExists]) {
+    if (!_microphone && [self recordingFileExists]) {
         [[[UIAlertView alloc] initWithTitle:[NSString stringWithFormat:@"File \"%@\" exists", [self recordingFilename]]
                                     message:@"Overwrite? \U0001F633" delegate:self
                           cancelButtonTitle:@"NO" otherButtonTitles:@"YES", nil] show];
@@ -65,28 +64,28 @@ static const std::size_t kPacketSize = 1024;
 }
 
 - (void)start {
-    if (!_microphoneModule)
+    if (!_microphone)
         [self initializeModuleGraph];
 
-    _microphoneModule->start();
+    _microphone->start();
     [self.startStopButton setTitle:@"Stop" forState:UIControlStateNormal];
 }
 
 - (void)stop {
-    if (!_microphoneModule)
+    if (!_microphone)
         return;
 
-    _microphoneModule->stop();
+    _microphone->stop();
     [self.startStopButton setTitle:@"Record" forState:UIControlStateNormal];
 }
 
 - (void)reset {
-    if (!_microphoneModule)
+    if (!_microphone)
         return;
 
     [self stop];
-    _microphoneModule.reset();
-    _accumulatorModule.reset();
+    _microphone = nullptr;
+    _accumulator = nullptr;
     _displayData.reset();
     dispatch_async(dispatch_get_main_queue(), ^() {
         [self.waveformView setSamples:nil count:0];
@@ -94,12 +93,8 @@ static const std::size_t kPacketSize = 1024;
 }
 
 - (void)step {
-    tempo::UniqueBuffer<float> buffer(kPacketSize);
-    auto size = _accumulatorModule->render(buffer);
-    _fileWriter->process(buffer.data(), size);
-
-    auto data = _accumulatorModule->data();
-    auto totalSize = _accumulatorModule->size();
+    auto data = _accumulator->data();
+    auto totalSize = _accumulator->size();
 
     if (_displayDataSize < kSampleRate * kWaveformMaxDuration) {
         _displayDataSize = kSampleRate * kWaveformMaxDuration;
@@ -113,19 +108,22 @@ static const std::size_t kPacketSize = 1024;
 }
 
 - (void)initializeModuleGraph {
-    _fileWriter.reset(new SaveToFileModule([self recordingFile].UTF8String, kSampleRate));
-
     _waveformView.sampleRate = kSampleRate;
 
-    _microphoneModule.reset(new MicrophoneModule);
+    auto source = _graph.setSource<MicrophoneModule>();
+
     __weak RecordViewController* wself = self;
-    _microphoneModule->onDataAvailable([wself](std::size_t size) {
+    _microphone = dynamic_cast<MicrophoneModule*>(source->module.get());
+    _microphone->onDataAvailable([wself](std::size_t size) {
         [wself step];
     });
 
-    std::size_t capacity = kSampleRate * kWaveformMaxDuration;
-    _accumulatorModule.reset(new AccumulatorModule<MicrophoneModule::DataType>(capacity));
-    _accumulatorModule->setSource(_microphoneModule);
+    auto accumulator = _graph.addModule<AccumulatorModule>(kSampleRate * kWaveformMaxDuration);
+    _accumulator = dynamic_cast<AccumulatorModule*>(accumulator->module.get());
+    _graph.connect(source, accumulator);
+
+    auto writer = _graph.addModule<SaveToFileModule>([self recordingFile].UTF8String, kSampleRate);
+    _graph.connect(source, writer);
 }
 
 

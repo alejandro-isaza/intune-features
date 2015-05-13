@@ -4,4 +4,6 @@
 
 @interface PeakInspectorViewController : UIViewController
 
+@property(nonatomic, copy) NSString* referenceFilePath;
+
 @end

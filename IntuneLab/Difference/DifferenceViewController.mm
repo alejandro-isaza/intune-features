@@ -72,18 +72,22 @@ using SizeType = vDSP_Length;
     __weak VMSpectrogramViewController* wtop = _spectrogramViewControllerTop;
     __weak VMSpectrogramViewController* wbottom = _spectrogramViewControllerBottom;
     _settingsViewController.didChangeTimings = ^(NSUInteger windowSize, double hopFraction) {
-        [wtop setWindowSize:windowSize hopFraction:hopFraction];
-        [wbottom setWindowSize:windowSize hopFraction:hopFraction];
+        auto params = wtop.parameters;
+        params.windowSizeLog2 = std::round(std::log2(windowSize));
+        params.hopFraction = hopFraction;
+        wtop.parameters = params;
+        wbottom.parameters = params;
     };
     _settingsViewController.didChangeDecibelGround = ^(double decibelGround) {
         wtop.decibelGround = decibelGround;
         wbottom.decibelGround = decibelGround;
     };
 
-    auto windowSize = _settingsViewController.windowSize;
-    auto hopFraction = _settingsViewController.hopFraction;
-    [wtop setWindowSize:windowSize hopFraction:hopFraction];
-    [wbottom setWindowSize:windowSize hopFraction:hopFraction];
+    auto params = wtop.parameters;
+    params.windowSizeLog2 = std::round(std::log2(_settingsViewController.windowSize));
+    params.hopFraction = _settingsViewController.hopFraction;
+    wtop.parameters = params;
+    wbottom.parameters = params;
     wtop.decibelGround = _settingsViewController.decibelGround;
     wbottom.decibelGround = _settingsViewController.decibelGround;
 }

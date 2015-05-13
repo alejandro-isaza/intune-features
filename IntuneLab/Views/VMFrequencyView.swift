@@ -10,6 +10,7 @@ public class VMFrequencyView: UIScrollView {
     @IBInspectable var lineWidth: CGFloat = 1.0
     @IBInspectable var matchColor: UIColor? = UIColor.greenColor()
 
+    var baseFrequency: Double = 44100 / 1024
     var frequencyZoom: CGFloat = 1 {
         didSet {
             setNeedsLayout()
@@ -39,9 +40,11 @@ public class VMFrequencyView: UIScrollView {
 
 
     private var data: UnsafePointer<Double> = nil
+    private var frequencies: UnsafePointer<Double> = nil
     private var dataSize: Int = 0
-    public func setData(data: UnsafePointer<Double>, count: Int) {
+    public func setData(data: UnsafePointer<Double>, frequencies: UnsafePointer<Double>, count: Int) {
         self.data = data
+        self.frequencies = frequencies
         self.dataSize = count
         self.matchDataSize = 0
         setNeedsDisplay()
@@ -107,9 +110,16 @@ public class VMFrequencyView: UIScrollView {
         CGPathMoveToPoint(path, nil, point.x, point.y)
         for var index = startIndex; index < endIndex && index < dataSize; index += 1 {
             let value = (data + index).memory
-            point.y = height - yForSampleDecibels(value) * height;
+            point.x = bounds.minX + spacing * CGFloat(index - startIndex)
+            point.y = height - yForSampleDecibels(value) * height
+            if frequencies != nil {
+                let a = frequencies[index]
+                let b = baseFrequency
+                let newIndex = CGFloat(frequencies[index] / baseFrequency)
+                let correctedX = bounds.minX + spacing * (newIndex - CGFloat(startIndex))
+                point.x = correctedX
+            }
             CGPathAddLineToPoint(path, nil, point.x, point.y)
-            point.x += spacing;
         }
         CGContextAddPath(context, path)
         CGContextStrokePath(context)
