@@ -1,0 +1,626 @@
+[
+  {
+    "division": 0,
+    "division_count": 3072,
+    "measure_index": 0,
+    "notes": {
+      "50": 0,
+      "66": 0
+    },
+    "time_stamp": 4576
+  },
+  {
+    "division": 768,
+    "division_count": 3072,
+    "measure_index": 0,
+    "notes": {
+      "50": 1000,
+      "66": 0
+    },
+    "time_stamp": 5615
+  },
+  {
+    "division": 1152,
+    "division_count": 3072,
+    "measure_index": 0,
+    "notes": {
+      "50": 1500,
+      "67": 0
+    },
+    "time_stamp": 6025
+  },
+  {
+    "division": 1920,
+    "division_count": 3072,
+    "measure_index": 0,
+    "notes": {
+      "50": 2500,
+      "66": 0
+    },
+    "time_stamp": 6965
+  },
+  {
+    "division": 2304,
+    "division_count": 3072,
+    "measure_index": 0,
+    "notes": {
+      "50": 3000,
+      "62": 0
+    },
+    "time_stamp": 7476
+  },
+  {
+    "division": 0,
+    "division_count": 3072,
+    "measure_index": 1,
+    "notes": {
+      "50": 0,
+      "54": 0,
+      "57": 0
+    },
+    "time_stamp": 8428
+  },
+  {
+    "division": 1152,
+    "division_count": 3072,
+    "measure_index": 1,
+    "notes": {
+      "45": 0,
+      "54": 1500,
+      "57": 1500
+    },
+    "time_stamp": 10054
+  },
+  {
+    "division": 1536,
+    "division_count": 3072,
+    "measure_index": 1,
+    "notes": {
+      "47": 0,
+      "54": 2000,
+      "57": 2000
+    },
+    "time_stamp": 10483
+  },
+  {
+    "division": 2304,
+    "division_count": 3072,
+    "measure_index": 1,
+    "notes": {
+      "45": 0,
+      "54": 3000
+    },
+    "time_stamp": 11424
+  },
+  {
+    "division": 0,
+    "division_count": 3072,
+    "measure_index": 2,
+    "notes": {
+      "50": 0,
+      "66": 0
+    },
+    "time_stamp": 12387
+  },
+  {
+    "division": 768,
+    "division_count": 3072,
+    "measure_index": 2,
+    "notes": {
+      "50": 1000,
+      "64": 0
+    },
+    "time_stamp": 13514
+  },
+  {
+    "division": 1152,
+    "division_count": 3072,
+    "measure_index": 2,
+    "notes": {
+      "50": 1500,
+      "67": 0
+    },
+    "time_stamp": 14013
+  },
+  {
+    "division": 1920,
+    "division_count": 3072,
+    "measure_index": 2,
+    "notes": {
+      "50": 2500,
+      "66": 0
+    },
+    "time_stamp": 15000
+  },
+  {
+    "division": 2304,
+    "division_count": 3072,
+    "measure_index": 2,
+    "notes": {
+      "50": 3000,
+      "62": 0
+    },
+    "time_stamp": 14999
+  },
+  {
+    "division": 0,
+    "division_count": 3072,
+    "measure_index": 3,
+    "notes": {
+      "47": 0,
+      "55": 0,
+      "66": 0
+    },
+    "time_stamp": 16451
+  },
+  {
+    "division": 1536,
+    "division_count": 3072,
+    "measure_index": 3,
+    "notes": {
+      "49": 0,
+      "57": 0,
+      "64": 0
+    },
+    "time_stamp": 18287
+  },
+  {
+    "division": 0,
+    "division_count": 3072,
+    "measure_index": 4,
+    "notes": {
+      "55": 0,
+      "59": 0,
+      "64": 0
+    },
+    "time_stamp": 20659
+  },
+  {
+    "division": 768,
+    "division_count": 3072,
+    "measure_index": 4,
+    "notes": {
+      "55": 1000,
+      "59": 1000,
+      "63": 0
+    },
+    "time_stamp": 21524
+  },
+  {
+    "division": 1152,
+    "division_count": 3072,
+    "measure_index": 4,
+    "notes": {
+      "55": 1500,
+      "59": 1500,
+      "66": 0
+    },
+    "time_stamp": 22024
+  },
+  {
+    "division": 1536,
+    "division_count": 3072,
+    "measure_index": 4,
+    "notes": {
+      "54": 0,
+      "58": 0,
+      "66": 500
+    },
+    "time_stamp": 22476
+  },
+  {
+    "division": 1920,
+    "division_count": 3072,
+    "measure_index": 4,
+    "notes": {
+      "54": 500,
+      "58": 500,
+      "64": 0
+    },
+    "time_stamp": 22999
+  },
+  {
+    "division": 2304,
+    "division_count": 3072,
+    "measure_index": 4,
+    "notes": {
+      "54": 1000,
+      "58": 1000,
+      "61": 0
+    },
+    "time_stamp": 23579
+  },
+  {
+    "division": 0,
+    "division_count": 3072,
+    "measure_index": 5,
+    "notes": {
+      "59": 0,
+      "64": 0
+    },
+    "time_stamp": 24601
+  },
+  {
+    "division": 768,
+    "division_count": 3072,
+    "measure_index": 5,
+    "notes": {
+      "59": 1000,
+      "62": 0
+    },
+    "time_stamp": 25576
+  },
+  {
+    "division": 1536,
+    "division_count": 3072,
+    "measure_index": 5,
+    "notes": {
+      "57": 0,
+      "61": 0
+    },
+    "time_stamp": 26459
+  },
+  {
+    "division": 2304,
+    "division_count": 3072,
+    "measure_index": 5,
+    "notes": {
+      "57": 1000,
+      "62": 0
+    },
+    "time_stamp": 27411
+  },
+  {
+    "division": 0,
+    "division_count": 3072,
+    "measure_index": 6,
+    "notes": {
+      "55": 0,
+      "59": 0
+    },
+    "time_stamp": 28467
+  },
+  {
+    "division": 768,
+    "division_count": 3072,
+    "measure_index": 6,
+    "notes": {
+      "55": 1000,
+      "61": 0
+    },
+    "time_stamp": 29431
+  },
+  {
+    "division": 1152,
+    "division_count": 3072,
+    "measure_index": 6,
+    "notes": {
+      "55": 1500,
+      "64": 0
+    },
+    "time_stamp": 29942
+  },
+  {
+    "division": 2304,
+    "division_count": 3072,
+    "measure_index": 6,
+    "notes": {
+      "55": 3000,
+      "62": 0
+    },
+    "time_stamp": 31463
+  },
+  {
+    "division": 2688,
+    "division_count": 3072,
+    "measure_index": 6,
+    "notes": {
+      "55": 3500,
+      "57": 0
+    },
+    "time_stamp": 31963
+  },
+  {
+    "division": 768,
+    "division_count": 3072,
+    "measure_index": 7,
+    "notes": {
+      "50": 0,
+      "54": 0,
+      "57": 1500
+    },
+    "time_stamp": 32531
+  },
+  {
+    "division": 2304,
+    "division_count": 3072,
+    "measure_index": 7,
+    "notes": {
+      "50": 0,
+      "54": 0
+    },
+    "time_stamp": 35700
+  },
+  {
+    "division": 0,
+    "division_count": 3072,
+    "measure_index": 8,
+    "notes": {
+      "50": 0,
+      "57": 0,
+      "66": 0
+    },
+    "time_stamp": 36490
+  },
+  {
+    "division": 768,
+    "division_count": 3072,
+    "measure_index": 8,
+    "notes": {
+      "50": 1000,
+      "57": 1000,
+      "64": 0
+    },
+    "time_stamp": 37511
+  },
+  {
+    "division": 1152,
+    "division_count": 3072,
+    "measure_index": 8,
+    "notes": {
+      "50": 1500,
+      "57": 1500,
+      "67": 0
+    },
+    "time_stamp": 38011
+  },
+  {
+    "division": 1920,
+    "division_count": 3072,
+    "measure_index": 8,
+    "notes": {
+      "50": 2500,
+      "57": 2500,
+      "66": 0
+    },
+    "time_stamp": 39009
+  },
+  {
+    "division": 2304,
+    "division_count": 3072,
+    "measure_index": 8,
+    "notes": {
+      "50": 3000,
+      "57": 3000,
+      "62": 0
+    },
+    "time_stamp": 39543
+  },
+  {
+    "division": 0,
+    "division_count": 3072,
+    "measure_index": 9,
+    "notes": {
+      "50": 0,
+      "54": 0,
+      "57": 0
+    },
+    "time_stamp": 40542
+  },
+  {
+    "division": 1152,
+    "division_count": 3072,
+    "measure_index": 9,
+    "notes": {
+      "45": 0,
+      "54": 1500,
+      "57": 1500
+    },
+    "time_stamp": 42704
+  },
+  {
+    "division": 1536,
+    "division_count": 3072,
+    "measure_index": 9,
+    "notes": {
+      "47": 0,
+      "54": 2000,
+      "57": 2000
+    },
+    "time_stamp": 42573
+  },
+  {
+    "division": 2304,
+    "division_count": 3072,
+    "measure_index": 9,
+    "notes": {
+      "45": 0,
+      "54": 3000,
+      "57": 3000
+    },
+    "time_stamp": 43525
+  },
+  {
+    "division": 0,
+    "division_count": 3072,
+    "measure_index": 10,
+    "notes": {
+      "50": 0,
+      "57": 0,
+      "66": 0
+    },
+    "time_stamp": 44501
+  },
+  {
+    "division": 768,
+    "division_count": 3072,
+    "measure_index": 10,
+    "notes": {
+      "50": 1000,
+      "57": 1000,
+      "64": 0
+    },
+    "time_stamp": 45464
+  },
+  {
+    "division": 1152,
+    "division_count": 3072,
+    "measure_index": 10,
+    "notes": {
+      "50": 1500,
+      "57": 1500,
+      "67": 0
+    },
+    "time_stamp": 46021
+  },
+  {
+    "division": 1920,
+    "division_count": 3072,
+    "measure_index": 10,
+    "notes": {
+      "50": 2500,
+      "57": 2500,
+      "66": 0
+    },
+    "time_stamp": 47023
+  },
+  {
+    "division": 2304,
+    "division_count": 3072,
+    "measure_index": 10,
+    "notes": {
+      "50": 3000,
+      "57": 3000,
+      "62": 0
+    },
+    "time_stamp": 47519
+  },
+  {
+    "division": 0,
+    "division_count": 3072,
+    "measure_index": 11,
+    "notes": {
+      "47": 0,
+      "55": 0,
+      "66": 0
+    },
+    "time_stamp": 48529
+  },
+  {
+    "division": 1536,
+    "division_count": 3072,
+    "measure_index": 11,
+    "notes": {
+      "49": 0,
+      "57": 0,
+      "64": 0
+    },
+    "time_stamp": 50387
+  },
+  {
+    "division": 0,
+    "division_count": 3072,
+    "measure_index": 12,
+    "notes": {
+      "55": 0,
+      "59": 0,
+      "64": 0
+    },
+    "time_stamp": 52558
+  },
+  {
+    "division": 768,
+    "division_count": 3072,
+    "measure_index": 12,
+    "notes": {
+      "55": 1000,
+      "59": 1000,
+      "63": 0
+    },
+    "time_stamp": 53556
+  },
+  {
+    "division": 1152,
+    "division_count": 3072,
+    "measure_index": 12,
+    "notes": {
+      "55": 1500,
+      "59": 1500,
+      "66": 0
+    },
+    "time_stamp": 54044
+  },
+  {
+    "division": 1536,
+    "division_count": 3072,
+    "measure_index": 12,
+    "notes": {
+      "54": 0,
+      "58": 0,
+      "66": 500
+    },
+    "time_stamp": 54497
+  },
+  {
+    "division": 1920,
+    "division_count": 3072,
+    "measure_index": 12,
+    "notes": {
+      "54": 500,
+      "58": 500,
+      "64": 0
+    },
+    "time_stamp": 55019
+  },
+  {
+    "division": 2304,
+    "division_count": 3072,
+    "measure_index": 12,
+    "notes": {
+      "54": 1000,
+      "58": 1000,
+      "61": 0
+    },
+    "time_stamp": 55565
+  },
+  {
+    "division": 0,
+    "division_count": 3072,
+    "measure_index": 13,
+    "notes": {
+      "59": 0,
+      "64": 0
+    },
+    "time_stamp": 56517
+  },
+  {
+    "division": 768,
+    "division_count": 3072,
+    "measure_index": 13,
+    "notes": {
+      "59": 1000,
+      "62": 0
+    },
+    "time_stamp": 57492
+  },
+  {
+    "division": 1536,
+    "division_count": 3072,
+    "measure_index": 13,
+    "notes": {
+      "57": 0,
+      "61": 0
+    },
+    "time_stamp": 58467
+  },
+  {
+    "division": 2304,
+    "division_count": 3072,
+    "measure_index": 13,
+    "notes": {
+      "57": 1000,
+      "62": 0
+    },
+    "time_stamp": 59489
+  }
+]
