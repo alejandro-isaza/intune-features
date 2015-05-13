@@ -10,6 +10,7 @@
 
 #include <tempo/algorithms/NoteTracker.h>
 #include <tempo/modules/MicrophoneModule.h>
+#include <tempo/modules/Normalize.h>
 #include <tempo/modules/ReadFromFileModule.h>
 
 using namespace tempo;
@@ -316,6 +317,9 @@ static const DataType kGainValue = 4.0;
         _input.resize(reader.availableSize());
         reader.render(std::begin(_input), _input.size());
 
+        Normalize norm{_input};
+        norm.render(std::begin(_input), _input.size());
+
         [self.waveformView setSamples:std::begin(_input) count:_input.size()];
         [self renderReference];
     }
@@ -341,7 +345,7 @@ static const DataType kGainValue = 4.0;
 
 - (void)initializeSourceGraph {
     const auto& sgParams = _params.spectrogram;
-    _sourceSpectrogram.reset(new Spectrogram{sgParams});
+    _sourceSpectrogram.reset(new Spectrogram{sgParams, kGainValue});
 
 //    // Set up note tracker
 //    _closestPeaks.reset(new ClosestPeaks);

@@ -644,7 +644,6 @@
 		61A56FDB1B02A66800FEED4E /* PhaseVocoder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PhaseVocoder.h; sourceTree = "<group>"; };
 		61A56FDC1B02A66800FEED4E /* AccumulatorModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AccumulatorModule.h; sourceTree = "<group>"; };
 		61A56FDD1B02A66800FEED4E /* AccumulatorModule.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = AccumulatorModule.hpp; sourceTree = "<group>"; };
-		61A56FDE1B02A66800FEED4E /* Buffering.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Buffering.h; sourceTree = "<group>"; };
 		61A56FDF1B02A66800FEED4E /* Difference.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Difference.h; sourceTree = "<group>"; };
 		61A56FE01B02A66800FEED4E /* FFTModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FFTModule.h; sourceTree = "<group>"; };
 		61A56FE11B02A66800FEED4E /* FFTModule.hpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.h; path = FFTModule.hpp; sourceTree = "<group>"; };
@@ -1334,7 +1333,6 @@
 			children = (
 				61A56FDC1B02A66800FEED4E /* AccumulatorModule.h */,
 				61A56FDD1B02A66800FEED4E /* AccumulatorModule.hpp */,
-				61A56FDE1B02A66800FEED4E /* Buffering.h */,
 				61A56FDF1B02A66800FEED4E /* Difference.h */,
 				61A56FE01B02A66800FEED4E /* FFTModule.h */,
 				61A56FE11B02A66800FEED4E /* FFTModule.hpp */,
