@@ -172,6 +172,7 @@
 		618EB9BA1AE5CE3A00E51A9E /* NoteTracker.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 618EB9B71AE5CE3A00E51A9E /* NoteTracker.cpp */; };
 		618EB9BF1AE6BBBD00E51A9E /* Annotation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 618EB9BB1AE6BBBD00E51A9E /* Annotation.cpp */; };
 		618EB9C01AE6BBBD00E51A9E /* AnnotationsSerialization.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 618EB9BD1AE6BBBD00E51A9E /* AnnotationsSerialization.cpp */; };
+		619E426E1B03BD2900AFBBCD /* PeakExtraction.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 619E426D1B03BD2900AFBBCD /* PeakExtraction.cpp */; };
 		61A56FD81B02A65000FEED4E /* Windowing.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A56FD41B02A65000FEED4E /* Windowing.cpp */; };
 		61A56FF11B02A66800FEED4E /* MicrophoneModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A56FE61B02A66800FEED4E /* MicrophoneModule.cpp */; };
 		61A56FF21B02A66800FEED4E /* ReadFromFileModule.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61A56FEA1B02A66800FEED4E /* ReadFromFileModule.cpp */; };
@@ -636,6 +637,7 @@
 		618EB9BC1AE6BBBD00E51A9E /* Annotation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Annotation.h; sourceTree = "<group>"; };
 		618EB9BD1AE6BBBD00E51A9E /* AnnotationsSerialization.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = AnnotationsSerialization.cpp; sourceTree = "<group>"; };
 		618EB9BE1AE6BBBD00E51A9E /* AnnotationsSerialization.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AnnotationsSerialization.h; sourceTree = "<group>"; };
+		619E426D1B03BD2900AFBBCD /* PeakExtraction.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = PeakExtraction.cpp; sourceTree = "<group>"; };
 		61A56FD41B02A65000FEED4E /* Windowing.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Windowing.cpp; sourceTree = "<group>"; };
 		61A56FD51B02A65000FEED4E /* Windowing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Windowing.h; sourceTree = "<group>"; };
 		61A56FD61B02A65000FEED4E /* Probe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Probe.h; sourceTree = "<group>"; };
@@ -1343,6 +1345,7 @@
 				61A56FE61B02A66800FEED4E /* MicrophoneModule.cpp */,
 				61A56FE71B02A66800FEED4E /* MicrophoneModule.h */,
 				61A56FE81B02A66800FEED4E /* Normalize.h */,
+				619E426D1B03BD2900AFBBCD /* PeakExtraction.cpp */,
 				61A56FD91B02A66800FEED4E /* PeakExtraction.h */,
 				61A56FE91B02A66800FEED4E /* Phases.h */,
 				61A56FDB1B02A66800FEED4E /* PhaseVocoder.h */,
@@ -1710,6 +1713,7 @@
 			files = (
 				617DC6AE1AC4D9660019E841 /* ClosestSpectrogramDistance.cpp in Sources */,
 				61A56FF11B02A66800FEED4E /* MicrophoneModule.cpp in Sources */,
+				619E426E1B03BD2900AFBBCD /* PeakExtraction.cpp in Sources */,
 				61A56FF91B02A7C100FEED4E /* Graph.cpp in Sources */,
 				618EB9B91AE5CE3A00E51A9E /* ClosestPeaks.cpp in Sources */,
 				61A56FD81B02A65000FEED4E /* Windowing.cpp in Sources */,

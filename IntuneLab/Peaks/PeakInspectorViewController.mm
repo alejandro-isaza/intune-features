@@ -166,15 +166,27 @@ static const DataType kGainValue = 4.0;
     _settingsViewController.modalPresentationStyle = UIModalPresentationPopover;
     _settingsViewController.preferredContentSize = CGSizeMake(600, 150);
 
-    _params.spectrogram.sampleRate = kSampleRate;
-    _params.spectrogram.windowSizeLog2 = std::round(std::log2(_settingsViewController.windowSize));
-    _params.spectrogram.hopFraction = _settingsViewController.hopFraction;
+    auto& ssgParams = _params.subjectSpectrogramParameters;
+    ssgParams.sampleRate = kSampleRate;
+    ssgParams.windowSizeLog2 = std::round(std::log2(_settingsViewController.windowSize));
+    ssgParams.hopFraction = _settingsViewController.hopFraction;
+    ssgParams.smoothWidth = _settingsViewController.smoothWidth;
+    ssgParams.peakSlopeCurveMax = _settingsViewController.peakSlopeCurveMax;
+    ssgParams.peakSlopeCurveWidth = _settingsViewController.peakSlopeCurveWidth;
     _params.peakWidth = _settingsViewController.peakWidth;
 
-    _topPeaksView.peakWidth = std::max(1.0, _params.peakWidth / _params.spectrogram.baseFrequency());
-    _bottomPeaksView.peakWidth = std::max(1.0, _params.peakWidth / _params.spectrogram.baseFrequency());
-    _topMidiView.peakWidth = std::max(1.0, _params.peakWidth / _params.spectrogram.baseFrequency());
-    _bottomMidiView.peakWidth = std::max(1.0, _params.peakWidth / _params.spectrogram.baseFrequency());
+    auto& rsgParams = _params.subjectSpectrogramParameters;
+    rsgParams.sampleRate = kSampleRate;
+    rsgParams.windowSizeLog2 = std::round(std::log2(_settingsViewController.windowSize));
+    rsgParams.hopFraction = _settingsViewController.hopFraction;
+    rsgParams.smoothWidth = _settingsViewController.smoothWidth;
+    rsgParams.peakSlopeCurveMax = _settingsViewController.peakSlopeCurveMax;
+    rsgParams.peakSlopeCurveWidth = _settingsViewController.peakSlopeCurveWidth;
+
+    _topPeaksView.peakWidth = std::max(1.0, _params.peakWidth / ssgParams.baseFrequency());
+    _bottomPeaksView.peakWidth = std::max(1.0, _params.peakWidth / ssgParams.baseFrequency());
+    _topMidiView.peakWidth = std::max(1.0, _params.peakWidth / ssgParams.baseFrequency());
+    _bottomMidiView.peakWidth = std::max(1.0, _params.peakWidth / ssgParams.baseFrequency());
     [self updateWindowView];
 
     _topSpectrogramView.hidden = !_settingsViewController.spectrogramEnabled;
@@ -187,27 +199,42 @@ static const DataType kGainValue = 4.0;
     __weak PeakInspectorViewController* wself = self;
     _settingsViewController.didChangeTimings = ^(NSUInteger windowSize, double hopFraction) {
         PeakInspectorViewController* sself = wself;
-        sself->_params.spectrogram.windowSizeLog2 = std::round(std::log2(windowSize));
-        sself->_params.spectrogram.hopFraction = hopFraction;
+        sself->_params.subjectSpectrogramParameters.windowSizeLog2 = std::round(std::log2(windowSize));
+        sself->_params.referenceSpectrogramParameters.windowSizeLog2 = std::round(std::log2(windowSize));
+        sself->_params.subjectSpectrogramParameters.hopFraction = hopFraction;
+        sself->_params.referenceSpectrogramParameters.hopFraction = hopFraction;
         [sself initializeSourceGraph];
         [wself updateWindowView];
         [wself renderReference];
     };
     _settingsViewController.didChangeSmoothWidthBlock = ^(NSUInteger smoothWidth) {
+        PeakInspectorViewController* sself = wself;
+        sself->_params.subjectSpectrogramParameters.smoothWidth = smoothWidth;
+        sself->_params.referenceSpectrogramParameters.smoothWidth = smoothWidth;
         [wself initializeSourceGraph];
         [wself renderReference];
     };
-    _settingsViewController.didChangePeaksMinSlopeBlock = ^(double slope) {
+    _settingsViewController.didChangePeakSlopeCurveMaxBlock = ^(double slope) {
+        PeakInspectorViewController* sself = wself;
+        sself->_params.subjectSpectrogramParameters.peakSlopeCurveMax = slope;
+        sself->_params.referenceSpectrogramParameters.peakSlopeCurveMax = slope;
+        [wself initializeSourceGraph];
+        [wself renderReference];
+    };
+    _settingsViewController.didChangePeakSlopeCurveWidthBlock = ^(double slope) {
+        PeakInspectorViewController* sself = wself;
+        sself->_params.subjectSpectrogramParameters.peakSlopeCurveWidth = slope;
+        sself->_params.referenceSpectrogramParameters.peakSlopeCurveWidth = slope;
         [wself initializeSourceGraph];
         [wself renderReference];
     };
     _settingsViewController.didChangePeakWidthBlock = ^(double width) {
         PeakInspectorViewController* sself = wself;
         sself->_params.peakWidth = width;
-        wself.topPeaksView.peakWidth = std::max(1.0, _params.peakWidth / _params.spectrogram.baseFrequency());
-        wself.bottomPeaksView.peakWidth = std::max(1.0, _params.peakWidth / _params.spectrogram.baseFrequency());
-        wself.topMidiView.peakWidth = std::max(1.0, _params.peakWidth / _params.spectrogram.baseFrequency());
-        wself.bottomMidiView.peakWidth = std::max(1.0, _params.peakWidth / _params.spectrogram.baseFrequency());
+        wself.topPeaksView.peakWidth = std::max(1.0, _params.peakWidth / _params.subjectSpectrogramParameters.baseFrequency());
+        wself.bottomPeaksView.peakWidth = std::max(1.0, _params.peakWidth / _params.subjectSpectrogramParameters.baseFrequency());
+        wself.topMidiView.peakWidth = std::max(1.0, _params.peakWidth / _params.subjectSpectrogramParameters.baseFrequency());
+        wself.bottomMidiView.peakWidth = std::max(1.0, _params.peakWidth / _params.subjectSpectrogramParameters.baseFrequency());
 
         [wself initializeSourceGraph];
         [wself renderReference];
@@ -239,10 +266,14 @@ static const DataType kGainValue = 4.0;
 //}
 
 - (void)renderReference {
+    [_bottomSpectrogramView setData:nullptr frequencies:nullptr count:0];
+    [_bottomPeaksView setData:nullptr frequencies:nullptr count:0];
+    [_bottomSmoothedView setData:nullptr frequencies:nullptr count:0];
+
     if (!self.referenceFilePath)
         return;
 
-    const auto& sgParams = _params.spectrogram;
+    const auto& sgParams = _params.referenceSpectrogramParameters;
     const auto sliceSize = sgParams.sliceSize();
 
     _referenceSpectrogramData = Spectrogram::generateFromData(std::begin(_input) + _frameOffset, sgParams.inputSize(1), sgParams, true);
@@ -261,13 +292,13 @@ static const DataType kGainValue = 4.0;
 }
 
 - (void)renderSource {
-    const auto& sgParams = _params.spectrogram;
+    const auto& sgParams = _params.subjectSpectrogramParameters;
     const auto sliceSize = sgParams.sliceSize();
 
     if (!_sourceSpectrogram || !_sourceSpectrogram->render())
         return;
 
-    _topSpectrogramView.baseFrequency = _params.spectrogram.baseFrequency();
+    _topSpectrogramView.baseFrequency = sgParams.baseFrequency();
     [_topSpectrogramView setData:std::begin(_sourceSpectrogram->magnitudes())
                      frequencies:std::begin(_sourceSpectrogram->frequencies())
                            count:sliceSize];
@@ -333,7 +364,7 @@ static const DataType kGainValue = 4.0;
 }
 
 - (void)updateWindowView {
-    CGFloat windowWidth = (CGFloat)_params.spectrogram.windowSize() / (CGFloat)_waveformView.samplesPerPoint;
+    CGFloat windowWidth = (CGFloat)_params.subjectSpectrogramParameters.windowSize() / (CGFloat)_waveformView.samplesPerPoint;
     UIEdgeInsets insets = UIEdgeInsetsZero;
     insets.left = (_windowView.bounds.size.width - windowWidth) / 2;
     insets.right = (_windowView.bounds.size.width - windowWidth) / 2;;
@@ -344,7 +375,13 @@ static const DataType kGainValue = 4.0;
 }
 
 - (void)initializeSourceGraph {
-    const auto& sgParams = _params.spectrogram;
+    // Clear views to avoid accessing invalid memory
+    [_topSpectrogramView setData:nullptr frequencies:nullptr count:0];
+    [_topPeaksView setData:nullptr frequencies:nullptr count:0];
+    [_bottomPeaksView setMatchData:nullptr count:0];
+    [_topSmoothedView setData:nullptr frequencies:nullptr count:0];
+
+    const auto& sgParams = _params.subjectSpectrogramParameters;
     _sourceSpectrogram.reset(new Spectrogram{sgParams, kGainValue});
 
 //    // Set up note tracker

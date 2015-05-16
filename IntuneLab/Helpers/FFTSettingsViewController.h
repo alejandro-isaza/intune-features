@@ -10,7 +10,8 @@
 @property(nonatomic, readonly) double hopFraction;
 @property(nonatomic, readonly) double decibelGround;
 @property(nonatomic, readonly) NSUInteger smoothWidth;
-@property(nonatomic, readonly) double peaksMinSlope;
+@property(nonatomic, readonly) double peakSlopeCurveMax;
+@property(nonatomic, readonly) double peakSlopeCurveWidth;
 @property(nonatomic, readonly) double peakWidth;
 @property(nonatomic, readonly) BOOL spectrogramEnabled;
 @property(nonatomic, readonly) BOOL smoothedSpectrogramEnabled;
@@ -19,7 +20,8 @@
 @property (nonatomic, copy) void (^didChangeTimings)(NSUInteger, double);
 @property (nonatomic, copy) void (^didChangeDecibelGround)(double);
 @property (nonatomic, copy) void (^didChangeSmoothWidthBlock)(NSUInteger);
-@property (nonatomic, copy) void (^didChangePeaksMinSlopeBlock)(double);
+@property (nonatomic, copy) void (^didChangePeakSlopeCurveMaxBlock)(double);
+@property (nonatomic, copy) void (^didChangePeakSlopeCurveWidthBlock)(double);
 @property (nonatomic, copy) void (^didChangePeakWidthBlock)(double);
 @property (nonatomic, copy) void (^didChangeDisplaySpectrogram)(BOOL);
 @property (nonatomic, copy) void (^didChangeDisplaySmoothedSpectrogram)(BOOL);

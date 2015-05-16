@@ -5,7 +5,8 @@
 static NSString* const kWindowSizeKey = @"WindowSizeKey";
 static NSString* const kHopFractionKey = @"HopFractionKey";
 static NSString* const kDecibelGroundKey = @"DecibelGroundKey";
-static NSString* const kPeaksMinSlopeKey = @"PeaksMinSlope";
+static NSString* const kPeakSlopeCurveMaxKey = @"PeakSlopeCurveMax";
+static NSString* const kPeakSlopeCurveWidthKey = @"PeakSlopeCurveWidth";
 static NSString* const kPeakWidthKey = @"PeakWidth";
 static NSString* const kSmoothWidthKey = @"SmoothWidth";
 static NSString* const kSpectrogramEnabledKey = @"SpectrogramEnabled";
@@ -19,13 +20,15 @@ static NSString* const kPeaksEnabledKey = @"PeaksEnabled";
 @property(nonatomic, weak) IBOutlet UISlider* hopSlider;
 @property(nonatomic, weak) IBOutlet UISlider* groundSlider;
 @property(nonatomic, weak) IBOutlet UISlider* smoothWidthSlider;
-@property(nonatomic, weak) IBOutlet UISlider* peaksMinSlopeSlider;
+@property(nonatomic, weak) IBOutlet UISlider* peakSlopeCurveMaxSlider;
+@property(nonatomic, weak) IBOutlet UISlider* peakSlopeCurveWidthSlider;
 @property(nonatomic, weak) IBOutlet UISlider* peakWidthSlider;
 @property(nonatomic, weak) IBOutlet UITextField* windowTextField;
 @property(nonatomic, weak) IBOutlet UITextField* hopTextField;
 @property(nonatomic, weak) IBOutlet UITextField* groundTextField;
 @property(nonatomic, weak) IBOutlet UITextField* smoothWidthTextField;
-@property(nonatomic, weak) IBOutlet UITextField* peaksMinSlopeTextField;
+@property(nonatomic, weak) IBOutlet UITextField* peakSlopeCurveMaxTextField;
+@property(nonatomic, weak) IBOutlet UITextField* peakSlopeCurveWidthTextField;
 @property(nonatomic, weak) IBOutlet UITextField* peakWidthTextField;
 @property(nonatomic, weak) IBOutlet UISwitch* spectrogramSwitch;
 @property(nonatomic, weak) IBOutlet UISwitch* smoothedSwitch;
@@ -35,7 +38,8 @@ static NSString* const kPeaksEnabledKey = @"PeaksEnabled";
 @property(nonatomic) double hopFraction;
 @property(nonatomic) double decibelGround;
 @property(nonatomic) double sampleRate;
-@property(nonatomic) double peaksMinSlope;
+@property(nonatomic) double peakSlopeCurveMax;
+@property(nonatomic) double peakSlopeCurveWidth;
 @property(nonatomic) double peakWidth;
 @property(nonatomic) NSUInteger smoothWidth;
 @property(nonatomic) BOOL spectrogramEnabled;
@@ -70,7 +74,8 @@ static NSString* const kPeaksEnabledKey = @"PeaksEnabled";
     _hopSlider.value = _hopFraction;
     _groundSlider.value = _decibelGround;
     _smoothWidthSlider.value = _smoothWidth;
-    _peaksMinSlopeSlider.value = _peaksMinSlope;
+    _peakSlopeCurveMaxSlider.value = _peakSlopeCurveMax;
+    _peakSlopeCurveWidthSlider.value = _peakSlopeCurveWidth;
     _peakWidthSlider.value = _peakWidth;
     _spectrogramSwitch.on = _spectrogramEnabled;
     _smoothedSwitch.on = _smoothedSpectrogramEnabled;
@@ -80,7 +85,8 @@ static NSString* const kPeaksEnabledKey = @"PeaksEnabled";
     _hopTextField.text = [NSString stringWithFormat:@"%.0fms", 1000.0 * _hopFraction * _windowSize / _sampleRate];
     _groundTextField.text = [NSString stringWithFormat:@"%.0fdB", _decibelGround];
     _smoothWidthTextField.text = [NSString stringWithFormat:@"%d frames", (int)_smoothWidth];
-    _peaksMinSlopeTextField.text = [NSString stringWithFormat:@"%f", _peaksMinSlope];
+    _peakSlopeCurveMaxTextField.text = [NSString stringWithFormat:@"%f", _peakSlopeCurveMax];
+    _peakSlopeCurveWidthTextField.text = [NSString stringWithFormat:@"%f", _peakSlopeCurveWidth];
     _peakWidthTextField.text = [NSString stringWithFormat:@"%f Hz", _peakWidth];
 }
 
@@ -90,7 +96,8 @@ static NSString* const kPeaksEnabledKey = @"PeaksEnabled";
     _windowSize = [self preferenceForKey:kWindowSizeKey defaultValue:1024];
     _hopFraction = [self preferenceForKey:kHopFractionKey defaultValue:0.5];
     _decibelGround = [self preferenceForKey:kDecibelGroundKey defaultValue:-100.0];
-    _peaksMinSlope = [self preferenceForKey:kPeaksMinSlopeKey defaultValue:2.3];
+    _peakSlopeCurveMax = [self preferenceForKey:kPeakSlopeCurveMaxKey defaultValue:0.3];
+    _peakSlopeCurveWidth = [self preferenceForKey:kPeakSlopeCurveWidthKey defaultValue:5000];
     _peakWidth = [self preferenceForKey:kPeakWidthKey defaultValue:1];
 
     if ([defaults objectForKey:kSmoothWidthKey])
@@ -109,7 +116,8 @@ static NSString* const kPeaksEnabledKey = @"PeaksEnabled";
     [defaults setInteger:_windowSize forKey:kWindowSizeKey];
     [defaults setDouble:_hopFraction forKey:kHopFractionKey];
     [defaults setDouble:_decibelGround forKey:kDecibelGroundKey];
-    [defaults setDouble:_peaksMinSlope forKey:kPeaksMinSlopeKey];
+    [defaults setDouble:_peakSlopeCurveMax forKey:kPeakSlopeCurveMaxKey];
+    [defaults setDouble:_peakSlopeCurveWidth forKey:kPeakSlopeCurveWidthKey];
     [defaults setDouble:_peakWidth forKey:kPeakWidthKey];
     [defaults setInteger:_smoothWidth forKey:kSmoothWidthKey];
     [defaults setBool:_spectrogramEnabled forKey:kSpectrogramEnabledKey];
@@ -152,9 +160,14 @@ static NSString* const kPeaksEnabledKey = @"PeaksEnabled";
     _smoothWidthTextField.text = [NSString stringWithFormat:@"%d frames", (int)_smoothWidth];
 }
 
-- (IBAction)updatePeaksMinSlope {
-    _peaksMinSlope = _peaksMinSlopeSlider.value;
-    _peaksMinSlopeTextField.text = [NSString stringWithFormat:@"%f", _peaksMinSlope];
+- (IBAction)updatePeakSlopeCurveMax {
+    _peakSlopeCurveMax = _peakSlopeCurveMaxSlider.value;
+    _peakSlopeCurveMaxTextField.text = [NSString stringWithFormat:@"%f", _peakSlopeCurveMax];
+}
+
+- (IBAction)updatePeakSlopeCurveWidth {
+    _peakSlopeCurveWidth = _peakSlopeCurveWidthSlider.value;
+    _peakSlopeCurveWidthTextField.text = [NSString stringWithFormat:@"%f", _peakSlopeCurveWidth];
 }
 
 - (IBAction)updatePeakWidth {
@@ -180,9 +193,15 @@ static NSString* const kPeaksEnabledKey = @"PeaksEnabled";
     [self savePreferences];
 }
 
-- (IBAction)didChangePeaksMinSlope {
-    if (_didChangePeaksMinSlopeBlock)
-        _didChangePeaksMinSlopeBlock(_peaksMinSlope);
+- (IBAction)didChangePeakSlopeCurveMax {
+    if (_didChangePeakSlopeCurveMaxBlock)
+        _didChangePeakSlopeCurveMaxBlock(_peakSlopeCurveMax);
+    [self savePreferences];
+}
+
+- (IBAction)didChangePeakSlopeCurveWidth {
+    if (_didChangePeakSlopeCurveWidthBlock)
+        _didChangePeakSlopeCurveWidthBlock(_peakSlopeCurveWidth);
     [self savePreferences];
 }
 
