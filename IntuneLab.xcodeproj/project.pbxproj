@@ -158,6 +158,10 @@
 		00EFC4E01AAF8E19000C1D5B /* liblxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EFC4C21AAF8DF3000C1D5B /* liblxml.a */; };
 		00EFC5481AAF8EA3000C1D5B /* libmxml.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 00EFC4E51AAF8E73000C1D5B /* libmxml.a */; };
 		610325171AB7AAA300E4E3D3 /* VMSpectrogramView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610325151AB7AAA300E4E3D3 /* VMSpectrogramView.swift */; };
+		611A140C1B16948900A9A4B1 /* Convolution.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 611A14081B16948900A9A4B1 /* Convolution.cpp */; };
+		611A140F1B16994D00A9A4B1 /* Scalogram.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 611A140D1B16994D00A9A4B1 /* Scalogram.cpp */; };
+		611A14131B1699E800A9A4B1 /* ScalogramViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 611A14121B1699E800A9A4B1 /* ScalogramViewController.mm */; };
+		611A14161B169DA500A9A4B1 /* MorletWavelet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 611A14151B169DA500A9A4B1 /* MorletWavelet.cpp */; };
 		612BFF731AC1DECB000D5772 /* Annotations in Resources */ = {isa = PBXBuildFile; fileRef = 612BFF721AC1DECB000D5772 /* Annotations */; };
 		6157FCA21ABCBEA8008C0D0D /* VMDistancesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6157FCA11ABCBEA8008C0D0D /* VMDistancesView.m */; };
 		6171BD451A16BCC4004AB274 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD441A16BCC4004AB274 /* main.m */; };
@@ -604,6 +608,15 @@
 		00EFC4C21AAF8DF3000C1D5B /* liblxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = liblxml.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		00EFC4E51AAF8E73000C1D5B /* libmxml.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libmxml.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		610325151AB7AAA300E4E3D3 /* VMSpectrogramView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VMSpectrogramView.swift; sourceTree = "<group>"; };
+		611A14081B16948900A9A4B1 /* Convolution.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Convolution.cpp; sourceTree = "<group>"; };
+		611A14091B16948900A9A4B1 /* Convolution.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Convolution.h; sourceTree = "<group>"; };
+		611A140A1B16948900A9A4B1 /* RandomAccessSourceModule.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RandomAccessSourceModule.h; sourceTree = "<group>"; };
+		611A140D1B16994D00A9A4B1 /* Scalogram.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = Scalogram.cpp; sourceTree = "<group>"; };
+		611A140E1B16994D00A9A4B1 /* Scalogram.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Scalogram.h; sourceTree = "<group>"; };
+		611A14111B1699E800A9A4B1 /* ScalogramViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScalogramViewController.h; sourceTree = "<group>"; };
+		611A14121B1699E800A9A4B1 /* ScalogramViewController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = ScalogramViewController.mm; sourceTree = "<group>"; };
+		611A14141B169DA500A9A4B1 /* MorletWavelet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MorletWavelet.h; sourceTree = "<group>"; };
+		611A14151B169DA500A9A4B1 /* MorletWavelet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MorletWavelet.cpp; sourceTree = "<group>"; };
 		612BFF721AC1DECB000D5772 /* Annotations */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Annotations; path = Resources/Annotations; sourceTree = "<group>"; };
 		6157FCA01ABCBEA8008C0D0D /* VMDistancesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMDistancesView.h; sourceTree = "<group>"; };
 		6157FCA11ABCBEA8008C0D0D /* VMDistancesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMDistancesView.m; sourceTree = "<group>"; };
@@ -1192,6 +1205,15 @@
 			name = Helpers;
 			sourceTree = "<group>";
 		};
+		611A14101B1699E800A9A4B1 /* Scalogram */ = {
+			isa = PBXGroup;
+			children = (
+				611A14111B1699E800A9A4B1 /* ScalogramViewController.h */,
+				611A14121B1699E800A9A4B1 /* ScalogramViewController.mm */,
+			);
+			path = Scalogram;
+			sourceTree = "<group>";
+		};
 		6171BD361A16BCC4004AB274 = {
 			isa = PBXGroup;
 			children = (
@@ -1227,6 +1249,7 @@
 				00D9E2C51AE1869A004C2505 /* Waveform */,
 				00D9E2B91AE1869A004C2505 /* Difference */,
 				00D9E2D71AE18978004C2505 /* Peaks */,
+				611A14101B1699E800A9A4B1 /* Scalogram */,
 				00E638A61AB8E55300F5B4C5 /* Helpers */,
 				6171BEEC1A16C401004AB274 /* Views */,
 				00AF6DD91AAF9712006525F5 /* Resources */,
@@ -1301,6 +1324,8 @@
 				617DC6AB1AC4D9660019E841 /* ClosestSpectrogramDistance.h */,
 				618EB9B71AE5CE3A00E51A9E /* NoteTracker.cpp */,
 				618EB9B81AE5CE3A00E51A9E /* NoteTracker.h */,
+				611A140D1B16994D00A9A4B1 /* Scalogram.cpp */,
+				611A140E1B16994D00A9A4B1 /* Scalogram.h */,
 				617DC6681AC33CE30019E841 /* Spectrogram.cpp */,
 				617DC6691AC33CE30019E841 /* Spectrogram.h */,
 			);
@@ -1321,6 +1346,8 @@
 				61A81D5F1AB0E63C00E230A6 /* FloatConverter.h */,
 				61A56FF41B02A7C100FEED4E /* Graph.h */,
 				61A56FF51B02A7C100FEED4E /* Graph.cpp */,
+				611A14141B169DA500A9A4B1 /* MorletWavelet.h */,
+				611A14151B169DA500A9A4B1 /* MorletWavelet.cpp */,
 				61A56FF61B02A7C100FEED4E /* dsp.h */,
 				61A56FF71B02A7C100FEED4E /* Statistics.hpp */,
 				61A56FF81B02A7C100FEED4E /* Statistics.h */,
@@ -1335,6 +1362,8 @@
 			children = (
 				61A56FDC1B02A66800FEED4E /* AccumulatorModule.h */,
 				61A56FDD1B02A66800FEED4E /* AccumulatorModule.hpp */,
+				611A14081B16948900A9A4B1 /* Convolution.cpp */,
+				611A14091B16948900A9A4B1 /* Convolution.h */,
 				61A56FDF1B02A66800FEED4E /* Difference.h */,
 				61A56FE01B02A66800FEED4E /* FFTModule.h */,
 				61A56FE11B02A66800FEED4E /* FFTModule.hpp */,
@@ -1350,6 +1379,7 @@
 				61A56FE91B02A66800FEED4E /* Phases.h */,
 				61A56FDB1B02A66800FEED4E /* PhaseVocoder.h */,
 				61A56FD61B02A65000FEED4E /* Probe.h */,
+				611A140A1B16948900A9A4B1 /* RandomAccessSourceModule.h */,
 				61A56FEA1B02A66800FEED4E /* ReadFromFileModule.cpp */,
 				61A56FEB1B02A66800FEED4E /* ReadFromFileModule.h */,
 				61A56FEC1B02A66800FEED4E /* SaveToFileModule.cpp */,
@@ -1689,6 +1719,7 @@
 				00D9E2CC1AE1869A004C2505 /* MXMLViewController.mm in Sources */,
 				6157FCA21ABCBEA8008C0D0D /* VMDistancesView.m in Sources */,
 				00D9E2CA1AE1869A004C2505 /* VMSpectrogramViewController.mm in Sources */,
+				611A14131B1699E800A9A4B1 /* ScalogramViewController.mm in Sources */,
 				00D9E2C91AE1869A004C2505 /* DifferenceViewController.mm in Sources */,
 				6171BD451A16BCC4004AB274 /* main.m in Sources */,
 				00E638A51AB8E54C00F5B4C5 /* VMFilePickerController.m in Sources */,
@@ -1718,10 +1749,13 @@
 				618EB9B91AE5CE3A00E51A9E /* ClosestPeaks.cpp in Sources */,
 				61A56FD81B02A65000FEED4E /* Windowing.cpp in Sources */,
 				61A81D711AB0E63C00E230A6 /* FloatConverter.cpp in Sources */,
+				611A140F1B16994D00A9A4B1 /* Scalogram.cpp in Sources */,
+				611A140C1B16948900A9A4B1 /* Convolution.cpp in Sources */,
 				618EB9BA1AE5CE3A00E51A9E /* NoteTracker.cpp in Sources */,
 				61A56FF21B02A66800FEED4E /* ReadFromFileModule.cpp in Sources */,
 				617DC66C1AC33CE30019E841 /* Spectrogram.cpp in Sources */,
 				618EB9BF1AE6BBBD00E51A9E /* Annotation.cpp in Sources */,
+				611A14161B169DA500A9A4B1 /* MorletWavelet.cpp in Sources */,
 				61A56FF31B02A66800FEED4E /* SaveToFileModule.cpp in Sources */,
 				618EB9C01AE6BBBD00E51A9E /* AnnotationsSerialization.cpp in Sources */,
 			);

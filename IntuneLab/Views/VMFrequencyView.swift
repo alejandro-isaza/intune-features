@@ -10,7 +10,6 @@ public class VMFrequencyView: UIScrollView {
     @IBInspectable var lineWidth: CGFloat = 1.0
     @IBInspectable var matchColor: UIColor? = UIColor.greenColor()
 
-    var baseFrequency: Double = 44100 / 1024
     var frequencyZoom: CGFloat = 1 {
         didSet {
             setNeedsLayout()
@@ -112,13 +111,6 @@ public class VMFrequencyView: UIScrollView {
             let value = (data + index).memory
             point.x = bounds.minX + spacing * CGFloat(index - startIndex)
             point.y = height - yForSampleDecibels(value) * height
-            if frequencies != nil {
-                let a = frequencies[index]
-                let b = baseFrequency
-                let newIndex = CGFloat(frequencies[index] / baseFrequency)
-                let correctedX = bounds.minX + spacing * (newIndex - CGFloat(startIndex))
-                point.x = correctedX
-            }
             CGPathAddLineToPoint(path, nil, point.x, point.y)
         }
         CGContextAddPath(context, path)

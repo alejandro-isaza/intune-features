@@ -1,6 +1,6 @@
 //  Copyright (c) 2015 Venture Media Labs. All rights reserved.
 
-#import "PeakInspectorViewController.h"
+#import "ScalogramViewController.h"
 #import "IntuneLab-Swift.h"
 
 #import "FFTSettingsViewController.h"
@@ -8,7 +8,7 @@
 #import "VMMidiPickerController.h"
 #import "FrequencyGenerator.h"
 
-#include <tempo/algorithms/NoteTracker.h>
+#include <tempo/algorithms/Scalogram.h>
 #include <tempo/modules/MicrophoneModule.h>
 #include <tempo/modules/Normalize.h>
 #include <tempo/modules/ReadFromFileModule.h>
@@ -20,7 +20,7 @@ static const NSTimeInterval kWaveformDuration = 1;
 static const float kSampleRate = 44100;
 static const DataType kGainValue = 4.0;
 
-@interface PeakInspectorViewController ()  <UIScrollViewDelegate>
+@interface ScalogramViewController ()  <UIScrollViewDelegate>
 
 @property(nonatomic, weak) IBOutlet UIView* topContainerView;
 @property(nonatomic, weak) IBOutlet UIView* bottomContainerView;
@@ -29,12 +29,10 @@ static const DataType kGainValue = 4.0;
 @property(nonatomic, weak) IBOutlet UILabel* notesLabel;
 @property(nonatomic, weak) IBOutlet NSLayoutConstraint* windowWidthConstraint;
 
-@property(nonatomic, strong) VMFrequencyView* topSpectrogramView;
-@property(nonatomic, strong) VMFrequencyView* topPeaksView;
+@property(nonatomic, strong) VMFrequencyView* topScalogramView;
 @property(nonatomic, strong) VMFrequencyView* topSmoothedView;
 @property(nonatomic, strong) VMFrequencyView* topMidiView;
-@property(nonatomic, strong) VMFrequencyView* bottomSpectrogramView;
-@property(nonatomic, strong) VMFrequencyView* bottomPeaksView;
+@property(nonatomic, strong) VMFrequencyView* bottomScalogramView;
 @property(nonatomic, strong) VMFrequencyView* bottomSmoothedView;
 @property(nonatomic, strong) VMFrequencyView* bottomMidiView;
 @property(nonatomic, strong) NSArray* frequencyViews;
@@ -46,18 +44,17 @@ static const DataType kGainValue = 4.0;
 @property(nonatomic) CGFloat previousScale;
 @property(nonatomic) CGFloat frequencyZoom;
 
-@property(nonatomic, strong) FFTSettingsViewController *settingsViewController;
 @property(nonatomic, strong) VMMidiPickerController* midiPicker;
 @property(nonatomic, strong) NSSet* midiNotes;
 
 @end
 
-@implementation PeakInspectorViewController {
-    tempo::NoteTracker::Parameters _params;
+@implementation ScalogramViewController {
+    tempo::Scalogram::Parameters _params;
     std::valarray<DataType> _input;
-    std::unique_ptr<tempo::Spectrogram> _sourceSpectrogram;
+    std::unique_ptr<tempo::Scalogram> _sourceScalogram;
     tempo::MicrophoneModule* _microphone;
-    tempo::Spectrogram::Data _referenceSpectrogramData;
+    tempo::Scalogram::Data _referenceScalogramData;
 }
 
 - (void)viewDidLoad {
@@ -65,34 +62,29 @@ static const DataType kGainValue = 4.0;
 
     _frequencyZoom = 0.25;
 
-    __weak PeakInspectorViewController *wself = self;
+    __weak ScalogramViewController *wself = self;
     _midiPicker = [[VMMidiPickerController alloc] init];
     _midiPicker.selectionBlock = ^(NSSet* midiNotes) {
         wself.midiNotes = midiNotes;
         //[wself renderMIDI];
     };
 
-    _topSpectrogramView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
-    _topPeaksView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
+    _topScalogramView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
     _topSmoothedView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
     _topMidiView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
-    _bottomPeaksView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
     _bottomSmoothedView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
-    _bottomSpectrogramView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
+    _bottomScalogramView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
     _bottomMidiView = [[VMFrequencyView alloc] initWithFrame:CGRectZero];
-    _frequencyViews = @[_topSpectrogramView,
-                        _topPeaksView,
+    _frequencyViews = @[_topScalogramView,
                         _topSmoothedView,
                         _topMidiView,
-                        _bottomPeaksView,
                         _bottomSmoothedView,
-                        _bottomSpectrogramView,
+                        _bottomScalogramView,
                         _bottomMidiView];
 
-    [self loadContainerView:_topContainerView spectrogram:_topSpectrogramView smoothed:_topSmoothedView peaks:_topPeaksView midi:_topMidiView];
-    [self loadContainerView:_bottomContainerView spectrogram:_bottomSpectrogramView smoothed:_bottomSmoothedView peaks:_bottomPeaksView midi:_bottomMidiView];
+    [self loadContainerView:_topContainerView spectrogram:_topScalogramView smoothed:_topSmoothedView midi:_topMidiView];
+    [self loadContainerView:_bottomContainerView spectrogram:_bottomScalogramView smoothed:_bottomSmoothedView midi:_bottomMidiView];
     [self loadWaveformView];
-    [self loadSettings];
     [self initializeSourceGraph];
 
     NSString* file = [[NSBundle mainBundle] pathForResource:[@"Audio" stringByAppendingPathComponent:@"twinkle_twinkle"] ofType:@"caf"];
@@ -104,18 +96,7 @@ static const DataType kGainValue = 4.0;
     [self updateWindowView];
 }
 
-- (void)loadContainerView:(UIView*)containerView spectrogram:(VMFrequencyView*)spectrogram smoothed:(VMFrequencyView*)smoothed peaks:(VMFrequencyView*)peaks midi:(VMFrequencyView*)midi {
-    peaks.frame = containerView.bounds;
-    peaks.userInteractionEnabled = NO;
-    peaks.translatesAutoresizingMaskIntoConstraints = NO;
-    peaks.backgroundColor = [UIColor clearColor];
-    peaks.lineColor = [UIColor redColor];
-    peaks.peaks = YES;
-    peaks.frequencyZoom = _frequencyZoom;
-    [containerView addSubview:peaks];
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"V:|[view]|" options:0 metrics:nil views:@{@"view": peaks}]];
-    [containerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:@{@"view": peaks}]];
-
+- (void)loadContainerView:(UIView*)containerView spectrogram:(VMFrequencyView*)spectrogram smoothed:(VMFrequencyView*)smoothed midi:(VMFrequencyView*)midi {
     spectrogram.frame = containerView.bounds;
     spectrogram.userInteractionEnabled = NO;
     spectrogram.translatesAutoresizingMaskIntoConstraints = NO;
@@ -161,98 +142,6 @@ static const DataType kGainValue = 4.0;
     [_waveformContainerView addConstraints:[NSLayoutConstraint constraintsWithVisualFormat:@"H:|[view]|" options:0 metrics:nil views:@{@"view": _waveformView}]];
 }
 
-- (void)loadSettings {
-    _settingsViewController = [FFTSettingsViewController createWithSampleRate:kSampleRate];
-    _settingsViewController.modalPresentationStyle = UIModalPresentationPopover;
-    _settingsViewController.preferredContentSize = CGSizeMake(600, 150);
-
-    auto& ssgParams = _params.subjectSpectrogramParameters;
-    ssgParams.sampleRate = kSampleRate;
-    ssgParams.windowSizeLog2 = std::round(std::log2(_settingsViewController.windowSize));
-    ssgParams.hopFraction = _settingsViewController.hopFraction;
-    ssgParams.smoothWidth = _settingsViewController.smoothWidth;
-    ssgParams.peakSlopeCurveMax = _settingsViewController.peakSlopeCurveMax;
-    ssgParams.peakSlopeCurveWidth = _settingsViewController.peakSlopeCurveWidth;
-    _params.peakWidth = _settingsViewController.peakWidth;
-
-    auto& rsgParams = _params.subjectSpectrogramParameters;
-    rsgParams.sampleRate = kSampleRate;
-    rsgParams.windowSizeLog2 = std::round(std::log2(_settingsViewController.windowSize));
-    rsgParams.hopFraction = _settingsViewController.hopFraction;
-    rsgParams.smoothWidth = _settingsViewController.smoothWidth;
-    rsgParams.peakSlopeCurveMax = _settingsViewController.peakSlopeCurveMax;
-    rsgParams.peakSlopeCurveWidth = _settingsViewController.peakSlopeCurveWidth;
-
-    _topPeaksView.peakWidth = std::max(1.0, _params.peakWidth / ssgParams.baseFrequency());
-    _bottomPeaksView.peakWidth = std::max(1.0, _params.peakWidth / ssgParams.baseFrequency());
-    _topMidiView.peakWidth = std::max(1.0, _params.peakWidth / ssgParams.baseFrequency());
-    _bottomMidiView.peakWidth = std::max(1.0, _params.peakWidth / ssgParams.baseFrequency());
-    [self updateWindowView];
-
-    _topSpectrogramView.hidden = !_settingsViewController.spectrogramEnabled;
-    _bottomSpectrogramView.hidden = !_settingsViewController.spectrogramEnabled;
-    _topSmoothedView.hidden = !_settingsViewController.smoothedSpectrogramEnabled;
-    _bottomSmoothedView.hidden = !_settingsViewController.smoothedSpectrogramEnabled;
-    _topPeaksView.hidden = !_settingsViewController.peaksEnabled;
-    _bottomPeaksView.hidden = !_settingsViewController.peaksEnabled;
-
-    __weak PeakInspectorViewController* wself = self;
-    _settingsViewController.didChangeTimings = ^(NSUInteger windowSize, double hopFraction) {
-        PeakInspectorViewController* sself = wself;
-        sself->_params.subjectSpectrogramParameters.windowSizeLog2 = std::round(std::log2(windowSize));
-        sself->_params.referenceSpectrogramParameters.windowSizeLog2 = std::round(std::log2(windowSize));
-        sself->_params.subjectSpectrogramParameters.hopFraction = hopFraction;
-        sself->_params.referenceSpectrogramParameters.hopFraction = hopFraction;
-        [sself initializeSourceGraph];
-        [wself updateWindowView];
-        [wself renderReference];
-    };
-    _settingsViewController.didChangeSmoothWidthBlock = ^(NSUInteger smoothWidth) {
-        PeakInspectorViewController* sself = wself;
-        sself->_params.subjectSpectrogramParameters.smoothWidth = smoothWidth;
-        sself->_params.referenceSpectrogramParameters.smoothWidth = smoothWidth;
-        [wself initializeSourceGraph];
-        [wself renderReference];
-    };
-    _settingsViewController.didChangePeakSlopeCurveMaxBlock = ^(double slope) {
-        PeakInspectorViewController* sself = wself;
-        sself->_params.subjectSpectrogramParameters.peakSlopeCurveMax = slope;
-        sself->_params.referenceSpectrogramParameters.peakSlopeCurveMax = slope;
-        [wself initializeSourceGraph];
-        [wself renderReference];
-    };
-    _settingsViewController.didChangePeakSlopeCurveWidthBlock = ^(double slope) {
-        PeakInspectorViewController* sself = wself;
-        sself->_params.subjectSpectrogramParameters.peakSlopeCurveWidth = slope;
-        sself->_params.referenceSpectrogramParameters.peakSlopeCurveWidth = slope;
-        [wself initializeSourceGraph];
-        [wself renderReference];
-    };
-    _settingsViewController.didChangePeakWidthBlock = ^(double width) {
-        PeakInspectorViewController* sself = wself;
-        sself->_params.peakWidth = width;
-        wself.topPeaksView.peakWidth = std::max(1.0, _params.peakWidth / _params.subjectSpectrogramParameters.baseFrequency());
-        wself.bottomPeaksView.peakWidth = std::max(1.0, _params.peakWidth / _params.subjectSpectrogramParameters.baseFrequency());
-        wself.topMidiView.peakWidth = std::max(1.0, _params.peakWidth / _params.subjectSpectrogramParameters.baseFrequency());
-        wself.bottomMidiView.peakWidth = std::max(1.0, _params.peakWidth / _params.subjectSpectrogramParameters.baseFrequency());
-
-        [wself initializeSourceGraph];
-        [wself renderReference];
-    };
-    _settingsViewController.didChangeDisplaySpectrogram = ^(BOOL display) {
-        wself.topSpectrogramView.hidden = !display;
-        wself.bottomSpectrogramView.hidden = !display;
-    };
-    _settingsViewController.didChangeDisplaySmoothedSpectrogram = ^(BOOL display) {
-        wself.topSmoothedView.hidden = !display;
-        wself.bottomSmoothedView.hidden = !display;
-    };
-    _settingsViewController.didChangeDisplayPeaks = ^(BOOL display) {
-        wself.topPeaksView.hidden = !display;
-        wself.bottomPeaksView.hidden = !display;
-    };
-}
-
 //- (void)renderMIDI {
 //    const auto sliceSize = _params.spectrogram.sliceSize();
 //    if (_midiData.capacity() != sliceSize)
@@ -266,45 +155,38 @@ static const DataType kGainValue = 4.0;
 //}
 
 - (void)renderReference {
-    [_bottomSpectrogramView setData:nullptr frequencies:nullptr count:0];
-    [_bottomPeaksView setData:nullptr frequencies:nullptr count:0];
+    [_bottomScalogramView setData:nullptr frequencies:nullptr count:0];
     [_bottomSmoothedView setData:nullptr frequencies:nullptr count:0];
 
     if (!self.referenceFilePath)
         return;
 
-    const auto& sgParams = _params.referenceSpectrogramParameters;
-    const auto sliceSize = sgParams.sliceSize();
+    const auto sliceSize = _params.sliceSize();
 
-    _referenceSpectrogramData = Spectrogram::generateFromData(std::begin(_input) + _frameOffset, sgParams.inputSize(1), sgParams, true);
-    if (_referenceSpectrogramData.sliceCount == 0)
+    _referenceScalogramData = Scalogram::generateFromData(std::begin(_input) + _frameOffset, _params.widthMax, _params, true);
+    if (_referenceScalogramData.sliceCount == 0)
         return;
+    
+    [_bottomScalogramView setData:std::begin(_referenceScalogramData.magnitudes) + (_referenceScalogramData.sliceCount/2) * sliceSize
+                      frequencies:std::begin(_referenceScalogramData.frequencies) + (_referenceScalogramData.sliceCount/2) * sliceSize
+                            count:sliceSize];
 
-    [_bottomSpectrogramView setData:std::begin(_referenceSpectrogramData.magnitudes)
-                        frequencies:std::begin(_referenceSpectrogramData.frequencies)
-                              count:sliceSize];
-
-    [_bottomPeaksView setData:std::begin(_referenceSpectrogramData.peaks) frequencies:NULL count:sliceSize];
-    [_bottomSmoothedView setData:std::begin(_referenceSpectrogramData.magnitudes) frequencies:NULL count:sliceSize];
+    [_bottomSmoothedView setData:std::begin(_referenceScalogramData.magnitudes) frequencies:NULL count:sliceSize];
 
     //[self renderMIDI];
 }
 
 - (void)renderSource {
-    const auto& sgParams = _params.subjectSpectrogramParameters;
-    const auto sliceSize = sgParams.sliceSize();
+    const auto sliceSize = _params.sliceSize();
 
-    if (!_sourceSpectrogram || !_sourceSpectrogram->render())
+    if (!_sourceScalogram || !_sourceScalogram->render())
         return;
 
-    [_topSpectrogramView setData:std::begin(_sourceSpectrogram->magnitudes())
-                     frequencies:std::begin(_sourceSpectrogram->frequencies())
+    [_topScalogramView setData:std::begin(_sourceScalogram->magnitudes())
+                     frequencies:std::begin(_sourceScalogram->frequencies())
                            count:sliceSize];
 
-    [_topPeaksView setData:std::begin(_sourceSpectrogram->peaks()) frequencies:NULL count:sliceSize];
-    [_bottomPeaksView setMatchData:std::begin(_sourceSpectrogram->peaks()) count:sliceSize];
-
-    [_topSmoothedView setData:std::begin(_sourceSpectrogram->magnitudes()) frequencies:NULL count:sliceSize];
+    [_topSmoothedView setData:std::begin(_sourceScalogram->magnitudes()) frequencies:NULL count:sliceSize];
 
 //    NSMutableString* labelText = [NSMutableString string];
 //    auto result = _closestPeaks->nextMatches(0.01);
@@ -326,16 +208,6 @@ static const DataType kGainValue = 4.0;
 
 - (IBAction)openNotes:(UIButton*)sender {
     [_midiPicker presentInViewController:self sourceRect:sender.frame];
-}
-
-- (IBAction)openSettings:(UIButton*)sender {
-    _settingsViewController.preferredContentSize = CGSizeMake(600, 290);
-    [self presentViewController:_settingsViewController animated:YES completion:nil];
-
-    UIPopoverPresentationController *presentationController = [_settingsViewController popoverPresentationController];
-    presentationController.permittedArrowDirections = UIPopoverArrowDirectionAny;
-    presentationController.sourceView = self.view;
-    presentationController.sourceRect = sender.frame;
 }
 
 - (void)loadFile:(NSString*)file {
@@ -362,7 +234,7 @@ static const DataType kGainValue = 4.0;
 }
 
 - (void)updateWindowView {
-    CGFloat windowWidth = (CGFloat)_params.subjectSpectrogramParameters.windowSize() / (CGFloat)_waveformView.samplesPerPoint;
+    CGFloat windowWidth = (CGFloat)_params.widthMax / (CGFloat)_waveformView.samplesPerPoint;
     UIEdgeInsets insets = UIEdgeInsetsZero;
     insets.left = (_windowView.bounds.size.width - windowWidth) / 2;
     insets.right = (_windowView.bounds.size.width - windowWidth) / 2;;
@@ -374,13 +246,10 @@ static const DataType kGainValue = 4.0;
 
 - (void)initializeSourceGraph {
     // Clear views to avoid accessing invalid memory
-    [_topSpectrogramView setData:nullptr frequencies:nullptr count:0];
-    [_topPeaksView setData:nullptr frequencies:nullptr count:0];
-    [_bottomPeaksView setMatchData:nullptr count:0];
+    [_topScalogramView setData:nullptr frequencies:nullptr count:0];
     [_topSmoothedView setData:nullptr frequencies:nullptr count:0];
 
-    const auto& sgParams = _params.subjectSpectrogramParameters;
-    _sourceSpectrogram.reset(new Spectrogram{sgParams, kGainValue});
+    _sourceScalogram.reset(new Scalogram{_params, kGainValue});
 
 //    // Set up note tracker
 //    _closestPeaks.reset(new ClosestPeaks);
@@ -394,8 +263,8 @@ static const DataType kGainValue = 4.0;
 //            _closestPeaks->setReferenceAnnotationsFile([annotationsFile UTF8String]);
 //    }
 
-    __weak PeakInspectorViewController* wself = self;
-    _microphone = dynamic_cast<MicrophoneModule*>(_sourceSpectrogram->graph().source()->module.get());
+    __weak ScalogramViewController* wself = self;
+    _microphone = dynamic_cast<MicrophoneModule*>(_sourceScalogram->graph().source()->module.get());
     _microphone->onDataAvailable([wself](std::size_t size) {
         dispatch_async(dispatch_get_main_queue(), ^{
             [wself renderSource];
