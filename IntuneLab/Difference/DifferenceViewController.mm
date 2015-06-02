@@ -46,7 +46,6 @@ using SizeType = vDSP_Length;
     _spectrogramViewControllerBottom.view.frame = _spectrogramViewContainerBottom.bounds;
     [_spectrogramViewContainerBottom addSubview:_spectrogramViewControllerBottom.view];
     [_spectrogramViewControllerBottom didMoveToParentViewController:self];
-    _spectrogramViewControllerBottom.spectrogramHighColor = [UIColor purpleColor];
 
     // setup did scroll blocks
     __weak DifferenceViewController* wself = self;

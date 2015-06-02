@@ -9,8 +9,6 @@
 
 @property(nonatomic) tempo::Spectrogram::Parameters parameters;
 @property(nonatomic) double decibelGround;
-@property(nonatomic, strong) UIColor* spectrogramHighColor;
-@property(nonatomic, strong) UIColor* spectrogramLowColor;
 
 @property(nonatomic, copy) void (^didScrollBlock)(CGFloat dx);
 @property(nonatomic, copy) void (^didTapBlock)(CGPoint location, NSUInteger timeIndex);

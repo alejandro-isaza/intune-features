@@ -74,15 +74,6 @@ using namespace tempo;
     return _parameters.sliceSize();
 }
 
-- (void)setSpectrogramHighColor:(UIColor *)spectrogramColor {
-    _spectrogramView.highColor = spectrogramColor;
-    _equalizerView.barColor = spectrogramColor;
-}
-
-- (void)setSpectrogramLowColor:(UIColor *)spectrogramColor {
-    _spectrogramView.lowColor = spectrogramColor;
-}
-
 - (IBAction)open:(UIButton *)sender {
     VMFilePickerController *filePicker = [[VMFilePickerController alloc] init];
     filePicker.selectionBlock = ^(NSString* file, NSString* filename) {
@@ -108,7 +99,8 @@ using namespace tempo;
     [self.equalizerView setSamples:nullptr count:0 offset:0];
 
     // Load spectrogram
-    _spectrogram->render();
+    for (auto i = 0; i < _spectrogram->parameters().historySize; i += 1)
+        _spectrogram->render();
     self.spectrogramView.sampleTimeLength = _parameters.hopSize() / _parameters.sampleRate;
     self.spectrogramView.frequencyBinCount = _parameters.sliceSize();
     [self.spectrogramView setSamples:std::begin(_spectrogram->magnitudes()) count:_spectrogram->magnitudes().size()];

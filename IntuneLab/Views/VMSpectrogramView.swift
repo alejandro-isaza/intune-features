@@ -58,11 +58,11 @@ internal class VMSpectrogramView: UIScrollView {
     private var timeScaleBegan = NSTimeInterval()
 
     @IBInspectable var gridColor: UIColor = UIColor.grayColor()
-    @IBInspectable var lowColor: UIColor = UIColor.whiteColor()
-    @IBInspectable var highColor: UIColor = UIColor.blueColor()
-    @IBInspectable var peakColor: UIColor = UIColor.blackColor()
-    @IBInspectable var highlightLowColor: UIColor = UIColor.whiteColor()
-    @IBInspectable var highlightHighColor: UIColor = UIColor.orangeColor()
+    @IBInspectable var peakColor: UIColor = UIColor.blackColor().colorWithAlphaComponent(0.25)
+    @IBInspectable var hueMin: CGFloat = 240
+    @IBInspectable var hueMax: CGFloat = 0
+    @IBInspectable var saturationMin: CGFloat = 0.5
+    @IBInspectable var saturationMax: CGFloat = 1.0
 
     private(set) internal var samples: UnsafePointer<Double> = nil
     private(set) internal var sampleCount: UInt = 0
@@ -228,28 +228,15 @@ internal class VMSpectrogramView: UIScrollView {
         if value < 0 {
             value = 0
         }
-        
+
+        let hue = hueMin + (hueMax - hueMin) * CGFloat(value)
+        let saturation = saturationMin + (saturationMax - saturationMin) * CGFloat(value)
+        var brightness: CGFloat = 0.5
         if timeIndex == highlightTimeIndex {
-            let color = VMSpectrogramView.colorLerp(highlightLowColor, end: highlightHighColor, p: CGFloat(value))
-                color.setFill()
-        } else {
-            let color = VMSpectrogramView.colorLerp(lowColor, end: highColor, p: CGFloat(value))
-                color.setFill()
+            brightness = 0.75
         }
-    }
 
-    class func colorLerp(start: UIColor, end: UIColor, p: CGFloat) -> UIColor {
-        let startComponent = CGColorGetComponents(start.CGColor)
-        let endComponent = CGColorGetComponents(end.CGColor)
-
-        let startAlpha = CGColorGetAlpha(start.CGColor)
-        let endAlpha = CGColorGetAlpha(end.CGColor)
-
-        let r = startComponent[0] + (endComponent[0] - startComponent[0]) * p
-        let g = startComponent[1] + (endComponent[1] - startComponent[1]) * p
-        let b = startComponent[2] + (endComponent[2] - startComponent[2]) * p
-        let a = startAlpha + (endAlpha - startAlpha) * p
-
-        return UIColor(red: r, green: g, blue: b, alpha: a)
+        let color = Color(hue: hue, saturation: saturation, brightness: brightness, alpha: 1).UIColor
+        color.setFill()
     }
 }

@@ -163,6 +163,8 @@
 		611A14131B1699E800A9A4B1 /* ScalogramViewController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 611A14121B1699E800A9A4B1 /* ScalogramViewController.mm */; };
 		611A14161B169DA500A9A4B1 /* MorletWavelet.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 611A14151B169DA500A9A4B1 /* MorletWavelet.cpp */; };
 		612BFF731AC1DECB000D5772 /* Annotations in Resources */ = {isa = PBXBuildFile; fileRef = 612BFF721AC1DECB000D5772 /* Annotations */; };
+		61502BD91B1E166300496218 /* Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61502BD81B1E166300496218 /* Color.swift */; };
+		61502BDC1B1E336300496218 /* History.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 61502BDB1B1E336300496218 /* History.cpp */; };
 		6157FCA21ABCBEA8008C0D0D /* VMDistancesView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6157FCA11ABCBEA8008C0D0D /* VMDistancesView.m */; };
 		6171BD451A16BCC4004AB274 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD441A16BCC4004AB274 /* main.m */; };
 		6171BD481A16BCC4004AB274 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6171BD471A16BCC4004AB274 /* AppDelegate.m */; };
@@ -618,6 +620,9 @@
 		611A14141B169DA500A9A4B1 /* MorletWavelet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MorletWavelet.h; sourceTree = "<group>"; };
 		611A14151B169DA500A9A4B1 /* MorletWavelet.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = MorletWavelet.cpp; sourceTree = "<group>"; };
 		612BFF721AC1DECB000D5772 /* Annotations */ = {isa = PBXFileReference; lastKnownFileType = folder; name = Annotations; path = Resources/Annotations; sourceTree = "<group>"; };
+		61502BD81B1E166300496218 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
+		61502BDA1B1E336300496218 /* History.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = History.h; sourceTree = "<group>"; };
+		61502BDB1B1E336300496218 /* History.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = History.cpp; sourceTree = "<group>"; };
 		6157FCA01ABCBEA8008C0D0D /* VMDistancesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMDistancesView.h; sourceTree = "<group>"; };
 		6157FCA11ABCBEA8008C0D0D /* VMDistancesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMDistancesView.m; sourceTree = "<group>"; };
 		6171BD3F1A16BCC4004AB274 /* IntuneLab.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IntuneLab.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1201,6 +1206,7 @@
 				00D9E2D11AE186E6004C2505 /* FFTSettingsViewController.xib */,
 				00E638A31AB8E54C00F5B4C5 /* VMFilePickerController.h */,
 				00E638A41AB8E54C00F5B4C5 /* VMFilePickerController.m */,
+				61502BD81B1E166300496218 /* Color.swift */,
 			);
 			name = Helpers;
 			sourceTree = "<group>";
@@ -1369,6 +1375,8 @@
 				61A56FE11B02A66800FEED4E /* FFTModule.hpp */,
 				61A56FE21B02A66800FEED4E /* FixedData.h */,
 				61A56FE31B02A66800FEED4E /* Gain.h */,
+				61502BDB1B1E336300496218 /* History.cpp */,
+				61502BDA1B1E336300496218 /* History.h */,
 				61A56FE41B02A66800FEED4E /* LowPassFilter.h */,
 				61A56FE51B02A66800FEED4E /* Magnitudes.h */,
 				61A56FE61B02A66800FEED4E /* MicrophoneModule.cpp */,
@@ -1721,6 +1729,7 @@
 				00D9E2CA1AE1869A004C2505 /* VMSpectrogramViewController.mm in Sources */,
 				611A14131B1699E800A9A4B1 /* ScalogramViewController.mm in Sources */,
 				00D9E2C91AE1869A004C2505 /* DifferenceViewController.mm in Sources */,
+				61502BD91B1E166300496218 /* Color.swift in Sources */,
 				6171BD451A16BCC4004AB274 /* main.m in Sources */,
 				00E638A51AB8E54C00F5B4C5 /* VMFilePickerController.m in Sources */,
 				00D9E2DA1AE18991004C2505 /* PeakInspectorViewController.mm in Sources */,
@@ -1756,6 +1765,7 @@
 				617DC66C1AC33CE30019E841 /* Spectrogram.cpp in Sources */,
 				618EB9BF1AE6BBBD00E51A9E /* Annotation.cpp in Sources */,
 				611A14161B169DA500A9A4B1 /* MorletWavelet.cpp in Sources */,
+				61502BDC1B1E336300496218 /* History.cpp in Sources */,
 				61A56FF31B02A66800FEED4E /* SaveToFileModule.cpp in Sources */,
 				618EB9C01AE6BBBD00E51A9E /* AnnotationsSerialization.cpp in Sources */,
 			);
