@@ -22,8 +22,7 @@ ARGV.each do |file|
       doc_step.content = note[0]
       doc_alter.content = note.length == 1 ? "0" : "1"
       midi_value = midi_value(octave, note_index)
-      note_str = note.dup.insert(1, octave.to_s)
-      File.open("out/#{midi_value} - #{note_str}.xml", "w") { |f| f.print(doc.to_xml) }
+      File.open("out/#{midi_value}.xml", "w") { |f| f.print(doc.to_xml) }
     end
   end
 end
