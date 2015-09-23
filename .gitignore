@@ -16,3 +16,6 @@ Pods
 # Docs
 doc/
 
+# Converter files
+Converters/out/
+Converters/sf/
