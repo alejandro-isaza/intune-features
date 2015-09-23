@@ -97,7 +97,7 @@ public class VMFrequencyView: UIScrollView {
         }
     }
 
-    private func drawFrequency(#startIndex: Int, endIndex: Int) {
+    private func drawFrequency(startIndex startIndex: Int, endIndex: Int) {
         let context = UIGraphicsGetCurrentContext()
         let height = bounds.size.height
         let spacing = 1.0 / binsPerPoint
@@ -117,9 +117,8 @@ public class VMFrequencyView: UIScrollView {
         CGContextStrokePath(context)
     }
 
-    private func drawPeaks(#startIndex: Int, endIndex: Int) {
+    private func drawPeaks(startIndex startIndex: Int, endIndex: Int) {
         let context = UIGraphicsGetCurrentContext()
-        let height = bounds.size.height
         let spacing = 1.0 / binsPerPoint
 
         var barRect = CGRect()

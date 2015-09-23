@@ -623,6 +623,7 @@
 		61502BD81B1E166300496218 /* Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Color.swift; sourceTree = "<group>"; };
 		61502BDA1B1E336300496218 /* History.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = History.h; sourceTree = "<group>"; };
 		61502BDB1B1E336300496218 /* History.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = History.cpp; sourceTree = "<group>"; };
+		61502BE01B1E5E9D00496218 /* LambdaSink.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = LambdaSink.h; sourceTree = "<group>"; };
 		6157FCA01ABCBEA8008C0D0D /* VMDistancesView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = VMDistancesView.h; sourceTree = "<group>"; };
 		6157FCA11ABCBEA8008C0D0D /* VMDistancesView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = VMDistancesView.m; sourceTree = "<group>"; };
 		6171BD3F1A16BCC4004AB274 /* IntuneLab.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = IntuneLab.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1377,6 +1378,7 @@
 				61A56FE31B02A66800FEED4E /* Gain.h */,
 				61502BDB1B1E336300496218 /* History.cpp */,
 				61502BDA1B1E336300496218 /* History.h */,
+				61502BE01B1E5E9D00496218 /* LambdaSink.h */,
 				61A56FE41B02A66800FEED4E /* LowPassFilter.h */,
 				61A56FE51B02A66800FEED4E /* Magnitudes.h */,
 				61A56FE61B02A66800FEED4E /* MicrophoneModule.cpp */,
@@ -1501,7 +1503,9 @@
 		6171BD371A16BCC4004AB274 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0610;
+				LastSwiftMigration = 0700;
+				LastSwiftUpdateCheck = 0700;
+				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Venture Media Labs";
 				TargetAttributes = {
 					00EFC4C11AAF8DF3000C1D5B = {
@@ -1880,6 +1884,7 @@
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				COPY_PHASE_STRIP = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -1964,6 +1969,7 @@
 				INFOPLIST_FILE = IntuneLab/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.venturemedia.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "IntuneLab/IntuneLab-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -1982,6 +1988,7 @@
 				INFOPLIST_FILE = IntuneLab/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = "$(PROJECT_DIR)";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.venturemedia.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_OBJC_BRIDGING_HEADER = "IntuneLab/IntuneLab-Bridging-Header.h";
 			};
@@ -2001,6 +2008,7 @@
 				);
 				INFOPLIST_FILE = IntuneLabTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.venturemedia.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IntuneLab.app/IntuneLab";
 			};
@@ -2016,6 +2024,7 @@
 				);
 				INFOPLIST_FILE = IntuneLabTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
+				PRODUCT_BUNDLE_IDENTIFIER = "com.venturemedia.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/IntuneLab.app/IntuneLab";
 			};

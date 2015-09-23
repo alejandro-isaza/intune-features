@@ -25,7 +25,7 @@ public class VMPianoRollViewController: UIViewController {
 
         var bounds = CGRectNull
         for eventRectValue in eventRects {
-            var eventRect = eventRectValue.CGRectValue()
+            let eventRect = eventRectValue.CGRectValue()
             bounds = CGRectUnion(bounds, eventRect)
         }
         visibleNotesSlider.value = Float(bounds.width)
@@ -61,7 +61,7 @@ internal class VMPianoRollContentView: UIScrollView {
         }
     }
 
-    required internal init(coder aDecoder: NSCoder) {
+    required internal init?(coder aDecoder: NSCoder) {
         super.init(coder: aDecoder)
         setup()
     }
@@ -90,7 +90,7 @@ internal class VMPianoRollContentView: UIScrollView {
     private func eventsBounds() -> CGRect {
         var bounds = CGRectNull
         for eventRectValue in eventRects {
-            var eventRect = eventRectValue.CGRectValue()
+            let eventRect = eventRectValue.CGRectValue()
             bounds = CGRectUnion(bounds, eventRect)
         }
         if CGRectIsNull(bounds) {
@@ -98,11 +98,11 @@ internal class VMPianoRollContentView: UIScrollView {
         }
 
         let padding = numVisibleNotes - bounds.width
-        var left = padding/2
-        var right = padding - left
+        let left = padding/2
+        let right = padding - left
 
-        var minX = max(0, bounds.minX - left)
-        var maxX = min(maximumVisibleNotes, bounds.maxX + right)
+        let minX = max(0, bounds.minX - left)
+        let maxX = min(maximumVisibleNotes, bounds.maxX + right)
 
         bounds.origin.x = CGFloat(minX)
         bounds.size.width = CGFloat(maxX - minX)
@@ -135,12 +135,13 @@ internal class VMPianoRollContentView: UIScrollView {
     }
 
     internal override func drawRect(rect: CGRect) {
-        let context = UIGraphicsGetCurrentContext()
-        backgroundColor?.setFill()
-        CGContextFillRect(context, rect)
-        drawOctaveLines(context, rect: rect)
-        drawTimeLines(context, rect: rect)
-        drawEvents(context, rect: rect)
+        if let context = UIGraphicsGetCurrentContext() {
+            backgroundColor?.setFill()
+            CGContextFillRect(context, rect)
+            drawOctaveLines(context, rect: rect)
+            drawTimeLines(context, rect: rect)
+            drawEvents(context, rect: rect)
+        }
     }
 
     internal func drawEvents(context: CGContext, rect: CGRect) {

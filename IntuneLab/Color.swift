@@ -61,13 +61,13 @@ public class Color {
         }
     }
 
-    func set(#red: CGFloat, green: CGFloat, blue: CGFloat) {
+    func set(red red: CGFloat, green: CGFloat, blue: CGFloat) {
         self.red = red
         self.green = green
         self.blue = blue
     }
 
-    func set(#hue: CGFloat, saturation: CGFloat, brightness: CGFloat) {
+    func set(hue hue: CGFloat, saturation: CGFloat, brightness: CGFloat) {
         red = 0
         green = 0
         blue = 0

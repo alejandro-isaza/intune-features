@@ -54,7 +54,7 @@ public class VMWaveformView: UIScrollView {
         setNeedsLayout()
     }
 
-    public func mark(#time: NSTimeInterval) {
+    public func mark(time time: NSTimeInterval) {
         markIndex = Int(time * sampleRate)
         setNeedsDisplay()
     }

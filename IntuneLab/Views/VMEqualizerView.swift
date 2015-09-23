@@ -65,7 +65,7 @@ public class VMEqualizerView: UIView {
         if xScale == Scale.Linear {
             xScaling = xForFrequencyLinear
         }
-        var yScaling = yForSampleDecibels
+        let yScaling = yForSampleDecibels
 
         for var sampleIndex = 0; sampleIndex < samplesCount; sampleIndex += 1 {
             let f0 = Float(sampleIndex) * fs
@@ -74,7 +74,7 @@ public class VMEqualizerView: UIView {
             let minX = xScaling(f0)
             let maxX = xScaling(f1)
 
-            var value = yScaling(samples[sampleIndex])
+            let value = yScaling(samples[sampleIndex])
 
             barRect.size.height = value * barBounds.height
             barRect.size.width = maxX - minX
