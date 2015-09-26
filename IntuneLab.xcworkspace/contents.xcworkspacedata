@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:AudioKit/AudioKit.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Submodules/Surge/Surge.xcodeproj">
    </FileRef>
    <FileRef
