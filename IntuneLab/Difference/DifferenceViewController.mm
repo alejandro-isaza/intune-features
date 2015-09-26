@@ -141,6 +141,7 @@ using SizeType = vDSP_Length;
 }
 
 - (IBAction)openSettings:(UIButton*)sender {
+    _settingsViewController.preferredContentSize = CGSizeMake(600, 290);
     [self presentViewController:_settingsViewController animated:YES completion:nil];
 
     UIPopoverPresentationController *presentationController = [_settingsViewController popoverPresentationController];
