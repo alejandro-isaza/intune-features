@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:PlotKit/PlotKit.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:AudioKit/AudioKit.xcodeproj">
    </FileRef>
    <FileRef
@@ -12,5 +15,8 @@
    </FileRef>
    <FileRef
       location = "group:/Users/al/dev/VM/intune-lab/PSDPlayground.playground">
+   </FileRef>
+   <FileRef
+      location = "group:PlotPlayground.playground">
    </FileRef>
 </Workspace>
