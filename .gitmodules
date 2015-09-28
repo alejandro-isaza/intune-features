@@ -9,4 +9,4 @@
 	url = https://github.com/nlohmann/json.git
 [submodule "Submodules/Surge"]
 	path = Submodules/Surge
-	url = https://github.com/mattt/Surge.git
+	url = git@github.com:aleph7/Surge.git
