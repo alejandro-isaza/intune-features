@@ -2,7 +2,7 @@
 
 import AppKit
 
-class AxesView: NSView {
+internal class AxesView: NSView {
     var insets = NSEdgeInsets(top: 40, left: 40, bottom: 40, right: 40)
     var lineWidth = CGFloat(1)
     var tickLength = CGFloat(5)

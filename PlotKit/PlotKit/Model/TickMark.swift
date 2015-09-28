@@ -14,6 +14,11 @@ public struct TickMark {
 
     public init(_ value: Int) {
         self.value = Double(value)
-        label = String(format: "%.3g", arguments: [value])
+        label = "\(value)"
+    }
+
+    public init(_ value: Double, label: String) {
+        self.value = value
+        self.label = label
     }
 }

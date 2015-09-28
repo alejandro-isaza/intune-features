@@ -4,9 +4,10 @@ import Foundation
 
 public enum PointType {
     case None
-    case Circle(radius: Double)
+    case Ring(radius: Double)
     case Disk(radius: Double)
     case Square(side: Double)
+    case FilledSquare(side: Double)
 }
 
 public class PointSet {

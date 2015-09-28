@@ -11,11 +11,16 @@ public class PlotView : NSView {
     var axesView = AxesView()
     var pointSetViews = [PointSetView]()
 
+    public var backgroundColor: NSColor = NSColor.whiteColor()
+
+    /// If not `nil` the x values are limited to this interval, otherwise the x interval will fit all values
     public var fixedXInterval: Interval? {
         didSet {
             updateIntervals()
         }
     }
+
+    /// If not `nil` the y values are limited to this interval, otherwise the y interval will fit all values
     public var fixedYInterval: Interval? {
         didSet {
             updateIntervals()
@@ -40,43 +45,6 @@ public class PlotView : NSView {
         return interval
     }
 
-    var xInterval: Interval {
-        if let interval = fixedXInterval {
-            return interval
-        }
-        return fittingXInterval
-    }
-
-    var yInterval: Interval {
-        if let interval = fixedYInterval {
-            return interval
-        }
-        return fittingYInterval
-    }
-
-    public override var opaque: Bool {
-        return true
-    }
-
-    public override init(frame: NSRect) {
-        super.init(frame: frame)
-
-        axesView.translatesAutoresizingMaskIntoConstraints = false
-        axesView.insets = NSEdgeInsets(
-            top: Constants.vPadding,
-            left: Constants.hPadding,
-            bottom: Constants.vPadding,
-            right: Constants.hPadding)
-        addSubview(axesView)
-
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[view]|", options: .AlignAllCenterY, metrics: nil, views: ["view": axesView]))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[view]|", options: .AlignAllCenterX, metrics: nil, views: ["view": axesView]))
-    }
-
-    public required init?(coder: NSCoder) {
-        super.init(coder: coder)
-    }
-
     public func addPointSet(pointSet: PointSet) {
         let view = PointSetView(pointSet: pointSet)
 
@@ -95,6 +63,36 @@ public class PlotView : NSView {
 
         pointSetViews.append(view)
         updateIntervals()
+    }
+
+
+    // MARK: - Helper functions
+
+    var xInterval: Interval {
+        if let interval = fixedXInterval {
+            return interval
+        }
+        return fittingXInterval
+    }
+
+    var yInterval: Interval {
+        if let interval = fixedYInterval {
+            return interval
+        }
+        return fittingYInterval
+    }
+
+    func setupAxesView() {
+        axesView.translatesAutoresizingMaskIntoConstraints = false
+        axesView.insets = NSEdgeInsets(
+            top: Constants.vPadding,
+            left: Constants.hPadding,
+            bottom: Constants.vPadding,
+            right: Constants.hPadding)
+        addSubview(axesView)
+
+        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[view]|", options: .AlignAllCenterY, metrics: nil, views: ["view": axesView]))
+        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[view]|", options: .AlignAllCenterX, metrics: nil, views: ["view": axesView]))
     }
 
     func updateIntervals() {
@@ -124,8 +122,25 @@ public class PlotView : NSView {
         ]
     }
 
+
+    // MARK: - NSView overrides
+
+    public override init(frame: NSRect) {
+        super.init(frame: frame)
+        setupAxesView()
+    }
+
+    public required init?(coder: NSCoder) {
+        super.init(coder: coder)
+        setupAxesView()
+    }
+
+    public override var opaque: Bool {
+        return true
+    }
+
     override public func drawRect(rect: CGRect) {
-        NSColor.whiteColor().setFill()
+        backgroundColor.setFill()
         NSRectFill(rect)
     }
 }

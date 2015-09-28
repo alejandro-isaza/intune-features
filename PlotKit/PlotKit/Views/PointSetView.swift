@@ -2,7 +2,7 @@
 
 import AppKit
 
-class PointSetView: NSView {
+internal class PointSetView: NSView {
     var pointSet: PointSet {
         didSet {
             needsDisplay = true
@@ -55,12 +55,14 @@ class PointSetView: NSView {
         }
     }
 
+    // MARK: - Point drawing
+
     func drawPointForPointSet() -> (CGContextRef?, CGPoint) -> () {
         switch pointSet.pointType {
         case .None:
             return { _, _ in }
 
-        case .Circle(let radius):
+        case .Ring(let radius):
             return { context, center in
                 self.drawCircle(context, center: center, radius: radius)
             }
@@ -74,7 +76,11 @@ class PointSetView: NSView {
             return { context, center in
                 self.drawSquare(context, center: center, side: side)
             }
-            
+
+        case .FilledSquare(let side):
+            return { context, center in
+                self.drawFilledSquare(context, center: center, side: side)
+            }
         }
     }
 
@@ -105,7 +111,18 @@ class PointSetView: NSView {
         CGContextStrokeRect(context, rect)
     }
 
-    private func convertToView(x x: Double, y: Double) -> CGPoint {
+    func drawFilledSquare(context: CGContextRef?, center: CGPoint, side: Double) {
+        let rect = NSRect(
+            x: center.x - CGFloat(side/1),
+            y: center.y - CGFloat(side/1),
+            width: CGFloat(side),
+            height: CGFloat(side))
+        CGContextFillRect(context, rect)
+    }
+
+    // MARK: - Helper functions
+
+    func convertToView(x x: Double, y: Double) -> CGPoint {
         let boundsXInterval = Interval(min: Double(bounds.minX), max: Double(bounds.maxX))
         let boundsYInterval = Interval(min: Double(bounds.minY), max: Double(bounds.maxY))
         return CGPoint(
