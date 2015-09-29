@@ -5,7 +5,8 @@ import Foundation
 public struct TickMark {
     public var value: Double
     public var label: String
-    public var lineWidth = 1.0
+    public var lineWidth = CGFloat(1.0)
+    public var lineLength = CGFloat(5.0)
 
     public init(_ value: Double) {
         self.value = value

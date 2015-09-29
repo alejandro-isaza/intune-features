@@ -27,6 +27,17 @@ func psd(name: String) -> [Point] {
 let plotView = PlotView(frame: NSRect(x: 0, y: 0, width: 1024, height: 400))
 XCPShowView("PSD", view: plotView)
 
+//: Add x axis with one tick every 100Hz
+let tickCount = 10
+let tickInterval = 1000
+let xticks = (0...tickCount).map{ TickMark(Double($0 * tickInterval), label: "\($0*tickInterval)") }
+let xaxis = Axis(orientation: Axis.Orientation.Horizontal, ticks: xticks)
+plotView.addAxis(xaxis)
+
+//: Add y axis with tics every 0.001
+let yaxis = Axis(orientation: .Vertical, ticks: (0...100).map{ TickMark(Double($0) / 100.0) })
+plotView.addAxis(yaxis)
+
 //: Generate a PointSet with the x and y values of the data
 let pointSetC = PointSet(points: psd("72"))
 plotView.addPointSet(pointSetC)

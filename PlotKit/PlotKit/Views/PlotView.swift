@@ -8,7 +8,7 @@ public class PlotView : NSView {
         static let vPadding = CGFloat(40)
     }
 
-    var axesView = AxesView()
+    var axisViews = [AxisView]()
     var pointSetViews = [PointSetView]()
 
     public var backgroundColor: NSColor = NSColor.whiteColor()
@@ -45,11 +45,31 @@ public class PlotView : NSView {
         return interval
     }
 
+    public func addAxis(axis: Axis) {
+        let view = AxisView(axis: axis)
+        view.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(view, positioned: .Above, relativeTo: pointSetViews.last)
+
+        view.insets = NSEdgeInsets(
+            top: Constants.vPadding,
+            left: Constants.hPadding,
+            bottom: Constants.vPadding,
+            right: Constants.hPadding)
+
+        let views = ["view": view]
+        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[view]|",
+            options: .AlignAllCenterY, metrics: nil, views: views))
+        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[view]|",
+            options: .AlignAllCenterX, metrics: nil, views: views))
+
+        axisViews.append(view)
+        updateIntervals()
+    }
+
     public func addPointSet(pointSet: PointSet) {
         let view = PointSetView(pointSet: pointSet)
-
         view.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(view)
+        addSubview(view, positioned: .Below, relativeTo: axisViews.first)
 
         let views = ["view": view]
         let metrics = [
@@ -82,58 +102,19 @@ public class PlotView : NSView {
         return fittingYInterval
     }
 
-    func setupAxesView() {
-        axesView.translatesAutoresizingMaskIntoConstraints = false
-        axesView.insets = NSEdgeInsets(
-            top: Constants.vPadding,
-            left: Constants.hPadding,
-            bottom: Constants.vPadding,
-            right: Constants.hPadding)
-        addSubview(axesView)
-
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("H:|[view]|", options: .AlignAllCenterY, metrics: nil, views: ["view": axesView]))
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat("V:|[view]|", options: .AlignAllCenterX, metrics: nil, views: ["view": axesView]))
-    }
-
     func updateIntervals() {
+        for view in axisViews {
+            view.xInterval = xInterval
+            view.yInterval = yInterval
+        }
         for view in pointSetViews {
             view.xInterval = xInterval
             view.yInterval = yInterval
         }
-
-        updateAxes()
-    }
-
-    func updateAxes() {
-        let xint = xInterval
-        axesView.xInterval = xint
-        axesView.xTicks = [
-            TickMark(xint.min),
-            TickMark((xint.max + xint.min) / 2),
-            TickMark(xint.max)
-        ]
-
-        let yint = yInterval
-        axesView.yInterval = yint
-        axesView.yTicks = [
-            TickMark(yint.min),
-            TickMark((yint.max + yint.min) / 2),
-            TickMark(yint.max)
-        ]
     }
 
 
     // MARK: - NSView overrides
-
-    public override init(frame: NSRect) {
-        super.init(frame: frame)
-        setupAxesView()
-    }
-
-    public required init?(coder: NSCoder) {
-        super.init(coder: coder)
-        setupAxesView()
-    }
 
     public override var opaque: Bool {
         return true

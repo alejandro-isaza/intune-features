@@ -4,6 +4,8 @@ import Foundation
 
 /// Represents a closed interval in the real line
 public struct Interval {
+    public static let empty = Interval(min: DBL_MAX, max: DBL_MIN)
+
     public var min: Double
     public var max: Double
 
@@ -30,7 +32,9 @@ public struct Interval {
         }
     }
 
-    public static let empty = Interval(min: DBL_MAX, max: DBL_MIN)
+    public func contains(value: Double) -> Bool {
+        return min <= value && value <= max
+    }
 }
 
 public func join(lhs: Interval, _ rhs: Interval) -> Interval {

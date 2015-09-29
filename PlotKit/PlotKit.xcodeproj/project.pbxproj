@@ -10,13 +10,14 @@
 		6108DFF51BB9D9E8004A4337 /* Interval.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6108DFEE1BB9D9E8004A4337 /* Interval.swift */; settings = {ASSET_TAGS = (); }; };
 		6108DFF61BB9D9E8004A4337 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6108DFEF1BB9D9E8004A4337 /* Point.swift */; settings = {ASSET_TAGS = (); }; };
 		6108DFF71BB9D9E8004A4337 /* PointSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6108DFF01BB9D9E8004A4337 /* PointSet.swift */; settings = {ASSET_TAGS = (); }; };
-		6108DFF81BB9D9E8004A4337 /* AxesView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6108DFF21BB9D9E8004A4337 /* AxesView.swift */; settings = {ASSET_TAGS = (); }; };
+		6108DFF81BB9D9E8004A4337 /* AxisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6108DFF21BB9D9E8004A4337 /* AxisView.swift */; settings = {ASSET_TAGS = (); }; };
 		6108DFF91BB9D9E8004A4337 /* PlotView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6108DFF31BB9D9E8004A4337 /* PlotView.swift */; settings = {ASSET_TAGS = (); }; };
 		6108DFFA1BB9D9E8004A4337 /* PointSetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6108DFF41BB9D9E8004A4337 /* PointSetView.swift */; settings = {ASSET_TAGS = (); }; };
 		6108DFFC1BB9D9F9004A4337 /* TickMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6108DFFB1BB9D9F9004A4337 /* TickMark.swift */; settings = {ASSET_TAGS = (); }; };
 		610B1B371BB740B800B64973 /* PlotKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 610B1B361BB740B800B64973 /* PlotKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		610B1B3E1BB740B800B64973 /* PlotKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610B1B331BB740B800B64973 /* PlotKit.framework */; settings = {ASSET_TAGS = (); }; };
 		610B1B5D1BB9B98B00B64973 /* IntervalTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610B1B5C1BB9B98B00B64973 /* IntervalTests.swift */; settings = {ASSET_TAGS = (); }; };
+		618396B71BBA0A470071B3B1 /* Axis.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618396B61BBA0A470071B3B1 /* Axis.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -33,7 +34,7 @@
 		6108DFEE1BB9D9E8004A4337 /* Interval.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Interval.swift; sourceTree = "<group>"; };
 		6108DFEF1BB9D9E8004A4337 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		6108DFF01BB9D9E8004A4337 /* PointSet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointSet.swift; sourceTree = "<group>"; };
-		6108DFF21BB9D9E8004A4337 /* AxesView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AxesView.swift; sourceTree = "<group>"; };
+		6108DFF21BB9D9E8004A4337 /* AxisView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AxisView.swift; sourceTree = "<group>"; };
 		6108DFF31BB9D9E8004A4337 /* PlotView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PlotView.swift; sourceTree = "<group>"; };
 		6108DFF41BB9D9E8004A4337 /* PointSetView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PointSetView.swift; sourceTree = "<group>"; };
 		6108DFFB1BB9D9F9004A4337 /* TickMark.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TickMark.swift; sourceTree = "<group>"; };
@@ -43,6 +44,7 @@
 		610B1B3D1BB740B800B64973 /* PlotKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PlotKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		610B1B441BB740B800B64973 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		610B1B5C1BB9B98B00B64973 /* IntervalTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IntervalTests.swift; sourceTree = "<group>"; };
+		618396B61BBA0A470071B3B1 /* Axis.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Axis.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -71,6 +73,7 @@
 				6108DFEF1BB9D9E8004A4337 /* Point.swift */,
 				6108DFF01BB9D9E8004A4337 /* PointSet.swift */,
 				6108DFFB1BB9D9F9004A4337 /* TickMark.swift */,
+				618396B61BBA0A470071B3B1 /* Axis.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -79,7 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				6108DFF31BB9D9E8004A4337 /* PlotView.swift */,
-				6108DFF21BB9D9E8004A4337 /* AxesView.swift */,
+				6108DFF21BB9D9E8004A4337 /* AxisView.swift */,
 				6108DFF41BB9D9E8004A4337 /* PointSetView.swift */,
 			);
 			path = Views;
@@ -231,8 +234,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6108DFF81BB9D9E8004A4337 /* AxesView.swift in Sources */,
+				6108DFF81BB9D9E8004A4337 /* AxisView.swift in Sources */,
 				6108DFFA1BB9D9E8004A4337 /* PointSetView.swift in Sources */,
+				618396B71BBA0A470071B3B1 /* Axis.swift in Sources */,
 				6108DFF91BB9D9E8004A4337 /* PlotView.swift in Sources */,
 				6108DFF51BB9D9E8004A4337 /* Interval.swift in Sources */,
 				6108DFF61BB9D9E8004A4337 /* Point.swift in Sources */,
