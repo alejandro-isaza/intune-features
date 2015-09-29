@@ -36,6 +36,7 @@ internal class PointSetView: NSView {
     override func drawRect(rect: CGRect) {
         let context = NSGraphicsContext.currentContext()?.CGContext
         pointSet.color.setStroke()
+        pointSet.color.setFill()
         CGContextSetLineWidth(context, pointSet.lineWidth)
 
         if let first = pointSet.points.first {
