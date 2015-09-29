@@ -10,7 +10,7 @@ public struct TickMark {
 
     public init(_ value: Double) {
         self.value = value
-        label = String(format: "%.3g", arguments: [value])
+        label = String(format: "%.5g", arguments: [value])
     }
 
     public init(_ value: Int) {

@@ -48,7 +48,7 @@ internal class AxisView: NSView {
         switch axis.orientation {
         case .Horizontal:
             var height = CGFloat(0)
-            for tick in axis.ticks {
+            for tick in axis.ticks.ticksInInterval(xInterval) {
                 let string = tick.label as NSString
                 let size = string.sizeWithAttributes(axis.labelAttributes)
                 if size.height > height {
@@ -59,7 +59,7 @@ internal class AxisView: NSView {
 
         case .Vertical:
             var width = CGFloat(0)
-            for tick in axis.ticks {
+            for tick in axis.ticks.ticksInInterval(yInterval) {
                 let string = tick.label as NSString
                 let size = string.sizeWithAttributes(axis.labelAttributes)
                 if size.width > width {
@@ -97,7 +97,8 @@ internal class AxisView: NSView {
         CGContextFillRect(context, axisRect)
 
         // Draw tick marks
-        for tick in axis.ticks {
+        var lastTextFrame = NSRect()
+        for tick in axis.ticks.ticksInInterval(yInterval) {
             if !yInterval.contains(tick.value) {
                 continue
             }
@@ -112,10 +113,24 @@ internal class AxisView: NSView {
 
             let string = tick.label as NSString
             let size = string.sizeWithAttributes(axis.labelAttributes)
-            let point = NSPoint(
-                x: x - size.width - tick.lineLength,
-                y: y - size.height/2)
-            string.drawAtPoint(point, withAttributes: axis.labelAttributes)
+            let point: NSPoint
+            switch axis.position {
+            case .Start, .Value:
+                point = NSPoint(
+                    x: x - size.width - tick.lineLength,
+                    y: y - size.height/2)
+
+            case .End:
+                point = NSPoint(
+                    x: x + tick.lineLength,
+                    y: y - size.height/2)
+            }
+
+            let frame = NSRect(origin: point, size: size)
+            if !lastTextFrame.intersects(frame) {
+                string.drawAtPoint(point, withAttributes: axis.labelAttributes)
+                lastTextFrame = frame
+            }
         }
     }
 
@@ -143,7 +158,8 @@ internal class AxisView: NSView {
         CGContextFillRect(context, axisRect)
 
         // Draw tick marks
-        for tick in axis.ticks {
+        var lastTextFrame = NSRect()
+        for tick in axis.ticks.ticksInInterval(xInterval) {
             if !xInterval.contains(tick.value) {
                 continue
             }
@@ -158,10 +174,24 @@ internal class AxisView: NSView {
 
             let string = tick.label as NSString
             let size = string.sizeWithAttributes(axis.labelAttributes)
-            let point = NSPoint(
-                x: x - size.width/2,
-                y: y - size.height)
-            string.drawAtPoint(point, withAttributes: axis.labelAttributes)
+            var point: NSPoint
+            switch axis.position {
+            case .Start, .Value:
+                point = NSPoint(
+                    x: x - size.width/2,
+                    y: y - size.height)
+
+            case .End:
+                point = NSPoint(
+                    x: x - size.width/2,
+                    y: y + tick.lineLength)
+            }
+
+            let frame = NSRect(origin: point, size: size)
+            if !lastTextFrame.intersects(frame) {
+                string.drawAtPoint(point, withAttributes: axis.labelAttributes)
+                lastTextFrame = frame
+            }
         }
     }
 }
