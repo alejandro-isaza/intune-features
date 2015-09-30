@@ -22,4 +22,7 @@
    <FileRef
       location = "group:PlotPlayground.playground">
    </FileRef>
+   <FileRef
+      location = "group:AutocorrelationPlayground.playground">
+   </FileRef>
 </Workspace>
