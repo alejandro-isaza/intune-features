@@ -65,12 +65,16 @@ public class AudioFile {
     public var currentFrame: Int {
         get {
             var frame: Int64 = 0
-            ExtAudioFileTell(audioFileRef, &frame)
+            guard ExtAudioFileTell(audioFileRef, &frame) == noErr else {
+                fatalError("Failed to get current read location")
+            }
             return Int(frame)
         }
         set {
             let frame = Int64(newValue)
-            ExtAudioFileSeek(audioFileRef, frame)
+            guard ExtAudioFileSeek(audioFileRef, frame) == noErr else {
+                fatalError("Failed to set current read location")
+            }
         }
     }
 
