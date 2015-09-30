@@ -19,7 +19,7 @@ func psd(name: String) -> [Point] {
     var data = [Double](count: count, repeatedValue: 0.0)
     audioFile.readFrames(&data, count: count)
 
-    let psd = sqrt(fft.forwardMags(data))
+    let psd = sqrt(sqrt(fft.forwardMags(data)))
     return (0..<psd.count).map{ Point(x: fb * Double($0), y: psd[$0]) }
 }
 

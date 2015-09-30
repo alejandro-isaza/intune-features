@@ -6,15 +6,14 @@
 xcuserdata/
 *.xccheckout
 
-# build output
-build/
-bin/
-
 # Cocoapods
 Pods
 
-# Docs
+# Other directories
+build/
+bin/
 doc/
+AudioData
 
 # Converter files
 Converters/out/

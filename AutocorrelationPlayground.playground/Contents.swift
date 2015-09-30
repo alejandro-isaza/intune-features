@@ -10,7 +10,7 @@ let fft = FFT(inputLength: count)
 
 //: This function generates the power spectral density of the first `count` samples of an audio file
 func psd(name: String, offset: Int = 0) -> [Double] {
-    let filePath = NSBundle.mainBundle().pathForResource(name, ofType: "caf")!
+    let filePath = "\(XCPSharedDataDirectoryPath)/AudioData/\(name).caf"
     let audioFile = AudioFile(filePath: filePath)!
     audioFile.currentFrame = offset
     assert(audioFile.sampleRate == fs)
@@ -51,5 +51,5 @@ func plotAutocorrelation(name: String, offset: Int) {
 }
 
 
-plotPSD("a_whole_new_world", offset: 0)
-plotAutocorrelation("a_whole_new_world", offset: 0)
+plotPSD("Annotations/Audio/a_whole_new_world", offset: 0)
+plotAutocorrelation("Annotations/Audio/a_whole_new_world", offset: 0)
