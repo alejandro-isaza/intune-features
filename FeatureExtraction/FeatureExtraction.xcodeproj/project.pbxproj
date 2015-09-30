@@ -11,8 +11,12 @@
 		8C78457A1BB9B06600C88426 /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */; settings = {ASSET_TAGS = (); }; };
 		8C78457F1BB9B06600C88426 /* FeatureExtractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C78457E1BB9B06600C88426 /* FeatureExtractionTests.swift */; };
 		8C78458A1BB9B10000C88426 /* PeakRecognition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7845891BB9B10000C88426 /* PeakRecognition.swift */; settings = {ASSET_TAGS = (); }; };
+		8C7E7AB91BBB379F00BBC93C /* AlPeakRecognition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7E7AB81BBB379F00BBC93C /* AlPeakRecognition.swift */; settings = {ASSET_TAGS = (); }; };
+		8C7E7ABB1BBB37CC00BBC93C /* DistancePeakRecognition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7E7ABA1BBB37CC00BBC93C /* DistancePeakRecognition.swift */; settings = {ASSET_TAGS = (); }; };
+		8C7E7ABD1BBC521E00BBC93C /* 102.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8C7E7ABC1BBC521E00BBC93C /* 102.wav */; settings = {ASSET_TAGS = (); }; };
+		8C7E7ABF1BBC522D00BBC93C /* 32.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8C7E7ABE1BBC522D00BBC93C /* 32.wav */; settings = {ASSET_TAGS = (); }; };
 		8CDA0EF41BB9BA4300433755 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA0EF31BB9BA4300433755 /* Utilities.swift */; settings = {ASSET_TAGS = (); }; };
-		8CDA0EF61BB9C60800433755 /* PeakExtractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA0EF51BB9C60800433755 /* PeakExtractionTests.swift */; settings = {ASSET_TAGS = (); }; };
+		8CDA0EF61BB9C60800433755 /* DistancePeakExtractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA0EF51BB9C60800433755 /* DistancePeakExtractionTests.swift */; settings = {ASSET_TAGS = (); }; };
 		8CDA0F291BB9CFA900433755 /* 72.wav in Resources */ = {isa = PBXBuildFile; fileRef = 8CDA0F281BB9CFA900433755 /* 72.wav */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
@@ -34,8 +38,12 @@
 		8C78457E1BB9B06600C88426 /* FeatureExtractionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureExtractionTests.swift; sourceTree = "<group>"; };
 		8C7845801BB9B06600C88426 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C7845891BB9B10000C88426 /* PeakRecognition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakRecognition.swift; sourceTree = "<group>"; };
+		8C7E7AB81BBB379F00BBC93C /* AlPeakRecognition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AlPeakRecognition.swift; sourceTree = "<group>"; };
+		8C7E7ABA1BBB37CC00BBC93C /* DistancePeakRecognition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistancePeakRecognition.swift; sourceTree = "<group>"; };
+		8C7E7ABC1BBC521E00BBC93C /* 102.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 102.wav; sourceTree = "<group>"; };
+		8C7E7ABE1BBC522D00BBC93C /* 32.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 32.wav; sourceTree = "<group>"; };
 		8CDA0EF31BB9BA4300433755 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
-		8CDA0EF51BB9C60800433755 /* PeakExtractionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakExtractionTests.swift; sourceTree = "<group>"; };
+		8CDA0EF51BB9C60800433755 /* DistancePeakExtractionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistancePeakExtractionTests.swift; sourceTree = "<group>"; };
 		8CDA0F281BB9CFA900433755 /* 72.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = 72.wav; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -83,6 +91,8 @@
 				8C7845741BB9B06600C88426 /* Info.plist */,
 				8C7845891BB9B10000C88426 /* PeakRecognition.swift */,
 				8CDA0EF31BB9BA4300433755 /* Utilities.swift */,
+				8C7E7AB81BBB379F00BBC93C /* AlPeakRecognition.swift */,
+				8C7E7ABA1BBB37CC00BBC93C /* DistancePeakRecognition.swift */,
 			);
 			path = FeatureExtraction;
 			sourceTree = "<group>";
@@ -91,9 +101,11 @@
 			isa = PBXGroup;
 			children = (
 				8CDA0F281BB9CFA900433755 /* 72.wav */,
+				8C7E7ABE1BBC522D00BBC93C /* 32.wav */,
+				8C7E7ABC1BBC521E00BBC93C /* 102.wav */,
 				8C78457E1BB9B06600C88426 /* FeatureExtractionTests.swift */,
 				8C7845801BB9B06600C88426 /* Info.plist */,
-				8CDA0EF51BB9C60800433755 /* PeakExtractionTests.swift */,
+				8CDA0EF51BB9C60800433755 /* DistancePeakExtractionTests.swift */,
 			);
 			path = FeatureExtractionTests;
 			sourceTree = "<group>";
@@ -196,6 +208,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C7E7ABF1BBC522D00BBC93C /* 32.wav in Resources */,
+				8C7E7ABD1BBC521E00BBC93C /* 102.wav in Resources */,
 				8CDA0F291BB9CFA900433755 /* 72.wav in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -207,6 +221,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C7E7AB91BBB379F00BBC93C /* AlPeakRecognition.swift in Sources */,
+				8C7E7ABB1BBB37CC00BBC93C /* DistancePeakRecognition.swift in Sources */,
 				8CDA0EF41BB9BA4300433755 /* Utilities.swift in Sources */,
 				8C78458A1BB9B10000C88426 /* PeakRecognition.swift in Sources */,
 			);
@@ -217,7 +233,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C78457F1BB9B06600C88426 /* FeatureExtractionTests.swift in Sources */,
-				8CDA0EF61BB9C60800433755 /* PeakExtractionTests.swift in Sources */,
+				8CDA0EF61BB9C60800433755 /* DistancePeakExtractionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
