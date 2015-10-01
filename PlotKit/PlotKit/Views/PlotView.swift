@@ -1,6 +1,7 @@
 //  Copyright © 2015 Venture Media Labs. All rights reserved.
 
 import Foundation
+import Surge
 
 public class PlotView : NSView {
     struct Constants {

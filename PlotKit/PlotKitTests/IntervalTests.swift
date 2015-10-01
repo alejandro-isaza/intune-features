@@ -2,6 +2,7 @@
 
 import XCTest
 @testable import PlotKit
+import Surge
 
 class IntervalTests: XCTestCase {
     func testJoinContiguous() {

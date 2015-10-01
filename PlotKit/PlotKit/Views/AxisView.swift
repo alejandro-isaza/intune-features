@@ -1,6 +1,7 @@
 //  Copyright © 2015 Venture Media Labs. All rights reserved.
 
 import Foundation
+import Surge
 
 internal class AxisView: NSView {
     var insets = NSEdgeInsets(top: 40, left: 60, bottom: 40, right: 60)
