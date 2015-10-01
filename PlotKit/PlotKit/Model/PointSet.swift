@@ -2,6 +2,8 @@
 
 import Foundation
 
+import Surge
+
 public enum PointType {
     case None
     case Ring(radius: Double)
@@ -9,6 +11,8 @@ public enum PointType {
     case Square(side: Double)
     case FilledSquare(side: Double)
 }
+
+public typealias Point = Surge.Point<Double>
 
 public class PointSet {
     public var points: [Point]
