@@ -25,4 +25,7 @@
    <FileRef
       location = "group:AutocorrelationPlayground.playground">
    </FileRef>
+   <FileRef
+      location = "group:FeatureExtractionPlayground.playground">
+   </FileRef>
 </Workspace>
