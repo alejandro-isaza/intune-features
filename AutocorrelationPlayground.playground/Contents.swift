@@ -3,13 +3,13 @@ import PlotKit
 import Surge
 import XCPlayground
 
+let plotSize = CGSize(width: 1024, height: 400)
 let count = 2048
 let fs = 44100.0
-let fb = fs / Double(count)
-let fft = FFT(inputLength: count)
+let time = Double(count) / fs
 
-//: This function generates the power spectral density of the first `count` samples of an audio file
-func psd(name: String, offset: Int = 0) -> [Double] {
+//: Read audio data from a file starting at the given offset
+func readAudio(name: String, offset: Int = 0) -> [Double] {
     let filePath = "\(XCPSharedDataDirectoryPath)/AudioData/\(name).caf"
     let audioFile = AudioFile(filePath: filePath)!
     audioFile.currentFrame = offset
@@ -18,38 +18,39 @@ func psd(name: String, offset: Int = 0) -> [Double] {
     var data = [Double](count: count, repeatedValue: 0.0)
     audioFile.readFrames(&data, count: count)
 
-    return sqrt(sqrt(fft.forwardMags(data)))
+    return data
 }
 
-func plotPSD(name: String, offset: Int) {
-    let plotView = PlotView(frame: NSRect(x: 0, y: 0, width: 1024, height: 400))
-    XCPShowView("PSD", view: plotView)
+func plotAudio(data: [Double]) {
+    let plotView = PlotView(frame: NSRect(origin: CGPointZero, size: plotSize))
+    plotView.addAxis(Axis(orientation: .Horizontal, ticks: .Space(distance: 0.005)))
+    plotView.addAxis(Axis(orientation: .Vertical, ticks: .Space(distance: 0.1)))
+    XCPShowView("Audio", view: plotView)
 
-    plotView.fixedXInterval = Interval(min: 0, max: 10000)
-    let xaxis = Axis(orientation: .Horizontal, ticks: .Space(distance: 1000))
-    plotView.addAxis(xaxis)
-
-    let yaxis = Axis(orientation: .Vertical, ticks: .Space(distance: 0.01))
-    plotView.addAxis(yaxis)
-
-    let data = psd(name, offset: offset)
-    let points = (1..<data.count).map{ Point(x: fb * Double($0), y: data[$0]) }
+    let points = (1..<data.count).map{ Point(x: Double($0) / fs, y: data[$0]) }
     plotView.addPointSet(PointSet(points: points))
 }
 
-func plotAutocorrelation(name: String, offset: Int) {
-    let plotView = PlotView(frame: NSRect(x: 0, y: 0, width: 1024, height: 400))
+func plotAutocorrelation(data: [Double]) {
+    let data = autocorrelation(data)
+    guard let height = data.maxElement({ abs($0) < abs($1) }) else {
+        return
+    }
+
+    let plotView = PlotView(frame: NSRect(origin: CGPointZero, size: plotSize))
+    plotView.fixedXInterval = Interval(min: -time, max: time)
+    plotView.addAxis(Axis(orientation: .Horizontal, ticks: .Fit(count: 10)))
+    plotView.fixedYInterval = Interval(min: -height, max: height)
+    plotView.addAxis(Axis(orientation: .Vertical, ticks: .Space(distance: 10)))
     XCPShowView("Autocorrelation", view: plotView)
 
-    let xaxis = Axis(orientation: .Horizontal, ticks: .Space(distance: 512))
-    plotView.addAxis(xaxis)
-
-    let yaxis = Axis(orientation: .Vertical, ticks: .Space(distance: 0.01))
-    plotView.addAxis(yaxis)
-    plotView.fixedXInterval = Interval(min: 1024-256, max: 1024+256)
-    plotView.addPointSet(PointSet(values: autocorrelation(psd(name, offset: offset))))
+    let points = (0..<data.count).map{ Point(x: (Double($0) - Double(data.count)/2) / fs, y: data[$0]) }
+    plotView.addPointSet(PointSet(points: points))
 }
 
+let monophonic = "Notes/AcousticGrandPiano_YDP/72"
+let polyphonic = "Annotations/Audio/a_whole_new_world"
+let data = readAudio(monophonic, offset: 0)
 
-plotPSD("Annotations/Audio/a_whole_new_world", offset: 0)
-plotAutocorrelation("Annotations/Audio/a_whole_new_world", offset: 0)
+plotAudio(data)
+plotAutocorrelation(data)
