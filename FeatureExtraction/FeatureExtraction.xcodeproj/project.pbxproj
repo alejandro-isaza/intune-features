@@ -9,11 +9,9 @@
 /* Begin PBXBuildFile section */
 		8C7845731BB9B06600C88426 /* FeatureExtraction.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C7845721BB9B06600C88426 /* FeatureExtraction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8C78457A1BB9B06600C88426 /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */; settings = {ASSET_TAGS = (); }; };
-		8C78457F1BB9B06600C88426 /* FeatureExtractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C78457E1BB9B06600C88426 /* FeatureExtractionTests.swift */; };
 		8C7E7ABB1BBB37CC00BBC93C /* DistancePeakRecognition.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7E7ABA1BBB37CC00BBC93C /* DistancePeakRecognition.swift */; settings = {ASSET_TAGS = (); }; };
 		8CDA0EF41BB9BA4300433755 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA0EF31BB9BA4300433755 /* Utilities.swift */; settings = {ASSET_TAGS = (); }; };
 		8CDA0EF61BB9C60800433755 /* DistancePeakExtractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA0EF51BB9C60800433755 /* DistancePeakExtractionTests.swift */; settings = {ASSET_TAGS = (); }; };
-		8CFA388F1BBC97C600A73DD9 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CFA388C1BBC97BF00A73DD9 /* AudioKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -24,41 +22,6 @@
 			remoteGlobalIDString = 8C78456E1BB9B06600C88426;
 			remoteInfo = FeatureExtraction;
 		};
-		8CFA38871BBC97BF00A73DD9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8CFA38801BBC97BF00A73DD9 /* AudioKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 610B1AEB1BB6568800B64973;
-			remoteInfo = AudioKit;
-		};
-		8CFA38891BBC97BF00A73DD9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8CFA38801BBC97BF00A73DD9 /* AudioKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 610B1AF51BB6568800B64973;
-			remoteInfo = AudioKitTests;
-		};
-		8CFA388B1BBC97BF00A73DD9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8CFA38801BBC97BF00A73DD9 /* AudioKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 610B1B0E1BB67D7900B64973;
-			remoteInfo = "AudioKit (OSX)";
-		};
-		8CFA388D1BBC97BF00A73DD9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8CFA38801BBC97BF00A73DD9 /* AudioKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 610B1B171BB67D7900B64973;
-			remoteInfo = "AudioKit (OSX)Tests";
-		};
-		8CFA38901BBC97CC00A73DD9 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8CFA38801BBC97BF00A73DD9 /* AudioKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 610B1B0D1BB67D7900B64973;
-			remoteInfo = "AudioKit (OSX)";
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
@@ -66,12 +29,10 @@
 		8C7845721BB9B06600C88426 /* FeatureExtraction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeatureExtraction.h; sourceTree = "<group>"; };
 		8C7845741BB9B06600C88426 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C7845791BB9B06600C88426 /* FeatureExtractionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeatureExtractionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		8C78457E1BB9B06600C88426 /* FeatureExtractionTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeatureExtractionTests.swift; sourceTree = "<group>"; };
 		8C7845801BB9B06600C88426 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C7E7ABA1BBB37CC00BBC93C /* DistancePeakRecognition.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistancePeakRecognition.swift; sourceTree = "<group>"; };
 		8CDA0EF31BB9BA4300433755 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		8CDA0EF51BB9C60800433755 /* DistancePeakExtractionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistancePeakExtractionTests.swift; sourceTree = "<group>"; };
-		8CFA38801BBC97BF00A73DD9 /* AudioKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AudioKit.xcodeproj; path = ../AudioKit/AudioKit.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -86,7 +47,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8CFA388F1BBC97C600A73DD9 /* AudioKit.framework in Frameworks */,
 				8C78457A1BB9B06600C88426 /* FeatureExtraction.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -97,7 +57,6 @@
 		8C7845651BB9B06600C88426 = {
 			isa = PBXGroup;
 			children = (
-				8CFA38801BBC97BF00A73DD9 /* AudioKit.xcodeproj */,
 				8C7845711BB9B06600C88426 /* FeatureExtraction */,
 				8C78457D1BB9B06600C88426 /* FeatureExtractionTests */,
 				8C7845701BB9B06600C88426 /* Products */,
@@ -127,22 +86,10 @@
 		8C78457D1BB9B06600C88426 /* FeatureExtractionTests */ = {
 			isa = PBXGroup;
 			children = (
-				8C78457E1BB9B06600C88426 /* FeatureExtractionTests.swift */,
 				8C7845801BB9B06600C88426 /* Info.plist */,
 				8CDA0EF51BB9C60800433755 /* DistancePeakExtractionTests.swift */,
 			);
 			path = FeatureExtractionTests;
-			sourceTree = "<group>";
-		};
-		8CFA38811BBC97BF00A73DD9 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				8CFA38881BBC97BF00A73DD9 /* AudioKit.framework */,
-				8CFA388A1BBC97BF00A73DD9 /* AudioKitTests.xctest */,
-				8CFA388C1BBC97BF00A73DD9 /* AudioKit.framework */,
-				8CFA388E1BBC97BF00A73DD9 /* AudioKitTests.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -188,7 +135,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				8CFA38911BBC97CC00A73DD9 /* PBXTargetDependency */,
 				8C78457C1BB9B06600C88426 /* PBXTargetDependency */,
 			);
 			name = FeatureExtractionTests;
@@ -224,12 +170,6 @@
 			mainGroup = 8C7845651BB9B06600C88426;
 			productRefGroup = 8C7845701BB9B06600C88426 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 8CFA38811BBC97BF00A73DD9 /* Products */;
-					ProjectRef = 8CFA38801BBC97BF00A73DD9 /* AudioKit.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
 				8C78456E1BB9B06600C88426 /* FeatureExtraction */,
@@ -237,37 +177,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		8CFA38881BBC97BF00A73DD9 /* AudioKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = AudioKit.framework;
-			remoteRef = 8CFA38871BBC97BF00A73DD9 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		8CFA388A1BBC97BF00A73DD9 /* AudioKitTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = AudioKitTests.xctest;
-			remoteRef = 8CFA38891BBC97BF00A73DD9 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		8CFA388C1BBC97BF00A73DD9 /* AudioKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = AudioKit.framework;
-			remoteRef = 8CFA388B1BBC97BF00A73DD9 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		8CFA388E1BBC97BF00A73DD9 /* AudioKitTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = AudioKitTests.xctest;
-			remoteRef = 8CFA388D1BBC97BF00A73DD9 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8C78456D1BB9B06600C88426 /* Resources */ = {
@@ -300,7 +209,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8C78457F1BB9B06600C88426 /* FeatureExtractionTests.swift in Sources */,
 				8CDA0EF61BB9C60800433755 /* DistancePeakExtractionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -312,11 +220,6 @@
 			isa = PBXTargetDependency;
 			target = 8C78456E1BB9B06600C88426 /* FeatureExtraction */;
 			targetProxy = 8C78457B1BB9B06600C88426 /* PBXContainerItemProxy */;
-		};
-		8CFA38911BBC97CC00A73DD9 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "AudioKit (OSX)";
-			targetProxy = 8CFA38901BBC97CC00A73DD9 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
