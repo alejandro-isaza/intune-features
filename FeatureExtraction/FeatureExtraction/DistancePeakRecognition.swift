@@ -1,96 +1,67 @@
-//
-//  File.swift
-//  FeatureExtraction
-//
-//  Created by Aidan Gomez on 2015-09-29.
 //  Copyright © 2015 Venture Media. All rights reserved.
-//
 
 import Foundation
 
-public class DistancePeakRecognition : PeakRecognition {
-    let yCutoff = 0.007
-    let xDeltaCutoffFactor = 1.0
+import Surge
+
+public typealias Point = Surge.Point<Double>
+
+let yCutoff = 0.007
+let minimumNoteDistance = 0.5
+
+public func process(input: [Point]) -> [Point] {
+    let peaks = findPeaks(input)
+    return filterPeaks(peaks)
+}
+
+func findPeaks(input: [Point]) -> [Point] {
+    var peaks = [Point]()
     
-    var baseFreq: Double = 0
-    
-    public init(fftPacketSize: Double, sampleRate: Double) {
-        baseFreq = sampleRate / fftPacketSize
-    }
-    
-    public func process(input: [Double], inout output: [Double]) -> Int {
-        let peaks = findPeaks(input)
-        let filteredPeaks = filterPeaks(peaks)
-        
-        output = [Double](count: input.count, repeatedValue: 0.0)
-        for peak in filteredPeaks {
-            output[peak.location] = input[peak.location]
-        }
-        
-        return output.count
-    }
-    
-    func findPeaks(input: [Double]) -> [Peak] {
-        var peaks = [Peak]()
-        
-        for i in 1...input.count-2 {
-            if input[i-1] <= input[i] && input[i] >= input[i+1] {
-                let p = Peak(location: i, height: input[i])
-                peaks.append(p)
-            }
-        }
-        
-        return peaks
-    }
-    
-    func filterPeaks(input: [Peak]) -> [Peak] {
-        let peaks = filterPeaksByHeight(input)
-        return choosePeaks(peaks)
-    }
-    
-    func filterPeaksByHeight(input: [Peak]) -> [Peak] {
-        return input.filter { (peak: Peak) -> Bool in
-            return peak.height > yCutoff
+    for i in 1...input.count-2 {
+        if input[i-1].y <= input[i].y && input[i].y >= input[i+1].y {
+            peaks.append(input[i])
         }
     }
     
-    func choosePeaks(input: [Peak]) -> [Peak] {
-        var chosenPeaks = [Peak]()
-        
-        var currentPeakRange = Range<Int>(start: 0, end: 0)
-        for peak in input {
-            if currentPeakRange.contains(peak.location) {
-                if let lastPeak = chosenPeaks.last where lastPeak.height < peak.height {
-                    chosenPeaks.removeLast()
-                    chosenPeaks.append(peak)
-                    currentPeakRange = binCutoffRange(peak.location)
-                }
-            } else {
+    return peaks
+}
+
+func filterPeaks(input: [Point]) -> [Point] {
+    let peaks = filterPeaksByHeight(input)
+    return choosePeaks(peaks)
+}
+
+func filterPeaksByHeight(input: [Point]) -> [Point] {
+    return input.filter { (peak: Point) -> Bool in
+        return peak.y > yCutoff
+    }
+}
+
+func choosePeaks(input: [Point]) -> [Point] {
+    var chosenPeaks = [Point]()
+    
+    var currentPeakRange = Interval(min: 0, max: 0)
+    for peak in input {
+        if currentPeakRange.contains(peak.x) {
+            if let lastPeak = chosenPeaks.last where lastPeak.y < peak.y {
+                chosenPeaks.removeLast()
                 chosenPeaks.append(peak)
-                currentPeakRange = binCutoffRange(peak.location)
+                currentPeakRange = binCutoffRange(peak.x)
             }
+        } else {
+            chosenPeaks.append(peak)
+            currentPeakRange = binCutoffRange(peak.x)
         }
-        
-        return chosenPeaks
     }
     
-    func binCutoffRange(bin: Int) -> Range<Int> {
-        let binFreq = binToFreq(Double(bin))
-        let binNote = freqToNote(binFreq)
-        
-        let freqUpperBound = xDeltaCutoffFactor * noteToFreq(binNote + 1)
-        let freqLowerBound = 1 / xDeltaCutoffFactor * noteToFreq(binNote - 1)
-        
-        let binUpperBound = ceil(freqToBin(freqUpperBound))
-        let binLowerBound = floor(freqToBin(freqLowerBound))
-        return Range(start: Int(binLowerBound), end: Int(binUpperBound))
-    }
+    return chosenPeaks
+}
+
+func binCutoffRange(freq: Double) -> Interval {
+    let note = freqToNote(freq)
     
-    func binToFreq(n: Double) -> Double {
-        return n * baseFreq
-    }
+    let upperBound = noteToFreq(note + minimumNoteDistance)
+    let lowerBound = noteToFreq(note - minimumNoteDistance)
     
-    func freqToBin(f: Double) -> Double {
-        return f / baseFreq
-    }
+    return Interval(min: lowerBound, max: upperBound)
 }

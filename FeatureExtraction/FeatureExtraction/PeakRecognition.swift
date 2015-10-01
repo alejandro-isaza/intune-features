@@ -11,7 +11,7 @@ import Foundation
 import Surge
 
 protocol PeakRecognition {
-    func process(input: [Double], inout output: [Double]) -> Int
+    func process(input: [Point]) -> [Point]
 }
 
 struct Peak {

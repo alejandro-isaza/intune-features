@@ -8,7 +8,6 @@
 
 import Foundation
 
-
 func gaussian(x: Double, height: Double, mid: Double, width: Double) -> Double {
     let center = x - mid
     return height * exp(-center*center / (2*width*width))
