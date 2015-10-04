@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		618B7E561BC198B50011E8D3 /* Surge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 618B7E541BC198B40011E8D3 /* Surge.framework */; settings = {ASSET_TAGS = (); }; };
+		618B7E571BC198B50011E8D3 /* HDF5.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 618B7E551BC198B50011E8D3 /* HDF5.framework */; settings = {ASSET_TAGS = (); }; };
+		618B7E591BC19DFD0011E8D3 /* HDF5.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 618B7E551BC198B50011E8D3 /* HDF5.framework */; settings = {ASSET_TAGS = (); }; };
 		8C7845731BB9B06600C88426 /* FeatureExtraction.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C7845721BB9B06600C88426 /* FeatureExtraction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8C78457A1BB9B06600C88426 /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */; settings = {ASSET_TAGS = (); }; };
 		8C7E7ABB1BBB37CC00BBC93C /* PeakExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7E7ABA1BBB37CC00BBC93C /* PeakExtractor.swift */; settings = {ASSET_TAGS = (); }; };
@@ -20,8 +23,6 @@
 		8CDE47A01BBF2FA000A98419 /* String+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479F1BBF2FA000A98419 /* String+Paths.swift */; settings = {ASSET_TAGS = (); }; };
 		8CDE47EF1BBF39C800A98419 /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */; };
 		8CDE47F01BBF39C800A98419 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDE47D41BBF397C00A98419 /* AudioKit.framework */; };
-		8CDE47F11BBF39C800A98419 /* HDF5.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDE47DD1BBF398200A98419 /* HDF5.framework */; };
-		8CDE47F21BBF39C800A98419 /* Surge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDE47E81BBF399300A98419 /* Surge.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -60,48 +61,6 @@
 			remoteGlobalIDString = 610B1B171BB67D7900B64973;
 			remoteInfo = "AudioKit (OSX)Tests";
 		};
-		8CDE47DC1BBF398200A98419 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8CDE47D71BBF398200A98419 /* HDF5.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 61B3149D1BBDBA3100F63C45;
-			remoteInfo = HDF5;
-		};
-		8CDE47DE1BBF398200A98419 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8CDE47D71BBF398200A98419 /* HDF5.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 61B314A71BBDBA3200F63C45;
-			remoteInfo = HDF5Tests;
-		};
-		8CDE47E71BBF399300A98419 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8CDE47E01BBF399200A98419 /* Surge.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F8A1E1AA19917A79009735E2;
-			remoteInfo = Surge;
-		};
-		8CDE47E91BBF399300A98419 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8CDE47E01BBF399200A98419 /* Surge.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F84A6AAE19A9A72F007B53E1;
-			remoteInfo = SurgeTests;
-		};
-		8CDE47EB1BBF399300A98419 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8CDE47E01BBF399200A98419 /* Surge.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 610B1ACA1BB6114E00B64973;
-			remoteInfo = "Surge (OSX)";
-		};
-		8CDE47ED1BBF399300A98419 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8CDE47E01BBF399200A98419 /* Surge.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 611C77171BB9F75200684204;
-			remoteInfo = "SurgeTests (OSX)";
-		};
 		8CDE47F31BBF39D500A98419 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8C7845661BB9B06600C88426 /* Project object */;
@@ -115,27 +74,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 610B1B0D1BB67D7900B64973;
 			remoteInfo = "AudioKit (OSX)";
-		};
-		8CDE47F71BBF39D500A98419 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8CDE47D71BBF398200A98419 /* HDF5.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 61B3149C1BBDBA3100F63C45;
-			remoteInfo = HDF5;
-		};
-		8CDE47F91BBF39D500A98419 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8CDE47E01BBF399200A98419 /* Surge.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 610B1AC91BB6114E00B64973;
-			remoteInfo = "Surge (OSX)";
-		};
-		8CDE48001BBF3AD500A98419 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8CDE47E01BBF399200A98419 /* Surge.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 610B1AC91BB6114E00B64973;
-			remoteInfo = "Surge (OSX)";
 		};
 /* End PBXContainerItemProxy section */
 
@@ -152,6 +90,8 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		618B7E541BC198B40011E8D3 /* Surge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Surge.framework; path = ../Carthage/Build/Mac/Surge.framework; sourceTree = "<group>"; };
+		618B7E551BC198B50011E8D3 /* HDF5.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HDF5.framework; path = ../Carthage/Build/Mac/HDF5.framework; sourceTree = "<group>"; };
 		8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureExtraction.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C7845721BB9B06600C88426 /* FeatureExtraction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeatureExtraction.h; sourceTree = "<group>"; };
 		8C7845741BB9B06600C88426 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -168,8 +108,6 @@
 		8CDE479D1BBF122400A98419 /* BandExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandExtractor.swift; sourceTree = "<group>"; };
 		8CDE479F1BBF2FA000A98419 /* String+Paths.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Paths.swift"; sourceTree = "<group>"; };
 		8CDE47C81BBF397C00A98419 /* AudioKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AudioKit.xcodeproj; path = ../AudioKit/AudioKit.xcodeproj; sourceTree = "<group>"; };
-		8CDE47D71BBF398200A98419 /* HDF5.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HDF5.xcodeproj; path = ../Submodules/HDF5Swift/HDF5.xcodeproj; sourceTree = "<group>"; };
-		8CDE47E01BBF399200A98419 /* Surge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Surge.xcodeproj; path = ../Submodules/Surge/Surge.xcodeproj; sourceTree = "<group>"; };
 		8CDE47FB1BBF3A6000A98419 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		8CDE47FD1BBF3A8400A98419 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
@@ -179,6 +117,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				618B7E561BC198B50011E8D3 /* Surge.framework in Frameworks */,
+				618B7E571BC198B50011E8D3 /* HDF5.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -194,10 +134,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				618B7E591BC19DFD0011E8D3 /* HDF5.framework in Frameworks */,
 				8CDE47EF1BBF39C800A98419 /* FeatureExtraction.framework in Frameworks */,
 				8CDE47F01BBF39C800A98419 /* AudioKit.framework in Frameworks */,
-				8CDE47F11BBF39C800A98419 /* HDF5.framework in Frameworks */,
-				8CDE47F21BBF39C800A98419 /* Surge.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -207,11 +146,11 @@
 		618B7E2F1BBF4A8F0011E8D3 /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				618B7E541BC198B40011E8D3 /* Surge.framework */,
+				618B7E551BC198B50011E8D3 /* HDF5.framework */,
 				8CDE47FD1BBF3A8400A98419 /* Foundation.framework */,
 				8CDE47FB1BBF3A6000A98419 /* Accelerate.framework */,
 				8CDE47C81BBF397C00A98419 /* AudioKit.xcodeproj */,
-				8CDE47D71BBF398200A98419 /* HDF5.xcodeproj */,
-				8CDE47E01BBF399200A98419 /* Surge.xcodeproj */,
 			);
 			name = Dependencies;
 			sourceTree = "<group>";
@@ -281,26 +220,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		8CDE47D81BBF398200A98419 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				8CDE47DD1BBF398200A98419 /* HDF5.framework */,
-				8CDE47DF1BBF398200A98419 /* HDF5Tests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		8CDE47E11BBF399200A98419 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				8CDE47E81BBF399300A98419 /* Surge.framework */,
-				8CDE47EA1BBF399300A98419 /* SurgeTests.xctest */,
-				8CDE47EC1BBF399300A98419 /* Surge.framework */,
-				8CDE47EE1BBF399300A98419 /* SurgeTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -327,7 +246,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				8CDE48011BBF3AD500A98419 /* PBXTargetDependency */,
 			);
 			name = FeatureExtraction;
 			productName = FeatureExtraction;
@@ -365,8 +283,6 @@
 			dependencies = (
 				8CDE47F41BBF39D500A98419 /* PBXTargetDependency */,
 				8CDE47F61BBF39D500A98419 /* PBXTargetDependency */,
-				8CDE47F81BBF39D500A98419 /* PBXTargetDependency */,
-				8CDE47FA1BBF39D500A98419 /* PBXTargetDependency */,
 			);
 			name = CompileFeatures;
 			productName = CompileFeatures;
@@ -409,14 +325,6 @@
 					ProductGroup = 8CDE47C91BBF397C00A98419 /* Products */;
 					ProjectRef = 8CDE47C81BBF397C00A98419 /* AudioKit.xcodeproj */;
 				},
-				{
-					ProductGroup = 8CDE47D81BBF398200A98419 /* Products */;
-					ProjectRef = 8CDE47D71BBF398200A98419 /* HDF5.xcodeproj */;
-				},
-				{
-					ProductGroup = 8CDE47E11BBF399200A98419 /* Products */;
-					ProjectRef = 8CDE47E01BBF399200A98419 /* Surge.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
@@ -454,48 +362,6 @@
 			fileType = wrapper.cfbundle;
 			path = AudioKitTests.xctest;
 			remoteRef = 8CDE47D51BBF397C00A98419 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		8CDE47DD1BBF398200A98419 /* HDF5.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = HDF5.framework;
-			remoteRef = 8CDE47DC1BBF398200A98419 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		8CDE47DF1BBF398200A98419 /* HDF5Tests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = HDF5Tests.xctest;
-			remoteRef = 8CDE47DE1BBF398200A98419 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		8CDE47E81BBF399300A98419 /* Surge.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Surge.framework;
-			remoteRef = 8CDE47E71BBF399300A98419 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		8CDE47EA1BBF399300A98419 /* SurgeTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SurgeTests.xctest;
-			remoteRef = 8CDE47E91BBF399300A98419 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		8CDE47EC1BBF399300A98419 /* Surge.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Surge.framework;
-			remoteRef = 8CDE47EB1BBF399300A98419 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		8CDE47EE1BBF399300A98419 /* SurgeTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SurgeTests.xctest;
-			remoteRef = 8CDE47ED1BBF399300A98419 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -565,21 +431,6 @@
 			isa = PBXTargetDependency;
 			name = "AudioKit (OSX)";
 			targetProxy = 8CDE47F51BBF39D500A98419 /* PBXContainerItemProxy */;
-		};
-		8CDE47F81BBF39D500A98419 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = HDF5;
-			targetProxy = 8CDE47F71BBF39D500A98419 /* PBXContainerItemProxy */;
-		};
-		8CDE47FA1BBF39D500A98419 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Surge (OSX)";
-			targetProxy = 8CDE47F91BBF39D500A98419 /* PBXContainerItemProxy */;
-		};
-		8CDE48011BBF3AD500A98419 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Surge (OSX)";
-			targetProxy = 8CDE48001BBF3AD500A98419 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

@@ -1,0 +1,3 @@
+github "aleph7/Surge" "master"
+github "aleph7/PlotKit" "master"
+github "aleph7/HDF5Swift" "master"

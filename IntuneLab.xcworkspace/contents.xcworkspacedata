@@ -2,33 +2,37 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:FeatureExtraction/FeatureExtraction.xcodeproj">
-   </FileRef>
-   <FileRef
       location = "group:AudioKit/AudioKit.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Submodules/HDF5Swift/HDF5.xcodeproj">
+      location = "group:Carthage/Checkouts/HDF5Swift/HDF5.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Submodules/PlotKit/PlotKit.xcodeproj">
+      location = "group:Carthage/Checkouts/PlotKit/PlotKit.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Submodules/Surge/Surge.xcodeproj">
+      location = "group:Carthage/Checkouts/Surge/Surge.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Submodules/Surge/Surge.playground">
+      location = "group:FeatureExtraction/FeatureExtraction.xcodeproj">
    </FileRef>
-   <FileRef
-      location = "group:Submodules/PlotKit/PlotPlayground.playground">
-   </FileRef>
-   <FileRef
-      location = "group:PSDPlayground.playground">
-   </FileRef>
-   <FileRef
-      location = "group:AutocorrelationPlayground.playground">
-   </FileRef>
-   <FileRef
-      location = "group:FeatureExtractionPlayground.playground">
-   </FileRef>
+   <Group
+      location = "container:"
+      name = "Playgrounds">
+      <FileRef
+         location = "group:Carthage/Checkouts/Surge/Surge.playground">
+      </FileRef>
+      <FileRef
+         location = "group:Carthage/Checkouts/PlotKit/PlotPlayground.playground">
+      </FileRef>
+      <FileRef
+         location = "group:PSDPlayground.playground">
+      </FileRef>
+      <FileRef
+         location = "group:AutocorrelationPlayground.playground">
+      </FileRef>
+      <FileRef
+         location = "group:FeatureExtractionPlayground.playground">
+      </FileRef>
+   </Group>
 </Workspace>
