@@ -1,15 +1,14 @@
 //  Copyright © 2015 Venture Media. All rights reserved.
 
 import Foundation
-
 import Surge
 
-public typealias Point = Surge.Point<Double>
-
-let yCutoff = 0.007
-let minimumNoteDistance = 0.5
-
 public class PeakExtractor {
+    public typealias Point = Surge.Point<Double>
+
+    static let yCutoff = 0.007
+    static let minimumNoteDistance = 0.5
+
     class public func process(input: [Point]) -> [Point] {
         let peaks = findPeaks(input)
         return filterPeaks(peaks)

@@ -10,22 +10,41 @@
 		618B7E561BC198B50011E8D3 /* Surge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 618B7E541BC198B40011E8D3 /* Surge.framework */; settings = {ASSET_TAGS = (); }; };
 		618B7E571BC198B50011E8D3 /* HDF5.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 618B7E551BC198B50011E8D3 /* HDF5.framework */; settings = {ASSET_TAGS = (); }; };
 		618B7E591BC19DFD0011E8D3 /* HDF5.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 618B7E551BC198B50011E8D3 /* HDF5.framework */; settings = {ASSET_TAGS = (); }; };
+		61BBAF681BC43A7300A03FD0 /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF671BC43A7300A03FD0 /* Feature.swift */; settings = {ASSET_TAGS = (); }; };
+		61BBAF6F1BC43BF800A03FD0 /* Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF6E1BC43BF800A03FD0 /* Example.swift */; settings = {ASSET_TAGS = (); }; };
+		61BBAF711BC43F8100A03FD0 /* RMSFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF701BC43F8100A03FD0 /* RMSFeature.swift */; settings = {ASSET_TAGS = (); }; };
+		61BBAF731BC4408300A03FD0 /* PeakLocationsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF721BC4408300A03FD0 /* PeakLocationsFeature.swift */; settings = {ASSET_TAGS = (); }; };
+		61BBAF751BC4408F00A03FD0 /* PeakHeightsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF741BC4408F00A03FD0 /* PeakHeightsFeature.swift */; settings = {ASSET_TAGS = (); }; };
+		61BBAF771BC440A800A03FD0 /* BandsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF761BC440A800A03FD0 /* BandsFeature.swift */; settings = {ASSET_TAGS = (); }; };
+		61BBAF791BC46FE800A03FD0 /* FeatureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF781BC46FE800A03FD0 /* FeatureData.swift */; settings = {ASSET_TAGS = (); }; };
 		8C7845731BB9B06600C88426 /* FeatureExtraction.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C7845721BB9B06600C88426 /* FeatureExtraction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8C78457A1BB9B06600C88426 /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */; settings = {ASSET_TAGS = (); }; };
 		8C7E7ABB1BBB37CC00BBC93C /* PeakExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7E7ABA1BBB37CC00BBC93C /* PeakExtractor.swift */; settings = {ASSET_TAGS = (); }; };
 		8CDA0EF41BB9BA4300433755 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA0EF31BB9BA4300433755 /* Utilities.swift */; settings = {ASSET_TAGS = (); }; };
 		8CDA0EF61BB9C60800433755 /* DistancePeakExtractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA0EF51BB9C60800433755 /* DistancePeakExtractionTests.swift */; settings = {ASSET_TAGS = (); }; };
-		8CDE47961BBF117C00A98419 /* FileCollector.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE47921BBF117C00A98419 /* FileCollector.swift */; settings = {ASSET_TAGS = (); }; };
-		8CDE47971BBF117C00A98419 /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE47931BBF117C00A98419 /* Feature.swift */; settings = {ASSET_TAGS = (); }; };
+		8CDE47961BBF117C00A98419 /* ExampleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE47921BBF117C00A98419 /* ExampleBuilder.swift */; settings = {ASSET_TAGS = (); }; };
 		8CDE47981BBF117C00A98419 /* FeatureCompiler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE47941BBF117C00A98419 /* FeatureCompiler.swift */; settings = {ASSET_TAGS = (); }; };
 		8CDE479C1BBF11A000A98419 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479B1BBF11A000A98419 /* main.swift */; settings = {ASSET_TAGS = (); }; };
-		8CDE479E1BBF122400A98419 /* BandExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479D1BBF122400A98419 /* BandExtractor.swift */; settings = {ASSET_TAGS = (); }; };
 		8CDE47A01BBF2FA000A98419 /* String+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479F1BBF2FA000A98419 /* String+Paths.swift */; settings = {ASSET_TAGS = (); }; };
 		8CDE47EF1BBF39C800A98419 /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */; };
 		8CDE47F01BBF39C800A98419 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDE47D41BBF397C00A98419 /* AudioKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		61BBAF921BC4735F00A03FD0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8CDE47C81BBF397C00A98419 /* AudioKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 610B1AEA1BB6568800B64973;
+			remoteInfo = AudioKit;
+		};
+		61BBAF981BC4736900A03FD0 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8CDE47C81BBF397C00A98419 /* AudioKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 610B1B0D1BB67D7900B64973;
+			remoteInfo = "AudioKit (OSX)";
+		};
 		8C78457B1BB9B06600C88426 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8C7845661BB9B06600C88426 /* Project object */;
@@ -92,6 +111,13 @@
 /* Begin PBXFileReference section */
 		618B7E541BC198B40011E8D3 /* Surge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Surge.framework; path = ../Carthage/Build/Mac/Surge.framework; sourceTree = "<group>"; };
 		618B7E551BC198B50011E8D3 /* HDF5.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HDF5.framework; path = ../Carthage/Build/Mac/HDF5.framework; sourceTree = "<group>"; };
+		61BBAF671BC43A7300A03FD0 /* Feature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
+		61BBAF6E1BC43BF800A03FD0 /* Example.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Example.swift; sourceTree = "<group>"; };
+		61BBAF701BC43F8100A03FD0 /* RMSFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RMSFeature.swift; sourceTree = "<group>"; };
+		61BBAF721BC4408300A03FD0 /* PeakLocationsFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakLocationsFeature.swift; sourceTree = "<group>"; };
+		61BBAF741BC4408F00A03FD0 /* PeakHeightsFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakHeightsFeature.swift; sourceTree = "<group>"; };
+		61BBAF761BC440A800A03FD0 /* BandsFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandsFeature.swift; sourceTree = "<group>"; };
+		61BBAF781BC46FE800A03FD0 /* FeatureData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureData.swift; sourceTree = "<group>"; };
 		8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureExtraction.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C7845721BB9B06600C88426 /* FeatureExtraction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeatureExtraction.h; sourceTree = "<group>"; };
 		8C7845741BB9B06600C88426 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -101,11 +127,9 @@
 		8CDA0EF31BB9BA4300433755 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		8CDA0EF51BB9C60800433755 /* DistancePeakExtractionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistancePeakExtractionTests.swift; sourceTree = "<group>"; };
 		8CDE478A1BBF116900A98419 /* CompileFeatures */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CompileFeatures; sourceTree = BUILT_PRODUCTS_DIR; };
-		8CDE47921BBF117C00A98419 /* FileCollector.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileCollector.swift; sourceTree = "<group>"; };
-		8CDE47931BBF117C00A98419 /* Feature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
+		8CDE47921BBF117C00A98419 /* ExampleBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ExampleBuilder.swift; sourceTree = "<group>"; };
 		8CDE47941BBF117C00A98419 /* FeatureCompiler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureCompiler.swift; sourceTree = "<group>"; };
 		8CDE479B1BBF11A000A98419 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		8CDE479D1BBF122400A98419 /* BandExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandExtractor.swift; sourceTree = "<group>"; };
 		8CDE479F1BBF2FA000A98419 /* String+Paths.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Paths.swift"; sourceTree = "<group>"; };
 		8CDE47C81BBF397C00A98419 /* AudioKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = AudioKit.xcodeproj; path = ../AudioKit/AudioKit.xcodeproj; sourceTree = "<group>"; };
 		8CDE47FB1BBF3A6000A98419 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -146,11 +170,11 @@
 		618B7E2F1BBF4A8F0011E8D3 /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
-				618B7E541BC198B40011E8D3 /* Surge.framework */,
-				618B7E551BC198B50011E8D3 /* HDF5.framework */,
-				8CDE47FD1BBF3A8400A98419 /* Foundation.framework */,
 				8CDE47FB1BBF3A6000A98419 /* Accelerate.framework */,
 				8CDE47C81BBF397C00A98419 /* AudioKit.xcodeproj */,
+				8CDE47FD1BBF3A8400A98419 /* Foundation.framework */,
+				618B7E551BC198B50011E8D3 /* HDF5.framework */,
+				618B7E541BC198B40011E8D3 /* Surge.framework */,
 			);
 			name = Dependencies;
 			sourceTree = "<group>";
@@ -183,7 +207,13 @@
 				8C7845741BB9B06600C88426 /* Info.plist */,
 				8CDA0EF31BB9BA4300433755 /* Utilities.swift */,
 				8C7E7ABA1BBB37CC00BBC93C /* PeakExtractor.swift */,
-				8CDE479D1BBF122400A98419 /* BandExtractor.swift */,
+				61BBAF6E1BC43BF800A03FD0 /* Example.swift */,
+				61BBAF671BC43A7300A03FD0 /* Feature.swift */,
+				61BBAF781BC46FE800A03FD0 /* FeatureData.swift */,
+				61BBAF701BC43F8100A03FD0 /* RMSFeature.swift */,
+				61BBAF721BC4408300A03FD0 /* PeakLocationsFeature.swift */,
+				61BBAF741BC4408F00A03FD0 /* PeakHeightsFeature.swift */,
+				61BBAF761BC440A800A03FD0 /* BandsFeature.swift */,
 			);
 			path = FeatureExtraction;
 			sourceTree = "<group>";
@@ -201,8 +231,7 @@
 			isa = PBXGroup;
 			children = (
 				8CDE479B1BBF11A000A98419 /* main.swift */,
-				8CDE47921BBF117C00A98419 /* FileCollector.swift */,
-				8CDE47931BBF117C00A98419 /* Feature.swift */,
+				8CDE47921BBF117C00A98419 /* ExampleBuilder.swift */,
 				8CDE47941BBF117C00A98419 /* FeatureCompiler.swift */,
 				8CDE479F1BBF2FA000A98419 /* String+Paths.swift */,
 			);
@@ -246,6 +275,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				61BBAF991BC4736900A03FD0 /* PBXTargetDependency */,
 			);
 			name = FeatureExtraction;
 			productName = FeatureExtraction;
@@ -281,6 +311,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				61BBAF931BC4735F00A03FD0 /* PBXTargetDependency */,
 				8CDE47F41BBF39D500A98419 /* PBXTargetDependency */,
 				8CDE47F61BBF39D500A98419 /* PBXTargetDependency */,
 			);
@@ -388,9 +419,15 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				61BBAF771BC440A800A03FD0 /* BandsFeature.swift in Sources */,
+				61BBAF751BC4408F00A03FD0 /* PeakHeightsFeature.swift in Sources */,
+				61BBAF731BC4408300A03FD0 /* PeakLocationsFeature.swift in Sources */,
+				61BBAF681BC43A7300A03FD0 /* Feature.swift in Sources */,
 				8C7E7ABB1BBB37CC00BBC93C /* PeakExtractor.swift in Sources */,
+				61BBAF6F1BC43BF800A03FD0 /* Example.swift in Sources */,
 				8CDA0EF41BB9BA4300433755 /* Utilities.swift in Sources */,
-				8CDE479E1BBF122400A98419 /* BandExtractor.swift in Sources */,
+				61BBAF791BC46FE800A03FD0 /* FeatureData.swift in Sources */,
+				61BBAF711BC43F8100A03FD0 /* RMSFeature.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -408,15 +445,24 @@
 			files = (
 				8CDE47981BBF117C00A98419 /* FeatureCompiler.swift in Sources */,
 				8CDE47A01BBF2FA000A98419 /* String+Paths.swift in Sources */,
-				8CDE47961BBF117C00A98419 /* FileCollector.swift in Sources */,
+				8CDE47961BBF117C00A98419 /* ExampleBuilder.swift in Sources */,
 				8CDE479C1BBF11A000A98419 /* main.swift in Sources */,
-				8CDE47971BBF117C00A98419 /* Feature.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		61BBAF931BC4735F00A03FD0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = AudioKit;
+			targetProxy = 61BBAF921BC4735F00A03FD0 /* PBXContainerItemProxy */;
+		};
+		61BBAF991BC4736900A03FD0 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "AudioKit (OSX)";
+			targetProxy = 61BBAF981BC4736900A03FD0 /* PBXContainerItemProxy */;
+		};
 		8C78457C1BB9B06600C88426 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8C78456E1BB9B06600C88426 /* FeatureExtraction */;
@@ -457,6 +503,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				FRAMEWORK_SEARCH_PATHS = "${PROJECT_DIR}/../Carthage/Build/Mac";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -503,6 +550,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				FRAMEWORK_SEARCH_PATHS = "${PROJECT_DIR}/../Carthage/Build/Mac";
 				GCC_C_LANGUAGE_STANDARD = gnu99;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
