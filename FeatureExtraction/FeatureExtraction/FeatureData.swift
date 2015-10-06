@@ -30,18 +30,16 @@ public class FeatureData {
     }
 
     class func exampleSize(features: [Example: [Feature]]) -> Int {
-        var exampleSizeOpt: Int?
-        for feature in features.values {
-            if let size = exampleSizeOpt {
-                precondition(feature.count == size, "All feature vectors need to have the same size")
-            } else {
-                exampleSizeOpt = feature.count
-            }
+        guard let first = features.first else {
+            return 0
         }
-        guard let exampleSize = exampleSizeOpt else {
-            fatalError("Empty features")
+
+        var size = 0
+        for feature in first.1 {
+            size += feature.dynamicType.size()
         }
-        return exampleSize
+
+        return size
     }
 }
 
