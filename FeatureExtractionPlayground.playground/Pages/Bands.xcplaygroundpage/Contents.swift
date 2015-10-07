@@ -44,15 +44,28 @@ let exampleSize = RMSFeature.size() + PeakLocationsFeature.size() + PeakHeightsF
 let peakCount = PeakLocationsFeature.peakCount
 let bandCount = BandsFeature.size()
 
-for exampleIndex in 0..<73 {
-    let note = labels[exampleIndex] + 24
+var noteIndex = [Int: Int]()
+for exampleIndex in 0..<exampleCount {
+    let note = Int(labels[exampleIndex] + 24)
+    noteIndex[note] = exampleIndex
+}
+
+for note in 36...96 {
+    let exampleIndex = noteIndex[note]!
     var exampleStart = exampleSize * exampleIndex
     let locationsRange = exampleStart..<exampleStart+peakCount
     let heightsRange = locationsRange.endIndex..<locationsRange.endIndex+peakCount
     let bandsRange = heightsRange.endIndex..<heightsRange.endIndex+bandCount
 
-    let pointSet = PointSet(values: [Double](featureData[bandsRange]))
     plot.clear()
+
+    let pointSet = PointSet(values: [Double](featureData[bandsRange]))
     plot.addPointSet(pointSet)
+
+    let expectedBand = Double(note - 24 + 1)
+    let expectedPointSet = PointSet(points: [Point(x: expectedBand, y: 0), Point(x: expectedBand, y: 1)])
+    expectedPointSet.color = NSColor.lightGrayColor()
+    plot.addPointSet(expectedPointSet)
+
     NSRunLoop.currentRunLoop().runUntilDate(NSDate(timeIntervalSinceNow: 0.1))
 }
