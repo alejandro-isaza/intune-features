@@ -17,6 +17,7 @@
 		61BBAF751BC4408F00A03FD0 /* PeakHeightsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF741BC4408F00A03FD0 /* PeakHeightsFeature.swift */; settings = {ASSET_TAGS = (); }; };
 		61BBAF771BC440A800A03FD0 /* BandsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF761BC440A800A03FD0 /* BandsFeature.swift */; settings = {ASSET_TAGS = (); }; };
 		61BBAF791BC46FE800A03FD0 /* FeatureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF781BC46FE800A03FD0 /* FeatureData.swift */; settings = {ASSET_TAGS = (); }; };
+		61D485AD1BC4A3D70086CED8 /* Shuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D485AC1BC4A3D70086CED8 /* Shuffle.swift */; settings = {ASSET_TAGS = (); }; };
 		8C7845731BB9B06600C88426 /* FeatureExtraction.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C7845721BB9B06600C88426 /* FeatureExtraction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8C78457A1BB9B06600C88426 /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */; settings = {ASSET_TAGS = (); }; };
 		8C7E7ABB1BBB37CC00BBC93C /* PeakExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7E7ABA1BBB37CC00BBC93C /* PeakExtractor.swift */; settings = {ASSET_TAGS = (); }; };
@@ -118,6 +119,7 @@
 		61BBAF741BC4408F00A03FD0 /* PeakHeightsFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakHeightsFeature.swift; sourceTree = "<group>"; };
 		61BBAF761BC440A800A03FD0 /* BandsFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandsFeature.swift; sourceTree = "<group>"; };
 		61BBAF781BC46FE800A03FD0 /* FeatureData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureData.swift; sourceTree = "<group>"; };
+		61D485AC1BC4A3D70086CED8 /* Shuffle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shuffle.swift; sourceTree = "<group>"; };
 		8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureExtraction.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C7845721BB9B06600C88426 /* FeatureExtraction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeatureExtraction.h; sourceTree = "<group>"; };
 		8C7845741BB9B06600C88426 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -214,6 +216,7 @@
 				61BBAF721BC4408300A03FD0 /* PeakLocationsFeature.swift */,
 				61BBAF741BC4408F00A03FD0 /* PeakHeightsFeature.swift */,
 				61BBAF761BC440A800A03FD0 /* BandsFeature.swift */,
+				61D485AC1BC4A3D70086CED8 /* Shuffle.swift */,
 			);
 			path = FeatureExtraction;
 			sourceTree = "<group>";
@@ -424,6 +427,7 @@
 				61BBAF731BC4408300A03FD0 /* PeakLocationsFeature.swift in Sources */,
 				61BBAF681BC43A7300A03FD0 /* Feature.swift in Sources */,
 				8C7E7ABB1BBB37CC00BBC93C /* PeakExtractor.swift in Sources */,
+				61D485AD1BC4A3D70086CED8 /* Shuffle.swift in Sources */,
 				61BBAF6F1BC43BF800A03FD0 /* Example.swift in Sources */,
 				8CDA0EF41BB9BA4300433755 /* Utilities.swift in Sources */,
 				61BBAF791BC46FE800A03FD0 /* FeatureData.swift in Sources */,

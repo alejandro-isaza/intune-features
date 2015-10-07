@@ -23,8 +23,13 @@ public class FeatureData {
         let exampleSize = FeatureData.exampleSize(features)
         self.init(exampleCount: features.count, exampleSize: exampleSize)
 
-        for (example, features) in features {
+        var shuffledExamples = [Example](features.keys)
+        shuffledExamples.shuffleInPlace()
+
+        for example in shuffledExamples {
             labels.append(example.label)
+
+            let features = features[example]!
             data.appendContentsOf(serializeFeatures(features))
         }
     }
