@@ -4,7 +4,7 @@ import Foundation
 import Surge
 
 public struct BandsFeature : Feature {
-    public static let notes = 24...96
+    public static let notes = 24...120
     public var bands: [Double]
 
     public static func size() -> Int {
