@@ -32,36 +32,27 @@ let featureData = readData(path, datasetName: "data")
 
 
 
-let locationsPlot = PlotView(frame: NSRect(origin: CGPointZero, size: plotSize))
-locationsPlot.fixedXInterval = 0...8000
-locationsPlot.fixedYInterval = 0...0.3
-locationsPlot.addAxis(Axis(orientation: .Horizontal))
-locationsPlot.addAxis(Axis(orientation: .Vertical))
+let plot = PlotView(frame: NSRect(origin: CGPointZero, size: plotSize))
+plot.fixedYInterval = 0...0.3
+plot.addAxis(Axis(orientation: .Horizontal))
+plot.addAxis(Axis(orientation: .Vertical))
+XCPShowView("Bands", view: plot)
 
 
 let exampleCount = labels.count
 let exampleSize = RMSFeature.size() + PeakLocationsFeature.size() + PeakHeightsFeature.size() + BandsFeature.size()
+let peakCount = PeakLocationsFeature.peakCount
+let bandCount = BandsFeature.size()
 
 for exampleIndex in 0..<73 {
     let note = labels[exampleIndex] + 24
     var exampleStart = exampleSize * exampleIndex
-    let peakCount = PeakLocationsFeature.peakCount
     let locationsRange = exampleStart..<exampleStart+peakCount
-    let heightsRange = exampleStart+peakCount..<exampleStart+2*peakCount
+    let heightsRange = locationsRange.endIndex..<locationsRange.endIndex+peakCount
+    let bandsRange = heightsRange.endIndex..<heightsRange.endIndex+bandCount
 
-    let rms = featureData[exampleStart]
-
-    var peaks = [Point]()
-    for i in 0..<peakCount {
-        peaks.append(Point(
-            x: featureData[locationsRange.startIndex + i] * 1000,
-            y: featureData[heightsRange.startIndex + i]))
-    }
-
-    let locationsPointSet = PointSet(points: peaks)
-    locationsPointSet.lines = false
-    locationsPointSet.pointType = .Ring(radius: 2)
-    locationsPointSet.color = NSColor(calibratedHue: CGFloat(exampleIndex)/CGFloat(73), saturation: 1, brightness: 1, alpha: 1)
-    locationsPlot.addPointSet(locationsPointSet)
+    let pointSet = PointSet(values: [Double](featureData[bandsRange]))
+    plot.clear()
+    plot.addPointSet(pointSet)
+    NSRunLoop.currentRunLoop().runUntilDate(NSDate(timeIntervalSinceNow: 0.1))
 }
-XCPShowView("Locations", view: locationsPlot)
