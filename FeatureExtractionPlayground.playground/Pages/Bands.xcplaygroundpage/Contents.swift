@@ -6,7 +6,6 @@ import Surge
 import XCPlayground
 
 typealias Point = Surge.Point<Double>
-let plotSize = NSSize(width: 1024, height: 400)
 
 func readData(filePath: String, datasetName: String) -> [Double] {
     guard let file = File.open(filePath, mode: .ReadOnly) else {
@@ -24,12 +23,9 @@ func readData(filePath: String, datasetName: String) -> [Double] {
     return data
 }
 
-guard let path = NSBundle.mainBundle().pathForResource("testing", ofType: "h5") else {
-    fatalError("File not found")
-}
+let path = testingFeatuesPath()
 let labels = readData(path, datasetName: "label")
 let featureData = readData(path, datasetName: "data")
-
 
 
 let plot = PlotView(frame: NSRect(origin: CGPointZero, size: plotSize))
@@ -46,11 +42,12 @@ let bandCount = BandsFeature.size()
 
 var noteIndex = [Int: Int]()
 for exampleIndex in 0..<exampleCount {
-    let note = Int(labels[exampleIndex] + 24)
-    noteIndex[note] = exampleIndex
+    if let note = labelToNote(labels[exampleIndex]) {
+        noteIndex[note] = exampleIndex
+    }
 }
 
-for note in 36...96 {
+for note in notes {
     let exampleIndex = noteIndex[note]!
     var exampleStart = exampleSize * exampleIndex
     let locationsRange = exampleStart..<exampleStart+peakCount
@@ -62,10 +59,11 @@ for note in 36...96 {
     let pointSet = PointSet(values: [Double](featureData[bandsRange]))
     plot.addPointSet(pointSet)
 
-    let expectedBand = Double(note - 24 + 1)
+    let expectedBand = Double(note - BandsFeature.notes.startIndex + 1)
     let expectedPointSet = PointSet(points: [Point(x: expectedBand, y: 0), Point(x: expectedBand, y: 1)])
     expectedPointSet.color = NSColor.lightGrayColor()
     plot.addPointSet(expectedPointSet)
 
-    NSRunLoop.currentRunLoop().runUntilDate(NSDate(timeIntervalSinceNow: 0.1))
+    plot
+    delay(0.1)
 }
