@@ -12,7 +12,7 @@ typealias Point = Surge.Point<Double>
 class FeatureCompiler {
     let sampleRate = 44100
     let sampleCount: Int
-    let notes = 24...96
+    let notes = 36...96
 
     let fft: FFT
     let fb: Double
@@ -27,7 +27,7 @@ class FeatureCompiler {
         var trainingFeatures = [Example: [Feature]]()
         var testingFeatures = [Example: [Feature]]()
 
-        let labelFunction: Int -> Int = { return $0 - self.notes.startIndex }
+        let labelFunction: Int -> Int = { return $0 - self.notes.startIndex + 1 }
         let exampleBuilder = ExampleBuilder(noteRange: notes, sampleCount: sampleCount, labelFunction: labelFunction)
         exampleBuilder.forEachExample(training: { example in
             trainingFeatures[example] = self.generateFeatures(example)

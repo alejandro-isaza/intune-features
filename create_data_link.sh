@@ -5,7 +5,9 @@
 # The audio data should be in the "~/Box Sync" folder.
 #
 
-ln -s "$HOME/Box Sync/Intune Music/Training" AudioData
+if [ ! -L "AudioData" ]; then
+  ln -s "$HOME/Box Sync/Intune Music/Training" AudioData
+fi
 
 rm -rf "$HOME/Documents/Shared Playground Data/AudioData"
 mkdir -p "$HOME/Documents/Shared Playground Data/AudioData"

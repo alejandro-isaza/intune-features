@@ -6,7 +6,7 @@ import Foundation
 import Surge
 
 class ExampleBuilder {
-    let rootPath = "../AudioData/Notes/"
+    let rootPath = "../AudioData/Audio/"
     let trainingFolders = [
         "AcousticGrandPiano_YDP",
         "FFNotes",
@@ -25,6 +25,8 @@ class ExampleBuilder {
     let testingFolders = [
         "Arachno",
     ]
+    let testingNoiseFileName = "testingNoise"
+    let trainingNoiseFileName = "trainingNoise"
     let fileExtensions = [
         "m4a",
         "caf",
@@ -36,6 +38,7 @@ class ExampleBuilder {
     let noteRange: Range<Int>
     let sampleCount: Int
     let labelFunction: Int -> Int
+    let noiseLabel = 0
     private var data: [Double]
     
     init(noteRange: Range<Int>, sampleCount: Int, labelFunction: Int -> Int = { $0 }) {
@@ -53,23 +56,31 @@ class ExampleBuilder {
         for folder in testingFolders {
             forEachExampleInFolder(folder, action: testing)
         }
+
+        forEachExampleInFile(trainingNoiseFileName, path: rootPath, label: noiseLabel, action: training)
+        forEachExampleInFile(testingNoiseFileName, path: rootPath, label: noiseLabel, action: testing)
     }
     
     func forEachExampleInFolder(folder: String, action: Example -> ()) {
-        let fileManager = NSFileManager.defaultManager()
+        let path = buildPathFromParts([rootPath, folder])
         for i in noteRange {
-            for type in fileExtensions {
-                let fileName = "\(i).\(type)"
-                let notePath = buildPathFromParts([rootPath, folder, fileName])
-                if fileManager.fileExistsAtPath(notePath) {
-                    forEachExampleInFile(notePath, note: i, action: action)
-                    break
-                }
+            forEachExampleInFile(String(i), path: path, label: labelFunction(i), action: action)
+        }
+    }
+
+    func forEachExampleInFile(fileName: String, path: String, label: Int, action: Example -> ()) {
+        let fileManager = NSFileManager.defaultManager()
+        for type in fileExtensions {
+            let fullFileName = "\(fileName).\(type)"
+            let filePath = buildPathFromParts([path, fullFileName])
+            if fileManager.fileExistsAtPath(filePath) {
+                forEachExampleInFile(filePath, label: label, action: action)
+                break
             }
         }
     }
 
-    func forEachExampleInFile(filePath: String, note: Int, action: Example -> ()) {
+    func forEachExampleInFile(filePath: String, label: Int, action: Example -> ()) {
         let audioFile = AudioFile(filePath: filePath)!
         assert(audioFile.sampleRate == 44100)
 
@@ -81,7 +92,7 @@ class ExampleBuilder {
             let example = Example(
                 filePath: filePath,
                 frameOffset: audioFile.currentFrame,
-                label: labelFunction(note),
+                label: label,
                 data: data)
             action(example)
 
