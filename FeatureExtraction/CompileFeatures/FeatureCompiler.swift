@@ -24,8 +24,8 @@ class FeatureCompiler {
     }
     
     func compileFeatures() {
-        var trainingFeatures = [Example: [Feature]]()
-        var testingFeatures = [Example: [Feature]]()
+        var trainingFeatures = [Example: [String: Feature]]()
+        var testingFeatures = [Example: [String: Feature]]()
 
         let labelFunction: Int -> Int = { return $0 - self.notes.startIndex + 1 }
         let exampleBuilder = ExampleBuilder(noteRange: notes, sampleCount: sampleCount, labelFunction: labelFunction)
@@ -39,7 +39,7 @@ class FeatureCompiler {
         writeFeatures("testing.h5", features: testingFeatures)
     }
     
-    func generateFeatures(example: Example) -> [Feature] {
+    func generateFeatures(example: Example) -> [String: Feature] {
         // Apply a random gain between 0.5 and 2.0
         let gain = exp2(Double(arc4random_uniform(2)) - 1.0)
         let data = example.data.map{ return $0 * gain }
@@ -55,14 +55,14 @@ class FeatureCompiler {
         let bandsFeature = BandsFeature(spectrum: psd, baseFrequency: fb)
 
         return [
-            rmsFeature,
-            peakLocationsFeature,
-            peakHeightsFeature,
-            bandsFeature
+            "rms": rmsFeature,
+            "peak_frequencies": peakLocationsFeature,
+            "peak_heights": peakHeightsFeature,
+            "bands": bandsFeature
         ]
     }
 
-    func writeFeatures(fileName: String, features: [Example: [Feature]]) {
+    func writeFeatures(fileName: String, features: [Example: [String: Feature]]) {
         let featureData = FeatureData(features: features)
         writeFeatures(fileName, featureData: featureData)
     }
@@ -72,10 +72,13 @@ class FeatureCompiler {
             fatalError("Could not create HDF5 dataset.")
         }
 
-        let dataType = HDF5.Datatype.copy(type: .Double)
-        let dataDataspace = Dataspace(dims: [UInt64(featureData.labels.count), UInt64(featureData.exampleSize)])
-        let dataDataset = HDF5.Dataset.create(file: hdf5File, name: "data", datatype: dataType, dataspace: dataDataspace)
-        dataDataset.writeDouble(featureData.data)
+        for (name, data) in featureData.data {
+            let featureSize = UInt64(data.count / featureData.labels.count)
+            let dataType = HDF5.Datatype.copy(type: .Double)
+            let dataDataspace = Dataspace(dims: [UInt64(featureData.labels.count), UInt64(featureSize)])
+            let dataDataset = HDF5.Dataset.create(file: hdf5File, name: name, datatype: dataType, dataspace: dataDataspace)
+            dataDataset.writeDouble(data)
+        }
 
         let labelType = HDF5.Datatype.copy(type: .Int)
         let labelDataspace = Dataspace(dims: [UInt64(featureData.labels.count)])

@@ -4,24 +4,20 @@ import Foundation
 
 public class FeatureData {
     public let exampleCount: Int
-    public let exampleSize: Int
     public internal(set) var labels: [Int]
-    public internal(set) var data: [Double]
+    public internal(set) var data: [String: [Double]]
 
-    init(exampleCount: Int, exampleSize: Int) {
+    init(exampleCount: Int) {
         self.exampleCount = exampleCount
-        self.exampleSize = exampleSize
 
         labels = [Int]()
         labels.reserveCapacity(exampleCount)
 
-        data = [Double]()
-        data.reserveCapacity(exampleCount * exampleSize)
+        data = [String: [Double]]()
     }
 
-    public convenience init(features: [Example: [Feature]]) {
-        let exampleSize = FeatureData.exampleSize(features)
-        self.init(exampleCount: features.count, exampleSize: exampleSize)
+    public convenience init(features: [Example: [String: Feature]]) {
+        self.init(exampleCount: features.count)
 
         var shuffledExamples = [Example](features.keys)
         shuffledExamples.shuffleInPlace()
@@ -30,35 +26,26 @@ public class FeatureData {
             labels.append(example.label)
 
             let features = features[example]!
-            data.appendContentsOf(serializeFeatures(features))
+            for (name, feature) in features {
+                var featureData: [Double]
+                if let data = data[name] {
+                    featureData = data
+                } else {
+                    featureData = [Double]()
+                    featureData.reserveCapacity(feature.dynamicType.size() * exampleCount)
+                }
+                featureData.appendContentsOf(feature.serialize())
+                data.updateValue(featureData, forKey: name)
+            }
         }
-    }
-
-    class func exampleSize(features: [Example: [Feature]]) -> Int {
-        guard let first = features.first else {
-            return 0
-        }
-
-        var size = 0
-        for feature in first.1 {
-            size += feature.dynamicType.size()
-        }
-
-        return size
     }
 }
 
-public func serializeFeatures(features: [Feature]) -> [Double] {
-    var size = 0
-    for feature in features {
-        size += feature.dynamicType.size()
-    }
+public func serializeFeatures(features: [String: Feature]) -> [String: [Double]] {
+    var data = [String: [Double]]()
 
-    var data = [Double]()
-    data.reserveCapacity(size)
-
-    for feature in features {
-        data.appendContentsOf(feature.serialize())
+    for (name, feature) in features {
+        data[name] = feature.serialize()
     }
     return data
 }

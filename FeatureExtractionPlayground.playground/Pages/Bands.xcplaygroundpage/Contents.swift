@@ -25,7 +25,7 @@ func readData(filePath: String, datasetName: String) -> [Double] {
 
 let path = testingFeatuesPath()
 let labels = readData(path, datasetName: "label")
-let featureData = readData(path, datasetName: "data")
+let featureData = readData(path, datasetName: "bands")
 
 
 let plot = PlotView(frame: NSRect(origin: CGPointZero, size: plotSize))
@@ -36,8 +36,6 @@ XCPShowView("Bands", view: plot)
 
 
 let exampleCount = labels.count
-let exampleSize = RMSFeature.size() + PeakLocationsFeature.size() + PeakHeightsFeature.size() + BandsFeature.size()
-let peakCount = PeakLocationsFeature.peakCount
 let bandCount = BandsFeature.size()
 
 var noteIndex = [Int: Int]()
@@ -49,17 +47,14 @@ for exampleIndex in 0..<exampleCount {
 
 for note in notes {
     let exampleIndex = noteIndex[note]!
-    var exampleStart = exampleSize * exampleIndex
-    let locationsRange = exampleStart..<exampleStart+peakCount
-    let heightsRange = locationsRange.endIndex..<locationsRange.endIndex+peakCount
-    let bandsRange = heightsRange.endIndex..<heightsRange.endIndex+bandCount
+    var exampleStart = bandCount * exampleIndex
 
     plot.clear()
 
-    let pointSet = PointSet(values: [Double](featureData[bandsRange]))
+    let pointSet = PointSet(values: [Double](featureData[exampleStart..<exampleStart+bandCount]))
     plot.addPointSet(pointSet)
 
-    let expectedBand = Double(note - BandsFeature.notes.startIndex + 1)
+    let expectedBand = Double(note - BandsFeature.notes.startIndex)
     let expectedPointSet = PointSet(points: [Point(x: expectedBand, y: 0), Point(x: expectedBand, y: 1)])
     expectedPointSet.color = NSColor.lightGrayColor()
     plot.addPointSet(expectedPointSet)

@@ -25,7 +25,9 @@ func readData(filePath: String, datasetName: String) -> [Double] {
 
 let path = testingFeatuesPath()
 let labels = readData(path, datasetName: "label")
-let featureData = readData(path, datasetName: "data")
+let peakFrequencies = readData(path, datasetName: "peak_frequencies")
+let peakHeights = readData(path, datasetName: "peak_heights")
+let rmsData = readData(path, datasetName: "rms")
 
 
 let plot = PlotView(frame: NSRect(origin: CGPointZero, size: plotSize))
@@ -37,7 +39,6 @@ XCPShowView("Peaks", view: plot)
 
 
 let exampleCount = labels.count
-let exampleSize = RMSFeature.size() + PeakLocationsFeature.size() + PeakHeightsFeature.size() + BandsFeature.size()
 let peakCount = PeakLocationsFeature.peakCount
 
 var noteIndex = [Int: Int]()
@@ -49,16 +50,14 @@ for exampleIndex in 0..<exampleCount {
 
 for note in notes {
     let exampleIndex = noteIndex[note]!
-    var exampleStart = exampleSize * exampleIndex
-    let locationsRange = exampleStart..<exampleStart+peakCount
-    let heightsRange = exampleStart+peakCount..<exampleStart+2*peakCount
+    var exampleStart = peakCount * exampleIndex
 
     var maxX = 0.0
     var peaks = [Point]()
     for i in 0..<peakCount {
         let point = Point(
-            x: featureData[locationsRange.startIndex + i] * 1000,
-            y: featureData[heightsRange.startIndex + i])
+            x: peakFrequencies[exampleStart + i] * 1000,
+            y: peakHeights[exampleStart + i])
         peaks.append(point)
 
         if point.x > maxX {
@@ -73,7 +72,7 @@ for note in notes {
     pointSet.pointType = .Ring(radius: 2)
     plot.addPointSet(pointSet)
 
-    let rms = featureData[exampleStart]
+    let rms = rmsData[exampleIndex]
     let rmsPointSet = PointSet(points: [Point(x: 0, y: rms), Point(x: maxX, y: rms)])
     rmsPointSet.color = NSColor.lightGrayColor()
     plot.addPointSet(rmsPointSet)
