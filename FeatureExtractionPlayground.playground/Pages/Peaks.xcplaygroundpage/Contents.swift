@@ -7,6 +7,8 @@ import XCPlayground
 
 typealias Point = Surge.Point<Double>
 
+//: ## Helper functions
+
 func readData(filePath: String, datasetName: String) -> [Double] {
     guard let file = File.open(filePath, mode: .ReadOnly) else {
         fatalError("Failed to open file")
@@ -23,11 +25,31 @@ func readData(filePath: String, datasetName: String) -> [Double] {
     return data
 }
 
+
+//: ## Setup
+
 let path = testingFeatuesPath()
 let labels = readData(path, datasetName: "label")
 let peakFrequencies = readData(path, datasetName: "peak_frequencies")
 let peakHeights = readData(path, datasetName: "peak_heights")
 let rmsData = readData(path, datasetName: "rms")
+let peakCount = PeakLocationsFeature.peakCount
+
+func peaksAtIndex(index: Int) -> ([Point], Double) {
+    var maxX = 0.0
+    var peaks = [Point]()
+    for i in 0..<peakCount {
+        let point = Point(
+            x: peakFrequencies[index*peakCount + i] * 1000,
+            y: peakHeights[index*peakCount + i])
+        peaks.append(point)
+
+        if point.x > maxX {
+            maxX = point.x
+        }
+    }
+    return (peaks, maxX)
+}
 
 
 let plot = PlotView(frame: NSRect(origin: CGPointZero, size: plotSize))
@@ -38,32 +60,41 @@ plot.addAxis(Axis(orientation: .Vertical))
 XCPShowView("Peaks", view: plot)
 
 
+//: Sort the examples by label
 let exampleCount = labels.count
-let peakCount = PeakLocationsFeature.peakCount
 
-var noteIndex = [Int: Int]()
+var labelIndex = [Int: Int]()
 for exampleIndex in 0..<exampleCount {
-    if let note = labelToNote(labels[exampleIndex]) {
-        noteIndex[note] = exampleIndex
-    }
+    labelIndex[Int(labels[exampleIndex])] = exampleIndex
 }
 
+
+//: ## Plot noise peaks
+let noiseIndex = labelIndex[0]!
+let (peaks, maxX) = peaksAtIndex(noiseIndex)
+peaks
+
+plot.clear()
+
+let pointSet = PointSet(points: peaks)
+pointSet.lines = false
+pointSet.pointType = .Ring(radius: 2)
+plot.addPointSet(pointSet)
+
+let rms = rmsData[noiseIndex]
+let rmsPointSet = PointSet(points: [Point(x: 0, y: rms), Point(x: maxX, y: rms)])
+rmsPointSet.color = NSColor.lightGrayColor()
+plot.addPointSet(rmsPointSet)
+
+plot
+delay(0.1)
+
+
+//: ## Plot all notes in sequence
 for note in notes {
-    let exampleIndex = noteIndex[note]!
-    var exampleStart = peakCount * exampleIndex
-
-    var maxX = 0.0
-    var peaks = [Point]()
-    for i in 0..<peakCount {
-        let point = Point(
-            x: peakFrequencies[exampleStart + i] * 1000,
-            y: peakHeights[exampleStart + i])
-        peaks.append(point)
-
-        if point.x > maxX {
-            maxX = point.x
-        }
-    }
+    let label = noteToLabel(note)
+    let exampleIndex = labelIndex[label]!
+    let (peaks, maxX) = peaksAtIndex(exampleIndex)
 
     plot.clear()
 

@@ -38,15 +38,25 @@ XCPShowView("Bands", view: plot)
 let exampleCount = labels.count
 let bandCount = BandsFeature.size()
 
-var noteIndex = [Int: Int]()
+var labelIndex = [Int: Int]()
 for exampleIndex in 0..<exampleCount {
-    if let note = labelToNote(labels[exampleIndex]) {
-        noteIndex[note] = exampleIndex
-    }
+    labelIndex[Int(labels[exampleIndex])] = exampleIndex
 }
 
+let noiseIndex = labelIndex[0]!
+let noiseStart = bandCount * noiseIndex
+let noiseBands = [Double](featureData[noiseStart..<noiseStart+bandCount])
+noiseBands
+
+let pointSet = PointSet(values: noiseBands)
+plot.clear()
+plot.addPointSet(pointSet)
+plot
+delay(0.1)
+
 for note in notes {
-    let exampleIndex = noteIndex[note]!
+    let label = noteToLabel(note)
+    let exampleIndex = labelIndex[label]!
     var exampleStart = bandCount * exampleIndex
 
     plot.clear()

@@ -28,3 +28,7 @@ public func labelToNote(label: Double) -> Int? {
     }
     return Int(label) + notes.startIndex - 1
 }
+
+public func noteToLabel(note: Int) -> Int {
+    return note - notes.startIndex + 1
+}
