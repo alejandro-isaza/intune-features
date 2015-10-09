@@ -5,6 +5,7 @@
 *.pbxuser
 xcuserdata/
 *.xccheckout
+*.xctimeline
 
 # Cocoapods
 Pods
