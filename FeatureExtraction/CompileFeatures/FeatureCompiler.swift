@@ -42,24 +42,35 @@ class FeatureCompiler {
     func generateFeatures(example: Example) -> [String: Feature] {
         // Apply a random gain between 0.5 and 2.0
         let gain = exp2(Double(arc4random_uniform(2)) - 1.0)
-        let data = example.data.map{ return $0 * gain }
+        let data0 = example.data.0.map{ return $0 * gain }
+        let data1 = example.data.1.map{ return $0 * gain }
 
         // Extract peaks
-        let psd = sqrt(fft.forwardMags(data))
-        let fftPoints = (0..<psd.count).map{ Point(x: fb * Double($0), y: psd[$0]) }
-        let peaks = PeakExtractor.process(fftPoints).sort{ $0.y > $1.y }
+        let spectrum0 = spectrumValues(data0)
+        let points0 = spectrumPoints(spectrum0)
+        let peaks0 = PeakExtractor.process(points0).sort{ $0.y > $1.y }
 
-        let rmsFeature = RMSFeature(audioData: data)
-        let peakLocationsFeature = PeakLocationsFeature(peaks: peaks)
-        let peakHeightsFeature = PeakHeightsFeature(peaks: peaks)
-        let bandsFeature = BandsFeature(spectrum: psd, baseFrequency: fb)
+        // Extract next peaks
+        let points1 = spectrumPoints(spectrumValues(data1))
+        let peaks1 = PeakExtractor.process(points1).sort{ $0.y > $1.y }
 
         return [
-            "rms": rmsFeature,
-            "peak_frequencies": peakLocationsFeature,
-            "peak_heights": peakHeightsFeature,
-            "bands": bandsFeature
+            "rms": RMSFeature(audioData: data0),
+            "peak_frequencies": PeakLocationsFeature(peaks: peaks0),
+            "peak_heights": PeakHeightsFeature(peaks: peaks0),
+            "peak_fluxes": PeakFluxFeature(peaks: peaks0, nextPeaks: peaks1),
+            "bands": BandsFeature(spectrum: spectrum0, baseFrequency: fb)
         ]
+    }
+
+    /// Compute the power spectrum values
+    func spectrumValues(data: [Double]) -> [Double] {
+        return sqrt(fft.forwardMags(data))
+    }
+
+    /// Convert from spectrum values to frequency, value points
+    func spectrumPoints(spectrum: [Double]) -> [Point] {
+        return (0..<spectrum.count).map{ Point(x: fb * Double($0), y: spectrum[$0]) }
     }
 
     func writeFeatures(fileName: String, features: [Example: [String: Feature]]) {

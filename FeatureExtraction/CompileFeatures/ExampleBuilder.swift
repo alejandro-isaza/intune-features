@@ -39,13 +39,14 @@ class ExampleBuilder {
     let sampleCount: Int
     let labelFunction: Int -> Int
     let noiseLabel = 0
-    private var data: [Double]
+    private var data: ([Double], [Double])
     
     init(noteRange: Range<Int>, sampleCount: Int, labelFunction: Int -> Int = { $0 }) {
         self.sampleCount = sampleCount
         self.noteRange = noteRange
         self.labelFunction = labelFunction
-        data = [Double](count: sampleCount, repeatedValue: 0.0)
+        data.0 = [Double](count: sampleCount, repeatedValue: 0.0)
+        data.1 = [Double](count: sampleCount, repeatedValue: 0.0)
     }
     
     func forEachExample(training training: Example -> (), testing: Example -> ()) {
@@ -84,9 +85,12 @@ class ExampleBuilder {
     func forEachExampleInFile(filePath: String, label: Int, action: Example -> (), minRMS: Double) {
         let audioFile = AudioFile(filePath: filePath)!
         assert(audioFile.sampleRate == 44100)
+        guard audioFile.readFrames(&data.0, count: sampleCount) == sampleCount else {
+            return
+        }
 
-        repeat {
-            guard audioFile.readFrames(&data, count: sampleCount) == sampleCount else {
+        while rmsq(data.0) > minRMS {
+            guard audioFile.readFrames(&data.1, count: sampleCount) == sampleCount else {
                 break
             }
 
@@ -98,6 +102,7 @@ class ExampleBuilder {
             action(example)
 
             audioFile.currentFrame -= sampleCount / 2
-        } while rmsq(data) > minRMS
+            swap(&data.0, &data.1)
+        }
     }
 }

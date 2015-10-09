@@ -6,9 +6,9 @@ public struct Example: Hashable {
     public let filePath: String
     public let frameOffset: Int
     public let label: Int
-    public let data: [Double]
+    public let data: ([Double], [Double])
 
-    public init(filePath: String, frameOffset: Int, label: Int, data: [Double]) {
+    public init(filePath: String, frameOffset: Int, label: Int, data: ([Double], [Double])) {
         self.filePath = filePath
         self.frameOffset = frameOffset
         self.label = label
