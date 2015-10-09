@@ -25,8 +25,8 @@ class ExampleBuilder {
     let testingFolders = [
         "Arachno",
     ]
-    let testingNoiseFileName = "testingNoise"
-    let trainingNoiseFileName = "trainingNoise"
+    let testingNoiseFileName = "testingnoise"
+    let trainingNoiseFileName = "trainingnoise"
     let fileExtensions = [
         "m4a",
         "caf",
@@ -51,36 +51,37 @@ class ExampleBuilder {
     func forEachExample(training training: Example -> (), testing: Example -> ()) {
         print("Working Directory: \(NSFileManager.defaultManager().currentDirectoryPath)")
         for folder in trainingFolders {
-            forEachExampleInFolder(folder, action: training)
+            forEachExampleInFolder(folder, action: training, minRMS: RMSThreshold)
         }
         for folder in testingFolders {
-            forEachExampleInFolder(folder, action: testing)
+            forEachExampleInFolder(folder, action: testing, minRMS: RMSThreshold)
         }
 
-        forEachExampleInFile(trainingNoiseFileName, path: rootPath, label: noiseLabel, action: training)
-        forEachExampleInFile(testingNoiseFileName, path: rootPath, label: noiseLabel, action: testing)
+        forEachExampleInFile(trainingNoiseFileName, path: rootPath, label: noiseLabel, action: training, minRMS: 0.0)
+        forEachExampleInFile(testingNoiseFileName, path: rootPath, label: noiseLabel, action: testing, minRMS: 0.0)
     }
     
-    func forEachExampleInFolder(folder: String, action: Example -> ()) {
+    func forEachExampleInFolder(folder: String, action: Example -> (), minRMS: Double) {
         let path = buildPathFromParts([rootPath, folder])
         for i in noteRange {
-            forEachExampleInFile(String(i), path: path, label: labelFunction(i), action: action)
+            forEachExampleInFile(String(i), path: path, label: labelFunction(i), action: action, minRMS: minRMS)
         }
     }
 
-    func forEachExampleInFile(fileName: String, path: String, label: Int, action: Example -> ()) {
+    func forEachExampleInFile(fileName: String, path: String, label: Int, action: Example -> (), minRMS: Double) {
         let fileManager = NSFileManager.defaultManager()
         for type in fileExtensions {
             let fullFileName = "\(fileName).\(type)"
             let filePath = buildPathFromParts([path, fullFileName])
             if fileManager.fileExistsAtPath(filePath) {
-                forEachExampleInFile(filePath, label: label, action: action)
+                print("Processing \(filePath)")
+                forEachExampleInFile(filePath, label: label, action: action, minRMS: minRMS)
                 break
             }
         }
     }
 
-    func forEachExampleInFile(filePath: String, label: Int, action: Example -> ()) {
+    func forEachExampleInFile(filePath: String, label: Int, action: Example -> (), minRMS: Double) {
         let audioFile = AudioFile(filePath: filePath)!
         assert(audioFile.sampleRate == 44100)
 
@@ -97,6 +98,6 @@ class ExampleBuilder {
             action(example)
 
             audioFile.currentFrame -= sampleCount / 2
-        } while rmsq(data) > RMSThreshold
+        } while rmsq(data) > minRMS
     }
 }
