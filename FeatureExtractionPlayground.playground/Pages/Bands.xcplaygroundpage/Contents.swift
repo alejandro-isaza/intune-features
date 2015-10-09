@@ -1,4 +1,3 @@
-import AudioKit
 import FeatureExtraction
 import HDF5
 import PlotKit
@@ -23,7 +22,7 @@ func readData(filePath: String, datasetName: String) -> [Double] {
     return data
 }
 
-let path = testingFeatuesPath()
+let path = testingFeaturesPath()
 let labels = readData(path, datasetName: "label")
 let featureData = readData(path, datasetName: "bands")
 

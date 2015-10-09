@@ -28,7 +28,7 @@ func readData(filePath: String, datasetName: String) -> [Double] {
 
 //: ## Setup
 
-let path = testingFeatuesPath()
+let path = testingFeaturesPath()
 let labels = readData(path, datasetName: "label")
 let peakFrequencies = readData(path, datasetName: "peak_frequencies")
 let peakHeights = readData(path, datasetName: "peak_heights")

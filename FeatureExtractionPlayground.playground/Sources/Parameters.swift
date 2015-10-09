@@ -4,7 +4,7 @@ public let plotSize = NSSize(width: 1024, height: 400)
 public let notes = 36...96
 
 
-public func testingFeatuesPath() -> String {
+public func testingFeaturesPath() -> String {
     guard let path = NSBundle.mainBundle().pathForResource("testing", ofType: "h5") else {
         fatalError("File not found")
     }

@@ -3,5 +3,6 @@
     <pages>
         <page name='Peaks'/>
         <page name='Bands'/>
+        <page name='Feature'/>
     </pages>
 </playground>
