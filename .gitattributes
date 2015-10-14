@@ -1,0 +1,4 @@
+FeatureExtraction/testing.h5 filter=lfs diff=lfs merge=lfs -text
+FeatureExtraction/training.h5 filter=lfs diff=lfs merge=lfs -text
+FeatureExtractionPlayground.playground/Resources/testing.h5 filter=lfs diff=lfs merge=lfs -text
+FeatureExtractionPlayground.playground/Resources/training.h5 filter=lfs diff=lfs merge=lfs -text
