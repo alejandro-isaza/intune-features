@@ -16,6 +16,14 @@
 		610B1B251BB67DE700B64973 /* AudioKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610B1AFA1BB6568800B64973 /* AudioKitTests.swift */; settings = {ASSET_TAGS = (); }; };
 		610B1B261BB67DEB00B64973 /* sin_1000Hz_-3dBFS_1s.wav in Resources */ = {isa = PBXBuildFile; fileRef = 610B1B071BB67A7200B64973 /* sin_1000Hz_-3dBFS_1s.wav */; settings = {ASSET_TAGS = (); }; };
 		610B1B271BB67E0E00B64973 /* AudioFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610B1B051BB656BE00B64973 /* AudioFile.swift */; settings = {ASSET_TAGS = (); }; };
+		8C72DEA11BCECBE700FC9074 /* MIDIFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C72DEA01BCECBE700FC9074 /* MIDIFile.swift */; settings = {ASSET_TAGS = (); }; };
+		8C72DEA21BCECBE700FC9074 /* MIDIFile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C72DEA01BCECBE700FC9074 /* MIDIFile.swift */; settings = {ASSET_TAGS = (); }; };
+		8C72DEA51BCF022000FC9074 /* alb_esp1.mid in Resources */ = {isa = PBXBuildFile; fileRef = 8C72DEA41BCF022000FC9074 /* alb_esp1.mid */; settings = {ASSET_TAGS = (); }; };
+		8C72DEA61BCF022500FC9074 /* alb_esp1.mid in Resources */ = {isa = PBXBuildFile; fileRef = 8C72DEA41BCF022000FC9074 /* alb_esp1.mid */; settings = {ASSET_TAGS = (); }; };
+		8C72DEAA1BD00E1A00FC9074 /* MusicTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C72DEA91BD00E1A00FC9074 /* MusicTrack.swift */; settings = {ASSET_TAGS = (); }; };
+		8C72DEAB1BD00E1A00FC9074 /* MusicTrack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C72DEA91BD00E1A00FC9074 /* MusicTrack.swift */; settings = {ASSET_TAGS = (); }; };
+		8C72DEAD1BD0111000FC9074 /* MIDIEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C72DEAC1BD0111000FC9074 /* MIDIEvent.swift */; settings = {ASSET_TAGS = (); }; };
+		8C72DEAE1BD0111000FC9074 /* MIDIEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C72DEAC1BD0111000FC9074 /* MIDIEvent.swift */; settings = {ASSET_TAGS = (); }; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -46,6 +54,10 @@
 		610B1B071BB67A7200B64973 /* sin_1000Hz_-3dBFS_1s.wav */ = {isa = PBXFileReference; lastKnownFileType = audio.wav; path = "sin_1000Hz_-3dBFS_1s.wav"; sourceTree = "<group>"; };
 		610B1B0E1BB67D7900B64973 /* AudioKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AudioKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		610B1B171BB67D7900B64973 /* AudioKitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AudioKitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C72DEA01BCECBE700FC9074 /* MIDIFile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIFile.swift; sourceTree = "<group>"; };
+		8C72DEA41BCF022000FC9074 /* alb_esp1.mid */ = {isa = PBXFileReference; lastKnownFileType = audio.midi; path = alb_esp1.mid; sourceTree = "<group>"; };
+		8C72DEA91BD00E1A00FC9074 /* MusicTrack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MusicTrack.swift; sourceTree = "<group>"; };
+		8C72DEAC1BD0111000FC9074 /* MIDIEvent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIEvent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -108,6 +120,9 @@
 				610B1AEE1BB6568800B64973 /* AudioKit.h */,
 				610B1AF01BB6568800B64973 /* Info.plist */,
 				610B1B051BB656BE00B64973 /* AudioFile.swift */,
+				8C72DEA91BD00E1A00FC9074 /* MusicTrack.swift */,
+				8C72DEAC1BD0111000FC9074 /* MIDIEvent.swift */,
+				8C72DEA01BCECBE700FC9074 /* MIDIFile.swift */,
 			);
 			path = AudioKit;
 			sourceTree = "<group>";
@@ -115,6 +130,7 @@
 		610B1AF91BB6568800B64973 /* AudioKitTests */ = {
 			isa = PBXGroup;
 			children = (
+				8C72DEA41BCF022000FC9074 /* alb_esp1.mid */,
 				610B1B071BB67A7200B64973 /* sin_1000Hz_-3dBFS_1s.wav */,
 				610B1AFA1BB6568800B64973 /* AudioKitTests.swift */,
 				610B1AFC1BB6568800B64973 /* Info.plist */,
@@ -272,6 +288,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				610B1B081BB67A7200B64973 /* sin_1000Hz_-3dBFS_1s.wav in Resources */,
+				8C72DEA51BCF022000FC9074 /* alb_esp1.mid in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -287,6 +304,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				610B1B261BB67DEB00B64973 /* sin_1000Hz_-3dBFS_1s.wav in Resources */,
+				8C72DEA61BCF022500FC9074 /* alb_esp1.mid in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -297,7 +315,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C72DEA11BCECBE700FC9074 /* MIDIFile.swift in Sources */,
+				8C72DEAD1BD0111000FC9074 /* MIDIEvent.swift in Sources */,
 				610B1B061BB656BE00B64973 /* AudioFile.swift in Sources */,
+				8C72DEAA1BD00E1A00FC9074 /* MusicTrack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -313,7 +334,10 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C72DEA21BCECBE700FC9074 /* MIDIFile.swift in Sources */,
+				8C72DEAE1BD0111000FC9074 /* MIDIEvent.swift in Sources */,
 				610B1B271BB67E0E00B64973 /* AudioFile.swift in Sources */,
+				8C72DEAB1BD00E1A00FC9074 /* MusicTrack.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
