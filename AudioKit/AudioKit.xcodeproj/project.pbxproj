@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		00B3C82F1BCF220000402FFF /* Microphone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B3C82E1BCF220000402FFF /* Microphone.swift */; settings = {ASSET_TAGS = (); }; };
+		00B3C8301BCF220000402FFF /* Microphone.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00B3C82E1BCF220000402FFF /* Microphone.swift */; settings = {ASSET_TAGS = (); }; };
+		00B3C8371BCF230E00402FFF /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 00B3C8311BCF22C800402FFF /* AudioToolbox.framework */; };
 		610B1AEF1BB6568800B64973 /* AudioKit.h in Headers */ = {isa = PBXBuildFile; fileRef = 610B1AEE1BB6568800B64973 /* AudioKit.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		610B1AF61BB6568800B64973 /* AudioKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 610B1AEB1BB6568800B64973 /* AudioKit.framework */; settings = {ASSET_TAGS = (); }; };
 		610B1AFB1BB6568800B64973 /* AudioKitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610B1AFA1BB6568800B64973 /* AudioKitTests.swift */; };
@@ -44,6 +47,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		00B3C82E1BCF220000402FFF /* Microphone.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Microphone.swift; sourceTree = "<group>"; };
+		00B3C8311BCF22C800402FFF /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
 		610B1AEB1BB6568800B64973 /* AudioKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AudioKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		610B1AEE1BB6568800B64973 /* AudioKit.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AudioKit.h; sourceTree = "<group>"; };
 		610B1AF01BB6568800B64973 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -65,6 +70,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				00B3C8371BCF230E00402FFF /* AudioToolbox.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -94,11 +100,20 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		00B3C8331BCF22D000402FFF /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				00B3C8311BCF22C800402FFF /* AudioToolbox.framework */,
+			);
+			name = Dependencies;
+			sourceTree = "<group>";
+		};
 		610B1AE11BB6568800B64973 = {
 			isa = PBXGroup;
 			children = (
 				610B1AED1BB6568800B64973 /* AudioKit */,
 				610B1AF91BB6568800B64973 /* AudioKitTests */,
+				00B3C8331BCF22D000402FFF /* Dependencies */,
 				610B1AEC1BB6568800B64973 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -117,12 +132,13 @@
 		610B1AED1BB6568800B64973 /* AudioKit */ = {
 			isa = PBXGroup;
 			children = (
-				610B1AEE1BB6568800B64973 /* AudioKit.h */,
 				610B1AF01BB6568800B64973 /* Info.plist */,
+				610B1AEE1BB6568800B64973 /* AudioKit.h */,
 				610B1B051BB656BE00B64973 /* AudioFile.swift */,
 				8C72DEA91BD00E1A00FC9074 /* MusicTrack.swift */,
 				8C72DEAC1BD0111000FC9074 /* MIDIEvent.swift */,
 				8C72DEA01BCECBE700FC9074 /* MIDIFile.swift */,
+				00B3C82E1BCF220000402FFF /* Microphone.swift */,
 			);
 			path = AudioKit;
 			sourceTree = "<group>";
@@ -131,9 +147,9 @@
 			isa = PBXGroup;
 			children = (
 				8C72DEA41BCF022000FC9074 /* alb_esp1.mid */,
+				610B1AFC1BB6568800B64973 /* Info.plist */,
 				610B1B071BB67A7200B64973 /* sin_1000Hz_-3dBFS_1s.wav */,
 				610B1AFA1BB6568800B64973 /* AudioKitTests.swift */,
-				610B1AFC1BB6568800B64973 /* Info.plist */,
 			);
 			path = AudioKitTests;
 			sourceTree = "<group>";
@@ -319,6 +335,7 @@
 				8C72DEAD1BD0111000FC9074 /* MIDIEvent.swift in Sources */,
 				610B1B061BB656BE00B64973 /* AudioFile.swift in Sources */,
 				8C72DEAA1BD00E1A00FC9074 /* MusicTrack.swift in Sources */,
+				00B3C82F1BCF220000402FFF /* Microphone.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -338,6 +355,7 @@
 				8C72DEAE1BD0111000FC9074 /* MIDIEvent.swift in Sources */,
 				610B1B271BB67E0E00B64973 /* AudioFile.swift in Sources */,
 				8C72DEAB1BD00E1A00FC9074 /* MusicTrack.swift in Sources */,
+				00B3C8301BCF220000402FFF /* Microphone.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
