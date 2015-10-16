@@ -2,10 +2,10 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:AudioKit/AudioKit.xcodeproj">
+      location = "group:Carthage/Checkouts/Peak/Peak.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Carthage/Checkouts/HDF5Swift/HDF5.xcodeproj">
+      location = "group:Carthage/Checkouts/HDF5Kit/HDF5Kit.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Carthage/Checkouts/PlotKit/PlotKit.xcodeproj">

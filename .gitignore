@@ -9,6 +9,7 @@ xcuserdata/
 
 # Cocoapods
 Pods
+Carthage
 
 # Other directories
 build/

@@ -1,5 +1,5 @@
 import FeatureExtraction
-import HDF5
+import HDF5Kit
 import PlotKit
 import Surge
 import XCPlayground

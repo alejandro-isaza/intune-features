@@ -1,3 +1,4 @@
-github "aleph7/HDF5Swift" "2dcafa0938793d9b88257b81e785821855fa58d7"
-github "aleph7/Surge" "c5d195a1511eb10beecb99689a4f8a3d5dca3c65"
-github "aleph7/PlotKit" "be5afc0058fec1b3c684eff1064292fd7d4592c8"
+github "aleph7/HDF5Kit" "0ee12eaad42c152201e9cd385f3c4025fa2f3638"
+github "hoseking/Peak" "ac166be501ec82426489a860d9654766d2e17d5f"
+github "aleph7/Surge" "7cc25146af7779d2c600a6c7fa4b8282c27159d3"
+github "aleph7/PlotKit" "d789601e1c4da298ac10b1d4dfb00a1e3667e6d8"

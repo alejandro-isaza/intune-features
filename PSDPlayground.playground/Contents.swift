@@ -1,5 +1,5 @@
 //: ## Setup
-import AudioKit
+import Peak
 import Surge
 import XCPlayground
 
