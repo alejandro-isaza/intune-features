@@ -7,7 +7,7 @@ xcuserdata/
 *.xccheckout
 *.xctimeline
 
-# Cocoapods
+# Dependecy management
 Pods
 Carthage
 

@@ -1,18 +1,18 @@
 //  Copyright © 2015 Venture Media. All rights reserved.
 
 import Foundation
-import Surge
+import Upsurge
 
 public class PeakFluxFeature : PeakFeature {
-    public typealias PeakArray = [Surge.Point<Double>]
-    public var peakFluxes: [Double]
+    public typealias PeakArray = [Upsurge.Point<Double>]
+    public var peakFluxes: RealArray
 
-    public override func serialize() -> [Double] {
+    public override func serialize() -> RealArray {
         return peakFluxes
     }
 
     public init(peaks: PeakArray, nextPeaks: PeakArray) {
-        peakFluxes = [Double](count: PeakFeature.peakCount, repeatedValue: 0.0)
+        peakFluxes = RealArray(count: PeakFeature.peakCount, repeatedValue: 0.0)
         super.init()
 
         let validPeakCount = min(PeakFeature.peakCount, peaks.count)

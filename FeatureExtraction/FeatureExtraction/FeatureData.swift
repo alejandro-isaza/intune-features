@@ -45,7 +45,7 @@ public func serializeFeatures(features: [String: Feature]) -> [String: [Double]]
     var data = [String: [Double]]()
 
     for (name, feature) in features {
-        data[name] = feature.serialize()
+        data[name] = [Double](feature.serialize())
     }
     return data
 }

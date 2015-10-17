@@ -1,0 +1,34 @@
+PODS:
+  - BrainCore (0.0.2):
+    - Upsurge (~> 0.4)
+  - HDF5Kit (0.0.3)
+  - Peak (1.1.0)
+  - PlotKit (0.0.1):
+    - Upsurge (~> 0.4)
+  - Upsurge (0.4.0)
+
+DEPENDENCIES:
+  - BrainCore
+  - HDF5Kit
+  - Peak
+  - PlotKit
+  - Upsurge (from `https://github.com/aleph7/Upsurge.git`, branch `master`)
+
+EXTERNAL SOURCES:
+  Upsurge:
+    :branch: master
+    :git: https://github.com/aleph7/Upsurge.git
+
+CHECKOUT OPTIONS:
+  Upsurge:
+    :commit: 0a37d6ae7b4ee31e3698700b6875716c437169d5
+    :git: https://github.com/aleph7/Upsurge.git
+
+SPEC CHECKSUMS:
+  BrainCore: 26e82536ebaec769e20c5d8bb72b021999b17557
+  HDF5Kit: aa5f21cc2bafe8f98be028503810f9eb0120290b
+  Peak: bda80b9456d283c8dece168129e7dbd2e3ef6cab
+  PlotKit: e64c1c1aa9b5405addf940bd0c1d4442a630ba34
+  Upsurge: dcff302f2bc17f8dca6050447a8318093cc062d8
+
+COCOAPODS: 0.39.0

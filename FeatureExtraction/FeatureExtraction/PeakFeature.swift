@@ -1,6 +1,6 @@
 //  Copyright © 2015 Venture Media. All rights reserved.
 
-import Foundation
+import Upsurge
 
 public class PeakFeature : Feature {
     public static let peakCount = 5
@@ -9,7 +9,7 @@ public class PeakFeature : Feature {
         return peakCount
     }
 
-    public func serialize() -> [Double] {
-        return [Double](count: PeakFeature.peakCount, repeatedValue: 0.0)
+    public func serialize() -> RealArray {
+        return RealArray(count: PeakFeature.peakCount, repeatedValue: 0.0)
     }
 }

@@ -1,7 +1,7 @@
 //  Copyright © 2015 Venture Media. All rights reserved.
 
 import Foundation
-import Surge
+import Upsurge
 
 public struct RMSFeature : Feature {
     public var rms: Double
@@ -10,11 +10,11 @@ public struct RMSFeature : Feature {
         return 1
     }
 
-    public func serialize() -> [Double] {
+    public func serialize() -> RealArray {
         return [rms]
     }
 
-    public init(audioData: [Double]) {
+    public init(audioData: RealArray) {
         rms = rmsq(audioData)
     }
 }

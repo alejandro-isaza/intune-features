@@ -2,12 +2,12 @@
 
 import Foundation
 
-import AudioKit
+import Peak
 import FeatureExtraction
-import HDF5
-import Surge
+import HDF5Kit
+import Upsurge
 
-typealias Point = Surge.Point<Double>
+typealias Point = Upsurge.Point<Double>
 
 class FeatureCompiler {
     let sampleRate = 44100
@@ -42,8 +42,8 @@ class FeatureCompiler {
     func generateFeatures(example: Example) -> [String: Feature] {
         // Apply a random gain between 0.5 and 2.0
         let gain = exp2(Double(arc4random_uniform(2)) - 1.0)
-        let data0 = example.data.0.map{ return $0 * gain }
-        let data1 = example.data.1.map{ return $0 * gain }
+        let data0 = RealArray(example.data.0.map{ return $0 * gain })
+        let data1 = RealArray(example.data.1.map{ return $0 * gain })
 
         // Extract peaks
         let spectrum0 = spectrumValues(data0)
@@ -64,12 +64,12 @@ class FeatureCompiler {
     }
 
     /// Compute the power spectrum values
-    func spectrumValues(data: [Double]) -> [Double] {
+    func spectrumValues(data: RealArray) -> RealArray {
         return sqrt(fft.forwardMags(data))
     }
 
     /// Convert from spectrum values to frequency, value points
-    func spectrumPoints(spectrum: [Double]) -> [Point] {
+    func spectrumPoints(spectrum: RealArray) -> [Point] {
         return (0..<spectrum.count).map{ Point(x: fb * Double($0), y: spectrum[$0]) }
     }
 
@@ -79,21 +79,21 @@ class FeatureCompiler {
     }
 
     func writeFeatures(fileName: String, featureData: FeatureData) {
-        guard let hdf5File = HDF5.File.create(fileName, mode: File.CreateMode.Truncate) else {
+        guard let hdf5File = HDF5Kit.File.create(fileName, mode: File.CreateMode.Truncate) else {
             fatalError("Could not create HDF5 dataset.")
         }
 
         for (name, data) in featureData.data {
             let featureSize = UInt64(data.count / featureData.labels.count)
-            let dataType = HDF5.Datatype.copy(type: .Double)
+            let dataType = Datatype.copy(type: .Double)
             let dataDataspace = Dataspace(dims: [UInt64(featureData.labels.count), UInt64(featureSize)])
-            let dataDataset = HDF5.Dataset.create(file: hdf5File, name: name, datatype: dataType, dataspace: dataDataspace)
+            let dataDataset = Dataset.create(file: hdf5File, name: name, datatype: dataType, dataspace: dataDataspace)
             dataDataset.writeDouble(data)
         }
 
-        let labelType = HDF5.Datatype.copy(type: .Int)
+        let labelType = HDF5Kit.Datatype.copy(type: .Int)
         let labelDataspace = Dataspace(dims: [UInt64(featureData.labels.count)])
-        let labelsDataset = HDF5.Dataset.create(file: hdf5File, name: "label", datatype: labelType, dataspace: labelDataspace)
+        let labelsDataset = HDF5Kit.Dataset.create(file: hdf5File, name: "label", datatype: labelType, dataspace: labelDataspace)
         labelsDataset.writeInt(featureData.labels)
     }
 

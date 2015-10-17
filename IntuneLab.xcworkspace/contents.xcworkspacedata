@@ -1,38 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
-   <FileRef
-      location = "group:Carthage/Checkouts/Peak/Peak.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Carthage/Checkouts/HDF5Kit/HDF5Kit.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Carthage/Checkouts/PlotKit/PlotKit.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Carthage/Checkouts/Surge/Surge.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:FeatureExtraction/FeatureExtraction.xcodeproj">
-   </FileRef>
    <Group
-      location = "container:"
+      location = "group:Playgrounds"
       name = "Playgrounds">
-      <FileRef
-         location = "group:Carthage/Checkouts/Surge/Surge.playground">
-      </FileRef>
-      <FileRef
-         location = "group:Carthage/Checkouts/PlotKit/PlotPlayground.playground">
-      </FileRef>
-      <FileRef
-         location = "group:PSDPlayground.playground">
-      </FileRef>
       <FileRef
          location = "group:AutocorrelationPlayground.playground">
       </FileRef>
       <FileRef
          location = "group:FeatureExtractionPlayground.playground">
       </FileRef>
+      <FileRef
+         location = "group:Net.playground">
+      </FileRef>
+      <FileRef
+         location = "group:PSDPlayground.playground">
+      </FileRef>
    </Group>
+   <FileRef
+      location = "group:FeatureExtraction/FeatureExtraction.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Pods/Pods.xcodeproj">
+   </FileRef>
 </Workspace>

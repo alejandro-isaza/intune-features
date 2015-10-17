@@ -1,10 +1,10 @@
 //  Copyright © 2015 Venture Media. All rights reserved.
 
 import Foundation
-import Surge
+import Upsurge
 
 public class PeakExtractor {
-    public typealias Point = Surge.Point<Double>
+    public typealias Point = Upsurge.Point<Double>
 
     static let yCutoff = 0.007
     static let minimumNoteDistance = 0.5

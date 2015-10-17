@@ -1,9 +1,9 @@
 //  Copyright © 2015 Venture Media. All rights reserved.
 
-import AudioKit
+import Peak
 import FeatureExtraction
 import Foundation
-import Surge
+import Upsurge
 
 class ExampleBuilder {
     let rootPath = "../AudioData/Audio/"
