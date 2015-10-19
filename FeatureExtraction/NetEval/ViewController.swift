@@ -54,36 +54,37 @@ class ViewController: UIViewController {
     @IBAction func runAll() {
         activityIndicator.startAnimating()
         let startTime = CFAbsoluteTimeGetCurrent()
+        var stats = Stats(exampleCount: net.labels.count)
 
-        let exampleCount = net.labels.count
-        var matches = 0
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
-            for index in 0..<exampleCount {
-                let label = self.net.labels[index]
+            for index in 0..<stats.exampleCount {
+                let label = Int(self.net.labels[index])
                 let result = self.net.run(index)
-                let (match, _) = maxi(result)!
+                let (match, value) = maxi(result)!
                 if match == Int(label) {
-                    matches += 1
+                    stats.addMatch(label: label, value: value)
+                } else {
+                    stats.addMismatch(expectedLabel: label, actualLabel: match, value: value)
                 }
             }
 
+            stats.print()
+
             dispatch_async(dispatch_get_main_queue()) {
-                self.updateAllMatches(startTime, matches: matches)
+                self.updateAllMatches(startTime, stats: stats)
             }
         }
     }
 
-    func updateAllMatches(startTime: CFAbsoluteTime, matches: Int) {
-        let exampleCount = net.labels.count
+    func updateAllMatches(startTime: CFAbsoluteTime, stats: Stats) {
         let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
-        let timePerExample = timeElapsed / Double(exampleCount)
+        let timePerExample = timeElapsed / Double(stats.exampleCount)
 
         self.allMatchesTimeTextField.text = String(format: "%.3fs – %.3fs/example", arguments: [timeElapsed, timePerExample])
 
-        let percent = matches * 100 / exampleCount
-        self.allMatchesLabel.text = "Matched \(matches) of \(exampleCount) (\(percent)%)"
+        let percent = stats.accuracy * 100
+        self.allMatchesLabel.text = "Matched \(stats.matches) of \(stats.exampleCount) (\(percent)%)"
 
         self.activityIndicator.stopAnimating()
     }
 }
-
