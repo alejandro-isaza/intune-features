@@ -135,10 +135,10 @@ func readData(filePath: String, datasetName: String) -> ([Double], [Int]) {
 }
 
 func createLayerFromFile(filePath: String, datasetName: String) -> InnerProductLayer {
-    let (weights, dims)  = readData(filePath, datasetName: "\(datasetName)_weight")
+    let (weights, dims)  = readData(filePath, datasetName: "\(datasetName)___weight")
     let weightsMatrix = transpose(Matrix<Double>(rows: dims[0], columns: dims[1], elements: weights))
 
-    let (biases, _) = readData(filePath, datasetName: "\(datasetName)_bias")
+    let (biases, _) = readData(filePath, datasetName: "\(datasetName)___bias")
     return InnerProductLayer(weights: weightsMatrix, biases: biases)
 }
 

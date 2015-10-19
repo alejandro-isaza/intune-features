@@ -38,7 +38,6 @@ struct Stats {
         } else {
             matchesByLabel[expectedLabel] = (0, 1)
         }
-        Swift.print("Mismatch for example \(index). Expected \(expectedLabel) got \(actualLabel) with value \(value).")
     }
 
     func print() {

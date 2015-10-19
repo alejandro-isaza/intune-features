@@ -33,7 +33,7 @@ class ExampleBuilder {
         "wav",
         "aiff"
     ]
-    let RMSThreshold = 0.05
+    let RMSThreshold = 0.01
 
     let noteRange: Range<Int>
     let sampleCount: Int

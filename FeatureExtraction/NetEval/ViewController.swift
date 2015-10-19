@@ -65,6 +65,7 @@ class ViewController: UIViewController {
                     stats.addMatch(label: label, value: value)
                 } else {
                     stats.addMismatch(expectedLabel: label, actualLabel: match, value: value)
+                    Swift.print("Mismatch for example \(index). Expected \(label) got \(match) with value \(value).")
                 }
             }
 
