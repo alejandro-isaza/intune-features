@@ -5,3 +5,4 @@ Playgrounds/Net.playground/Resources/testing.h5 filter=lfs diff=lfs merge=lfs -t
 Playgrounds/Net.playground/Resources/training.h5 filter=lfs diff=lfs merge=lfs -text
 FeatureExtraction/testing.h5 filter=lfs diff=lfs merge=lfs -text
 FeatureExtraction/training.h5 filter=lfs diff=lfs merge=lfs -text
+FeatureExtraction/net.h5 filter=lfs diff=lfs merge=lfs -text
