@@ -12,7 +12,6 @@ target 'OSX' do
 
   pod "Upsurge", :git => "https://github.com/aleph7/Upsurge.git", :branch => "master"
   pod "HDF5Kit", :git => "https://github.com/aleph7/HDF5Kit.git", :branch => "master"
-  pod "BrainCore"
   pod "Peak"
   pod "PlotKit"
 end
