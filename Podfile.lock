@@ -9,17 +9,23 @@ PODS:
 
 DEPENDENCIES:
   - BrainCore
-  - HDF5Kit
+  - HDF5Kit (from `https://github.com/aleph7/HDF5Kit.git`, branch `master`)
   - Peak
   - PlotKit
   - Upsurge (from `https://github.com/aleph7/Upsurge.git`, branch `master`)
 
 EXTERNAL SOURCES:
+  HDF5Kit:
+    :branch: master
+    :git: https://github.com/aleph7/HDF5Kit.git
   Upsurge:
     :branch: master
     :git: https://github.com/aleph7/Upsurge.git
 
 CHECKOUT OPTIONS:
+  HDF5Kit:
+    :commit: aabadb655852083f61fc2af7818bfbb42b39c6c8
+    :git: https://github.com/aleph7/HDF5Kit.git
   Upsurge:
     :commit: b2f1865a61216fd4d25b797901bcc6308e9206cc
     :git: https://github.com/aleph7/Upsurge.git

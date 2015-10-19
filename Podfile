@@ -11,7 +11,7 @@ target 'OSX' do
   link_with "FeatureExtraction", "FeatureExtractionTests", "CompileFeatures"
 
   pod "Upsurge", :git => "https://github.com/aleph7/Upsurge.git", :branch => "master"
-  pod "HDF5Kit"
+  pod "HDF5Kit", :git => "https://github.com/aleph7/HDF5Kit.git", :branch => "master"
   pod "BrainCore"
   pod "Peak"
   pod "PlotKit"
@@ -22,7 +22,7 @@ target 'iOS' do
   link_with "NetEval"
   
   pod "Upsurge", :git => "https://github.com/aleph7/Upsurge.git", :branch => "master"
-  pod "HDF5Kit"
+  pod "HDF5Kit", :git => "https://github.com/aleph7/HDF5Kit.git", :branch => "master"
   pod "BrainCore"
   pod "Peak"
 end
