@@ -4,10 +4,14 @@ import UIKit
 
 class ViewController: UIViewController {
     let net = MonophonicNet()
+    let startNote = 36
 
     @IBOutlet weak var exampleIndexTextField: UITextField!
     @IBOutlet weak var actualLabelTextField: UITextField!
+    @IBOutlet weak var actualNoteTextField: UITextField!
+
     @IBOutlet var labelTextFields: [UITextField]!
+    @IBOutlet var noteTextFields: [UITextField]!
     @IBOutlet var valueTextFields: [UITextField]!
     @IBOutlet weak var timeTextField: UITextField!
 
@@ -21,8 +25,10 @@ class ViewController: UIViewController {
 
     @IBAction func changeIndex(sender: UIStepper) {
         exampleIndexTextField.text = String(format: "%.0f", arguments: [sender.value])
-        let label = net.labels[Int(sender.value)]
-        actualLabelTextField.text = String(format: "%.0f", arguments: [label])
+
+        let label = Int(net.labels[Int(sender.value)])
+        actualLabelTextField.text = label.description
+        actualNoteTextField.text = (label + startNote).description
     }
 
     @IBAction func run() {
@@ -31,8 +37,9 @@ class ViewController: UIViewController {
         }
 
         let startTime = CFAbsoluteTimeGetCurrent()
-        let label = net.labels[index]
-        actualLabelTextField.text = String(format: "%.0f", arguments: [label])
+        let label = Int(net.labels[index])
+        actualLabelTextField.text = label.description
+        actualNoteTextField.text = (label + startNote).description
 
         let result = net.run(index)
 
@@ -47,6 +54,7 @@ class ViewController: UIViewController {
         let sortedValues = values.sort{ $0.1 > $1.1 }
         for i in 0..<labelTextFields.count {
             labelTextFields[i].text = sortedValues[i].0.description
+            noteTextFields[i].text = (sortedValues[i].0 + startNote).description
             valueTextFields[i].text = sortedValues[i].1.description
         }
     }
@@ -65,7 +73,7 @@ class ViewController: UIViewController {
                     stats.addMatch(label: label, value: value)
                 } else {
                     stats.addMismatch(expectedLabel: label, actualLabel: match, value: value)
-                    Swift.print("Mismatch for example \(index). Expected \(label) got \(match) with value \(value).")
+                    Swift.print("Mismatch for example \(index). Expected \(label) (\(label + self.startNote)) got \(match) (\(match + self.startNote)) with value \(value).")
                 }
             }
 
