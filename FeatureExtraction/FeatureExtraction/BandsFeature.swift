@@ -16,7 +16,7 @@ public struct BandsFeature : Feature {
     }
 
     public init(spectrum data: RealArray, baseFrequency fb: Double) {
-        bands = RealArray(size: BandsFeature.notes.count)
+        bands = RealArray(capacity: BandsFeature.notes.count)
 
         var i = 0
         for note in BandsFeature.notes {
