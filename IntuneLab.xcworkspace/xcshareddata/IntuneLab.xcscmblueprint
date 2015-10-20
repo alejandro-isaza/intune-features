@@ -10,6 +10,7 @@
     "8885304170388162BA4AB3491A37DBFA386A7FBE" : 0,
     "2E8883083A02170F75621AA0C0465EF14B4C8EC7" : 0,
     "50D5798637F452545D39CC8E6CCEA3F8746CA8A9" : 0,
+    "C8EDD381A625230C1544FBA2A77DAD9ED9A6C822" : 0,
     "623A5B924ADB591C26878755B0C949B583CF78C4" : 0,
     "9F65A476A58933AE6B22EAE730A194955F98FC66" : 0,
     "54137153864D10564F52EEB64FDA95EA6F1795F4" : 0
@@ -22,6 +23,7 @@
     "8885304170388162BA4AB3491A37DBFA386A7FBE" : "intune-lab\/Submodules\/HDF5Swift\/",
     "2E8883083A02170F75621AA0C0465EF14B4C8EC7" : "intune-lab\/Submodules\/MusicKit\/Submodules\/mxml\/",
     "50D5798637F452545D39CC8E6CCEA3F8746CA8A9" : "intune-lab\/Submodules\/PlotKit\/",
+    "C8EDD381A625230C1544FBA2A77DAD9ED9A6C822" : "intune-lab\/Submodules\/BrainCore\/",
     "623A5B924ADB591C26878755B0C949B583CF78C4" : "intune-lab\/Submodules\/Peak\/",
     "9F65A476A58933AE6B22EAE730A194955F98FC66" : "intune-lab\/Submodules\/Surge\/",
     "54137153864D10564F52EEB64FDA95EA6F1795F4" : "intune-lab\/Submodules\/MusicKit\/Submodules\/mxml\/lxml\/"
@@ -69,6 +71,11 @@
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:venturemedia\/tempo.git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "A3D0A1148920A6D5C4240E6D424C03DEC3253299"
+    },
+    {
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "git:\/\/github.com\/aleph7\/BrainCore.git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositorySystemKey" : "com.apple.dt.Xcode.sourcecontrol.Git",
+      "DVTSourceControlWorkspaceBlueprintRemoteRepositoryIdentifierKey" : "C8EDD381A625230C1544FBA2A77DAD9ED9A6C822"
     },
     {
       "DVTSourceControlWorkspaceBlueprintRemoteRepositoryURLKey" : "github.com:venturemedia\/musickit.git",

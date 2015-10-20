@@ -5,6 +5,7 @@ import Upsurge
 
 public struct BandsFeature : Feature {
     public static let notes = 24...120
+    public static let bandSize = 1.0
     public var bands: RealArray
 
     public static func size() -> Int {
@@ -16,15 +17,17 @@ public struct BandsFeature : Feature {
     }
 
     public init(spectrum data: RealArray, baseFrequency fb: Double) {
-        bands = RealArray(capacity: BandsFeature.notes.count)
+        let bandCount = Int(Double(BandsFeature.notes.count) / BandsFeature.bandSize)
+        bands = RealArray(count: bandCount)
 
-        var i = 0
-        for note in BandsFeature.notes {
-            let lowerFrequency = noteToFreq(Double(note) - 0.5)
+        for i in 0..<bandCount {
+            let note = Double(BandsFeature.notes.startIndex) + Double(i) * BandsFeature.bandSize
+
+            let lowerFrequency = noteToFreq(note - BandsFeature.bandSize/2)
             let lowerBin = lowerFrequency / fb
             let lowerIndex = Int(ceil(lowerBin))
 
-            let upperFrequency = noteToFreq(Double(note) + 0.5)
+            let upperFrequency = noteToFreq(note + BandsFeature.bandSize/2)
             let upperBin = upperFrequency / fb
             let upperIndex = Int(floor(upperBin))
 
@@ -43,7 +46,7 @@ public struct BandsFeature : Feature {
                 bandValue += data[upperIndex + 1] * upperWeight
             }
 
-            bands[i++] = bandValue
+            bands[i] = bandValue
         }
     }
 }

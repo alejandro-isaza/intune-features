@@ -10,6 +10,10 @@
 		275DDF9C6E74AB99C4A0D2F8 /* Pods_OSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3C00C05497A6CBB3AB74FF6 /* Pods_OSX.framework */; };
 		6122EF231BD6CC55001AE862 /* HDF5Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF041BD6CC41001AE862 /* HDF5Kit.framework */; };
 		6122EF241BD6CC55001AE862 /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF1C1BD6CC41001AE862 /* Upsurge.framework */; };
+		6122EF251BD6D011001AE862 /* Peak.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF141BD6CC41001AE862 /* Peak.framework */; };
+		6122EF371BD6F59F001AE862 /* BrainCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF341BD6F593001AE862 /* BrainCore.framework */; };
+		6122EF3A1BD6F5DD001AE862 /* HDF5Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF041BD6CC41001AE862 /* HDF5Kit.framework */; };
+		6122EF3B1BD6F5DD001AE862 /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF1C1BD6CC41001AE862 /* Upsurge.framework */; };
 		6185A77B1BD337E100CD5FC5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6185A77A1BD337E100CD5FC5 /* AppDelegate.swift */; };
 		6185A77D1BD337E100CD5FC5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6185A77C1BD337E100CD5FC5 /* ViewController.swift */; };
 		6185A7801BD337E100CD5FC5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6185A77E1BD337E100CD5FC5 /* Main.storyboard */; };
@@ -127,6 +131,62 @@
 			remoteGlobalIDString = 614ACAD31BD1CBF300A1C13E;
 			remoteInfo = "UpsurgeTests iOS";
 		};
+		6122EF261BD6D01C001AE862 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6122EEF91BD6CC41001AE862 /* Peak.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0045498C1BD052B100AC387F;
+			remoteInfo = PeakOSX;
+		};
+		6122EF2F1BD6F593001AE862 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6122EF281BD6F593001AE862 /* BrainCore.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6159F85F1BD1F55D0010F83C;
+			remoteInfo = BrainCore.OSX;
+		};
+		6122EF311BD6F593001AE862 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6122EF281BD6F593001AE862 /* BrainCore.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6159F8691BD1F55D0010F83C;
+			remoteInfo = BrainCoreTests.OSX;
+		};
+		6122EF331BD6F593001AE862 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6122EF281BD6F593001AE862 /* BrainCore.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6159F87E1BD1F59F0010F83C;
+			remoteInfo = BrainCore.iOS;
+		};
+		6122EF351BD6F593001AE862 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6122EF281BD6F593001AE862 /* BrainCore.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6159F8871BD1F59F0010F83C;
+			remoteInfo = BrainCoreTests.iOS;
+		};
+		6122EF381BD6F5A5001AE862 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6122EF281BD6F593001AE862 /* BrainCore.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 6159F87D1BD1F59F0010F83C;
+			remoteInfo = BrainCore.iOS;
+		};
+		6122EF3C1BD6F5E6001AE862 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 6185A7AA1BD3395200CD5FC5;
+			remoteInfo = "HDF5Kit-iOS";
+		};
+		6122EF3E1BD6F5E6001AE862 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6122EEFC1BD6CC41001AE862 /* Upsurge.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 614ACAC91BD1CBF300A1C13E;
+			remoteInfo = "Upsurge iOS";
+		};
 		8C78457B1BB9B06600C88426 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8C7845661BB9B06600C88426 /* Project object */;
@@ -169,6 +229,7 @@
 		6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HDF5Kit.xcodeproj; path = ../Submodules/HDF5Kit/HDF5Kit.xcodeproj; sourceTree = "<group>"; };
 		6122EEF91BD6CC41001AE862 /* Peak.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Peak.xcodeproj; path = ../Submodules/Peak/Peak.xcodeproj; sourceTree = "<group>"; };
 		6122EEFC1BD6CC41001AE862 /* Upsurge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Upsurge.xcodeproj; path = ../Submodules/Upsurge/Upsurge.xcodeproj; sourceTree = "<group>"; };
+		6122EF281BD6F593001AE862 /* BrainCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BrainCore.xcodeproj; path = ../Submodules/BrainCore/BrainCore.xcodeproj; sourceTree = "<group>"; };
 		6185A7781BD337E100CD5FC5 /* NetEval.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetEval.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6185A77A1BD337E100CD5FC5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6185A77C1BD337E100CD5FC5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -217,6 +278,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6122EF3A1BD6F5DD001AE862 /* HDF5Kit.framework in Frameworks */,
+				6122EF3B1BD6F5DD001AE862 /* Upsurge.framework in Frameworks */,
+				6122EF371BD6F59F001AE862 /* BrainCore.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -242,6 +306,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6122EF251BD6D011001AE862 /* Peak.framework in Frameworks */,
 				8CDE47EF1BBF39C800A98419 /* FeatureExtraction.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -282,6 +347,17 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		6122EF291BD6F593001AE862 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6122EF301BD6F593001AE862 /* BrainCore.framework */,
+				6122EF321BD6F593001AE862 /* BrainCoreTests.OSX.xctest */,
+				6122EF341BD6F593001AE862 /* BrainCore.framework */,
+				6122EF361BD6F593001AE862 /* BrainCoreTests.iOS.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		6185A7791BD337E100CD5FC5 /* NetEval */ = {
 			isa = PBXGroup;
 			children = (
@@ -303,6 +379,7 @@
 		618B7E2F1BBF4A8F0011E8D3 /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				6122EF281BD6F593001AE862 /* BrainCore.xcodeproj */,
 				6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */,
 				6122EEF91BD6CC41001AE862 /* Peak.xcodeproj */,
 				6122EEFC1BD6CC41001AE862 /* Upsurge.xcodeproj */,
@@ -414,6 +491,9 @@
 			buildRules = (
 			);
 			dependencies = (
+				6122EF3D1BD6F5E6001AE862 /* PBXTargetDependency */,
+				6122EF3F1BD6F5E6001AE862 /* PBXTargetDependency */,
+				6122EF391BD6F5A5001AE862 /* PBXTargetDependency */,
 			);
 			name = NetEval;
 			productName = NetEval;
@@ -469,6 +549,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				6122EF271BD6D01C001AE862 /* PBXTargetDependency */,
 				8CDE47F41BBF39D500A98419 /* PBXTargetDependency */,
 			);
 			name = CompileFeatures;
@@ -512,6 +593,10 @@
 			productRefGroup = 8C7845701BB9B06600C88426 /* Products */;
 			projectDirPath = "";
 			projectReferences = (
+				{
+					ProductGroup = 6122EF291BD6F593001AE862 /* Products */;
+					ProjectRef = 6122EF281BD6F593001AE862 /* BrainCore.xcodeproj */;
+				},
 				{
 					ProductGroup = 6122EEF71BD6CC41001AE862 /* Products */;
 					ProjectRef = 6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */;
@@ -618,6 +703,34 @@
 			fileType = wrapper.cfbundle;
 			path = "UpsurgeTests iOS.xctest";
 			remoteRef = 6122EF211BD6CC41001AE862 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6122EF301BD6F593001AE862 /* BrainCore.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = BrainCore.framework;
+			remoteRef = 6122EF2F1BD6F593001AE862 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6122EF321BD6F593001AE862 /* BrainCoreTests.OSX.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = BrainCoreTests.OSX.xctest;
+			remoteRef = 6122EF311BD6F593001AE862 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6122EF341BD6F593001AE862 /* BrainCore.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = BrainCore.framework;
+			remoteRef = 6122EF331BD6F593001AE862 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6122EF361BD6F593001AE862 /* BrainCoreTests.iOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = BrainCoreTests.iOS.xctest;
+			remoteRef = 6122EF351BD6F593001AE862 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -746,6 +859,26 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		6122EF271BD6D01C001AE862 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PeakOSX;
+			targetProxy = 6122EF261BD6D01C001AE862 /* PBXContainerItemProxy */;
+		};
+		6122EF391BD6F5A5001AE862 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = BrainCore.iOS;
+			targetProxy = 6122EF381BD6F5A5001AE862 /* PBXContainerItemProxy */;
+		};
+		6122EF3D1BD6F5E6001AE862 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "HDF5Kit-iOS";
+			targetProxy = 6122EF3C1BD6F5E6001AE862 /* PBXContainerItemProxy */;
+		};
+		6122EF3F1BD6F5E6001AE862 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Upsurge iOS";
+			targetProxy = 6122EF3E1BD6F5E6001AE862 /* PBXContainerItemProxy */;
+		};
 		8C78457C1BB9B06600C88426 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8C78456E1BB9B06600C88426 /* FeatureExtraction */;
@@ -902,6 +1035,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = FeatureExtraction/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
@@ -922,6 +1056,7 @@
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
+				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = FeatureExtraction/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";

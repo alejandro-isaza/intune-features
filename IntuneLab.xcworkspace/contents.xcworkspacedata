@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:Submodules/BrainCore/BrainCore.xcodeproj">
+   </FileRef>
+   <FileRef
       location = "group:Submodules/PlotKit/PlotKit.xcodeproj">
    </FileRef>
    <Group
