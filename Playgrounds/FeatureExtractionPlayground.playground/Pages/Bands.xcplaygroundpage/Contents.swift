@@ -35,7 +35,7 @@ XCPShowView("Bands", view: plot)
 
 
 let exampleCount = labels.count
-let bandCount = BandsFeature.size()
+let bandCount = SpectrumFeature.size()
 
 var labelIndex = [Int: Int]()
 for exampleIndex in 0..<exampleCount {
@@ -63,7 +63,7 @@ for note in notes {
     let pointSet = PointSet(values: [Double](featureData[exampleStart..<exampleStart+bandCount]))
     plot.addPointSet(pointSet)
 
-    let expectedBand = Double(note - BandsFeature.notes.startIndex)
+    let expectedBand = Double(note - SpectrumFeature.notes.startIndex)
     let expectedPointSet = PointSet(points: [Point(x: expectedBand, y: 0), Point(x: expectedBand, y: 1)])
     expectedPointSet.color = NSColor.lightGrayColor()
     plot.addPointSet(expectedPointSet)

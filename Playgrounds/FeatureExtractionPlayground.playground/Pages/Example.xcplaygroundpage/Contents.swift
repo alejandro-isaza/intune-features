@@ -9,7 +9,7 @@ typealias Point = Upsurge.Point<Double>
 //: ## Parameters
 //: Start by selecting the feature and example
 let featureName = "bands"
-let exampleIndex = 51
+let exampleIndex = 2
 
 //: ## Setup code
 //: No need to touch this
@@ -52,9 +52,9 @@ let points = (0..<exampleSize).map { featureIndex -> Point in
 let pointSet = PointSet(points: points)
 plot.addPointSet(pointSet)
 
-let expectedBand0 = Double(note - BandsFeature.notes.startIndex)
-let expectedBand1 = freqToNote(noteToFreq(Double(note))*2) - Double(BandsFeature.notes.startIndex)
-let expectedBand2 = freqToNote(noteToFreq(Double(note))*3) - Double(BandsFeature.notes.startIndex)
+let expectedBand0 = Double(note - SpectrumFeature.notes.startIndex)
+let expectedBand1 = freqToNote(noteToFreq(Double(note))*2) - Double(SpectrumFeature.notes.startIndex)
+let expectedBand2 = freqToNote(noteToFreq(Double(note))*3) - Double(SpectrumFeature.notes.startIndex)
 let expectedPointSet = PointSet(points: [
     Point(x: expectedBand0, y: 0), Point(x: expectedBand0, y: 0.1), Point(x: expectedBand0, y: 0),
     Point(x: expectedBand1, y: 0), Point(x: expectedBand1, y: 0.1), Point(x: expectedBand1, y: 0),

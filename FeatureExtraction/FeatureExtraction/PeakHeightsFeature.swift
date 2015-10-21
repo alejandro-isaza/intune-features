@@ -3,19 +3,27 @@
 import Foundation
 import Upsurge
 
-public class PeakHeightsFeature : PeakFeature {
-    public var peakHeights: RealArray
+public class PeakHeightsFeature : BandsFeature {
+    public typealias Peak = Upsurge.Point<Double>
+    
+    public var peakHeights = RealArray()
 
     public override var data: RealArray {
         return peakHeights
     }
+    
+    public override init() {}
 
-    public init(peaks: [Upsurge.Point<Double>]) {
-        let validPeakCount = min(PeakFeature.peakCount, peaks.count)
-        let validPeakHeights = peaks[0..<validPeakCount].map{ $0.y }
-        peakHeights = RealArray(count: PeakFeature.peakCount, repeatedValue: 0.0)
-        for i in 0..<validPeakCount {
-            peakHeights[i] = validPeakHeights[i]
+    public func update(peaks: [Peak]) {
+        let bandCount = BandsFeature.size()
+        peakHeights = RealArray(count: bandCount, repeatedValue: 0.0)
+
+        for peak in peaks {
+            let note = freqToNote(peak.x)
+            let band = bandForNote(note)
+            if band >= 0 && band < bandCount && peakHeights[band] < peak.y {
+                peakHeights[band] = peak.y
+            }
         }
     }
 }

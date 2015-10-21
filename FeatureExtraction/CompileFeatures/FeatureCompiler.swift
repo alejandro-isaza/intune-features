@@ -17,6 +17,14 @@ class FeatureCompiler {
     let fft: FFT
     let fb: Double
 
+
+    let rms = RMSFeature()
+    let peakLocations = PeakLocationsFeature()
+    let peakHeights = PeakHeightsFeature()
+    let bands0 = SpectrumFeature()
+    let bands1 = SpectrumFeature()
+    let bandFluxes = BandFluxsFeature()
+
     init(sampleCount: Int) {
         self.sampleCount = sampleCount
         fft = FFT(inputLength: sampleCount)
@@ -24,8 +32,8 @@ class FeatureCompiler {
     }
     
     func compileFeatures() {
-        var trainingFeatures = [Example: [String: Feature]]()
-        var testingFeatures = [Example: [String: Feature]]()
+        var trainingFeatures = [Example: [String: RealArray]]()
+        var testingFeatures = [Example: [String: RealArray]]()
 
         let labelFunction: Int -> Int = { return $0 - self.notes.startIndex + 1 }
         let exampleBuilder = ExampleBuilder(noteRange: notes, sampleCount: sampleCount, labelFunction: labelFunction)
@@ -39,27 +47,33 @@ class FeatureCompiler {
         writeFeatures("testing.h5", features: testingFeatures)
     }
     
-    func generateFeatures(example: Example) -> [String: Feature] {
+    func generateFeatures(example: Example) -> [String: RealArray] {
         // Apply a random gain between 0.5 and 2.0
         let gain = exp2(Double(arc4random_uniform(2)) - 1.0)
         let data0 = RealArray(example.data.0.map{ return $0 * gain })
         let data1 = RealArray(example.data.1.map{ return $0 * gain })
 
-        // Extract peaks
+        // Previous spectrum
         let spectrum0 = spectrumValues(data0)
-        let points0 = spectrumPoints(spectrum0)
-        let peaks0 = PeakExtractor.process(points0).sort{ $0.y > $1.y }
 
-        // Extract next peaks
-        let points1 = spectrumPoints(spectrumValues(data1))
+        // Extract peaks
+        let spectrum1 = spectrumValues(data1)
+        let points1 = spectrumPoints(spectrum1)
         let peaks1 = PeakExtractor.process(points1).sort{ $0.y > $1.y }
 
+        rms.update(data1)
+        peakLocations.update(peaks1)
+        peakHeights.update(peaks1)
+        bands0.update(spectrum: spectrum0, baseFrequency: fb)
+        bands1.update(spectrum: spectrum1, baseFrequency: fb)
+        bandFluxes.update(bands0: bands0.data, bands1: bands1.data)
+
         return [
-            "rms": RMSFeature(audioData: data0),
-            "peak_frequencies": PeakLocationsFeature(peaks: peaks0),
-            "peak_heights": PeakHeightsFeature(peaks: peaks0),
-            "peak_fluxes": PeakFluxFeature(peaks: peaks0, nextPeaks: peaks1),
-            "bands": BandsFeature(spectrum: spectrum0, baseFrequency: fb)
+            "rms": rms.data.copy(),
+            "peak_locations": peakLocations.data.copy(),
+            "peak_heights": peakHeights.data.copy(),
+            "bands": bands1.data.copy(),
+            "band_fluxes": bandFluxes.data.copy()
         ]
     }
 
@@ -73,7 +87,7 @@ class FeatureCompiler {
         return (0..<spectrum.count).map{ Point(x: fb * Double($0), y: spectrum[$0]) }
     }
 
-    func writeFeatures(fileName: String, features: [Example: [String: Feature]]) {
+    func writeFeatures(fileName: String, features: [Example: [String: RealArray]]) {
         let featureData = FeatureData(features: features)
         writeFeatures(fileName, featureData: featureData)
     }
@@ -88,7 +102,7 @@ class FeatureCompiler {
             let dataType = Datatype.copy(type: .Double)
             let dataDataspace = Dataspace(dims: [UInt64(featureData.labels.count), UInt64(featureSize)])
             let dataDataset = Dataset.create(file: hdf5File, name: name, datatype: dataType, dataspace: dataDataspace)
-            dataDataset.writeDouble(data)
+            dataDataset.writeDouble([Double](data))
         }
 
         let labelType = HDF5Kit.Datatype.copy(type: .Int)

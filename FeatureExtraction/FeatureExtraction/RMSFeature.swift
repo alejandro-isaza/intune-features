@@ -3,8 +3,8 @@
 import Foundation
 import Upsurge
 
-public struct RMSFeature : Feature {
-    public var rms: Double
+public class RMSFeature : Feature {
+    public var rms: Real = 0.0
 
     public static func size() -> Int {
         return 1
@@ -14,7 +14,9 @@ public struct RMSFeature : Feature {
         return [rms]
     }
 
-    public init(audioData: RealArray) {
+    public func update(audioData: RealArray) {
         rms = rmsq(audioData)
     }
+
+    public init() {}
 }

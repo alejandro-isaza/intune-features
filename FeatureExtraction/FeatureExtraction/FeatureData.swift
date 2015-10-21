@@ -1,11 +1,12 @@
 //  Copyright © 2015 Venture Media. All rights reserved.
 
 import Foundation
+import Upsurge
 
 public class FeatureData {
     public let exampleCount: Int
     public internal(set) var labels: [Int]
-    public internal(set) var data: [String: [Double]]
+    public internal(set) var data: [String: RealArray]
 
     init(exampleCount: Int) {
         self.exampleCount = exampleCount
@@ -13,10 +14,10 @@ public class FeatureData {
         labels = [Int]()
         labels.reserveCapacity(exampleCount)
 
-        data = [String: [Double]]()
+        data = [String: RealArray]()
     }
 
-    public convenience init(features: [Example: [String: Feature]]) {
+    public convenience init(features: [Example: [String: RealArray]]) {
         self.init(exampleCount: features.count)
 
         var shuffledExamples = [Example](features.keys)
@@ -26,26 +27,25 @@ public class FeatureData {
             labels.append(example.label)
 
             let features = features[example]!
-            for (name, feature) in features {
-                var featureData: [Double]
+            for (name, featureData) in features {
+                var allFeatureData: RealArray
                 if let data = data[name] {
-                    featureData = data
+                    allFeatureData = data
                 } else {
-                    featureData = [Double]()
-                    featureData.reserveCapacity(feature.dynamicType.size() * exampleCount)
+                    allFeatureData = RealArray(capacity: featureData.count * exampleCount)
+                    data.updateValue(allFeatureData, forKey: name)
                 }
-                featureData.appendContentsOf(feature.data)
-                data.updateValue(featureData, forKey: name)
+                allFeatureData.append(featureData)
             }
         }
     }
 }
 
-public func serializeFeatures(features: [String: Feature]) -> [String: [Double]] {
-    var data = [String: [Double]]()
+public func serializeFeatures(features: [String: Feature]) -> [String: RealArray] {
+    var data = [String: RealArray]()
 
     for (name, feature) in features {
-        data[name] = [Double](feature.data)
+        data[name] = RealArray(feature.data)
     }
     return data
 }
