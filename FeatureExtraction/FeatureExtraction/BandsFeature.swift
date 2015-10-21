@@ -12,7 +12,7 @@ public struct BandsFeature : Feature {
         return notes.count
     }
 
-    public func serialize() -> RealArray {
+    public var data: RealArray {
         return bands
     }
 

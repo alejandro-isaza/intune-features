@@ -10,7 +10,7 @@ public struct RMSFeature : Feature {
         return 1
     }
 
-    public func serialize() -> RealArray {
+    public var data: RealArray {
         return [rms]
     }
 

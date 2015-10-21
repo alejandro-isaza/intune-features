@@ -6,7 +6,7 @@ import Upsurge
 public class PeakHeightsFeature : PeakFeature {
     public var peakHeights: RealArray
 
-    public override func serialize() -> RealArray {
+    public override var data: RealArray {
         return peakHeights
     }
 

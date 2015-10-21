@@ -34,7 +34,7 @@ public class FeatureData {
                     featureData = [Double]()
                     featureData.reserveCapacity(feature.dynamicType.size() * exampleCount)
                 }
-                featureData.appendContentsOf(feature.serialize())
+                featureData.appendContentsOf(feature.data)
                 data.updateValue(featureData, forKey: name)
             }
         }
@@ -45,7 +45,7 @@ public func serializeFeatures(features: [String: Feature]) -> [String: [Double]]
     var data = [String: [Double]]()
 
     for (name, feature) in features {
-        data[name] = [Double](feature.serialize())
+        data[name] = [Double](feature.data)
     }
     return data
 }

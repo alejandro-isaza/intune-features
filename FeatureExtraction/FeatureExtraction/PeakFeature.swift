@@ -9,7 +9,7 @@ public class PeakFeature : Feature {
         return peakCount
     }
 
-    public func serialize() -> RealArray {
+    public var data: RealArray {
         return RealArray(count: PeakFeature.peakCount, repeatedValue: 0.0)
     }
 }

@@ -7,7 +7,7 @@ public class PeakFluxFeature : PeakFeature {
     public typealias PeakArray = [Upsurge.Point<Double>]
     public var peakFluxes: RealArray
 
-    public override func serialize() -> RealArray {
+    public override var data: RealArray {
         return peakFluxes
     }
 

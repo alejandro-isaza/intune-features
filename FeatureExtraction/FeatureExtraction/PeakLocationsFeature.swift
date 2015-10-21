@@ -7,7 +7,7 @@ public class PeakLocationsFeature : PeakFeature {
     public static let frequencyScale = 1.0 / 1000.0
     public var peakLocations: RealArray
 
-    public override func serialize() -> RealArray {
+    public override var data: RealArray {
         return peakLocations
     }
 

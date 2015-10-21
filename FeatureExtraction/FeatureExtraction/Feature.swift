@@ -7,5 +7,5 @@ public protocol Feature {
     static func size() -> Int
 
     /// Serialize the feature
-    func serialize() -> RealArray
+    var data: RealArray { get }
 }
