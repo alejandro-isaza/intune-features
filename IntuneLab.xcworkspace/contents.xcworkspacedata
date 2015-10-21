@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Workspace
    version = "1.0">
-   <FileRef
-      location = "group:Submodules/BrainCore/BrainCore.xcodeproj">
-   </FileRef>
-   <FileRef
-      location = "group:Submodules/PlotKit/PlotKit.xcodeproj">
-   </FileRef>
    <Group
       location = "group:Playgrounds"
       name = "Playgrounds">
@@ -23,6 +17,12 @@
          location = "group:PSDPlayground.playground">
       </FileRef>
    </Group>
+   <FileRef
+      location = "group:Submodules/BrainCore/BrainCore.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Submodules/PlotKit/PlotKit.xcodeproj">
+   </FileRef>
    <FileRef
       location = "group:FeatureExtraction/FeatureExtraction.xcodeproj">
    </FileRef>

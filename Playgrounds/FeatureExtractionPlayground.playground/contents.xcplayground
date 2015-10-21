@@ -4,5 +4,6 @@
         <page name='Peaks'/>
         <page name='Bands'/>
         <page name='Feature'/>
+        <page name='Example'/>
     </pages>
 </playground>
