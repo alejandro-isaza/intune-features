@@ -27,16 +27,14 @@ class MonophonicNet {
 
     var labels: [Double]
     var bandData: [Double]
-    var peakFrequencyData: [Double]
+    var bandFluxData: [Double]
+    var peakLocationData: [Double]
     var peakHeightData: [Double]
-    var peakFluxData: [Double]
     var rmsData: [Double]
 
     var bandCount = 0
-    var peakCount = 0
 
-    var bandsDataLayer = Source(data: [])
-    var peaksDataLayer = Source(data: [])
+    var dataLayer = Source(data: [])
     var rmsDataLayer = Source(data: [])
     var sinkLayer = Sink()
 
@@ -48,13 +46,10 @@ class MonophonicNet {
 
         var bandsDims: [Int]
         (bandData, bandsDims) = readData(featuresPath, datasetName: "bands")
+        (peakLocationData, bandsDims) = readData(featuresPath, datasetName: "peak_locations")
+        (peakHeightData, bandsDims) = readData(featuresPath, datasetName: "peak_heights")
+        (bandFluxData, bandsDims) = readData(featuresPath, datasetName: "band_fluxes")
         bandCount = bandsDims[1]
-
-        var peakDims: [Int]
-        (peakFrequencyData, peakDims) = readData(featuresPath, datasetName: "peak_frequencies")
-        (peakHeightData, peakDims) = readData(featuresPath, datasetName: "peak_heights")
-        (peakFluxData, peakDims) = readData(featuresPath, datasetName: "peak_fluxes")
-        peakCount = peakDims[1]
 
         (rmsData, _) = readData(featuresPath, datasetName: "rms")
 
@@ -62,29 +57,14 @@ class MonophonicNet {
     }
 
     func buildNet() {
-        let bandsDataLayerRef = net.addLayer(bandsDataLayer)
-        let bandsLayer = createLayerFromFile(netPath, datasetName: "bandsIp")
-        let bandsLayerRef = net.addLayer(bandsLayer)
-        net.connectLayer(bandsDataLayerRef, toLayer: bandsLayerRef)
-
-        let bandsReluLayerRef = net.addLayer(ReLULayer(size: bandsLayer.outputSize))
-        net.connectLayer(bandsLayerRef, toLayer: bandsReluLayerRef)
-
-        let peaksDataLayerRef = net.addLayer(peaksDataLayer)
-        let peaksLayer = createLayerFromFile(netPath, datasetName: "freqIp")
-        let peaksLayerRef = net.addLayer(peaksLayer)
-        net.connectLayer(peaksDataLayerRef, toLayer: peaksLayerRef)
-
-        let peaksReluLayerRef = net.addLayer(ReLULayer(size: peaksLayer.outputSize))
-        net.connectLayer(peaksLayerRef, toLayer: peaksReluLayerRef)
-
-        let rmsDataLayerRef = net.addLayer(rmsDataLayer)
+        let dataLayerRef = net.addLayer(dataLayer)
+        let ip1Layer = createLayerFromFile(netPath, datasetName: "ip1")
+        let ip1LayerRef = net.addLayer(ip1Layer)
+        net.connectLayer(dataLayerRef, toLayer: ip1LayerRef)
 
         let ip2Layer = createLayerFromFile(netPath, datasetName: "ip2")
         let ip2LayerRef = net.addLayer(ip2Layer)
-        net.connectLayer(peaksReluLayerRef, toLayer: ip2LayerRef)
-        net.connectLayer(rmsDataLayerRef, toLayer: ip2LayerRef)
-        net.connectLayer(bandsReluLayerRef, toLayer: ip2LayerRef)
+        net.connectLayer(ip1LayerRef, toLayer: ip2LayerRef)
 
         let ip2ReluLayerRef = net.addLayer(ReLULayer(size: ip2Layer.outputSize))
         net.connectLayer(ip2LayerRef, toLayer: ip2ReluLayerRef)
@@ -104,12 +84,12 @@ class MonophonicNet {
         net.connectLayer(ip4LayerRef, toLayer: sinkRef)
     }
 
-    func run(exampleIndex: Int) -> [Double] {
-        bandsDataLayer.data = [Double](bandData[exampleIndex*bandCount..<(exampleIndex + 1)*bandCount])
-        peaksDataLayer.data = [Double]()
-        peaksDataLayer.data.appendContentsOf(peakFrequencyData[exampleIndex*peakCount..<(exampleIndex + 1)*peakCount])
-        peaksDataLayer.data.appendContentsOf(peakHeightData[exampleIndex*peakCount..<(exampleIndex + 1)*peakCount])
-        peaksDataLayer.data.appendContentsOf(peakFluxData[exampleIndex*peakCount..<(exampleIndex + 1)*peakCount])
+    func run(exampleIndex: Int) -> RealArray {
+        dataLayer.data = RealArray(capacity: bandCount * 4)
+        dataLayer.data.append(peakLocationData[exampleIndex*bandCount..<(exampleIndex + 1)*bandCount])
+        dataLayer.data.append(peakHeightData[exampleIndex*bandCount..<(exampleIndex + 1)*bandCount])
+        dataLayer.data.append(bandData[exampleIndex*bandCount..<(exampleIndex + 1)*bandCount])
+        dataLayer.data.append(bandFluxData[exampleIndex*bandCount..<(exampleIndex + 1)*bandCount])
         rmsDataLayer.data = [rmsData[exampleIndex]]
 
         net.forward()
@@ -136,10 +116,10 @@ func readData(filePath: String, datasetName: String) -> ([Double], [Int]) {
 
 func createLayerFromFile(filePath: String, datasetName: String) -> InnerProductLayer {
     let (weights, dims)  = readData(filePath, datasetName: "\(datasetName)___weight")
-    let weightsMatrix = transpose(Matrix<Double>(rows: dims[0], columns: dims[1], elements: weights))
+    let weightsMatrix = transpose(RealMatrix(rows: dims[0], columns: dims[1], elements: weights))
 
     let (biases, _) = readData(filePath, datasetName: "\(datasetName)___bias")
-    return InnerProductLayer(weights: weightsMatrix, biases: biases)
+    return InnerProductLayer(weights: weightsMatrix, biases: RealArray(biases))
 }
 
 func maxi<T: CollectionType where T.Generator.Element: Comparable>(elements: T) -> (Int, T.Generator.Element)? {

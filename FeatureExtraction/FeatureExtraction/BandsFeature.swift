@@ -14,11 +14,11 @@ public class BandsFeature : Feature {
         return RealArray()
     }
 
-    func bandForNote(note: Double) -> Int {
-        return Int(round((note - Double(SpectrumFeature.notes.startIndex)) / PeakLocationsFeature.bandSize))
+    public class func bandForNote(note: Double) -> Int {
+        return Int(round((note - Double(notes.startIndex)) / bandSize))
     }
 
-    func noteForBand(band: Int) -> Double {
-        return Double(SpectrumFeature.notes.startIndex) + Double(band) * SpectrumFeature.bandSize
+    public class func noteForBand(band: Int) -> Double {
+        return Double(notes.startIndex) + Double(band) * bandSize
     }
 }

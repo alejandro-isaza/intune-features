@@ -9,7 +9,7 @@ typealias Point = Upsurge.Point<Double>
 //: ## Parameters
 //: Start by selecting the feature and example
 let featureName = "bands"
-let exampleIndex = 2
+let exampleIndex = 3
 
 //: ## Setup code
 //: No need to touch this
@@ -40,21 +40,21 @@ let note = labelToNote(label)!
 let plot = PlotView(frame: NSRect(origin: CGPointZero, size: plotSize))
 plot.addAxis(Axis(orientation: .Horizontal))
 plot.addAxis(Axis(orientation: .Vertical))
-XCPShowView(featureName, view: plot)
+XCPlaygroundPage.currentPage.liveView = plot
 
 let exampleCount = labels.count
 let exampleSize = featureData.count / exampleCount
 let points = (0..<exampleSize).map { featureIndex -> Point in
     let value = featureData[exampleIndex * exampleSize + featureIndex]
-    return Point(x: Double(featureIndex), y: value)
+    return Point(x: BandsFeature.noteForBand(featureIndex), y: value)
 }
 
 let pointSet = PointSet(points: points)
 plot.addPointSet(pointSet)
 
-let expectedBand0 = Double(note - SpectrumFeature.notes.startIndex)
-let expectedBand1 = freqToNote(noteToFreq(Double(note))*2) - Double(SpectrumFeature.notes.startIndex)
-let expectedBand2 = freqToNote(noteToFreq(Double(note))*3) - Double(SpectrumFeature.notes.startIndex)
+let expectedBand0 = freqToNote(noteToFreq(Double(note)))
+let expectedBand1 = freqToNote(noteToFreq(Double(note)) * 2)
+let expectedBand2 = freqToNote(noteToFreq(Double(note)) * 3)
 let expectedPointSet = PointSet(points: [
     Point(x: expectedBand0, y: 0), Point(x: expectedBand0, y: 0.1), Point(x: expectedBand0, y: 0),
     Point(x: expectedBand1, y: 0), Point(x: expectedBand1, y: 0.1), Point(x: expectedBand1, y: 0),

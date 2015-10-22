@@ -20,7 +20,7 @@ public class PeakHeightsFeature : BandsFeature {
 
         for peak in peaks {
             let note = freqToNote(peak.x)
-            let band = bandForNote(note)
+            let band = BandsFeature.bandForNote(note)
             if band >= 0 && band < bandCount && peakHeights[band] < peak.y {
                 peakHeights[band] = peak.y
             }
