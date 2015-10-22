@@ -14,6 +14,7 @@ class FeatureCompiler {
     let sampleCount: Int
     let notes = 36...96
 
+    let window: RealArray
     let fft: FFT
     let fb: Double
 
@@ -27,6 +28,10 @@ class FeatureCompiler {
 
     init(sampleCount: Int) {
         self.sampleCount = sampleCount
+
+        window = RealArray(count: sampleCount)
+        vDSP_hamm_windowD(window.pointer, vDSP_Length(sampleCount), 0)
+
         fft = FFT(inputLength: sampleCount)
         fb = Double(sampleRate) / Double(sampleCount)
     }
@@ -79,7 +84,7 @@ class FeatureCompiler {
 
     /// Compute the power spectrum values
     func spectrumValues(data: RealArray) -> RealArray {
-        return sqrt(fft.forwardMags(data))
+        return sqrt(fft.forwardMags(data * window))
     }
 
     /// Convert from spectrum values to frequency, value points

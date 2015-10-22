@@ -6,13 +6,15 @@ import Upsurge
 public class PeakLocationsFeature : BandsFeature {
     public typealias Peak = Upsurge.Point<Double>
 
-    public var peakLocations = RealArray()
+    public var peakLocations: RealArray
 
     public override var data: RealArray {
         return peakLocations
     }
     
-    public override init() {}
+    public override init() {
+        peakLocations = RealArray(count: BandsFeature.size())
+    }
 
     public func update(peaks: [Peak]) {
         let bandCount = BandsFeature.size()
@@ -33,8 +35,6 @@ public class PeakLocationsFeature : BandsFeature {
                 peaksByBand[band] = peak
             }
         }
-
-        peakLocations = RealArray(count: bandCount)
 
         for band in 0..<bandCount {
             let note = BandsFeature.noteForBand(band)
