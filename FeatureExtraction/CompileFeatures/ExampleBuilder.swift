@@ -40,6 +40,8 @@ class ExampleBuilder {
     let labelFunction: Int -> Int
     let noiseLabel = 0
     private var data: ([Double], [Double])
+
+    private var rmsContainer = [Double]()
     
     init(noteRange: Range<Int>, sampleCount: Int, labelFunction: Int -> Int = { $0 }) {
         self.sampleCount = sampleCount
@@ -63,10 +65,12 @@ class ExampleBuilder {
     }
     
     func forEachExampleInFolder(folder: String, action: Example -> (), minRMS: Double) {
+        rmsContainer = [Double]()
         let path = buildPathFromParts([rootPath, folder])
         for i in noteRange {
             forEachExampleInFile(String(i), path: path, label: labelFunction(i), action: action, minRMS: minRMS)
         }
+        print("Average RMS for files in folder \(folder): \(sum(rmsContainer)/Double(rmsContainer.count))")
     }
 
     func forEachExampleInFile(fileName: String, path: String, label: Int, action: Example -> (), minRMS: Double) {
@@ -88,12 +92,16 @@ class ExampleBuilder {
         guard audioFile.readFrames(&data.0, count: sampleCount) == sampleCount else {
             return
         }
-
+        
+        var i = 0
+        var dataContainer = [Double]()
         while rmsq(data.0) > minRMS {
+            dataContainer.appendContentsOf(data.0)
             guard audioFile.readFrames(&data.1, count: sampleCount) == sampleCount else {
                 break
             }
 
+            i += 1
             let example = Example(
                 filePath: filePath,
                 frameOffset: audioFile.currentFrame,
@@ -104,5 +112,10 @@ class ExampleBuilder {
             audioFile.currentFrame -= sampleCount / 2
             swap(&data.0, &data.1)
         }
+        
+        print("Retrieved \(i) examples from (\(label)) \(filePath)")
+        let fileRMS = rmsq(dataContainer)
+        rmsContainer.append(fileRMS)
+        print("RMS: \(fileRMS)")
     }
 }
