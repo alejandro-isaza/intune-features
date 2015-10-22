@@ -17,13 +17,13 @@ class ExampleBuilder {
         "Piano_Rhodes_73",
         "Piano_Yamaha_DX7",
         "TimGM6mb",
-        "VentureQuietPiano2",
-        "VentureQuietPiano3",
-        "VentureQuietPiano4"
+        "VenturePianoQuiet2",
+        "VenturePianoQuiet3",
+        "VenturePianoQuiet4"
     ]
     let testingFolders = [
         "Arachno",
-        "VentureQuietPiano1",
+        "VenturePianoQuiet1",
     ]
     let testingNoiseFileName = "testingnoise"
     let trainingNoiseFileName = "trainingnoise"

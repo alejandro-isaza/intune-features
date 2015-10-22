@@ -20,10 +20,7 @@ public class FeatureData {
     public convenience init(features: [Example: [String: RealArray]]) {
         self.init(exampleCount: features.count)
 
-        var shuffledExamples = [Example](features.keys)
-        shuffledExamples.shuffleInPlace()
-
-        for example in shuffledExamples {
+        for example in features.keys {
             labels.append(example.label)
 
             let features = features[example]!
