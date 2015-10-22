@@ -7,13 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		275DDF9C6E74AB99C4A0D2F8 /* Pods_OSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3C00C05497A6CBB3AB74FF6 /* Pods_OSX.framework */; };
 		610AAB3B1BD987C2008CC910 /* netHigh.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 610AAB391BD987C2008CC910 /* netHigh.h5 */; };
 		610AAB3C1BD987C2008CC910 /* netLow.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 610AAB3A1BD987C2008CC910 /* netLow.h5 */; };
 		610AAB4D1BD9881E008CC910 /* testingHigh.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 610AAB491BD9881E008CC910 /* testingHigh.h5 */; };
 		610AAB4E1BD9881E008CC910 /* testingLow.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 610AAB4A1BD9881E008CC910 /* testingLow.h5 */; };
 		610AAB4F1BD9881E008CC910 /* trainingHigh.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 610AAB4B1BD9881E008CC910 /* trainingHigh.h5 */; };
 		610AAB501BD9881E008CC910 /* trainingLow.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 610AAB4C1BD9881E008CC910 /* trainingLow.h5 */; };
+		610AAB671BD99737008CC910 /* UtilitiesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610AAB661BD99737008CC910 /* UtilitiesTests.swift */; };
 		6122EF231BD6CC55001AE862 /* HDF5Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF041BD6CC41001AE862 /* HDF5Kit.framework */; };
 		6122EF241BD6CC55001AE862 /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF1C1BD6CC41001AE862 /* Upsurge.framework */; };
 		6122EF251BD6D011001AE862 /* Peak.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF141BD6CC41001AE862 /* Peak.framework */; };
@@ -265,6 +265,7 @@
 		610AAB4A1BD9881E008CC910 /* testingLow.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testingLow.h5; sourceTree = SOURCE_ROOT; };
 		610AAB4B1BD9881E008CC910 /* trainingHigh.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = trainingHigh.h5; sourceTree = SOURCE_ROOT; };
 		610AAB4C1BD9881E008CC910 /* trainingLow.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = trainingLow.h5; sourceTree = SOURCE_ROOT; };
+		610AAB661BD99737008CC910 /* UtilitiesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilitiesTests.swift; sourceTree = "<group>"; };
 		6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HDF5Kit.xcodeproj; path = ../Submodules/HDF5Kit/HDF5Kit.xcodeproj; sourceTree = "<group>"; };
 		6122EEF91BD6CC41001AE862 /* Peak.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Peak.xcodeproj; path = ../Submodules/Peak/Peak.xcodeproj; sourceTree = "<group>"; };
 		6122EEFC1BD6CC41001AE862 /* Upsurge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Upsurge.xcodeproj; path = ../Submodules/Upsurge/Upsurge.xcodeproj; sourceTree = "<group>"; };
@@ -337,7 +338,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C78457A1BB9B06600C88426 /* FeatureExtraction.framework in Frameworks */,
-				275DDF9C6E74AB99C4A0D2F8 /* Pods_OSX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -493,6 +493,7 @@
 			children = (
 				8C7845801BB9B06600C88426 /* Info.plist */,
 				8CDA0EF51BB9C60800433755 /* DistancePeakExtractionTests.swift */,
+				610AAB661BD99737008CC910 /* UtilitiesTests.swift */,
 			);
 			path = FeatureExtractionTests;
 			sourceTree = "<group>";
@@ -577,12 +578,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8C7845861BB9B06600C88426 /* Build configuration list for PBXNativeTarget "FeatureExtractionTests" */;
 			buildPhases = (
-				DE37E0C177CFE8126B81C58C /* Check Pods Manifest.lock */,
 				8C7845751BB9B06600C88426 /* Sources */,
 				8C7845761BB9B06600C88426 /* Frameworks */,
 				8C7845771BB9B06600C88426 /* Resources */,
-				A854ADD0DACE8C84516670F9 /* Embed Pods Frameworks */,
-				FE54FF4685B72024B5222668 /* Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -820,54 +818,6 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
-/* Begin PBXShellScriptBuildPhase section */
-		A854ADD0DACE8C84516670F9 /* Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods-OSX/Pods-OSX-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		DE37E0C177CFE8126B81C58C /* Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		FE54FF4685B72024B5222668 /* Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/../Pods/Target Support Files/Pods-OSX/Pods-OSX-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
-
 /* Begin PBXSourcesBuildPhase section */
 		6185A7741BD337E100CD5FC5 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
@@ -903,6 +853,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				610AAB671BD99737008CC910 /* UtilitiesTests.swift in Sources */,
 				8CDA0EF61BB9C60800433755 /* DistancePeakExtractionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
