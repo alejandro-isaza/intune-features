@@ -9,21 +9,22 @@ public class SpectrumFeature : BandsFeature {
         return bands
     }
 
-    public override init() {
-        bands = RealArray(count: BandsFeature.size())
+    public override init(notes: Range<Int>, bandSize: Double) {
+        bands = RealArray(count: notes.count)
+        super.init(notes: notes, bandSize: bandSize)
     }
 
     public func update(spectrum data: RealArray, baseFrequency fb: Double) {
-        let bandCount = BandsFeature.size()
+        let bandCount = notes.count
 
         for band in 0..<bandCount {
-            let note = BandsFeature.noteForBand(band)
+            let note = noteForBand(band)
 
-            let lowerFrequency = noteToFreq(note - BandsFeature.bandSize/2)
+            let lowerFrequency = noteToFreq(note - bandSize/2)
             let lowerBin = lowerFrequency / fb
             let lowerIndex = Int(ceil(lowerBin))
 
-            let upperFrequency = noteToFreq(note + BandsFeature.bandSize/2)
+            let upperFrequency = noteToFreq(note + bandSize/2)
             let upperBin = upperFrequency / fb
             let upperIndex = Int(floor(upperBin))
 

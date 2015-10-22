@@ -12,17 +12,18 @@ public class PeakLocationsFeature : BandsFeature {
         return peakLocations
     }
     
-    public override init() {
-        peakLocations = RealArray(count: BandsFeature.size())
+    public override init(notes: Range<Int>, bandSize: Double) {
+        peakLocations = RealArray(count: notes.count)
+        super.init(notes: notes, bandSize: bandSize)
     }
 
     public func update(peaks: [Peak]) {
-        let bandCount = BandsFeature.size()
+        let bandCount = notes.count
         
         var peaksByBand = [Int: Peak]()
         for peak in peaks {
             let note = freqToNote(peak.x)
-            let band = BandsFeature.bandForNote(note)
+            let band = bandForNote(note)
             guard band >= 0 && band < bandCount else {
                 continue
             }
@@ -37,7 +38,7 @@ public class PeakLocationsFeature : BandsFeature {
         }
 
         for band in 0..<bandCount {
-            let note = BandsFeature.noteForBand(band)
+            let note = noteForBand(band)
             if let peak = peaksByBand[band] {
                 let peakN = freqToNote(peak.x)
                 peakLocations[band] = 1.0 - abs(note - peakN)

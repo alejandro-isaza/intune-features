@@ -3,9 +3,6 @@
 import Upsurge
 
 public protocol Feature {
-    /// Return the size of one feature when serialized
-    static func size() -> Int
-
     /// Serialize the feature
     var data: RealArray { get }
 }

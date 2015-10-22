@@ -6,15 +6,20 @@ import Upsurge
 public class PeakExtractor {
     public typealias Point = Upsurge.Point<Double>
 
-    static let yCutoff = 0.007
-    static let minimumNoteDistance = 0.5
+    public let heightCutoff: Double
+    public let minimumNoteDistance: Double
 
-    class public func process(input: [Point]) -> [Point] {
+    public init(heightCutoff: Double, minimumNoteDistance: Double) {
+        self.heightCutoff = heightCutoff
+        self.minimumNoteDistance = minimumNoteDistance
+    }
+
+    public func process(input: [Point]) -> [Point] {
         let peaks = findPeaks(input)
         return filterPeaks(peaks)
     }
 
-    class func findPeaks(input: [Point]) -> [Point] {
+    func findPeaks(input: [Point]) -> [Point] {
         var peaks = [Point]()
         
         for i in 1...input.count-2 {
@@ -26,18 +31,18 @@ public class PeakExtractor {
         return peaks
     }
 
-    class func filterPeaks(input: [Point]) -> [Point] {
+    func filterPeaks(input: [Point]) -> [Point] {
         let peaks = filterPeaksByHeight(input)
         return choosePeaks(peaks)
     }
 
-    class func filterPeaksByHeight(input: [Point]) -> [Point] {
+    func filterPeaksByHeight(input: [Point]) -> [Point] {
         return input.filter { (peak: Point) -> Bool in
-            return peak.y > yCutoff
+            return peak.y > heightCutoff
         }
     }
 
-    class func choosePeaks(input: [Point]) -> [Point] {
+    func choosePeaks(input: [Point]) -> [Point] {
         var chosenPeaks = [Point]()
         
         var currentPeakRange = 0.0...0.0
@@ -57,7 +62,7 @@ public class PeakExtractor {
         return chosenPeaks
     }
 
-    class func binCutoffRange(freq: Double) -> ClosedInterval<Double> {
+    func binCutoffRange(freq: Double) -> ClosedInterval<Double> {
         let note = freqToNote(freq)
         
         let upperBound = noteToFreq(note + minimumNoteDistance)

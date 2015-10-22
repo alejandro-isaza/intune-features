@@ -8,6 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		275DDF9C6E74AB99C4A0D2F8 /* Pods_OSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D3C00C05497A6CBB3AB74FF6 /* Pods_OSX.framework */; };
+		610AAB3B1BD987C2008CC910 /* netHigh.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 610AAB391BD987C2008CC910 /* netHigh.h5 */; };
+		610AAB3C1BD987C2008CC910 /* netLow.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 610AAB3A1BD987C2008CC910 /* netLow.h5 */; };
+		610AAB4D1BD9881E008CC910 /* testingHigh.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 610AAB491BD9881E008CC910 /* testingHigh.h5 */; };
+		610AAB4E1BD9881E008CC910 /* testingLow.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 610AAB4A1BD9881E008CC910 /* testingLow.h5 */; };
+		610AAB4F1BD9881E008CC910 /* trainingHigh.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 610AAB4B1BD9881E008CC910 /* trainingHigh.h5 */; };
+		610AAB501BD9881E008CC910 /* trainingLow.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 610AAB4C1BD9881E008CC910 /* trainingLow.h5 */; };
 		6122EF231BD6CC55001AE862 /* HDF5Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF041BD6CC41001AE862 /* HDF5Kit.framework */; };
 		6122EF241BD6CC55001AE862 /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF1C1BD6CC41001AE862 /* Upsurge.framework */; };
 		6122EF251BD6D011001AE862 /* Peak.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF141BD6CC41001AE862 /* Peak.framework */; };
@@ -253,6 +259,12 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		610AAB391BD987C2008CC910 /* netHigh.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = netHigh.h5; sourceTree = SOURCE_ROOT; };
+		610AAB3A1BD987C2008CC910 /* netLow.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = netLow.h5; sourceTree = SOURCE_ROOT; };
+		610AAB491BD9881E008CC910 /* testingHigh.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testingHigh.h5; sourceTree = SOURCE_ROOT; };
+		610AAB4A1BD9881E008CC910 /* testingLow.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testingLow.h5; sourceTree = SOURCE_ROOT; };
+		610AAB4B1BD9881E008CC910 /* trainingHigh.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = trainingHigh.h5; sourceTree = SOURCE_ROOT; };
+		610AAB4C1BD9881E008CC910 /* trainingLow.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = trainingLow.h5; sourceTree = SOURCE_ROOT; };
 		6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HDF5Kit.xcodeproj; path = ../Submodules/HDF5Kit/HDF5Kit.xcodeproj; sourceTree = "<group>"; };
 		6122EEF91BD6CC41001AE862 /* Peak.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Peak.xcodeproj; path = ../Submodules/Peak/Peak.xcodeproj; sourceTree = "<group>"; };
 		6122EEFC1BD6CC41001AE862 /* Upsurge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Upsurge.xcodeproj; path = ../Submodules/Upsurge/Upsurge.xcodeproj; sourceTree = "<group>"; };
@@ -341,6 +353,22 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		610AAB511BD98823008CC910 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				610AAB491BD9881E008CC910 /* testingHigh.h5 */,
+				610AAB4A1BD9881E008CC910 /* testingLow.h5 */,
+				610AAB4B1BD9881E008CC910 /* trainingHigh.h5 */,
+				610AAB4C1BD9881E008CC910 /* trainingLow.h5 */,
+				610AAB391BD987C2008CC910 /* netHigh.h5 */,
+				610AAB3A1BD987C2008CC910 /* netLow.h5 */,
+				6185AA091BD411A400CD5FC5 /* testing.h5 */,
+				6185AA0A1BD411A400CD5FC5 /* training.h5 */,
+				6185AA071BD4118A00CD5FC5 /* net.h5 */,
+			);
+			name = Data;
+			sourceTree = "<group>";
+		};
 		6122EEF71BD6CC41001AE862 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -388,9 +416,7 @@
 		6185A7791BD337E100CD5FC5 /* NetEval */ = {
 			isa = PBXGroup;
 			children = (
-				6185AA091BD411A400CD5FC5 /* testing.h5 */,
-				6185AA0A1BD411A400CD5FC5 /* training.h5 */,
-				6185AA071BD4118A00CD5FC5 /* net.h5 */,
+				610AAB511BD98823008CC910 /* Data */,
 				6185A78A1BD337FB00CD5FC5 /* Net.swift */,
 				61EB527D1BD55F90000572B9 /* Stats.swift */,
 				6185A77A1BD337E100CD5FC5 /* AppDelegate.swift */,
@@ -771,11 +797,17 @@
 			buildActionMask = 2147483647;
 			files = (
 				6185AA081BD4118A00CD5FC5 /* net.h5 in Resources */,
+				610AAB4D1BD9881E008CC910 /* testingHigh.h5 in Resources */,
+				610AAB4E1BD9881E008CC910 /* testingLow.h5 in Resources */,
+				610AAB4F1BD9881E008CC910 /* trainingHigh.h5 in Resources */,
 				6185A7851BD337E100CD5FC5 /* LaunchScreen.storyboard in Resources */,
+				610AAB3B1BD987C2008CC910 /* netHigh.h5 in Resources */,
 				6185A7821BD337E100CD5FC5 /* Assets.xcassets in Resources */,
 				6185AA0B1BD411A400CD5FC5 /* testing.h5 in Resources */,
+				610AAB3C1BD987C2008CC910 /* netLow.h5 in Resources */,
 				6185AA0C1BD411A400CD5FC5 /* training.h5 in Resources */,
 				6185A7801BD337E100CD5FC5 /* Main.storyboard in Resources */,
+				610AAB501BD9881E008CC910 /* trainingLow.h5 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -2,7 +2,5 @@
 
 import Foundation
 
-let sampleCount = 8*1024
-
-let featureCompiler = FeatureCompiler(sampleCount: sampleCount)
+let featureCompiler = FeatureCompiler()
 featureCompiler.compileFeatures()

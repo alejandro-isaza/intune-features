@@ -9,47 +9,68 @@ import Upsurge
 
 typealias Point = Upsurge.Point<Double>
 
+func midiNote(notes: Range<Int>, label: Int) -> Int {
+    return label - notes.startIndex + 1
+}
+
+func octaveNote(notes: Range<Int>, label: Int) -> Int {
+    let note = midiNote(notes, label: label)
+    return noteComponents(note).1.rawValue
+}
+
 class FeatureCompiler {
-    let sampleRate = 44100
-    let sampleCount: Int
-    let notes = 36...96
+    // Basic parameters
+    static let sampleRate = 44100
+    static let sampleCount = 8192
+    static let labelFunction: Int -> Int = { midiNote(FeatureCompiler.notes, label: $0) }
 
-    let window: RealArray
-    let fft: FFT
-    let fb: Double
+    // Notes and bands parameters
+    static let notes = 35...96
+    static let bandNotes = 24...120
+    static let bandSize = 1.0
+
+    // Peaks parameters
+    static let peakHeightCutoff = 0.007
+    static let peakMinimumNoteDistance = 0.5
+
+    // Output parameters
+    static let trainingFileName = "training.h5"
+    static let testingFileName = "testing.h5"
 
 
-    let rms = RMSFeature()
-    let peakLocations = PeakLocationsFeature()
-    let peakHeights = PeakHeightsFeature()
-    let bands0 = SpectrumFeature()
-    let bands1 = SpectrumFeature()
-    let bandFluxes = BandFluxsFeature()
+    // Helpers
+    let window = RealArray(count: FeatureCompiler.sampleCount)
+    let fft = FFT(inputLength: FeatureCompiler.sampleCount)
+    let peakExtractor = PeakExtractor(heightCutoff: FeatureCompiler.peakHeightCutoff, minimumNoteDistance: FeatureCompiler.peakMinimumNoteDistance)
+    let fb = Double(FeatureCompiler.sampleRate) / Double(FeatureCompiler.sampleCount)
 
-    init(sampleCount: Int) {
-        self.sampleCount = sampleCount
+    // Features
+    let rms: RMSFeature = RMSFeature()
+    let peakLocations: PeakLocationsFeature = PeakLocationsFeature(notes: FeatureCompiler.bandNotes, bandSize: FeatureCompiler.bandSize)
+    let peakHeights: PeakHeightsFeature = PeakHeightsFeature(notes: FeatureCompiler.bandNotes, bandSize: FeatureCompiler.bandSize)
+    let bands0: SpectrumFeature = SpectrumFeature(notes: FeatureCompiler.bandNotes, bandSize: FeatureCompiler.bandSize)
+    let bands1: SpectrumFeature = SpectrumFeature(notes: FeatureCompiler.bandNotes, bandSize: FeatureCompiler.bandSize)
+    let bandFluxes: BandFluxsFeature = BandFluxsFeature(notes: FeatureCompiler.bandNotes, bandSize: FeatureCompiler.bandSize)
 
-        window = RealArray(count: sampleCount)
-        vDSP_hamm_windowD(window.pointer, vDSP_Length(sampleCount), 0)
 
-        fft = FFT(inputLength: sampleCount)
-        fb = Double(sampleRate) / Double(sampleCount)
+    init() {
+        vDSP_hamm_windowD(window.pointer, vDSP_Length(FeatureCompiler.sampleCount), 0)
     }
     
     func compileFeatures() {
         var trainingFeatures = [Example: [String: RealArray]]()
         var testingFeatures = [Example: [String: RealArray]]()
 
-        let labelFunction: Int -> Int = { return $0 - self.notes.startIndex + 1 }
-        let exampleBuilder = ExampleBuilder(noteRange: notes, sampleCount: sampleCount, labelFunction: labelFunction)
+        let labelFunction: Int -> Int = { return $0 - FeatureCompiler.notes.startIndex + 1 }
+        let exampleBuilder = ExampleBuilder(noteRange: FeatureCompiler.notes, sampleCount: FeatureCompiler.sampleCount, labelFunction: labelFunction)
         exampleBuilder.forEachExample(training: { example in
             trainingFeatures[example] = self.generateFeatures(example)
         }, testing: { example in
             testingFeatures[example] = self.generateFeatures(example)
         })
 
-        writeFeatures("training.h5", features: trainingFeatures)
-        writeFeatures("testing.h5", features: testingFeatures)
+        writeFeatures(FeatureCompiler.trainingFileName, features: trainingFeatures)
+        writeFeatures(FeatureCompiler.testingFileName, features: testingFeatures)
     }
     
     func generateFeatures(example: Example) -> [String: RealArray] {
@@ -64,7 +85,7 @@ class FeatureCompiler {
         // Extract peaks
         let spectrum1 = spectrumValues(data1)
         let points1 = spectrumPoints(spectrum1)
-        let peaks1 = PeakExtractor.process(points1).sort{ $0.y > $1.y }
+        let peaks1 = peakExtractor.process(points1).sort{ $0.y > $1.y }
 
         rms.update(data1)
         peakLocations.update(peaks1)
@@ -117,4 +138,3 @@ class FeatureCompiler {
     }
 
 }
-

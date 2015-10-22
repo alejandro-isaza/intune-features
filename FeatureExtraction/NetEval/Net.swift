@@ -21,6 +21,9 @@ class Sink : SinkLayer {
 }
 
 class MonophonicNet {
+    let netName = "net"
+    let featuresName = "testing"
+
     let featuresPath: String
     let netPath: String
     let net = Net()
@@ -39,8 +42,8 @@ class MonophonicNet {
     var sinkLayer = Sink()
 
     init() {
-        featuresPath = NSBundle.mainBundle().pathForResource("testing", ofType: "h5")!
-        netPath = NSBundle.mainBundle().pathForResource("net", ofType: "h5")!
+        featuresPath = NSBundle.mainBundle().pathForResource(featuresName, ofType: "h5")!
+        netPath = NSBundle.mainBundle().pathForResource(netName, ofType: "h5")!
 
         (labels, _) = readData(featuresPath, datasetName: "label")
 

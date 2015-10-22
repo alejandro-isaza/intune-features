@@ -3,22 +3,23 @@
 import Upsurge
 
 public class BandsFeature : Feature {
-    public static let notes = 24...120
-    public static let bandSize = 1.0
-
-    public static func size() -> Int {
-        return Int(Double(notes.count) / bandSize)
-    }
+    public let notes: Range<Int>
+    public let bandSize: Double
 
     public var data: RealArray {
         return RealArray()
     }
 
-    public class func bandForNote(note: Double) -> Int {
+    public init(notes: Range<Int>, bandSize: Double) {
+        self.notes = notes
+        self.bandSize = bandSize
+    }
+
+    public func bandForNote(note: Double) -> Int {
         return Int(round((note - Double(notes.startIndex)) / bandSize))
     }
 
-    public class func noteForBand(band: Int) -> Double {
+    public func noteForBand(band: Int) -> Double {
         return Double(notes.startIndex) + Double(band) * bandSize
     }
 }
