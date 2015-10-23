@@ -54,7 +54,7 @@ class ExampleBuilder {
     }
     
     func forEachExample(training training: Example -> (), testing: Example -> ()) {
-        print("Working Directory: \(NSFileManager.defaultManager().currentDirectoryPath)")
+        print("\nWorking Directory: \(NSFileManager.defaultManager().currentDirectoryPath)\n")
         for folder in trainingFolders {
             forEachExampleInFolder(folder, action: training)
         }
@@ -72,7 +72,7 @@ class ExampleBuilder {
         for i in noteRange {
             forEachExampleInFile(String(i), path: path, label: labelFunction(i), numExamples: numNoteExamples, action: action)
         }
-        print("Average RMS for files in folder \(folder): \(sum(rmsContainer)/Double(rmsContainer.count))")
+        print("Average RMS for files in folder \(folder): \(sum(rmsContainer)/Double(rmsContainer.count))\n\n")
     }
 
     func forEachExampleInFile(fileName: String, path: String, label: Int, numExamples: Int, action: Example -> ()) {
@@ -81,7 +81,7 @@ class ExampleBuilder {
             let fullFileName = "\(fileName).\(type)"
             let filePath = buildPathFromParts([path, fullFileName])
             if fileManager.fileExistsAtPath(filePath) {
-                print("Processing \(filePath)")
+                print("Processing \(filePath) (label \(label))")
                 forEachExampleInFile(filePath, label: label, numExamples: numExamples, action: action)
                 break
             }
@@ -100,7 +100,6 @@ class ExampleBuilder {
         while i < numExamples {
             dataContainer.appendContentsOf(data.0)
             guard audioFile.readFrames(&data.1, count: sampleCount) == sampleCount else {
-                print("Only able to retrieve \(i) examples from file \(filePath)")
                 break
             }
 
@@ -115,10 +114,8 @@ class ExampleBuilder {
             audioFile.currentFrame -= sampleCount / 2
             swap(&data.0, &data.1)
         }
-        
-        print("Retrieved \(i) examples from (\(label)) \(filePath)")
+
         let fileRMS = rmsq(dataContainer)
         rmsContainer.append(fileRMS)
-        print("RMS: \(fileRMS)")
     }
 }
