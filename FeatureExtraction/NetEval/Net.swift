@@ -30,10 +30,8 @@ class MonophonicNet {
 
     var labels: [Double]
     var bandData: [Double]
-    var bandFluxData: [Double]
     var peakLocationData: [Double]
     var peakHeightData: [Double]
-    var rmsData: [Double]
 
     var bandCount = 0
 
@@ -51,23 +49,25 @@ class MonophonicNet {
         (bandData, bandsDims) = readData(featuresPath, datasetName: "bands")
         (peakLocationData, bandsDims) = readData(featuresPath, datasetName: "peak_locations")
         (peakHeightData, bandsDims) = readData(featuresPath, datasetName: "peak_heights")
-        (bandFluxData, bandsDims) = readData(featuresPath, datasetName: "band_fluxes")
         bandCount = bandsDims[1]
 
-        (rmsData, _) = readData(featuresPath, datasetName: "rms")
 
         buildNet()
     }
 
     func buildNet() {
         let dataLayerRef = net.addLayer(dataLayer)
+
         let ip1Layer = createLayerFromFile(netPath, datasetName: "ip1")
         let ip1LayerRef = net.addLayer(ip1Layer)
         net.connectLayer(dataLayerRef, toLayer: ip1LayerRef)
 
+        let ip1ReluLayerRef = net.addLayer(ReLULayer(size: ip1Layer.outputSize))
+        net.connectLayer(ip1LayerRef, toLayer: ip1ReluLayerRef)
+
         let ip2Layer = createLayerFromFile(netPath, datasetName: "ip2")
         let ip2LayerRef = net.addLayer(ip2Layer)
-        net.connectLayer(ip1LayerRef, toLayer: ip2LayerRef)
+        net.connectLayer(ip1ReluLayerRef, toLayer: ip2LayerRef)
 
         let ip2ReluLayerRef = net.addLayer(ReLULayer(size: ip2Layer.outputSize))
         net.connectLayer(ip2LayerRef, toLayer: ip2ReluLayerRef)
@@ -88,12 +88,10 @@ class MonophonicNet {
     }
 
     func run(exampleIndex: Int) -> RealArray {
-        dataLayer.data = RealArray(capacity: bandCount * 4)
-        dataLayer.data.append(peakLocationData[exampleIndex*bandCount..<(exampleIndex + 1)*bandCount])
-        dataLayer.data.append(peakHeightData[exampleIndex*bandCount..<(exampleIndex + 1)*bandCount])
-        dataLayer.data.append(bandData[exampleIndex*bandCount..<(exampleIndex + 1)*bandCount])
-        dataLayer.data.append(bandFluxData[exampleIndex*bandCount..<(exampleIndex + 1)*bandCount])
-        rmsDataLayer.data = [rmsData[exampleIndex]]
+        dataLayer.data = RealArray(capacity: bandCount * 3)
+        dataLayer.data.appendContentsOf(peakLocationData[exampleIndex*bandCount..<(exampleIndex + 1)*bandCount])
+        dataLayer.data.appendContentsOf(peakHeightData[exampleIndex*bandCount..<(exampleIndex + 1)*bandCount])
+        dataLayer.data.appendContentsOf(bandData[exampleIndex*bandCount..<(exampleIndex + 1)*bandCount])
 
         net.forward()
 

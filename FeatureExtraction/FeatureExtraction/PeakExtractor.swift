@@ -4,8 +4,6 @@ import Foundation
 import Upsurge
 
 public class PeakExtractor {
-    public typealias Point = Upsurge.Point<Double>
-
     public let heightCutoff: Double
     public let minimumNoteDistance: Double
 

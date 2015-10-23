@@ -4,8 +4,6 @@ import PlotKit
 import Upsurge
 import XCPlayground
 
-typealias Point = Upsurge.Point<Double>
-
 let notes = 36...96
 let bandNotes = 24...120
 let bandSize = 1.0

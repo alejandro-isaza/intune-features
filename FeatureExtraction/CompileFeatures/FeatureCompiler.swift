@@ -7,8 +7,6 @@ import FeatureExtraction
 import HDF5Kit
 import Upsurge
 
-typealias Point = Upsurge.Point<Double>
-
 func midiNoteLabel(notes: Range<Int>, note: Int) -> Int {
     return note - notes.startIndex + 1
 }
@@ -108,7 +106,7 @@ class FeatureCompiler {
 
     /// Convert from spectrum values to frequency, value points
     func spectrumPoints(spectrum: RealArray) -> [Point] {
-        return (0..<spectrum.count).map{ Point(x: fb * Double($0), y: spectrum[$0]) }
+        return (0..<spectrum.count).map{ Point(x: fb * Real($0), y: spectrum[$0]) }
     }
 
     func writeFeatures(fileName: String, features: [Example: [String: RealArray]]) {

@@ -32,7 +32,7 @@ public class FeatureData {
                     allFeatureData = RealArray(capacity: featureData.count * exampleCount)
                     data.updateValue(allFeatureData, forKey: name)
                 }
-                allFeatureData.append(featureData)
+                allFeatureData.appendContentsOf(featureData)
             }
         }
     }

@@ -4,8 +4,6 @@ import Foundation
 import Upsurge
 
 public class PeakLocationsFeature : BandsFeature {
-    public typealias Peak = Upsurge.Point<Double>
-
     public var peakLocations: RealArray
 
     public override var data: RealArray {
@@ -17,10 +15,10 @@ public class PeakLocationsFeature : BandsFeature {
         super.init(notes: notes, bandSize: bandSize)
     }
 
-    public func update(peaks: [Peak]) {
+    public func update(peaks: [Point]) {
         let bandCount = notes.count
         
-        var peaksByBand = [Int: Peak]()
+        var peaksByBand = [Int: Point]()
         for peak in peaks {
             let note = freqToNote(peak.x)
             let band = bandForNote(note)

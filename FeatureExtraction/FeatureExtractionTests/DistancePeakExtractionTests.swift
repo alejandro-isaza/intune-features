@@ -4,9 +4,6 @@ import XCTest
 @testable import FeatureExtraction
 
 import Upsurge
-import Peak
-
-typealias Point = Upsurge.Point<Double>
 
 
 class DistancePeakExtractionTests: XCTestCase {    
@@ -38,7 +35,7 @@ class DistancePeakExtractionTests: XCTestCase {
         let t = RealArray((0..<count).map{ Double($0) / fs })
         let y = sin(t * 2.0 * M_PI * f0)
         let fftData = sqrt(fft.forwardMags(y))
-        let fftDataPoints = (0..<fftData.count).map{ Upsurge.Point<Double>(x: fb * Double($0), y: fftData[$0]) }
+        let fftDataPoints = (0..<fftData.count).map{ Point(x: fb * Double($0), y: fftData[$0]) }
         
         let actualPeaks = peakExtractor.process(fftDataPoints)
         let expectedPeaks: [Point] = [Point(x: f0, y: Double(1))]

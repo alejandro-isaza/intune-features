@@ -35,7 +35,7 @@ class ExampleBuilder {
     ]
     
     let numNoteExamples = 10
-    let numNoiseExamples = 200
+    let numNoiseExamples = 1000
 
     let noteRange: Range<Int>
     let sampleCount: Int

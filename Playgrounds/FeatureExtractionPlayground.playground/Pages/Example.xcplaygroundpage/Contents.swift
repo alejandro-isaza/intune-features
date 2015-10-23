@@ -4,8 +4,6 @@ import PlotKit
 import Upsurge
 import XCPlayground
 
-typealias Point = Upsurge.Point<Double>
-
 //: ## Parameters
 //: Start by selecting the feature and example
 let featureName = "bands"
