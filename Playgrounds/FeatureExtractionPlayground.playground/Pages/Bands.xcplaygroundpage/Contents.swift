@@ -36,17 +36,16 @@ func readData(filePath: String, datasetName: String) -> [Double] {
     return data
 }
 
-let label = 53
+let label = 8
 let note = noteForLabel(Double(label))
 let band = bandForNote(Double(note))
 
 let path = testingFeaturesPath()
 let labels = readData(path, datasetName: "label")
-let featureData = readData(path, datasetName: "peak_heights")
+let featureData = readData(path, datasetName: "bands")
 
 
 let plot = PlotView(frame: NSRect(origin: CGPointZero, size: plotSize))
-plot.fixedYInterval = 0...0.1
 plot.addAxis(Axis(orientation: .Horizontal))
 plot.addAxis(Axis(orientation: .Vertical))
 XCPlaygroundPage.currentPage.liveView = plot
@@ -66,16 +65,22 @@ for exampleIndex in 0..<exampleCount {
 for exampleStart in startIndices {
     plot.clear()
 
-    let points = (0..<bandCount).map{ band in
-        Point(x: noteForBand(band), y: featureData[exampleStart + band])
+    var maxY = 0.0
+    let points = (0..<bandCount).map{ band -> PlotKit.Point in
+        let y = featureData[exampleStart + band]
+        if y > maxY {
+            maxY = y
+        }
+        return Point(x: noteForBand(band), y: y)
     }
+
     let pointSet = PointSet(points: points)
     plot.addPointSet(pointSet)
 
     let expectedNote = noteForBand(band)
     let expectedPointSet = PointSet(points: [
-        Point(x: expectedNote, y: 0), Point(x: expectedNote, y: 1), Point(x: expectedNote, y: 0),
-        Point(x: expectedNote + 12, y: 0), Point(x: expectedNote + 12, y: 1), Point(x: expectedNote + 12, y: 0)
+        Point(x: expectedNote, y: 0), Point(x: expectedNote, y: maxY), Point(x: expectedNote, y: 0),
+        Point(x: expectedNote + 12, y: 0), Point(x: expectedNote + 12, y: maxY), Point(x: expectedNote + 12, y: 0)
     ])
     expectedPointSet.color = NSColor.lightGrayColor()
     plot.addPointSet(expectedPointSet)

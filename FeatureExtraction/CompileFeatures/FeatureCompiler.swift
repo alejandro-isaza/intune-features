@@ -27,7 +27,7 @@ class FeatureCompiler {
     static let bandSize = 1.0
 
     // Peaks parameters
-    static let peakHeightCutoff = 0.0
+    static let peakHeightCutoff = 0.0005
     static let peakMinimumNoteDistance = 0.5
 
     // Output parameters
