@@ -27,7 +27,7 @@ class FeatureCompiler {
     static let bandSize = 1.0
 
     // Peaks parameters
-    static let peakHeightCutoff = 0.0005
+    static let peakHeightCutoffMultiplier = 0.05
     static let peakMinimumNoteDistance = 0.5
 
     // Output parameters
@@ -38,7 +38,7 @@ class FeatureCompiler {
     // Helpers
     let window = RealArray(count: FeatureCompiler.sampleCount)
     let fft = FFT(inputLength: FeatureCompiler.sampleCount)
-    let peakExtractor = PeakExtractor(heightCutoff: FeatureCompiler.peakHeightCutoff, minimumNoteDistance: FeatureCompiler.peakMinimumNoteDistance)
+    let peakExtractor = PeakExtractor(heightCutoffMultiplier: FeatureCompiler.peakHeightCutoffMultiplier, minimumNoteDistance: FeatureCompiler.peakMinimumNoteDistance)
     let fb = Double(FeatureCompiler.sampleRate) / Double(FeatureCompiler.sampleCount)
 
     // Features
@@ -74,6 +74,7 @@ class FeatureCompiler {
         let gain = exp2(Double(arc4random_uniform(2)) - 1.0)
         let data0 = RealArray(example.data.0.map{ return $0 * gain })
         let data1 = RealArray(example.data.1.map{ return $0 * gain })
+        rms.update(data1)
 
         // Previous spectrum
         let spectrum0 = spectrumValues(data0)
@@ -81,9 +82,8 @@ class FeatureCompiler {
         // Extract peaks
         let spectrum1 = spectrumValues(data1)
         let points1 = spectrumPoints(spectrum1)
-        let peaks1 = peakExtractor.process(points1).sort{ $0.y > $1.y }
+        let peaks1 = peakExtractor.process(points1, rms: rms.rms).sort{ $0.y > $1.y }
 
-        rms.update(data1)
         peakLocations.update(peaks1)
         peakHeights.update(peaks1, rms: rms.rms)
         bands0.update(spectrum: spectrum0, baseFrequency: fb)

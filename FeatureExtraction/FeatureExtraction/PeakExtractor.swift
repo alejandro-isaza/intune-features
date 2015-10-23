@@ -4,17 +4,17 @@ import Foundation
 import Upsurge
 
 public class PeakExtractor {
-    public let heightCutoff: Double
+    public let heightCutoffMultiplier: Double
     public let minimumNoteDistance: Double
 
-    public init(heightCutoff: Double, minimumNoteDistance: Double) {
-        self.heightCutoff = heightCutoff
+    public init(heightCutoffMultiplier: Double, minimumNoteDistance: Double) {
+        self.heightCutoffMultiplier = heightCutoffMultiplier
         self.minimumNoteDistance = minimumNoteDistance
     }
 
-    public func process(input: [Point]) -> [Point] {
+    public func process(input: [Point], rms: Double) -> [Point] {
         let peaks = findPeaks(input)
-        return filterPeaks(peaks)
+        return filterPeaks(peaks, rms: rms)
     }
 
     func findPeaks(input: [Point]) -> [Point] {
@@ -29,14 +29,14 @@ public class PeakExtractor {
         return peaks
     }
 
-    func filterPeaks(input: [Point]) -> [Point] {
-        let peaks = filterPeaksByHeight(input)
+    func filterPeaks(input: [Point], rms: Double) -> [Point] {
+        let peaks = filterPeaksByHeight(input, rms: rms)
         return choosePeaks(peaks)
     }
 
-    func filterPeaksByHeight(input: [Point]) -> [Point] {
+    func filterPeaksByHeight(input: [Point], rms: Double) -> [Point] {
         return input.filter { (peak: Point) -> Bool in
-            return peak.y > heightCutoff
+            return peak.y > heightCutoffMultiplier * rms
         }
     }
 

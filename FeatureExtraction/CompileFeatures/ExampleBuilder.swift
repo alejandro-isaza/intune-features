@@ -122,6 +122,6 @@ class ExampleBuilder {
             swap(&data.0, &data.1)
         }
 
-        rmsContainer.append(sumsq/Double(count))
+        rmsContainer.append(sqrt(sumsq/Double(count)))
     }
 }
