@@ -56,42 +56,44 @@ class MonophonicNet {
     }
 
     func buildNet() {
-        let dataLayerRef = net.addLayer(dataLayer)
+        let dataLayerRef = net.addLayer(dataLayer, name: "data")
 
         let ip1Layer = createLayerFromFile(netPath, datasetName: "ip1")
-        let ip1LayerRef = net.addLayer(ip1Layer)
+        let ip1LayerRef = net.addLayer(ip1Layer, name: "ip1")
         net.connectLayer(dataLayerRef, toLayer: ip1LayerRef)
 
-        let ip1ReluLayerRef = net.addLayer(ReLULayer(size: ip1Layer.outputSize))
+        let ip1ReluLayerRef = net.addLayer(ReLULayer(size: ip1Layer.outputSize), name: "relu1")
         net.connectLayer(ip1LayerRef, toLayer: ip1ReluLayerRef)
 
         let ip2Layer = createLayerFromFile(netPath, datasetName: "ip2")
-        let ip2LayerRef = net.addLayer(ip2Layer)
+        let ip2LayerRef = net.addLayer(ip2Layer, name: "ip2")
         net.connectLayer(ip1ReluLayerRef, toLayer: ip2LayerRef)
 
-        let ip2ReluLayerRef = net.addLayer(ReLULayer(size: ip2Layer.outputSize))
+        let ip2ReluLayerRef = net.addLayer(ReLULayer(size: ip2Layer.outputSize), name: "relu2")
         net.connectLayer(ip2LayerRef, toLayer: ip2ReluLayerRef)
 
         let ip3Layer = createLayerFromFile(netPath, datasetName: "ip3")
-        let ip3LayerRef = net.addLayer(ip3Layer)
+        let ip3LayerRef = net.addLayer(ip3Layer, name: "ip3")
         net.connectLayer(ip2ReluLayerRef, toLayer: ip3LayerRef)
 
-        let ip3ReluLayerRef = net.addLayer(ReLULayer(size: ip3Layer.outputSize))
-        net.connectLayer(ip3LayerRef, toLayer: ip3ReluLayerRef)
-        
-        let ip4Layer = createLayerFromFile(netPath, datasetName: "ip4")
-        let ip4LayerRef = net.addLayer(ip4Layer)
-        net.connectLayer(ip3ReluLayerRef, toLayer: ip4LayerRef)
-        
-        let sinkRef = net.addLayer(sinkLayer)
-        net.connectLayer(ip4LayerRef, toLayer: sinkRef)
+//        let ip3ReluLayerRef = net.addLayer(ReLULayer(size: ip3Layer.outputSize), name: "relu3")
+//        net.connectLayer(ip3LayerRef, toLayer: ip3ReluLayerRef)
+//        
+//        let ip4Layer = createLayerFromFile(netPath, datasetName: "ip4")
+//        let ip4LayerRef = net.addLayer(ip4Layer, name: "ip4")
+//        net.connectLayer(ip3ReluLayerRef, toLayer: ip4LayerRef)
+
+        let sinkRef = net.addLayer(sinkLayer, name: "sink")
+        net.connectLayer(ip3LayerRef, toLayer: sinkRef)
     }
 
     func run(exampleIndex: Int) -> RealArray {
+        let start = exampleIndex*bandCount
+        let end = start + bandCount
         dataLayer.data = RealArray(capacity: bandCount * 3)
-        dataLayer.data.appendContentsOf(peakLocationData[exampleIndex*bandCount..<(exampleIndex + 1)*bandCount])
-        dataLayer.data.appendContentsOf(peakHeightData[exampleIndex*bandCount..<(exampleIndex + 1)*bandCount])
-        dataLayer.data.appendContentsOf(bandData[exampleIndex*bandCount..<(exampleIndex + 1)*bandCount])
+        dataLayer.data.appendContentsOf(peakLocationData[start..<end])
+        dataLayer.data.appendContentsOf(peakHeightData[start..<end])
+        dataLayer.data.appendContentsOf(bandData[start..<end])
 
         net.forward()
 
@@ -116,10 +118,13 @@ func readData(filePath: String, datasetName: String) -> ([Double], [Int]) {
 }
 
 func createLayerFromFile(filePath: String, datasetName: String) -> InnerProductLayer {
-    let (weights, dims)  = readData(filePath, datasetName: "\(datasetName)___weight")
+    let (weights, dims) = readData(filePath, datasetName: "\(datasetName)___weight")
     let weightsMatrix = transpose(RealMatrix(rows: dims[0], columns: dims[1], elements: weights))
+    print("Loaded \(datasetName) weights with \(dims[0]) rows and \(dims[1]) columns")
 
-    let (biases, _) = readData(filePath, datasetName: "\(datasetName)___bias")
+    let (biases, bdims) = readData(filePath, datasetName: "\(datasetName)___bias")
+    print("Loaded \(datasetName) biases with \(bdims[0]) elements")
+
     return InnerProductLayer(weights: weightsMatrix, biases: RealArray(biases))
 }
 
