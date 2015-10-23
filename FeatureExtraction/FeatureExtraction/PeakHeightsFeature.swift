@@ -17,7 +17,7 @@ public class PeakHeightsFeature : BandsFeature {
         super.init(notes: notes, bandSize: bandSize)
     }
 
-    public func update(peaks: [Peak]) {
+    public func update(peaks: [Peak], rms: Double) {
         let bandCount = notes.count
         for i in 0..<bandCount {
             peakHeights[i] = 0.0
@@ -27,7 +27,7 @@ public class PeakHeightsFeature : BandsFeature {
             let note = freqToNote(peak.x)
             let band = bandForNote(note)
             if band >= 0 && band < bandCount && peakHeights[band] < peak.y {
-                peakHeights[band] = peak.y
+                peakHeights[band] = peak.y / rms
             }
         }
     }

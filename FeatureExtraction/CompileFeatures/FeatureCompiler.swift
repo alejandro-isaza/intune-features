@@ -20,7 +20,7 @@ func octaveNoteLabel(note: Int) -> Int {
 class FeatureCompiler {
     // Basic parameters
     static let sampleRate = 44100
-    static let sampleCount = 8192
+    static let sampleCount = 8*1024
     static let labelFunction: Int -> Int = { midiNoteLabel(notes, note: $0) }
 
     // Notes and bands parameters
@@ -29,7 +29,7 @@ class FeatureCompiler {
     static let bandSize = 1.0
 
     // Peaks parameters
-    static let peakHeightCutoff = 0.007
+    static let peakHeightCutoff = 0.0
     static let peakMinimumNoteDistance = 0.5
 
     // Output parameters
@@ -87,7 +87,7 @@ class FeatureCompiler {
 
         rms.update(data1)
         peakLocations.update(peaks1)
-        peakHeights.update(peaks1)
+        peakHeights.update(peaks1, rms: rms.rms)
         bands0.update(spectrum: spectrum0, baseFrequency: fb)
         bands1.update(spectrum: spectrum1, baseFrequency: fb)
         bandFluxes.update(bands0: bands0.data, bands1: bands1.data)

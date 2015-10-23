@@ -89,21 +89,28 @@ class ExampleBuilder {
     }
 
     func forEachExampleInFile(filePath: String, label: Int, numExamples: Int, action: Example -> ()) {
+        var sumsq = 0.0
+        var count = 0
+
         let audioFile = AudioFile(filePath: filePath)!
         assert(audioFile.sampleRate == 44100)
         guard audioFile.readFrames(&data.0, count: sampleCount) == sampleCount else {
             return
         }
-        
-        var i = 0
-        var dataContainer = [Double]()
-        while i < numExamples {
-            dataContainer.appendContentsOf(data.0)
+        vDSP_svesqD(data.0, 1, &sumsq, vDSP_Length(sampleCount))
+        count += 1
+        audioFile.currentFrame -= sampleCount / 2
+
+        for _ in 0..<numExamples {
             guard audioFile.readFrames(&data.1, count: sampleCount) == sampleCount else {
                 break
             }
 
-            i += 1
+            var x = 0.0
+            vDSP_svesqD(data.1, 1, &x, vDSP_Length(sampleCount))
+            sumsq += x
+            count += 1
+
             let example = Example(
                 filePath: filePath,
                 frameOffset: audioFile.currentFrame,
@@ -115,7 +122,6 @@ class ExampleBuilder {
             swap(&data.0, &data.1)
         }
 
-        let fileRMS = rmsq(dataContainer)
-        rmsContainer.append(fileRMS)
+        rmsContainer.append(sumsq/Double(count))
     }
 }

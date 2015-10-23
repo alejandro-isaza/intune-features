@@ -15,6 +15,7 @@ Carthage
 build/
 bin/
 doc/
+data/
 AudioData
 
 # Converter files

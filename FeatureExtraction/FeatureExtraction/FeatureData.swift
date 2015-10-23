@@ -37,12 +37,3 @@ public class FeatureData {
         }
     }
 }
-
-public func serializeFeatures(features: [String: Feature]) -> [String: RealArray] {
-    var data = [String: RealArray]()
-
-    for (name, feature) in features {
-        data[name] = RealArray(feature.data)
-    }
-    return data
-}

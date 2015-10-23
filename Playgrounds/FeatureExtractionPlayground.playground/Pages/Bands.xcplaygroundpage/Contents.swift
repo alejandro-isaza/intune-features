@@ -6,6 +6,22 @@ import XCPlayground
 
 typealias Point = Upsurge.Point<Double>
 
+let notes = 36...96
+let bandNotes = 24...120
+let bandSize = 1.0
+
+public func noteForLabel(label: Double) -> Int {
+    return Int(label) - 1 + notes.startIndex
+}
+
+public func bandForNote(note: Double) -> Int {
+    return Int(round((note - Double(bandNotes.startIndex)) / bandSize))
+}
+
+public func noteForBand(band: Int) -> Double {
+    return Double(bandNotes.startIndex) + Double(band) * bandSize
+}
+
 func readData(filePath: String, datasetName: String) -> [Double] {
     guard let file = File.open(filePath, mode: .ReadOnly) else {
         fatalError("Failed to open file")
@@ -22,49 +38,47 @@ func readData(filePath: String, datasetName: String) -> [Double] {
     return data
 }
 
+let label = 53
+let note = noteForLabel(Double(label))
+let band = bandForNote(Double(note))
+
 let path = testingFeaturesPath()
 let labels = readData(path, datasetName: "label")
-let featureData = readData(path, datasetName: "bands")
+let featureData = readData(path, datasetName: "peak_heights")
 
 
 let plot = PlotView(frame: NSRect(origin: CGPointZero, size: plotSize))
-plot.fixedYInterval = 0...0.3
+plot.fixedYInterval = 0...0.1
 plot.addAxis(Axis(orientation: .Horizontal))
 plot.addAxis(Axis(orientation: .Vertical))
-XCPShowView("Bands", view: plot)
+XCPlaygroundPage.currentPage.liveView = plot
 
 
 let exampleCount = labels.count
-let bandCount = SpectrumFeature.size()
+let bandCount = bandNotes.count
+var startIndices = [Int]()
 
-var labelIndex = [Int: Int]()
 for exampleIndex in 0..<exampleCount {
-    labelIndex[Int(labels[exampleIndex])] = exampleIndex
+    var exampleStart = bandCount * exampleIndex
+    if Int(labels[exampleIndex]) == label {
+        startIndices.append(bandCount * exampleIndex)
+    }
 }
 
-let noiseIndex = labelIndex[0]!
-let noiseStart = bandCount * noiseIndex
-let noiseBands = [Double](featureData[noiseStart..<noiseStart+bandCount])
-noiseBands
-
-let pointSet = PointSet(values: noiseBands)
-plot.clear()
-plot.addPointSet(pointSet)
-plot
-delay(0.1)
-
-for note in notes {
-    let label = noteToLabel(note)
-    let exampleIndex = labelIndex[label]!
-    var exampleStart = bandCount * exampleIndex
-
+for exampleStart in startIndices {
     plot.clear()
 
-    let pointSet = PointSet(values: [Double](featureData[exampleStart..<exampleStart+bandCount]))
+    let points = (0..<bandCount).map{ band in
+        Point(x: noteForBand(band), y: featureData[exampleStart + band])
+    }
+    let pointSet = PointSet(points: points)
     plot.addPointSet(pointSet)
 
-    let expectedBand = Double(note - SpectrumFeature.notes.startIndex)
-    let expectedPointSet = PointSet(points: [Point(x: expectedBand, y: 0), Point(x: expectedBand, y: 1)])
+    let expectedNote = noteForBand(band)
+    let expectedPointSet = PointSet(points: [
+        Point(x: expectedNote, y: 0), Point(x: expectedNote, y: 1), Point(x: expectedNote, y: 0),
+        Point(x: expectedNote + 12, y: 0), Point(x: expectedNote + 12, y: 1), Point(x: expectedNote + 12, y: 0)
+    ])
     expectedPointSet.color = NSColor.lightGrayColor()
     plot.addPointSet(expectedPointSet)
 

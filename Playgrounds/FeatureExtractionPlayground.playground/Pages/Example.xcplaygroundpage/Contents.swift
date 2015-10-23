@@ -9,7 +9,7 @@ typealias Point = Upsurge.Point<Double>
 //: ## Parameters
 //: Start by selecting the feature and example
 let featureName = "bands"
-let exampleIndex = 4
+let exampleIndex = 3
 
 //: ## Setup code
 //: No need to touch this
@@ -50,7 +50,7 @@ let points = (0..<exampleSize).map { featureIndex -> Point in
     if value > maxY {
         maxY = value
     }
-    return Point(x: BandsFeature.noteForBand(featureIndex), y: value)
+    return Point(x: Double(36 + featureIndex), y: value)
 }
 
 let pointSet = PointSet(points: points)
