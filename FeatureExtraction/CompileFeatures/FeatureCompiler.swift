@@ -9,23 +9,22 @@ import Upsurge
 
 typealias Point = Upsurge.Point<Double>
 
-func midiNote(notes: Range<Int>, label: Int) -> Int {
-    return label - notes.startIndex + 1
+func midiNoteLabel(notes: Range<Int>, note: Int) -> Int {
+    return note - notes.startIndex + 1
 }
 
-func octaveNote(notes: Range<Int>, label: Int) -> Int {
-    let note = midiNote(notes, label: label)
-    return noteComponents(note).1.rawValue
+func octaveNoteLabel(note: Int) -> Int {
+    return noteComponents(note).1.rawValue + 1
 }
 
 class FeatureCompiler {
     // Basic parameters
     static let sampleRate = 44100
     static let sampleCount = 8192
-    static let labelFunction: Int -> Int = { midiNote(FeatureCompiler.notes, label: $0) }
+    static let labelFunction: Int -> Int = { midiNoteLabel(notes, note: $0) }
 
     // Notes and bands parameters
-    static let notes = 35...96
+    static let notes = 36...96
     static let bandNotes = 24...120
     static let bandSize = 1.0
 
@@ -61,8 +60,7 @@ class FeatureCompiler {
         var trainingFeatures = [Example: [String: RealArray]]()
         var testingFeatures = [Example: [String: RealArray]]()
 
-        let labelFunction: Int -> Int = { return $0 - FeatureCompiler.notes.startIndex + 1 }
-        let exampleBuilder = ExampleBuilder(noteRange: FeatureCompiler.notes, sampleCount: FeatureCompiler.sampleCount, labelFunction: labelFunction)
+        let exampleBuilder = ExampleBuilder(noteRange: FeatureCompiler.notes, sampleCount: FeatureCompiler.sampleCount, labelFunction: FeatureCompiler.labelFunction)
         exampleBuilder.forEachExample(training: { example in
             trainingFeatures[example] = self.generateFeatures(example)
         }, testing: { example in
