@@ -7,7 +7,7 @@ import XCPlayground
 //: ## Parameters
 //: Start by selecting the feature and example
 let featureName = "bands"
-let exampleIndex = 3
+let exampleIndex = 505
 
 //: ## Setup code
 //: No need to touch this
@@ -43,7 +43,7 @@ XCPlaygroundPage.currentPage.liveView = plot
 var maxY = 0.0
 let exampleCount = labels.count
 let exampleSize = featureData.count / exampleCount
-let points = (0..<exampleSize).map { featureIndex -> Point in
+let points = (0..<exampleSize).map { featureIndex -> PlotKit.Point in
     let value = featureData[exampleIndex * exampleSize + featureIndex]
     if value > maxY {
         maxY = value

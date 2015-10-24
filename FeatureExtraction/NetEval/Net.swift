@@ -125,7 +125,7 @@ func createLayerFromFile(filePath: String, datasetName: String) -> InnerProductL
     let (biases, bdims) = readData(filePath, datasetName: "\(datasetName)___bias")
     print("Loaded \(datasetName) biases with \(bdims[0]) elements")
 
-    return InnerProductLayer(weights: weightsMatrix, biases: RealArray(biases))
+    return InnerProductLayer(weights: weightsMatrix, biases: RealArray(biases).toColumnMatrix())
 }
 
 func maxi<T: CollectionType where T.Generator.Element: Comparable>(elements: T) -> (Int, T.Generator.Element)? {
