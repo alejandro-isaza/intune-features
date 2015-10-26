@@ -5,13 +5,13 @@
       location = "group:Playgrounds"
       name = "Playgrounds">
       <FileRef
+         location = "group:Network.playground">
+      </FileRef>
+      <FileRef
          location = "group:AutocorrelationPlayground.playground">
       </FileRef>
       <FileRef
          location = "group:FeatureExtractionPlayground.playground">
-      </FileRef>
-      <FileRef
-         location = "group:Net.playground">
       </FileRef>
       <FileRef
          location = "group:PSDPlayground.playground">
