@@ -123,13 +123,13 @@ class FeatureCompiler {
             let featureSize = UInt64(data.count / featureData.labels.count)
             let dataType = Datatype.copy(type: .Double)
             let dataDataspace = Dataspace(dims: [UInt64(featureData.labels.count), UInt64(featureSize)])
-            let dataDataset = Dataset.create(file: hdf5File, name: name, datatype: dataType, dataspace: dataDataspace)
+            let dataDataset = hdf5File.createDataset(name, datatype: dataType, dataspace: dataDataspace)
             dataDataset.writeDouble([Double](data))
         }
 
         let labelType = HDF5Kit.Datatype.copy(type: .Int)
         let labelDataspace = Dataspace(dims: [UInt64(featureData.labels.count)])
-        let labelsDataset = HDF5Kit.Dataset.create(file: hdf5File, name: "label", datatype: labelType, dataspace: labelDataspace)
+        let labelsDataset = hdf5File.createDataset("label", datatype: labelType, dataspace: labelDataspace)
         labelsDataset.writeInt(featureData.labels)
     }
 

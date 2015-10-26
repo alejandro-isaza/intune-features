@@ -106,7 +106,7 @@ func readData(filePath: String, datasetName: String) -> ([Double], [Int]) {
         fatalError("Failed to open file")
     }
 
-    guard let dataset = Dataset.open(file: file, name: datasetName) else {
+    guard let dataset = file.openDataset(datasetName) else {
         fatalError("Failed to open Dataset")
     }
 

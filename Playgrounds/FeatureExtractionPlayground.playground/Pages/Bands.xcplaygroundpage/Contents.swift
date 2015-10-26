@@ -4,7 +4,6 @@ import PlotKit
 import Upsurge
 import XCPlayground
 
-let notes = 36...96
 let bandNotes = 24...120
 let bandSize = 1.0
 
@@ -25,7 +24,7 @@ func readData(filePath: String, datasetName: String) -> [Double] {
         fatalError("Failed to open file")
     }
 
-    guard let dataset = Dataset.open(file: file, name: datasetName) else {
+    guard let dataset = file.openDataset(datasetName) else {
         fatalError("Failed to open Dataset")
     }
 

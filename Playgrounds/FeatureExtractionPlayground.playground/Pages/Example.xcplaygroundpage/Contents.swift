@@ -16,7 +16,7 @@ func readData(filePath: String, datasetName: String) -> [Double] {
         fatalError("Failed to open file")
     }
 
-    guard let dataset = Dataset.open(file: file, name: datasetName) else {
+    guard let dataset = file.openDataset(datasetName) else {
         fatalError("Failed to open Dataset")
     }
 
@@ -36,7 +36,7 @@ let note = labelToNote(label)!
 
 //: ## Plotting code
 let plot = PlotView(frame: NSRect(origin: CGPointZero, size: plotSize))
-plot.addAxis(Axis(orientation: .Horizontal))
+plot.addAxis(Axis(orientation: .Horizontal, ticks: .Space(distance: 12)))
 plot.addAxis(Axis(orientation: .Vertical))
 XCPlaygroundPage.currentPage.liveView = plot
 

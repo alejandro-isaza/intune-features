@@ -30,14 +30,14 @@ class DistancePeakExtractionTests: XCTestCase {
     }
     
     func testSin() {
-        let peakExtractor = PeakExtractor(heightCutoff: 0.007, minimumNoteDistance: 0.5)
+        let peakExtractor = PeakExtractor(heightCutoffMultiplier: 0.05, minimumNoteDistance: 0.5)
 
         let t = RealArray((0..<count).map{ Double($0) / fs })
         let y = sin(t * 2.0 * M_PI * f0)
         let fftData = sqrt(fft.forwardMags(y))
         let fftDataPoints = (0..<fftData.count).map{ Point(x: fb * Double($0), y: fftData[$0]) }
         
-        let actualPeaks = peakExtractor.process(fftDataPoints)
+        let actualPeaks = peakExtractor.process(fftDataPoints, rms: 0.5)
         let expectedPeaks: [Point] = [Point(x: f0, y: Double(1))]
         for actual in actualPeaks {
             guard let closest = expectedPeaks.minElement({ abs($0.x - actual.x) < abs($1.x - actual.x) }) else {
@@ -60,7 +60,7 @@ class DistancePeakExtractionTests: XCTestCase {
     }
     
     func testLowNote() {
-        let peakExtractor = PeakExtractor(heightCutoff: 0.007, minimumNoteDistance: 0.5)
+        let peakExtractor = PeakExtractor(heightCutoffMultiplier: 0.05, minimumNoteDistance: 0.5)
 
         let freq33 = noteToFreq(33)
         let freq32 = noteToFreq(32)
@@ -77,7 +77,7 @@ class DistancePeakExtractionTests: XCTestCase {
         let y = sin33 + sin32 + sin31
         let fftData = fft.forwardMags(y)
         let points = (0..<fftData.count).map{ Point(x: Double($0), y: fftData[$0]) }
-        let peaks = peakExtractor.process(points)
+        let peaks = peakExtractor.process(points, rms: 0.5)
 
         XCTAssertEqualWithAccuracy(peaks[0].x, bin31, accuracy: Double(0.5))
         XCTAssert(peaks[0].y != 0)
@@ -88,7 +88,7 @@ class DistancePeakExtractionTests: XCTestCase {
     }
     
     func testHighNote() {
-        let peakExtractor = PeakExtractor(heightCutoff: 0.007, minimumNoteDistance: 0.5)
+        let peakExtractor = PeakExtractor(heightCutoffMultiplier: 0.05, minimumNoteDistance: 0.5)
 
         let freq103 = noteToFreq(103)
         let freq102 = noteToFreq(102)
@@ -105,7 +105,7 @@ class DistancePeakExtractionTests: XCTestCase {
         let y = sin103 + sin102 + sin101
         let fftData = fft.forwardMags(y)
         let points = (0..<fftData.count).map{ Point(x: Double($0), y: fftData[$0]) }
-        let peaks = peakExtractor.process(points)
+        let peaks = peakExtractor.process(points, rms: 0.5)
         
         XCTAssertEqualWithAccuracy(peaks[0].x, bin101, accuracy: Double(0.5))
         XCTAssert(peaks[0].y != 0)
@@ -116,7 +116,7 @@ class DistancePeakExtractionTests: XCTestCase {
     }
     
     func testMiddleNote() {
-        let peakExtractor = PeakExtractor(heightCutoff: 0.007, minimumNoteDistance: 0.5)
+        let peakExtractor = PeakExtractor(heightCutoffMultiplier: 0.05, minimumNoteDistance: 0.5)
         
         let freq73 = noteToFreq(73)
         let freq72 = noteToFreq(72)
@@ -133,7 +133,7 @@ class DistancePeakExtractionTests: XCTestCase {
         let y = sin73 + sin72 + sin71
         let fftData = fft.forwardMags(y)
         let points = (0..<fftData.count).map{ Point(x: Double($0), y: fftData[$0]) }
-        let peaks = peakExtractor.process(points)
+        let peaks = peakExtractor.process(points, rms: 0.5)
         
         XCTAssertEqualWithAccuracy(peaks[0].x, bin71, accuracy: Double(0.5))
         XCTAssert(peaks[0].y != 0)

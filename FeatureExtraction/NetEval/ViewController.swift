@@ -36,7 +36,6 @@ class ViewController: UIViewController {
             return
         }
 
-        net.net.print = true
         let startTime = CFAbsoluteTimeGetCurrent()
         let label = Int(net.labels[index])
         actualLabelTextField.text = label.description
@@ -65,7 +64,6 @@ class ViewController: UIViewController {
         let startTime = CFAbsoluteTimeGetCurrent()
         var stats = Stats(exampleCount: net.labels.count)
 
-        net.net.print = false
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
             for index in 0..<stats.exampleCount {
                 let label = Int(self.net.labels[index])
