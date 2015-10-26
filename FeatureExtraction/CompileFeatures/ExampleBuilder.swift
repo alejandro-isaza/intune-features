@@ -34,7 +34,7 @@ class ExampleBuilder {
         "aiff"
     ]
     
-    let numNoteExamples = 10
+    let numNoteExamples = 15
     let numNoiseExamples = 1000
 
     let noteRange: Range<Int>
