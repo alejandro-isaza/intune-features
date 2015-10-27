@@ -25,6 +25,15 @@
 		6185AA0C1BD411A400CD5FC5 /* training.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 6185AA0A1BD411A400CD5FC5 /* training.h5 */; };
 		618ACC0C1BE0686D008C23A8 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618ACC0B1BE0686D008C23A8 /* Note.swift */; };
 		61AD3A631BEBDD5500FA2DB7 /* FeatureDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AD3A621BEBDD5500FA2DB7 /* FeatureDatabase.swift */; };
+		61A46BCB1BDEC578001D2288 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A46BCA1BDEC578001D2288 /* AppDelegate.swift */; };
+		61A46BCF1BDEC578001D2288 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61A46BCE1BDEC578001D2288 /* Assets.xcassets */; };
+		61A46BD21BDEC578001D2288 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61A46BD01BDEC578001D2288 /* Main.storyboard */; };
+		61A46BE91BDEC59E001D2288 /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */; };
+		61A46BEA1BDEC59E001D2288 /* Peak.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF141BD6CC41001AE862 /* Peak.framework */; };
+		61A46BEB1BDEC59E001D2288 /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF1C1BD6CC41001AE862 /* Upsurge.framework */; };
+		61A46BFC1BDEC5B9001D2288 /* PlotKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A46BF51BDEC5AE001D2288 /* PlotKit.framework */; };
+		61A46BFE1BDED992001D2288 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A46BFD1BDED992001D2288 /* MainViewController.swift */; };
+		61A46C001BDEE0BA001D2288 /* FilesystemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A46BFF1BDEE0BA001D2288 /* FilesystemViewController.swift */; };
 		61BBAF681BC43A7300A03FD0 /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF671BC43A7300A03FD0 /* Feature.swift */; };
 		61BBAF6F1BC43BF800A03FD0 /* Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF6E1BC43BF800A03FD0 /* Example.swift */; };
 		61BBAF711BC43F8100A03FD0 /* RMSFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF701BC43F8100A03FD0 /* RMSFeature.swift */; };
@@ -217,12 +226,54 @@
 			remoteGlobalIDString = 61B3149C1BBDBA3100F63C45;
 			remoteInfo = "HDF5Kit-OSX";
 		};
+		61A46BE31BDEC58F001D2288 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8C7845661BB9B06600C88426 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8C78456E1BB9B06600C88426;
+			remoteInfo = FeatureExtraction;
+		};
+		61A46BE51BDEC58F001D2288 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6122EEF91BD6CC41001AE862 /* Peak.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0045498C1BD052B100AC387F;
+			remoteInfo = PeakOSX;
+		};
 		61AD3A701BEBDDF500FA2DB7 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6122EEFC1BD6CC41001AE862 /* Upsurge.xcodeproj */;
 			proxyType = 1;
 			remoteGlobalIDString = 614ACA6F1BD1CB7B00A1C13E;
 			remoteInfo = "Upsurge OSX";
+		};
+		61A46BF41BDEC5AE001D2288 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61A46BEE1BDEC5AE001D2288 /* PlotKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 610B1B331BB740B800B64973;
+			remoteInfo = PlotKit;
+		};
+		61A46BF61BDEC5AE001D2288 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61A46BEE1BDEC5AE001D2288 /* PlotKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 610B1B3D1BB740B800B64973;
+			remoteInfo = PlotKitTests;
+		};
+		61A46BF81BDEC5AE001D2288 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61A46BEE1BDEC5AE001D2288 /* PlotKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 616B83931BDBF85E00B28545;
+			remoteInfo = PlotKitDemo;
+		};
+		61A46BFA1BDEC5B3001D2288 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61A46BEE1BDEC5AE001D2288 /* PlotKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 610B1B321BB740B800B64973;
+			remoteInfo = PlotKit;
 		};
 		61C97C771BD867B200DE88E6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -322,6 +373,15 @@
 		6185AA0A1BD411A400CD5FC5 /* training.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = training.h5; sourceTree = SOURCE_ROOT; };
 		618ACC0B1BE0686D008C23A8 /* Note.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		61AD3A621BEBDD5500FA2DB7 /* FeatureDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureDatabase.swift; sourceTree = "<group>"; };
+		61A46BC81BDEC578001D2288 /* FeatureExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FeatureExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		61A46BCA1BDEC578001D2288 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		61A46BCE1BDEC578001D2288 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		61A46BD11BDEC578001D2288 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		61A46BD31BDEC578001D2288 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		61A46BEC1BDEC59F001D2288 /* PlotKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PlotKit.framework; path = ../Submodules/PlotKit/build/Debug/PlotKit.framework; sourceTree = "<group>"; };
+		61A46BEE1BDEC5AE001D2288 /* PlotKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PlotKit.xcodeproj; path = ../Submodules/PlotKit/PlotKit.xcodeproj; sourceTree = "<group>"; };
+		61A46BFD1BDED992001D2288 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
+		61A46BFF1BDEE0BA001D2288 /* FilesystemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilesystemViewController.swift; sourceTree = "<group>"; };
 		61BBAF671BC43A7300A03FD0 /* Feature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
 		61BBAF6E1BC43BF800A03FD0 /* Example.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Example.swift; sourceTree = "<group>"; };
 		61BBAF701BC43F8100A03FD0 /* RMSFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RMSFeature.swift; sourceTree = "<group>"; };
@@ -364,6 +424,17 @@
 				61C97C8A1BD867CE00DE88E6 /* HDF5Kit.framework in Frameworks */,
 				61C97C8E1BD867CF00DE88E6 /* Upsurge.framework in Frameworks */,
 				61C97C861BD867CE00DE88E6 /* BrainCore.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		61A46BC51BDEC578001D2288 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				61A46BFC1BDEC5B9001D2288 /* PlotKit.framework in Frameworks */,
+				61A46BE91BDEC59E001D2288 /* FeatureExtraction.framework in Frameworks */,
+				61A46BEA1BDEC59E001D2288 /* Peak.framework in Frameworks */,
+				61A46BEB1BDEC59E001D2288 /* Upsurge.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -469,6 +540,7 @@
 		618B7E2F1BBF4A8F0011E8D3 /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				61A46BEE1BDEC5AE001D2288 /* PlotKit.xcodeproj */,
 				6122EF281BD6F593001AE862 /* BrainCore.xcodeproj */,
 				6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */,
 				6122EEF91BD6CC41001AE862 /* Peak.xcodeproj */,
@@ -479,6 +551,29 @@
 			name = Dependencies;
 			sourceTree = "<group>";
 		};
+		61A46BC91BDEC578001D2288 /* FeatureExplorer */ = {
+			isa = PBXGroup;
+			children = (
+				61A46BCA1BDEC578001D2288 /* AppDelegate.swift */,
+				61A46BFD1BDED992001D2288 /* MainViewController.swift */,
+				61A46BFF1BDEE0BA001D2288 /* FilesystemViewController.swift */,
+				61A46BCE1BDEC578001D2288 /* Assets.xcassets */,
+				61A46BD01BDEC578001D2288 /* Main.storyboard */,
+				61A46BD31BDEC578001D2288 /* Info.plist */,
+			);
+			path = FeatureExplorer;
+			sourceTree = "<group>";
+		};
+		61A46BEF1BDEC5AE001D2288 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				61A46BF51BDEC5AE001D2288 /* PlotKit.framework */,
+				61A46BF71BDEC5AE001D2288 /* PlotKitTests.xctest */,
+				61A46BF91BDEC5AE001D2288 /* PlotKitDemo.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		8C7845651BB9B06600C88426 = {
 			isa = PBXGroup;
 			children = (
@@ -486,9 +581,10 @@
 				8C7845711BB9B06600C88426 /* FeatureExtraction */,
 				8C78457D1BB9B06600C88426 /* FeatureExtractionTests */,
 				8CDE478B1BBF116900A98419 /* CompileFeatures */,
-				618B7E2F1BBF4A8F0011E8D3 /* Dependencies */,
+				61A46BC91BDEC578001D2288 /* FeatureExplorer */,
 				6185A7791BD337E100CD5FC5 /* NetEval */,
 				8C9700381BDFDCB4002A81A3 /* PrepareAudio */,
+				618B7E2F1BBF4A8F0011E8D3 /* Dependencies */,
 				8C7845701BB9B06600C88426 /* Products */,
 				B5F7CD465AC17DFE1FC7BC55 /* Frameworks */,
 			);
@@ -502,6 +598,7 @@
 				8CDE478A1BBF116900A98419 /* CompileFeatures */,
 				6185A7781BD337E100CD5FC5 /* NetEval.app */,
 				8C9700371BDFDCB4002A81A3 /* PrepareAudio */,
+				61A46BC81BDEC578001D2288 /* FeatureExplorer.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -564,6 +661,7 @@
 		B5F7CD465AC17DFE1FC7BC55 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				61A46BEC1BDEC59F001D2288 /* PlotKit.framework */,
 				61EB527F1BD56BC6000572B9 /* AppKit.framework */,
 				D3C00C05497A6CBB3AB74FF6 /* Pods_OSX.framework */,
 				974BAC90745AC6F802C9D445 /* Pods_iOS.framework */,
@@ -607,6 +705,27 @@
 			name = NetEval;
 			productName = NetEval;
 			productReference = 6185A7781BD337E100CD5FC5 /* NetEval.app */;
+			productType = "com.apple.product-type.application";
+		};
+		61A46BC71BDEC578001D2288 /* FeatureExplorer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 61A46BE21BDEC578001D2288 /* Build configuration list for PBXNativeTarget "FeatureExplorer" */;
+			buildPhases = (
+				61A46BC41BDEC578001D2288 /* Sources */,
+				61A46BC51BDEC578001D2288 /* Frameworks */,
+				61A46BC61BDEC578001D2288 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				61A46BFB1BDEC5B3001D2288 /* PBXTargetDependency */,
+				61A46BE41BDEC58F001D2288 /* PBXTargetDependency */,
+				61A46BE61BDEC58F001D2288 /* PBXTargetDependency */,
+				61A46BE81BDEC58F001D2288 /* PBXTargetDependency */,
+			);
+			name = FeatureExplorer;
+			productName = FeatureExplorer;
+			productReference = 61A46BC81BDEC578001D2288 /* FeatureExplorer.app */;
 			productType = "com.apple.product-type.application";
 		};
 		8C78456E1BB9B06600C88426 /* FeatureExtraction */ = {
@@ -690,12 +809,15 @@
 		8C7845661BB9B06600C88426 /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastSwiftUpdateCheck = 0700;
+				LastSwiftUpdateCheck = 0710;
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Venture Media";
 				TargetAttributes = {
 					6185A7771BD337E100CD5FC5 = {
 						CreatedOnToolsVersion = 7.0.1;
+					};
+					61A46BC71BDEC578001D2288 = {
+						CreatedOnToolsVersion = 7.1;
 					};
 					8C78456E1BB9B06600C88426 = {
 						CreatedOnToolsVersion = 7.0;
@@ -736,6 +858,10 @@
 					ProjectRef = 6122EEF91BD6CC41001AE862 /* Peak.xcodeproj */;
 				},
 				{
+					ProductGroup = 61A46BEF1BDEC5AE001D2288 /* Products */;
+					ProjectRef = 61A46BEE1BDEC5AE001D2288 /* PlotKit.xcodeproj */;
+				},
+				{
 					ProductGroup = 6122EEFD1BD6CC41001AE862 /* Products */;
 					ProjectRef = 6122EEFC1BD6CC41001AE862 /* Upsurge.xcodeproj */;
 				},
@@ -747,6 +873,7 @@
 				8CDE47891BBF116900A98419 /* CompileFeatures */,
 				6185A7771BD337E100CD5FC5 /* NetEval */,
 				8C9700361BDFDCB4002A81A3 /* PrepareAudio */,
+				61A46BC71BDEC578001D2288 /* FeatureExplorer */,
 			);
 		};
 /* End PBXProject section */
@@ -864,6 +991,27 @@
 			remoteRef = 6122EF351BD6F593001AE862 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
+		61A46BF51BDEC5AE001D2288 /* PlotKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = PlotKit.framework;
+			remoteRef = 61A46BF41BDEC5AE001D2288 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		61A46BF71BDEC5AE001D2288 /* PlotKitTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = PlotKitTests.xctest;
+			remoteRef = 61A46BF61BDEC5AE001D2288 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		61A46BF91BDEC5AE001D2288 /* PlotKitDemo.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = PlotKitDemo.app;
+			remoteRef = 61A46BF81BDEC5AE001D2288 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
@@ -877,6 +1025,15 @@
 				6185AA0B1BD411A400CD5FC5 /* testing.h5 in Resources */,
 				6185AA0C1BD411A400CD5FC5 /* training.h5 in Resources */,
 				6185A7801BD337E100CD5FC5 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		61A46BC61BDEC578001D2288 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				61A46BCF1BDEC578001D2288 /* Assets.xcassets in Resources */,
+				61A46BD21BDEC578001D2288 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -898,6 +1055,16 @@
 				61EB527E1BD55F90000572B9 /* Stats.swift in Sources */,
 				6185A78B1BD337FB00CD5FC5 /* Net.swift in Sources */,
 				6185A77B1BD337E100CD5FC5 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		61A46BC41BDEC578001D2288 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				61A46BFE1BDED992001D2288 /* MainViewController.swift in Sources */,
+				61A46C001BDEE0BA001D2288 /* FilesystemViewController.swift in Sources */,
+				61A46BCB1BDEC578001D2288 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -996,6 +1163,26 @@
 			name = "Upsurge OSX";
 			targetProxy = 61AD3A701BEBDDF500FA2DB7 /* PBXContainerItemProxy */;
 		};
+		61A46BE41BDEC58F001D2288 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8C78456E1BB9B06600C88426 /* FeatureExtraction */;
+			targetProxy = 61A46BE31BDEC58F001D2288 /* PBXContainerItemProxy */;
+		};
+		61A46BE61BDEC58F001D2288 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PeakOSX;
+			targetProxy = 61A46BE51BDEC58F001D2288 /* PBXContainerItemProxy */;
+		};
+		61A46BE81BDEC58F001D2288 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Upsurge OSX";
+			targetProxy = 61A46BE71BDEC58F001D2288 /* PBXContainerItemProxy */;
+		};
+		61A46BFB1BDEC5B3001D2288 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PlotKit;
+			targetProxy = 61A46BFA1BDEC5B3001D2288 /* PBXContainerItemProxy */;
+		};
 		61C97C781BD867B200DE88E6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = BrainCore.iOS;
@@ -1050,6 +1237,14 @@
 			name = LaunchScreen.storyboard;
 			sourceTree = "<group>";
 		};
+		61A46BD01BDEC578001D2288 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				61A46BD11BDEC578001D2288 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
@@ -1102,6 +1297,34 @@
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				PRODUCT_NAME = PrepareAudio;
+			};
+			name = Release;
+		};
+		61A46BD41BDEC578001D2288 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = FeatureExplorer/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = com.venturemedia.FeatureExplorer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		61A46BD51BDEC578001D2288 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = FeatureExplorer/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = com.venturemedia.FeatureExplorer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
 		};
@@ -1281,6 +1504,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		61A46BE21BDEC578001D2288 /* Build configuration list for PBXNativeTarget "FeatureExplorer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				61A46BD41BDEC578001D2288 /* Debug */,
+				61A46BD51BDEC578001D2288 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		8C7845691BB9B06600C88426 /* Build configuration list for PBXProject "FeatureExtraction" */ = {
 			isa = XCConfigurationList;
