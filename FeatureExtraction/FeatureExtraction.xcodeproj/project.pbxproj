@@ -41,6 +41,7 @@
 		8C7845731BB9B06600C88426 /* FeatureExtraction.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C7845721BB9B06600C88426 /* FeatureExtraction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8C78457A1BB9B06600C88426 /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */; };
 		8C7E7ABB1BBB37CC00BBC93C /* PeakExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7E7ABA1BBB37CC00BBC93C /* PeakExtractor.swift */; };
+		8C97003A1BDFDCB4002A81A3 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9700391BDFDCB4002A81A3 /* main.swift */; };
 		8CDA0EF41BB9BA4300433755 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA0EF31BB9BA4300433755 /* Utilities.swift */; };
 		8CDA0EF61BB9C60800433755 /* DistancePeakExtractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA0EF51BB9C60800433755 /* DistancePeakExtractionTests.swift */; };
 		8CDE47961BBF117C00A98419 /* ExampleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE47921BBF117C00A98419 /* ExampleBuilder.swift */; };
@@ -297,6 +298,8 @@
 		8C7845791BB9B06600C88426 /* FeatureExtractionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeatureExtractionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C7845801BB9B06600C88426 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C7E7ABA1BBB37CC00BBC93C /* PeakExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakExtractor.swift; sourceTree = "<group>"; };
+		8C9700371BDFDCB4002A81A3 /* PrepareAudio */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PrepareAudio; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C9700391BDFDCB4002A81A3 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		8CDA0EF31BB9BA4300433755 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		8CDA0EF51BB9C60800433755 /* DistancePeakExtractionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistancePeakExtractionTests.swift; sourceTree = "<group>"; };
 		8CDE478A1BBF116900A98419 /* CompileFeatures */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CompileFeatures; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -442,6 +445,7 @@
 				8CDE478B1BBF116900A98419 /* CompileFeatures */,
 				618B7E2F1BBF4A8F0011E8D3 /* Dependencies */,
 				6185A7791BD337E100CD5FC5 /* NetEval */,
+				8C9700381BDFDCB4002A81A3 /* PrepareAudio */,
 				8C7845701BB9B06600C88426 /* Products */,
 				B5F7CD465AC17DFE1FC7BC55 /* Frameworks */,
 			);
@@ -454,6 +458,7 @@
 				8C7845791BB9B06600C88426 /* FeatureExtractionTests.xctest */,
 				8CDE478A1BBF116900A98419 /* CompileFeatures */,
 				6185A7781BD337E100CD5FC5 /* NetEval.app */,
+				8C9700371BDFDCB4002A81A3 /* PrepareAudio */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -488,6 +493,14 @@
 				610AAB661BD99737008CC910 /* UtilitiesTests.swift */,
 			);
 			path = FeatureExtractionTests;
+			sourceTree = "<group>";
+		};
+		8C9700381BDFDCB4002A81A3 /* PrepareAudio */ = {
+			isa = PBXGroup;
+			children = (
+				8C9700391BDFDCB4002A81A3 /* main.swift */,
+			);
+			path = PrepareAudio;
 			sourceTree = "<group>";
 		};
 		8CDE478B1BBF116900A98419 /* CompileFeatures */ = {
@@ -584,6 +597,25 @@
 			productReference = 8C7845791BB9B06600C88426 /* FeatureExtractionTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
+		8C9700361BDFDCB4002A81A3 /* PrepareAudio */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8C97003B1BDFDCB4002A81A3 /* Build configuration list for PBXNativeTarget "PrepareAudio" */;
+			buildPhases = (
+				8C9700331BDFDCB4002A81A3 /* Sources */,
+				8C9700341BDFDCB4002A81A3 /* Frameworks */,
+				8C9700351BDFDCB4002A81A3 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8C9700411BDFDCDF002A81A3 /* PBXTargetDependency */,
+				8C9700431BDFDCDF002A81A3 /* PBXTargetDependency */,
+			);
+			name = PrepareAudio;
+			productName = PrepareAudio;
+			productReference = 8C9700371BDFDCB4002A81A3 /* PrepareAudio */;
+			productType = "com.apple.product-type.tool";
+		};
 		8CDE47891BBF116900A98419 /* CompileFeatures */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8CDE47901BBF116900A98419 /* Build configuration list for PBXNativeTarget "CompileFeatures" */;
@@ -622,6 +654,9 @@
 					};
 					8C7845781BB9B06600C88426 = {
 						CreatedOnToolsVersion = 7.0;
+					};
+					8C9700361BDFDCB4002A81A3 = {
+						CreatedOnToolsVersion = 7.0.1;
 					};
 					8CDE47891BBF116900A98419 = {
 						CreatedOnToolsVersion = 7.0.1;
@@ -663,6 +698,7 @@
 				8C7845781BB9B06600C88426 /* FeatureExtractionTests */,
 				8CDE47891BBF116900A98419 /* CompileFeatures */,
 				6185A7771BD337E100CD5FC5 /* NetEval */,
+				8C9700361BDFDCB4002A81A3 /* PrepareAudio */,
 			);
 		};
 /* End PBXProject section */
@@ -843,6 +879,14 @@
 			files = (
 				610AAB671BD99737008CC910 /* UtilitiesTests.swift in Sources */,
 				8CDA0EF61BB9C60800433755 /* DistancePeakExtractionTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8C9700331BDFDCB4002A81A3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8C97003A1BDFDCB4002A81A3 /* main.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1165,6 +1209,15 @@
 			buildConfigurations = (
 				8C7845871BB9B06600C88426 /* Debug */,
 				8C7845881BB9B06600C88426 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8C97003B1BDFDCB4002A81A3 /* Build configuration list for PBXNativeTarget "PrepareAudio" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8C97003C1BDFDCB4002A81A3 /* Debug */,
+				8C97003D1BDFDCB4002A81A3 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
