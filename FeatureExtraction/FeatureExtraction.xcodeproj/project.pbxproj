@@ -177,6 +177,13 @@
 			remoteGlobalIDString = 614ACAC91BD1CBF300A1C13E;
 			remoteInfo = "Upsurge iOS";
 		};
+		61A46C111BE02E27001D2288 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 61B3149C1BBDBA3100F63C45;
+			remoteInfo = "HDF5Kit-OSX";
+		};
 		61C97C771BD867B200DE88E6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6122EF281BD6F593001AE862 /* BrainCore.xcodeproj */;
@@ -588,6 +595,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				61A46C121BE02E27001D2288 /* PBXTargetDependency */,
 				6122EF271BD6D01C001AE862 /* PBXTargetDependency */,
 				8CDE47F41BBF39D500A98419 /* PBXTargetDependency */,
 			);
@@ -861,6 +869,11 @@
 			isa = PBXTargetDependency;
 			name = "Upsurge iOS";
 			targetProxy = 6122EF3E1BD6F5E6001AE862 /* PBXContainerItemProxy */;
+		};
+		61A46C121BE02E27001D2288 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "HDF5Kit-OSX";
+			targetProxy = 61A46C111BE02E27001D2288 /* PBXContainerItemProxy */;
 		};
 		61C97C781BD867B200DE88E6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
