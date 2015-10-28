@@ -30,7 +30,7 @@ public class SpectrumFeature : BandsFeature {
 
             var bandValue = 0.0
             if lowerIndex <= upperIndex {
-                bandValue = sum(data, range: lowerIndex...upperIndex)
+                bandValue = sum(data[lowerIndex...upperIndex])
             }
 
             if lowerIndex > 0 {
