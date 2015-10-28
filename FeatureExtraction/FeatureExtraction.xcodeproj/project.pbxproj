@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		610AAB671BD99737008CC910 /* UtilitiesTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610AAB661BD99737008CC910 /* UtilitiesTests.swift */; };
+		610AAB671BD99737008CC910 /* NoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610AAB661BD99737008CC910 /* NoteTests.swift */; };
 		610AAB851BDABEFA008CC910 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610AAB841BDABEFA008CC910 /* Point.swift */; };
 		6122EF231BD6CC55001AE862 /* HDF5Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF041BD6CC41001AE862 /* HDF5Kit.framework */; };
 		6122EF241BD6CC55001AE862 /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF1C1BD6CC41001AE862 /* Upsurge.framework */; };
@@ -23,6 +23,7 @@
 		6185AA081BD4118A00CD5FC5 /* net.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 6185AA071BD4118A00CD5FC5 /* net.h5 */; };
 		6185AA0B1BD411A400CD5FC5 /* testing.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 6185AA091BD411A400CD5FC5 /* testing.h5 */; };
 		6185AA0C1BD411A400CD5FC5 /* training.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 6185AA0A1BD411A400CD5FC5 /* training.h5 */; };
+		618ACC0C1BE0686D008C23A8 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618ACC0B1BE0686D008C23A8 /* Note.swift */; };
 		61BBAF681BC43A7300A03FD0 /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF671BC43A7300A03FD0 /* Feature.swift */; };
 		61BBAF6F1BC43BF800A03FD0 /* Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF6E1BC43BF800A03FD0 /* Example.swift */; };
 		61BBAF711BC43F8100A03FD0 /* RMSFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF701BC43F8100A03FD0 /* RMSFeature.swift */; };
@@ -178,6 +179,27 @@
 			remoteGlobalIDString = 614ACAC91BD1CBF300A1C13E;
 			remoteInfo = "Upsurge iOS";
 		};
+		618ACBF31BE052DB008C23A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 61B3149C1BBDBA3100F63C45;
+			remoteInfo = "HDF5Kit-OSX";
+		};
+		618ACBF51BE052DB008C23A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6122EEF91BD6CC41001AE862 /* Peak.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0045498C1BD052B100AC387F;
+			remoteInfo = PeakOSX;
+		};
+		618ACBF71BE052DB008C23A8 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6122EEFC1BD6CC41001AE862 /* Upsurge.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 614ACA6F1BD1CB7B00A1C13E;
+			remoteInfo = "Upsurge OSX";
+		};
 		61A46C111BE02E27001D2288 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */;
@@ -262,7 +284,7 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		610AAB661BD99737008CC910 /* UtilitiesTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UtilitiesTests.swift; sourceTree = "<group>"; };
+		610AAB661BD99737008CC910 /* NoteTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteTests.swift; sourceTree = "<group>"; };
 		610AAB841BDABEFA008CC910 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HDF5Kit.xcodeproj; path = ../Submodules/HDF5Kit/HDF5Kit.xcodeproj; sourceTree = "<group>"; };
 		6122EEF91BD6CC41001AE862 /* Peak.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Peak.xcodeproj; path = ../Submodules/Peak/Peak.xcodeproj; sourceTree = "<group>"; };
@@ -281,6 +303,7 @@
 		6185AA071BD4118A00CD5FC5 /* net.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = net.h5; sourceTree = SOURCE_ROOT; };
 		6185AA091BD411A400CD5FC5 /* testing.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testing.h5; sourceTree = SOURCE_ROOT; };
 		6185AA0A1BD411A400CD5FC5 /* training.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = training.h5; sourceTree = SOURCE_ROOT; };
+		618ACC0B1BE0686D008C23A8 /* Note.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		61BBAF671BC43A7300A03FD0 /* Feature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
 		61BBAF6E1BC43BF800A03FD0 /* Example.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Example.swift; sourceTree = "<group>"; };
 		61BBAF701BC43F8100A03FD0 /* RMSFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RMSFeature.swift; sourceTree = "<group>"; };
@@ -481,6 +504,7 @@
 				6122EF421BD80C6C001AE862 /* BandFluxesFeature.swift */,
 				61D485AC1BC4A3D70086CED8 /* Shuffle.swift */,
 				610AAB841BDABEFA008CC910 /* Point.swift */,
+				618ACC0B1BE0686D008C23A8 /* Note.swift */,
 			);
 			path = FeatureExtraction;
 			sourceTree = "<group>";
@@ -490,7 +514,7 @@
 			children = (
 				8C7845801BB9B06600C88426 /* Info.plist */,
 				8CDA0EF51BB9C60800433755 /* DistancePeakExtractionTests.swift */,
-				610AAB661BD99737008CC910 /* UtilitiesTests.swift */,
+				610AAB661BD99737008CC910 /* NoteTests.swift */,
 			);
 			path = FeatureExtractionTests;
 			sourceTree = "<group>";
@@ -602,14 +626,13 @@
 			buildConfigurationList = 8C97003B1BDFDCB4002A81A3 /* Build configuration list for PBXNativeTarget "PrepareAudio" */;
 			buildPhases = (
 				8C9700331BDFDCB4002A81A3 /* Sources */,
-				8C9700341BDFDCB4002A81A3 /* Frameworks */,
-				8C9700351BDFDCB4002A81A3 /* CopyFiles */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				8C9700411BDFDCDF002A81A3 /* PBXTargetDependency */,
-				8C9700431BDFDCDF002A81A3 /* PBXTargetDependency */,
+				618ACBF41BE052DB008C23A8 /* PBXTargetDependency */,
+				618ACBF61BE052DB008C23A8 /* PBXTargetDependency */,
+				618ACBF81BE052DB008C23A8 /* PBXTargetDependency */,
 			);
 			name = PrepareAudio;
 			productName = PrepareAudio;
@@ -866,6 +889,7 @@
 				6122EF431BD80C6C001AE862 /* BandFluxesFeature.swift in Sources */,
 				61D485AD1BC4A3D70086CED8 /* Shuffle.swift in Sources */,
 				61BBAF6F1BC43BF800A03FD0 /* Example.swift in Sources */,
+				618ACC0C1BE0686D008C23A8 /* Note.swift in Sources */,
 				8CDA0EF41BB9BA4300433755 /* Utilities.swift in Sources */,
 				6122EF451BD81CE9001AE862 /* BandsFeature.swift in Sources */,
 				61BBAF791BC46FE800A03FD0 /* FeatureData.swift in Sources */,
@@ -877,7 +901,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				610AAB671BD99737008CC910 /* UtilitiesTests.swift in Sources */,
+				610AAB671BD99737008CC910 /* NoteTests.swift in Sources */,
 				8CDA0EF61BB9C60800433755 /* DistancePeakExtractionTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -913,6 +937,21 @@
 			isa = PBXTargetDependency;
 			name = "Upsurge iOS";
 			targetProxy = 6122EF3E1BD6F5E6001AE862 /* PBXContainerItemProxy */;
+		};
+		618ACBF41BE052DB008C23A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "HDF5Kit-OSX";
+			targetProxy = 618ACBF31BE052DB008C23A8 /* PBXContainerItemProxy */;
+		};
+		618ACBF61BE052DB008C23A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PeakOSX;
+			targetProxy = 618ACBF51BE052DB008C23A8 /* PBXContainerItemProxy */;
+		};
+		618ACBF81BE052DB008C23A8 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Upsurge OSX";
+			targetProxy = 618ACBF71BE052DB008C23A8 /* PBXContainerItemProxy */;
 		};
 		61A46C121BE02E27001D2288 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1006,6 +1045,25 @@
 				SDKROOT = iphoneos;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		618ACBBD1BE04776008C23A8 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = PrepareAudio;
+			};
+			name = Debug;
+		};
+		618ACBBE1BE04776008C23A8 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				PRODUCT_NAME = PrepareAudio;
 			};
 			name = Release;
 		};
@@ -1216,8 +1274,8 @@
 		8C97003B1BDFDCB4002A81A3 /* Build configuration list for PBXNativeTarget "PrepareAudio" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
-				8C97003C1BDFDCB4002A81A3 /* Debug */,
-				8C97003D1BDFDCB4002A81A3 /* Release */,
+				618ACBBD1BE04776008C23A8 /* Debug */,
+				618ACBBE1BE04776008C23A8 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
