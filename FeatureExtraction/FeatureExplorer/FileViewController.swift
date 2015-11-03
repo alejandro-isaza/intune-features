@@ -7,20 +7,19 @@ import Upsurge
 
 class FileViewController: NSViewController {
     var example = Example()
+    var audioFile: AudioFile?
 
     @IBOutlet weak var fileNameTextField: NSTextField!
     @IBOutlet weak var offsetTextView: NSTextField!
     @IBOutlet weak var offsetStepper: NSStepper!
+    @IBOutlet weak var offsetSlider: NSSlider!
     @IBOutlet weak var rmsTextField: NSTextField!
     @IBOutlet weak var contentView: NSView!
     var featuresViewController: FeaturesViewController!
 
-    @IBAction func offsetTextFieldDidChange(textField: NSTextField) {
-        loadOffset(textField.integerValue)
-    }
-
-    @IBAction func offsetStepperDidChange(stepper: NSStepper) {
-        loadOffset(stepper.integerValue)
+    @IBAction func offsetDidChange(control: NSControl) {
+        offsetTextView.integerValue = control.integerValue
+        loadOffset(control.integerValue)
     }
 
     override func viewDidLoad() {
@@ -31,6 +30,8 @@ class FileViewController: NSViewController {
         offsetStepper.minValue = Double(Configuration.sampleCount/2 + Configuration.sampleStep)
         offsetStepper.increment = Double(Configuration.sampleStep)
         offsetStepper.maxValue = DBL_MAX
+        offsetSlider.minValue = Double(Configuration.sampleCount/2 + Configuration.sampleStep)
+        offsetSlider.maxValue = DBL_MAX
 
         featuresViewController = storyboard!.instantiateControllerWithIdentifier("FeaturesViewController") as! FeaturesViewController
         addChildViewController(featuresViewController)
@@ -47,20 +48,23 @@ class FileViewController: NSViewController {
         fileNameTextField.stringValue = ""
         offsetTextView.integerValue = 0
         offsetStepper.integerValue = 0
+        offsetSlider.integerValue = 0
         rmsTextField.stringValue = ""
 
         example.filePath = filePath
+        audioFile = AudioFile.open(example.filePath)
         example.data.0 = RealArray(count: Configuration.sampleCount)
         example.data.1 = RealArray(count: Configuration.sampleCount)
         loadOffset(Configuration.sampleCount)
     }
 
     func loadOffset(var offset: Int) {
-        guard let audioFile = AudioFile.open(example.filePath) else {
+        guard let audioFile = audioFile else {
             print("Failed to open file '\(example.filePath)'")
             return
         }
         offsetStepper.maxValue = Double(audioFile.frameCount - Configuration.sampleCount/2)
+        offsetSlider.maxValue = Double(audioFile.frameCount - Configuration.sampleCount/2)
 
         if offset < Configuration.sampleCount/2 + Configuration.sampleStep {
             offset = Configuration.sampleCount/2 + Configuration.sampleStep
@@ -79,6 +83,7 @@ class FileViewController: NSViewController {
         fileNameTextField.stringValue = example.filePath
         offsetTextView.integerValue = example.frameOffset
         offsetStepper.integerValue = example.frameOffset
+        offsetSlider.integerValue = example.frameOffset
         rmsTextField.doubleValue = rmsq(example.data.1)
     }
 }

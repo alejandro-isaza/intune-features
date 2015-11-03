@@ -696,10 +696,10 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="GLP-hF-wDf">
-                                <rect key="frame" x="0.0" y="171" width="450" height="129"/>
+                                <rect key="frame" x="0.0" y="149" width="450" height="151"/>
                                 <subviews>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="L7j-Ld-ZDF">
-                                        <rect key="frame" x="18" y="55" width="124" height="17"/>
+                                        <rect key="frame" x="18" y="77" width="124" height="17"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="120" id="pqk-1G-uoR"/>
                                         </constraints>
@@ -722,19 +722,6 @@
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
                                     </textField>
-                                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ofh-t9-Xhm">
-                                        <rect key="frame" x="148" y="52" width="268" height="22"/>
-                                        <animations/>
-                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="0" drawsBackground="YES" id="QgA-bY-Sm1">
-                                            <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="Qq6-bl-tqm"/>
-                                            <font key="font" metaFont="system"/>
-                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
-                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
-                                        </textFieldCell>
-                                        <connections>
-                                            <action selector="offsetTextFieldDidChange:" target="56H-Xx-d65" id="3Au-jd-Rfl"/>
-                                        </connections>
-                                    </textField>
                                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="GBR-dJ-oNB">
                                         <rect key="frame" x="148" y="20" width="282" height="22"/>
                                         <animations/>
@@ -745,15 +732,15 @@
                                         </textFieldCell>
                                     </textField>
                                     <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ozq-Du-DKg">
-                                        <rect key="frame" x="414" y="49" width="19" height="27"/>
+                                        <rect key="frame" x="414" y="71" width="19" height="27"/>
                                         <animations/>
                                         <stepperCell key="cell" continuous="YES" alignment="left" maxValue="100" id="5su-pq-Xd4"/>
                                         <connections>
-                                            <action selector="offsetStepperDidChange:" target="56H-Xx-d65" id="awb-Sy-GiT"/>
+                                            <action selector="offsetDidChange:" target="56H-Xx-d65" id="Beo-rV-MFz"/>
                                         </connections>
                                     </stepper>
                                     <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="anr-9l-4H2">
-                                        <rect key="frame" x="148" y="87" width="282" height="22"/>
+                                        <rect key="frame" x="148" y="109" width="282" height="22"/>
                                         <animations/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="vK7-ON-ylN">
                                             <font key="font" metaFont="system"/>
@@ -762,7 +749,7 @@
                                         </textFieldCell>
                                     </textField>
                                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Hqu-cT-lSY">
-                                        <rect key="frame" x="18" y="90" width="124" height="17"/>
+                                        <rect key="frame" x="18" y="112" width="124" height="17"/>
                                         <constraints>
                                             <constraint firstAttribute="width" constant="120" id="pKw-D5-voe"/>
                                         </constraints>
@@ -772,6 +759,27 @@
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
                                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                         </textFieldCell>
+                                    </textField>
+                                    <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="NNw-m7-Del">
+                                        <rect key="frame" x="146" y="48" width="286" height="20"/>
+                                        <animations/>
+                                        <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="Qa9-31-6Ot"/>
+                                        <connections>
+                                            <action selector="offsetDidChange:" target="56H-Xx-d65" id="8mD-AZ-g7d"/>
+                                        </connections>
+                                    </slider>
+                                    <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ofh-t9-Xhm">
+                                        <rect key="frame" x="148" y="74" width="268" height="22"/>
+                                        <animations/>
+                                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="0" drawsBackground="YES" id="QgA-bY-Sm1">
+                                            <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="Qq6-bl-tqm"/>
+                                            <font key="font" metaFont="system"/>
+                                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                        <connections>
+                                            <action selector="offsetDidChange:" target="56H-Xx-d65" id="k68-k7-sMs"/>
+                                        </connections>
                                     </textField>
                                 </subviews>
                                 <constraints>
@@ -786,18 +794,21 @@
                                     <constraint firstItem="L7j-Ld-ZDF" firstAttribute="baseline" secondItem="Ofh-t9-Xhm" secondAttribute="baseline" id="Dpi-EY-6kb"/>
                                     <constraint firstAttribute="bottom" secondItem="GBR-dJ-oNB" secondAttribute="bottom" constant="20" id="ODJ-G7-Arv"/>
                                     <constraint firstItem="Rf8-QZ-Nbz" firstAttribute="leading" secondItem="GLP-hF-wDf" secondAttribute="leading" constant="20" id="TsX-Yz-vf6"/>
-                                    <constraint firstItem="GBR-dJ-oNB" firstAttribute="top" secondItem="Ofh-t9-Xhm" secondAttribute="bottom" constant="10" id="V9g-Qf-WkE"/>
+                                    <constraint firstItem="Ofh-t9-Xhm" firstAttribute="leading" secondItem="NNw-m7-Del" secondAttribute="leading" id="Wt8-6Z-xmh"/>
                                     <constraint firstItem="Ofh-t9-Xhm" firstAttribute="centerY" secondItem="Ozq-Du-DKg" secondAttribute="centerY" id="XTP-dn-pj0"/>
+                                    <constraint firstItem="NNw-m7-Del" firstAttribute="top" secondItem="Ofh-t9-Xhm" secondAttribute="bottom" constant="8" symbolic="YES" id="Y0n-fW-e8X"/>
                                     <constraint firstItem="anr-9l-4H2" firstAttribute="leading" secondItem="Hqu-cT-lSY" secondAttribute="trailing" constant="8" id="bkz-ZF-yIv"/>
+                                    <constraint firstItem="GBR-dJ-oNB" firstAttribute="top" secondItem="NNw-m7-Del" secondAttribute="bottom" constant="8" symbolic="YES" id="bzs-uT-fzR"/>
                                     <constraint firstItem="L7j-Ld-ZDF" firstAttribute="leading" secondItem="GLP-hF-wDf" secondAttribute="leading" constant="20" id="mRo-Wn-RHF"/>
                                     <constraint firstItem="Hqu-cT-lSY" firstAttribute="baseline" secondItem="anr-9l-4H2" secondAttribute="baseline" id="mUR-xM-2wh"/>
                                     <constraint firstAttribute="trailing" secondItem="anr-9l-4H2" secondAttribute="trailing" constant="20" id="uYb-h4-cbC"/>
+                                    <constraint firstAttribute="trailing" secondItem="NNw-m7-Del" secondAttribute="trailing" constant="20" id="ur8-i6-8n4"/>
                                     <constraint firstItem="anr-9l-4H2" firstAttribute="top" secondItem="GLP-hF-wDf" secondAttribute="top" constant="20" id="xAw-zF-xQa"/>
                                 </constraints>
                                 <animations/>
                             </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="yYx-QQ-rI1">
-                                <rect key="frame" x="0.0" y="0.0" width="450" height="171"/>
+                                <rect key="frame" x="0.0" y="0.0" width="450" height="149"/>
                                 <animations/>
                             </customView>
                         </subviews>
@@ -815,6 +826,7 @@
                     <connections>
                         <outlet property="contentView" destination="yYx-QQ-rI1" id="6qA-nc-AYe"/>
                         <outlet property="fileNameTextField" destination="anr-9l-4H2" id="BXg-we-krl"/>
+                        <outlet property="offsetSlider" destination="NNw-m7-Del" id="8aR-am-DCD"/>
                         <outlet property="offsetStepper" destination="Ozq-Du-DKg" id="4Cg-Q9-BMA"/>
                         <outlet property="offsetTextView" destination="Ofh-t9-Xhm" id="S5N-0b-rGn"/>
                         <outlet property="rmsTextField" destination="GBR-dJ-oNB" id="8HH-WQ-qiJ"/>
