@@ -14,6 +14,10 @@
 		6122EF251BD6D011001AE862 /* Peak.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF141BD6CC41001AE862 /* Peak.framework */; };
 		6122EF431BD80C6C001AE862 /* BandFluxesFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6122EF421BD80C6C001AE862 /* BandFluxesFeature.swift */; };
 		6122EF451BD81CE9001AE862 /* BandsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6122EF441BD81CE9001AE862 /* BandsFeature.swift */; };
+		6156937B1BE82C5A0094E204 /* FileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6156937A1BE82C5A0094E204 /* FileViewController.swift */; };
+		615693891BE82F6A0094E204 /* FeaturesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615693881BE82F6A0094E204 /* FeaturesViewController.swift */; };
+		6156938B1BE83D4C0094E204 /* SpectrumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6156938A1BE83D4C0094E204 /* SpectrumViewController.swift */; };
+		6156938D1BE843C70094E204 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6156938C1BE843C70094E204 /* Configuration.swift */; };
 		6185A77B1BD337E100CD5FC5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6185A77A1BD337E100CD5FC5 /* AppDelegate.swift */; };
 		6185A77D1BD337E100CD5FC5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6185A77C1BD337E100CD5FC5 /* ViewController.swift */; };
 		6185A7801BD337E100CD5FC5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6185A77E1BD337E100CD5FC5 /* Main.storyboard */; };
@@ -275,6 +279,13 @@
 			remoteGlobalIDString = 610B1B321BB740B800B64973;
 			remoteInfo = PlotKit;
 		};
+		61A46C111BE02E27001D2288 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 61B3149C1BBDBA3100F63C45;
+			remoteInfo = "HDF5Kit-OSX";
+		};
 		61C97C771BD867B200DE88E6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6122EF281BD6F593001AE862 /* BrainCore.xcodeproj */;
@@ -360,6 +371,10 @@
 		6122EF281BD6F593001AE862 /* BrainCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BrainCore.xcodeproj; path = ../Submodules/BrainCore/BrainCore.xcodeproj; sourceTree = "<group>"; };
 		6122EF421BD80C6C001AE862 /* BandFluxesFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandFluxesFeature.swift; sourceTree = "<group>"; };
 		6122EF441BD81CE9001AE862 /* BandsFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandsFeature.swift; sourceTree = "<group>"; };
+		6156937A1BE82C5A0094E204 /* FileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileViewController.swift; sourceTree = "<group>"; };
+		615693881BE82F6A0094E204 /* FeaturesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturesViewController.swift; sourceTree = "<group>"; };
+		6156938A1BE83D4C0094E204 /* SpectrumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpectrumViewController.swift; sourceTree = "<group>"; };
+		6156938C1BE843C70094E204 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		6185A7781BD337E100CD5FC5 /* NetEval.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetEval.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6185A77A1BD337E100CD5FC5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		6185A77C1BD337E100CD5FC5 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -554,9 +569,13 @@
 		61A46BC91BDEC578001D2288 /* FeatureExplorer */ = {
 			isa = PBXGroup;
 			children = (
+				6156938C1BE843C70094E204 /* Configuration.swift */,
 				61A46BCA1BDEC578001D2288 /* AppDelegate.swift */,
 				61A46BFD1BDED992001D2288 /* MainViewController.swift */,
 				61A46BFF1BDEE0BA001D2288 /* FilesystemViewController.swift */,
+				6156937A1BE82C5A0094E204 /* FileViewController.swift */,
+				615693881BE82F6A0094E204 /* FeaturesViewController.swift */,
+				6156938A1BE83D4C0094E204 /* SpectrumViewController.swift */,
 				61A46BCE1BDEC578001D2288 /* Assets.xcassets */,
 				61A46BD01BDEC578001D2288 /* Main.storyboard */,
 				61A46BD31BDEC578001D2288 /* Info.plist */,
@@ -1062,9 +1081,13 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				615693891BE82F6A0094E204 /* FeaturesViewController.swift in Sources */,
 				61A46BFE1BDED992001D2288 /* MainViewController.swift in Sources */,
+				6156938D1BE843C70094E204 /* Configuration.swift in Sources */,
 				61A46C001BDEE0BA001D2288 /* FilesystemViewController.swift in Sources */,
+				6156937B1BE82C5A0094E204 /* FileViewController.swift in Sources */,
 				61A46BCB1BDEC578001D2288 /* AppDelegate.swift in Sources */,
+				6156938B1BE83D4C0094E204 /* SpectrumViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1182,6 +1205,11 @@
 			isa = PBXTargetDependency;
 			name = PlotKit;
 			targetProxy = 61A46BFA1BDEC5B3001D2288 /* PBXContainerItemProxy */;
+		};
+		61A46C121BE02E27001D2288 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "HDF5Kit-OSX";
+			targetProxy = 61A46C111BE02E27001D2288 /* PBXContainerItemProxy */;
 		};
 		61C97C781BD867B200DE88E6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1512,6 +1540,7 @@
 				61A46BD51BDEC578001D2288 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		8C7845691BB9B06600C88426 /* Build configuration list for PBXProject "FeatureExtraction" */ = {
 			isa = XCConfigurationList;

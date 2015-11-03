@@ -3,16 +3,23 @@
 import Cocoa
 
 class FilesystemViewController: NSViewController, NSOutlineViewDataSource, NSOutlineViewDelegate {
-
     @IBOutlet weak var outlineView: NSOutlineView!
 
+    var selection: (String -> ())?
     var rootPath: String = "/"
-    var fileManager: NSFileManager = NSFileManager()
-    var subpaths = [String: [String]]()
+
+    private var fileManager: NSFileManager = NSFileManager()
+    private var subpaths = [String: [String]]()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        rootPath = NSHomeDirectory()
+
+        let defaults = NSUserDefaults.standardUserDefaults()
+        if let path = defaults.valueForKey("rootPath") as? String {
+            rootPath = path
+        } else {
+            rootPath = NSHomeDirectory()
+        }
 
         outlineView.target = self
         outlineView.doubleAction = "doubleClick:"
@@ -28,6 +35,10 @@ class FilesystemViewController: NSViewController, NSOutlineViewDataSource, NSOut
         if openPanel.runModal() == NSFileHandlingPanelOKButton {
             rootPath = (openPanel.directoryURL?.path)!
             outlineView.reloadData()
+
+            let defaults = NSUserDefaults.standardUserDefaults()
+            defaults.setValue(rootPath, forKey: "rootPath")
+            defaults.synchronize()
         }
     }
 
@@ -96,7 +107,10 @@ class FilesystemViewController: NSViewController, NSOutlineViewDataSource, NSOut
     }
 
     func outlineViewSelectionDidChange(notification: NSNotification) {
-        print(notification)
+        let row = outlineView.selectedRow
+        if let path = outlineView.itemAtRow(row) as? String {
+            selection?(path)
+        }
     }
     
     // MARK: -

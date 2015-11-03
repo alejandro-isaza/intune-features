@@ -3,10 +3,17 @@
 import Upsurge
 
 public struct Example: Hashable {
-    public let filePath: String
-    public let frameOffset: Int
-    public let label: [Int]
-    public let data: (RealArray, RealArray)
+    public var filePath: String
+    public var frameOffset: Int
+    public var label: [Int]
+    public var data: (RealArray, RealArray)
+
+    public init() {
+        filePath = ""
+        frameOffset = 0
+        label = []
+        data = ([], [])
+    }
 
     public init(filePath: String, frameOffset: Int, label: [Int], data: (RealArray, RealArray)) {
         self.filePath = filePath
