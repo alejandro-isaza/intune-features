@@ -5,11 +5,11 @@ import FeatureExtraction
 import PlotKit
 import Upsurge
 
-class SpectrumViewController: NSViewController {
+class PeakLocationsViewController: NSViewController {
     @IBOutlet weak var plotView: PlotView?
 
-    let feature: SpectrumFeature = SpectrumFeature(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
-    
+    let feature: PeakLocationsFeature = PeakLocationsFeature(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -17,18 +17,18 @@ class SpectrumViewController: NSViewController {
         plotView!.addAxis(Axis(orientation: .Horizontal, ticks: .Distance(12)))
     }
 
-    func updateView(spectrum: RealArray, baseFrequency: Double) {
+    func updateView(peaks: [FeatureExtraction.Point]) {
         guard let plotView = plotView else {
             return
         }
         plotView.removeAllPointSets()
 
-        feature.update(spectrum: spectrum, baseFrequency: baseFrequency)
+        feature.update(peaks)
 
         var points = Array<PlotKit.Point>()
-        for band in 0..<feature.bands.count {
+        for band in 0..<feature.peakLocations.count {
             let note = feature.noteForBand(band)
-            points.append(Point(x: note, y: feature.bands[band]))
+            points.append(PlotKit.Point(x: note, y: feature.peakLocations[band]))
         }
         let pointSet = PointSet(points: points)
         plotView.addPointSet(pointSet)

@@ -985,10 +985,11 @@
         <!--Features View Controller-->
         <scene sceneID="7TR-ta-I6n">
             <objects>
-                <tabViewController identifier="FeaturesViewController" storyboardIdentifier="FeaturesViewController" selectedTabViewItemIndex="1" id="sa1-nq-uS7" customClass="FeaturesViewController" customModule="FeatureExplorer" customModuleProvider="target" sceneMemberID="viewController">
+                <tabViewController identifier="FeaturesViewController" storyboardIdentifier="FeaturesViewController" selectedTabViewItemIndex="0" id="sa1-nq-uS7" customClass="FeaturesViewController" customModule="FeatureExplorer" customModuleProvider="target" sceneMemberID="viewController">
                     <tabViewItems>
                         <tabViewItem id="0Hy-DM-eLc"/>
                         <tabViewItem id="AXI-9h-HmP"/>
+                        <tabViewItem id="Fju-ty-Qnk"/>
                     </tabViewItems>
                     <tabView key="tabView" autoresizesSubviews="NO" type="noTabsNoBorder" id="g99-cU-HfO">
                         <autoresizingMask key="autoresizingMask"/>
@@ -999,11 +1000,41 @@
                     <connections>
                         <segue destination="n4E-iJ-xjN" kind="relationship" relationship="tabItems" id="b9K-4u-xXz"/>
                         <segue destination="iu4-yz-Gtg" kind="relationship" relationship="tabItems" id="sFl-0Z-IPq"/>
+                        <segue destination="RTh-T8-aZm" kind="relationship" relationship="tabItems" id="Spa-jo-Y4M"/>
                     </connections>
                 </tabViewController>
                 <customObject id="h80-g0-NDa" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1353" y="735"/>
+        </scene>
+        <!--Peak Locations-->
+        <scene sceneID="O1e-Cq-en3">
+            <objects>
+                <viewController title="Peak Locations" storyboardIdentifier="PeakLocationsViewController" id="RTh-T8-aZm" customClass="PeakLocationsViewController" customModule="FeatureExplorer" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="GbJ-46-abC">
+                        <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="fAe-lR-hCM" customClass="PlotView" customModule="PlotKit">
+                                <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                                <animations/>
+                            </customView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="fAe-lR-hCM" secondAttribute="trailing" id="0po-QF-nw4"/>
+                            <constraint firstItem="fAe-lR-hCM" firstAttribute="top" secondItem="GbJ-46-abC" secondAttribute="top" id="JvK-B7-wkO"/>
+                            <constraint firstItem="fAe-lR-hCM" firstAttribute="leading" secondItem="GbJ-46-abC" secondAttribute="leading" id="gDB-hz-blS"/>
+                            <constraint firstAttribute="bottom" secondItem="fAe-lR-hCM" secondAttribute="bottom" id="zdB-2x-EbD"/>
+                        </constraints>
+                        <animations/>
+                    </view>
+                    <connections>
+                        <outlet property="plotView" destination="fAe-lR-hCM" id="QBc-Dw-cJV"/>
+                    </connections>
+                </viewController>
+                <customObject id="JUm-1N-qdq" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1922" y="-94"/>
         </scene>
         <!--Peak Heights-->
         <scene sceneID="lRa-HW-oUx">
@@ -1037,7 +1068,7 @@
         <!--Spectrum-->
         <scene sceneID="GtQ-DD-Zzo">
             <objects>
-                <viewController title="Spectrum" identifier="SpectrumViewController" storyboardIdentifier="SpectrumViewController" id="n4E-iJ-xjN" customClass="SpectrumViewController" customModule="FeatureExplorer" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController title="Spectrum" storyboardIdentifier="SpectrumViewController" id="n4E-iJ-xjN" customClass="SpectrumViewController" customModule="FeatureExplorer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="dYN-k3-erU">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>

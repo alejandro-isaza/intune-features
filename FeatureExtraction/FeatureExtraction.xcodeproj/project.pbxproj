@@ -30,6 +30,7 @@
 		6185AA0C1BD411A400CD5FC5 /* training.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 6185AA0A1BD411A400CD5FC5 /* training.h5 */; };
 		618ACC0C1BE0686D008C23A8 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618ACC0B1BE0686D008C23A8 /* Note.swift */; };
 		61AD3A631BEBDD5500FA2DB7 /* FeatureDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AD3A621BEBDD5500FA2DB7 /* FeatureDatabase.swift */; };
+		619297E41BE989EC009A90EB /* PeakLocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619297E31BE989EC009A90EB /* PeakLocationsViewController.swift */; };
 		61A46BCB1BDEC578001D2288 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A46BCA1BDEC578001D2288 /* AppDelegate.swift */; };
 		61A46BCF1BDEC578001D2288 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61A46BCE1BDEC578001D2288 /* Assets.xcassets */; };
 		61A46BD21BDEC578001D2288 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61A46BD01BDEC578001D2288 /* Main.storyboard */; };
@@ -390,6 +391,7 @@
 		6185AA0A1BD411A400CD5FC5 /* training.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = training.h5; sourceTree = SOURCE_ROOT; };
 		618ACC0B1BE0686D008C23A8 /* Note.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		61AD3A621BEBDD5500FA2DB7 /* FeatureDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureDatabase.swift; sourceTree = "<group>"; };
+		619297E31BE989EC009A90EB /* PeakLocationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakLocationsViewController.swift; sourceTree = "<group>"; };
 		61A46BC81BDEC578001D2288 /* FeatureExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FeatureExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		61A46BCA1BDEC578001D2288 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		61A46BCE1BDEC578001D2288 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -579,6 +581,7 @@
 				615693881BE82F6A0094E204 /* FeaturesViewController.swift */,
 				6156938A1BE83D4C0094E204 /* SpectrumViewController.swift */,
 				6126D7161BE976D9007F8BE4 /* PeakHeightsViewController.swift */,
+				619297E31BE989EC009A90EB /* PeakLocationsViewController.swift */,
 				61A46BCE1BDEC578001D2288 /* Assets.xcassets */,
 				61A46BD01BDEC578001D2288 /* Main.storyboard */,
 				61A46BD31BDEC578001D2288 /* Info.plist */,
@@ -1089,6 +1092,7 @@
 				6156938D1BE843C70094E204 /* Configuration.swift in Sources */,
 				61A46C001BDEE0BA001D2288 /* FilesystemViewController.swift in Sources */,
 				6156937B1BE82C5A0094E204 /* FileViewController.swift in Sources */,
+				619297E41BE989EC009A90EB /* PeakLocationsViewController.swift in Sources */,
 				61A46BCB1BDEC578001D2288 /* AppDelegate.swift in Sources */,
 				6126D7171BE976D9007F8BE4 /* PeakHeightsViewController.swift in Sources */,
 				6156938B1BE83D4C0094E204 /* SpectrumViewController.swift in Sources */,
