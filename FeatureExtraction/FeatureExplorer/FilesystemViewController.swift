@@ -120,10 +120,26 @@ class FilesystemViewController: NSViewController, NSOutlineViewDataSource, NSOut
             return paths
         }
 
-        let names = try! fileManager.contentsOfDirectoryAtPath(path).filter{ !$0.hasPrefix(".") }
+        var names = try! fileManager.contentsOfDirectoryAtPath(path).filter{ !$0.hasPrefix(".") }
+        names.sortInPlace(compareStrings)
+
         let paths = names.map{ (path as NSString).stringByAppendingPathComponent($0) }
         subpaths[path] = paths
         return paths
+    }
+
+    let charSet = NSCharacterSet(charactersInString: ".-_ ")
+    func compareStrings(s1: String, s2: String) -> Bool {
+        let components1 = s1.componentsSeparatedByCharactersInSet(charSet)
+        let components2 = s2.componentsSeparatedByCharactersInSet(charSet)
+        return components1.lexicographicalCompare(components2, isOrderedBefore: compareStringComponents)
+    }
+
+    func compareStringComponents(s1: String, s2: String) -> Bool {
+        if let n1 = Int(s1), n2 = Int(s2) {
+            return n1 < n2
+        }
+        return s1 < s2
     }
 
     func isDirectory(path: String) -> Bool {
