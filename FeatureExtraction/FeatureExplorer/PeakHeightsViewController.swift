@@ -5,7 +5,7 @@ import FeatureExtraction
 import PlotKit
 import Upsurge
 
-class SpectrumViewController: NSViewController {
+class PeakHeightsViewController: NSViewController {
     @IBOutlet weak var plotView: PlotView?
 
     var example = Example() {
@@ -14,7 +14,7 @@ class SpectrumViewController: NSViewController {
         }
     }
 
-    let feature: SpectrumFeature = SpectrumFeature(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
+    let feature: PeakHeightsFeature = PeakHeightsFeature(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
 
     // Helpers
     let window: RealArray = {
@@ -23,8 +23,9 @@ class SpectrumViewController: NSViewController {
         return array
     }()
     let fft = FFT(inputLength: Configuration.sampleCount)
+    let peakExtractor = PeakExtractor(heightCutoffMultiplier: Configuration.peakHeightCutoffMultiplier, minimumNoteDistance: Configuration.peakMinimumNoteDistance)
     let fb = Double(Configuration.sampleRate) / Double(Configuration.sampleCount)
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -41,14 +42,17 @@ class SpectrumViewController: NSViewController {
             return
         }
         plotView.removeAllPointSets()
-        
+
+        let rms = rmsq(example.data.1)
         let spectrum = spectrumValues(example.data.1)
-        feature.update(spectrum: spectrum, baseFrequency: fb)
+        let specPoints = spectrumPoints(spectrum)
+        let peaks = peakExtractor.process(specPoints, rms: rms).sort{ $0.y > $1.y }
+        feature.update(peaks, rms: rms)
 
         var points = Array<PlotKit.Point>()
-        for band in 0..<feature.bands.count {
+        for band in 0..<feature.peakHeights.count {
             let note = feature.noteForBand(band)
-            points.append(Point(x: note, y: feature.bands[band]))
+            points.append(PlotKit.Point(x: note, y: feature.peakHeights[band]))
         }
         let pointSet = PointSet(points: points)
         plotView.addPointSet(pointSet)

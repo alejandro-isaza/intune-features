@@ -844,14 +844,14 @@
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
-                            <scrollView horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="aer-8T-bRQ">
+                            <scrollView horizontalHuggingPriority="750" verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" verticalCompressionResistancePriority="250" borderType="none" autohidesScrollers="YES" horizontalLineScroll="20" horizontalPageScroll="10" verticalLineScroll="20" verticalPageScroll="10" usesPredominantAxisScrolling="NO" horizontalScrollElasticity="none" translatesAutoresizingMaskIntoConstraints="NO" id="aer-8T-bRQ">
                                 <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                                 <clipView key="contentView" drawsBackground="NO" id="5TQ-Zm-Ebi">
-                                    <rect key="frame" x="1" y="0.0" width="448" height="299"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" multipleSelection="NO" autosaveName="OutlineView" rowSizeStyle="automatic" headerView="xZw-kw-SvP" viewBased="YES" indentationPerLevel="16" autosaveExpandedItems="YES" autoresizesOutlineColumn="YES" outlineTableColumn="0qU-VW-Kcv" id="igX-XL-4Rk">
-                                            <rect key="frame" x="0.0" y="0.0" width="448" height="276"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="450" height="277"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <animations/>
                                             <size key="intercellSpacing" width="2" height="3"/>
@@ -960,7 +960,7 @@
                                     <animations/>
                                 </scroller>
                                 <tableHeaderView key="headerView" id="xZw-kw-SvP">
-                                    <rect key="frame" x="0.0" y="0.0" width="448" height="23"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="450" height="23"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <animations/>
                                 </tableHeaderView>
@@ -1005,19 +1005,34 @@
             </objects>
             <point key="canvasLocation" x="1353" y="735"/>
         </scene>
-        <!--View Controller-->
+        <!--Peak Heights-->
         <scene sceneID="lRa-HW-oUx">
             <objects>
-                <viewController id="iu4-yz-Gtg" sceneMemberID="viewController">
+                <viewController title="Peak Heights" storyboardIdentifier="PeakHeightsViewController" id="iu4-yz-Gtg" customClass="PeakHeightsViewController" customModule="FeatureExplorer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" id="vuc-TI-ZRo">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="h2f-2P-Zgi" customClass="PlotView" customModule="PlotKit">
+                                <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
+                                <animations/>
+                            </customView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="h2f-2P-Zgi" firstAttribute="leading" secondItem="vuc-TI-ZRo" secondAttribute="leading" id="46G-hG-xPH"/>
+                            <constraint firstAttribute="bottom" secondItem="h2f-2P-Zgi" secondAttribute="bottom" id="LFU-AV-gvx"/>
+                            <constraint firstAttribute="trailing" secondItem="h2f-2P-Zgi" secondAttribute="trailing" id="VvV-nw-ckK"/>
+                            <constraint firstItem="h2f-2P-Zgi" firstAttribute="top" secondItem="vuc-TI-ZRo" secondAttribute="top" id="vRY-4d-iDf"/>
+                        </constraints>
                         <animations/>
                     </view>
+                    <connections>
+                        <outlet property="plotView" destination="h2f-2P-Zgi" id="S8U-T1-tCm"/>
+                    </connections>
                 </viewController>
                 <customObject id="ZGe-NA-zCQ" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2087" y="340"/>
+            <point key="canvasLocation" x="1922" y="342"/>
         </scene>
         <!--Spectrum-->
         <scene sceneID="GtQ-DD-Zzo">

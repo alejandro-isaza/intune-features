@@ -7,10 +7,12 @@ class FeaturesViewController: NSTabViewController {
     var example = Example() {
         didSet {
             spectrum.example = example
+            peakHeights.example = example
         }
     }
 
     var spectrum: SpectrumViewController!
+    var peakHeights: PeakHeightsViewController!
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,7 +21,11 @@ class FeaturesViewController: NSTabViewController {
         tabView.translatesAutoresizingMaskIntoConstraints = false
 
         spectrum = storyboard!.instantiateControllerWithIdentifier("SpectrumViewController") as! SpectrumViewController
-        tabViewItems = [ NSTabViewItem(viewController: spectrum) ]
+        peakHeights = storyboard!.instantiateControllerWithIdentifier("PeakHeightsViewController") as! PeakHeightsViewController
+        tabViewItems = [
+            NSTabViewItem(viewController: spectrum),
+            NSTabViewItem(viewController: peakHeights)
+        ]
     }
     
 }
