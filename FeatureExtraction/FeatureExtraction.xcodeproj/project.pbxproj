@@ -46,11 +46,10 @@
 		8C7E7ABB1BBB37CC00BBC93C /* PeakExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7E7ABA1BBB37CC00BBC93C /* PeakExtractor.swift */; };
 		8C97003A1BDFDCB4002A81A3 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9700391BDFDCB4002A81A3 /* main.swift */; };
 		8C9700EF1BE12C00002A81A3 /* PolyExampleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9700EE1BE12C00002A81A3 /* PolyExampleBuilder.swift */; };
-		8CD711351BE418DD007E8170 /* PolyFeatureCompiler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CD711341BE418DD007E8170 /* PolyFeatureCompiler.swift */; };
 		8CDA0EF41BB9BA4300433755 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA0EF31BB9BA4300433755 /* Utilities.swift */; };
 		8CDA0EF61BB9C60800433755 /* DistancePeakExtractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA0EF51BB9C60800433755 /* DistancePeakExtractionTests.swift */; };
 		8CDE47961BBF117C00A98419 /* MonoExampleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE47921BBF117C00A98419 /* MonoExampleBuilder.swift */; };
-		8CDE47981BBF117C00A98419 /* MonoFeatureCompiler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE47941BBF117C00A98419 /* MonoFeatureCompiler.swift */; };
+		8CDE47981BBF117C00A98419 /* FeatureCompiler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE47941BBF117C00A98419 /* FeatureCompiler.swift */; };
 		8CDE479C1BBF11A000A98419 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479B1BBF11A000A98419 /* main.swift */; };
 		8CDE47A01BBF2FA000A98419 /* String+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479F1BBF2FA000A98419 /* String+Paths.swift */; };
 		8CDE47EF1BBF39C800A98419 /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */; };
@@ -344,12 +343,11 @@
 		8C9700371BDFDCB4002A81A3 /* PrepareAudio */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PrepareAudio; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C9700391BDFDCB4002A81A3 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		8C9700EE1BE12C00002A81A3 /* PolyExampleBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolyExampleBuilder.swift; sourceTree = "<group>"; };
-		8CD711341BE418DD007E8170 /* PolyFeatureCompiler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolyFeatureCompiler.swift; sourceTree = "<group>"; };
 		8CDA0EF31BB9BA4300433755 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		8CDA0EF51BB9C60800433755 /* DistancePeakExtractionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistancePeakExtractionTests.swift; sourceTree = "<group>"; };
 		8CDE478A1BBF116900A98419 /* CompileFeatures */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CompileFeatures; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CDE47921BBF117C00A98419 /* MonoExampleBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonoExampleBuilder.swift; sourceTree = "<group>"; };
-		8CDE47941BBF117C00A98419 /* MonoFeatureCompiler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonoFeatureCompiler.swift; sourceTree = "<group>"; };
+		8CDE47941BBF117C00A98419 /* FeatureCompiler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureCompiler.swift; sourceTree = "<group>"; };
 		8CDE479B1BBF11A000A98419 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		8CDE479F1BBF2FA000A98419 /* String+Paths.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Paths.swift"; sourceTree = "<group>"; };
 		8CDE47FB1BBF3A6000A98419 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
@@ -555,10 +553,9 @@
 			isa = PBXGroup;
 			children = (
 				8CDE479B1BBF11A000A98419 /* main.swift */,
+				8CDE47941BBF117C00A98419 /* FeatureCompiler.swift */,
 				8CDE47921BBF117C00A98419 /* MonoExampleBuilder.swift */,
-				8CDE47941BBF117C00A98419 /* MonoFeatureCompiler.swift */,
 				8C9700EE1BE12C00002A81A3 /* PolyExampleBuilder.swift */,
-				8CD711341BE418DD007E8170 /* PolyFeatureCompiler.swift */,
 				8CDE479F1BBF2FA000A98419 /* String+Paths.swift */,
 			);
 			path = CompileFeatures;
@@ -948,10 +945,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8CDE47981BBF117C00A98419 /* MonoFeatureCompiler.swift in Sources */,
+				8CDE47981BBF117C00A98419 /* FeatureCompiler.swift in Sources */,
 				8CDE47A01BBF2FA000A98419 /* String+Paths.swift in Sources */,
 				8CDE47961BBF117C00A98419 /* MonoExampleBuilder.swift in Sources */,
-				8CD711351BE418DD007E8170 /* PolyFeatureCompiler.swift in Sources */,
 				8CDE479C1BBF11A000A98419 /* main.swift in Sources */,
 				8C9700EF1BE12C00002A81A3 /* PolyExampleBuilder.swift in Sources */,
 			);

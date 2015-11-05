@@ -27,16 +27,32 @@ class MonoExampleBuilder {
         data.1 = RealArray(count: sampleCount)
     }
     
-    func forEachExampleInFolder(folder: String, action: Example -> ()) {
+    func forEachNoteInFolder(folder: String, action: Example -> ()) {
         for note in FeatureBuilder.notes {
-            forEachExampleInFile(String(note), path: folder, note: note, numExamples: numNoteExamples, action: action)
+            let label = FeatureBuilder.labelForNote(note)
+            forEachExampleInFile(String(note), path: folder, label: label, numExamples: numNoteExamples, action: action)
         }
         print("")
     }
 
-    func forEachExampleInFile(fileName: String, path: String, note: Int, numExamples: Int, action: Example -> ()) {
+    func forEachNoiseInFolder(folder: String, action: Example -> ()) {
+        let label = [Int](count: FeatureBuilder.notes.count, repeatedValue: 0)
+
         let fileManager = NSFileManager.defaultManager()
-        let label = FeatureBuilder.labelForNote(note)
+        guard let files = try? fileManager.contentsOfDirectoryAtURL(NSURL.fileURLWithPath(folder), includingPropertiesForKeys: [NSURLNameKey], options: NSDirectoryEnumerationOptions.SkipsHiddenFiles) else {
+            fatalError("Failed to fetch contents of \(folder)")
+        }
+
+        for file in files {
+            let filePath = file.path!
+            print("Processing \(filePath)")
+            forEachExampleInFile(filePath, label: label, numExamples: numNoiseExamples, action: action)
+        }
+        print("")
+    }
+
+    func forEachExampleInFile(fileName: String, path: String, label: [Int], numExamples: Int, action: Example -> ()) {
+        let fileManager = NSFileManager.defaultManager()
         for type in fileExtensions {
             let fullFileName = "\(fileName).\(type)"
             let filePath = buildPathFromParts([path, fullFileName])
