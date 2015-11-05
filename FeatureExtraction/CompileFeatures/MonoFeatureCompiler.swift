@@ -12,27 +12,55 @@ func midiNoteLabel(notes: Range<Int>, note: Int) -> Int {
 }
 
 class MonoFeatureCompiler {
-    var featureBuilder = FeatureBuilder()
+    let rootPath = "../AudioData/Monophonic/"
+    let testingFolders = [
+        "Arachno",
+        "VenturePianoQuiet1",
+        "VentureFast1"
+    ]
 
     let trainingFileName = "training.h5"
     let testingFileName = "testing.h5"
 
-    func compileFeatures() {
-        var trainingFeatures = [FeatureData]()
-        var testingFeatures = [FeatureData]()
-        
-        let exampleBuilder = MonoExampleBuilder(noteRange: FeatureBuilder.notes, sampleCount: FeatureBuilder.sampleCount, labelFunction: FeatureBuilder.labelFunction)
-        let folders = exampleBuilder.forEachExample(training: { example in
-            let featureData = FeatureData(example: example)
-            featureData.features = self.featureBuilder.generateFeatures(example)
-            trainingFeatures.append(featureData)
-        }, testing: { example in
-            let featureData = FeatureData(example: example)
-            featureData.features = self.featureBuilder.generateFeatures(example)
-            testingFeatures.append(featureData)
-        })
+    var featureBuilder = FeatureBuilder()
 
-        FeatureDataCompiler(features: trainingFeatures).writeToHDF5(trainingFileName, noteRange: FeatureBuilder.notes, folders: folders)
-        FeatureDataCompiler(features: testingFeatures).writeToHDF5(testingFileName, noteRange: FeatureBuilder.notes, folders: folders)
+    func compileFeatures() {
+        let trainingDatabase = FeatureDatabase(filePath: trainingFileName, overwrite: false)
+        let testingDatabase = FeatureDatabase(filePath: testingFileName, overwrite: false)
+        var existingFolders = trainingDatabase.folders + testingDatabase.folders
+        let folders = loadFolders()
+
+        let exampleBuilder = MonoExampleBuilder(sampleCount: FeatureBuilder.sampleCount, sampleStep: FeatureBuilder.sampleStep)
+        for folder in folders {
+            let name = (folder as NSString).lastPathComponent
+            if existingFolders.contains(name) {
+                continue
+            }
+
+            var features = [FeatureData]()
+            exampleBuilder.forEachExampleInFolder(folder, action: { example in
+                let featureData = FeatureData(example: example)
+                featureData.features = self.featureBuilder.generateFeatures(example)
+                features.append(featureData)
+            })
+
+            if testingFolders.contains(name) {
+                testingDatabase.appendFeatures(features, folder: name)
+            } else {
+                trainingDatabase.appendFeatures(features, folder: name)
+            }
+
+            existingFolders.append(name)
+        }
+    }
+
+    func loadFolders() -> [String] {
+        print("\nWorking Directory: \(NSFileManager.defaultManager().currentDirectoryPath)\n")
+
+        let fileManager = NSFileManager.defaultManager()
+        guard let folders = try? fileManager.contentsOfDirectoryAtURL(NSURL.fileURLWithPath(rootPath), includingPropertiesForKeys: [NSURLNameKey], options: NSDirectoryEnumerationOptions.SkipsHiddenFiles) else {
+            fatalError()
+        }
+        return folders.map{ $0.path! }
     }
 }

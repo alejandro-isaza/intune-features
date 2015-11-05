@@ -6,32 +6,6 @@ import Foundation
 import Upsurge
 
 class MonoExampleBuilder {
-    let rootPath = "../AudioData/Monophonic/"
-    let trainingFolders = [
-        "AcousticGrandPiano_YDP",
-        "FFNotes",
-        "FluidR3_GM2-2",
-        "GeneralUser_GS_MuseScore_v1.442",
-        "MFNotes",
-        "PPNotes",
-        "Piano_Rhodes_73",
-        "Piano_Yamaha_DX7",
-        "TimGM6mb",
-        "VentureFast2",
-        "VentureFast3",
-        "VentureFast4",
-        "VenturePianoQuiet2",
-        "VenturePianoQuiet3",
-        "VenturePianoQuiet4"
-    ]
-    let testingFolders = [
-        "Arachno",
-        "VentureFast1",
-        "VenturePianoQuiet1"
-    ]
-    let testingNoiseFileName = "../Noise/testingnoise"
-    let trainingNoiseFileName = "../Noise/trainingnoise"
-    let foosNoiseFileName = "../Noise/foos"
     let fileExtensions = [
         "m4a",
         "caf",
@@ -42,54 +16,32 @@ class MonoExampleBuilder {
     let numNoteExamples = 15
     let numNoiseExamples = 1000
 
-    let noteRange: Range<Int>
     let sampleCount: Int
-    let labelFunction: [Int] -> [Int]
-    let noiseLabel = [0]
+    let sampleStep: Int
     private var data: (RealArray, RealArray)
-
-    private var rmsContainer = [Double]()
     
-    init(noteRange: Range<Int>, sampleCount: Int, labelFunction: [Int] -> [Int] = { $0 }) {
+    init(sampleCount: Int, sampleStep: Int) {
         self.sampleCount = sampleCount
-        self.noteRange = noteRange
-        self.labelFunction = labelFunction
+        self.sampleStep = sampleStep
         data.0 = RealArray(count: sampleCount)
         data.1 = RealArray(count: sampleCount)
     }
     
-    func forEachExample(training training: Example -> (), testing: Example -> ()) -> [String] {
-        print("\nWorking Directory: \(NSFileManager.defaultManager().currentDirectoryPath)\n")
-        for folder in trainingFolders {
-            forEachExampleInFolder(folder, action: training)
-        }
-        for folder in testingFolders {
-            forEachExampleInFolder(folder, action: testing)
-        }
-
-        forEachExampleInFile(trainingNoiseFileName, path: rootPath, label: noiseLabel, numExamples: numNoiseExamples, action: training)
-        forEachExampleInFile(testingNoiseFileName, path: rootPath, label: noiseLabel, numExamples: numNoiseExamples, action: testing)
-        forEachExampleInFile(foosNoiseFileName, path: rootPath, label: noiseLabel, numExamples: numNoiseExamples, action: training)
-        
-        return testingFolders + trainingFolders
-    }
-    
     func forEachExampleInFolder(folder: String, action: Example -> ()) {
-        rmsContainer = [Double]()
-        let path = buildPathFromParts([rootPath, folder])
-        for i in noteRange {
-            forEachExampleInFile(String(i), path: path, label: labelFunction([i]), numExamples: numNoteExamples, action: action)
+        for note in FeatureBuilder.notes {
+            forEachExampleInFile(String(note), path: folder, note: note, numExamples: numNoteExamples, action: action)
         }
-        print("Average RMS for files in folder \(folder): \(sum(rmsContainer)/Double(rmsContainer.count))\n\n")
+        print("")
     }
 
-    func forEachExampleInFile(fileName: String, path: String, label: [Int], numExamples: Int, action: Example -> ()) {
+    func forEachExampleInFile(fileName: String, path: String, note: Int, numExamples: Int, action: Example -> ()) {
         let fileManager = NSFileManager.defaultManager()
+        let label = FeatureBuilder.labelForNote(note)
         for type in fileExtensions {
             let fullFileName = "\(fileName).\(type)"
             let filePath = buildPathFromParts([path, fullFileName])
             if fileManager.fileExistsAtPath(filePath) {
-                print("Processing \(filePath) (label \(label))")
+                print("Processing \(filePath)")
                 forEachExampleInFile(filePath, label: label, numExamples: numExamples, action: action)
                 break
             }
@@ -130,7 +82,5 @@ class MonoExampleBuilder {
             audioFile.currentFrame -= sampleCount / 2
             swap(&data.0, &data.1)
         }
-
-        rmsContainer.append(sqrt(sumsq/Double(count)))
     }
 }

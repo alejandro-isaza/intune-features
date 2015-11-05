@@ -37,6 +37,14 @@ public struct FeatureBuilder {
         vDSP_hamm_windowD(window.mutablePointer, vDSP_Length(FeatureBuilder.sampleCount), 0)
     }
 
+    public static func labelForNote(note: Int) -> [Int] {
+        var label = [Int](count: notes.count, repeatedValue: 0)
+        if notes.contains(note) {
+            label[note - notes.startIndex] = 1
+        }
+        return label
+    }
+
     public func generateFeatures(example: Example) -> [String: RealArray] {
         rms.update(example.data.1)
         

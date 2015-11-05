@@ -7,14 +7,6 @@ import Foundation
 import Upsurge
 
 class PolyExampleBuilder {
-    let rootPath = "../AudioData/Polyphonic/"
-    let testingFolders = [
-        "mozart",
-        "muss",
-        "alfred40829",
-        "godow",
-        "alfred42458"
-    ]
     let audioFileExtensions = [
         "mp3",
         "wav",
@@ -27,39 +19,15 @@ class PolyExampleBuilder {
     let sampleCount: Int
     let sampleStep: Int
 
-    let existingFolders: [String]
     var data0: RealArray
     var data1: RealArray
     var rmsContainer = [Real]()
     
-    init(sampleCount: Int, sampleStep: Int, existingFolders: [String]) {
+    init(sampleCount: Int, sampleStep: Int) {
         self.sampleCount = sampleCount
         self.sampleStep = sampleStep
-        self.existingFolders = existingFolders
         data0 = RealArray(count: sampleCount)
         data1 = RealArray(count: sampleCount)
-    }
-    
-    func forEachExample(training training: Example -> (), testing: Example -> ()) -> [String] {
-        let fileManager = NSFileManager.defaultManager()
-        print("\nWorking Directory: \(NSFileManager.defaultManager().currentDirectoryPath)\n")
-        guard let folders = try? fileManager.contentsOfDirectoryAtURL(NSURL.fileURLWithPath(rootPath), includingPropertiesForKeys: [NSURLNameKey], options: NSDirectoryEnumerationOptions.SkipsHiddenFiles) else {
-            fatalError()
-        }
-
-        for folder in folders {
-            if let file = folder.lastPathComponent {
-                if testingFolders.contains(file) {
-                    forEachExampleInFolder(folder.path!, action: testing)
-                } else if existingFolders.contains(file) {
-                    continue
-                } else {
-                    forEachExampleInFolder(folder.path!, action: training)
-                }
-            }
-        }
-        
-        return folders.map({ $0.path! })
     }
     
     func forEachExampleInFolder(path: String, action: Example -> ()) {

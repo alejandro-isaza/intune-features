@@ -2,5 +2,8 @@
 
 import Foundation
 
-let featureCompiler = PolyFeatureCompiler()
-featureCompiler.compileFeatures()
+let monoFeatureCompiler = MonoFeatureCompiler()
+monoFeatureCompiler.compileFeatures()
+
+let polyFeatureCompiler = PolyFeatureCompiler()
+polyFeatureCompiler.compileFeatures()
