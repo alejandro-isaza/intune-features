@@ -29,7 +29,6 @@
 		6185AA0B1BD411A400CD5FC5 /* testing.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 6185AA091BD411A400CD5FC5 /* testing.h5 */; };
 		6185AA0C1BD411A400CD5FC5 /* training.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 6185AA0A1BD411A400CD5FC5 /* training.h5 */; };
 		618ACC0C1BE0686D008C23A8 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618ACC0B1BE0686D008C23A8 /* Note.swift */; };
-		61AD3A631BEBDD5500FA2DB7 /* FeatureDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AD3A621BEBDD5500FA2DB7 /* FeatureDatabase.swift */; };
 		619297E41BE989EC009A90EB /* PeakLocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619297E31BE989EC009A90EB /* PeakLocationsViewController.swift */; };
 		61A46BCB1BDEC578001D2288 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A46BCA1BDEC578001D2288 /* AppDelegate.swift */; };
 		61A46BCF1BDEC578001D2288 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61A46BCE1BDEC578001D2288 /* Assets.xcassets */; };
@@ -40,6 +39,7 @@
 		61A46BFC1BDEC5B9001D2288 /* PlotKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A46BF51BDEC5AE001D2288 /* PlotKit.framework */; };
 		61A46BFE1BDED992001D2288 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A46BFD1BDED992001D2288 /* MainViewController.swift */; };
 		61A46C001BDEE0BA001D2288 /* FilesystemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A46BFF1BDEE0BA001D2288 /* FilesystemViewController.swift */; };
+		61AD3A631BEBDD5500FA2DB7 /* FeatureDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AD3A621BEBDD5500FA2DB7 /* FeatureDatabase.swift */; };
 		61BBAF681BC43A7300A03FD0 /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF671BC43A7300A03FD0 /* Feature.swift */; };
 		61BBAF6F1BC43BF800A03FD0 /* Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF6E1BC43BF800A03FD0 /* Example.swift */; };
 		61BBAF711BC43F8100A03FD0 /* RMSFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF701BC43F8100A03FD0 /* RMSFeature.swift */; };
@@ -218,19 +218,12 @@
 			remoteGlobalIDString = 614ACA6F1BD1CB7B00A1C13E;
 			remoteInfo = "Upsurge OSX";
 		};
-		61A46C111BE02E27001D2288 /* PBXContainerItemProxy */ = {
+		61957A6C1BED26F300777595 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */;
+			containerPortal = 6122EEFC1BD6CC41001AE862 /* Upsurge.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 61B3149C1BBDBA3100F63C45;
-			remoteInfo = "HDF5Kit-OSX";
-		};
-		61AD3A6E1BEBDDEC00FA2DB7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 61B3149C1BBDBA3100F63C45;
-			remoteInfo = "HDF5Kit-OSX";
+			remoteGlobalIDString = 614ACA6F1BD1CB7B00A1C13E;
+			remoteInfo = "Upsurge OSX";
 		};
 		61A46BE31BDEC58F001D2288 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -245,13 +238,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 0045498C1BD052B100AC387F;
 			remoteInfo = PeakOSX;
-		};
-		61AD3A701BEBDDF500FA2DB7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEFC1BD6CC41001AE862 /* Upsurge.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 614ACA6F1BD1CB7B00A1C13E;
-			remoteInfo = "Upsurge OSX";
 		};
 		61A46BF41BDEC5AE001D2288 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -287,6 +273,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 61B3149C1BBDBA3100F63C45;
 			remoteInfo = "HDF5Kit-OSX";
+		};
+		61AD3A6E1BEBDDEC00FA2DB7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 61B3149C1BBDBA3100F63C45;
+			remoteInfo = "HDF5Kit-OSX";
+		};
+		61AD3A701BEBDDF500FA2DB7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6122EEFC1BD6CC41001AE862 /* Upsurge.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 614ACA6F1BD1CB7B00A1C13E;
+			remoteInfo = "Upsurge OSX";
 		};
 		61C97C771BD867B200DE88E6 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -390,7 +390,6 @@
 		6185AA091BD411A400CD5FC5 /* testing.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testing.h5; sourceTree = SOURCE_ROOT; };
 		6185AA0A1BD411A400CD5FC5 /* training.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = training.h5; sourceTree = SOURCE_ROOT; };
 		618ACC0B1BE0686D008C23A8 /* Note.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
-		61AD3A621BEBDD5500FA2DB7 /* FeatureDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureDatabase.swift; sourceTree = "<group>"; };
 		619297E31BE989EC009A90EB /* PeakLocationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakLocationsViewController.swift; sourceTree = "<group>"; };
 		61A46BC81BDEC578001D2288 /* FeatureExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FeatureExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		61A46BCA1BDEC578001D2288 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -401,6 +400,7 @@
 		61A46BEE1BDEC5AE001D2288 /* PlotKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PlotKit.xcodeproj; path = ../Submodules/PlotKit/PlotKit.xcodeproj; sourceTree = "<group>"; };
 		61A46BFD1BDED992001D2288 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		61A46BFF1BDEE0BA001D2288 /* FilesystemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilesystemViewController.swift; sourceTree = "<group>"; };
+		61AD3A621BEBDD5500FA2DB7 /* FeatureDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureDatabase.swift; sourceTree = "<group>"; };
 		61BBAF671BC43A7300A03FD0 /* Feature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
 		61BBAF6E1BC43BF800A03FD0 /* Example.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Example.swift; sourceTree = "<group>"; };
 		61BBAF701BC43F8100A03FD0 /* RMSFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RMSFeature.swift; sourceTree = "<group>"; };
@@ -743,6 +743,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				61957A6D1BED26F300777595 /* PBXTargetDependency */,
 				61A46BFB1BDEC5B3001D2288 /* PBXTargetDependency */,
 				61A46BE41BDEC58F001D2288 /* PBXTargetDependency */,
 				61A46BE61BDEC58F001D2288 /* PBXTargetDependency */,
@@ -1179,20 +1180,10 @@
 			name = "Upsurge OSX";
 			targetProxy = 618ACBF71BE052DB008C23A8 /* PBXContainerItemProxy */;
 		};
-		61A46C121BE02E27001D2288 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "HDF5Kit-OSX";
-			targetProxy = 61A46C111BE02E27001D2288 /* PBXContainerItemProxy */;
-		};
-		61AD3A6F1BEBDDEC00FA2DB7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "HDF5Kit-OSX";
-			targetProxy = 61AD3A6E1BEBDDEC00FA2DB7 /* PBXContainerItemProxy */;
-		};
-		61AD3A711BEBDDF500FA2DB7 /* PBXTargetDependency */ = {
+		61957A6D1BED26F300777595 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Upsurge OSX";
-			targetProxy = 61AD3A701BEBDDF500FA2DB7 /* PBXContainerItemProxy */;
+			targetProxy = 61957A6C1BED26F300777595 /* PBXContainerItemProxy */;
 		};
 		61A46BE41BDEC58F001D2288 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1207,7 +1198,6 @@
 		61A46BE81BDEC58F001D2288 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Upsurge OSX";
-			targetProxy = 61A46BE71BDEC58F001D2288 /* PBXContainerItemProxy */;
 		};
 		61A46BFB1BDEC5B3001D2288 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1218,6 +1208,16 @@
 			isa = PBXTargetDependency;
 			name = "HDF5Kit-OSX";
 			targetProxy = 61A46C111BE02E27001D2288 /* PBXContainerItemProxy */;
+		};
+		61AD3A6F1BEBDDEC00FA2DB7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "HDF5Kit-OSX";
+			targetProxy = 61AD3A6E1BEBDDEC00FA2DB7 /* PBXContainerItemProxy */;
+		};
+		61AD3A711BEBDDF500FA2DB7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Upsurge OSX";
+			targetProxy = 61AD3A701BEBDDF500FA2DB7 /* PBXContainerItemProxy */;
 		};
 		61C97C781BD867B200DE88E6 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
