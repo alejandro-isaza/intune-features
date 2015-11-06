@@ -1,12 +1,3 @@
-[submodule "Submodules/tempo"]
-	path = Submodules/tempo
-	url = git@github.com:venturemedia/tempo.git
-[submodule "Submodules/MusicKit"]
-	path = Submodules/MusicKit
-	url = git@github.com:venturemedia/musickit.git
-[submodule "Submodules/json"]
-	path = Submodules/json
-	url = https://github.com/nlohmann/json.git
 [submodule "Submodules/Peak"]
 	path = Submodules/Peak
 	url = git://github.com/hoseking/Peak.git
