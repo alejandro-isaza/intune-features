@@ -33,7 +33,7 @@
 		61A46BCB1BDEC578001D2288 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A46BCA1BDEC578001D2288 /* AppDelegate.swift */; };
 		61A46BCF1BDEC578001D2288 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61A46BCE1BDEC578001D2288 /* Assets.xcassets */; };
 		61A46BD21BDEC578001D2288 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61A46BD01BDEC578001D2288 /* Main.storyboard */; };
-		61A46BE91BDEC59E001D2288 /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */; };
+		61A46BE91BDEC59E001D2288 /* AudioFeatures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* AudioFeatures.framework */; };
 		61A46BEA1BDEC59E001D2288 /* Peak.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF141BD6CC41001AE862 /* Peak.framework */; };
 		61A46BEB1BDEC59E001D2288 /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF1C1BD6CC41001AE862 /* Upsurge.framework */; };
 		61A46BFC1BDEC5B9001D2288 /* PlotKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A46BF51BDEC5AE001D2288 /* PlotKit.framework */; };
@@ -57,7 +57,7 @@
 		8C56779B1BE9600C0009ED31 /* FeatureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C56779A1BE9600C0009ED31 /* FeatureData.swift */; };
 		8C56779E1BE976140009ED31 /* FeatureBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C56779C1BE9731E0009ED31 /* FeatureBuilder.swift */; };
 		8C7845731BB9B06600C88426 /* FeatureExtraction.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C7845721BB9B06600C88426 /* FeatureExtraction.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8C78457A1BB9B06600C88426 /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */; };
+		8C78457A1BB9B06600C88426 /* AudioFeatures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* AudioFeatures.framework */; };
 		8C7E7ABB1BBB37CC00BBC93C /* PeakExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7E7ABA1BBB37CC00BBC93C /* PeakExtractor.swift */; };
 		8C97003A1BDFDCB4002A81A3 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9700391BDFDCB4002A81A3 /* main.swift */; };
 		8C9700EF1BE12C00002A81A3 /* PolyExampleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9700EE1BE12C00002A81A3 /* PolyExampleBuilder.swift */; };
@@ -67,7 +67,7 @@
 		8CDE47981BBF117C00A98419 /* FeatureCompiler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE47941BBF117C00A98419 /* FeatureCompiler.swift */; };
 		8CDE479C1BBF11A000A98419 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479B1BBF11A000A98419 /* main.swift */; };
 		8CDE47A01BBF2FA000A98419 /* String+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479F1BBF2FA000A98419 /* String+Paths.swift */; };
-		8CDE47EF1BBF39C800A98419 /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */; };
+		8CDE47EF1BBF39C800A98419 /* AudioFeatures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* AudioFeatures.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -413,10 +413,10 @@
 		61EB52851BD6C117000572B9 /* FeatureExtractionPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = FeatureExtractionPlayground.playground; path = ../Playgrounds/FeatureExtractionPlayground.playground; sourceTree = "<group>"; };
 		8C56779A1BE9600C0009ED31 /* FeatureData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureData.swift; sourceTree = "<group>"; };
 		8C56779C1BE9731E0009ED31 /* FeatureBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureBuilder.swift; sourceTree = "<group>"; };
-		8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureExtraction.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C78456F1BB9B06600C88426 /* AudioFeatures.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AudioFeatures.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C7845721BB9B06600C88426 /* FeatureExtraction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeatureExtraction.h; sourceTree = "<group>"; };
 		8C7845741BB9B06600C88426 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8C7845791BB9B06600C88426 /* FeatureExtractionTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeatureExtractionTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C7845791BB9B06600C88426 /* AudioFeatures.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AudioFeatures.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C7845801BB9B06600C88426 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C7E7ABA1BBB37CC00BBC93C /* PeakExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakExtractor.swift; sourceTree = "<group>"; };
 		8C9700371BDFDCB4002A81A3 /* PrepareAudio */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PrepareAudio; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -451,7 +451,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				61A46BFC1BDEC5B9001D2288 /* PlotKit.framework in Frameworks */,
-				61A46BE91BDEC59E001D2288 /* FeatureExtraction.framework in Frameworks */,
+				61A46BE91BDEC59E001D2288 /* AudioFeatures.framework in Frameworks */,
 				61A46BEA1BDEC59E001D2288 /* Peak.framework in Frameworks */,
 				61A46BEB1BDEC59E001D2288 /* Upsurge.framework in Frameworks */,
 			);
@@ -470,7 +470,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8C78457A1BB9B06600C88426 /* FeatureExtraction.framework in Frameworks */,
+				8C78457A1BB9B06600C88426 /* AudioFeatures.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -479,7 +479,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6122EF251BD6D011001AE862 /* Peak.framework in Frameworks */,
-				8CDE47EF1BBF39C800A98419 /* FeatureExtraction.framework in Frameworks */,
+				8CDE47EF1BBF39C800A98419 /* AudioFeatures.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -618,8 +618,8 @@
 		8C7845701BB9B06600C88426 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */,
-				8C7845791BB9B06600C88426 /* FeatureExtractionTests.xctest */,
+				8C78456F1BB9B06600C88426 /* AudioFeatures.framework */,
+				8C7845791BB9B06600C88426 /* AudioFeatures.xctest */,
 				8CDE478A1BBF116900A98419 /* CompileFeatures */,
 				6185A7781BD337E100CD5FC5 /* NetEval.app */,
 				8C9700371BDFDCB4002A81A3 /* PrepareAudio */,
@@ -754,9 +754,9 @@
 			productReference = 61A46BC81BDEC578001D2288 /* FeatureExplorer.app */;
 			productType = "com.apple.product-type.application";
 		};
-		8C78456E1BB9B06600C88426 /* FeatureExtraction */ = {
+		8C78456E1BB9B06600C88426 /* AudioFeatures */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8C7845831BB9B06600C88426 /* Build configuration list for PBXNativeTarget "FeatureExtraction" */;
+			buildConfigurationList = 8C7845831BB9B06600C88426 /* Build configuration list for PBXNativeTarget "AudioFeatures" */;
 			buildPhases = (
 				8C78456A1BB9B06600C88426 /* Sources */,
 				8C78456B1BB9B06600C88426 /* Frameworks */,
@@ -768,14 +768,14 @@
 				61AD3A711BEBDDF500FA2DB7 /* PBXTargetDependency */,
 				61AD3A6F1BEBDDEC00FA2DB7 /* PBXTargetDependency */,
 			);
-			name = FeatureExtraction;
+			name = AudioFeatures;
 			productName = FeatureExtraction;
-			productReference = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */;
+			productReference = 8C78456F1BB9B06600C88426 /* AudioFeatures.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		8C7845781BB9B06600C88426 /* FeatureExtractionTests */ = {
+		8C7845781BB9B06600C88426 /* AudioFeaturesTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8C7845861BB9B06600C88426 /* Build configuration list for PBXNativeTarget "FeatureExtractionTests" */;
+			buildConfigurationList = 8C7845861BB9B06600C88426 /* Build configuration list for PBXNativeTarget "AudioFeaturesTests" */;
 			buildPhases = (
 				8C7845751BB9B06600C88426 /* Sources */,
 				8C7845761BB9B06600C88426 /* Frameworks */,
@@ -786,9 +786,9 @@
 			dependencies = (
 				8C78457C1BB9B06600C88426 /* PBXTargetDependency */,
 			);
-			name = FeatureExtractionTests;
+			name = AudioFeaturesTests;
 			productName = FeatureExtractionTests;
-			productReference = 8C7845791BB9B06600C88426 /* FeatureExtractionTests.xctest */;
+			productReference = 8C7845791BB9B06600C88426 /* AudioFeatures.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		8C9700361BDFDCB4002A81A3 /* PrepareAudio */ = {
@@ -859,7 +859,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 8C7845691BB9B06600C88426 /* Build configuration list for PBXProject "FeatureExtraction" */;
+			buildConfigurationList = 8C7845691BB9B06600C88426 /* Build configuration list for PBXProject "AudioFeatures" */;
 			compatibilityVersion = "Xcode 3.2";
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
@@ -894,8 +894,8 @@
 			);
 			projectRoot = "";
 			targets = (
-				8C78456E1BB9B06600C88426 /* FeatureExtraction */,
-				8C7845781BB9B06600C88426 /* FeatureExtractionTests */,
+				8C78456E1BB9B06600C88426 /* AudioFeatures */,
+				8C7845781BB9B06600C88426 /* AudioFeaturesTests */,
 				8CDE47891BBF116900A98419 /* CompileFeatures */,
 				6185A7771BD337E100CD5FC5 /* NetEval */,
 				8C9700361BDFDCB4002A81A3 /* PrepareAudio */,
@@ -1187,7 +1187,7 @@
 		};
 		61A46BE41BDEC58F001D2288 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8C78456E1BB9B06600C88426 /* FeatureExtraction */;
+			target = 8C78456E1BB9B06600C88426 /* AudioFeatures */;
 			targetProxy = 61A46BE31BDEC58F001D2288 /* PBXContainerItemProxy */;
 		};
 		61A46BE61BDEC58F001D2288 /* PBXTargetDependency */ = {
@@ -1246,12 +1246,12 @@
 		};
 		8C78457C1BB9B06600C88426 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8C78456E1BB9B06600C88426 /* FeatureExtraction */;
+			target = 8C78456E1BB9B06600C88426 /* AudioFeatures */;
 			targetProxy = 8C78457B1BB9B06600C88426 /* PBXContainerItemProxy */;
 		};
 		8CDE47F41BBF39D500A98419 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8C78456E1BB9B06600C88426 /* FeatureExtraction */;
+			target = 8C78456E1BB9B06600C88426 /* AudioFeatures */;
 			targetProxy = 8CDE47F31BBF39D500A98419 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1463,7 +1463,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.venturemedia.FeatureExtraction;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = AudioFeatures;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1484,7 +1484,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.venturemedia.FeatureExtraction;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = AudioFeatures;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -1496,7 +1496,7 @@
 				INFOPLIST_FILE = FeatureExtractionTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.venturemedia.FeatureExtractionTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = AudioFeatures;
 			};
 			name = Debug;
 		};
@@ -1507,7 +1507,7 @@
 				INFOPLIST_FILE = FeatureExtractionTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.venturemedia.FeatureExtractionTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
+				PRODUCT_NAME = AudioFeatures;
 			};
 			name = Release;
 		};
@@ -1550,7 +1550,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8C7845691BB9B06600C88426 /* Build configuration list for PBXProject "FeatureExtraction" */ = {
+		8C7845691BB9B06600C88426 /* Build configuration list for PBXProject "AudioFeatures" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8C7845811BB9B06600C88426 /* Debug */,
@@ -1559,7 +1559,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8C7845831BB9B06600C88426 /* Build configuration list for PBXNativeTarget "FeatureExtraction" */ = {
+		8C7845831BB9B06600C88426 /* Build configuration list for PBXNativeTarget "AudioFeatures" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8C7845841BB9B06600C88426 /* Debug */,
@@ -1568,7 +1568,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8C7845861BB9B06600C88426 /* Build configuration list for PBXNativeTarget "FeatureExtractionTests" */ = {
+		8C7845861BB9B06600C88426 /* Build configuration list for PBXNativeTarget "AudioFeaturesTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8C7845871BB9B06600C88426 /* Debug */,
