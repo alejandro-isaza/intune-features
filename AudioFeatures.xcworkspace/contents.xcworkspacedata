@@ -21,15 +21,18 @@
       location = "group:/Users/al/dev/VM/audio-features/FeatureExtraction/AudioFeatures.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Submodules/Peak/Peak.xcodeproj">
+      location = "group:Carthage/Checkouts/Peak/Peak.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Submodules/HDF5Kit/HDF5Kit.xcodeproj">
+      location = "group:Carthage/Checkouts/BrainCore/BrainCore.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Submodules/BrainCore/BrainCore.xcodeproj">
+      location = "group:Carthage/Checkouts/PlotKit/PlotKit.xcodeproj">
    </FileRef>
    <FileRef
-      location = "group:Submodules/PlotKit/PlotKit.xcodeproj">
+      location = "group:Carthage/Checkouts/Upsurge/Upsurge.xcodeproj">
+   </FileRef>
+   <FileRef
+      location = "group:Carthage/Checkouts/HDF5Kit/HDF5Kit.xcodeproj">
    </FileRef>
 </Workspace>

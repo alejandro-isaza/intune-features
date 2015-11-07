@@ -1,15 +1,15 @@
-[submodule "Submodules/Peak"]
-	path = Submodules/Peak
-	url = git://github.com/hoseking/Peak.git
-[submodule "Submodules/HDF5Kit"]
-	path = Submodules/HDF5Kit
-	url = git://github.com/aleph7/HDF5Kit.git
-[submodule "Submodules/Upsurge"]
-	path = Submodules/Upsurge
-	url = git://github.com/aleph7/Upsurge.git
-[submodule "Submodules/PlotKit"]
-	path = Submodules/PlotKit
-	url = git://github.com/aleph7/PlotKit.git
-[submodule "Submodules/BrainCore"]
-	path = Submodules/BrainCore
-	url = git://github.com/aleph7/BrainCore.git
+[submodule "Carthage/Checkouts/HDF5Kit"]
+	path = Carthage/Checkouts/HDF5Kit
+	url = https://github.com/aleph7/HDF5Kit.git
+[submodule "Carthage/Checkouts/Peak"]
+	path = Carthage/Checkouts/Peak
+	url = https://github.com/hoseking/Peak.git
+[submodule "Carthage/Checkouts/Upsurge"]
+	path = Carthage/Checkouts/Upsurge
+	url = https://github.com/aleph7/Upsurge.git
+[submodule "Carthage/Checkouts/BrainCore"]
+	path = Carthage/Checkouts/BrainCore
+	url = https://github.com/aleph7/BrainCore.git
+[submodule "Carthage/Checkouts/PlotKit"]
+	path = Carthage/Checkouts/PlotKit
+	url = https://github.com/aleph7/PlotKit.git

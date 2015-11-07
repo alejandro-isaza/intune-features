@@ -21,7 +21,7 @@ class PeakLocationsViewController: NSViewController {
         guard let plotView = plotView else {
             return
         }
-        plotView.removeAllPointSets()
+        plotView.clear()
 
         feature.update(peaks)
 

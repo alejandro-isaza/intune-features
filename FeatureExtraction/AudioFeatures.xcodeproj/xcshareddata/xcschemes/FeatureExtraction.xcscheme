@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8C78456E1BB9B06600C88426"
                BuildableName = "AudioFeatures.framework"
-               BlueprintName = "AudioFeatures"
+               BlueprintName = "FeatureExtraction"
                ReferencedContainer = "container:AudioFeatures.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -34,7 +34,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8C7845781BB9B06600C88426"
                BuildableName = "AudioFeatures.xctest"
-               BlueprintName = "AudioFeaturesTests"
+               BlueprintName = "FeatureExtractionTests"
                ReferencedContainer = "container:AudioFeatures.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -44,7 +44,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8C78456E1BB9B06600C88426"
             BuildableName = "AudioFeatures.framework"
-            BlueprintName = "AudioFeatures"
+            BlueprintName = "FeatureExtraction"
             ReferencedContainer = "container:AudioFeatures.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -66,7 +66,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8C78456E1BB9B06600C88426"
             BuildableName = "AudioFeatures.framework"
-            BlueprintName = "AudioFeatures"
+            BlueprintName = "FeatureExtraction"
             ReferencedContainer = "container:AudioFeatures.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -84,7 +84,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8C78456E1BB9B06600C88426"
             BuildableName = "AudioFeatures.framework"
-            BlueprintName = "AudioFeatures"
+            BlueprintName = "FeatureExtraction"
             ReferencedContainer = "container:AudioFeatures.xcodeproj">
          </BuildableReference>
       </MacroExpansion>

@@ -1,0 +1,5 @@
+github "aleph7/Upsurge" "master"
+github "aleph7/HDF5Kit" "master"
+github "aleph7/BrainCore" "master"
+github "aleph7/PlotKit" "master"
+github "hoseking/Peak" "master"

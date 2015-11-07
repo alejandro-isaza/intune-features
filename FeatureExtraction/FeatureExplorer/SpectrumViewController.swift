@@ -21,7 +21,7 @@ class SpectrumViewController: NSViewController {
         guard let plotView = plotView else {
             return
         }
-        plotView.removeAllPointSets()
+        plotView.clear()
 
         feature.update(spectrum: spectrum, baseFrequency: baseFrequency)
 

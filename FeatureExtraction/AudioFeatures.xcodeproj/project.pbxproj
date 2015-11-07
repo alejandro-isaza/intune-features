@@ -9,9 +9,6 @@
 /* Begin PBXBuildFile section */
 		610AAB671BD99737008CC910 /* NoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610AAB661BD99737008CC910 /* NoteTests.swift */; };
 		610AAB851BDABEFA008CC910 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610AAB841BDABEFA008CC910 /* Point.swift */; };
-		6122EF231BD6CC55001AE862 /* HDF5Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF041BD6CC41001AE862 /* HDF5Kit.framework */; };
-		6122EF241BD6CC55001AE862 /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF1C1BD6CC41001AE862 /* Upsurge.framework */; };
-		6122EF251BD6D011001AE862 /* Peak.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF141BD6CC41001AE862 /* Peak.framework */; };
 		6122EF431BD80C6C001AE862 /* BandFluxesFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6122EF421BD80C6C001AE862 /* BandFluxesFeature.swift */; };
 		6122EF451BD81CE9001AE862 /* BandsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6122EF441BD81CE9001AE862 /* BandsFeature.swift */; };
 		6126D7171BE976D9007F8BE4 /* PeakHeightsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6126D7161BE976D9007F8BE4 /* PeakHeightsViewController.swift */; };
@@ -33,10 +30,6 @@
 		61A46BCB1BDEC578001D2288 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A46BCA1BDEC578001D2288 /* AppDelegate.swift */; };
 		61A46BCF1BDEC578001D2288 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61A46BCE1BDEC578001D2288 /* Assets.xcassets */; };
 		61A46BD21BDEC578001D2288 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61A46BD01BDEC578001D2288 /* Main.storyboard */; };
-		61A46BE91BDEC59E001D2288 /* AudioFeatures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* AudioFeatures.framework */; };
-		61A46BEA1BDEC59E001D2288 /* Peak.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF141BD6CC41001AE862 /* Peak.framework */; };
-		61A46BEB1BDEC59E001D2288 /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF1C1BD6CC41001AE862 /* Upsurge.framework */; };
-		61A46BFC1BDEC5B9001D2288 /* PlotKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61A46BF51BDEC5AE001D2288 /* PlotKit.framework */; };
 		61A46BFE1BDED992001D2288 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A46BFD1BDED992001D2288 /* MainViewController.swift */; };
 		61A46C001BDEE0BA001D2288 /* FilesystemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A46BFF1BDEE0BA001D2288 /* FilesystemViewController.swift */; };
 		61AD3A631BEBDD5500FA2DB7 /* FeatureDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AD3A621BEBDD5500FA2DB7 /* FeatureDatabase.swift */; };
@@ -46,18 +39,24 @@
 		61BBAF731BC4408300A03FD0 /* PeakLocationsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF721BC4408300A03FD0 /* PeakLocationsFeature.swift */; };
 		61BBAF751BC4408F00A03FD0 /* PeakHeightsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF741BC4408F00A03FD0 /* PeakHeightsFeature.swift */; };
 		61BBAF771BC440A800A03FD0 /* SpectrumFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF761BC440A800A03FD0 /* SpectrumFeature.swift */; };
-		61C97C861BD867CE00DE88E6 /* BrainCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF341BD6F593001AE862 /* BrainCore.framework */; };
-		61C97C871BD867CE00DE88E6 /* BrainCore.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF341BD6F593001AE862 /* BrainCore.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		61C97C8A1BD867CE00DE88E6 /* HDF5Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF081BD6CC41001AE862 /* HDF5Kit.framework */; };
-		61C97C8B1BD867CE00DE88E6 /* HDF5Kit.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF081BD6CC41001AE862 /* HDF5Kit.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		61C97C8E1BD867CF00DE88E6 /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF201BD6CC41001AE862 /* Upsurge.framework */; };
-		61C97C8F1BD867CF00DE88E6 /* Upsurge.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 6122EF201BD6CC41001AE862 /* Upsurge.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		61CE4C4B1BED89EB000E0D34 /* HDF5Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C311BED89EB000E0D34 /* HDF5Kit.framework */; };
+		61CE4C4E1BED89EB000E0D34 /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C371BED89EB000E0D34 /* Upsurge.framework */; };
+		61CE4C531BED8A09000E0D34 /* HDF5Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C311BED89EB000E0D34 /* HDF5Kit.framework */; };
+		61CE4C541BED8A0D000E0D34 /* HDF5Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C311BED89EB000E0D34 /* HDF5Kit.framework */; };
+		61CE4C551BED8A22000E0D34 /* Peak.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C331BED89EB000E0D34 /* Peak.framework */; };
+		61CE4C561BED8A29000E0D34 /* PlotKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C351BED89EB000E0D34 /* PlotKit.framework */; };
+		61CE4C571BED8A33000E0D34 /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C371BED89EB000E0D34 /* Upsurge.framework */; };
+		61CE4C581BED8A34000E0D34 /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C371BED89EB000E0D34 /* Upsurge.framework */; };
+		61CE4C591BED8A48000E0D34 /* HDF5Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C441BED89EB000E0D34 /* HDF5Kit.framework */; };
+		61CE4C5A1BED8A4F000E0D34 /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C481BED89EB000E0D34 /* Upsurge.framework */; };
+		61CE4C5D1BED8B42000E0D34 /* Peak.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C331BED89EB000E0D34 /* Peak.framework */; };
+		61CE4C5E1BED8BB6000E0D34 /* BrainCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C3E1BED89EB000E0D34 /* BrainCore.framework */; };
 		61D485AD1BC4A3D70086CED8 /* Shuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D485AC1BC4A3D70086CED8 /* Shuffle.swift */; };
 		61EB527E1BD55F90000572B9 /* Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EB527D1BD55F90000572B9 /* Stats.swift */; };
 		8C56779B1BE9600C0009ED31 /* FeatureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C56779A1BE9600C0009ED31 /* FeatureData.swift */; };
 		8C56779E1BE976140009ED31 /* FeatureBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C56779C1BE9731E0009ED31 /* FeatureBuilder.swift */; };
 		8C7845731BB9B06600C88426 /* FeatureExtraction.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C7845721BB9B06600C88426 /* FeatureExtraction.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8C78457A1BB9B06600C88426 /* AudioFeatures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* AudioFeatures.framework */; };
+		8C78457A1BB9B06600C88426 /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */; };
 		8C7E7ABB1BBB37CC00BBC93C /* PeakExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7E7ABA1BBB37CC00BBC93C /* PeakExtractor.swift */; };
 		8C97003A1BDFDCB4002A81A3 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9700391BDFDCB4002A81A3 /* main.swift */; };
 		8C9700EF1BE12C00002A81A3 /* PolyExampleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9700EE1BE12C00002A81A3 /* PolyExampleBuilder.swift */; };
@@ -67,261 +66,16 @@
 		8CDE47981BBF117C00A98419 /* FeatureCompiler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE47941BBF117C00A98419 /* FeatureCompiler.swift */; };
 		8CDE479C1BBF11A000A98419 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479B1BBF11A000A98419 /* main.swift */; };
 		8CDE47A01BBF2FA000A98419 /* String+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479F1BBF2FA000A98419 /* String+Paths.swift */; };
-		8CDE47EF1BBF39C800A98419 /* AudioFeatures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* AudioFeatures.framework */; };
+		8CDE47EF1BBF39C800A98419 /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		6122EF031BD6CC41001AE862 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 61B3149D1BBDBA3100F63C45;
-			remoteInfo = "HDF5Kit-OSX";
-		};
-		6122EF051BD6CC41001AE862 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 61B314A71BBDBA3200F63C45;
-			remoteInfo = "HDF5KitTests-OSX";
-		};
-		6122EF071BD6CC41001AE862 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6185A7AB1BD3395200CD5FC5;
-			remoteInfo = "HDF5Kit-iOS";
-		};
-		6122EF091BD6CC41001AE862 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6185A7B41BD3395200CD5FC5;
-			remoteInfo = "HDF5KitTests-iOS";
-		};
-		6122EF0F1BD6CC41001AE862 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEF91BD6CC41001AE862 /* Peak.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 005809451BD04F2700B164F6;
-			remoteInfo = PeakiOS;
-		};
-		6122EF111BD6CC41001AE862 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEF91BD6CC41001AE862 /* Peak.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0058094F1BD04F2700B164F6;
-			remoteInfo = PeakiOSTests;
-		};
-		6122EF131BD6CC41001AE862 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEF91BD6CC41001AE862 /* Peak.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0045498D1BD052B100AC387F;
-			remoteInfo = PeakOSX;
-		};
-		6122EF151BD6CC41001AE862 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEF91BD6CC41001AE862 /* Peak.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 004549961BD052B200AC387F;
-			remoteInfo = PeakOSXTests;
-		};
-		6122EF1B1BD6CC41001AE862 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEFC1BD6CC41001AE862 /* Upsurge.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 614ACA701BD1CB7B00A1C13E;
-			remoteInfo = "Upsurge OSX";
-		};
-		6122EF1D1BD6CC41001AE862 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEFC1BD6CC41001AE862 /* Upsurge.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 614ACA7A1BD1CB7B00A1C13E;
-			remoteInfo = "UpsurgeTests OSX";
-		};
-		6122EF1F1BD6CC41001AE862 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEFC1BD6CC41001AE862 /* Upsurge.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 614ACACA1BD1CBF300A1C13E;
-			remoteInfo = "Upsurge iOS";
-		};
-		6122EF211BD6CC41001AE862 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEFC1BD6CC41001AE862 /* Upsurge.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 614ACAD31BD1CBF300A1C13E;
-			remoteInfo = "UpsurgeTests iOS";
-		};
-		6122EF261BD6D01C001AE862 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEF91BD6CC41001AE862 /* Peak.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0045498C1BD052B100AC387F;
-			remoteInfo = PeakOSX;
-		};
-		6122EF2F1BD6F593001AE862 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EF281BD6F593001AE862 /* BrainCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6159F85F1BD1F55D0010F83C;
-			remoteInfo = BrainCore.OSX;
-		};
-		6122EF311BD6F593001AE862 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EF281BD6F593001AE862 /* BrainCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6159F8691BD1F55D0010F83C;
-			remoteInfo = BrainCoreTests.OSX;
-		};
-		6122EF331BD6F593001AE862 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EF281BD6F593001AE862 /* BrainCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6159F87E1BD1F59F0010F83C;
-			remoteInfo = BrainCore.iOS;
-		};
-		6122EF351BD6F593001AE862 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EF281BD6F593001AE862 /* BrainCore.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 6159F8871BD1F59F0010F83C;
-			remoteInfo = BrainCoreTests.iOS;
-		};
-		6122EF3E1BD6F5E6001AE862 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEFC1BD6CC41001AE862 /* Upsurge.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 614ACAC91BD1CBF300A1C13E;
-			remoteInfo = "Upsurge iOS";
-		};
-		618ACBF31BE052DB008C23A8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 61B3149C1BBDBA3100F63C45;
-			remoteInfo = "HDF5Kit-OSX";
-		};
-		618ACBF51BE052DB008C23A8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEF91BD6CC41001AE862 /* Peak.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0045498C1BD052B100AC387F;
-			remoteInfo = PeakOSX;
-		};
-		618ACBF71BE052DB008C23A8 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEFC1BD6CC41001AE862 /* Upsurge.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 614ACA6F1BD1CB7B00A1C13E;
-			remoteInfo = "Upsurge OSX";
-		};
-		61957A6C1BED26F300777595 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEFC1BD6CC41001AE862 /* Upsurge.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 614ACA6F1BD1CB7B00A1C13E;
-			remoteInfo = "Upsurge OSX";
-		};
 		61A46BE31BDEC58F001D2288 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8C7845661BB9B06600C88426 /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 8C78456E1BB9B06600C88426;
 			remoteInfo = FeatureExtraction;
-		};
-		61A46BE51BDEC58F001D2288 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEF91BD6CC41001AE862 /* Peak.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0045498C1BD052B100AC387F;
-			remoteInfo = PeakOSX;
-		};
-		61A46BF41BDEC5AE001D2288 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 61A46BEE1BDEC5AE001D2288 /* PlotKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 610B1B331BB740B800B64973;
-			remoteInfo = PlotKit;
-		};
-		61A46BF61BDEC5AE001D2288 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 61A46BEE1BDEC5AE001D2288 /* PlotKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 610B1B3D1BB740B800B64973;
-			remoteInfo = PlotKitTests;
-		};
-		61A46BF81BDEC5AE001D2288 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 61A46BEE1BDEC5AE001D2288 /* PlotKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 616B83931BDBF85E00B28545;
-			remoteInfo = PlotKitDemo;
-		};
-		61A46BFA1BDEC5B3001D2288 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 61A46BEE1BDEC5AE001D2288 /* PlotKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 610B1B321BB740B800B64973;
-			remoteInfo = PlotKit;
-		};
-		61A46C111BE02E27001D2288 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 61B3149C1BBDBA3100F63C45;
-			remoteInfo = "HDF5Kit-OSX";
-		};
-		61AD3A6E1BEBDDEC00FA2DB7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 61B3149C1BBDBA3100F63C45;
-			remoteInfo = "HDF5Kit-OSX";
-		};
-		61AD3A701BEBDDF500FA2DB7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEFC1BD6CC41001AE862 /* Upsurge.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 614ACA6F1BD1CB7B00A1C13E;
-			remoteInfo = "Upsurge OSX";
-		};
-		61C97C771BD867B200DE88E6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EF281BD6F593001AE862 /* BrainCore.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 6159F87D1BD1F59F0010F83C;
-			remoteInfo = BrainCore.iOS;
-		};
-		61C97C7E1BD867B300DE88E6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 6185A7AA1BD3395200CD5FC5;
-			remoteInfo = "HDF5Kit-iOS";
-		};
-		61C97C881BD867CE00DE88E6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EF281BD6F593001AE862 /* BrainCore.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 6159F87D1BD1F59F0010F83C;
-			remoteInfo = BrainCore.iOS;
-		};
-		61C97C8C1BD867CE00DE88E6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 6185A7AA1BD3395200CD5FC5;
-			remoteInfo = "HDF5Kit-iOS";
-		};
-		61C97C901BD867CF00DE88E6 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6122EEFC1BD6CC41001AE862 /* Upsurge.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 614ACAC91BD1CBF300A1C13E;
-			remoteInfo = "Upsurge iOS";
 		};
 		8C78457B1BB9B06600C88426 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -346,9 +100,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				61C97C8B1BD867CE00DE88E6 /* HDF5Kit.framework in Embed Frameworks */,
-				61C97C8F1BD867CF00DE88E6 /* Upsurge.framework in Embed Frameworks */,
-				61C97C871BD867CE00DE88E6 /* BrainCore.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -367,10 +118,6 @@
 /* Begin PBXFileReference section */
 		610AAB661BD99737008CC910 /* NoteTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteTests.swift; sourceTree = "<group>"; };
 		610AAB841BDABEFA008CC910 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
-		6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HDF5Kit.xcodeproj; path = ../Submodules/HDF5Kit/HDF5Kit.xcodeproj; sourceTree = "<group>"; };
-		6122EEF91BD6CC41001AE862 /* Peak.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Peak.xcodeproj; path = ../Submodules/Peak/Peak.xcodeproj; sourceTree = "<group>"; };
-		6122EEFC1BD6CC41001AE862 /* Upsurge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Upsurge.xcodeproj; path = ../Submodules/Upsurge/Upsurge.xcodeproj; sourceTree = "<group>"; };
-		6122EF281BD6F593001AE862 /* BrainCore.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = BrainCore.xcodeproj; path = ../Submodules/BrainCore/BrainCore.xcodeproj; sourceTree = "<group>"; };
 		6122EF421BD80C6C001AE862 /* BandFluxesFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandFluxesFeature.swift; sourceTree = "<group>"; };
 		6122EF441BD81CE9001AE862 /* BandsFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandsFeature.swift; sourceTree = "<group>"; };
 		6126D7161BE976D9007F8BE4 /* PeakHeightsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakHeightsViewController.swift; sourceTree = "<group>"; };
@@ -397,7 +144,6 @@
 		61A46BD11BDEC578001D2288 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		61A46BD31BDEC578001D2288 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		61A46BEC1BDEC59F001D2288 /* PlotKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PlotKit.framework; path = ../Submodules/PlotKit/build/Debug/PlotKit.framework; sourceTree = "<group>"; };
-		61A46BEE1BDEC5AE001D2288 /* PlotKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PlotKit.xcodeproj; path = ../Submodules/PlotKit/PlotKit.xcodeproj; sourceTree = "<group>"; };
 		61A46BFD1BDED992001D2288 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		61A46BFF1BDEE0BA001D2288 /* FilesystemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilesystemViewController.swift; sourceTree = "<group>"; };
 		61AD3A621BEBDD5500FA2DB7 /* FeatureDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureDatabase.swift; sourceTree = "<group>"; };
@@ -407,16 +153,43 @@
 		61BBAF721BC4408300A03FD0 /* PeakLocationsFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakLocationsFeature.swift; sourceTree = "<group>"; };
 		61BBAF741BC4408F00A03FD0 /* PeakHeightsFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakHeightsFeature.swift; sourceTree = "<group>"; };
 		61BBAF761BC440A800A03FD0 /* SpectrumFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpectrumFeature.swift; sourceTree = "<group>"; };
+		61CE4C2F1BED89EB000E0D34 /* BrainCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BrainCore.framework; sourceTree = "<group>"; };
+		61CE4C301BED89EB000E0D34 /* BrainCore.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = BrainCore.framework.dSYM; sourceTree = "<group>"; };
+		61CE4C311BED89EB000E0D34 /* HDF5Kit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HDF5Kit.framework; sourceTree = "<group>"; };
+		61CE4C321BED89EB000E0D34 /* HDF5Kit.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = HDF5Kit.framework.dSYM; sourceTree = "<group>"; };
+		61CE4C331BED89EB000E0D34 /* Peak.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Peak.framework; sourceTree = "<group>"; };
+		61CE4C341BED89EB000E0D34 /* Peak.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = Peak.framework.dSYM; sourceTree = "<group>"; };
+		61CE4C351BED89EB000E0D34 /* PlotKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PlotKit.framework; sourceTree = "<group>"; };
+		61CE4C361BED89EB000E0D34 /* PlotKit.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = PlotKit.framework.dSYM; sourceTree = "<group>"; };
+		61CE4C371BED89EB000E0D34 /* Upsurge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Upsurge.framework; sourceTree = "<group>"; };
+		61CE4C381BED89EB000E0D34 /* Upsurge.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = Upsurge.framework.dSYM; sourceTree = "<group>"; };
+		61CE4C3A1BED89EB000E0D34 /* 205392F3-3685-3418-8CE5-46A47557D8F5.bcsymbolmap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "205392F3-3685-3418-8CE5-46A47557D8F5.bcsymbolmap"; sourceTree = "<group>"; };
+		61CE4C3B1BED89EB000E0D34 /* 2E1AC23A-4BDF-3FE2-AECB-E13DEA3DC956.bcsymbolmap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "2E1AC23A-4BDF-3FE2-AECB-E13DEA3DC956.bcsymbolmap"; sourceTree = "<group>"; };
+		61CE4C3C1BED89EB000E0D34 /* 349795F1-D043-3D78-A593-D66CEFF5E0D2.bcsymbolmap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "349795F1-D043-3D78-A593-D66CEFF5E0D2.bcsymbolmap"; sourceTree = "<group>"; };
+		61CE4C3D1BED89EB000E0D34 /* 9CB7D3EE-F803-3A83-AB79-3150A22C770A.bcsymbolmap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "9CB7D3EE-F803-3A83-AB79-3150A22C770A.bcsymbolmap"; sourceTree = "<group>"; };
+		61CE4C3E1BED89EB000E0D34 /* BrainCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = BrainCore.framework; sourceTree = "<group>"; };
+		61CE4C3F1BED89EB000E0D34 /* BrainCore.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = BrainCore.framework.dSYM; sourceTree = "<group>"; };
+		61CE4C401BED89EB000E0D34 /* C92C07B4-9AB4-378F-A269-3FFB51D5EBCC.bcsymbolmap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "C92C07B4-9AB4-378F-A269-3FFB51D5EBCC.bcsymbolmap"; sourceTree = "<group>"; };
+		61CE4C411BED89EB000E0D34 /* D7DCD750-DD88-39E4-89CE-7F4BC3957CC9.bcsymbolmap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "D7DCD750-DD88-39E4-89CE-7F4BC3957CC9.bcsymbolmap"; sourceTree = "<group>"; };
+		61CE4C421BED89EB000E0D34 /* E2CAF4DA-3F12-3084-9A7A-81AFDB31F31C.bcsymbolmap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "E2CAF4DA-3F12-3084-9A7A-81AFDB31F31C.bcsymbolmap"; sourceTree = "<group>"; };
+		61CE4C431BED89EB000E0D34 /* FDAC4DD9-215E-3BA9-B9D0-5DF28AEE771D.bcsymbolmap */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = "FDAC4DD9-215E-3BA9-B9D0-5DF28AEE771D.bcsymbolmap"; sourceTree = "<group>"; };
+		61CE4C441BED89EB000E0D34 /* HDF5Kit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HDF5Kit.framework; sourceTree = "<group>"; };
+		61CE4C451BED89EB000E0D34 /* HDF5Kit.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = HDF5Kit.framework.dSYM; sourceTree = "<group>"; };
+		61CE4C461BED89EB000E0D34 /* Peak.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Peak.framework; sourceTree = "<group>"; };
+		61CE4C471BED89EB000E0D34 /* Peak.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = Peak.framework.dSYM; sourceTree = "<group>"; };
+		61CE4C481BED89EB000E0D34 /* Upsurge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = Upsurge.framework; sourceTree = "<group>"; };
+		61CE4C491BED89EB000E0D34 /* Upsurge.framework.dSYM */ = {isa = PBXFileReference; lastKnownFileType = wrapper.dsym; path = Upsurge.framework.dSYM; sourceTree = "<group>"; };
+		61CE4C5B1BED8B36000E0D34 /* Peak.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Peak.framework; path = ../Carthage/Checkouts/Peak/build/Debug/Peak.framework; sourceTree = "<group>"; };
 		61D485AC1BC4A3D70086CED8 /* Shuffle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shuffle.swift; sourceTree = "<group>"; };
 		61EB527D1BD55F90000572B9 /* Stats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stats.swift; sourceTree = "<group>"; };
 		61EB527F1BD56BC6000572B9 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		61EB52851BD6C117000572B9 /* FeatureExtractionPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = FeatureExtractionPlayground.playground; path = ../Playgrounds/FeatureExtractionPlayground.playground; sourceTree = "<group>"; };
 		8C56779A1BE9600C0009ED31 /* FeatureData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureData.swift; sourceTree = "<group>"; };
 		8C56779C1BE9731E0009ED31 /* FeatureBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureBuilder.swift; sourceTree = "<group>"; };
-		8C78456F1BB9B06600C88426 /* AudioFeatures.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = AudioFeatures.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureExtraction.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C7845721BB9B06600C88426 /* FeatureExtraction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeatureExtraction.h; sourceTree = "<group>"; };
 		8C7845741BB9B06600C88426 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8C7845791BB9B06600C88426 /* AudioFeatures.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = AudioFeatures.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C7845791BB9B06600C88426 /* FeatureExtraction.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeatureExtraction.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C7845801BB9B06600C88426 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C7E7ABA1BBB37CC00BBC93C /* PeakExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakExtractor.swift; sourceTree = "<group>"; };
 		8C9700371BDFDCB4002A81A3 /* PrepareAudio */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PrepareAudio; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -440,9 +213,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				61C97C8A1BD867CE00DE88E6 /* HDF5Kit.framework in Frameworks */,
-				61C97C8E1BD867CF00DE88E6 /* Upsurge.framework in Frameworks */,
-				61C97C861BD867CE00DE88E6 /* BrainCore.framework in Frameworks */,
+				61CE4C5E1BED8BB6000E0D34 /* BrainCore.framework in Frameworks */,
+				61CE4C5A1BED8A4F000E0D34 /* Upsurge.framework in Frameworks */,
+				61CE4C591BED8A48000E0D34 /* HDF5Kit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -450,10 +223,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				61A46BFC1BDEC5B9001D2288 /* PlotKit.framework in Frameworks */,
-				61A46BE91BDEC59E001D2288 /* AudioFeatures.framework in Frameworks */,
-				61A46BEA1BDEC59E001D2288 /* Peak.framework in Frameworks */,
-				61A46BEB1BDEC59E001D2288 /* Upsurge.framework in Frameworks */,
+				61CE4C571BED8A33000E0D34 /* Upsurge.framework in Frameworks */,
+				61CE4C541BED8A0D000E0D34 /* HDF5Kit.framework in Frameworks */,
+				61CE4C561BED8A29000E0D34 /* PlotKit.framework in Frameworks */,
+				61CE4C5D1BED8B42000E0D34 /* Peak.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -461,8 +234,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6122EF231BD6CC55001AE862 /* HDF5Kit.framework in Frameworks */,
-				6122EF241BD6CC55001AE862 /* Upsurge.framework in Frameworks */,
+				61CE4C4E1BED89EB000E0D34 /* Upsurge.framework in Frameworks */,
+				61CE4C4B1BED89EB000E0D34 /* HDF5Kit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -470,7 +243,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				8C78457A1BB9B06600C88426 /* AudioFeatures.framework in Frameworks */,
+				8C78457A1BB9B06600C88426 /* FeatureExtraction.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -478,8 +251,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6122EF251BD6D011001AE862 /* Peak.framework in Frameworks */,
-				8CDE47EF1BBF39C800A98419 /* AudioFeatures.framework in Frameworks */,
+				61CE4C581BED8A34000E0D34 /* Upsurge.framework in Frameworks */,
+				61CE4C531BED8A09000E0D34 /* HDF5Kit.framework in Frameworks */,
+				8CDE47EF1BBF39C800A98419 /* FeatureExtraction.framework in Frameworks */,
+				61CE4C551BED8A22000E0D34 /* Peak.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -494,50 +269,6 @@
 				6185AA071BD4118A00CD5FC5 /* net.h5 */,
 			);
 			name = Data;
-			sourceTree = "<group>";
-		};
-		6122EEF71BD6CC41001AE862 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6122EF041BD6CC41001AE862 /* HDF5Kit.framework */,
-				6122EF061BD6CC41001AE862 /* HDF5KitTests.xctest */,
-				6122EF081BD6CC41001AE862 /* HDF5Kit.framework */,
-				6122EF0A1BD6CC41001AE862 /* HDF5KitTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		6122EEFA1BD6CC41001AE862 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6122EF101BD6CC41001AE862 /* Peak.framework */,
-				6122EF121BD6CC41001AE862 /* PeakiOSTests.xctest */,
-				6122EF141BD6CC41001AE862 /* Peak.framework */,
-				6122EF161BD6CC41001AE862 /* PeakOSXTests.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		6122EEFD1BD6CC41001AE862 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6122EF1C1BD6CC41001AE862 /* Upsurge.framework */,
-				6122EF1E1BD6CC41001AE862 /* UpsurgeTests OSX.xctest */,
-				6122EF201BD6CC41001AE862 /* Upsurge.framework */,
-				6122EF221BD6CC41001AE862 /* UpsurgeTests iOS.xctest */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
-		6122EF291BD6F593001AE862 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				6122EF301BD6F593001AE862 /* BrainCore.framework */,
-				6122EF321BD6F593001AE862 /* BrainCoreTests.OSX.xctest */,
-				6122EF341BD6F593001AE862 /* BrainCore.framework */,
-				6122EF361BD6F593001AE862 /* BrainCoreTests.iOS.xctest */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		6185A7791BD337E100CD5FC5 /* NetEval */ = {
@@ -559,11 +290,8 @@
 		618B7E2F1BBF4A8F0011E8D3 /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
-				61A46BEE1BDEC5AE001D2288 /* PlotKit.xcodeproj */,
-				6122EF281BD6F593001AE862 /* BrainCore.xcodeproj */,
-				6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */,
-				6122EEF91BD6CC41001AE862 /* Peak.xcodeproj */,
-				6122EEFC1BD6CC41001AE862 /* Upsurge.xcodeproj */,
+				61CE4C2E1BED89EB000E0D34 /* Mac */,
+				61CE4C391BED89EB000E0D34 /* iOS */,
 				8CDE47FB1BBF3A6000A98419 /* Accelerate.framework */,
 				8CDE47FD1BBF3A8400A98419 /* Foundation.framework */,
 			);
@@ -589,14 +317,46 @@
 			path = FeatureExplorer;
 			sourceTree = "<group>";
 		};
-		61A46BEF1BDEC5AE001D2288 /* Products */ = {
+		61CE4C2E1BED89EB000E0D34 /* Mac */ = {
 			isa = PBXGroup;
 			children = (
-				61A46BF51BDEC5AE001D2288 /* PlotKit.framework */,
-				61A46BF71BDEC5AE001D2288 /* PlotKitTests.xctest */,
-				61A46BF91BDEC5AE001D2288 /* PlotKitDemo.app */,
+				61CE4C2F1BED89EB000E0D34 /* BrainCore.framework */,
+				61CE4C301BED89EB000E0D34 /* BrainCore.framework.dSYM */,
+				61CE4C311BED89EB000E0D34 /* HDF5Kit.framework */,
+				61CE4C321BED89EB000E0D34 /* HDF5Kit.framework.dSYM */,
+				61CE4C331BED89EB000E0D34 /* Peak.framework */,
+				61CE4C341BED89EB000E0D34 /* Peak.framework.dSYM */,
+				61CE4C351BED89EB000E0D34 /* PlotKit.framework */,
+				61CE4C361BED89EB000E0D34 /* PlotKit.framework.dSYM */,
+				61CE4C371BED89EB000E0D34 /* Upsurge.framework */,
+				61CE4C381BED89EB000E0D34 /* Upsurge.framework.dSYM */,
 			);
-			name = Products;
+			name = Mac;
+			path = ../Carthage/Build/Mac;
+			sourceTree = "<group>";
+		};
+		61CE4C391BED89EB000E0D34 /* iOS */ = {
+			isa = PBXGroup;
+			children = (
+				61CE4C3A1BED89EB000E0D34 /* 205392F3-3685-3418-8CE5-46A47557D8F5.bcsymbolmap */,
+				61CE4C3B1BED89EB000E0D34 /* 2E1AC23A-4BDF-3FE2-AECB-E13DEA3DC956.bcsymbolmap */,
+				61CE4C3C1BED89EB000E0D34 /* 349795F1-D043-3D78-A593-D66CEFF5E0D2.bcsymbolmap */,
+				61CE4C3D1BED89EB000E0D34 /* 9CB7D3EE-F803-3A83-AB79-3150A22C770A.bcsymbolmap */,
+				61CE4C3E1BED89EB000E0D34 /* BrainCore.framework */,
+				61CE4C3F1BED89EB000E0D34 /* BrainCore.framework.dSYM */,
+				61CE4C401BED89EB000E0D34 /* C92C07B4-9AB4-378F-A269-3FFB51D5EBCC.bcsymbolmap */,
+				61CE4C411BED89EB000E0D34 /* D7DCD750-DD88-39E4-89CE-7F4BC3957CC9.bcsymbolmap */,
+				61CE4C421BED89EB000E0D34 /* E2CAF4DA-3F12-3084-9A7A-81AFDB31F31C.bcsymbolmap */,
+				61CE4C431BED89EB000E0D34 /* FDAC4DD9-215E-3BA9-B9D0-5DF28AEE771D.bcsymbolmap */,
+				61CE4C441BED89EB000E0D34 /* HDF5Kit.framework */,
+				61CE4C451BED89EB000E0D34 /* HDF5Kit.framework.dSYM */,
+				61CE4C461BED89EB000E0D34 /* Peak.framework */,
+				61CE4C471BED89EB000E0D34 /* Peak.framework.dSYM */,
+				61CE4C481BED89EB000E0D34 /* Upsurge.framework */,
+				61CE4C491BED89EB000E0D34 /* Upsurge.framework.dSYM */,
+			);
+			name = iOS;
+			path = ../Carthage/Build/iOS;
 			sourceTree = "<group>";
 		};
 		8C7845651BB9B06600C88426 = {
@@ -618,8 +378,8 @@
 		8C7845701BB9B06600C88426 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				8C78456F1BB9B06600C88426 /* AudioFeatures.framework */,
-				8C7845791BB9B06600C88426 /* AudioFeatures.xctest */,
+				8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */,
+				8C7845791BB9B06600C88426 /* FeatureExtraction.xctest */,
 				8CDE478A1BBF116900A98419 /* CompileFeatures */,
 				6185A7781BD337E100CD5FC5 /* NetEval.app */,
 				8C9700371BDFDCB4002A81A3 /* PrepareAudio */,
@@ -686,6 +446,7 @@
 		B5F7CD465AC17DFE1FC7BC55 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				61CE4C5B1BED8B36000E0D34 /* Peak.framework */,
 				61A46BEC1BDEC59F001D2288 /* PlotKit.framework */,
 				61EB527F1BD56BC6000572B9 /* AppKit.framework */,
 				D3C00C05497A6CBB3AB74FF6 /* Pods_OSX.framework */,
@@ -720,12 +481,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				6122EF3F1BD6F5E6001AE862 /* PBXTargetDependency */,
-				61C97C781BD867B200DE88E6 /* PBXTargetDependency */,
-				61C97C7F1BD867B300DE88E6 /* PBXTargetDependency */,
-				61C97C891BD867CE00DE88E6 /* PBXTargetDependency */,
-				61C97C8D1BD867CE00DE88E6 /* PBXTargetDependency */,
-				61C97C911BD867CF00DE88E6 /* PBXTargetDependency */,
 			);
 			name = NetEval;
 			productName = NetEval;
@@ -743,10 +498,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				61957A6D1BED26F300777595 /* PBXTargetDependency */,
-				61A46BFB1BDEC5B3001D2288 /* PBXTargetDependency */,
 				61A46BE41BDEC58F001D2288 /* PBXTargetDependency */,
-				61A46BE61BDEC58F001D2288 /* PBXTargetDependency */,
 				61A46BE81BDEC58F001D2288 /* PBXTargetDependency */,
 			);
 			name = FeatureExplorer;
@@ -754,9 +506,9 @@
 			productReference = 61A46BC81BDEC578001D2288 /* FeatureExplorer.app */;
 			productType = "com.apple.product-type.application";
 		};
-		8C78456E1BB9B06600C88426 /* AudioFeatures */ = {
+		8C78456E1BB9B06600C88426 /* FeatureExtraction */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8C7845831BB9B06600C88426 /* Build configuration list for PBXNativeTarget "AudioFeatures" */;
+			buildConfigurationList = 8C7845831BB9B06600C88426 /* Build configuration list for PBXNativeTarget "FeatureExtraction" */;
 			buildPhases = (
 				8C78456A1BB9B06600C88426 /* Sources */,
 				8C78456B1BB9B06600C88426 /* Frameworks */,
@@ -765,17 +517,15 @@
 			buildRules = (
 			);
 			dependencies = (
-				61AD3A711BEBDDF500FA2DB7 /* PBXTargetDependency */,
-				61AD3A6F1BEBDDEC00FA2DB7 /* PBXTargetDependency */,
 			);
-			name = AudioFeatures;
+			name = FeatureExtraction;
 			productName = FeatureExtraction;
-			productReference = 8C78456F1BB9B06600C88426 /* AudioFeatures.framework */;
+			productReference = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		8C7845781BB9B06600C88426 /* AudioFeaturesTests */ = {
+		8C7845781BB9B06600C88426 /* FeatureExtractionTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 8C7845861BB9B06600C88426 /* Build configuration list for PBXNativeTarget "AudioFeaturesTests" */;
+			buildConfigurationList = 8C7845861BB9B06600C88426 /* Build configuration list for PBXNativeTarget "FeatureExtractionTests" */;
 			buildPhases = (
 				8C7845751BB9B06600C88426 /* Sources */,
 				8C7845761BB9B06600C88426 /* Frameworks */,
@@ -786,9 +536,9 @@
 			dependencies = (
 				8C78457C1BB9B06600C88426 /* PBXTargetDependency */,
 			);
-			name = AudioFeaturesTests;
+			name = FeatureExtractionTests;
 			productName = FeatureExtractionTests;
-			productReference = 8C7845791BB9B06600C88426 /* AudioFeatures.xctest */;
+			productReference = 8C7845791BB9B06600C88426 /* FeatureExtraction.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
 		8C9700361BDFDCB4002A81A3 /* PrepareAudio */ = {
@@ -800,9 +550,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				618ACBF41BE052DB008C23A8 /* PBXTargetDependency */,
-				618ACBF61BE052DB008C23A8 /* PBXTargetDependency */,
-				618ACBF81BE052DB008C23A8 /* PBXTargetDependency */,
 			);
 			name = PrepareAudio;
 			productName = PrepareAudio;
@@ -820,8 +567,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				61A46C121BE02E27001D2288 /* PBXTargetDependency */,
-				6122EF271BD6D01C001AE862 /* PBXTargetDependency */,
 				8CDE47F41BBF39D500A98419 /* PBXTargetDependency */,
 			);
 			name = CompileFeatures;
@@ -870,32 +615,10 @@
 			mainGroup = 8C7845651BB9B06600C88426;
 			productRefGroup = 8C7845701BB9B06600C88426 /* Products */;
 			projectDirPath = "";
-			projectReferences = (
-				{
-					ProductGroup = 6122EF291BD6F593001AE862 /* Products */;
-					ProjectRef = 6122EF281BD6F593001AE862 /* BrainCore.xcodeproj */;
-				},
-				{
-					ProductGroup = 6122EEF71BD6CC41001AE862 /* Products */;
-					ProjectRef = 6122EEF61BD6CC41001AE862 /* HDF5Kit.xcodeproj */;
-				},
-				{
-					ProductGroup = 6122EEFA1BD6CC41001AE862 /* Products */;
-					ProjectRef = 6122EEF91BD6CC41001AE862 /* Peak.xcodeproj */;
-				},
-				{
-					ProductGroup = 61A46BEF1BDEC5AE001D2288 /* Products */;
-					ProjectRef = 61A46BEE1BDEC5AE001D2288 /* PlotKit.xcodeproj */;
-				},
-				{
-					ProductGroup = 6122EEFD1BD6CC41001AE862 /* Products */;
-					ProjectRef = 6122EEFC1BD6CC41001AE862 /* Upsurge.xcodeproj */;
-				},
-			);
 			projectRoot = "";
 			targets = (
-				8C78456E1BB9B06600C88426 /* AudioFeatures */,
-				8C7845781BB9B06600C88426 /* AudioFeaturesTests */,
+				8C78456E1BB9B06600C88426 /* FeatureExtraction */,
+				8C7845781BB9B06600C88426 /* FeatureExtractionTests */,
 				8CDE47891BBF116900A98419 /* CompileFeatures */,
 				6185A7771BD337E100CD5FC5 /* NetEval */,
 				8C9700361BDFDCB4002A81A3 /* PrepareAudio */,
@@ -903,142 +626,6 @@
 			);
 		};
 /* End PBXProject section */
-
-/* Begin PBXReferenceProxy section */
-		6122EF041BD6CC41001AE862 /* HDF5Kit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = HDF5Kit.framework;
-			remoteRef = 6122EF031BD6CC41001AE862 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6122EF061BD6CC41001AE862 /* HDF5KitTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = HDF5KitTests.xctest;
-			remoteRef = 6122EF051BD6CC41001AE862 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6122EF081BD6CC41001AE862 /* HDF5Kit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = HDF5Kit.framework;
-			remoteRef = 6122EF071BD6CC41001AE862 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6122EF0A1BD6CC41001AE862 /* HDF5KitTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = HDF5KitTests.xctest;
-			remoteRef = 6122EF091BD6CC41001AE862 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6122EF101BD6CC41001AE862 /* Peak.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Peak.framework;
-			remoteRef = 6122EF0F1BD6CC41001AE862 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6122EF121BD6CC41001AE862 /* PeakiOSTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = PeakiOSTests.xctest;
-			remoteRef = 6122EF111BD6CC41001AE862 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6122EF141BD6CC41001AE862 /* Peak.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Peak.framework;
-			remoteRef = 6122EF131BD6CC41001AE862 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6122EF161BD6CC41001AE862 /* PeakOSXTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = PeakOSXTests.xctest;
-			remoteRef = 6122EF151BD6CC41001AE862 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6122EF1C1BD6CC41001AE862 /* Upsurge.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Upsurge.framework;
-			remoteRef = 6122EF1B1BD6CC41001AE862 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6122EF1E1BD6CC41001AE862 /* UpsurgeTests OSX.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "UpsurgeTests OSX.xctest";
-			remoteRef = 6122EF1D1BD6CC41001AE862 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6122EF201BD6CC41001AE862 /* Upsurge.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = Upsurge.framework;
-			remoteRef = 6122EF1F1BD6CC41001AE862 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6122EF221BD6CC41001AE862 /* UpsurgeTests iOS.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = "UpsurgeTests iOS.xctest";
-			remoteRef = 6122EF211BD6CC41001AE862 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6122EF301BD6F593001AE862 /* BrainCore.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = BrainCore.framework;
-			remoteRef = 6122EF2F1BD6F593001AE862 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6122EF321BD6F593001AE862 /* BrainCoreTests.OSX.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = BrainCoreTests.OSX.xctest;
-			remoteRef = 6122EF311BD6F593001AE862 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6122EF341BD6F593001AE862 /* BrainCore.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = BrainCore.framework;
-			remoteRef = 6122EF331BD6F593001AE862 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		6122EF361BD6F593001AE862 /* BrainCoreTests.iOS.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = BrainCoreTests.iOS.xctest;
-			remoteRef = 6122EF351BD6F593001AE862 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		61A46BF51BDEC5AE001D2288 /* PlotKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = PlotKit.framework;
-			remoteRef = 61A46BF41BDEC5AE001D2288 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		61A46BF71BDEC5AE001D2288 /* PlotKitTests.xctest */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = PlotKitTests.xctest;
-			remoteRef = 61A46BF61BDEC5AE001D2288 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		61A46BF91BDEC5AE001D2288 /* PlotKitDemo.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = PlotKitDemo.app;
-			remoteRef = 61A46BF81BDEC5AE001D2288 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		6185A7761BD337E100CD5FC5 /* Resources */ = {
@@ -1155,103 +742,23 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		6122EF271BD6D01C001AE862 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = PeakOSX;
-			targetProxy = 6122EF261BD6D01C001AE862 /* PBXContainerItemProxy */;
-		};
-		6122EF3F1BD6F5E6001AE862 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Upsurge iOS";
-			targetProxy = 6122EF3E1BD6F5E6001AE862 /* PBXContainerItemProxy */;
-		};
-		618ACBF41BE052DB008C23A8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "HDF5Kit-OSX";
-			targetProxy = 618ACBF31BE052DB008C23A8 /* PBXContainerItemProxy */;
-		};
-		618ACBF61BE052DB008C23A8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = PeakOSX;
-			targetProxy = 618ACBF51BE052DB008C23A8 /* PBXContainerItemProxy */;
-		};
-		618ACBF81BE052DB008C23A8 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Upsurge OSX";
-			targetProxy = 618ACBF71BE052DB008C23A8 /* PBXContainerItemProxy */;
-		};
-		61957A6D1BED26F300777595 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Upsurge OSX";
-			targetProxy = 61957A6C1BED26F300777595 /* PBXContainerItemProxy */;
-		};
 		61A46BE41BDEC58F001D2288 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8C78456E1BB9B06600C88426 /* AudioFeatures */;
+			target = 8C78456E1BB9B06600C88426 /* FeatureExtraction */;
 			targetProxy = 61A46BE31BDEC58F001D2288 /* PBXContainerItemProxy */;
-		};
-		61A46BE61BDEC58F001D2288 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = PeakOSX;
-			targetProxy = 61A46BE51BDEC58F001D2288 /* PBXContainerItemProxy */;
 		};
 		61A46BE81BDEC58F001D2288 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Upsurge OSX";
 		};
-		61A46BFB1BDEC5B3001D2288 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = PlotKit;
-			targetProxy = 61A46BFA1BDEC5B3001D2288 /* PBXContainerItemProxy */;
-		};
-		61A46C121BE02E27001D2288 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "HDF5Kit-OSX";
-			targetProxy = 61A46C111BE02E27001D2288 /* PBXContainerItemProxy */;
-		};
-		61AD3A6F1BEBDDEC00FA2DB7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "HDF5Kit-OSX";
-			targetProxy = 61AD3A6E1BEBDDEC00FA2DB7 /* PBXContainerItemProxy */;
-		};
-		61AD3A711BEBDDF500FA2DB7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Upsurge OSX";
-			targetProxy = 61AD3A701BEBDDF500FA2DB7 /* PBXContainerItemProxy */;
-		};
-		61C97C781BD867B200DE88E6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = BrainCore.iOS;
-			targetProxy = 61C97C771BD867B200DE88E6 /* PBXContainerItemProxy */;
-		};
-		61C97C7F1BD867B300DE88E6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "HDF5Kit-iOS";
-			targetProxy = 61C97C7E1BD867B300DE88E6 /* PBXContainerItemProxy */;
-		};
-		61C97C891BD867CE00DE88E6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = BrainCore.iOS;
-			targetProxy = 61C97C881BD867CE00DE88E6 /* PBXContainerItemProxy */;
-		};
-		61C97C8D1BD867CE00DE88E6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "HDF5Kit-iOS";
-			targetProxy = 61C97C8C1BD867CE00DE88E6 /* PBXContainerItemProxy */;
-		};
-		61C97C911BD867CF00DE88E6 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Upsurge iOS";
-			targetProxy = 61C97C901BD867CF00DE88E6 /* PBXContainerItemProxy */;
-		};
 		8C78457C1BB9B06600C88426 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8C78456E1BB9B06600C88426 /* AudioFeatures */;
+			target = 8C78456E1BB9B06600C88426 /* FeatureExtraction */;
 			targetProxy = 8C78457B1BB9B06600C88426 /* PBXContainerItemProxy */;
 		};
 		8CDE47F41BBF39D500A98419 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = 8C78456E1BB9B06600C88426 /* AudioFeatures */;
+			target = 8C78456E1BB9B06600C88426 /* FeatureExtraction */;
 			targetProxy = 8CDE47F31BBF39D500A98419 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -1463,7 +970,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.venturemedia.FeatureExtraction;
-				PRODUCT_NAME = AudioFeatures;
+				PRODUCT_NAME = FeatureExtraction;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
@@ -1484,7 +991,7 @@
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.venturemedia.FeatureExtraction;
-				PRODUCT_NAME = AudioFeatures;
+				PRODUCT_NAME = FeatureExtraction;
 				SKIP_INSTALL = YES;
 			};
 			name = Release;
@@ -1496,7 +1003,7 @@
 				INFOPLIST_FILE = FeatureExtractionTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.venturemedia.FeatureExtractionTests;
-				PRODUCT_NAME = AudioFeatures;
+				PRODUCT_NAME = FeatureExtraction;
 			};
 			name = Debug;
 		};
@@ -1507,7 +1014,7 @@
 				INFOPLIST_FILE = FeatureExtractionTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.venturemedia.FeatureExtractionTests;
-				PRODUCT_NAME = AudioFeatures;
+				PRODUCT_NAME = FeatureExtraction;
 			};
 			name = Release;
 		};
@@ -1559,7 +1066,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8C7845831BB9B06600C88426 /* Build configuration list for PBXNativeTarget "AudioFeatures" */ = {
+		8C7845831BB9B06600C88426 /* Build configuration list for PBXNativeTarget "FeatureExtraction" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8C7845841BB9B06600C88426 /* Debug */,
@@ -1568,7 +1075,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		8C7845861BB9B06600C88426 /* Build configuration list for PBXNativeTarget "AudioFeaturesTests" */ = {
+		8C7845861BB9B06600C88426 /* Build configuration list for PBXNativeTarget "FeatureExtractionTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				8C7845871BB9B06600C88426 /* Debug */,
