@@ -21,3 +21,6 @@ AudioData
 # Converter files
 Converters/out/
 Converters/sf/
+
+# Other intermediate files
+*.pyc
