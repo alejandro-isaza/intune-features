@@ -5,4 +5,4 @@ import Foundation
 let featureCompiler = FeatureCompiler()
 featureCompiler.compileNoiseFeatures()
 featureCompiler.compileMonoFeatures()
-featureCompiler.compilePolyFeatures()
+//featureCompiler.compilePolyFeatures()
