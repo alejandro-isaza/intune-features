@@ -5,12 +5,7 @@ import FeatureExtraction
 import PlotKit
 import Upsurge
 
-class PeakLocationsViewController: NSViewController {
-    var lineColor = NSColor.blueColor()
-    var markerColor = NSColor.grayColor()
-
-    @IBOutlet weak var plotView: PlotView?
-
+class PeakLocationsViewController: BandsFeaturesViewController {
     let feature: PeakLocationsFeature = PeakLocationsFeature(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
 
     override func viewDidLoad() {

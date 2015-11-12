@@ -21,6 +21,8 @@ class FeaturesViewController: NSTabViewController {
     var spectrum: SpectrumViewController!
     var peakHeights: PeakHeightsViewController!
     var peakLocations: PeakLocationsViewController!
+    var spectrumFlux: SpectrumFluxViewController!
+    var spectrumFeature = SpectrumFeature(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -31,12 +33,13 @@ class FeaturesViewController: NSTabViewController {
         spectrum = storyboard!.instantiateControllerWithIdentifier("SpectrumViewController") as! SpectrumViewController
         peakHeights = storyboard!.instantiateControllerWithIdentifier("PeakHeightsViewController") as! PeakHeightsViewController
         peakLocations = storyboard!.instantiateControllerWithIdentifier("PeakLocationsViewController") as! PeakLocationsViewController
+        spectrumFlux = storyboard!.instantiateControllerWithIdentifier("SpectrumFluxViewController") as! SpectrumFluxViewController
         tabViewItems = [
             NSTabViewItem(viewController: spectrum),
             NSTabViewItem(viewController: peakHeights),
-            NSTabViewItem(viewController: peakLocations)
+            NSTabViewItem(viewController: peakLocations),
+            NSTabViewItem(viewController: spectrumFlux)
         ]
-        // Load all views
         selectedTabViewItemIndex = 0
     }
 
@@ -62,6 +65,9 @@ class FeaturesViewController: NSTabViewController {
     }
 
     func updateFeatures() {
+        let spec0 = spectrumValues(example.data.0)
+        spectrumFeature.update(spectrum: spec0, baseFrequency: fb)
+
         let rms = rmsq(example.data.1)
         let spec = spectrumValues(example.data.1)
         let specPoints = spectrumPoints(spec)
@@ -71,6 +77,7 @@ class FeaturesViewController: NSTabViewController {
         spectrum.updateView(spec, baseFrequency: fb, markNotes: markNotes)
         peakHeights.updateView(peaks, rms: rms, markNotes: markNotes)
         peakLocations.updateView(peaks, markNotes: markNotes)
+        spectrumFlux.updateView(spectrum0: spectrumFeature.data, spectrum1: spectrum.feature.data, markNotes: markNotes)
     }
     
 }

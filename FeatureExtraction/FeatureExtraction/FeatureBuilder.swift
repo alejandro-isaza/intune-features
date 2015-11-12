@@ -28,9 +28,9 @@ public struct FeatureBuilder {
     public let rms: RMSFeature = RMSFeature()
     public let peakLocations = PeakLocationsFeature(notes: bandNotes, bandSize: bandSize)
     public let peakHeights: PeakHeightsFeature = PeakHeightsFeature(notes: bandNotes, bandSize: bandSize)
-    public let bands0: SpectrumFeature = SpectrumFeature(notes: bandNotes, bandSize: bandSize)
-    public let bands1: SpectrumFeature = SpectrumFeature(notes: bandNotes, bandSize: bandSize)
-    public let bandFluxes: BandFluxsFeature = BandFluxsFeature(notes: bandNotes, bandSize: bandSize)
+    public let spectrumFeature0: SpectrumFeature = SpectrumFeature(notes: bandNotes, bandSize: bandSize)
+    public let spectrumFeature1: SpectrumFeature = SpectrumFeature(notes: bandNotes, bandSize: bandSize)
+    public let spectrumFluxFeature: SpectrumFluxFeature = SpectrumFluxFeature(notes: bandNotes, bandSize: bandSize)
 
     public init() {
         window = RealArray(count: FeatureBuilder.sampleCount)
@@ -58,16 +58,16 @@ public struct FeatureBuilder {
         
         peakLocations.update(peaks1)
         peakHeights.update(peaks1, rms: rms.rms)
-        bands0.update(spectrum: spectrum0, baseFrequency: fb)
-        bands1.update(spectrum: spectrum1, baseFrequency: fb)
-        bandFluxes.update(bands0: bands0.data, bands1: bands1.data)
+        spectrumFeature0.update(spectrum: spectrum0, baseFrequency: fb)
+        spectrumFeature1.update(spectrum: spectrum1, baseFrequency: fb)
+        spectrumFluxFeature.update(spectrum0: spectrumFeature0.data, spectrum1: spectrumFeature1.data)
         
         return [
             "rms": rms.data.copy(),
             "peak_locations": peakLocations.data.copy(),
             "peak_heights": peakHeights.data.copy(),
-            "bands": bands1.data.copy(),
-            "band_fluxes": bandFluxes.data.copy()
+            "bands": spectrumFeature1.data.copy(),
+            "band_fluxes": spectrumFluxFeature.data.copy()
         ]
     }
     

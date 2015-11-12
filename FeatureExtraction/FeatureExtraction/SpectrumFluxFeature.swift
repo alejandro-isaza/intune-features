@@ -3,7 +3,7 @@
 import Foundation
 import Upsurge
 
-public class BandFluxsFeature : BandsFeature {
+public class SpectrumFluxFeature : BandsFeature {
     public var fluxes: RealArray
 
     public override var data: RealArray {
@@ -15,12 +15,12 @@ public class BandFluxsFeature : BandsFeature {
         super.init(notes: notes, bandSize: bandSize)
     }
 
-    public func update(bands0 bands0: RealArray, bands1: RealArray) {
+    public func update(spectrum0 spectrum0: RealArray, spectrum1: RealArray) {
         let bandCount = notes.count
-        precondition(bands0.count == bandCount && bands1.count == bandCount)
+        precondition(spectrum0.count == bandCount && spectrum1.count == bandCount)
 
         for band in 0..<bandCount {
-            fluxes[band] = bands1[band] - bands0[band]
+            fluxes[band] = spectrum1[band] - spectrum0[band]
         }
     }
 }

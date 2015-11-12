@@ -763,7 +763,7 @@
                                     <slider verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="NNw-m7-Del">
                                         <rect key="frame" x="146" y="80" width="286" height="20"/>
                                         <animations/>
-                                        <sliderCell key="cell" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="Qa9-31-6Ot"/>
+                                        <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="Qa9-31-6Ot"/>
                                         <connections>
                                             <action selector="offsetDidChange:" target="56H-Xx-d65" id="8mD-AZ-g7d"/>
                                         </connections>
@@ -1020,6 +1020,7 @@
                         <tabViewItem id="0Hy-DM-eLc"/>
                         <tabViewItem id="AXI-9h-HmP"/>
                         <tabViewItem id="Fju-ty-Qnk"/>
+                        <tabViewItem id="WSj-3B-FdW"/>
                     </tabViewItems>
                     <tabView key="tabView" autoresizesSubviews="NO" type="noTabsNoBorder" id="g99-cU-HfO">
                         <autoresizingMask key="autoresizingMask"/>
@@ -1031,6 +1032,7 @@
                         <segue destination="n4E-iJ-xjN" kind="relationship" relationship="tabItems" id="b9K-4u-xXz"/>
                         <segue destination="iu4-yz-Gtg" kind="relationship" relationship="tabItems" id="sFl-0Z-IPq"/>
                         <segue destination="RTh-T8-aZm" kind="relationship" relationship="tabItems" id="Spa-jo-Y4M"/>
+                        <segue destination="6Kd-Zk-rLq" kind="relationship" relationship="tabItems" id="0qu-xN-bOg"/>
                     </connections>
                 </tabViewController>
                 <customObject id="h80-g0-NDa" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -1123,6 +1125,35 @@
                 <customObject id="5rM-Vv-Ib6" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="2035" y="735"/>
+        </scene>
+        <!--Spectrum Flux-->
+        <scene sceneID="IgE-N6-bn2">
+            <objects>
+                <viewController title="Spectrum Flux" storyboardIdentifier="SpectrumFluxViewController" id="6Kd-Zk-rLq" customClass="SpectrumFluxViewController" customModule="FeatureExplorer" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="W2B-VM-9lb">
+                        <rect key="frame" x="0.0" y="0.0" width="620" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="Qw6-8n-dEe" customClass="PlotView" customModule="PlotKit">
+                                <rect key="frame" x="0.0" y="0.0" width="620" height="300"/>
+                                <animations/>
+                            </customView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="bottom" secondItem="Qw6-8n-dEe" secondAttribute="bottom" id="B7j-j5-4dk"/>
+                            <constraint firstItem="Qw6-8n-dEe" firstAttribute="leading" secondItem="W2B-VM-9lb" secondAttribute="leading" id="JFe-PI-lg3"/>
+                            <constraint firstItem="Qw6-8n-dEe" firstAttribute="top" secondItem="W2B-VM-9lb" secondAttribute="top" id="Yik-H4-ccs"/>
+                            <constraint firstAttribute="trailing" secondItem="Qw6-8n-dEe" secondAttribute="trailing" id="uGv-FR-M9E"/>
+                        </constraints>
+                        <animations/>
+                    </view>
+                    <connections>
+                        <outlet property="plotView" destination="Qw6-8n-dEe" id="CRM-Yz-uIH"/>
+                    </connections>
+                </viewController>
+                <customObject id="uWS-SW-02S" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2035" y="1210"/>
         </scene>
     </scenes>
 </document>

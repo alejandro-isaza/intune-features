@@ -5,35 +5,36 @@ import FeatureExtraction
 import PlotKit
 import Upsurge
 
-class SpectrumViewController: BandsFeaturesViewController {
-    let feature: SpectrumFeature = SpectrumFeature(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
+class SpectrumFluxViewController: BandsFeaturesViewController {
+    let yrange = -0.1...0.1
+    let feature: SpectrumFluxFeature = SpectrumFluxFeature(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        plotView!.addAxis(Axis(orientation: .Vertical, ticks: .Fit(3)))
-        plotView!.addAxis(Axis(orientation: .Horizontal, ticks: .Distance(12)))
+        plotView!.fixedYInterval = yrange
+        plotView!.addAxis(Axis(orientation: .Vertical, ticks: .Distance(0.05)))
+
+        var haxis = Axis(orientation: .Horizontal, ticks: .Distance(12))
+        haxis.position = .Value(0.0)
+        plotView!.addAxis(haxis)
+
     }
 
-    func updateView(spectrum: RealArray, baseFrequency: Double, markNotes: [Int]) {
+    func updateView(spectrum0 spectrum0: RealArray, spectrum1: RealArray, markNotes: [Int]) {
         _ = view // Force the view to load
         guard let plotView = plotView else {
             return
         }
         plotView.clear()
 
-        feature.update(spectrum: spectrum, baseFrequency: baseFrequency)
+        feature.update(spectrum0: spectrum0, spectrum1: spectrum1)
 
-        var maxY: Double = 0
         var points = Array<PlotKit.Point>()
-        for band in 0..<feature.bands.count {
+        for band in 0..<feature.fluxes.count {
             let note = feature.noteForBand(band)
-            let y = feature.bands[band]
+            let y = feature.fluxes[band]
             points.append(Point(x: note, y: y))
-
-            if y > maxY {
-                maxY = y
-            }
         }
         let pointSet = PointSet(points: points)
         pointSet.color = lineColor
@@ -43,7 +44,8 @@ class SpectrumViewController: BandsFeaturesViewController {
         var markPoints = Array<PlotKit.Point>()
         for note in markNotes {
             markPoints.append(Point(x: Double(note), y: 0))
-            markPoints.append(Point(x: Double(note), y: maxY))
+            markPoints.append(Point(x: Double(note), y: yrange.end))
+            markPoints.append(Point(x: Double(note), y: yrange.start))
             markPoints.append(Point(x: Double(note), y: 0))
         }
         let markPointSet = PointSet(points: markPoints)
