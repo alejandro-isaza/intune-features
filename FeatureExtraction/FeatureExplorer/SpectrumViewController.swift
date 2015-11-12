@@ -21,6 +21,7 @@ class SpectrumViewController: NSViewController {
     }
 
     func updateView(spectrum: RealArray, baseFrequency: Double, markNotes: [Int]) {
+        _ = view // Force the view to load
         guard let plotView = plotView else {
             return
         }

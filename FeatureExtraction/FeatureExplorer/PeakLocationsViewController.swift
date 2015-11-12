@@ -21,6 +21,7 @@ class PeakLocationsViewController: NSViewController {
     }
 
     func updateView(peaks: [FeatureExtraction.Point], markNotes: [Int]) {
+        _ = view // Force the view to load
         guard let plotView = plotView else {
             return
         }

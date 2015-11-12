@@ -27,7 +27,7 @@ class FeaturesViewController: NSTabViewController {
 
         view.translatesAutoresizingMaskIntoConstraints = false
         tabView.translatesAutoresizingMaskIntoConstraints = false
-
+        
         spectrum = storyboard!.instantiateControllerWithIdentifier("SpectrumViewController") as! SpectrumViewController
         peakHeights = storyboard!.instantiateControllerWithIdentifier("PeakHeightsViewController") as! PeakHeightsViewController
         peakLocations = storyboard!.instantiateControllerWithIdentifier("PeakLocationsViewController") as! PeakLocationsViewController
@@ -36,6 +36,7 @@ class FeaturesViewController: NSTabViewController {
             NSTabViewItem(viewController: peakHeights),
             NSTabViewItem(viewController: peakLocations)
         ]
+        // Load all views
         selectedTabViewItemIndex = 0
     }
 
