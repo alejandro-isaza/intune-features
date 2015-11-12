@@ -1,19 +1,24 @@
 //  Copyright © 2015 Venture Media. All rights reserved.
 
+import AudioToolbox
 import Cocoa
 import FeatureExtraction
 import Peak
 import Upsurge
 
 class FileViewController: NSViewController {
+    let minOverlapTime = 0.004 // The minum note overlap in seconds to consider a note part of an example
+
     var example = Example()
     var audioFile: AudioFile?
+    var midiFile: MIDIFile?
 
     @IBOutlet weak var fileNameTextField: NSTextField!
     @IBOutlet weak var offsetTextView: NSTextField!
     @IBOutlet weak var offsetStepper: NSStepper!
     @IBOutlet weak var offsetSlider: NSSlider!
     @IBOutlet weak var rmsTextField: NSTextField!
+    @IBOutlet weak var notesTextField: NSTextField!
     @IBOutlet weak var contentView: NSView!
     var featuresViewController: FeaturesViewController!
 
@@ -37,6 +42,7 @@ class FileViewController: NSViewController {
         addChildViewController(featuresViewController)
 
         let featuresView = featuresViewController.view
+        featuresView.translatesAutoresizingMaskIntoConstraints = false
         contentView.addSubview(featuresView)
         featuresView.leadingAnchor.constraintEqualToAnchor(contentView.leadingAnchor).active = true
         featuresView.trailingAnchor.constraintEqualToAnchor(contentView.trailingAnchor).active = true
@@ -50,8 +56,12 @@ class FileViewController: NSViewController {
         offsetStepper.integerValue = 0
         offsetSlider.integerValue = 0
         rmsTextField.stringValue = ""
+        notesTextField.stringValue = ""
 
         example.filePath = filePath
+        let midiFilePath = (filePath as NSString).stringByDeletingPathExtension + ".mid"
+        midiFile = MIDIFile(filePath: midiFilePath)
+
         audioFile = AudioFile.open(example.filePath)
         example.data.0 = RealArray(count: Configuration.sampleCount)
         example.data.1 = RealArray(count: Configuration.sampleCount)
@@ -85,5 +95,50 @@ class FileViewController: NSViewController {
         offsetStepper.integerValue = example.frameOffset
         offsetSlider.integerValue = example.frameOffset
         rmsTextField.doubleValue = rmsq(example.data.1)
+
+        let notes = noteEventsAtOffset(offset)
+        var notesString = ""
+        for note in notes {
+            let time = midiFile!.secondsForBeats(note.timeStamp)
+            let currentTime = Double(offset) / audioFile.sampleRate
+            let string = String(format: "%i (v: %i, t: %.3f) ", arguments: [note.note, note.velocity, time - currentTime])
+            notesString += string
+        }
+        notesTextField.stringValue = notesString
+    }
+
+    func noteEventsAtOffset(offset: Int) -> [MIDINoteEvent] {
+        guard let audioFile = audioFile, midiFile = midiFile else {
+            return []
+        }
+        let timeStart = Double(offset - Configuration.sampleCount/2) / audioFile.sampleRate
+        let timeEnd = Double(offset + Configuration.sampleCount/2) / audioFile.sampleRate
+        let beatStart = midiFile.beatsForSeconds(timeStart)
+        let beatEnd = midiFile.beatsForSeconds(timeEnd)
+
+        let noteEvents = midiFile.noteEvents
+        let beatRange = beatStart..<beatEnd
+
+        var notes = [MIDINoteEvent]()
+        for note in noteEvents {
+            let noteStart = note.timeStamp
+            if noteStart >= beatEnd {
+                break
+            }
+
+            let noteEnd = note.timeStamp + MusicTimeStamp(note.duration)
+            if noteEnd < beatStart {
+                continue
+            }
+
+            let noteRange = noteStart..<noteEnd
+            let overlap = noteRange.clamp(beatRange)
+            let overlapTime = midiFile.secondsForBeats(overlap.end) - midiFile.secondsForBeats(overlap.start)
+            if overlapTime >= minOverlapTime {
+                notes.append(note)
+            }
+        }
+
+        return notes
     }
 }

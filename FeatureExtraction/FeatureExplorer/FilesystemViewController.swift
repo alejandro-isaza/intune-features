@@ -120,7 +120,10 @@ class FilesystemViewController: NSViewController, NSOutlineViewDataSource, NSOut
             return paths
         }
 
-        var names = try! fileManager.contentsOfDirectoryAtPath(path).filter{ !$0.hasPrefix(".") }
+        let namesOpt = try? fileManager.contentsOfDirectoryAtPath(path).filter{ !$0.hasPrefix(".") }
+        guard var names = namesOpt else {
+            return []
+        }
         names.sortInPlace(compareStrings)
 
         let paths = names.map{ (path as NSString).stringByAppendingPathComponent($0) }
