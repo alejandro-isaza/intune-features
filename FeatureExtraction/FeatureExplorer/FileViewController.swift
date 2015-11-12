@@ -104,6 +104,7 @@ class FileViewController: NSViewController {
             let string = String(format: "%i (v: %i, t: %.3f) ", arguments: [note.note, note.velocity, time - currentTime])
             notesString += string
         }
+        featuresViewController.notes = notes
         notesTextField.stringValue = notesString
     }
 

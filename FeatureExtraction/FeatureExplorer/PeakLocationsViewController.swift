@@ -6,6 +6,9 @@ import PlotKit
 import Upsurge
 
 class PeakLocationsViewController: NSViewController {
+    var lineColor = NSColor.blueColor()
+    var markerColor = NSColor.grayColor()
+
     @IBOutlet weak var plotView: PlotView?
 
     let feature: PeakLocationsFeature = PeakLocationsFeature(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
@@ -17,7 +20,7 @@ class PeakLocationsViewController: NSViewController {
         plotView!.addAxis(Axis(orientation: .Horizontal, ticks: .Distance(12)))
     }
 
-    func updateView(peaks: [FeatureExtraction.Point]) {
+    func updateView(peaks: [FeatureExtraction.Point], markNotes: [Int]) {
         guard let plotView = plotView else {
             return
         }
@@ -31,6 +34,18 @@ class PeakLocationsViewController: NSViewController {
             points.append(PlotKit.Point(x: note, y: feature.peakLocations[band]))
         }
         let pointSet = PointSet(points: points)
+        pointSet.color = lineColor
         plotView.addPointSet(pointSet)
+
+        // Markers
+        var markPoints = Array<PlotKit.Point>()
+        for note in markNotes {
+            markPoints.append(Point(x: Double(note), y: 0))
+            markPoints.append(Point(x: Double(note), y: 1))
+            markPoints.append(Point(x: Double(note), y: 0))
+        }
+        let markPointSet = PointSet(points: markPoints)
+        markPointSet.color = markerColor
+        plotView.addPointSet(markPointSet)
     }
 }

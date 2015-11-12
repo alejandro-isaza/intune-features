@@ -3,9 +3,16 @@
 import Cocoa
 import FeatureExtraction
 import Upsurge
+import Peak
 
 class FeaturesViewController: NSTabViewController {
     var example = Example() {
+        didSet {
+            updateFeatures()
+        }
+    }
+
+    var notes = [MIDINoteEvent]() {
         didSet {
             updateFeatures()
         }
@@ -29,6 +36,7 @@ class FeaturesViewController: NSTabViewController {
             NSTabViewItem(viewController: peakHeights),
             NSTabViewItem(viewController: peakLocations)
         ]
+        selectedTabViewItemIndex = 0
     }
 
     // MARK: - Feature extraction
@@ -57,10 +65,11 @@ class FeaturesViewController: NSTabViewController {
         let spec = spectrumValues(example.data.1)
         let specPoints = spectrumPoints(spec)
         let peaks = peakExtractor.process(specPoints, rms: rms).sort{ $0.y > $1.y }
+        let markNotes = notes.map{ Int($0.note) }
 
-        spectrum.updateView(spec, baseFrequency: fb)
-        peakHeights.updateView(peaks, rms: rms)
-        peakLocations.updateView(peaks)
+        spectrum.updateView(spec, baseFrequency: fb, markNotes: markNotes)
+        peakHeights.updateView(peaks, rms: rms, markNotes: markNotes)
+        peakLocations.updateView(peaks, markNotes: markNotes)
     }
     
 }

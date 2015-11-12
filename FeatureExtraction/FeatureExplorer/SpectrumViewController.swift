@@ -6,6 +6,9 @@ import PlotKit
 import Upsurge
 
 class SpectrumViewController: NSViewController {
+    var lineColor = NSColor.blueColor()
+    var markerColor = NSColor.grayColor()
+
     @IBOutlet weak var plotView: PlotView?
 
     let feature: SpectrumFeature = SpectrumFeature(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
@@ -17,7 +20,7 @@ class SpectrumViewController: NSViewController {
         plotView!.addAxis(Axis(orientation: .Horizontal, ticks: .Distance(12)))
     }
 
-    func updateView(spectrum: RealArray, baseFrequency: Double) {
+    func updateView(spectrum: RealArray, baseFrequency: Double, markNotes: [Int]) {
         guard let plotView = plotView else {
             return
         }
@@ -25,12 +28,30 @@ class SpectrumViewController: NSViewController {
 
         feature.update(spectrum: spectrum, baseFrequency: baseFrequency)
 
+        var maxY: Double = 0
         var points = Array<PlotKit.Point>()
         for band in 0..<feature.bands.count {
             let note = feature.noteForBand(band)
-            points.append(Point(x: note, y: feature.bands[band]))
+            let y = feature.bands[band]
+            points.append(Point(x: note, y: y))
+
+            if y > maxY {
+                maxY = y
+            }
         }
         let pointSet = PointSet(points: points)
+        pointSet.color = lineColor
         plotView.addPointSet(pointSet)
+
+        // Markers
+        var markPoints = Array<PlotKit.Point>()
+        for note in markNotes {
+            markPoints.append(Point(x: Double(note), y: 0))
+            markPoints.append(Point(x: Double(note), y: maxY))
+            markPoints.append(Point(x: Double(note), y: 0))
+        }
+        let markPointSet = PointSet(points: markPoints)
+        markPointSet.color = markerColor
+        plotView.addPointSet(markPointSet)
     }
 }

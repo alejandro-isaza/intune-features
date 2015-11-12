@@ -945,7 +945,7 @@
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="6MY-gu-RR4">
                                                                     <rect key="frame" x="0.0" y="0.0" width="96" height="17"/>
                                                                     <animations/>
-                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="AgD-QR-t8W">
+                                                                    <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Folder" id="AgD-QR-t8W">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1015,7 +1015,7 @@
         <!--Features View Controller-->
         <scene sceneID="7TR-ta-I6n">
             <objects>
-                <tabViewController identifier="FeaturesViewController" storyboardIdentifier="FeaturesViewController" selectedTabViewItemIndex="1" id="sa1-nq-uS7" customClass="FeaturesViewController" customModule="FeatureExplorer" customModuleProvider="target" sceneMemberID="viewController">
+                <tabViewController identifier="FeaturesViewController" storyboardIdentifier="FeaturesViewController" selectedTabViewItemIndex="0" id="sa1-nq-uS7" customClass="FeaturesViewController" customModule="FeatureExplorer" customModuleProvider="target" sceneMemberID="viewController">
                     <tabViewItems>
                         <tabViewItem id="0Hy-DM-eLc"/>
                         <tabViewItem id="AXI-9h-HmP"/>
