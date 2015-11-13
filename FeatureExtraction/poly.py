@@ -17,10 +17,11 @@ def load_file(filename):
     """Load data and labels from an HDF5 file"""
     h5file = h5.File(filename, 'r')
     labels = h5file['label'][()]
-    bands = h5file['bands'][()]
+    bands = h5file['spectrum'][()]
     peakh = h5file['peak_heights'][()]
     peakl = h5file['peak_locations'][()]
-    all_features = numpy.concatenate((bands, peakh, peakl), axis=1)
+    flux = h5file['spectrum_flux'][()]
+    all_features = numpy.concatenate((bands, peakh, peakl, flux), axis=1)
     return all_features, labels
 
 def load_batch(data, labels, size):

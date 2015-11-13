@@ -66,8 +66,8 @@ public struct FeatureBuilder {
             "rms": rms.data.copy(),
             "peak_locations": peakLocations.data.copy(),
             "peak_heights": peakHeights.data.copy(),
-            "bands": spectrumFeature1.data.copy(),
-            "band_fluxes": spectrumFluxFeature.data.copy()
+            "spectrum": spectrumFeature1.data.copy(),
+            "spectrum_flux": spectrumFluxFeature.data.copy()
         ]
     }
     

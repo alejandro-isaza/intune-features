@@ -11,7 +11,8 @@ public class FeatureDatabase {
         "rms": RealArray(count: 0),
         "peak_locations": RealArray(count: 0),
         "peak_heights": RealArray(count: 0),
-        "bands": RealArray(count: 0)
+        "spectrum": RealArray(count: 0),
+        "spectrum_flux": RealArray(count: 0)
     ]
     public internal(set) var folders = [String]()
     public internal(set) var fileNames = [String]()
