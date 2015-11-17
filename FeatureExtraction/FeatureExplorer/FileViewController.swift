@@ -7,8 +7,6 @@ import Peak
 import Upsurge
 
 class FileViewController: NSViewController {
-    let minOverlapTime = 0.004 // The minum note overlap in seconds to consider a note part of an example
-
     var example = Example()
     var audioFile: AudioFile?
     var midiFile: MIDIFile?
@@ -32,10 +30,10 @@ class FileViewController: NSViewController {
 
         NSNotificationCenter.defaultCenter().addObserverForName(NSOutlineViewSelectionDidChangeNotification, object: nil, queue: nil, usingBlock: { notification in })
 
-        offsetStepper.minValue = Double(Configuration.sampleCount/2 + Configuration.sampleStep)
-        offsetStepper.increment = Double(Configuration.sampleStep)
+        offsetStepper.minValue = Double(FeatureBuilder.sampleCount/2 + FeatureBuilder.sampleStep)
+        offsetStepper.increment = Double(FeatureBuilder.sampleStep)
         offsetStepper.maxValue = DBL_MAX
-        offsetSlider.minValue = Double(Configuration.sampleCount/2 + Configuration.sampleStep)
+        offsetSlider.minValue = Double(FeatureBuilder.sampleCount/2 + FeatureBuilder.sampleStep)
         offsetSlider.maxValue = DBL_MAX
 
         featuresViewController = storyboard!.instantiateControllerWithIdentifier("FeaturesViewController") as! FeaturesViewController
@@ -63,9 +61,9 @@ class FileViewController: NSViewController {
         midiFile = MIDIFile(filePath: midiFilePath)
 
         audioFile = AudioFile.open(example.filePath)
-        example.data.0 = RealArray(count: Configuration.sampleCount)
-        example.data.1 = RealArray(count: Configuration.sampleCount)
-        loadOffset(Configuration.sampleCount)
+        example.data.0 = RealArray(count: FeatureBuilder.sampleCount)
+        example.data.1 = RealArray(count: FeatureBuilder.sampleCount)
+        loadOffset(FeatureBuilder.sampleCount)
     }
 
     func loadOffset(var offset: Int) {
@@ -73,20 +71,19 @@ class FileViewController: NSViewController {
             print("Failed to open file '\(example.filePath)'")
             return
         }
-        offsetStepper.maxValue = Double(audioFile.frameCount - Configuration.sampleCount/2)
-        offsetSlider.maxValue = Double(audioFile.frameCount - Configuration.sampleCount/2)
+        offsetStepper.maxValue = Double(audioFile.frameCount - FeatureBuilder.sampleCount/2)
+        offsetSlider.maxValue = Double(audioFile.frameCount - FeatureBuilder.sampleCount/2)
 
-        if offset < Configuration.sampleCount/2 + Configuration.sampleStep {
-            offset = Configuration.sampleCount/2 + Configuration.sampleStep
+        if offset < FeatureBuilder.sampleCount/2 + FeatureBuilder.sampleStep {
+            offset = FeatureBuilder.sampleCount/2 + FeatureBuilder.sampleStep
         }
         example.frameOffset = offset
-        let overlapCount = Configuration.sampleCount - Configuration.sampleStep
 
-        audioFile.currentFrame = offset - Configuration.sampleCount/2 - Configuration.sampleStep
-        audioFile.readFrames(example.data.0.mutablePointer, count: Configuration.sampleCount)
+        audioFile.currentFrame = offset - FeatureBuilder.sampleCount/2 - FeatureBuilder.sampleStep
+        audioFile.readFrames(example.data.0.mutablePointer, count: FeatureBuilder.sampleCount)
 
-        audioFile.currentFrame -= overlapCount
-        audioFile.readFrames(example.data.1.mutablePointer, count: Configuration.sampleCount)
+        audioFile.currentFrame = offset - FeatureBuilder.sampleCount/2
+        audioFile.readFrames(example.data.1.mutablePointer, count: FeatureBuilder.sampleCount)
 
         featuresViewController.example = example
 
@@ -101,7 +98,7 @@ class FileViewController: NSViewController {
         for note in notes {
             let time = midiFile!.secondsForBeats(note.timeStamp)
             let currentTime = Double(offset) / audioFile.sampleRate
-            let string = String(format: "%i (v: %i, t: %.3f) ", arguments: [note.note, note.velocity, time - currentTime])
+            let string = String(format: "%i (v: %i, t: %.0fms) ", arguments: [note.note, note.velocity, 1000 * (time - currentTime)])
             notesString += string
         }
         featuresViewController.notes = notes
@@ -112,14 +109,13 @@ class FileViewController: NSViewController {
         guard let audioFile = audioFile, midiFile = midiFile else {
             return []
         }
-        let timeStart = Double(offset - Configuration.sampleCount/2) / audioFile.sampleRate
-        let timeEnd = Double(offset + Configuration.sampleCount/2) / audioFile.sampleRate
+        let time = Double(offset) / audioFile.sampleRate
+        let timeStart = Double(offset - FeatureBuilder.sampleCount/2) / audioFile.sampleRate
+        let timeEnd = Double(offset + FeatureBuilder.sampleCount/2) / audioFile.sampleRate
         let beatStart = midiFile.beatsForSeconds(timeStart)
         let beatEnd = midiFile.beatsForSeconds(timeEnd)
 
         let noteEvents = midiFile.noteEvents
-        let beatRange = beatStart..<beatEnd
-
         var notes = [MIDINoteEvent]()
         for note in noteEvents {
             let noteStart = note.timeStamp
@@ -132,10 +128,8 @@ class FileViewController: NSViewController {
                 continue
             }
 
-            let noteRange = noteStart..<noteEnd
-            let overlap = noteRange.clamp(beatRange)
-            let overlapTime = midiFile.secondsForBeats(overlap.end) - midiFile.secondsForBeats(overlap.start)
-            if overlapTime >= minOverlapTime {
+            let noteStartTime = midiFile.secondsForBeats(noteStart)
+            if abs(noteStartTime - time) <= FeatureBuilder.maxNoteLag {
                 notes.append(note)
             }
         }

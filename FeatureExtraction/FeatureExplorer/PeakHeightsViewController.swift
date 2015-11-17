@@ -6,13 +6,14 @@ import PlotKit
 import Upsurge
 
 class PeakHeightsViewController: BandsFeaturesViewController {
-    let feature: PeakHeightsFeature = PeakHeightsFeature(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
+    let feature: PeakHeightsFeature = PeakHeightsFeature(notes: FeatureBuilder.bandNotes, bandSize: FeatureBuilder.bandSize)
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         plotView!.addAxis(Axis(orientation: .Vertical, ticks: .Fit(3)))
         plotView!.addAxis(Axis(orientation: .Horizontal, ticks: .Distance(12)))
+        plotView!.fixedXInterval = Double(FeatureBuilder.bandNotes.startIndex)...Double(FeatureBuilder.bandNotes.endIndex)
     }
 
     func updateView(peaks: [FeatureExtraction.Point], rms: Double, markNotes: [Int]) {

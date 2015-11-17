@@ -48,7 +48,7 @@ class FeatureCompiler {
             return
         }
 
-        let exampleBuilder = MonoExampleBuilder(sampleCount: FeatureBuilder.sampleCount, sampleStep: FeatureBuilder.sampleStep)
+        let exampleBuilder = MonoExampleBuilder()
 
         var features = [FeatureData]()
         exampleBuilder.forEachNoiseInFolder(rootNoisePath, action: { example in
@@ -64,7 +64,7 @@ class FeatureCompiler {
     func compileMonoFeatures() {
         let folders = loadFolders(rootMonoPath)
 
-        let exampleBuilder = MonoExampleBuilder(sampleCount: FeatureBuilder.sampleCount, sampleStep: FeatureBuilder.sampleStep)
+        let exampleBuilder = MonoExampleBuilder()
         for folder in folders {
             let name = (folder as NSString).lastPathComponent
             if existingFolders.contains(name) {
@@ -91,7 +91,7 @@ class FeatureCompiler {
     func compilePolyFeatures() {
         let folders = loadFolders(rootPolyPath)
 
-        let exampleBuilder = PolyExampleBuilder(sampleCount: FeatureBuilder.sampleCount, sampleStep: FeatureBuilder.sampleStep)
+        let exampleBuilder = PolyExampleBuilder()
         for folder in folders {
             let name = (folder as NSString).lastPathComponent
             if existingFolders.contains(name) {

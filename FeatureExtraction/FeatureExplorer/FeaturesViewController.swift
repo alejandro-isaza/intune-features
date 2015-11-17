@@ -22,7 +22,7 @@ class FeaturesViewController: NSTabViewController {
     var peakHeights: PeakHeightsViewController!
     var peakLocations: PeakLocationsViewController!
     var spectrumFlux: SpectrumFluxViewController!
-    var spectrumFeature = SpectrumFeature(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
+    var spectrumFeature = SpectrumFeature(notes: FeatureBuilder.bandNotes, bandSize: FeatureBuilder.bandSize)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,13 +46,13 @@ class FeaturesViewController: NSTabViewController {
     // MARK: - Feature extraction
 
     let window: RealArray = {
-        let array = RealArray(count: Configuration.sampleCount)
-        vDSP_hamm_windowD(array.mutablePointer, vDSP_Length(Configuration.sampleCount), 0)
+        let array = RealArray(count: FeatureBuilder.sampleCount)
+        vDSP_hamm_windowD(array.mutablePointer, vDSP_Length(FeatureBuilder.sampleCount), 0)
         return array
     }()
-    let fft = FFT(inputLength: Configuration.sampleCount)
-    let peakExtractor = PeakExtractor(heightCutoffMultiplier: Configuration.peakHeightCutoffMultiplier, minimumNoteDistance: Configuration.peakMinimumNoteDistance)
-    let fb = Double(Configuration.sampleRate) / Double(Configuration.sampleCount)
+    let fft = FFT(inputLength: FeatureBuilder.sampleCount)
+    let peakExtractor = PeakExtractor(heightCutoffMultiplier: FeatureBuilder.peakHeightCutoffMultiplier, minimumNoteDistance: FeatureBuilder.peakMinimumNoteDistance)
+    let fb = Double(FeatureBuilder.samplingFrequency) / Double(FeatureBuilder.sampleCount)
 
     /// Compute the power spectrum values
     func spectrumValues(data: RealArray) -> RealArray {

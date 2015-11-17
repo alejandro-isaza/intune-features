@@ -16,15 +16,11 @@ class MonoExampleBuilder {
     let numNoteExamples = 15
     let numNoiseExamples = 1000
 
-    let sampleCount: Int
-    let sampleStep: Int
     private var data: (RealArray, RealArray)
     
-    init(sampleCount: Int, sampleStep: Int) {
-        self.sampleCount = sampleCount
-        self.sampleStep = sampleStep
-        data.0 = RealArray(count: sampleCount)
-        data.1 = RealArray(count: sampleCount)
+    init() {
+        data.0 = RealArray(count: FeatureBuilder.sampleCount)
+        data.1 = RealArray(count: FeatureBuilder.sampleCount)
     }
     
     func forEachNoteInFolder(folder: String, action: Example -> ()) {
@@ -65,38 +61,43 @@ class MonoExampleBuilder {
     }
 
     func forEachExampleInFile(filePath: String, label: [Int], numExamples: Int, action: Example -> ()) {
-        var sumsq = 0.0
-        var count = 0
+        let count = FeatureBuilder.sampleCount
+        let step = FeatureBuilder.sampleStep
+        let overlap = count - step
+
+        for i in 0..<count {
+            data.0[i] = 0.0
+            data.1[i] = 0.0
+        }
 
         let audioFile = AudioFile.open(filePath)!
-        assert(audioFile.sampleRate == 44100)
-        guard audioFile.readFrames(data.0.mutablePointer, count: sampleCount) == sampleCount else {
+        assert(audioFile.sampleRate == FeatureBuilder.samplingFrequency)
+        guard audioFile.readFrames(data.1.mutablePointer + overlap, count: step) == step else {
             return
         }
-        vDSP_svesqD(data.0.pointer, 1, &sumsq, vDSP_Length(sampleCount))
-        count += 1
-        audioFile.currentFrame -= sampleCount / 2
 
-        for i in 0..<numExamples {
-            guard audioFile.readFrames(data.1.mutablePointer, count: sampleCount) == sampleCount else {
-                print("\(i) examples in \(filePath)")
+        while true {
+            data.0.mutablePointer.moveAssignFrom(data.0.mutablePointer + step, count: overlap)
+            data.0.mutablePointer.moveAssignFrom(data.1.mutablePointer + overlap, count: step)
+
+            data.1.mutablePointer.moveAssignFrom(data.1.mutablePointer + step, count: overlap)
+            guard audioFile.readFrames(data.1.mutablePointer + overlap, count: step) == step else {
                 break
             }
 
-            var x = 0.0
-            vDSP_svesqD(data.1.pointer, 1, &x, vDSP_Length(sampleCount))
-            sumsq += x
-            count += 1
+            let offset = audioFile.currentFrame - count/2
+            let time = Double(offset) / FeatureBuilder.samplingFrequency
 
+            let noteStartTime = 0.0
+            let shouldLabel = abs(noteStartTime - time) <= FeatureBuilder.maxNoteLag
+
+            let exampleLabel = shouldLabel ? label : [Int](count: label.count, repeatedValue: 0)
             let example = Example(
                 filePath: filePath,
-                frameOffset: audioFile.currentFrame,
-                label: label,
+                frameOffset: offset,
+                label: exampleLabel,
                 data: data)
             action(example)
-
-            audioFile.currentFrame -= sampleCount / 2
-            swap(&data.0, &data.1)
         }
     }
 }

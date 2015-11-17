@@ -13,21 +13,12 @@ class PolyExampleBuilder {
         "m4a"
     ]
     let midiFileExtension = "mid"
-    
-    let noteRange = 36...102
-    let minOverlapTime = 0.004 // The minum note overlap in seconds to consider a note part of an example
-    let sampleCount: Int
-    let sampleStep: Int
 
-    var data0: RealArray
-    var data1: RealArray
-    var rmsContainer = [Real]()
+    private var data: (RealArray, RealArray)
     
-    init(sampleCount: Int, sampleStep: Int) {
-        self.sampleCount = sampleCount
-        self.sampleStep = sampleStep
-        data0 = RealArray(count: sampleCount)
-        data1 = RealArray(count: sampleCount)
+    init() {
+        data.0 = RealArray(count: FeatureBuilder.sampleCount)
+        data.1 = RealArray(count: FeatureBuilder.sampleCount)
     }
     
     func forEachExampleInFolder(path: String, action: Example -> ()) {
@@ -61,54 +52,44 @@ class PolyExampleBuilder {
     }
     
     func forEachExampleInAudioFile(audioFilePath: String, midiFilePath: String, action: Example -> ()) {
+        let count = FeatureBuilder.sampleCount
+        let step = FeatureBuilder.sampleStep
+        let overlap = count - step
+
         guard let midiFile = MIDIFile(filePath: midiFilePath) else {
             fatalError("Failed to open MIDI file \(midiFilePath)")
         }
         let noteEvents = midiFile.noteEvents
 
-        guard let audioFile = AudioFile.open(audioFilePath) else {
-            fatalError("Failed to open audio file \(audioFilePath)")
+        for i in 0..<count {
+            data.0[i] = 0.0
+            data.1[i] = 0.0
         }
-        assert(audioFile.sampleRate == 44100)
 
-        var offset = 0
-        guard audioFile.readFrames(data0.mutablePointer, count: sampleCount) == sampleCount else {
+        let audioFile = AudioFile.open(audioFilePath)!
+        assert(audioFile.sampleRate == FeatureBuilder.samplingFrequency)
+        guard audioFile.readFrames(data.1.mutablePointer + overlap, count: step) == step else {
             return
         }
-        offset += sampleStep
-        audioFile.currentFrame = audioFile.currentFrame - sampleCount + sampleStep
 
         var onNotes = [Int]()
         while true {
-            guard audioFile.readFrames(data1.mutablePointer, count: sampleCount) == sampleCount else {
+            data.0.mutablePointer.moveAssignFrom(data.0.mutablePointer + step, count: overlap)
+            data.0.mutablePointer.moveAssignFrom(data.1.mutablePointer + overlap, count: step)
+
+            data.1.mutablePointer.moveAssignFrom(data.1.mutablePointer + step, count: overlap)
+            guard audioFile.readFrames(data.1.mutablePointer + overlap, count: step) == step else {
                 break
             }
 
-            let offsetStart = audioFile.currentFrame - sampleCount
-            let timeStart = Double(offsetStart) / audioFile.sampleRate
-            let beatStart = midiFile.beatsForSeconds(timeStart)
-
-            let offsetEnd = audioFile.currentFrame
-            let timeEnd = Double(offsetEnd) / audioFile.sampleRate
-            let beatEnd = midiFile.beatsForSeconds(timeEnd)
+            let offset = audioFile.currentFrame - count/2
+            let time = Double(offset) / FeatureBuilder.samplingFrequency
 
             onNotes.removeAll(keepCapacity: true)
-            let beatRange = beatStart..<beatEnd
             for note in noteEvents {
                 let noteStart = note.timeStamp
-                if noteStart >= beatEnd {
-                    break
-                }
-
-                let noteEnd = note.timeStamp + MusicTimeStamp(note.duration)
-                if noteEnd < beatStart {
-                    continue
-                }
-
-                let noteRange = noteStart..<noteEnd
-                let overlap = noteRange.clamp(beatRange)
-                let overlapTime = midiFile.secondsForBeats(overlap.end) - midiFile.secondsForBeats(overlap.start)
-                if overlapTime >= minOverlapTime {
+                let noteStartTime = midiFile.secondsForBeats(noteStart)
+                if abs(noteStartTime - time) <= FeatureBuilder.maxNoteLag {
                     onNotes.append(Int(note.note))
                 }
             }
@@ -116,24 +97,20 @@ class PolyExampleBuilder {
             let label = labelForNotes(onNotes)
             let example = Example(
                 filePath: audioFilePath,
-                frameOffset: (offsetStart + offsetEnd) / 2,
+                frameOffset: offset,
                 label: label,
-                data: (data0, data1))
+                data: data)
             action(example)
-
-            audioFile.currentFrame -= sampleCount
-            audioFile.currentFrame += sampleStep
-            swap(&data0, &data1)
         }
     }
 
     func labelForNotes(notes: [Int]) -> [Int] {
-        var label = [Int](count: noteRange.count, repeatedValue: 0)
+        var label = [Int](count: FeatureBuilder.notes.count, repeatedValue: 0)
         for note in notes {
-            guard noteRange.contains(note) else {
+            guard FeatureBuilder.notes.contains(note) else {
                 continue
             }
-            let index = note - noteRange.startIndex
+            let index = note - FeatureBuilder.notes.startIndex
             label[index] = 1
         }
         return label

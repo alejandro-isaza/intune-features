@@ -3,26 +3,38 @@
 import Upsurge
 
 public struct FeatureBuilder {
-    // Basic parameters
-    public static let sampleRate = 44100
-    public static let sampleCount = 4*1024
-    public static let sampleStep = sampleCount / 2
-    public static let labelFunction: [Int] -> [Int] = { $0 }
-    
-    // Notes and bands parameters
+    /// Input audio data sampling frequency
+    public static let samplingFrequency = 44100.0
+
+    /// Analysis window size in samples
+    public static let sampleCount = 8*1024
+
+    /// Step size between analysis windows
+    public static let sampleStep = 1024
+
+    /// The maximum time difference between the current window's center and the start of a note for the example to be labeled with the note
+    public static let maxNoteLag = Double(2 * sampleStep) / samplingFrequency
+
+    /// The range of notes to consider for labeling
     public static let notes = 36...96
+
+    /// The range of notes to include in the spectrums
     public static let bandNotes = 24...120
+
+    /// The note resolution for the spectrums
     public static let bandSize = 1.0
     
-    // Peaks parameters
+    /// The peak height cutoff as a multiplier of the RMS
     public static let peakHeightCutoffMultiplier = 0.05
+
+    /// The minimum distance between peaks in notes
     public static let peakMinimumNoteDistance = 0.5
 
     // Helpers
     public var window: RealArray
     public let fft = FFT(inputLength: sampleCount)
     public let peakExtractor = PeakExtractor(heightCutoffMultiplier: peakHeightCutoffMultiplier, minimumNoteDistance: peakMinimumNoteDistance)
-    public let fb = Double(sampleRate) / Double(sampleCount)
+    public let fb = Double(samplingFrequency) / Double(sampleCount)
     
     // Features
     public let rms: RMSFeature = RMSFeature()

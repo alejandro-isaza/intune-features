@@ -7,12 +7,13 @@ import Upsurge
 
 class SpectrumFluxViewController: BandsFeaturesViewController {
     let yrange = -0.1...0.1
-    let feature: SpectrumFluxFeature = SpectrumFluxFeature(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
+    let feature: SpectrumFluxFeature = SpectrumFluxFeature(notes: FeatureBuilder.bandNotes, bandSize: FeatureBuilder.bandSize)
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         plotView!.fixedYInterval = yrange
+        plotView!.fixedXInterval = Double(FeatureBuilder.bandNotes.startIndex)...Double(FeatureBuilder.bandNotes.endIndex)
         plotView!.addAxis(Axis(orientation: .Vertical, ticks: .Distance(0.05)))
 
         var haxis = Axis(orientation: .Horizontal, ticks: .Distance(12))
