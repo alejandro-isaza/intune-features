@@ -74,10 +74,10 @@ class PolyExampleBuilder {
 
         var onNotes = [Int]()
         while true {
-            data.0.mutablePointer.moveAssignFrom(data.0.mutablePointer + step, count: overlap)
-            data.0.mutablePointer.moveAssignFrom(data.1.mutablePointer + overlap, count: step)
+            data.0.mutablePointer.assignFrom(data.0.mutablePointer + step, count: overlap)
+            data.0.mutablePointer.assignFrom(data.1.mutablePointer + overlap, count: step)
 
-            data.1.mutablePointer.moveAssignFrom(data.1.mutablePointer + step, count: overlap)
+            data.1.mutablePointer.assignFrom(data.1.mutablePointer + step, count: overlap)
             guard audioFile.readFrames(data.1.mutablePointer + overlap, count: step) == step else {
                 break
             }
@@ -85,9 +85,21 @@ class PolyExampleBuilder {
             let offset = audioFile.currentFrame - count/2
             let time = Double(offset) / FeatureBuilder.samplingFrequency
 
+            let offsetStart = audioFile.currentFrame - count
+            let timeStart = Double(offsetStart) / FeatureBuilder.samplingFrequency
+            let beatStart = midiFile.beatsForSeconds(timeStart)
+
+            let offsetEnd = audioFile.currentFrame
+            let timeEnd = Double(offsetEnd) / FeatureBuilder.samplingFrequency
+            let beatEnd = midiFile.beatsForSeconds(timeEnd)
+
             onNotes.removeAll(keepCapacity: true)
             for note in noteEvents {
                 let noteStart = note.timeStamp
+                if noteStart <= beatStart - 1 || noteStart >= beatEnd {
+                    continue
+                }
+
                 let noteStartTime = midiFile.secondsForBeats(noteStart)
                 if abs(noteStartTime - time) <= FeatureBuilder.maxNoteLag {
                     onNotes.append(Int(note.note))
