@@ -20,11 +20,13 @@ import tensorflow.python.platform
 import tensorflow as tf
 
 
-def inference(features, feature_size, hidden1_units, hidden2_units):
+def inference(features, example_size, label_size, hidden1_units, hidden2_units):
     """Build the model up to where it may be used for inference.
 
     Args:
         features: Features placeholder.
+        example_size: The number of features in each example.
+        label_size: The number of labels.
         hidden1: Size of the first hidden layer.
         hidden2: Size of the second hidden layer.
 
@@ -35,8 +37,8 @@ def inference(features, feature_size, hidden1_units, hidden2_units):
     # Hidden 1
     with tf.name_scope('hidden1') as scope:
         weights = tf.Variable(
-            tf.truncated_normal([feature_size, hidden1_units],
-                                stddev=1.0 / math.sqrt(float(feature_size))),
+            tf.truncated_normal([example_size, hidden1_units],
+                                stddev=1.0 / math.sqrt(float(example_size))),
             name='weights')
         biases = tf.Variable(tf.zeros([hidden1_units]), name='biases')
         hidden1 = tf.nn.relu(tf.matmul(features, weights) + biases)
@@ -53,10 +55,10 @@ def inference(features, feature_size, hidden1_units, hidden2_units):
     # Linear
     with tf.name_scope('softmax_linear') as scope:
         weights = tf.Variable(
-            tf.truncated_normal([hidden2_units, NUM_CLASSES],
+            tf.truncated_normal([hidden2_units, label_size],
                                 stddev=1.0 / math.sqrt(float(hidden2_units))),
             name='weights')
-        biases = tf.Variable(tf.zeros([NUM_CLASSES]), name='biases')
+        biases = tf.Variable(tf.zeros([label_size]), name='biases')
         logits = tf.matmul(hidden2, weights) + biases
 
     return logits
@@ -66,16 +68,15 @@ def loss(logits, labels):
     """Calculates the loss from the logits and the labels.
 
     Args:
-        logits: Logits tensor, float - [batch_size, NUM_CLASSES].
-        labels: Labels tensor, int32 - [batch_size, NUM_CLASSES].
+        logits: Logits tensor, float - [batch_size, label_size].
+        labels: Labels tensor, float - [batch_size, label_size].
 
     Returns:
         loss: Loss tensor of type float.
     """
-    cross_entropy = tf.nn.softmax_cross_entropy_with_logits(logits,
-                                                            labels,
-                                                            name='xentropy')
-    loss = tf.reduce_mean(cross_entropy, name='xentropy_mean')
+    diff = logits - labels
+    l2loss = tf.nn.l2_loss(diff, name='l2loss')
+    loss = tf.reduce_mean(l2loss, name='l2loss_mean')
     return loss
 
 
@@ -111,8 +112,8 @@ def evaluation(logits, labels):
     """Evaluate the quality of the logits at predicting the label.
 
     Args:
-        logits: Logits tensor, float - [batch_size, NUM_CLASSES].
-        labels: Labels tensor, int32 - [batch_size, NUM_CLASSES].
+        logits: Logits tensor, float - [batch_size, label_size].
+        labels: Labels tensor, float - [batch_size, label_size].
 
     Returns:
         A scalar float32 with a measure of the distance between the predictions

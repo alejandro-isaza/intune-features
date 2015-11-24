@@ -22,11 +22,11 @@ import net
 # Basic model parameters as external flags.
 flags = tf.app.flags
 FLAGS = flags.FLAGS
-flags.DEFINE_float('learning_rate', 0.01, 'Initial learning rate.')
+flags.DEFINE_float('learning_rate', 0.001, 'Initial learning rate.')
 flags.DEFINE_integer('max_steps', 2000, 'Number of steps to run trainer.')
-flags.DEFINE_integer('hidden1', 1024, 'Number of units in hidden layer 1.')
-flags.DEFINE_integer('hidden2', 256, 'Number of units in hidden layer 2.')
-flags.DEFINE_integer('batch_size', 100, 'Batch size.  '
+flags.DEFINE_integer('hidden1', 4096, 'Number of units in hidden layer 1.')
+flags.DEFINE_integer('hidden2', 1024, 'Number of units in hidden layer 2.')
+flags.DEFINE_integer('batch_size', 1024, 'Batch size.  '
                      'Must divide evenly into the dataset sizes.')
 flags.DEFINE_string('training_data', 'training.h5',
                     'File to read training features from')
@@ -35,7 +35,7 @@ flags.DEFINE_string('testing_data', 'testing.h5',
 flags.DEFINE_string('train_dir', 'data', 'Directory to put the training data.')
 
 
-def placeholder_inputs(example_size, batch_size):
+def placeholder_inputs(example_size, label_size, batch_size):
     """Generate placeholder variables to represent the the input tensors.
 
     These placeholders are used as inputs by the rest of the model building
@@ -52,9 +52,10 @@ def placeholder_inputs(example_size, batch_size):
     # Note that the shapes of the placeholders match the shapes of the full
     # feature and label tensors, except the first dimension is now batch_size
     # rather than the full size of the train or test data sets.
-    features_placeholder = tf.placeholder(tf.float32, shape=(batch_size,
-                                                             example_size))
-    labels_placeholder = tf.placeholder(tf.int32, shape=(batch_size))
+    features_placeholder = tf.placeholder(tf.float32,
+                                          shape=(batch_size, example_size))
+    labels_placeholder = tf.placeholder(tf.float32,
+                                        shape=(batch_size, label_size))
     return features_placeholder, labels_placeholder
 
 
@@ -98,17 +99,15 @@ def do_eval(sess,
         data_set: The set of features and labels to evaluate.
     """
     # And run one epoch of eval.
-    total_score = 0  # Counts the number of correct predictions.
-    steps_per_epoch = data_set.num_examples // FLAGS.batch_size
-    num_examples = steps_per_epoch * FLAGS.batch_size
-    for step in xrange(steps_per_epoch):
-        feed_dict = fill_feed_dict(data_set,
-                                   features_placeholder,
-                                   labels_placeholder)
-        total_score += sess.run(score, feed_dict=feed_dict)
-    average_score = total_score / num_examples
-    print('  Num examples: %d  Total score: %d  Average score @ 1: %0.04f' %
-        (num_examples, total_score, average_score))
+    total_score = 0
+    steps_per_epoch = data_set.example_count // FLAGS.batch_size
+    feed_dict = fill_feed_dict(data_set,
+                               features_placeholder,
+                               labels_placeholder)
+    score = sess.run(score, feed_dict=feed_dict)
+    average_score = score / FLAGS.batch_size
+    print('  Num examples: %d  score: %d  Average score @ 1: %0.04f' %
+        (FLAGS.batch_size, score, average_score))
 
 
 def run_training():
@@ -120,10 +119,13 @@ def run_training():
     with tf.Graph().as_default():
         # Generate placeholders for the features and labels.
         features_placeholder, labels_placeholder = placeholder_inputs(
-            training_data_set.example_size,
+            train_data_set.example_size,
+            train_data_set.label_size,
             FLAGS.batch_size)
         # Build a Graph that computes predictions from the inference model.
         logits = net.inference(features_placeholder,
+                               train_data_set.example_size,
+                               train_data_set.label_size,
                                FLAGS.hidden1,
                                FLAGS.hidden2)
         # Add to the Graph the Ops for loss calculation.
