@@ -123,4 +123,9 @@ class FeatureCompiler {
         }
         return folders.map{ $0.path! }
     }
+
+    func shuffle() {
+        trainingDatabase.shuffle()
+        testingDatabase.shuffle()
+    }
 }

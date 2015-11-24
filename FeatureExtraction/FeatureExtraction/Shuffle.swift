@@ -18,9 +18,19 @@ extension MutableCollectionType where Index == Int {
         if count < 2 { return }
 
         for i in 0..<count - 1 {
-            let j = Int(arc4random_uniform(UInt32(count - i))) + i
+            let j = random(count - i) + i
             guard i != j else { continue }
             swap(&self[i], &self[j])
         }
     }
+}
+
+public func random(upper_bound: Int) -> Int {
+    let range = Int.max - Int.max % upper_bound
+    var rnd = 0
+    repeat {
+        arc4random_buf(&rnd, sizeofValue(rnd))
+    } while rnd >= range
+
+    return rnd % upper_bound
 }

@@ -26,20 +26,20 @@ public class FeatureDatabase {
     struct DoubleTable {
         var name: String
         var size: Int
-        var dataset: Dataset
+        var dataset: Dataset<Double>
         var data: RealArray
     }
 
     struct IntTable {
         var name: String
         var size: Int
-        var dataset: Dataset
+        var dataset: Dataset<Int>
         var data: [Int]
     }
 
     struct StringTable {
         var name: String
-        var dataset: Dataset
+        var dataset: Dataset<String>
         var data: [String]
     }
 
@@ -70,19 +70,19 @@ public class FeatureDatabase {
     func create() {
         for (name, size) in doubleDatasetSpecs {
             let space = Dataspace(dims: [0, size], maxDims: [-1, size])
-            let dataset = file.createDataset(name, datatype: Datatype.createDouble(), dataspace: space, chunkDimensions: [chunkSize, size])
+            let dataset = file.createDataset(name, type: Double.self, dataspace: space, chunkDimensions: [chunkSize, size])!
             let table = DoubleTable(name: name, size: size, dataset: dataset, data: RealArray(count: chunkSize * size))
             doubleTables.append(table)
         }
         for (name, size) in intDatasetSpecs {
             let space = Dataspace(dims: [0, size], maxDims: [-1, size])
-            let dataset = file.createDataset(name, datatype: Datatype.createInt(), dataspace: space, chunkDimensions: [chunkSize, size])
+            let dataset = file.createDataset(name, type: Int.self, dataspace: space, chunkDimensions: [chunkSize, size])!
             let table = IntTable(name: name, size: size, dataset: dataset, data: [Int](count: chunkSize * size, repeatedValue: 0))
             intTables.append(table)
         }
         for name in stringDatasetSpecs {
             let space = Dataspace(dims: [0], maxDims: [-1])
-            let dataset = file.createDataset(name, datatype: Datatype.createString(), dataspace: space, chunkDimensions: [chunkSize])
+            let dataset = file.createDataset(name, type: String.self, dataspace: space, chunkDimensions: [chunkSize])!
             let table = StringTable(name: name, dataset: dataset, data: [String](count: chunkSize, repeatedValue: ""))
             stringTables.append(table)
         }
@@ -90,7 +90,7 @@ public class FeatureDatabase {
 
     func load() {
         for (name, size) in doubleDatasetSpecs {
-            guard let dataset = file.openDataset(name) else {
+            guard let dataset = file.openDataset(name, type: Double.self) else {
                 preconditionFailure("Existing file doesn't have a \(name) dataset")
             }
 
@@ -106,7 +106,7 @@ public class FeatureDatabase {
             doubleTables.append(table)
         }
         for (name, size) in intDatasetSpecs {
-            guard let dataset = file.openDataset(name) else {
+            guard let dataset = file.openDataset(name, type: Int.self) else {
                 preconditionFailure("Existing file doesn't have a \(name) dataset")
             }
 
@@ -122,7 +122,7 @@ public class FeatureDatabase {
             intTables.append(table)
         }
         for name in stringDatasetSpecs {
-            guard let dataset = file.openDataset(name) else {
+            guard let dataset = file.openDataset(name, type: String.self) else {
                 preconditionFailure("Existing file doesn't have a \(name) dataset")
             }
 
@@ -134,7 +134,7 @@ public class FeatureDatabase {
         }
 
         let foldersTable = stringTables.filter({ $0.name == "folder" }).first!
-        folders = foldersTable.dataset.readString()!
+        folders = foldersTable.dataset.readString()
     }
 
     public func appendFeatures(features: [FeatureData], folder: String?) {
@@ -256,12 +256,11 @@ public class FeatureDatabase {
         filespace.select(start: [currentSize], stride: nil, count: [chunkSize], block: nil)
 
         table.data.removeAll(keepCapacity: true)
-        let memspace = Dataspace(dims: [chunkSize])
 
         for feature in features {
             table.data.append(feature.example.filePath)
         }
-        if !table.dataset.writeString(table.data, memSpace: memspace, fileSpace: filespace) {
+        if !table.dataset.writeString(table.data, fileSpace: filespace) {
             fatalError("Failed to write features to database")
         }
     }
@@ -276,11 +275,103 @@ public class FeatureDatabase {
         filespace.select(start: [currentSize], stride: nil, count: [1], block: nil)
 
         table.data.removeAll(keepCapacity: true)
-        let memspace = Dataspace(dims: [1])
 
         table.data.append(folder)
-        if !table.dataset.writeString(table.data, memSpace: memspace, fileSpace: filespace) {
+        if !table.dataset.writeString(table.data, fileSpace: filespace) {
             fatalError("Failed to write features to database")
+        }
+    }
+
+    public func shuffle() {
+        let shuffleCount = exampleCount / chunkSize
+        for _ in 0..<shuffleCount {
+            let start1 = random(exampleCount)
+            let start2 = random(exampleCount)
+            let indices = (0..<2*chunkSize).shuffle()
+
+            shuffleDoubleTables(start1: start1, start2: start2, indices: indices)
+            shuffleIntTables(start1: start1, start2: start2, indices: indices)
+            shuffleStringTables(start1: start1, start2: start2, indices: indices)
+        }
+    }
+
+    func shuffleDoubleTables(start1 start1: Int, start2: Int, indices: [Int]) {
+        var data = [Double](count: 2*chunkSize, repeatedValue: 0)
+        for t in doubleTables {
+            let memspace1 = Dataspace(dims: [2*chunkSize, t.size])
+            memspace1.select(start: [0, 0], stride: nil, count: [chunkSize, t.size], block: nil)
+
+            let filespace1 = t.dataset.space
+            filespace1.select(start: [start1, 0], stride: nil, count: [chunkSize, t.size], block: nil)
+
+            let memspace2 = Dataspace(dims: [2*chunkSize, t.size])
+            memspace2.select(start: [chunkSize, 0], stride: nil, count: [chunkSize, t.size], block: nil)
+
+            let filespace2 = t.dataset.space
+            filespace2.select(start: [start2, 0], stride: nil, count: [chunkSize, t.size], block: nil)
+
+            t.dataset.readDouble(&data, memSpace: memspace1, fileSpace: filespace1)
+            t.dataset.readDouble(&data, memSpace: memspace2, fileSpace: filespace2)
+
+            for i in 0..<2*chunkSize {
+                let index = indices[i]
+                swap(&data[i], &data[index])
+            }
+
+            t.dataset.writeDouble(data, memSpace: memspace1, fileSpace: filespace1)
+            t.dataset.writeDouble(data, memSpace: memspace2, fileSpace: filespace2)
+        }
+    }
+
+    func shuffleIntTables(start1 start1: Int, start2: Int, indices: [Int]) {
+        var data = [Int](count: 2*chunkSize, repeatedValue: 0)
+        for t in doubleTables {
+            let memspace1 = Dataspace(dims: [2*chunkSize, t.size])
+            memspace1.select(start: [0, 0], stride: nil, count: [chunkSize, t.size], block: nil)
+
+            let filespace1 = t.dataset.space
+            filespace1.select(start: [start1, 0], stride: nil, count: [chunkSize, t.size], block: nil)
+
+            let memspace2 = Dataspace(dims: [2*chunkSize, t.size])
+            memspace2.select(start: [chunkSize, 0], stride: nil, count: [chunkSize, t.size], block: nil)
+
+            let filespace2 = t.dataset.space
+            filespace2.select(start: [start2, 0], stride: nil, count: [chunkSize, t.size], block: nil)
+
+            t.dataset.readInt(&data, memSpace: memspace1, fileSpace: filespace1)
+            t.dataset.readInt(&data, memSpace: memspace2, fileSpace: filespace2)
+
+            for i in 0..<2*chunkSize {
+                let index = indices[i]
+                swap(&data[i], &data[index])
+            }
+
+            t.dataset.writeInt(data, memSpace: memspace1, fileSpace: filespace1)
+            t.dataset.writeInt(data, memSpace: memspace2, fileSpace: filespace2)
+        }
+    }
+
+    func shuffleStringTables(start1 start1: Int, start2: Int, indices: [Int]) {
+        for t in doubleTables {
+            let filespace1 = t.dataset.space
+            filespace1.select(start: [start1, 0], stride: nil, count: [chunkSize, t.size], block: nil)
+
+            let filespace2 = t.dataset.space
+            filespace2.select(start: [start2, 0], stride: nil, count: [chunkSize, t.size], block: nil)
+
+            var strings1 = t.dataset.readString(fileSpace: filespace1)
+            var strings2 = t.dataset.readString(fileSpace: filespace2)
+            var strings = strings1 + strings2
+
+            for i in 0..<2*chunkSize {
+                let index = indices[i]
+                swap(&strings[i], &strings[index])
+            }
+
+            strings1 = [String](strings.dropLast(chunkSize))
+            strings2 = [String](strings.dropFirst(chunkSize))
+            t.dataset.writeString(strings1, fileSpace: filespace1)
+            t.dataset.writeString(strings2, fileSpace: filespace2)
         }
     }
 }
