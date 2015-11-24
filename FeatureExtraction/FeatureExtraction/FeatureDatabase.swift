@@ -325,7 +325,7 @@ public class FeatureDatabase {
 
     func shuffleIntTables(start1 start1: Int, start2: Int, indices: [Int]) {
         var data = [Int](count: 2*chunkSize, repeatedValue: 0)
-        for t in doubleTables {
+        for t in intTables {
             let memspace1 = Dataspace(dims: [2*chunkSize, t.size])
             memspace1.select(start: [0, 0], stride: nil, count: [chunkSize, t.size], block: nil)
 
@@ -352,12 +352,16 @@ public class FeatureDatabase {
     }
 
     func shuffleStringTables(start1 start1: Int, start2: Int, indices: [Int]) {
-        for t in doubleTables {
+        for t in stringTables {
+            if t.name == "folder" {
+                continue
+            }
+
             let filespace1 = t.dataset.space
-            filespace1.select(start: [start1, 0], stride: nil, count: [chunkSize, t.size], block: nil)
+            filespace1.select(start: [start1, 0], stride: nil, count: [chunkSize], block: nil)
 
             let filespace2 = t.dataset.space
-            filespace2.select(start: [start2, 0], stride: nil, count: [chunkSize, t.size], block: nil)
+            filespace2.select(start: [start2, 0], stride: nil, count: [chunkSize], block: nil)
 
             var strings1 = t.dataset.readString(fileSpace: filespace1)
             var strings2 = t.dataset.readString(fileSpace: filespace2)
