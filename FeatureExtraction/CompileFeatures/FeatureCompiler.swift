@@ -125,15 +125,26 @@ class FeatureCompiler {
     }
 
     func shuffle() {
-        let eraseLastLineCommand = "\u{1B}[A\u{1B}[2K"
-        print("Shuffling...")
+        let chunkSize = 100 * 1024
+        let passes = 3
 
-        trainingDatabase.shuffle(passes: 10) { progress in
-            print("\(eraseLastLineCommand)Shuffling training data...\(round(progress * 10000) / 100)%")
+        let isTTY = isatty(fileno(stdin)) != 0
+        let eraseLastLineCommand = "\u{1B}[A\u{1B}[2K"
+
+        if isTTY {
+            print("Shuffling...")
         }
 
-        testingDatabase.shuffle(passes: 10) { progress in
-            print("\(eraseLastLineCommand)Shuffling testing data...\(round(progress * 10000) / 100)%")
+        trainingDatabase.shuffle(chunkSize: chunkSize, passes: passes) { progress in
+            if isTTY {
+                print("\(eraseLastLineCommand)Shuffling training data...\(round(progress * 10000) / 100)%")
+            }
+        }
+
+        testingDatabase.shuffle(chunkSize: chunkSize, passes: passes) { progress in
+            if isTTY {
+                print("\(eraseLastLineCommand)Shuffling testing data...\(round(progress * 10000) / 100)%")
+            }
         }
     }
 }
