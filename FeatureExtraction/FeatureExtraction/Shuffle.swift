@@ -18,19 +18,21 @@ extension MutableCollectionType where Index == Int {
         if count < 2 { return }
 
         for i in 0..<count - 1 {
-            let j = random(count - i) + i
+            let j = randomInRange(i..<count)
             guard i != j else { continue }
             swap(&self[i], &self[j])
         }
     }
 }
 
-public func random(upper_bound: Int) -> Int {
-    let range = Int.max - Int.max % upper_bound
-    var rnd = 0
+public func randomInRange(range: Range<Int>) -> Int {
+    assert(!range.isEmpty)
+
+    let upperBound = UInt.max - UInt.max % UInt(range.count)
+    var rnd = UInt(0)
     repeat {
         arc4random_buf(&rnd, sizeofValue(rnd))
-    } while rnd >= range
+    } while rnd >= upperBound
 
-    return rnd % upper_bound
+    return range.startIndex + Int(rnd % UInt(range.count))
 }

@@ -101,7 +101,8 @@ public class FeatureDatabase {
 
             let dims = dataset.space.dims
             precondition(dims.count == 2 && dims[1] == size, "Existing dataset '\(name)' is of the wrong size")
-
+            exampleCount = dims[0]
+            
             let table = DoubleTable(name: name, size: size, dataset: dataset, data: RealArray(count: size * chunkSize))
             doubleTables.append(table)
         }
@@ -283,39 +284,45 @@ public class FeatureDatabase {
     }
 
     public func shuffle() {
-        let shuffleCount = exampleCount / chunkSize
-        for _ in 0..<shuffleCount {
-            let start1 = random(exampleCount)
-            let start2 = random(exampleCount)
+        let shuffleCount = 10 * exampleCount / chunkSize
+        for i in 0..<shuffleCount {
+            let start1 = i * chunkSize % exampleCount
+            let start2 = randomInRange(0...exampleCount - chunkSize)
             let indices = (0..<2*chunkSize).shuffle()
 
             shuffleDoubleTables(start1: start1, start2: start2, indices: indices)
             shuffleIntTables(start1: start1, start2: start2, indices: indices)
             shuffleStringTables(start1: start1, start2: start2, indices: indices)
         }
+        file.flush()
     }
 
     func shuffleDoubleTables(start1 start1: Int, start2: Int, indices: [Int]) {
-        var data = [Double](count: 2*chunkSize, repeatedValue: 0)
+        var data = [Double](count: 2*chunkSize*FeatureBuilder.bandNotes.count, repeatedValue: 0)
         for t in doubleTables {
             let memspace1 = Dataspace(dims: [2*chunkSize, t.size])
             memspace1.select(start: [0, 0], stride: nil, count: [chunkSize, t.size], block: nil)
 
-            let filespace1 = t.dataset.space
+            let filespace1 = Dataspace(t.dataset.space)
             filespace1.select(start: [start1, 0], stride: nil, count: [chunkSize, t.size], block: nil)
+
+            assert(data.count >= memspace1.selectionSize)
+            t.dataset.readDouble(&data, memSpace: memspace1, fileSpace: filespace1)
 
             let memspace2 = Dataspace(dims: [2*chunkSize, t.size])
             memspace2.select(start: [chunkSize, 0], stride: nil, count: [chunkSize, t.size], block: nil)
 
-            let filespace2 = t.dataset.space
+            let filespace2 = Dataspace(t.dataset.space)
             filespace2.select(start: [start2, 0], stride: nil, count: [chunkSize, t.size], block: nil)
 
-            t.dataset.readDouble(&data, memSpace: memspace1, fileSpace: filespace1)
+            assert(data.count - chunkSize >= memspace1.selectionSize)
             t.dataset.readDouble(&data, memSpace: memspace2, fileSpace: filespace2)
 
             for i in 0..<2*chunkSize {
                 let index = indices[i]
-                swap(&data[i], &data[index])
+                if index != i {
+                    swap(&data[i], &data[index])
+                }
             }
 
             t.dataset.writeDouble(data, memSpace: memspace1, fileSpace: filespace1)
@@ -324,26 +331,31 @@ public class FeatureDatabase {
     }
 
     func shuffleIntTables(start1 start1: Int, start2: Int, indices: [Int]) {
-        var data = [Int](count: 2*chunkSize, repeatedValue: 0)
+        var data = [Int](count: 2*chunkSize*FeatureBuilder.bandNotes.count, repeatedValue: 0)
         for t in intTables {
             let memspace1 = Dataspace(dims: [2*chunkSize, t.size])
             memspace1.select(start: [0, 0], stride: nil, count: [chunkSize, t.size], block: nil)
 
-            let filespace1 = t.dataset.space
+            let filespace1 = Dataspace(t.dataset.space)
             filespace1.select(start: [start1, 0], stride: nil, count: [chunkSize, t.size], block: nil)
+
+            assert(data.count >= memspace1.selectionSize)
+            t.dataset.readInt(&data, memSpace: memspace1, fileSpace: filespace1)
 
             let memspace2 = Dataspace(dims: [2*chunkSize, t.size])
             memspace2.select(start: [chunkSize, 0], stride: nil, count: [chunkSize, t.size], block: nil)
 
-            let filespace2 = t.dataset.space
+            let filespace2 = Dataspace(t.dataset.space)
             filespace2.select(start: [start2, 0], stride: nil, count: [chunkSize, t.size], block: nil)
 
-            t.dataset.readInt(&data, memSpace: memspace1, fileSpace: filespace1)
+            assert(data.count - chunkSize >= memspace1.selectionSize)
             t.dataset.readInt(&data, memSpace: memspace2, fileSpace: filespace2)
 
             for i in 0..<2*chunkSize {
                 let index = indices[i]
-                swap(&data[i], &data[index])
+                if index != i {
+                    swap(&data[i], &data[index])
+                }
             }
 
             t.dataset.writeInt(data, memSpace: memspace1, fileSpace: filespace1)
@@ -357,19 +369,23 @@ public class FeatureDatabase {
                 continue
             }
 
-            let filespace1 = t.dataset.space
+            let filespace1 = Dataspace(t.dataset.space)
             filespace1.select(start: [start1, 0], stride: nil, count: [chunkSize], block: nil)
-
-            let filespace2 = t.dataset.space
-            filespace2.select(start: [start2, 0], stride: nil, count: [chunkSize], block: nil)
-
             var strings1 = t.dataset.readString(fileSpace: filespace1)
+            assert(strings1.count == filespace1.selectionSize)
+
+            let filespace2 = Dataspace(t.dataset.space)
+            filespace2.select(start: [start2, 0], stride: nil, count: [chunkSize], block: nil)
             var strings2 = t.dataset.readString(fileSpace: filespace2)
+            assert(strings2.count == filespace2.selectionSize)
+
             var strings = strings1 + strings2
 
             for i in 0..<2*chunkSize {
                 let index = indices[i]
-                swap(&strings[i], &strings[index])
+                if index != i {
+                    swap(&strings[i], &strings[index])
+                }
             }
 
             strings1 = [String](strings.dropLast(chunkSize))
