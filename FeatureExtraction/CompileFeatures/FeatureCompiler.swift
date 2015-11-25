@@ -125,7 +125,15 @@ class FeatureCompiler {
     }
 
     func shuffle() {
-        trainingDatabase.shuffle()
-        testingDatabase.shuffle()
+        let eraseLastLineCommand = "\u{1B}[A\u{1B}[2K"
+        print("Shuffling...")
+
+        trainingDatabase.shuffle(passes: 10) { progress in
+            print("\(eraseLastLineCommand)Shuffling training data...\(round(progress * 10000) / 100)%")
+        }
+
+        testingDatabase.shuffle(passes: 10) { progress in
+            print("\(eraseLastLineCommand)Shuffling testing data...\(round(progress * 10000) / 100)%")
+        }
     }
 }

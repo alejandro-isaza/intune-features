@@ -3,3 +3,5 @@ github "aleph7/HDF5Kit" "master"
 github "aleph7/BrainCore" "master"
 github "aleph7/PlotKit" "master"
 github "hoseking/Peak" "master"
+
+github "jatoben/CommandLine" ~> 2.0

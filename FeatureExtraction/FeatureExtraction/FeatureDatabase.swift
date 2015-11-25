@@ -283,8 +283,8 @@ public class FeatureDatabase {
         }
     }
 
-    public func shuffle() {
-        let shuffleCount = 10 * exampleCount / chunkSize
+    public func shuffle(passes passes: Int = 1, progress: (Double -> Void)? = nil) {
+        let shuffleCount = passes * exampleCount / chunkSize
         for i in 0..<shuffleCount {
             let start1 = i * chunkSize % exampleCount
             let start2 = randomInRange(0...exampleCount - chunkSize)
@@ -293,8 +293,10 @@ public class FeatureDatabase {
             shuffleDoubleTables(start1: start1, start2: start2, indices: indices)
             shuffleIntTables(start1: start1, start2: start2, indices: indices)
             shuffleStringTables(start1: start1, start2: start2, indices: indices)
+
+            file.flush()
+            progress?(Double(i) / Double(shuffleCount - 1))
         }
-        file.flush()
     }
 
     func shuffleDoubleTables(start1 start1: Int, start2: Int, indices: [Int]) {
