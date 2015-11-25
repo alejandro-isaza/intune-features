@@ -40,8 +40,6 @@
 		61BBAF731BC4408300A03FD0 /* PeakLocationsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF721BC4408300A03FD0 /* PeakLocationsFeature.swift */; };
 		61BBAF751BC4408F00A03FD0 /* PeakHeightsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF741BC4408F00A03FD0 /* PeakHeightsFeature.swift */; };
 		61BBAF771BC440A800A03FD0 /* SpectrumFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF761BC440A800A03FD0 /* SpectrumFeature.swift */; };
-		61CE4CB21BF27860000E0D34 /* HDF5Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C861BF2784E000E0D34 /* HDF5Kit.framework */; };
-		61CE4CB31BF27860000E0D34 /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4CA71BF2784E000E0D34 /* Upsurge.framework */; };
 		61CE4CBD1BF278D7000E0D34 /* HDF5Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C861BF2784E000E0D34 /* HDF5Kit.framework */; };
 		61CE4CBE1BF278D7000E0D34 /* Peak.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C961BF2784E000E0D34 /* Peak.framework */; };
 		61CE4CBF1BF278D7000E0D34 /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4CA71BF2784E000E0D34 /* Upsurge.framework */; };
@@ -60,7 +58,6 @@
 		8CDE47981BBF117C00A98419 /* FeatureCompiler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE47941BBF117C00A98419 /* FeatureCompiler.swift */; };
 		8CDE479C1BBF11A000A98419 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479B1BBF11A000A98419 /* main.swift */; };
 		8CDE47A01BBF2FA000A98419 /* String+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479F1BBF2FA000A98419 /* String+Paths.swift */; };
-		8CDE47EF1BBF39C800A98419 /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -387,9 +384,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				61CE4CB21BF27860000E0D34 /* HDF5Kit.framework in Frameworks */,
-				61CE4CB31BF27860000E0D34 /* Upsurge.framework in Frameworks */,
-				8CDE47EF1BBF39C800A98419 /* FeatureExtraction.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
