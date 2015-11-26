@@ -10,6 +10,7 @@ import Foundation
 import Peak
 import HDF5Kit
 import FeatureExtraction
+import Upsurge
 
 public class ValidateFeatures {
     let validateCount = 1000
@@ -47,19 +48,30 @@ public class ValidateFeatures {
     }
     
     public func validate() -> Bool {
-        let sampleCount = labelDataset.extent[0]
-        let step = sampleCount / validateCount
+        let exampleCount = labelDataset.extent[0]
+        let step = exampleCount / validateCount
         for i in 0..<validateCount {
             let index = i * step
             
-            let fileName = String(fileNameDataset[index])
+            let space = Dataspace(fileNameDataset.space)
+            space.select(index)
+            let fileName = fileNameDataset.readString(fileSpace: space)[0]
             
-            guard let offset = offsetDataset[index, 0][0] as? Int else { fatalError() }
+            var fileSpace = Dataspace(offsetDataset.space)
+            fileSpace.select(index)
+            var memSpace = Dataspace(dims: [1, 0])
+            var offset = Int()
+            offsetDataset.readInt(&offset, memSpace: memSpace, fileSpace: fileSpace)
             
             let labelDim = labelDataset.extent[1]
-            guard let label = labelDataset[index, 0..<labelDim] as? [Int] else { fatalError() }
-            
-            var example = Example(filePath: fileName, frameOffset: offset, label: label)
+            fileSpace = Dataspace(labelDataset.space)
+            let sel = HyperslabIndex(start: 0, count: labelDim)
+            fileSpace.select(index, sel)
+            memSpace = Dataspace(dims: [1, labelDim])
+            var label = [Int](count: labelDim, repeatedValue: 0)
+            labelDataset.readInt(&label, memSpace: memSpace, fileSpace: fileSpace)
+
+            var example = Example(filePath: fileName, frameOffset: offset, label: label, data: (RealArray(count: sampleCount), RealArray(count: sampleCount)))
             getData(&example)
             
             let featureBuilder = FeatureBuilder()
@@ -75,25 +87,52 @@ public class ValidateFeatures {
     func getData(inout example: Example) {
         guard let file = AudioFile.open(example.filePath) else { fatalError() }
         
-        file.currentFrame = example.frameOffset
-        file.readFrames(example.data.0.mutablePointer, count: sampleCount)
-        
-        file.currentFrame = example.frameOffset + sampleStep
-        file.readFrames(example.data.1.mutablePointer, count: sampleCount)
+        readAtFrame(file, frame: example.frameOffset - sampleCount / 2, data: example.data.0.mutablePointer)
+        readAtFrame(file, frame: example.frameOffset - sampleCount / 2 + sampleStep, data: example.data.1.mutablePointer)
+    }
+    
+    func readAtFrame(file: AudioFile, frame: Int, data: UnsafeMutablePointer<Double>) {
+        if frame >= 0 {
+            file.currentFrame = frame
+            file.readFrames(data, count: sampleCount)
+        } else {
+            file.currentFrame = 0
+            file.readFrames(data - frame, count: sampleCount + frame)
+        }
     }
     
     func compare(index: Int, featureBuilder: FeatureBuilder) -> Bool {
-        let spectrumDim = spectrumDataset.extent[1]
-        let spectrum = spectrumDataset[index, 0..<spectrumDim] as! [Double]
+        var dim = spectrumDataset.extent[1]
+        var fileSpace = Dataspace(spectrumDataset.space)
+        var sel = HyperslabIndex(start: 0, count: dim)
+        fileSpace.select(index, sel)
+        var memSpace = Dataspace(dims: [1, dim])
+        var spectrum = [Double](count: dim, repeatedValue: 0)
+        spectrumDataset.readDouble(&spectrum, memSpace: memSpace, fileSpace: fileSpace)
 
-        let locationsDim = locationsDataset.extent[1]
-        let locations = locationsDataset[index, 0..<locationsDim] as! [Double]
+        dim = locationsDataset.extent[1]
+        fileSpace = Dataspace(locationsDataset.space)
+        sel = HyperslabIndex(start: 0, count: dim)
+        fileSpace.select(index, sel)
+        memSpace = Dataspace(dims: [1, dim])
+        var locations = [Double](count: dim, repeatedValue: 0)
+        locationsDataset.readDouble(&locations, memSpace: memSpace, fileSpace: fileSpace)
 
-        let heightsDim = heightsDataset.extent[1]
-        let heights = heightsDataset[index, 0..<heightsDim] as! [Double]
+        dim = heightsDataset.extent[1]
+        fileSpace = Dataspace(heightsDataset.space)
+        sel = HyperslabIndex(start: 0, count: dim)
+        fileSpace.select(index, sel)
+        memSpace = Dataspace(dims: [1, dim])
+        var heights = [Double](count: dim, repeatedValue: 0)
+        heightsDataset.readDouble(&heights, memSpace: memSpace, fileSpace: fileSpace)
 
-        let fluxDim = fluxDataset.extent[1]
-        let flux = fluxDataset[index, 0..<fluxDim] as! [Double]
+        dim = fluxDataset.extent[1]
+        fileSpace = Dataspace(fluxDataset.space)
+        sel = HyperslabIndex(start: 0, count: dim)
+        fileSpace.select(index, sel)
+        memSpace = Dataspace(dims: [1, dim])
+        var flux = [Double](count: dim, repeatedValue: 0)
+        fluxDataset.readDouble(&flux, memSpace: memSpace, fileSpace: fileSpace)
 
         if !arraysMatch(spectrum, rhs: featureBuilder.spectrumFeature0) {
             return false
@@ -115,7 +154,7 @@ public class ValidateFeatures {
 
         for i in 0..<lhs.count {
             if lhs[i] != rhs.data[i] {
-                return false
+                print(lhs[i], rhs.data[i])
             }
         }
         
