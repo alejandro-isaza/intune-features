@@ -78,7 +78,7 @@ class MonoExampleBuilder {
 
         while true {
             data.0.mutablePointer.assignFrom(data.0.mutablePointer + step, count: overlap)
-            data.0.mutablePointer.assignFrom(data.1.mutablePointer + overlap, count: step)
+            (data.0.mutablePointer + ovelap).assignFrom(data.1.mutablePointer + overlap, count: step)
 
             data.1.mutablePointer.assignFrom(data.1.mutablePointer + step, count: overlap)
             guard audioFile.readFrames(data.1.mutablePointer + overlap, count: step) == step else {
