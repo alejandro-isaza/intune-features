@@ -46,6 +46,8 @@
 		61CE4CBF1BF278D7000E0D34 /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4CA71BF2784E000E0D34 /* Upsurge.framework */; };
 		61D485AD1BC4A3D70086CED8 /* Shuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D485AC1BC4A3D70086CED8 /* Shuffle.swift */; };
 		61EB527E1BD55F90000572B9 /* Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EB527D1BD55F90000572B9 /* Stats.swift */; };
+		8C2527391C064E570038A73F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2527381C064E570038A73F /* main.swift */; };
+		8C25274E1C066BB20038A73F /* ValidateFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C25274D1C066BB20038A73F /* ValidateFeatures.swift */; };
 		8C56779B1BE9600C0009ED31 /* FeatureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C56779A1BE9600C0009ED31 /* FeatureData.swift */; };
 		8C56779E1BE976140009ED31 /* FeatureBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C56779C1BE9731E0009ED31 /* FeatureBuilder.swift */; };
 		8C7845731BB9B06600C88426 /* FeatureExtraction.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C7845721BB9B06600C88426 /* FeatureExtraction.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -265,6 +267,27 @@
 			remoteGlobalIDString = 614ACA6F1BD1CB7B00A1C13E;
 			remoteInfo = "Upsurge OSX";
 		};
+		8C25274F1C0689E50038A73F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8C7845661BB9B06600C88426 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8C78456E1BB9B06600C88426;
+			remoteInfo = FeatureExtraction;
+		};
+		8C2527511C0689E50038A73F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61CE4C661BF2784D000E0D34 /* Peak.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0045498C1BD052B100AC387F;
+			remoteInfo = PeakOSX;
+		};
+		8C2527531C0689E50038A73F /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61CE4C691BF2784D000E0D34 /* HDF5Kit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 61B3149C1BBDBA3100F63C45;
+			remoteInfo = "HDF5Kit-OSX";
+		};
 		8C78457B1BB9B06600C88426 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8C7845661BB9B06600C88426 /* Project object */;
@@ -284,6 +307,15 @@
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8C2527341C064E560038A73F /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
 		};
 		8CDE47881BBF116900A98419 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -313,7 +345,7 @@
 		6185A7841BD337E100CD5FC5 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6185A7861BD337E100CD5FC5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6185A78A1BD337FB00CD5FC5 /* Net.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
-		6185AA071BD4118A00CD5FC5 /* net.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = net.h5; sourceTree = SOURCE_ROOT; };
+		6185AA071BD4118A00CD5FC5 /* net.h5 */ = {isa = PBXFileReference; lastKnownFileType = text; path = net.h5; sourceTree = SOURCE_ROOT; };
 		6185AA091BD411A400CD5FC5 /* testing.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testing.h5; sourceTree = SOURCE_ROOT; };
 		6185AA0A1BD411A400CD5FC5 /* training.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = training.h5; sourceTree = SOURCE_ROOT; };
 		6188C7D11C066D4F001A7EAA /* CommandLine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CommandLine.xcodeproj; path = ../Carthage/Checkouts/CommandLine/CommandLine.xcodeproj; sourceTree = "<group>"; };
@@ -346,6 +378,9 @@
 		61EB527D1BD55F90000572B9 /* Stats.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Stats.swift; sourceTree = "<group>"; };
 		61EB527F1BD56BC6000572B9 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
 		61EB52851BD6C117000572B9 /* FeatureExtractionPlayground.playground */ = {isa = PBXFileReference; lastKnownFileType = file.playground; name = FeatureExtractionPlayground.playground; path = ../Playgrounds/FeatureExtractionPlayground.playground; sourceTree = "<group>"; };
+		8C2527361C064E560038A73F /* ValidateFeatures */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = ValidateFeatures; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C2527381C064E570038A73F /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		8C25274D1C066BB20038A73F /* ValidateFeatures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidateFeatures.swift; sourceTree = "<group>"; };
 		8C56779A1BE9600C0009ED31 /* FeatureData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureData.swift; sourceTree = "<group>"; };
 		8C56779C1BE9731E0009ED31 /* FeatureBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureBuilder.swift; sourceTree = "<group>"; };
 		8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureExtraction.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -379,6 +414,13 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		61A46BC51BDEC578001D2288 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8C2527331C064E560038A73F /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -538,6 +580,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		8C2527371C064E560038A73F /* ValidateFeatures */ = {
+			isa = PBXGroup;
+			children = (
+				8C2527381C064E570038A73F /* main.swift */,
+				8C25274D1C066BB20038A73F /* ValidateFeatures.swift */,
+			);
+			path = ValidateFeatures;
+			sourceTree = "<group>";
+		};
 		8C7845651BB9B06600C88426 = {
 			isa = PBXGroup;
 			children = (
@@ -549,6 +600,7 @@
 				6185A7791BD337E100CD5FC5 /* NetEval */,
 				8C9700381BDFDCB4002A81A3 /* PrepareAudio */,
 				618B7E2F1BBF4A8F0011E8D3 /* Dependencies */,
+				8C2527371C064E560038A73F /* ValidateFeatures */,
 				8C7845701BB9B06600C88426 /* Products */,
 				B5F7CD465AC17DFE1FC7BC55 /* Frameworks */,
 			);
@@ -563,6 +615,7 @@
 				6185A7781BD337E100CD5FC5 /* NetEval.app */,
 				8C9700371BDFDCB4002A81A3 /* PrepareAudio */,
 				61A46BC81BDEC578001D2288 /* FeatureExplorer.app */,
+				8C2527361C064E560038A73F /* ValidateFeatures */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -685,6 +738,26 @@
 			productReference = 61A46BC81BDEC578001D2288 /* FeatureExplorer.app */;
 			productType = "com.apple.product-type.application";
 		};
+		8C2527351C064E560038A73F /* ValidateFeatures */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8C25274C1C064E570038A73F /* Build configuration list for PBXNativeTarget "ValidateFeatures" */;
+			buildPhases = (
+				8C2527321C064E560038A73F /* Sources */,
+				8C2527331C064E560038A73F /* Frameworks */,
+				8C2527341C064E560038A73F /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8C2527501C0689E50038A73F /* PBXTargetDependency */,
+				8C2527521C0689E50038A73F /* PBXTargetDependency */,
+				8C2527541C0689E50038A73F /* PBXTargetDependency */,
+			);
+			name = ValidateFeatures;
+			productName = ValidateFeatures;
+			productReference = 8C2527361C064E560038A73F /* ValidateFeatures */;
+			productType = "com.apple.product-type.tool";
+		};
 		8C78456E1BB9B06600C88426 /* FeatureExtraction */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8C7845831BB9B06600C88426 /* Build configuration list for PBXNativeTarget "FeatureExtraction" */;
@@ -775,6 +848,9 @@
 					61A46BC71BDEC578001D2288 = {
 						CreatedOnToolsVersion = 7.1;
 					};
+					8C2527351C064E560038A73F = {
+						CreatedOnToolsVersion = 7.1.1;
+					};
 					8C78456E1BB9B06600C88426 = {
 						CreatedOnToolsVersion = 7.0;
 					};
@@ -834,6 +910,7 @@
 				6185A7771BD337E100CD5FC5 /* NetEval */,
 				8C9700361BDFDCB4002A81A3 /* PrepareAudio */,
 				61A46BC71BDEC578001D2288 /* FeatureExplorer */,
+				8C2527351C064E560038A73F /* ValidateFeatures */,
 			);
 		};
 /* End PBXProject section */
@@ -1049,6 +1126,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8C2527321C064E560038A73F /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8C25274E1C066BB20038A73F /* ValidateFeatures.swift in Sources */,
+				8C2527391C064E570038A73F /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8C78456A1BB9B06600C88426 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1147,6 +1233,21 @@
 			isa = PBXTargetDependency;
 			name = "Upsurge OSX";
 			targetProxy = 61CE4CBB1BF278CC000E0D34 /* PBXContainerItemProxy */;
+		};
+		8C2527501C0689E50038A73F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8C78456E1BB9B06600C88426 /* FeatureExtraction */;
+			targetProxy = 8C25274F1C0689E50038A73F /* PBXContainerItemProxy */;
+		};
+		8C2527521C0689E50038A73F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PeakOSX;
+			targetProxy = 8C2527511C0689E50038A73F /* PBXContainerItemProxy */;
+		};
+		8C2527541C0689E50038A73F /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "HDF5Kit-OSX";
+			targetProxy = 8C2527531C0689E50038A73F /* PBXContainerItemProxy */;
 		};
 		8C78457C1BB9B06600C88426 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1259,6 +1360,24 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.venturemedia.FeatureExplorer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		8C25273A1C064E570038A73F /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		8C25273B1C064E570038A73F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -1445,6 +1564,15 @@
 			buildConfigurations = (
 				61A46BD41BDEC578001D2288 /* Debug */,
 				61A46BD51BDEC578001D2288 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8C25274C1C064E570038A73F /* Build configuration list for PBXNativeTarget "ValidateFeatures" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8C25273A1C064E570038A73F /* Debug */,
+				8C25273B1C064E570038A73F /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
