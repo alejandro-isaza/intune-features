@@ -26,17 +26,17 @@ class FeatureCompiler {
         "alfred42458"
     ]
 
-    let trainingFileName = "training.h5"
-    let testingFileName = "testing.h5"
+    var trainingFileName = "training.h5"
+    var testingFileName = "testing.h5"
     let trainingDatabase: FeatureDatabase
     let testingDatabase: FeatureDatabase
 
     var existingFolders: [String]
     var featureBuilder = FeatureBuilder()
 
-    init() {
-        trainingDatabase = FeatureDatabase(filePath: trainingFileName, overwrite: false)
-        testingDatabase = FeatureDatabase(filePath: testingFileName, overwrite: false)
+    init(overwrite: Bool) {
+        trainingDatabase = FeatureDatabase(filePath: trainingFileName, overwrite: overwrite)
+        testingDatabase = FeatureDatabase(filePath: testingFileName, overwrite: overwrite)
         existingFolders = trainingDatabase.folders + testingDatabase.folders
 
         print("\nWorking Directory: \(NSFileManager.defaultManager().currentDirectoryPath)\n")
@@ -124,10 +124,7 @@ class FeatureCompiler {
         return folders.map{ $0.path! }
     }
 
-    func shuffle() {
-        let chunkSize = 100 * 1024
-        let passes = 3
-
+    func shuffle(chunkSize chunkSize: Int, passes: Int) {
         let isTTY = isatty(fileno(stdin)) != 0
         let eraseLastLineCommand = "\u{1B}[A\u{1B}[2K"
 

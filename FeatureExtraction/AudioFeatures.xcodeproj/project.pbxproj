@@ -24,6 +24,7 @@
 		6185AA081BD4118A00CD5FC5 /* net.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 6185AA071BD4118A00CD5FC5 /* net.h5 */; };
 		6185AA0B1BD411A400CD5FC5 /* testing.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 6185AA091BD411A400CD5FC5 /* testing.h5 */; };
 		6185AA0C1BD411A400CD5FC5 /* training.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 6185AA0A1BD411A400CD5FC5 /* training.h5 */; };
+		6188C7DC1C0680D0001A7EAA /* CommandLine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6188C7D71C066D50001A7EAA /* CommandLine.framework */; };
 		618ACC0C1BE0686D008C23A8 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618ACC0B1BE0686D008C23A8 /* Note.swift */; };
 		619297E41BE989EC009A90EB /* PeakLocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619297E31BE989EC009A90EB /* PeakLocationsViewController.swift */; };
 		61A46BCB1BDEC578001D2288 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A46BCA1BDEC578001D2288 /* AppDelegate.swift */; };
@@ -61,6 +62,27 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6188C7D61C066D50001A7EAA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6188C7D11C066D4F001A7EAA /* CommandLine.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5D06884319674D7D00BBFAAC;
+			remoteInfo = CommandLine;
+		};
+		6188C7D81C066D50001A7EAA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6188C7D11C066D4F001A7EAA /* CommandLine.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 5D06884E19674D7D00BBFAAC;
+			remoteInfo = CommandLineTests;
+		};
+		6188C7DA1C066D5B001A7EAA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6188C7D11C066D4F001A7EAA /* CommandLine.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5D06884219674D7D00BBFAAC;
+			remoteInfo = CommandLine;
+		};
 		61A46BE31BDEC58F001D2288 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8C7845661BB9B06600C88426 /* Project object */;
@@ -294,6 +316,7 @@
 		6185AA071BD4118A00CD5FC5 /* net.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = net.h5; sourceTree = SOURCE_ROOT; };
 		6185AA091BD411A400CD5FC5 /* testing.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testing.h5; sourceTree = SOURCE_ROOT; };
 		6185AA0A1BD411A400CD5FC5 /* training.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = training.h5; sourceTree = SOURCE_ROOT; };
+		6188C7D11C066D4F001A7EAA /* CommandLine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CommandLine.xcodeproj; path = ../Carthage/Checkouts/CommandLine/CommandLine.xcodeproj; sourceTree = "<group>"; };
 		618ACC0B1BE0686D008C23A8 /* Note.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		619297E31BE989EC009A90EB /* PeakLocationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakLocationsViewController.swift; sourceTree = "<group>"; };
 		61A46BC81BDEC578001D2288 /* FeatureExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FeatureExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -384,6 +407,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6188C7DC1C0680D0001A7EAA /* CommandLine.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -416,9 +440,19 @@
 			path = NetEval;
 			sourceTree = "<group>";
 		};
+		6188C7D21C066D4F001A7EAA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6188C7D71C066D50001A7EAA /* CommandLine.framework */,
+				6188C7D91C066D50001A7EAA /* CommandLineTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		618B7E2F1BBF4A8F0011E8D3 /* Dependencies */ = {
 			isa = PBXGroup;
 			children = (
+				6188C7D11C066D4F001A7EAA /* CommandLine.xcodeproj */,
 				61CE4C661BF2784D000E0D34 /* Peak.xcodeproj */,
 				61CE4C691BF2784D000E0D34 /* HDF5Kit.xcodeproj */,
 				61CE4C6C1BF2784D000E0D34 /* BrainCore.xcodeproj */,
@@ -715,6 +749,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				6188C7DB1C066D5B001A7EAA /* PBXTargetDependency */,
 				61CE4CAF1BF27858000E0D34 /* PBXTargetDependency */,
 				61CE4CB11BF27858000E0D34 /* PBXTargetDependency */,
 				61CE4C651BF27814000E0D34 /* PBXTargetDependency */,
@@ -771,6 +806,10 @@
 					ProjectRef = 61CE4C6C1BF2784D000E0D34 /* BrainCore.xcodeproj */;
 				},
 				{
+					ProductGroup = 6188C7D21C066D4F001A7EAA /* Products */;
+					ProjectRef = 6188C7D11C066D4F001A7EAA /* CommandLine.xcodeproj */;
+				},
+				{
 					ProductGroup = 61CE4C6A1BF2784D000E0D34 /* Products */;
 					ProjectRef = 61CE4C691BF2784D000E0D34 /* HDF5Kit.xcodeproj */;
 				},
@@ -800,6 +839,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		6188C7D71C066D50001A7EAA /* CommandLine.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CommandLine.framework;
+			remoteRef = 6188C7D61C066D50001A7EAA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6188C7D91C066D50001A7EAA /* CommandLineTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = CommandLineTests.xctest;
+			remoteRef = 6188C7D81C066D50001A7EAA /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		61CE4C7A1BF2784E000E0D34 /* BrainCore.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -1051,6 +1104,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		6188C7DB1C066D5B001A7EAA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CommandLine;
+			targetProxy = 6188C7DA1C066D5B001A7EAA /* PBXContainerItemProxy */;
+		};
 		61A46BE41BDEC58F001D2288 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8C78456E1BB9B06600C88426 /* FeatureExtraction */;
@@ -1355,7 +1413,7 @@
 		8CDE478E1BBF116900A98419 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) '@executable_path/Frameworks' '@executable_path' '@executable_path/Pods-OSX'";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) '@executable_path/Frameworks' '@executable_path' '@loader_path/Frameworks'";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1364,7 +1422,7 @@
 		8CDE478F1BBF116900A98419 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) '@executable_path/Frameworks' '@executable_path' '@executable_path/Pods-OSX'";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) '@executable_path/Frameworks' '@executable_path' '@loader_path/Frameworks'";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
