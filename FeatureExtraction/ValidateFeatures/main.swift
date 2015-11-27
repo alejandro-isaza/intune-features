@@ -1,10 +1,4 @@
-//
-//  main.swift
-//  ValidateFeatures
-//
-//  Created by Aidan Gomez on 2015-11-25.
 //  Copyright © 2015 Venture Media. All rights reserved.
-//
 
 import Foundation
 

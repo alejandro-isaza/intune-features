@@ -23,26 +23,26 @@ public class FeatureDatabase {
         (name: "folder"),
     ]
 
-    struct DoubleTable {
-        var name: String
-        var size: Int
-        var data: RealArray
+    public struct DoubleTable {
+        public var name: String
+        public var size: Int
+        public var data: RealArray
     }
 
-    struct IntTable {
-        var name: String
-        var size: Int
-        var data: [Int]
+    public struct IntTable {
+        public var name: String
+        public var size: Int
+        public var data: [Int]
     }
 
-    struct StringTable {
-        var name: String
-        var data: [String]
+    public struct StringTable {
+        public var name: String
+        public var data: [String]
     }
 
-    var doubleTables = [DoubleTable]()
-    var intTables = [IntTable]()
-    var stringTables = [StringTable]()
+    public var doubleTables = [DoubleTable]()
+    public var intTables = [IntTable]()
+    public var stringTables = [StringTable]()
 
     public internal(set) var folders = [String]()
     public internal(set) var exampleCount = 0
@@ -135,6 +135,77 @@ public class FeatureDatabase {
             preconditionFailure("Existing file doesn't have a folder dataset")
         }
         folders = foldersDataset.readString()
+    }
+    
+    public func getDoubleTable(name: String) -> DoubleTable? {
+        for table in doubleTables {
+            if table.name == name {
+                return table
+            }
+        }
+        return nil
+    }
+    
+    public func readDoubleTableData(table: DoubleTable, index: Int) -> RealArray {
+        guard let dataset = file.openDataset(table.name, type: Double.self) else {
+            preconditionFailure("Existing file doesn't have a \(table.name) dataset")
+        }
+        
+        let data = RealArray(count: table.size)
+        
+        let fileSpace = Dataspace(dataset.space)
+        let selection = HyperslabIndex(start: 0, count: table.size)
+        fileSpace.select(index, selection)
+        
+        let memSpace = Dataspace(dims: [1, table.size])
+        dataset.readDouble(data.mutablePointer, memSpace: memSpace, fileSpace: fileSpace)
+
+        return data
+    }
+    
+    public func getIntTable(name: String) -> IntTable? {
+        for table in intTables {
+            if table.name == name {
+                return table
+            }
+        }
+        return nil
+    }
+    
+    public func readIntTableData(table: IntTable, index: Int) -> [Int] {
+        guard let dataset = file.openDataset(table.name, type: Int.self) else {
+            preconditionFailure("Existing file doesn't have a \(table.name) dataset")
+        }
+        
+        var data = [Int](count: table.size, repeatedValue: 0)
+        
+        let fileSpace = Dataspace(dataset.space)
+        let selection = HyperslabIndex(start: 0, count: table.size)
+        fileSpace.select(index, selection)
+        
+        let memSpace = Dataspace(dims: [1, table.size])
+        dataset.readInt(&data, memSpace: memSpace, fileSpace: fileSpace)
+        
+        return data
+    }
+    
+    public func getStringTable(name: String) -> StringTable? {
+        for table in stringTables {
+            if table.name == name {
+                return table
+            }
+        }
+        return nil
+    }
+    
+    public func readStringTableData(table: StringTable, index: Int) -> String {
+        guard let dataset = file.openDataset(table.name, type: Double.self) else {
+            preconditionFailure("Existing file doesn't have a \(table.name) dataset")
+        }
+        
+        let space = Dataspace(dataset.space)
+        space.select(index)
+        return dataset.readString(fileSpace: space)[0]
     }
 
     public func appendFeatures(features: [FeatureData], folder: String?) {
@@ -316,6 +387,7 @@ public class FeatureDatabase {
             file.flush()
             progress?(Double(i) / Double(shuffleCount - 1))
         }
+        file.flush()
     }
 
     func shuffleDoubleTables(chunkSize chunkSize: Int, start1: Int, start2: Int, indices: [Int]) {
