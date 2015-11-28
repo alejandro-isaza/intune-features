@@ -52,7 +52,7 @@ class FeatureCompiler {
 
         var features = [FeatureData]()
         exampleBuilder.forEachNoiseInFolder(rootNoisePath, action: { example in
-            let featureData = FeatureData(example: example)
+            let featureData = FeatureData(filePath: example.filePath, fileOffset: example.frameOffset, label: example.label)
             featureData.features = self.featureBuilder.generateFeatures(example)
             features.append(featureData)
         })
@@ -73,7 +73,7 @@ class FeatureCompiler {
 
             var features = [FeatureData]()
             exampleBuilder.forEachNoteInFolder(folder, action: { example in
-                let featureData = FeatureData(example: example)
+                let featureData = FeatureData(filePath: example.filePath, fileOffset: example.frameOffset, label: example.label)
                 featureData.features = self.featureBuilder.generateFeatures(example)
                 features.append(featureData)
             })
@@ -100,7 +100,7 @@ class FeatureCompiler {
 
             var features = [FeatureData]()
             exampleBuilder.forEachExampleInFolder(folder, action: { example in
-                let featureData = FeatureData(example: example)
+                let featureData = FeatureData(filePath: example.filePath, fileOffset: example.frameOffset, label: example.label)
                 featureData.features = self.featureBuilder.generateFeatures(example)
                 features.append(featureData)
             })

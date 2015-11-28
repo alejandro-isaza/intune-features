@@ -16,36 +16,39 @@ public class ValidateFeatures {
     }
     
     public func validate() -> Bool {
-        let labelDataset = featureDatabase.getIntTable("label")!
-        let fileNameDataset = featureDatabase.getStringTable("fileName")!
-        let offsetDataset = featureDatabase.getIntTable("offset")!
-        
+        let validateCount = min(1000, featureDatabase.exampleCount)
         let step = featureDatabase.exampleCount / validateCount
         for i in 0..<validateCount {
             let index = i * step
+
+            let feature = featureDatabase.readFeatures(index, count: 1).first!
             
-            let offset = featureDatabase.readIntTableData(offsetDataset, index: index)[0]
-            let label = featureDatabase.readIntTableData(labelDataset, index: index)
-            let fileName = featureDatabase.readStringTableData(fileNameDataset, index: index)
-            
-            var example = Example(filePath: fileName, frameOffset: offset, label: label, data: (RealArray(count: FeatureBuilder.sampleCount), RealArray(count: FeatureBuilder.sampleCount)))
-            getData(&example)
+            var example = Example(filePath: feature.filePath, frameOffset: feature.fileOffset, label: feature.label, data: (RealArray(count: FeatureBuilder.sampleCount), RealArray(count: FeatureBuilder.sampleCount)))
+            loadExampleData(&example)
             
             let featureBuilder = FeatureBuilder()
             featureBuilder.generateFeatures(example)
-            
-            if !compare(index, featureBuilder: featureBuilder) {
+
+            print("Validating '\(example.filePath)' offset \(example.frameOffset)...", terminator: "")
+            if !compare(feature, featureBuilder) {
+                print("Failed")
+                print("Label \(example.label)")
                 return false
+            } else {
+                print("Passed")
             }
         }
         return true
     }
     
-    func getData(inout example: Example) {
-        guard let file = AudioFile.open(example.filePath) else { fatalError() }
+    func loadExampleData(inout example: Example) {
+        guard let file = AudioFile.open(example.filePath) else {
+            fatalError("File not found '\(example.filePath)'")
+        }
         
-        readAtFrame(file, frame: example.frameOffset - FeatureBuilder.sampleCount / 2, data: example.data.0.mutablePointer)
-        readAtFrame(file, frame: example.frameOffset - FeatureBuilder.sampleCount / 2 + FeatureBuilder.sampleStep, data: example.data.1.mutablePointer)
+        readAtFrame(file, frame: example.frameOffset - FeatureBuilder.sampleCount / 2 - FeatureBuilder.sampleStep, data: example.data.0.mutablePointer)
+        readAtFrame(file, frame: example.frameOffset - FeatureBuilder.sampleCount / 2, data: example.data.1.mutablePointer)
+        //print("offset \(example.frameOffset) data \(example.data.1.description)")
     }
     
     func readAtFrame(file: AudioFile, frame: Int, data: UnsafeMutablePointer<Double>) {
@@ -54,28 +57,25 @@ public class ValidateFeatures {
             file.readFrames(data, count: FeatureBuilder.sampleCount)
         } else {
             file.currentFrame = 0
-            file.readFrames(data - frame, count: FeatureBuilder.sampleCount + frame)
+            let fillSize = -frame
+            for i in 0..<fillSize {
+                data[i] = 0.0
+            }
+            file.readFrames(data + fillSize, count: FeatureBuilder.sampleCount - fillSize)
         }
     }
     
-    func compare(index: Int, featureBuilder: FeatureBuilder) -> Bool {
-        let spectrumTable = featureDatabase.getDoubleTable("spectrum")!
-        let locationsTable = featureDatabase.getDoubleTable("peak_locations")!
-        let heightsTable = featureDatabase.getDoubleTable("peak_heights")!
-        let fluxTable = featureDatabase.getDoubleTable("spectrum_flux")!
-        
-        let spectrum = featureDatabase.readDoubleTableData(spectrumTable, index: index)
-        let locations = featureDatabase.readDoubleTableData(locationsTable, index: index)
-        let heights = featureDatabase.readDoubleTableData(heightsTable, index: index)
-        let flux = featureDatabase.readDoubleTableData(fluxTable, index: index)
-        
-        if !arraysMatch(spectrum, rhs: featureBuilder.spectrumFeature0) {
+    func compare(feature: FeatureData, _ featureBuilder: FeatureBuilder) -> Bool {
+        if !arraysMatch(feature.features[FeatureDatabase.spectrumDatasetName]!, rhs: featureBuilder.spectrumFeature1) {
             return false
-        } else if !arraysMatch(locations, rhs: featureBuilder.peakLocations) {
+        }
+        if !arraysMatch(feature.features[FeatureDatabase.peakLocationsDatasetName]!, rhs: featureBuilder.peakLocations) {
             return false
-        } else if !arraysMatch(heights, rhs: featureBuilder.peakHeights) {
+        }
+        if !arraysMatch(feature.features[FeatureDatabase.peakHeightsDatasetName]!, rhs: featureBuilder.peakHeights) {
             return false
-        } else if !arraysMatch(flux, rhs: featureBuilder.spectrumFluxFeature) {
+        }
+        if !arraysMatch(feature.features[FeatureDatabase.spectrumFluxDatasetName]!, rhs: featureBuilder.spectrumFluxFeature) {
             return false
         }
         
@@ -89,7 +89,7 @@ public class ValidateFeatures {
 
         for i in 0..<lhs.count {
             if lhs[i] != rhs.data[i] {
-                print(lhs[i], rhs.data[i])
+                return false
             }
         }
         

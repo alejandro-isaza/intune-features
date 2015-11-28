@@ -4,15 +4,21 @@ import Foundation
 import Upsurge
 
 public class FeatureData {
-    public var example: Example
+    public var filePath: String
+    public var fileOffset: Int
+    public var label: [Int]
     public var features = [String: RealArray]()
     
-    public init(example: Example) {
-        self.example = example
+    public init(filePath: String, fileOffset: Int, label: [Int]) {
+        self.filePath = filePath
+        self.fileOffset = fileOffset
+        self.label = label
     }
 
-    public init(example: Example, features: [String: RealArray]) {
-        self.example = example
+    public init(filePath: String, fileOffset: Int, label: [Int], features: [String: RealArray]) {
+        self.filePath = filePath
+        self.fileOffset = fileOffset
+        self.label = label
         self.features = features
     }
 }

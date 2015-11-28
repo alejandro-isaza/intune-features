@@ -15,6 +15,7 @@
 		6156937B1BE82C5A0094E204 /* FileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6156937A1BE82C5A0094E204 /* FileViewController.swift */; };
 		615693891BE82F6A0094E204 /* FeaturesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615693881BE82F6A0094E204 /* FeaturesViewController.swift */; };
 		6156938B1BE83D4C0094E204 /* SpectrumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6156938A1BE83D4C0094E204 /* SpectrumViewController.swift */; };
+		6183736F1C0929A4000F48DA /* CommandLine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6188C7D71C066D50001A7EAA /* CommandLine.framework */; };
 		6185A77B1BD337E100CD5FC5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6185A77A1BD337E100CD5FC5 /* AppDelegate.swift */; };
 		6185A77D1BD337E100CD5FC5 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6185A77C1BD337E100CD5FC5 /* ViewController.swift */; };
 		6185A7801BD337E100CD5FC5 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6185A77E1BD337E100CD5FC5 /* Main.storyboard */; };
@@ -64,6 +65,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		618373701C0929A8000F48DA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6188C7D11C066D4F001A7EAA /* CommandLine.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5D06884219674D7D00BBFAAC;
+			remoteInfo = CommandLine;
+		};
 		6188C7D61C066D50001A7EAA /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 6188C7D11C066D4F001A7EAA /* CommandLine.xcodeproj */;
@@ -424,6 +432,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6183736F1C0929A4000F48DA /* CommandLine.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -599,8 +608,8 @@
 				61A46BC91BDEC578001D2288 /* FeatureExplorer */,
 				6185A7791BD337E100CD5FC5 /* NetEval */,
 				8C9700381BDFDCB4002A81A3 /* PrepareAudio */,
-				618B7E2F1BBF4A8F0011E8D3 /* Dependencies */,
 				8C2527371C064E560038A73F /* ValidateFeatures */,
+				618B7E2F1BBF4A8F0011E8D3 /* Dependencies */,
 				8C7845701BB9B06600C88426 /* Products */,
 				B5F7CD465AC17DFE1FC7BC55 /* Frameworks */,
 			);
@@ -749,6 +758,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				618373711C0929A8000F48DA /* PBXTargetDependency */,
 				8C2527501C0689E50038A73F /* PBXTargetDependency */,
 				8C2527521C0689E50038A73F /* PBXTargetDependency */,
 				8C2527541C0689E50038A73F /* PBXTargetDependency */,
@@ -1190,6 +1200,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		618373711C0929A8000F48DA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CommandLine;
+			targetProxy = 618373701C0929A8000F48DA /* PBXContainerItemProxy */;
+		};
 		6188C7DB1C066D5B001A7EAA /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = CommandLine;
@@ -1368,6 +1383,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) '@executable_path/Frameworks' '@executable_path' '@loader_path/Frameworks'";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
@@ -1377,6 +1393,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				CODE_SIGN_IDENTITY = "-";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) '@executable_path/Frameworks' '@executable_path' '@loader_path/Frameworks'";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
