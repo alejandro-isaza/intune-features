@@ -7,7 +7,7 @@ public class FeatureDatabase {
     let chunkSize = 1024
 
     public static let fileNameDatasetName = "fileName"
-    public static let folderDatasetName = "folder"
+    public static let fileListDatasetName = "fileList"
     public static let labelDatasetName = "label"
     public static let offsetDatasetName = "offset"
     public static let peakLocationsDatasetName = "peak_locations"
@@ -48,9 +48,9 @@ public class FeatureDatabase {
 
     var doubleTables = [DoubleTable]()
     var intTables = [IntTable]()
-    var fileNamesData = [String]()
 
-    public internal(set) var folders = [String]()
+    public internal(set) var fileList = Set<String>()
+    public internal(set) var fileNames = [String]()
     public internal(set) var exampleCount = 0
 
     var pendingFeatures = [FeatureData]()
@@ -71,8 +71,6 @@ public class FeatureDatabase {
     }
 
     func create() {
-        let chunkSize = FeatureDatabase.chunkSize
-
         for (name, size) in doubleDatasetSpecs {
             let space = Dataspace(dims: [0, size], maxDims: [-1, size])
             file.createDataset(name, type: Double.self, dataspace: space, chunkDimensions: [chunkSize, size])!
@@ -85,15 +83,13 @@ public class FeatureDatabase {
             let table = IntTable(name: name, size: size, data: [Int](count: chunkSize * size, repeatedValue: 0))
             intTables.append(table)
         }
-
+        
         let space = Dataspace(dims: [0], maxDims: [-1])
         file.createDataset(FeatureDatabase.fileNameDatasetName, type: String.self, dataspace: space, chunkDimensions: [chunkSize])!
-        file.createDataset(FeatureDatabase.folderDatasetName, type: String.self, dataspace: space, chunkDimensions: [1])!
+        file.createDataset(FeatureDatabase.fileListDatasetName, type: String.self, dataspace: space, chunkDimensions: [32])!
     }
 
     func load() {
-        let chunkSize = FeatureDatabase.chunkSize
-
         for (name, size) in doubleDatasetSpecs {
             guard let dataset = file.openDataset(name, type: Double.self) else {
                 preconditionFailure("Existing file doesn't have a \(name) dataset")
@@ -132,11 +128,8 @@ public class FeatureDatabase {
             preconditionFailure("Existing file doesn't have a \(FeatureDatabase.fileNameDatasetName) dataset")
         }
         precondition(dataset.space.dims.count == 1, "Existing dataset '\(FeatureDatabase.fileNameDatasetName)' is of the wrong size")
-
-        guard let foldersDataset = file.openDataset(FeatureDatabase.folderDatasetName, type: Double.self) else {
-            preconditionFailure("Existing file doesn't have a \(FeatureDatabase.folderDatasetName) dataset")
-        }
-        folders = foldersDataset.readString()
+        
+        fileList = readFileList()
     }
 
     public func readFeatures(start: Int, count: Int) -> [FeatureData] {
@@ -180,6 +173,15 @@ public class FeatureDatabase {
 
         return dataset.readString(fileSpace: fileSpace)
     }
+    
+    func readFileList() -> Set<String> {
+        let dataset = file.openDataset(FeatureDatabase.fileListDatasetName, type: String.self)!
+        
+        let fileSpace = Dataspace(dataset.space)
+        fileSpace.select(start: [0], stride: nil, count: [fileSpace.size], block: nil)
+        
+        return Set(dataset.readString(fileSpace: fileSpace))
+    }
 
     func readOffsets(start: Int, count: Int) -> [Int] {
         let dataset = file.openDataset(FeatureDatabase.offsetDatasetName, type: Int.self)!
@@ -210,8 +212,7 @@ public class FeatureDatabase {
         return labels
     }
 
-    public func appendFeatures(features: [FeatureData], folder: String?) {
-        let chunkSize = FeatureDatabase.chunkSize
+    public func appendFeatures(features: [FeatureData]) {
         var offset = 0
 
         if pendingFeatures.count > 0 {
@@ -236,15 +237,11 @@ public class FeatureDatabase {
 
         pendingFeatures += features[offset..<features.count]
 
-        if let folder = folder {
-            appendFolder(folder)
-        }
-
         file.flush()
     }
 
     func appendChunk(features: ArraySlice<FeatureData>) {
-        assert(features.count == FeatureDatabase.chunkSize)
+        assert(features.count == chunkSize)
 
         for table in doubleTables {
             appendDoubleChunk(features, forTable: table)
@@ -262,8 +259,6 @@ public class FeatureDatabase {
     }
 
     func appendDoubleChunk(features: ArraySlice<FeatureData>, forTable table: DoubleTable) {
-        let chunkSize = FeatureDatabase.chunkSize
-
         guard let dataset = file.openDataset(table.name, type: Double.self) else {
             preconditionFailure("Existing file doesn't have a \(table.name) dataset")
         }
@@ -291,8 +286,6 @@ public class FeatureDatabase {
     }
 
     func appendLabelsChunk(features: ArraySlice<FeatureData>, var forTable table: IntTable) {
-        let chunkSize = FeatureDatabase.chunkSize
-
         guard let dataset = file.openDataset(table.name, type: Int.self) else {
             preconditionFailure("Existing file doesn't have a \(table.name) dataset")
         }
@@ -315,8 +308,6 @@ public class FeatureDatabase {
     }
 
     func appendOffsetsChunk(features: ArraySlice<FeatureData>, var forTable table: IntTable) {
-        let chunkSize = FeatureDatabase.chunkSize
-
         guard let dataset = file.openDataset(table.name, type: Int.self) else {
             preconditionFailure("Existing file doesn't have a \(table.name) dataset")
         }
@@ -339,8 +330,6 @@ public class FeatureDatabase {
     }
 
     func appendFileNamesChunk(features: ArraySlice<FeatureData>) {
-        let chunkSize = FeatureDatabase.chunkSize
-
         guard let dataset = file.openDataset(FeatureDatabase.fileNameDatasetName, type: String.self) else {
             preconditionFailure("Existing file doesn't have a \(FeatureDatabase.fileNameDatasetName) dataset")
         }
@@ -351,32 +340,33 @@ public class FeatureDatabase {
         let filespace = dataset.space
         filespace.select(start: [currentSize], stride: nil, count: [chunkSize], block: nil)
 
-        fileNamesData.removeAll(keepCapacity: true)
-
-        for feature in features {
-            fileNamesData.append(feature.filePath)
+        let fileNames = features.map{ $0.filePath }
+        let newFileNames = Set(fileNames).subtract(fileList)
+        
+        if !newFileNames.isEmpty {
+            appendToFileList(newFileNames)
         }
-        if !dataset.writeString(fileNamesData, fileSpace: filespace) {
+            
+        if !dataset.writeString(fileNames, fileSpace: filespace) {
             fatalError("Failed to write features to database")
         }
     }
 
-    func appendFolder(folder: String) {
-        guard let dataset = file.openDataset(FeatureDatabase.folderDatasetName, type: String.self) else {
-            preconditionFailure("Existing file doesn't have a \(FeatureDatabase.folderDatasetName) dataset")
+    func appendToFileList(files: Set<String>) {
+        guard let dataset = file.openDataset(FeatureDatabase.fileListDatasetName, type: String.self) else {
+            preconditionFailure("Existing file doesn't have a \(FeatureDatabase.fileListDatasetName) dataset")
         }
 
-        folders.append(folder)
+        fileList.unionInPlace(files)
 
         let currentSize = dataset.extent[0]
-        dataset.extent[0] += 1
+        dataset.extent[0] += files.count
 
         let filespace = dataset.space
-        filespace.select(start: [currentSize], stride: nil, count: [1], block: nil)
+        filespace.select(start: [currentSize], stride: nil, count: [files.count], block: nil)
 
 
-        let data = [folder]
-        if !dataset.writeString(data, fileSpace: filespace) {
+        if !dataset.writeString(Array(files), fileSpace: filespace) {
             fatalError("Failed to write features to database")
         }
     }

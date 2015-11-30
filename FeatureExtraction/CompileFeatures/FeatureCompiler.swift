@@ -31,23 +31,18 @@ class FeatureCompiler {
     let trainingDatabase: FeatureDatabase
     let testingDatabase: FeatureDatabase
 
-    var existingFolders: [String]
+    var existingFiles: Set<String>
     var featureBuilder = FeatureBuilder()
 
     init(overwrite: Bool) {
         trainingDatabase = FeatureDatabase(filePath: trainingFileName, overwrite: overwrite)
         testingDatabase = FeatureDatabase(filePath: testingFileName, overwrite: overwrite)
-        existingFolders = trainingDatabase.folders + testingDatabase.folders
+        existingFiles = trainingDatabase.fileList.union(testingDatabase.fileList)
 
         print("\nWorking Directory: \(NSFileManager.defaultManager().currentDirectoryPath)\n")
     }
 
     func compileNoiseFeatures() {
-        let name = (rootNoisePath as NSString).lastPathComponent
-        if existingFolders.contains(name) {
-            return
-        }
-
         let exampleBuilder = MonoExampleBuilder()
 
         var features = [FeatureData]()
@@ -55,10 +50,10 @@ class FeatureCompiler {
             let featureData = FeatureData(filePath: example.filePath, fileOffset: example.frameOffset, label: example.label)
             featureData.features = self.featureBuilder.generateFeatures(example)
             features.append(featureData)
+            self.existingFiles.unionInPlace([example.filePath])
         })
 
-        trainingDatabase.appendFeatures(features, folder: name)
-        existingFolders.append(name)
+        trainingDatabase.appendFeatures(features)
     }
 
     func compileMonoFeatures() {
@@ -66,25 +61,19 @@ class FeatureCompiler {
 
         let exampleBuilder = MonoExampleBuilder()
         for folder in folders {
-            let name = (folder as NSString).lastPathComponent
-            if existingFolders.contains(name) {
-                continue
-            }
-
             var features = [FeatureData]()
             exampleBuilder.forEachNoteInFolder(folder, action: { example in
                 let featureData = FeatureData(filePath: example.filePath, fileOffset: example.frameOffset, label: example.label)
                 featureData.features = self.featureBuilder.generateFeatures(example)
                 features.append(featureData)
+                self.existingFiles.unionInPlace([example.filePath])
             })
 
-            if testingFolders.contains(name) {
-                testingDatabase.appendFeatures(features, folder: name)
+            if testingFolders.contains((folder as NSString).lastPathComponent) {
+                testingDatabase.appendFeatures(features)
             } else {
-                trainingDatabase.appendFeatures(features, folder: name)
+                trainingDatabase.appendFeatures(features)
             }
-
-            existingFolders.append(name)
         }
     }
 
@@ -93,25 +82,19 @@ class FeatureCompiler {
 
         let exampleBuilder = PolyExampleBuilder()
         for folder in folders {
-            let name = (folder as NSString).lastPathComponent
-            if existingFolders.contains(name) {
-                continue
-            }
-
             var features = [FeatureData]()
             exampleBuilder.forEachExampleInFolder(folder, action: { example in
                 let featureData = FeatureData(filePath: example.filePath, fileOffset: example.frameOffset, label: example.label)
                 featureData.features = self.featureBuilder.generateFeatures(example)
                 features.append(featureData)
+                self.existingFiles.unionInPlace([example.filePath])
             })
 
-            if testingFolders.contains(name) {
-                testingDatabase.appendFeatures(features, folder: name)
+            if testingFolders.contains((folder as NSString).lastPathComponent) {
+                testingDatabase.appendFeatures(features)
             } else {
-                trainingDatabase.appendFeatures(features, folder: name)
+                trainingDatabase.appendFeatures(features)
             }
-
-            existingFolders.append(name)
         }
     }
 
