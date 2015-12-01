@@ -13,8 +13,8 @@ class MonoExampleBuilder {
         "aiff"
     ]
     
-    let numNoteExamples = 15
-    let numNoiseExamples = 1000
+    static let numNoteExamples = 15
+    static let numNoiseExamples = 1000
 
     private var data: (RealArray, RealArray)
     
@@ -26,7 +26,7 @@ class MonoExampleBuilder {
     func forEachNoteInFolder(folder: String, action: Example -> ()) {
         for note in FeatureBuilder.notes {
             let label = FeatureBuilder.labelForNote(note)
-            forEachExampleInFile(String(note), path: folder, label: label, numExamples: numNoteExamples, action: action)
+            forEachExampleInFile(String(note), path: folder, label: label, numExamples: MonoExampleBuilder.numNoteExamples, action: action)
         }
         print("")
     }
@@ -42,7 +42,7 @@ class MonoExampleBuilder {
         for file in files {
             let filePath = file.path!
             print("Processing \(filePath)")
-            forEachExampleInFile(filePath, label: label, numExamples: numNoiseExamples, action: action)
+            forEachExampleInFile(filePath, label: label, numExamples: MonoExampleBuilder.numNoiseExamples, action: action)
         }
         print("")
     }

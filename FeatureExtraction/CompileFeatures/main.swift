@@ -6,11 +6,11 @@ import Foundation
 let cli = CommandLine(arguments: Process.arguments)
 
 // Generation options
-let trainingFilePath = StringOption(longFlag: "training", required: false, helpMessage: "Path to the training HDF5 file. Default: training.h5")
-let testingFilePath = StringOption(longFlag: "testing", required: false, helpMessage: "Path to the testing HDF5 file. Default: testing.h5")
+let rootFilePath = StringOption(shortFlag: "o", longFlag: "root", required: true, helpMessage: "Path to the audio data.")
+let outputFilePath = StringOption(shortFlag: "o", longFlag: "output", required: true, helpMessage: "Path to the HDF5 file.")
 let noGenerate = BoolOption(longFlag: "no-generate", required: false, helpMessage: "Don't generate training and testing data.")
-let overwite = BoolOption(shortFlag: "o", longFlag: "overwrite", required: false, helpMessage: "Overwrite existing data. By default new data is appended.")
-cli.addOptions(trainingFilePath, testingFilePath, noGenerate, overwite)
+let overwite = BoolOption(longFlag: "overwrite", required: false, helpMessage: "Overwrite existing data. By default new data is appended.")
+cli.addOptions(rootFilePath, outputFilePath, noGenerate, overwite)
 
 // Shuffling options
 let noShuffle = BoolOption(longFlag: "no-shuffle", required: false, helpMessage: "Don't shuffle data.")
@@ -34,13 +34,7 @@ if help.value {
     exit(EX_OK)
 }
 
-let featureCompiler = FeatureCompiler(overwrite: overwite.value)
-if let path = trainingFilePath.value {
-    featureCompiler.trainingFileName = path
-}
-if let path = testingFilePath.value {
-    featureCompiler.testingFileName = path
-}
+let featureCompiler = FeatureCompiler(root: rootFilePath.value!, output: outputFilePath.value!, overwrite: overwite.value)
 
 if !noGenerate.value {
     featureCompiler.compileNoiseFeatures()
