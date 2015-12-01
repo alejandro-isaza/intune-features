@@ -48,7 +48,6 @@ public class ValidateFeatures {
         
         readAtFrame(file, frame: example.frameOffset - FeatureBuilder.sampleCount / 2 - FeatureBuilder.sampleStep, data: example.data.0.mutablePointer)
         readAtFrame(file, frame: example.frameOffset - FeatureBuilder.sampleCount / 2, data: example.data.1.mutablePointer)
-        //print("offset \(example.frameOffset) data \(example.data.1.description)")
     }
     
     func readAtFrame(file: AudioFile, frame: Int, data: UnsafeMutablePointer<Double>) {
