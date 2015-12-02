@@ -65,6 +65,18 @@
       <CommandLineArguments>
          <CommandLineArgument
             argument = "--no-shuffle"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--chunk 1024"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--output training.h5"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--root /Users/al/dev/VM/audio-features/AudioData/Polyphonic"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

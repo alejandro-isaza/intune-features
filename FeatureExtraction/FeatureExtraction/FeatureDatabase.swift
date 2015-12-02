@@ -371,7 +371,8 @@ public class FeatureDatabase {
         }
     }
 
-    public func shuffle(chunkSize chunkSize: Int, passes: Int = 1, progress: (Double -> Void)? = nil) {
+    public func shuffle(var chunkSize chunkSize: Int, passes: Int = 1, progress: (Double -> Void)? = nil) {
+        chunkSize = min(chunkSize, exampleCount/2)
         let shuffleCount = passes * exampleCount / chunkSize
         for i in 0..<shuffleCount {
             let start1 = i * chunkSize % (exampleCount - chunkSize + 1)
@@ -402,7 +403,9 @@ public class FeatureDatabase {
             filespace1.select(start: [start1, 0], stride: nil, count: [chunkSize, table.size], block: nil)
 
             assert(data.count >= memspace1.selectionSize)
-            dataset.readDouble(&data, memSpace: memspace1, fileSpace: filespace1)
+            if !dataset.readDouble(&data, memSpace: memspace1, fileSpace: filespace1) {
+                fatalError("Failed to read data")
+            }
 
             let memspace2 = Dataspace(dims: [2*chunkSize, table.size])
             memspace2.select(start: [chunkSize, 0], stride: nil, count: [chunkSize, table.size], block: nil)
@@ -411,17 +414,27 @@ public class FeatureDatabase {
             filespace2.select(start: [start2, 0], stride: nil, count: [chunkSize, table.size], block: nil)
 
             assert(data.count - chunkSize >= memspace1.selectionSize)
-            dataset.readDouble(&data, memSpace: memspace2, fileSpace: filespace2)
+            if !dataset.readDouble(&data, memSpace: memspace2, fileSpace: filespace2) {
+                fatalError("Failed to read data")
+            }
 
             for i in 0..<2*chunkSize {
                 let index = indices[i]
                 if index != i {
-                    swap(&data[i], &data[index])
+                    swapRowsInData(&data, rowSize: table.size, i, index)
                 }
             }
 
             dataset.writeDouble(data, memSpace: memspace1, fileSpace: filespace1)
             dataset.writeDouble(data, memSpace: memspace2, fileSpace: filespace2)
+        }
+    }
+
+    func swapRowsInData(inout data: [Double], rowSize: Int, _ i: Int, _ j: Int) {
+        let start1 = i * rowSize
+        let start2 = j * rowSize
+        for c in 0..<rowSize {
+            swap(&data[start1 + c], &data[start2 + c])
         }
     }
 
