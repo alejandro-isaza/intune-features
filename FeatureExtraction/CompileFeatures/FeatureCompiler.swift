@@ -30,6 +30,8 @@ class FeatureCompiler {
         "caf"
     ]
     
+    let monophonicFileExpression = try! NSRegularExpression(pattern: "/(\\d+)\\.\\w+", options: NSRegularExpressionOptions.CaseInsensitive)
+    
     let database: FeatureDatabase
     
     var existingFiles: Set<String>
@@ -45,12 +47,18 @@ class FeatureCompiler {
         let urls = loadFiles(root)
         (polyphonicFiles, monophonicFiles, noiseFiles) = categorizeURLs(urls)
 
-        print("\nWorking Directory: \(NSFileManager.defaultManager().currentDirectoryPath)\n")
+        print("\nWorking Directory: \(NSFileManager.defaultManager().currentDirectoryPath)")
+        print("Processing \(polyphonicFiles.count) polyphonic + \(monophonicFiles.count) monophonic + \(noiseFiles.count) noise files\n")
     }
 
     func compileNoiseFeatures() {
         let exampleBuilder = MonoExampleBuilder()
-        for file in noiseFiles {
+        for (i, file) in noiseFiles.enumerate() {
+            print("Noise: \(i) of \(noiseFiles.count)")
+            guard !existingFiles.contains(file) else {
+                continue
+            }
+
             var features = [FeatureData]()
             let label = [Int](count: FeatureBuilder.notes.count, repeatedValue: 0)
             exampleBuilder.forEachExampleInFile(file, label: label, numExamples: MonoExampleBuilder.numNoiseExamples, action: { example in
@@ -66,7 +74,8 @@ class FeatureCompiler {
 
     func compileMonoFeatures() {
         let exampleBuilder = MonoExampleBuilder()
-        for file in monophonicFiles {
+        for (i, file) in monophonicFiles.enumerate() {
+            print("Mono: \(i) of \(monophonicFiles.count)")
             guard !existingFiles.contains(file.path) else {
                 continue
             }
@@ -86,7 +95,8 @@ class FeatureCompiler {
 
     func compilePolyFeatures() {
         let exampleBuilder = PolyExampleBuilder()
-        for file in polyphonicFiles {
+        for (i, file) in polyphonicFiles.enumerate() {
+            print("Poly: \(i) of \(polyphonicFiles.count)")
             guard !existingFiles.contains(file.audioPath) else {
                 continue
             }
@@ -105,7 +115,6 @@ class FeatureCompiler {
 
     func loadFiles(root: String) -> [NSURL] {
         let fileManager = NSFileManager.defaultManager()
-        print(fileManager.currentDirectoryPath)
         guard let rootURLs = try? fileManager.contentsOfDirectoryAtURL(NSURL.fileURLWithPath(root), includingPropertiesForKeys: [NSURLNameKey], options: NSDirectoryEnumerationOptions.SkipsHiddenFiles) else {
             fatalError()
         }
@@ -146,9 +155,8 @@ class FeatureCompiler {
     
     func monoPath(url: NSURL) -> MonophonicFile? {
         let path = url.path!
-        let noteNumberRegex = try! NSRegularExpression(pattern: "/(\\d+)\\.\\w+", options: NSRegularExpressionOptions.CaseInsensitive)
         
-        guard let results = noteNumberRegex.firstMatchInString(path, options: NSMatchingOptions.ReportCompletion, range: NSMakeRange(0, path.characters.count)) else {
+        guard let results = monophonicFileExpression.firstMatchInString(path, options: NSMatchingOptions.ReportCompletion, range: NSMakeRange(0, path.characters.count)) else {
             return nil
         }
         if results.numberOfRanges < 1 {
@@ -166,11 +174,10 @@ class FeatureCompiler {
     
     func polyPath(url: NSURL) -> PolyphonicFile? {
         let manager = NSFileManager.defaultManager()
-        let extensionRegex = try! NSRegularExpression(pattern: "\(audioExtensions.joinWithSeparator("|"))", options: NSRegularExpressionOptions.CaseInsensitive)
+        guard let midFile = url.URLByDeletingPathExtension?.URLByAppendingPathExtension("mid") else {
+            fatalError("Failed to build path")
+        }
         
-        let path = extensionRegex.stringByReplacingMatchesInString(url.path!, options: NSMatchingOptions.ReportCompletion, range: NSMakeRange(0, url.path!.characters.count), withTemplate: "mid")
-        
-        let midFile = NSURL.fileURLWithPath(path)
         if manager.fileExistsAtPath(midFile.path!) {
             return PolyphonicFile(audioPath: url.path!, midiPath: midFile.path!)
         }

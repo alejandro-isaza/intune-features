@@ -6,7 +6,7 @@ import Foundation
 let cli = CommandLine(arguments: Process.arguments)
 
 // Generation options
-let rootFilePath = StringOption(shortFlag: "o", longFlag: "root", required: true, helpMessage: "Path to the audio data.")
+let rootFilePath = StringOption(shortFlag: "r", longFlag: "root", required: true, helpMessage: "Path to the audio data.")
 let outputFilePath = StringOption(shortFlag: "o", longFlag: "output", required: true, helpMessage: "Path to the HDF5 file.")
 let noGenerate = BoolOption(longFlag: "no-generate", required: false, helpMessage: "Don't generate training and testing data.")
 let overwite = BoolOption(longFlag: "overwrite", required: false, helpMessage: "Overwrite existing data. By default new data is appended.")

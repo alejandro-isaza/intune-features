@@ -71,7 +71,9 @@ class MonoExampleBuilder {
         }
 
         let audioFile = AudioFile.open(filePath)!
-        assert(audioFile.sampleRate == FeatureBuilder.samplingFrequency)
+        guard audioFile.sampleRate == FeatureBuilder.samplingFrequency else {
+            fatalError("Sample rate mismatch: \(filePath) => \(audioFile.sampleRate) != \(FeatureBuilder.samplingFrequency)")
+        }
         guard audioFile.readFrames(data.1.mutablePointer + overlap, count: step) == step else {
             return
         }
