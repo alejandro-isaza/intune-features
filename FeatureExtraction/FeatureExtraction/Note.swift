@@ -16,6 +16,8 @@ public struct Note : CustomStringConvertible {
         case A  = 9
         case ASharp = 10
         case B  = 11
+
+        static let count = 12
     }
 
     public var note: NoteType
@@ -54,6 +56,10 @@ public struct Note : CustomStringConvertible {
         case .GSharp: return "G♯\(octave)"
         case .ASharp: return "A♯\(octave)"
         }
+    }
+
+    public var frequency: Double {
+        return noteToFreq(Double(midiNoteNumber))
     }
 }
 

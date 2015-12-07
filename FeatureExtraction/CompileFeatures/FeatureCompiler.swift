@@ -60,8 +60,7 @@ class FeatureCompiler {
             }
 
             var features = [FeatureData]()
-            let label = [Int](count: FeatureBuilder.notes.count, repeatedValue: 0)
-            exampleBuilder.forEachExampleInFile(file, label: label, numExamples: MonoExampleBuilder.numNoiseExamples, action: { example in
+            exampleBuilder.forEachExampleInFile(file, note: nil, numExamples: MonoExampleBuilder.numNoiseExamples, action: { example in
                 let featureData = FeatureData(filePath: example.filePath, fileOffset: example.frameOffset, label: example.label)
                 featureData.features = self.featureBuilder.generateFeatures(example)
                 features.append(featureData)
@@ -81,8 +80,8 @@ class FeatureCompiler {
             }
             
             var features = [FeatureData]()
-            let label = FeatureBuilder.labelForNote(file.noteNumber)
-            exampleBuilder.forEachExampleInFile(file.path, label: label, numExamples: MonoExampleBuilder.numNoteExamples, action: { example in
+            let note = Note(midiNoteNumber: file.noteNumber)
+            exampleBuilder.forEachExampleInFile(file.path, note: note, numExamples: MonoExampleBuilder.numNoteExamples, action: { example in
                 let featureData = FeatureData(filePath: example.filePath, fileOffset: example.frameOffset, label: example.label)
                 featureData.features = self.featureBuilder.generateFeatures(example)
                 features.append(featureData)

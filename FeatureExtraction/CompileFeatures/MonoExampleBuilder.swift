@@ -25,15 +25,13 @@ class MonoExampleBuilder {
     
     func forEachNoteInFolder(folder: String, action: Example -> ()) {
         for note in FeatureBuilder.notes {
-            let label = FeatureBuilder.labelForNote(note)
-            forEachExampleInFile(String(note), path: folder, label: label, numExamples: MonoExampleBuilder.numNoteExamples, action: action)
+            let note = Note(midiNoteNumber: note)
+            forEachExampleInFile(String(note), path: folder, note: note, numExamples: MonoExampleBuilder.numNoteExamples, action: action)
         }
         print("")
     }
 
     func forEachNoiseInFolder(folder: String, action: Example -> ()) {
-        let label = [Int](count: FeatureBuilder.notes.count, repeatedValue: 0)
-
         let fileManager = NSFileManager.defaultManager()
         guard let files = try? fileManager.contentsOfDirectoryAtURL(NSURL.fileURLWithPath(folder), includingPropertiesForKeys: [NSURLNameKey], options: NSDirectoryEnumerationOptions.SkipsHiddenFiles) else {
             fatalError("Failed to fetch contents of \(folder)")
@@ -42,25 +40,25 @@ class MonoExampleBuilder {
         for file in files {
             let filePath = file.path!
             print("Processing \(filePath)")
-            forEachExampleInFile(filePath, label: label, numExamples: MonoExampleBuilder.numNoiseExamples, action: action)
+            forEachExampleInFile(filePath, note: nil, numExamples: MonoExampleBuilder.numNoiseExamples, action: action)
         }
         print("")
     }
 
-    func forEachExampleInFile(fileName: String, path: String, label: [Int], numExamples: Int, action: Example -> ()) {
+    func forEachExampleInFile(fileName: String, path: String, note: Note, numExamples: Int, action: Example -> ()) {
         let fileManager = NSFileManager.defaultManager()
         for type in fileExtensions {
             let fullFileName = "\(fileName).\(type)"
             let filePath = buildPathFromParts([path, fullFileName])
             if fileManager.fileExistsAtPath(filePath) {
                 print("Processing \(filePath)")
-                forEachExampleInFile(filePath, label: label, numExamples: numExamples, action: action)
+                forEachExampleInFile(filePath, note: note, numExamples: numExamples, action: action)
                 break
             }
         }
     }
 
-    func forEachExampleInFile(filePath: String, label: [Int], numExamples: Int, action: Example -> ()) {
+    func forEachExampleInFile(filePath: String, note: Note?, numExamples: Int, action: Example -> ()) {
         let count = FeatureBuilder.sampleCount
         let step = FeatureBuilder.sampleStep
         let overlap = count - step
@@ -90,14 +88,17 @@ class MonoExampleBuilder {
             let offset = audioFile.currentFrame - count/2
             let time = Double(offset) / FeatureBuilder.samplingFrequency
 
-            let noteStartTime = 0.0
-            let shouldLabel = abs(noteStartTime - time) <= FeatureBuilder.maxNoteLag
+            let label: Label
+            if let note = note {
+                label = Label(note: note, atTime: -time)
+            } else {
+                label = Label()
+            }
 
-            let exampleLabel = shouldLabel ? label : [Int](count: label.count, repeatedValue: 0)
             let example = Example(
                 filePath: filePath,
                 frameOffset: offset,
-                label: exampleLabel,
+                label: label,
                 data: data)
             action(example)
         }

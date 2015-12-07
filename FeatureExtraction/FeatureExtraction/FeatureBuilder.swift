@@ -12,9 +12,6 @@ public struct FeatureBuilder {
     /// Step size between analysis windows
     public static let sampleStep = 1024
 
-    /// The maximum time difference between the current window's center and the start of a note for the example to be labeled with the note
-    public static let maxNoteLag = Double(2 * sampleStep) / samplingFrequency
-
     /// The range of notes to consider for labeling
     public static let notes = 36...96
 
@@ -47,14 +44,6 @@ public struct FeatureBuilder {
     public init() {
         window = RealArray(count: FeatureBuilder.sampleCount)
         vDSP_hamm_windowD(window.mutablePointer, vDSP_Length(FeatureBuilder.sampleCount), 0)
-    }
-
-    public static func labelForNote(note: Int) -> [Int] {
-        var label = [Int](count: notes.count, repeatedValue: 0)
-        if notes.contains(note) {
-            label[note - notes.startIndex] = 1
-        }
-        return label
     }
 
     public func generateFeatures(example: Example) -> [String: RealArray] {

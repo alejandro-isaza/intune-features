@@ -6,9 +6,10 @@ import Upsurge
 public class FeatureDatabase {
     let chunkSize = 1024
 
-    public static let fileNameDatasetName = "fileName"
-    public static let fileListDatasetName = "fileList"
-    public static let labelDatasetName = "label"
+    public static let fileListDatasetName = "file_list"
+    public static let fileNameDatasetName = "file_name"
+    public static let onLabelDatasetName = "on_label"
+    public static let onsetLabelDatasetName = "onset_label"
     public static let offsetDatasetName = "offset"
     public static let peakLocationsDatasetName = "peak_locations"
     public static let peakHeightsDatasetName = "peak_heights"
@@ -19,14 +20,15 @@ public class FeatureDatabase {
     let file: File
 
     let doubleDatasetSpecs = [
+        (name: FeatureDatabase.onLabelDatasetName, size: FeatureBuilder.bandNotes.count),
+        (name: FeatureDatabase.onsetLabelDatasetName, size: FeatureBuilder.bandNotes.count),
         (name: FeatureDatabase.peakLocationsDatasetName, size: FeatureBuilder.bandNotes.count),
         (name: FeatureDatabase.peakHeightsDatasetName, size: FeatureBuilder.bandNotes.count),
         (name: FeatureDatabase.spectrumDatasetName, size: FeatureBuilder.bandNotes.count),
         (name: FeatureDatabase.spectrumFluxDatasetName, size: FeatureBuilder.bandNotes.count)
     ]
     let intDatasetSpecs = [
-        (name: FeatureDatabase.labelDatasetName, size: FeatureBuilder.bandNotes.count),
-        (name: FeatureDatabase.offsetDatasetName, size: 1),
+        (name: FeatureDatabase.offsetDatasetName, size: 1)
     ]
 
     struct DoubleTable {
@@ -74,6 +76,11 @@ public class FeatureDatabase {
         for (name, size) in doubleDatasetSpecs {
             let space = Dataspace(dims: [0, size], maxDims: [-1, size])
             file.createDataset(name, type: Double.self, dataspace: space, chunkDimensions: [chunkSize, size])!
+
+            if name == FeatureDatabase.onLabelDatasetName || name == FeatureDatabase.onsetLabelDatasetName {
+                continue
+            }
+
             let table = DoubleTable(name: name, size: size, data: RealArray(count: chunkSize * size))
             doubleTables.append(table)
         }
@@ -135,7 +142,7 @@ public class FeatureDatabase {
     public func readFeatures(start: Int, count: Int) -> [FeatureData] {
         let fileNames = readFileNames(start, count: count)
         let offsets = readOffsets(start, count: count)
-        let labels = readLabels(start, count: count)
+        let labels = Label.readFromFile(file, start: start, count: count)
 
         for table in doubleTables {
             let dataset = file.openDataset(table.name, type: Double.self)!
@@ -149,14 +156,11 @@ public class FeatureDatabase {
             dataset.readDouble(table.data.mutablePointer, memSpace: memSpace, fileSpace: fileSpace)
         }
 
-        let labelSize = labels.count / count
-
         var features = [FeatureData]()
         features.reserveCapacity(count)
 
         for i in 0..<count {
-            let label = [Int](labels[i..<i + labelSize])
-            let feature = FeatureData(filePath: fileNames[i], fileOffset: offsets[i], label: label)
+            let feature = FeatureData(filePath: fileNames[i], fileOffset: offsets[i], label: labels[i])
             for table in doubleTables {
                 feature.features[table.name] = RealArray(table.data[i..<i + table.size])
             }
@@ -198,8 +202,8 @@ public class FeatureDatabase {
         return offsets
     }
 
-    func readLabels(start: Int, count: Int) -> [Int] {
-        let dataset = file.openDataset(FeatureDatabase.labelDatasetName, type: Int.self)!
+    func readOnsetLabels(start: Int, count: Int) -> [Int] {
+        let dataset = file.openDataset(FeatureDatabase.onsetLabelDatasetName, type: Int.self)!
 
         let fileSpace = Dataspace(dataset.space)
         let featureSize = fileSpace.dims[1]
@@ -247,8 +251,7 @@ public class FeatureDatabase {
             appendDoubleChunk(features, forTable: table)
         }
 
-        let labelsTable = intTables.filter({ $0.name == "label" }).first!
-        appendLabelsChunk(features, forTable: labelsTable)
+        Label.write(features.map({ $0.label }), toFile: file)
 
         let offsetsTable = intTables.filter({ $0.name == "offset" }).first!
         appendOffsetsChunk(features, forTable: offsetsTable)
@@ -281,28 +284,6 @@ public class FeatureDatabase {
         }
 
         if !dataset.writeDouble(table.data.pointer, memSpace: memspace, fileSpace: filespace) {
-            fatalError("Failed to write features to database")
-        }
-    }
-
-    func appendLabelsChunk(features: ArraySlice<FeatureData>, var forTable table: IntTable) {
-        guard let dataset = file.openDataset(table.name, type: Int.self) else {
-            preconditionFailure("Existing file doesn't have a \(table.name) dataset")
-        }
-
-        let currentSize = dataset.extent[0]
-        dataset.extent[0] += chunkSize
-
-        let filespace = dataset.space
-        filespace.select(start: [currentSize, 0], stride: nil, count: [chunkSize, table.size], block: nil)
-
-        table.data.removeAll(keepCapacity: true)
-        let memspace = Dataspace(dims: [chunkSize, table.size])
-
-        for feature in features {
-            table.data.appendContentsOf(feature.label)
-        }
-        if !dataset.writeInt(table.data.pointer, memSpace: memspace, fileSpace: filespace) {
             fatalError("Failed to write features to database")
         }
     }

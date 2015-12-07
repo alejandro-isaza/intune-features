@@ -12,6 +12,7 @@
 		6122EF431BD80C6C001AE862 /* SpectrumFluxFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6122EF421BD80C6C001AE862 /* SpectrumFluxFeature.swift */; };
 		6122EF451BD81CE9001AE862 /* BandsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6122EF441BD81CE9001AE862 /* BandsFeature.swift */; };
 		6126D7171BE976D9007F8BE4 /* PeakHeightsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6126D7161BE976D9007F8BE4 /* PeakHeightsViewController.swift */; };
+		614F2DC11C1214E20041B8F1 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614F2DC01C1214E20041B8F1 /* Label.swift */; };
 		6156937B1BE82C5A0094E204 /* FileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6156937A1BE82C5A0094E204 /* FileViewController.swift */; };
 		615693891BE82F6A0094E204 /* FeaturesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615693881BE82F6A0094E204 /* FeaturesViewController.swift */; };
 		6156938B1BE83D4C0094E204 /* SpectrumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6156938A1BE83D4C0094E204 /* SpectrumViewController.swift */; };
@@ -342,6 +343,7 @@
 		6122EF421BD80C6C001AE862 /* SpectrumFluxFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpectrumFluxFeature.swift; sourceTree = "<group>"; };
 		6122EF441BD81CE9001AE862 /* BandsFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandsFeature.swift; sourceTree = "<group>"; };
 		6126D7161BE976D9007F8BE4 /* PeakHeightsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakHeightsViewController.swift; sourceTree = "<group>"; };
+		614F2DC01C1214E20041B8F1 /* Label.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
 		6156937A1BE82C5A0094E204 /* FileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileViewController.swift; sourceTree = "<group>"; };
 		615693881BE82F6A0094E204 /* FeaturesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturesViewController.swift; sourceTree = "<group>"; };
 		6156938A1BE83D4C0094E204 /* SpectrumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpectrumViewController.swift; sourceTree = "<group>"; };
@@ -634,7 +636,6 @@
 			children = (
 				8C7845721BB9B06600C88426 /* FeatureExtraction.h */,
 				8C7845741BB9B06600C88426 /* Info.plist */,
-				8CDA0EF31BB9BA4300433755 /* Utilities.swift */,
 				8C7E7ABA1BBB37CC00BBC93C /* PeakExtractor.swift */,
 				61BBAF6E1BC43BF800A03FD0 /* Example.swift */,
 				8C56779C1BE9731E0009ED31 /* FeatureBuilder.swift */,
@@ -642,6 +643,7 @@
 				8C56779A1BE9600C0009ED31 /* FeatureData.swift */,
 				61BBAF671BC43A7300A03FD0 /* Feature.swift */,
 				6122EF441BD81CE9001AE862 /* BandsFeature.swift */,
+				614F2DC01C1214E20041B8F1 /* Label.swift */,
 				61BBAF701BC43F8100A03FD0 /* RMSFeature.swift */,
 				61BBAF721BC4408300A03FD0 /* PeakLocationsFeature.swift */,
 				61BBAF741BC4408F00A03FD0 /* PeakHeightsFeature.swift */,
@@ -650,6 +652,7 @@
 				61D485AC1BC4A3D70086CED8 /* Shuffle.swift */,
 				610AAB841BDABEFA008CC910 /* Point.swift */,
 				618ACC0B1BE0686D008C23A8 /* Note.swift */,
+				8CDA0EF31BB9BA4300433755 /* Utilities.swift */,
 			);
 			path = FeatureExtraction;
 			sourceTree = "<group>";
@@ -1163,6 +1166,7 @@
 				618ACC0C1BE0686D008C23A8 /* Note.swift in Sources */,
 				8C56779B1BE9600C0009ED31 /* FeatureData.swift in Sources */,
 				8CDA0EF41BB9BA4300433755 /* Utilities.swift in Sources */,
+				614F2DC11C1214E20041B8F1 /* Label.swift in Sources */,
 				6122EF451BD81CE9001AE862 /* BandsFeature.swift in Sources */,
 				61BBAF711BC43F8100A03FD0 /* RMSFeature.swift in Sources */,
 			);

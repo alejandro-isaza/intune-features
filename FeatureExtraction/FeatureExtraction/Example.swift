@@ -5,24 +5,24 @@ import Upsurge
 public struct Example: Hashable {
     public var filePath: String
     public var frameOffset: Int
-    public var label: [Int]
+    public var label: Label
     public var data: (RealArray, RealArray)
 
     public init() {
         filePath = ""
         frameOffset = 0
-        label = []
+        label = Label()
         data = ([], [])
     }
 
-    public init(filePath: String, frameOffset: Int, label: [Int], data: (RealArray, RealArray)) {
+    public init(filePath: String, frameOffset: Int, label: Label, data: (RealArray, RealArray)) {
         self.filePath = filePath
         self.frameOffset = frameOffset
         self.label = label
         self.data = data
     }
     
-    public init(filePath: String, frameOffset: Int, label: [Int]) {
+    public init(filePath: String, frameOffset: Int, label: Label) {
         self.init(filePath: filePath, frameOffset: frameOffset, label: label, data: (RealArray(), RealArray()))
     }
 

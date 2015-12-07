@@ -72,7 +72,6 @@ class PolyExampleBuilder {
             return
         }
 
-        var onNotes = [Int]()
         while true {
             data.0.mutablePointer.assignFrom(data.0.mutablePointer + step, count: overlap)
             (data.0.mutablePointer + overlap).assignFrom(data.1.mutablePointer + overlap, count: step)
@@ -93,7 +92,7 @@ class PolyExampleBuilder {
             let timeEnd = Double(offsetEnd) / FeatureBuilder.samplingFrequency
             let beatEnd = midiFile.beatsForSeconds(timeEnd)
 
-            onNotes.removeAll(keepCapacity: true)
+            var label = Label()
             for note in noteEvents {
                 let noteStart = note.timeStamp
                 if noteStart <= beatStart - 1 || noteStart >= beatEnd {
@@ -101,12 +100,9 @@ class PolyExampleBuilder {
                 }
 
                 let noteStartTime = midiFile.secondsForBeats(noteStart)
-                if abs(noteStartTime - time) <= FeatureBuilder.maxNoteLag {
-                    onNotes.append(Int(note.note))
-                }
+                label.addNote(Note(midiNoteNumber: Int(note.note)), atTime: noteStartTime - time)
             }
 
-            let label = labelForNotes(onNotes)
             let example = Example(
                 filePath: audioFilePath,
                 frameOffset: offset,
