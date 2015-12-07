@@ -5,8 +5,8 @@ import HDF5Kit
 
 /// Labels a window of audio data by the notes being played
 public struct Label: Equatable {
-    /// The range of notes that can be represented with a label
-    public static let representableRange = 36...96
+    /// The range of notes that can be represented with a label (this needs to be a multiple of 12)
+    public static let representableRange = 36...95
 
     /// The length of time in seconds for which a new note is considered an onset
     public static let onsetTime = 1.0
