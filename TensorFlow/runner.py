@@ -76,10 +76,10 @@ def fill_feed_dict(data_set, features_pl, labels_pl):
     Returns:
         feed_dict: The feed dictionary mapping from placeholders to values.
     """
-    features_feed, labels_feed = data_set.next_batch(FLAGS.batch_size)
+    features_feed, on_labels, onset_labels = data_set.next_batch(FLAGS.batch_size)
     feed_dict = {
         features_pl: features_feed,
-        labels_pl: labels_feed,
+        labels_pl: on_labels,
     }
     return feed_dict
 
