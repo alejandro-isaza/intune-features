@@ -12,6 +12,8 @@ func midiNoteLabel(notes: Range<Int>, note: Int) -> Int {
 }
 
 class FeatureCompiler {
+    static let eraseLastLineCommand = "\u{1B}[A\u{1B}[2K"
+
     struct MonophonicFile {
         let path: String
         let noteNumber: Int
@@ -72,8 +74,12 @@ class FeatureCompiler {
     }
 
     func compileMonoFeatures() {
+        let isTTY = isatty(fileno(stdin)) != 0
         let exampleBuilder = MonoExampleBuilder()
         for (i, file) in monophonicFiles.enumerate() {
+            if isTTY {
+                print(FeatureCompiler.eraseLastLineCommand, terminator: "")
+            }
             print("Mono: \(i) of \(monophonicFiles.count)")
             guard !existingFiles.contains(file.path) else {
                 continue
@@ -93,8 +99,12 @@ class FeatureCompiler {
     }
 
     func compilePolyFeatures() {
+        let isTTY = isatty(fileno(stdin)) != 0
         let exampleBuilder = PolyExampleBuilder()
         for (i, file) in polyphonicFiles.enumerate() {
+            if isTTY {
+                print(FeatureCompiler.eraseLastLineCommand, terminator: "")
+            }
             print("Poly: \(i) of \(polyphonicFiles.count)")
             guard !existingFiles.contains(file.audioPath) else {
                 continue
@@ -186,7 +196,6 @@ class FeatureCompiler {
     
     func shuffle(chunkSize chunkSize: Int, passes: Int) {
         let isTTY = isatty(fileno(stdin)) != 0
-        let eraseLastLineCommand = "\u{1B}[A\u{1B}[2K"
 
         if isTTY {
             print("Shuffling...")
@@ -194,7 +203,7 @@ class FeatureCompiler {
 
         database.shuffle(chunkSize: chunkSize, passes: passes) { progress in
             if isTTY {
-                print("\(eraseLastLineCommand)Shuffling database data...\(round(progress * 10000) / 100)%")
+                print("\(FeatureCompiler.eraseLastLineCommand)Shuffling database data...\(round(progress * 10000) / 100)%")
             }
         }
     }
