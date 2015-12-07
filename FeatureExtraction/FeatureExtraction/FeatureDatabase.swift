@@ -20,8 +20,8 @@ public class FeatureDatabase {
     let file: File
 
     let doubleDatasetSpecs = [
-        (name: FeatureDatabase.onLabelDatasetName, size: FeatureBuilder.bandNotes.count),
-        (name: FeatureDatabase.onsetLabelDatasetName, size: FeatureBuilder.bandNotes.count),
+        (name: FeatureDatabase.onLabelDatasetName, size: Label.representableRange.count),
+        (name: FeatureDatabase.onsetLabelDatasetName, size: Label.representableRange.count),
         (name: FeatureDatabase.peakLocationsDatasetName, size: FeatureBuilder.bandNotes.count),
         (name: FeatureDatabase.peakHeightsDatasetName, size: FeatureBuilder.bandNotes.count),
         (name: FeatureDatabase.spectrumDatasetName, size: FeatureBuilder.bandNotes.count),
