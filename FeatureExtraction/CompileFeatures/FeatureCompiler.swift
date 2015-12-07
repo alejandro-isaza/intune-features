@@ -13,6 +13,7 @@ func midiNoteLabel(notes: Range<Int>, note: Int) -> Int {
 
 class FeatureCompiler {
     static let eraseLastLineCommand = "\u{1B}[A\u{1B}[2K"
+    static let isTTY = isatty(fileno(stdin)) != 0
 
     struct MonophonicFile {
         let path: String
@@ -31,7 +32,7 @@ class FeatureCompiler {
         "wav",
         "caf"
     ]
-    
+
     let monophonicFileExpression = try! NSRegularExpression(pattern: "/(\\d+)\\.\\w+", options: NSRegularExpressionOptions.CaseInsensitive)
     
     let database: FeatureDatabase
@@ -56,7 +57,10 @@ class FeatureCompiler {
     func compileNoiseFeatures() {
         let exampleBuilder = MonoExampleBuilder()
         for (i, file) in noiseFiles.enumerate() {
-            print("Noise: \(i) of \(noiseFiles.count)")
+            if FeatureCompiler.isTTY {
+                print(FeatureCompiler.eraseLastLineCommand, terminator: "")
+            }
+            print("Noise: \(i + 1) of \(noiseFiles.count)")
             guard !existingFiles.contains(file) else {
                 continue
             }
@@ -71,16 +75,16 @@ class FeatureCompiler {
 
             database.appendFeatures(features)
         }
+        print("")
     }
 
     func compileMonoFeatures() {
-        let isTTY = isatty(fileno(stdin)) != 0
         let exampleBuilder = MonoExampleBuilder()
         for (i, file) in monophonicFiles.enumerate() {
-            if isTTY {
+            if FeatureCompiler.isTTY {
                 print(FeatureCompiler.eraseLastLineCommand, terminator: "")
             }
-            print("Mono: \(i) of \(monophonicFiles.count)")
+            print("Mono: \(i + 1) of \(monophonicFiles.count)")
             guard !existingFiles.contains(file.path) else {
                 continue
             }
@@ -96,16 +100,16 @@ class FeatureCompiler {
 
             database.appendFeatures(features)
         }
+        print("")
     }
 
     func compilePolyFeatures() {
-        let isTTY = isatty(fileno(stdin)) != 0
         let exampleBuilder = PolyExampleBuilder()
         for (i, file) in polyphonicFiles.enumerate() {
-            if isTTY {
+            if FeatureCompiler.isTTY {
                 print(FeatureCompiler.eraseLastLineCommand, terminator: "")
             }
-            print("Poly: \(i) of \(polyphonicFiles.count)")
+            print("Poly: \(i + 1) of \(polyphonicFiles.count)")
             guard !existingFiles.contains(file.audioPath) else {
                 continue
             }
@@ -120,6 +124,7 @@ class FeatureCompiler {
             
             database.appendFeatures(features)
         }
+        print("")
     }
 
     func loadFiles(root: String) -> [NSURL] {
@@ -195,16 +200,12 @@ class FeatureCompiler {
     }
     
     func shuffle(chunkSize chunkSize: Int, passes: Int) {
-        let isTTY = isatty(fileno(stdin)) != 0
-
-        if isTTY {
-            print("Shuffling...")
-        }
-
+        print("Shuffling...")
         database.shuffle(chunkSize: chunkSize, passes: passes) { progress in
-            if isTTY {
+            if FeatureCompiler.isTTY {
                 print("\(FeatureCompiler.eraseLastLineCommand)Shuffling database data...\(round(progress * 10000) / 100)%")
             }
         }
+        print("")
     }
 }
