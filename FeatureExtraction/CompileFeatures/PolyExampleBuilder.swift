@@ -81,22 +81,36 @@ class PolyExampleBuilder {
                 break
             }
 
+            // Offset of the middle of the current window
             let offset = audioFile.currentFrame - count/2
+
+            // Time in seconds for the middle of the current window
             let time = Double(offset) / FeatureBuilder.samplingFrequency
 
+            // Discard margin in seconds
+            let margin = (1.0 / 8.0) * Double(count) / FeatureBuilder.samplingFrequency
+
             let offsetStart = audioFile.currentFrame - count
-            let timeStart = Double(offsetStart) / FeatureBuilder.samplingFrequency
+            let timeStart = margin + Double(offsetStart) / FeatureBuilder.samplingFrequency
             let beatStart = midiFile.beatsForSeconds(timeStart)
 
             let offsetEnd = audioFile.currentFrame
-            let timeEnd = Double(offsetEnd) / FeatureBuilder.samplingFrequency
+            let timeEnd = Double(offsetEnd) / FeatureBuilder.samplingFrequency - margin
             let beatEnd = midiFile.beatsForSeconds(timeEnd)
 
             var label = Label()
             for note in noteEvents {
                 let noteStart = note.timeStamp
-                if noteStart <= beatStart - 1 || noteStart >= beatEnd {
+                let noteEnd = noteStart + MusicTimeStamp(note.duration)
+
+                // Ignore note events before the current window
+                if noteEnd < beatStart {
                     continue
+                }
+
+                // Stop at the first note past the current window
+                if noteStart > beatEnd {
+                    break
                 }
 
                 let noteStartTime = midiFile.secondsForBeats(noteStart)

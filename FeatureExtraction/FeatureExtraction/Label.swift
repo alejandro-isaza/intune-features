@@ -9,7 +9,7 @@ public struct Label: Equatable {
     public static let representableRange = 36...95
 
     /// The length of time in seconds for which a new note is considered an onset
-    public static let onsetTime = 1.0
+    public static let onsetTime = 0.05
 
     /// The sparse array representing the on notes
     public var notesArray = [Double](count: Label.representableRange.count, repeatedValue: 0)
