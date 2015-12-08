@@ -10,7 +10,7 @@ def octave(note):
     return (note - 12) / 12
 
 h5file = h5py.File('som.h5', 'r')
-labels = h5file['label']
+labels = h5file['on_label']
 som = h5file['som']
 grid = numpy.zeros((20, 20))
 
