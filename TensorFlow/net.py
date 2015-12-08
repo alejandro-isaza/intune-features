@@ -15,6 +15,7 @@ from __future__ import absolute_import
 from __future__ import division
 from __future__ import print_function
 
+import h5py
 import math
 import tensorflow.python.platform
 import tensorflow as tf
@@ -39,8 +40,8 @@ def inference(features, example_size, label_size, hidden1_units, hidden2_units):
         weights = tf.Variable(
             tf.truncated_normal([example_size, hidden1_units],
                                 stddev=1.0 / math.sqrt(float(example_size))),
-            name='weights')
-        biases = tf.Variable(tf.zeros([hidden1_units]), name='biases')
+            name='___weights')
+        biases = tf.Variable(tf.zeros([hidden1_units]), name='___biases')
         hidden1 = tf.nn.relu(tf.matmul(features, weights) + biases)
 
     # Hidden 2
@@ -48,17 +49,17 @@ def inference(features, example_size, label_size, hidden1_units, hidden2_units):
         weights = tf.Variable(
             tf.truncated_normal([hidden1_units, hidden2_units],
                                 stddev=1.0 / math.sqrt(float(hidden1_units))),
-            name='weights')
-        biases = tf.Variable(tf.zeros([hidden2_units]), name='biases')
+            name='___weights')
+        biases = tf.Variable(tf.zeros([hidden2_units]), name='___biases')
         hidden2 = tf.nn.relu(tf.matmul(hidden1, weights) + biases)
 
     # Linear
-    with tf.name_scope('softmax_linear') as scope:
+    with tf.name_scope('hidden3') as scope:
         weights = tf.Variable(
             tf.truncated_normal([hidden2_units, label_size],
                                 stddev=1.0 / math.sqrt(float(hidden2_units))),
-            name='weights')
-        biases = tf.Variable(tf.zeros([label_size]), name='biases')
+            name='___weights')
+        biases = tf.Variable(tf.zeros([label_size]), name='___biases')
         logits = tf.matmul(hidden2, weights) + biases
 
     return logits
@@ -121,3 +122,12 @@ def evaluation(logits, labels):
     """
     l2loss = tf.nn.l2_loss(logits - labels)
     return tf.reduce_mean(l2loss)
+
+def exportToHDF5(variables, session):
+    file = h5py.File("net.h5", "w")
+
+    for variable in variables:
+        name = variable.name.replace("/","")[:-2]
+        print(name)
+        dataset = file.create_dataset(name, variable.get_shape(), dtype=variable.dtype.as_numpy_dtype)
+        dataset[...] = variable.eval(session)

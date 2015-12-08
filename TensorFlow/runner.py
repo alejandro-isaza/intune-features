@@ -186,6 +186,8 @@ def run_training():
                         labels_placeholder,
                         test_data_set)
 
+        net.exportToHDF5(tf.trainable_variables(), sess)
+
 
 def main(_):
     run_training()
