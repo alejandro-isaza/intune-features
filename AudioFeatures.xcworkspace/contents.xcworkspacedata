@@ -18,7 +18,7 @@
       </FileRef>
    </Group>
    <FileRef
-      location = "group:/Users/al/dev/VM/audio-features/FeatureExtraction/AudioFeatures.xcodeproj">
+      location = "group:FeatureExtraction/AudioFeatures.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:Carthage/Checkouts/Peak/Peak.xcodeproj">
