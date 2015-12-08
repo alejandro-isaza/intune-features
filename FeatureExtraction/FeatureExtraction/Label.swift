@@ -35,8 +35,8 @@ public struct Label: Equatable {
         }
 
         notesArray[index] = 1
-        if time > -Label.onsetTime {
-            onsetsArray[index] = (time + Label.onsetTime) / Label.onsetTime
+        if abs(time) < Label.onsetTime {
+            onsetsArray[index] = (-abs(time) + Label.onsetTime) / Label.onsetTime
         }
     }
 
@@ -121,7 +121,8 @@ extension Label {
 
         let memspace = Dataspace(dims: [labels.count, Label.representableRange.count])
 
-        var data = [Double](count: labels.count * Label.representableRange.count, repeatedValue: 0.0)
+        var data = [Double]()
+        data.reserveCapacity(labels.count * Label.representableRange.count)
         for label in labels {
             data.appendContentsOf(label.notesArray)
         }
@@ -144,7 +145,8 @@ extension Label {
 
         let memspace = Dataspace(dims: [labels.count, Label.representableRange.count])
 
-        var data = [Double](count: labels.count * Label.representableRange.count, repeatedValue: 0.0)
+        var data = [Double]()
+        data.reserveCapacity(labels.count * Label.representableRange.count)
         for label in labels {
             data.appendContentsOf(label.onsetsArray)
         }
