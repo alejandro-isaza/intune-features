@@ -8,6 +8,8 @@ import Upsurge
 
 public class ValidateFeatures {
     let validateCount = 1000
+    let labelBatch = 1024
+    let repeatLabelThreshold = 5
     
     let featureDatabase: FeatureDatabase
     
@@ -20,8 +22,10 @@ public class ValidateFeatures {
         let step = featureDatabase.exampleCount / validateCount
         for i in 0..<validateCount {
             let index = i * step
-
-            let feature = featureDatabase.readFeatures(index, count: 1).first!
+            let count = min(labelBatch, featureDatabase.exampleCount - index)
+            
+            let features = featureDatabase.readFeatures(index, count: count)
+            let feature = features[0]
             
             var example = Example(filePath: feature.filePath, frameOffset: feature.fileOffset, label: feature.label, data: (RealArray(count: FeatureBuilder.sampleCount), RealArray(count: FeatureBuilder.sampleCount)))
             loadExampleData(&example)
@@ -30,7 +34,7 @@ public class ValidateFeatures {
             featureBuilder.generateFeatures(example)
 
             print("Validating '\(example.filePath)' offset \(example.frameOffset)...", terminator: "")
-            if !compare(feature, featureBuilder) {
+            if !compare(feature, featureBuilder) || !checkLabels(features) {
                 print("Failed")
                 print("Label \(example.label)")
                 return false
@@ -61,6 +65,25 @@ public class ValidateFeatures {
                 data[i] = 0.0
             }
             file.readFrames(data + fillSize, count: FeatureBuilder.sampleCount - fillSize)
+        }
+    }
+    
+    func checkLabels(features: [FeatureData]) -> Bool {
+        var occurances = [Label: Int]()
+        for feature in features {
+            if let count = occurances[feature.label] {
+                occurances.updateValue(count + 1, forKey: feature.label)
+            } else {
+                occurances[feature.label] = 1
+            }
+        }
+        
+        let max = occurances.maxElement{ $0.0.1 >= $0.1.1 }!
+        if max.1 > repeatLabelThreshold {
+            print("A label occurred \(max.1) times")
+            return false
+        } else {
+            return true
         }
     }
     

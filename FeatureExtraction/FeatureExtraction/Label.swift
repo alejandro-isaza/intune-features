@@ -4,7 +4,7 @@ import Foundation
 import HDF5Kit
 
 /// Labels a window of audio data by the notes being played
-public struct Label: Equatable {
+public struct Label: Hashable, Equatable {
     /// The range of notes that can be represented with a label (this needs to be a multiple of 12)
     public static let representableRange = 36...95
 
@@ -16,6 +16,15 @@ public struct Label: Equatable {
 
     /// The sparse array representing the onset notes
     public var onsetsArray = [Double](count: Label.representableRange.count, repeatedValue: 0)
+    
+    public var hashValue: Int {
+        // DJB Hash Function
+        var hash = 5381
+        for val in notesArray {
+            hash = ((hash << 5) &+ hash) &+ Int(val)
+        }
+        return hash
+    }
 
     public init() {
     }
