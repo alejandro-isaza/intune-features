@@ -282,7 +282,7 @@ public class FeatureDatabase {
     }
 
     func appendDoubleChunk(features: ArraySlice<FeatureData>, forTable table: DoubleTable) {
-        guard let data = table.data else {
+        guard let tableData = table.data else {
             // Ignore label tables
             return
         }
@@ -296,8 +296,8 @@ public class FeatureDatabase {
         let filespace = dataset.space
         filespace.select(start: [currentSize, 0], stride: nil, count: [chunkSize, table.size], block: nil)
 
-        assert(data.capacity == chunkSize * table.size)
-        data.count = 0
+        assert(tableData.capacity == chunkSize * table.size)
+        tableData.count = 0
         let memspace = Dataspace(dims: [chunkSize, table.size])
 
         for featureData in features {
@@ -305,10 +305,10 @@ public class FeatureDatabase {
                 print("Feature is missing dataset \(table.name)")
                 return
             }
-            data.appendContentsOf(data)
+            tableData.appendContentsOf(data)
         }
 
-        if !dataset.writeDouble(data.pointer, memSpace: memspace, fileSpace: filespace) {
+        if !dataset.writeDouble(tableData.pointer, memSpace: memspace, fileSpace: filespace) {
             fatalError("Failed to write features to database")
         }
     }
