@@ -4,8 +4,6 @@ import HDF5Kit
 import Upsurge
 
 public class FeatureDatabase {
-    let chunkSize = 1024
-
     public static let fileListDatasetName = "file_list"
     public static let fileNameDatasetName = "file_name"
     public static let onLabelDatasetName = "on_label"
@@ -16,6 +14,7 @@ public class FeatureDatabase {
     public static let spectrumDatasetName = "spectrum"
     public static let spectrumFluxDatasetName = "spectrum_flux"
 
+    let chunkSize: Int
     let filePath: String
     let file: File
 
@@ -34,7 +33,7 @@ public class FeatureDatabase {
     struct DoubleTable {
         var name: String
         var size: Int
-        var data: RealArray
+        var data: RealArray?
     }
 
     struct IntTable {
@@ -57,9 +56,10 @@ public class FeatureDatabase {
 
     var pendingFeatures = [FeatureData]()
 
-    public init(filePath: String, overwrite: Bool) {
+    public init(filePath: String, overwrite: Bool, chunkSize: Int = 1024) {
         self.filePath = filePath
-
+        self.chunkSize = chunkSize
+        
         if overwrite {
             file = File.create(filePath, mode: .Truncate)!
             create()
@@ -77,11 +77,15 @@ public class FeatureDatabase {
             let space = Dataspace(dims: [0, size], maxDims: [-1, size])
             file.createDataset(name, type: Double.self, dataspace: space, chunkDimensions: [chunkSize, size])!
 
+            let data: RealArray?
             if name == FeatureDatabase.onLabelDatasetName || name == FeatureDatabase.onsetLabelDatasetName {
-                continue
+                // Label datasets have their own way of being read, don't create memory for those
+                data = nil
+            } else {
+                data = RealArray(count: chunkSize * size)
             }
 
-            let table = DoubleTable(name: name, size: size, data: RealArray(count: chunkSize * size))
+            let table = DoubleTable(name: name, size: size, data: data)
             doubleTables.append(table)
         }
         for (name, size) in intDatasetSpecs {
@@ -110,8 +114,16 @@ public class FeatureDatabase {
             let dims = dataset.space.dims
             precondition(dims.count == 2 && dims[1] == size, "Existing dataset '\(name)' is of the wrong size")
             exampleCount = dims[0]
+
+            let data: RealArray?
+            if name == FeatureDatabase.onLabelDatasetName || name == FeatureDatabase.onsetLabelDatasetName {
+                // Label datasets have their own way of being read, don't create memory for those
+                data = nil
+            } else {
+                data = RealArray(count: chunkSize * size)
+            }
             
-            let table = DoubleTable(name: name, size: size, data: RealArray(count: size * chunkSize))
+            let table = DoubleTable(name: name, size: size, data: data)
             doubleTables.append(table)
         }
         for (name, size) in intDatasetSpecs {
@@ -145,6 +157,10 @@ public class FeatureDatabase {
         let labels = Label.readFromFile(file, start: start, count: count)
 
         for table in doubleTables {
+            guard let data = table.data else {
+                // Ignore label tables
+                continue
+            }
             let dataset = file.openDataset(table.name, type: Double.self)!
 
             let fileSpace = Dataspace(dataset.space)
@@ -153,7 +169,7 @@ public class FeatureDatabase {
 
             let memSpace = Dataspace(dims: [count, featureSize])
 
-            dataset.readDouble(table.data.mutablePointer, memSpace: memSpace, fileSpace: fileSpace)
+            dataset.readDouble(data.mutablePointer, memSpace: memSpace, fileSpace: fileSpace)
         }
 
         var features = [FeatureData]()
@@ -162,7 +178,11 @@ public class FeatureDatabase {
         for i in 0..<count {
             let feature = FeatureData(filePath: fileNames[i], fileOffset: offsets[i], label: labels[i])
             for table in doubleTables {
-                feature.features[table.name] = RealArray(table.data[i..<i + table.size])
+                guard let data = table.data else {
+                    // Ignore label tables
+                    continue
+                }
+                feature.features[table.name] = RealArray(data[i..<i + table.size])
             }
             features.append(feature)
         }
@@ -262,6 +282,10 @@ public class FeatureDatabase {
     }
 
     func appendDoubleChunk(features: ArraySlice<FeatureData>, forTable table: DoubleTable) {
+        guard let data = table.data else {
+            // Ignore label tables
+            return
+        }
         guard let dataset = file.openDataset(table.name, type: Double.self) else {
             preconditionFailure("Existing file doesn't have a \(table.name) dataset")
         }
@@ -272,18 +296,19 @@ public class FeatureDatabase {
         let filespace = dataset.space
         filespace.select(start: [currentSize, 0], stride: nil, count: [chunkSize, table.size], block: nil)
 
-        assert(table.data.capacity == chunkSize * table.size)
-        table.data.count = 0
+        assert(data.capacity == chunkSize * table.size)
+        data.count = 0
         let memspace = Dataspace(dims: [chunkSize, table.size])
 
         for featureData in features {
             guard let data = featureData.features[table.name] else {
-                fatalError("Feature is missing dataset \(table.name)")
+                print("Feature is missing dataset \(table.name)")
+                return
             }
-            table.data.appendContentsOf(data)
+            data.appendContentsOf(data)
         }
 
-        if !dataset.writeDouble(table.data.pointer, memSpace: memspace, fileSpace: filespace) {
+        if !dataset.writeDouble(data.pointer, memSpace: memspace, fileSpace: filespace) {
             fatalError("Failed to write features to database")
         }
     }

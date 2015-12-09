@@ -2,7 +2,7 @@
 
 import Foundation
 
-public struct Note : CustomStringConvertible {
+public struct Note : Equatable, CustomStringConvertible {
     public enum NoteType: Int {
         case C  = 0
         case CSharp = 1
@@ -63,6 +63,6 @@ public struct Note : CustomStringConvertible {
     }
 }
 
-public func == (lhs: Note, rhs: Note) -> Bool {
+public func ==(lhs: Note, rhs: Note) -> Bool {
     return lhs.note == rhs.note && lhs.octave == rhs.octave
 }
