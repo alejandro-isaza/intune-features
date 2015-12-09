@@ -77,6 +77,19 @@ public class ValidateFeatures {
         if !arraysMatch(feature.features[FeatureDatabase.spectrumFluxDatasetName]!, rhs: featureBuilder.spectrumFluxFeature) {
             return false
         }
+        if let label = polyLabel(feature.filePath, offset: feature.fileOffset) {
+            if feature.label != label {
+                return false
+            }
+        } else if let label = monoLabel(feature.filePath, offset: feature.fileOffset) {
+            if feature.label != label {
+                return false
+            }
+        } else {
+            if feature.label != Label() {
+                return false
+            }
+        }
         
         return true
     }
@@ -94,4 +107,75 @@ public class ValidateFeatures {
         
         return true
     }
+    
+    func monoLabel(path: String, offset: Int) -> Label? {
+        let monophonicFileExpression = try! NSRegularExpression(pattern: "/(\\d+)\\.\\w+", options: NSRegularExpressionOptions.CaseInsensitive)
+        guard let results = monophonicFileExpression.firstMatchInString(path, options: NSMatchingOptions.ReportCompletion, range: NSMakeRange(0, path.characters.count)) else {
+            return nil
+        }
+        if results.numberOfRanges < 1 {
+            return nil
+        }
+        let range = results.rangeAtIndex(1)
+        
+        let fileName = (path as NSString).substringWithRange(range)
+        guard let noteNumber = Int(fileName) else {
+            return nil
+        }
+        
+        let note = Note(midiNoteNumber: noteNumber)
+        let time = Double(offset) / FeatureBuilder.samplingFrequency
+
+        return Label(note: note, atTime: time)
+    }
+    
+    func polyLabel(path: String, offset: Int) -> Label? {
+        let manager = NSFileManager.defaultManager()
+        let url = NSURL.fileURLWithPath(path)
+        guard let midFileURL = url.URLByDeletingPathExtension?.URLByAppendingPathExtension("mid") else {
+            fatalError("Failed to build path")
+        }
+        
+        if manager.fileExistsAtPath(midFileURL.path!) {
+            let midFile = Peak.MIDIFile(filePath: midFileURL.path!)!
+            
+            // Time in seconds for the middle of the current window
+            let time = Double(offset) / FeatureBuilder.samplingFrequency
+            
+            // Discard margin in seconds
+            let margin = (1.0 / 8.0) * Double(FeatureBuilder.sampleCount) / FeatureBuilder.samplingFrequency
+            
+            let offsetStart = offset - FeatureBuilder.sampleCount / 2
+            let timeStart = margin + Double(offsetStart) / FeatureBuilder.samplingFrequency
+            let beatStart = midFile.beatsForSeconds(timeStart)
+            
+            let offsetEnd = offset + FeatureBuilder.sampleCount / 2
+            let timeEnd = Double(offsetEnd) / FeatureBuilder.samplingFrequency - margin
+            let beatEnd = midFile.beatsForSeconds(timeEnd)
+            
+            var label = Label()
+            for note in midFile.noteEvents {
+                let noteStart = note.timeStamp
+                let noteEnd = noteStart + Double(note.duration)
+                
+                // Ignore note events before the current window
+                if noteEnd < beatStart {
+                    continue
+                }
+                
+                // Stop at the first note past the current window
+                if noteStart > beatEnd {
+                    break
+                }
+                
+                let noteStartTime = midFile.secondsForBeats(noteStart)
+                label.addNote(Note(midiNoteNumber: Int(note.note)), atTime: noteStartTime - time)
+            }
+            
+            return label
+        }
+        
+        return nil
+    }
+
 }
