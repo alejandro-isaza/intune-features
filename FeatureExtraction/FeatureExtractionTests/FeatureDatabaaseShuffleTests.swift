@@ -24,8 +24,8 @@ class FeatureDatabaaseShuffleTests: XCTestCase {
         }
 
         let database = FeatureDatabase(filePath: "test.h5", overwrite: true, chunkSize: features.count)
-        database.appendFeatures(features)
-        database.shuffle(chunkSize: 10, passes: 2, progress: nil)
+        try! database.appendFeatures(features)
+        try! database.shuffle(chunkSize: 10, passes: 2, progress: nil)
     }
 
     func testShuffle() {

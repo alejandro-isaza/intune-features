@@ -12,7 +12,7 @@ class TableTests: XCTestCase {
         let fileName = "TableTests.\(__FUNCTION__).h5"
         let file = File.create(fileName, mode: .Truncate)!
         let _ = Table(file: file, name: datasetName, rowSize: 10)
-        XCTAssertNotNil(file.openDataset(datasetName, type: Double.self))
+        XCTAssertNotNil(file.openDoubleDataset(datasetName))
     }
 
     func testAppend() {
@@ -31,10 +31,9 @@ class TableTests: XCTestCase {
         }
         file.flush()
 
-        let readFile = File.open(fileName, mode: .ReadOnly)
-        let dataset = readFile?.openDataset(datasetName, type: Double.self)!
-        var readData = [Double](count: testData.count, repeatedValue: 0.0)
-        dataset?.readDouble(&readData)
+        let readFile = File.open(fileName, mode: .ReadOnly)!
+        let dataset = readFile.openDoubleDataset(datasetName)!
+        let readData = try! dataset.read()
 
         XCTAssertEqual(readData, testData)
     }

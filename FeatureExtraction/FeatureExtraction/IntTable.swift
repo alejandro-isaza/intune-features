@@ -4,11 +4,12 @@ import Foundation
 import HDF5Kit
 import Upsurge
 
-/// `Table` represents a 2-dimensional data set of doubles in an HDF5 file
-public class Table {
+/// `IntTable` represents a 2-dimensional data set of integers in an HDF5 file
+public class IntTable {
     public enum Error: ErrorType {
         case DatasetNotFound
         case DatasetNotCompatible
+        case IOError
     }
 
     public let file: File
@@ -23,18 +24,18 @@ public class Table {
         self.rowSize = rowSize
         self.chunkSize = chunkSize
 
-        if let dataset = file.openDoubleDataset(name) {
+        if let dataset = file.openIntDataset(name) {
             verifyDataset(dataset)
         } else {
             createDataset()
         }
     }
 
-    func verifyDataset(dataset: DoubleDataset) {
+    func verifyDataset(dataset: IntDataset) {
         guard let nativeType = dataset.type.nativeType else {
             preconditionFailure("Existing dataset '\(name)' is not of a native data type")
         }
-        precondition(nativeType == .Double, "Existing dataset '\(name)' is of the wrong type")
+        precondition(nativeType == .Int, "Existing dataset '\(name)' is of the wrong type")
 
         let dims = dataset.space.dims
         precondition(dims.count == 2 && dims[1] == rowSize, "Existing dataset '\(name)' is of the wrong size. Expected \(rowSize) got \(dims[1]).")
@@ -42,12 +43,12 @@ public class Table {
 
     func createDataset() {
         let space = Dataspace(dims: [0, rowSize], maxDims: [-1, rowSize])
-        file.createDoubleDataset(name, dataspace: space, chunkDimensions: [chunkSize, rowSize])
+        file.createIntDataset(name, dataspace: space, chunkDimensions: [chunkSize, rowSize])
     }
 
     /// The number of rows in the table
     public var rowCount: Int {
-        guard let dataset = file.openDoubleDataset(name) else {
+        guard let dataset = file.openIntDataset(name) else {
             return 0
         }
 
@@ -61,8 +62,8 @@ public class Table {
     /// - parameter pointer: The location in memory where the results are going to be stored. There must be enough space for `count * rowSize` elements.
     ///
     /// - returns: The number of rows read, at most `count`.
-    public func readFromRow(start: Int, count: Int, into pointer: UnsafeMutablePointer<Double>) throws -> Int {
-        guard let dataset = file.openDoubleDataset(name) else {
+    public func readFromRow(start: Int, count: Int, into pointer: UnsafeMutablePointer<Int>) throws -> Int {
+        guard let dataset = file.openIntDataset(name) else {
             throw Error.DatasetNotFound
         }
 
@@ -80,8 +81,8 @@ public class Table {
     }
 
     /// Append data to the table
-    public func appendData<C: ContiguousMemory where C.Element == Double>(data: C) throws {
-        guard let dataset = file.openDoubleDataset(name) else {
+    public func appendData<C: ContiguousMemory where C.Element == Int>(data: C) throws {
+        guard let dataset = file.openIntDataset(name) else {
             throw Error.DatasetNotFound
         }
 
@@ -106,8 +107,8 @@ public class Table {
     ///
     /// - parameter start: The index of the first row to overwrite. Must be less than `rowCount`.
     /// - parameter data:  The new data.
-    public func overwriteFromRow<C: ContiguousMemory where C.Element == Double>(start: Int, with data: C) throws {
-        guard let dataset = file.openDoubleDataset(name) else {
+    public func overwriteFromRow<C: ContiguousMemory where C.Element == Int>(start: Int, with data: C) throws {
+        guard let dataset = file.openIntDataset(name) else {
             throw Error.DatasetNotFound
         }
 
