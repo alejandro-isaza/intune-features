@@ -14,27 +14,27 @@ public class FeatureDatabase {
     public static let spectrumDatasetName = "spectrum"
     public static let spectrumFluxDatasetName = "spectrum_flux"
 
+    public static let labelNames = [
+        "on_label",
+        "onset_label"
+    ]
+    public static let featureNames = [
+        "peak_locations",
+        "peak_heights",
+        "spectrum",
+        "spectrum_flux",
+    ]
+
     let chunkSize: Int
     let filePath: String
     let file: File
 
-    let doubleDatasetSpecs = [
-        (name: FeatureDatabase.onLabelDatasetName, size: Label.representableRange.count),
-        (name: FeatureDatabase.onsetLabelDatasetName, size: Label.representableRange.count),
-        (name: FeatureDatabase.peakLocationsDatasetName, size: FeatureBuilder.bandNotes.count),
-        (name: FeatureDatabase.peakHeightsDatasetName, size: FeatureBuilder.bandNotes.count),
-        (name: FeatureDatabase.spectrumDatasetName, size: FeatureBuilder.bandNotes.count),
-        (name: FeatureDatabase.spectrumFluxDatasetName, size: FeatureBuilder.bandNotes.count)
-    ]
+    var labelTables = [Table]()
+    var featureTables = [Table]()
+
     let intDatasetSpecs = [
         (name: FeatureDatabase.offsetDatasetName, size: 1)
     ]
-
-    struct DoubleTable {
-        var name: String
-        var size: Int
-        var data: RealArray?
-    }
 
     struct IntTable {
         var name: String
@@ -47,12 +47,10 @@ public class FeatureDatabase {
         var data: [String]
     }
 
-    var doubleTables = [DoubleTable]()
     var intTables = [IntTable]()
 
     public internal(set) var fileList = Set<String>()
     public internal(set) var fileNames = [String]()
-    public internal(set) var exampleCount = 0
 
     var pendingFeatures = [FeatureData]()
 
@@ -70,24 +68,19 @@ public class FeatureDatabase {
             file = File.create(filePath, mode: .Exclusive)!
             create()
         }
+
+        for name in FeatureDatabase.labelNames {
+            let table = Table(file: file, name: name, rowSize: Label.representableRange.count, chunkSize: chunkSize)
+            labelTables.append(table)
+        }
+
+        for name in FeatureDatabase.featureNames {
+            let table = Table(file: file, name: name, rowSize: FeatureBuilder.bandNotes.count, chunkSize: chunkSize)
+            featureTables.append(table)
+        }
     }
 
     func create() {
-        for (name, size) in doubleDatasetSpecs {
-            let space = Dataspace(dims: [0, size], maxDims: [-1, size])
-            file.createDataset(name, type: Double.self, dataspace: space, chunkDimensions: [chunkSize, size])!
-
-            let data: RealArray?
-            if name == FeatureDatabase.onLabelDatasetName || name == FeatureDatabase.onsetLabelDatasetName {
-                // Label datasets have their own way of being read, don't create memory for those
-                data = nil
-            } else {
-                data = RealArray(count: chunkSize * size)
-            }
-
-            let table = DoubleTable(name: name, size: size, data: data)
-            doubleTables.append(table)
-        }
         for (name, size) in intDatasetSpecs {
             let space = Dataspace(dims: [0, size], maxDims: [-1, size])
             file.createDataset(name, type: Int.self, dataspace: space, chunkDimensions: [chunkSize, size])!
@@ -101,31 +94,6 @@ public class FeatureDatabase {
     }
 
     func load() {
-        for (name, size) in doubleDatasetSpecs {
-            guard let dataset = file.openDataset(name, type: Double.self) else {
-                preconditionFailure("Existing file doesn't have a \(name) dataset")
-            }
-
-            guard let nativeType = dataset.type.nativeType else {
-                preconditionFailure("Existing dataset '\(name)' is not of a native data type")
-            }
-            precondition(nativeType == .Double, "Existing dataset '\(name)' is of the wrong type")
-
-            let dims = dataset.space.dims
-            precondition(dims.count == 2 && dims[1] == size, "Existing dataset '\(name)' is of the wrong size")
-            exampleCount = dims[0]
-
-            let data: RealArray?
-            if name == FeatureDatabase.onLabelDatasetName || name == FeatureDatabase.onsetLabelDatasetName {
-                // Label datasets have their own way of being read, don't create memory for those
-                data = nil
-            } else {
-                data = RealArray(count: chunkSize * size)
-            }
-            
-            let table = DoubleTable(name: name, size: size, data: data)
-            doubleTables.append(table)
-        }
         for (name, size) in intDatasetSpecs {
             guard let dataset = file.openDataset(name, type: Int.self) else {
                 preconditionFailure("Existing file doesn't have a \(name) dataset")
@@ -156,33 +124,15 @@ public class FeatureDatabase {
         let offsets = readOffsets(start, count: count)
         let labels = Label.readFromFile(file, start: start, count: count)
 
-        for table in doubleTables {
-            guard let data = table.data else {
-                // Ignore label tables
-                continue
-            }
-            let dataset = file.openDataset(table.name, type: Double.self)!
-
-            let fileSpace = Dataspace(dataset.space)
-            let featureSize = fileSpace.dims[1]
-            fileSpace.select(start: [start, 0], stride: nil, count: [count, featureSize], block: nil)
-
-            let memSpace = Dataspace(dims: [count, featureSize])
-
-            dataset.readDouble(data.mutablePointer, memSpace: memSpace, fileSpace: fileSpace)
-        }
-
         var features = [FeatureData]()
         features.reserveCapacity(count)
 
+        let data = RealArray(capacity: FeatureBuilder.bandNotes.count)
         for i in 0..<count {
             let feature = FeatureData(filePath: fileNames[i], fileOffset: offsets[i], label: labels[i])
-            for table in doubleTables {
-                guard let data = table.data else {
-                    // Ignore label tables
-                    continue
-                }
-                feature.features[table.name] = RealArray(data[i..<i + table.size])
+            for table in featureTables {
+                try! table.readFromRow(i, count: 1, into: data.mutablePointer)
+                feature.features[table.name] = RealArray(data)
             }
             features.append(feature)
         }
@@ -267,8 +217,8 @@ public class FeatureDatabase {
     func appendChunk(features: ArraySlice<FeatureData>) {
         assert(features.count == chunkSize)
 
-        for table in doubleTables {
-            appendDoubleChunk(features, forTable: table)
+        for table in featureTables {
+            appendFeatures(features, toTable: table)
         }
 
         Label.write(features.map({ $0.label }), toFile: file)
@@ -277,40 +227,18 @@ public class FeatureDatabase {
         appendOffsetsChunk(features, forTable: offsetsTable)
 
         appendFileNamesChunk(features)
-
-        exampleCount += features.count
     }
 
-    func appendDoubleChunk(features: ArraySlice<FeatureData>, forTable table: DoubleTable) {
-        guard let tableData = table.data else {
-            // Ignore label tables
-            return
-        }
-        guard let dataset = file.openDataset(table.name, type: Double.self) else {
-            preconditionFailure("Existing file doesn't have a \(table.name) dataset")
-        }
-
-        let currentSize = dataset.extent[0]
-        dataset.extent[0] += chunkSize
-
-        let filespace = dataset.space
-        filespace.select(start: [currentSize, 0], stride: nil, count: [chunkSize, table.size], block: nil)
-
-        assert(tableData.capacity == chunkSize * table.size)
-        tableData.count = 0
-        let memspace = Dataspace(dims: [chunkSize, table.size])
-
+    func appendFeatures(features: ArraySlice<FeatureData>, toTable table: Table) {
+        let allData = RealArray(capacity: features.count * FeatureBuilder.bandNotes.count)
         for featureData in features {
             guard let data = featureData.features[table.name] else {
-                print("Feature is missing dataset \(table.name)")
-                return
+                preconditionFailure("Feature is missing dataset \(table.name)")
             }
-            tableData.appendContentsOf(data)
+            allData.appendContentsOf(data)
         }
 
-        if !dataset.writeDouble(tableData.pointer, memSpace: memspace, fileSpace: filespace) {
-            fatalError("Failed to write features to database")
-        }
+        try! table.appendData(allData)
     }
 
     func appendOffsetsChunk(features: ArraySlice<FeatureData>, var forTable table: IntTable) {
@@ -378,6 +306,7 @@ public class FeatureDatabase {
     }
 
     public func shuffle(var chunkSize chunkSize: Int, passes: Int = 1, progress: (Double -> Void)? = nil) {
+        let exampleCount = labelTables[0].rowCount
         chunkSize = min(chunkSize, exampleCount/2)
         let shuffleCount = passes * exampleCount / chunkSize
         for i in 0..<shuffleCount {
@@ -392,51 +321,38 @@ public class FeatureDatabase {
             file.flush()
             progress?(Double(i) / Double(shuffleCount - 1))
         }
-        file.flush()
     }
 
     func shuffleDoubleTables(chunkSize chunkSize: Int, start1: Int, start2: Int, indices: [Int]) {
-        var data = [Double](count: 2*chunkSize*FeatureBuilder.bandNotes.count, repeatedValue: 0)
-        for table in doubleTables {
-            guard let dataset = file.openDataset(table.name, type: Double.self) else {
-                preconditionFailure("Existing file doesn't have a \(table.name) dataset")
-            }
-
-            let memspace1 = Dataspace(dims: [2*chunkSize, table.size])
-            memspace1.select(start: [0, 0], stride: nil, count: [chunkSize, table.size], block: nil)
-
-            let filespace1 = Dataspace(dataset.space)
-            filespace1.select(start: [start1, 0], stride: nil, count: [chunkSize, table.size], block: nil)
-
-            assert(data.count >= memspace1.selectionSize)
-            if !dataset.readDouble(&data, memSpace: memspace1, fileSpace: filespace1) {
-                fatalError("Failed to read data")
-            }
-
-            let memspace2 = Dataspace(dims: [2*chunkSize, table.size])
-            memspace2.select(start: [chunkSize, 0], stride: nil, count: [chunkSize, table.size], block: nil)
-
-            let filespace2 = Dataspace(dataset.space)
-            filespace2.select(start: [start2, 0], stride: nil, count: [chunkSize, table.size], block: nil)
-
-            assert(data.count - chunkSize >= memspace1.selectionSize)
-            if !dataset.readDouble(&data, memSpace: memspace2, fileSpace: filespace2) {
-                fatalError("Failed to read data")
-            }
-
-            for i in 0..<2*chunkSize {
-                let index = indices[i]
-                if index != i {
-                    swapRowsInData(&data, rowSize: table.size, i, index)
-                }
-            }
-
-            dataset.writeDouble(data, memSpace: memspace1, fileSpace: filespace1)
-            dataset.writeDouble(data, memSpace: memspace2, fileSpace: filespace2)
+        let data = RealArray(capacity: 2 * chunkSize * FeatureBuilder.bandNotes.count)
+        for table in labelTables {
+            shuffleTable(table, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices, inBuffer: data)
+        }
+        for table in featureTables {
+            shuffleTable(table, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices, inBuffer: data)
         }
     }
 
-    func swapRowsInData(inout data: [Double], rowSize: Int, _ i: Int, _ j: Int) {
+    func shuffleTable(table: Table, chunkSize: Int, start1: Int, start2: Int, indices: [Int], inBuffer data: RealArray) {
+        let count1 = try! table.readFromRow(start1, count: chunkSize, into: data.mutablePointer)
+        assert(count1 == chunkSize)
+
+        let count2 = try! table.readFromRow(start2, count: chunkSize, into: data.mutablePointer + chunkSize * table.rowSize)
+        assert(count2 == chunkSize)
+
+        data.count = 2 * chunkSize * table.rowSize
+        for i in 0..<2 * chunkSize {
+            let index = indices[i]
+            if index != i {
+                swapRowsInData(data, rowSize: table.rowSize, i, index)
+            }
+        }
+
+        try! table.overwriteFromRow(start1, with: data[0..<chunkSize * table.rowSize])
+        try! table.overwriteFromRow(start2, with: data[chunkSize * table.rowSize..<2 * chunkSize * table.rowSize])
+    }
+
+    func swapRowsInData(data: RealArray, rowSize: Int, _ i: Int, _ j: Int) {
         let start1 = i * rowSize
         let start2 = j * rowSize
         for c in 0..<rowSize {

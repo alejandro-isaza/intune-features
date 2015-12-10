@@ -83,28 +83,25 @@ public func ==(lhs: Label, rhs: Label) -> Bool {
 
 extension Label {
     static func readFromFile(file: File, start: Int, count: Int) -> [Label] {
-        let noteLabelDataset = file.openDataset(FeatureDatabase.onLabelDatasetName, type: Double.self)!
-        let onsetLabelDataset = file.openDataset(FeatureDatabase.onsetLabelDatasetName, type: Double.self)!
+        let labelSize = Label.representableRange.count
 
-        let fileSpace = Dataspace(noteLabelDataset.space)
-        let featureSize = fileSpace.dims[1]
-        assert(featureSize == Label.representableRange.count)
-        fileSpace.select(start: [start, 0], stride: nil, count: [count, featureSize], block: nil)
+        let onTable = Table(file: file, name: FeatureDatabase.onLabelDatasetName, rowSize: labelSize)
+        let onsetTable = Table(file: file, name: FeatureDatabase.onLabelDatasetName, rowSize: labelSize)
 
-        let memSpace = Dataspace(dims: [count, featureSize])
+        var onLabels = [Double](count: count * labelSize, repeatedValue: 0.0)
+        let onCount = try! onTable.readFromRow(start, count: count, into: &onLabels)
 
-        var noteLabels = [Double](count: count * featureSize, repeatedValue: 0.0)
-        noteLabelDataset.readDouble(&noteLabels, memSpace: memSpace, fileSpace: fileSpace)
+        var onsetLabels = [Double](count: count * labelSize, repeatedValue: 0.0)
+        let onsetCount = try! onsetTable.readFromRow(start, count: count, into: &onsetLabels)
 
-        var onsetLabels = [Double](count: count * featureSize, repeatedValue: 0.0)
-        onsetLabelDataset.readDouble(&onsetLabels, memSpace: memSpace, fileSpace: fileSpace)
+        assert(onCount == onsetCount)
 
         var labels = [Label]()
-        labels.reserveCapacity(count)
-        for i in 0..<count {
-            let start = i * featureSize
-            let end = (i + 1) * featureSize
-            let notes = noteLabels[start..<end]
+        labels.reserveCapacity(onCount)
+        for i in 0..<onCount {
+            let start = i * labelSize
+            let end = (i + 1) * labelSize
+            let notes = onLabels[start..<end]
             let onsets = onsetLabels[start..<end]
             let label = Label(notes: [Double](notes), onsets: [Double](onsets))
             labels.append(label)
@@ -118,17 +115,8 @@ extension Label {
     }
 
     static func writeNotes<C: CollectionType where C.Generator.Element == Label, C.Index == Int>(labels: C, toFile file: HDF5Kit.File) {
-        guard let dataset = file.openDataset(FeatureDatabase.onLabelDatasetName, type: Int.self) else {
-            preconditionFailure("Existing file doesn't have a \(FeatureDatabase.onLabelDatasetName) dataset")
-        }
-
-        let currentSize = dataset.extent[0]
-        dataset.extent[0] += labels.count
-
-        let filespace = dataset.space
-        filespace.select(start: [currentSize, 0], stride: nil, count: [labels.count, Label.representableRange.count], block: nil)
-
-        let memspace = Dataspace(dims: [labels.count, Label.representableRange.count])
+        let labelSize = Label.representableRange.count
+        let table = Table(file: file, name: FeatureDatabase.onLabelDatasetName, rowSize: labelSize)
 
         var data = [Double]()
         data.reserveCapacity(labels.count * Label.representableRange.count)
@@ -136,23 +124,12 @@ extension Label {
             data.appendContentsOf(label.notesArray)
         }
 
-        if !dataset.writeDouble(data, memSpace: memspace, fileSpace: filespace) {
-            fatalError("Failed to write features to database")
-        }
+        try! table.appendData(data)
     }
 
     static func writeOnsets<C: CollectionType where C.Generator.Element == Label, C.Index == Int>(labels: C, toFile file: HDF5Kit.File) {
-        guard let dataset = file.openDataset(FeatureDatabase.onsetLabelDatasetName, type: Int.self) else {
-            preconditionFailure("Existing file doesn't have a \(FeatureDatabase.onsetLabelDatasetName) dataset")
-        }
-
-        let currentSize = dataset.extent[0]
-        dataset.extent[0] += labels.count
-
-        let filespace = dataset.space
-        filespace.select(start: [currentSize, 0], stride: nil, count: [labels.count, Label.representableRange.count], block: nil)
-
-        let memspace = Dataspace(dims: [labels.count, Label.representableRange.count])
+        let labelSize = Label.representableRange.count
+        let table = Table(file: file, name: FeatureDatabase.onsetLabelDatasetName, rowSize: labelSize)
 
         var data = [Double]()
         data.reserveCapacity(labels.count * Label.representableRange.count)
@@ -160,8 +137,6 @@ extension Label {
             data.appendContentsOf(label.onsetsArray)
         }
 
-        if !dataset.writeDouble(data, memSpace: memspace, fileSpace: filespace) {
-            fatalError("Failed to write features to database")
-        }
+        try! table.appendData(data)
     }
 }

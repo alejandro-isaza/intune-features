@@ -20,6 +20,20 @@
                ReferencedContainer = "container:AudioFeatures.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
+         <BuildActionEntry
+            buildForTesting = "YES"
+            buildForRunning = "YES"
+            buildForProfiling = "NO"
+            buildForArchiving = "NO"
+            buildForAnalyzing = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "6180A7731C18ABFC00D63F00"
+               BuildableName = "FeatureExtractionTests.xctest"
+               BlueprintName = "FeatureExtractionTests"
+               ReferencedContainer = "container:AudioFeatures.xcodeproj">
+            </BuildableReference>
+         </BuildActionEntry>
       </BuildActionEntries>
    </BuildAction>
    <TestAction
@@ -32,8 +46,8 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "8C7845781BB9B06600C88426"
-               BuildableName = "FeatureExtraction.xctest"
+               BlueprintIdentifier = "6180A7731C18ABFC00D63F00"
+               BuildableName = "FeatureExtractionTests.xctest"
                BlueprintName = "FeatureExtractionTests"
                ReferencedContainer = "container:AudioFeatures.xcodeproj">
             </BuildableReference>
