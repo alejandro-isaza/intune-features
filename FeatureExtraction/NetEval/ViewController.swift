@@ -2,17 +2,22 @@
 
 import UIKit
 
+
+class ExampleInfoView: UIView {
+    @IBOutlet weak var label: UITextField!
+    @IBOutlet weak var note: UITextField!
+}
+
+
 class ViewController: UIViewController {
     let net = MonophonicNet()
     let startNote = 36
+    
+    @IBOutlet weak var exampleStackView: UIStackView!
+    @IBOutlet weak var outputStackView: UIStackView!
 
     @IBOutlet weak var exampleIndexTextField: UITextField!
-    @IBOutlet weak var actualLabelTextField: UITextField!
-    @IBOutlet weak var actualNoteTextField: UITextField!
 
-    @IBOutlet var labelTextFields: [UITextField]!
-    @IBOutlet var noteTextFields: [UITextField]!
-    @IBOutlet var valueTextFields: [UITextField]!
     @IBOutlet weak var timeTextField: UITextField!
 
     @IBOutlet weak var allMatchesLabel: UILabel!
@@ -21,14 +26,32 @@ class ViewController: UIViewController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        run()
     }
 
     @IBAction func changeIndex(sender: UIStepper) {
         exampleIndexTextField.text = String(format: "%.0f", arguments: [sender.value])
-
-        let label = Int(net.labels[Int(sender.value)])
-        actualLabelTextField.text = label.description
-        actualNoteTextField.text = (label + startNote).description
+        run()
+    }
+    
+    func update(labels: ArraySlice<Double>) {
+        var filterdLabels = [Int]()
+        for (index, label) in labels.enumerate() {
+            if label == 1 {
+                filterdLabels.append(index)
+            }
+        }
+        
+        for view in exampleStackView.arrangedSubviews {
+            view.removeFromSuperview()
+        }
+        
+        for label in filterdLabels {
+            let view = NSBundle.mainBundle().loadNibNamed("ExampleInfoView", owner: self, options: nil).first as! ExampleInfoView
+            view.label.text = "\(label)"
+            view.note.text = "\(label + startNote)"
+            exampleStackView.addArrangedSubview(view)
+        }
     }
 
     @IBAction func run() {
@@ -37,10 +60,9 @@ class ViewController: UIViewController {
         }
 
         let startTime = CFAbsoluteTimeGetCurrent()
-        let label = Int(net.labels[index])
-        actualLabelTextField.text = label.description
-        actualNoteTextField.text = (label + startNote).description
-
+        let labels = net.on_labels[index*60..<index*60+60]
+        update(labels)
+        
         let result = net.run(index)
 
         let timeElapsed = CFAbsoluteTimeGetCurrent() - startTime
@@ -51,22 +73,27 @@ class ViewController: UIViewController {
             values.append((i, v))
         }
 
+        for view in outputStackView.arrangedSubviews {
+            view.removeFromSuperview()
+        }
+        
         let sortedValues = values.sort{ $0.1 > $1.1 }
-        for i in 0..<labelTextFields.count {
-            labelTextFields[i].text = sortedValues[i].0.description
-            noteTextFields[i].text = (sortedValues[i].0 + startNote).description
-            valueTextFields[i].text = sortedValues[i].1.description
+        for (label, value) in sortedValues {
+            let view = NSBundle.mainBundle().loadNibNamed("ExampleInfoView", owner: self, options: nil).first as! ExampleInfoView
+            view.label.text = "\(label)"
+            view.note.text = "\(value)"
+            outputStackView.addArrangedSubview(view)
         }
     }
 
     @IBAction func runAll() {
         activityIndicator.startAnimating()
         let startTime = CFAbsoluteTimeGetCurrent()
-        var stats = Stats(exampleCount: net.labels.count)
+        var stats = Stats(exampleCount: net.on_labels.count)
 
         dispatch_async(dispatch_get_global_queue(QOS_CLASS_USER_INITIATED, 0)) {
             for index in 0..<stats.exampleCount {
-                let label = Int(self.net.labels[index])
+                let label = Int(self.net.on_labels[index])
                 let result = self.net.run(index)
                 let (match, value) = maxi(result)!
                 if match == Int(label) {

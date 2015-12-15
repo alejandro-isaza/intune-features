@@ -67,6 +67,7 @@
 		8CDE47981BBF117C00A98419 /* FeatureCompiler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE47941BBF117C00A98419 /* FeatureCompiler.swift */; };
 		8CDE479C1BBF11A000A98419 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479B1BBF11A000A98419 /* main.swift */; };
 		8CDE47A01BBF2FA000A98419 /* String+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479F1BBF2FA000A98419 /* String+Paths.swift */; };
+		8CFDC42B1C1F568700387DD9 /* ExampleInfoView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8CFDC42A1C1F568700387DD9 /* ExampleInfoView.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -419,6 +420,7 @@
 		8CDE479F1BBF2FA000A98419 /* String+Paths.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Paths.swift"; sourceTree = "<group>"; };
 		8CDE47FB1BBF3A6000A98419 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		8CDE47FD1BBF3A8400A98419 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		8CFDC42A1C1F568700387DD9 /* ExampleInfoView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ExampleInfoView.xib; sourceTree = "<group>"; };
 		974BAC90745AC6F802C9D445 /* Pods_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3C00C05497A6CBB3AB74FF6 /* Pods_OSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -497,6 +499,7 @@
 				6185A7811BD337E100CD5FC5 /* Assets.xcassets */,
 				6185A7831BD337E100CD5FC5 /* LaunchScreen.storyboard */,
 				6185A7861BD337E100CD5FC5 /* Info.plist */,
+				8CFDC42A1C1F568700387DD9 /* ExampleInfoView.xib */,
 			);
 			path = NetEval;
 			sourceTree = "<group>";
@@ -1107,6 +1110,7 @@
 				6185A7821BD337E100CD5FC5 /* Assets.xcassets in Resources */,
 				6185AA0B1BD411A400CD5FC5 /* testing.h5 in Resources */,
 				6185AA0C1BD411A400CD5FC5 /* training.h5 in Resources */,
+				8CFDC42B1C1F568700387DD9 /* ExampleInfoView.xib in Resources */,
 				6185A7801BD337E100CD5FC5 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
