@@ -8,21 +8,31 @@ public struct Label: Hashable, Equatable {
     /// The range of notes that can be represented with a label (this needs to be a multiple of 12)
     public static let representableRange = 36...95
 
+    /// The number of notes that can be represented with a label
+    public static let noteCount = Label.representableRange.count
+
     /// The length of time in seconds for which a new note is considered an onset
     public static let onsetTime = 0.05
 
+    /// Whether to include a 'noise' label
+    public static let noiseLabel = false
+
     /// The sparse array representing the on notes
-    public var notesArray = [Double](count: Label.representableRange.count, repeatedValue: 0)
+    public var notesArray = [Double](count: Label.noteCount, repeatedValue: 0)
 
     /// The sparse array representing the onset notes
-    public var onsetsArray = [Double](count: Label.representableRange.count, repeatedValue: 0)
-    
+    public var onsetsArray = [Double](count: Label.noteCount, repeatedValue: 0)
+
+    /// A value for representing "no note"
+    public var noiseValue = 1.0
+
     public var hashValue: Int {
         // DJB Hash Function
         var hash = 5381
         for val in notesArray {
-            hash = ((hash << 5) &+ hash) &+ Int(val)
+            hash = ((hash << 5) &+ hash) &+ Int(val * 1000)
         }
+        hash = ((hash << 5) &+ hash) &+ Int(noiseValue * 1000)
         return hash
     }
 
@@ -30,8 +40,16 @@ public struct Label: Hashable, Equatable {
     }
 
     public init(notes: [Double], onsets: [Double]) {
+        assert(notes.count ==  Label.representableRange.count)
+        assert(onsets.count ==  Label.representableRange.count)
         self.notesArray = notes
         self.onsetsArray = onsets
+
+        if notesArray.reduce(0.0, combine: +) + onsetsArray.reduce(0.0, combine: +) == 0 {
+            noiseValue = 1.0
+        } else {
+            noiseValue = 0.0
+        }
     }
 
     public init(note: Note, atTime time: Double) {
@@ -42,6 +60,8 @@ public struct Label: Hashable, Equatable {
         guard let index = indexForNote(note)  else {
             return
         }
+
+        noiseValue = 0.0
 
         notesArray[index] = 1
         if abs(time) < Label.onsetTime {
@@ -83,15 +103,13 @@ public func ==(lhs: Label, rhs: Label) -> Bool {
 
 extension Label {
     static func readFromFile(file: File, start: Int, count: Int) -> [Label] {
-        let labelSize = Label.representableRange.count
-
-        let onTable = Table(file: file, name: FeatureDatabase.onLabelDatasetName, rowSize: labelSize)
-        let onsetTable = Table(file: file, name: FeatureDatabase.onLabelDatasetName, rowSize: labelSize)
-
-        var onLabels = [Double](count: count * labelSize, repeatedValue: 0.0)
+        let onTable = Table(file: file, name: FeatureDatabase.onLabelDatasetName, rowSize: Label.noteCount)
+        let onsetTable = Table(file: file, name: FeatureDatabase.onLabelDatasetName, rowSize: Label.noteCount)
+        
+        var onLabels = [Double](count: count * Label.noteCount, repeatedValue: 0.0)
         let onCount = try! onTable.readFromRow(start, count: count, into: &onLabels)
 
-        var onsetLabels = [Double](count: count * labelSize, repeatedValue: 0.0)
+        var onsetLabels = [Double](count: count * Label.noteCount, repeatedValue: 0.0)
         let onsetCount = try! onsetTable.readFromRow(start, count: count, into: &onsetLabels)
 
         assert(onCount == onsetCount)
@@ -99,8 +117,8 @@ extension Label {
         var labels = [Label]()
         labels.reserveCapacity(onCount)
         for i in 0..<onCount {
-            let start = i * labelSize
-            let end = (i + 1) * labelSize
+            let start = i * Label.noteCount
+            let end = (i + 1) * Label.noteCount
             let notes = onLabels[start..<end]
             let onsets = onsetLabels[start..<end]
             let label = Label(notes: [Double](notes), onsets: [Double](onsets))
@@ -115,11 +133,10 @@ extension Label {
     }
 
     static func writeNotes<C: CollectionType where C.Generator.Element == Label, C.Index == Int>(labels: C, toFile file: HDF5Kit.File) {
-        let labelSize = Label.representableRange.count
-        let table = Table(file: file, name: FeatureDatabase.onLabelDatasetName, rowSize: labelSize)
+        let table = Table(file: file, name: FeatureDatabase.onLabelDatasetName, rowSize: Label.noteCount)
 
         var data = [Double]()
-        data.reserveCapacity(labels.count * Label.representableRange.count)
+        data.reserveCapacity(labels.count * Label.noteCount)
         for label in labels {
             data.appendContentsOf(label.notesArray)
         }
@@ -128,11 +145,10 @@ extension Label {
     }
 
     static func writeOnsets<C: CollectionType where C.Generator.Element == Label, C.Index == Int>(labels: C, toFile file: HDF5Kit.File) {
-        let labelSize = Label.representableRange.count
-        let table = Table(file: file, name: FeatureDatabase.onsetLabelDatasetName, rowSize: labelSize)
+        let table = Table(file: file, name: FeatureDatabase.onsetLabelDatasetName, rowSize: Label.noteCount)
 
         var data = [Double]()
-        data.reserveCapacity(labels.count * Label.representableRange.count)
+        data.reserveCapacity(labels.count * Label.noteCount)
         for label in labels {
             data.appendContentsOf(label.onsetsArray)
         }

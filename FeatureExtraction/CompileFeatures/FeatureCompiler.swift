@@ -54,7 +54,7 @@ class FeatureCompiler {
         print("Processing \(polyphonicFiles.count) polyphonic + \(monophonicFiles.count) monophonic + \(noiseFiles.count) noise files\n")
     }
 
-    func compileNoiseFeatures() {
+    func compileNoiseFeatures() throws {
         let exampleBuilder = MonoExampleBuilder()
         for (i, file) in noiseFiles.enumerate() {
             if FeatureCompiler.isTTY {
@@ -73,12 +73,12 @@ class FeatureCompiler {
                 self.existingFiles.unionInPlace([example.filePath])
             })
 
-            database.appendFeatures(features)
+            try database.appendFeatures(features)
         }
         print("")
     }
 
-    func compileMonoFeatures() {
+    func compileMonoFeatures() throws {
         let exampleBuilder = MonoExampleBuilder()
         for (i, file) in monophonicFiles.enumerate() {
             if FeatureCompiler.isTTY {
@@ -98,12 +98,12 @@ class FeatureCompiler {
                 self.existingFiles.unionInPlace([example.filePath])
             })
 
-            database.appendFeatures(features)
+            try database.appendFeatures(features)
         }
         print("")
     }
 
-    func compilePolyFeatures() {
+    func compilePolyFeatures() throws {
         let exampleBuilder = PolyExampleBuilder()
         for (i, file) in polyphonicFiles.enumerate() {
             if FeatureCompiler.isTTY {
@@ -122,7 +122,7 @@ class FeatureCompiler {
                 self.existingFiles.unionInPlace([example.filePath])
             })
             
-            database.appendFeatures(features)
+            try database.appendFeatures(features)
         }
         print("")
     }
@@ -199,9 +199,9 @@ class FeatureCompiler {
         return nil
     }
     
-    func shuffle(chunkSize chunkSize: Int, passes: Int) {
+    func shuffle(chunkSize chunkSize: Int, passes: Int) throws {
         print("Shuffling...")
-        database.shuffle(chunkSize: chunkSize, passes: passes) { progress in
+        try database.shuffle(chunkSize: chunkSize, passes: passes) { progress in
             if FeatureCompiler.isTTY {
                 print("\(FeatureCompiler.eraseLastLineCommand)Shuffling database data...\(round(progress * 10000) / 100)%")
             }

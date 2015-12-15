@@ -47,9 +47,9 @@ class MonophonicNet {
         (labels, _) = readData(featuresPath, datasetName: "label")
 
         var bandsDims: [Int]
-        (bandData, bandsDims) = readData(featuresPath, datasetName: "bands")
-        (peakLocationData, bandsDims) = readData(featuresPath, datasetName: "peak_locations")
-        (peakHeightData, bandsDims) = readData(featuresPath, datasetName: "peak_heights")
+        (bandData, bandsDims) = readData(featuresPath, datasetName: FeatureDatabase.spectrumDatasetName)
+        (peakLocationData, bandsDims) = readData(featuresPath, datasetName: FeatureDatabase.peakLocationsDatasetName)
+        (peakHeightData, bandsDims) = readData(featuresPath, datasetName: FeatureDatabase.peakHeightsDatasetName)
         bandCount = bandsDims[1]
 
         buildNet()

@@ -26,13 +26,15 @@ public class ValidateFeatures {
             
             let features = featureDatabase.readFeatures(index, count: count)
             let feature = features[0]
-            
-            var example = Example(filePath: feature.filePath, frameOffset: feature.fileOffset, label: feature.label, data: (RealArray(count: FeatureBuilder.sampleCount), RealArray(count: FeatureBuilder.sampleCount)))
+
+            let data0 = RealArray(count: FeatureBuilder.sampleCount, repeatedValue: 0)
+            let data1 = RealArray(count: FeatureBuilder.sampleCount, repeatedValue: 0)
+            var example = Example(filePath: feature.filePath, frameOffset: feature.fileOffset, label: feature.label, data: (data0, data1))
             loadExampleData(&example)
             
             let featureBuilder = FeatureBuilder()
-            featureBuilder.generateFeatures(example)
-
+            feature.features = featureBuilder.generateFeatures(example)
+            
             print("Validating '\(example.filePath)' offset \(example.frameOffset)...", terminator: "")
             if !compare(feature, featureBuilder) || !checkLabels(features) {
                 print("Failed")

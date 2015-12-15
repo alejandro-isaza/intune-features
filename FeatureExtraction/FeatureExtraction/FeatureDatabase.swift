@@ -9,16 +9,20 @@ public class FeatureDatabase {
     public static let onLabelDatasetName = "on_label"
     public static let onsetLabelDatasetName = "onset_label"
     public static let offsetDatasetName = "offset"
+    public static let peakLocationsDatasetName = "peak_locations"
+    public static let peakHeightsDatasetName = "peak_heights"
+    public static let spectrumDatasetName = "spectrum"
+    public static let spectrumFluxDatasetName = "spectrum_flux"
 
+    public static let featureNames = [
+        peakLocationsDatasetName,
+        peakHeightsDatasetName,
+        spectrumDatasetName,
+        spectrumFluxDatasetName,
+    ]
     public static let labelNames = [
         onLabelDatasetName,
-        onsetLabelDatasetName
-    ]
-    public static let featureNames = [
-        "peak_locations",
-        "peak_heights",
-        "spectrum",
-        "spectrum_flux",
+        onsetLabelDatasetName,
     ]
 
     let chunkSize: Int
@@ -39,11 +43,15 @@ public class FeatureDatabase {
     public internal(set) var fileNames = [String]()
 
     var pendingFeatures = [FeatureData]()
+    
+    public var exampleCount: Int {
+        return labelTables.first?.rowCount ?? 0
+    }
 
     public init(filePath: String, overwrite: Bool, chunkSize: Int = 1024) {
         self.filePath = filePath
         self.chunkSize = chunkSize
-        
+
         if overwrite {
             file = File.create(filePath, mode: .Truncate)!
             create()
@@ -56,7 +64,7 @@ public class FeatureDatabase {
         }
 
         for name in FeatureDatabase.labelNames {
-            let table = Table(file: file, name: name, rowSize: Label.representableRange.count, chunkSize: chunkSize)
+            let table = Table(file: file, name: name, rowSize: Label.noteCount, chunkSize: chunkSize)
             labelTables.append(table)
         }
 
@@ -79,7 +87,7 @@ public class FeatureDatabase {
             preconditionFailure("Existing file doesn't have a \(FeatureDatabase.fileNameDatasetName) dataset")
         }
         precondition(dataset.space.dims.count == 1, "Existing dataset '\(FeatureDatabase.fileNameDatasetName)' is of the wrong size")
-        
+
         fileList = readFileList()
     }
 
@@ -91,7 +99,7 @@ public class FeatureDatabase {
         var features = [FeatureData]()
         features.reserveCapacity(count)
 
-        let data = RealArray(capacity: FeatureBuilder.bandNotes.count)
+        let data = RealArray(count: FeatureBuilder.bandNotes.count, repeatedValue: 0)
         for i in 0..<count {
             let feature = FeatureData(filePath: fileNames[i], fileOffset: offsets[i], label: labels[i])
             for table in featureTables {
@@ -107,7 +115,7 @@ public class FeatureDatabase {
         let dataset = file.openStringDataset(FeatureDatabase.fileNameDatasetName)!
         return dataset[start..<start + count]
     }
-    
+
     func readFileList() -> Set<String> {
         let dataset = file.openStringDataset(FeatureDatabase.fileListDatasetName)!
         return Set(dataset[0..])
@@ -195,11 +203,11 @@ public class FeatureDatabase {
 
         let fileNames = features.map{ $0.filePath }
         let newFileNames = Set(fileNames).subtract(fileList)
-        
+
         if !newFileNames.isEmpty {
             try appendToFileList(newFileNames)
         }
-            
+
         try dataset.write(fileNames, fileSpace: filespace)
     }
 

@@ -29,11 +29,11 @@ class FeatureDatabaaseShuffleTests: XCTestCase {
     }
 
     func testShuffle() {
-        let database = FeatureDatabase(filePath: "test.h5", overwrite: false, chunkSize: Label.representableRange.count)
-        let shuffledFeatures = database.readFeatures(0, count: Label.representableRange.count)
+        let database = FeatureDatabase(filePath: "test.h5", overwrite: false, chunkSize: Label.noteCount)
+        let shuffledFeatures = database.readFeatures(0, count: Label.noteCount)
 
         var movedCount = 0
-        for i in 0..<Label.representableRange.count {
+        for i in 0..<Label.noteCount {
             let note = Note(midiNoteNumber: i + Label.representableRange.start)
             let label = shuffledFeatures[i].label
             XCTAssertEqual(label.notes.count, 1)

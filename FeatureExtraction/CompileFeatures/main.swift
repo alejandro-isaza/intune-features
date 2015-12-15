@@ -37,11 +37,11 @@ if help.value {
 let featureCompiler = FeatureCompiler(root: rootFilePath.value!, output: outputFilePath.value!, overwrite: overwite.value)
 
 if !noGenerate.value {
-    featureCompiler.compileNoiseFeatures()
-    featureCompiler.compileMonoFeatures()
-    featureCompiler.compilePolyFeatures()
+    try featureCompiler.compileNoiseFeatures()
+    try featureCompiler.compileMonoFeatures()
+    try featureCompiler.compilePolyFeatures()
 }
 
 if !noShuffle.value {
-    featureCompiler.shuffle(chunkSize: shuffleChunkSize.value ?? 10240, passes: shufflePasses.value ?? 1)
+    try featureCompiler.shuffle(chunkSize: shuffleChunkSize.value ?? 10240, passes: shufflePasses.value ?? 1)
 }
