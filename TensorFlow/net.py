@@ -60,41 +60,25 @@ def inference(features, example_size, label_size, hidden1_units, hidden2_units):
                                 stddev=1.0 / math.sqrt(float(hidden2_units))),
             name='___weights')
         biases = tf.Variable(tf.zeros([label_size]), name='___biases')
-        logits = tf.matmul(hidden2, weights) + biases
+        logits = tf.nn.relu(tf.matmul(hidden2, weights) + biases)
 
     return logits
 
 
-#def loss(logits, labels):
-#    """Calculates the loss from the logits and the labels.
-#
-#    Args:
-#        logits: Logits tensor, float - [batch_size, label_size].
-#        labels: Labels tensor, float - [batch_size, label_size].
-#
-#    Returns:
-#        loss: Loss tensor of type float.
-#    """
-#    diff = logits - labels
-#    l2loss = tf.nn.l2_loss(diff, name='l2loss')
-#    loss = tf.reduce_mean(l2loss, name='l2loss_mean')
-#    return loss
-
 def loss(logits, labels):
-    batch_size = logits.get_shape().as_list()[0]
-    label_size = logits.get_shape().as_list()[1]
+   """Calculates the loss from the logits and the labels.
 
-    logits_reshape = tf.reshape(logits, [batch_size, label_size // 12, 12])
-    labels_reshape = tf.reshape(labels, [batch_size, label_size // 12, 12])
+   Args:
+       logits: Logits tensor, float - [batch_size, label_size].
+       labels: Labels tensor, float - [batch_size, label_size].
 
-    logits_sum = tf.reduce_sum(logits_reshape, 1)
-    labels_sum = tf.reduce_sum(labels_reshape, 1)
-
-    diff = logits_sum - labels_sum
-    diff = tf.nn.relu(diff)
-
-    loss = tf.div(tf.reduce_sum(diff), tf.fill([1], 12.0))
-    return loss
+   Returns:
+       loss: Loss tensor of type float.
+   """
+   diff = logits - labels
+   l2loss = tf.nn.l2_loss(diff, name='l2loss')
+   loss = tf.reduce_mean(l2loss, name='l2loss_mean')
+   return loss
 
 def training(loss, learning_rate):
     """Sets up the training Ops.
@@ -114,7 +98,7 @@ def training(loss, learning_rate):
         train_op: The Op for training.
     """
     # Add a scalar summary for the snapshot loss.
-    tf.scalar_summary([loss.op.name], loss)
+    tf.scalar_summary(loss.op.name, loss)
     # Create the gradient descent optimizer with the given learning rate.
     optimizer = tf.train.GradientDescentOptimizer(learning_rate)
     # Create a variable to track the global step.
