@@ -60,7 +60,7 @@ def inference(features, example_size, label_size, hidden1_units, hidden2_units):
                                 stddev=1.0 / math.sqrt(float(hidden2_units))),
             name='___weights')
         biases = tf.Variable(tf.zeros([label_size]), name='___biases')
-        logits = tf.nn.relu(tf.matmul(hidden2, weights) + biases)
+        logits = tf.matmul(hidden2, weights) + biases
 
     return logits
 
