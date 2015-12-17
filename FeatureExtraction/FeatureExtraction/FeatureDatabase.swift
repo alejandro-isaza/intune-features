@@ -38,8 +38,6 @@ public class FeatureDatabase {
         var data: [String]
     }
 
-    var intTables = [IntTable]()
-
     public internal(set) var fileList = Set<String>()
     public internal(set) var fileNames = [String]()
 
@@ -104,7 +102,7 @@ public class FeatureDatabase {
         for i in 0..<count {
             let feature = FeatureData(filePath: fileNames[i], fileOffset: offsets[i], label: labels[i])
             for table in featureTables {
-                try! table.readFromRow(i, count: 1, into: data.mutablePointer)
+                try! table.readFromRow(start + i, count: 1, into: data.mutablePointer)
                 feature.features[table.name] = RealArray(data)
             }
             features.append(feature)
