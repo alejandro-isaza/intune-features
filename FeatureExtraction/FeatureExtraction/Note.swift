@@ -2,7 +2,7 @@
 
 import Foundation
 
-public struct Note : Equatable, CustomStringConvertible {
+public struct Note : Equatable, Hashable, CustomStringConvertible {
     public enum NoteType: Int {
         case C  = 0
         case CSharp = 1
@@ -56,6 +56,10 @@ public struct Note : Equatable, CustomStringConvertible {
         case .GSharp: return "G♯\(octave)"
         case .ASharp: return "A♯\(octave)"
         }
+    }
+
+    public var hashValue: Int {
+        return midiNoteNumber.hashValue
     }
 
     public var frequency: Double {

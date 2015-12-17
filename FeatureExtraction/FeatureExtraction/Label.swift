@@ -4,7 +4,7 @@ import Foundation
 import HDF5Kit
 
 /// Labels a window of audio data by the notes being played
-public struct Label: Hashable, Equatable {
+public struct Label: Hashable, Equatable, CustomStringConvertible {
     /// The range of notes that can be represented with a label (this needs to be a multiple of 12)
     public static let representableRange = 36...95
 
@@ -25,16 +25,6 @@ public struct Label: Hashable, Equatable {
 
     /// A value for representing "no note"
     public var noiseValue = 1.0
-
-    public var hashValue: Int {
-        // DJB Hash Function
-        var hash = 5381
-        for val in notesArray {
-            hash = ((hash << 5) &+ hash) &+ Int(val * 1000)
-        }
-        hash = ((hash << 5) &+ hash) &+ Int(noiseValue * 1000)
-        return hash
-    }
 
     public init() {
     }
@@ -80,6 +70,17 @@ public struct Label: Hashable, Equatable {
         return notes
     }
 
+    /// The list of note onsets in this label
+    public var onsets: [Note] {
+        var onsets = [Note]()
+        for i in 0..<onsetsArray.count {
+            if onsetsArray[i] > 0.5 {
+                onsets.append(noteAtIndex(i))
+            }
+        }
+        return onsets
+    }
+
     func indexForNote(note: Note) -> Int? {
         let index = note.midiNoteNumber - Label.representableRange.startIndex
         guard index >= 0 && index < Label.representableRange.count else {
@@ -91,6 +92,41 @@ public struct Label: Hashable, Equatable {
     func noteAtIndex(index: Int) -> Note {
         let midiNoteNumber = index + Label.representableRange.startIndex
         return Note(midiNoteNumber: midiNoteNumber)
+    }
+
+    public var hashValue: Int {
+        // DJB Hash Function
+        var hash = 5381
+        for val in notesArray {
+            hash = ((hash << 5) &+ hash) &+ Int(val * 1000)
+        }
+        for val in onsetsArray {
+            hash = ((hash << 5) &+ hash) &+ Int(val * 1000)
+        }
+        hash = ((hash << 5) &+ hash) &+ Int(noiseValue * 1000)
+        return hash
+    }
+
+    public var description: String {
+        if noiseValue > 0.5 {
+            return "Noise"
+        }
+
+        var string = "["
+        let notes = self.notes
+        let onsets = Set<Note>(self.onsets)
+        for note in notes {
+            string += note.description
+            if onsets.contains(note) {
+                string += "*"
+            }
+            string += ", "
+        }
+        if string.hasSuffix(", ") {
+            string.removeRange(string.endIndex.advancedBy(-2)..<string.endIndex)
+        }
+        string += "]"
+        return string
     }
 }
 

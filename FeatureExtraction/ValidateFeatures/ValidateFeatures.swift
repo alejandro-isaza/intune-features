@@ -106,14 +106,17 @@ public class ValidateFeatures {
         }
         if let label = polyLabel(feature.filePath, offset: feature.fileOffset) {
             if feature.label != label {
+                print("Labels don't match. Expected \(label.description) got \(feature.label.description)")
                 return false
             }
         } else if let label = monoLabel(feature.filePath, offset: feature.fileOffset) {
             if feature.label != label {
+                print("Labels don't match. Expected \(label.description) got \(feature.label.description)")
                 return false
             }
         } else {
             if feature.label != Label() {
+                print("Labels don't match. Expected \(Label().description) got \(feature.label.description)")
                 return false
             }
         }
