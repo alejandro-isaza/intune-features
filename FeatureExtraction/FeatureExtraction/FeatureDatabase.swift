@@ -9,6 +9,7 @@ public class FeatureDatabase {
     public static let onLabelDatasetName = "on_label"
     public static let onsetLabelDatasetName = "onset_label"
     public static let offsetDatasetName = "offset"
+
     public static let peakLocationsDatasetName = "peak_locations"
     public static let peakHeightsDatasetName = "peak_heights"
     public static let spectrumDatasetName = "spectrum"

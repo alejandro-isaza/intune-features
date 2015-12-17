@@ -35,7 +35,7 @@ public class ValidateFeatures {
             let featureBuilder = FeatureBuilder()
             featureBuilder.generateFeatures(example) // Ignore return value, features will be preserved in the feature builder
             
-            print("Validating '\(example.filePath)' offset \(example.frameOffset)...", terminator: "")
+            print("Validating '\(example.filePath)' offset \(example.frameOffset) (\(feature.label.description))...", terminator: "")
             if !compare(feature, featureBuilder) {
                 print("Failed: Features don't match")
                 return false
@@ -92,18 +92,34 @@ public class ValidateFeatures {
     }
     
     func compare(feature: FeatureData, _ featureBuilder: FeatureBuilder) -> Bool {
-        if !arraysMatch(feature.features[FeatureDatabase.spectrumDatasetName]!, rhs: featureBuilder.spectrumFeature1) {
+        let expectedSpectrum = featureBuilder.spectrumFeature1
+        let actualSpectrum = feature.features[FeatureDatabase.spectrumDatasetName]!
+        if !arraysMatch(actualSpectrum, rhs: expectedSpectrum) {
+            print("Failed: Spectrum features don't match. Expected \(expectedSpectrum.data.description) got \(actualSpectrum.description)")
             return false
         }
-        if !arraysMatch(feature.features[FeatureDatabase.peakLocationsDatasetName]!, rhs: featureBuilder.peakLocations) {
+
+        let expectedPeakLocations = featureBuilder.peakLocations
+        let actualPeakLocations = feature.features[FeatureDatabase.peakLocationsDatasetName]!
+        if !arraysMatch(actualPeakLocations, rhs: expectedPeakLocations) {
+            print("Failed: Peak location features don't match. Expected \(expectedPeakLocations.data.description) got \(actualPeakLocations.description)")
             return false
         }
-        if !arraysMatch(feature.features[FeatureDatabase.peakHeightsDatasetName]!, rhs: featureBuilder.peakHeights) {
+
+        let expectedPeakHeights = featureBuilder.peakHeights
+        let actualPeakHeights = feature.features[FeatureDatabase.peakHeightsDatasetName]!
+        if !arraysMatch(actualPeakHeights, rhs: expectedPeakHeights) {
+            print("Failed: peak height features don't match. Expected \(expectedPeakHeights.data.description) got \(actualPeakHeights.description)")
             return false
         }
-        if !arraysMatch(feature.features[FeatureDatabase.spectrumFluxDatasetName]!, rhs: featureBuilder.spectrumFluxFeature) {
+
+        let expectedFluxes = featureBuilder.spectrumFluxFeature
+        let actualFluxes = feature.features[FeatureDatabase.spectrumFluxDatasetName]!
+        if !arraysMatch(actualFluxes, rhs: expectedFluxes) {
+            print("Failed: spectrum flux features don't match. Expected \(expectedFluxes.data.description) got \(actualFluxes.description)")
             return false
         }
+
         if let label = polyLabel(feature.filePath, offset: feature.fileOffset) {
             if feature.label != label {
                 print("Labels don't match. Expected \(label.description) got \(feature.label.description)")
