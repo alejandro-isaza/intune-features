@@ -33,12 +33,14 @@ public class ValidateFeatures {
             loadExampleData(&example)
             
             let featureBuilder = FeatureBuilder()
-            feature.features = featureBuilder.generateFeatures(example)
+            featureBuilder.generateFeatures(example) // Ignore return value, features will be preserved in the feature builder
             
             print("Validating '\(example.filePath)' offset \(example.frameOffset)...", terminator: "")
-            if !compare(feature, featureBuilder) || !checkLabels(features) {
-                print("Failed")
-                print("Label \(example.label)")
+            if !compare(feature, featureBuilder) {
+                print("Failed: Features don't match")
+                return false
+            } else if !shufflingCheck(features) {
+                print("Failed: Data not sufficiently shuffled")
                 return false
             } else {
                 print("Passed")
@@ -70,7 +72,7 @@ public class ValidateFeatures {
         }
     }
     
-    func checkLabels(features: [FeatureData]) -> Bool {
+    func shufflingCheck(features: [FeatureData]) -> Bool {
         var occurances = [Label: Int]()
         for feature in features {
             if let count = occurances[feature.label] {

@@ -104,7 +104,7 @@ public func ==(lhs: Label, rhs: Label) -> Bool {
 extension Label {
     static func readFromFile(file: File, start: Int, count: Int) -> [Label] {
         let onTable = Table(file: file, name: FeatureDatabase.onLabelDatasetName, rowSize: Label.noteCount)
-        let onsetTable = Table(file: file, name: FeatureDatabase.onLabelDatasetName, rowSize: Label.noteCount)
+        let onsetTable = Table(file: file, name: FeatureDatabase.onsetLabelDatasetName, rowSize: Label.noteCount)
         
         var onLabels = [Double](count: count * Label.noteCount, repeatedValue: 0.0)
         let onCount = try! onTable.readFromRow(start, count: count, into: &onLabels)
