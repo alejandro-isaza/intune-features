@@ -8,7 +8,7 @@ import Upsurge
 
 public class ValidateFeatures {
     let validateCount = 1000
-    let labelBatch = 1024
+    let labelBatch = 128
     let repeatLabelThreshold = 5
     
     let featureDatabase: FeatureDatabase
