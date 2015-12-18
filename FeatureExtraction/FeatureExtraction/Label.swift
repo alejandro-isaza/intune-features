@@ -30,16 +30,21 @@ public struct Label: Hashable, Equatable, CustomStringConvertible {
     }
 
     public init(notes: [Double], onsets: [Double]) {
+        let noise: Double
+        if notes.reduce(0.0, combine: +) + onsets.reduce(0.0, combine: +) == 0 {
+            noise = 1.0
+        } else {
+            noise = 0.0
+        }
+        self.init(notes: notes, onsets: onsets, noise: noise)
+    }
+
+    public init(notes: [Double], onsets: [Double], noise: Double) {
         assert(notes.count ==  Label.representableRange.count)
         assert(onsets.count ==  Label.representableRange.count)
         self.notesArray = notes
         self.onsetsArray = onsets
-
-        if notesArray.reduce(0.0, combine: +) + onsetsArray.reduce(0.0, combine: +) == 0 {
-            noiseValue = 1.0
-        } else {
-            noiseValue = 0.0
-        }
+        self.noiseValue = noise
     }
 
     public init(note: Note, atTime time: Double) {
@@ -131,7 +136,7 @@ public struct Label: Hashable, Equatable, CustomStringConvertible {
 }
 
 public func ==(lhs: Label, rhs: Label) -> Bool {
-    return lhs.notesArray == rhs.notesArray && lhs.onsetsArray == rhs.onsetsArray
+    return lhs.notesArray == rhs.notesArray && lhs.onsetsArray == rhs.onsetsArray && lhs.noiseValue == rhs.noiseValue
 }
 
 
@@ -141,6 +146,7 @@ extension Label {
     static func readFromFile(file: File, start: Int, count: Int) -> [Label] {
         let onTable = Table(file: file, name: FeatureDatabase.onLabelDatasetName, rowSize: Label.noteCount)
         let onsetTable = Table(file: file, name: FeatureDatabase.onsetLabelDatasetName, rowSize: Label.noteCount)
+        let noiseTable = Table(file: file, name: FeatureDatabase.noiseLabelDatasetName, rowSize: 1)
         
         var onLabels = [Double](count: count * Label.noteCount, repeatedValue: 0.0)
         let onCount = try! onTable.readFromRow(start, count: count, into: &onLabels)
@@ -148,7 +154,11 @@ extension Label {
         var onsetLabels = [Double](count: count * Label.noteCount, repeatedValue: 0.0)
         let onsetCount = try! onsetTable.readFromRow(start, count: count, into: &onsetLabels)
 
+        var noiseLabels = [Double](count: count, repeatedValue: 0.0)
+        let noiseCount = try! noiseTable.readFromRow(start, count: count, into: &noiseLabels)
+
         assert(onCount == onsetCount)
+        assert(onCount == noiseCount)
 
         var labels = [Label]()
         labels.reserveCapacity(onCount)
@@ -157,7 +167,7 @@ extension Label {
             let end = (i + 1) * Label.noteCount
             let notes = onLabels[start..<end]
             let onsets = onsetLabels[start..<end]
-            let label = Label(notes: [Double](notes), onsets: [Double](onsets))
+            let label = Label(notes: [Double](notes), onsets: [Double](onsets), noise: noiseLabels[i])
             labels.append(label)
         }
         return labels
@@ -166,6 +176,7 @@ extension Label {
     static func write<C: CollectionType where C.Generator.Element == Label, C.Index == Int>(labels: C, toFile file: File) {
         writeNotes(labels, toFile: file)
         writeOnsets(labels, toFile: file)
+        writeNoise(labels, toFile: file)
     }
 
     static func writeNotes<C: CollectionType where C.Generator.Element == Label, C.Index == Int>(labels: C, toFile file: HDF5Kit.File) {
@@ -187,6 +198,18 @@ extension Label {
         data.reserveCapacity(labels.count * Label.noteCount)
         for label in labels {
             data.appendContentsOf(label.onsetsArray)
+        }
+
+        try! table.appendData(data)
+    }
+
+    static func writeNoise<C: CollectionType where C.Generator.Element == Label, C.Index == Int>(labels: C, toFile file: HDF5Kit.File) {
+        let table = Table(file: file, name: FeatureDatabase.noiseLabelDatasetName, rowSize: 1)
+
+        var data = [Double]()
+        data.reserveCapacity(labels.count)
+        for label in labels {
+            data.append(label.noiseValue)
         }
 
         try! table.appendData(data)

@@ -8,6 +8,7 @@ public class FeatureDatabase {
     public static let fileNameDatasetName = "file_name"
     public static let onLabelDatasetName = "on_label"
     public static let onsetLabelDatasetName = "onset_label"
+    public static let noiseLabelDatasetName = "noise_label"
     public static let offsetDatasetName = "offset"
 
     public static let peakLocationsDatasetName = "peak_locations"
@@ -21,9 +22,10 @@ public class FeatureDatabase {
         spectrumDatasetName,
         spectrumFluxDatasetName,
     ]
-    public static let labelNames = [
-        onLabelDatasetName,
-        onsetLabelDatasetName,
+    public static let labels = [
+        (name: onLabelDatasetName, size: Label.noteCount),
+        (name: onsetLabelDatasetName, size: Label.noteCount),
+        (name: noiseLabelDatasetName, size: 1)
     ]
 
     let chunkSize: Int
@@ -62,8 +64,8 @@ public class FeatureDatabase {
             create()
         }
 
-        for name in FeatureDatabase.labelNames {
-            let table = Table(file: file, name: name, rowSize: Label.noteCount, chunkSize: chunkSize)
+        for (name, size) in FeatureDatabase.labels {
+            let table = Table(file: file, name: name, rowSize: size, chunkSize: chunkSize)
             labelTables.append(table)
         }
 
