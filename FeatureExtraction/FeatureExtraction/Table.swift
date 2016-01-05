@@ -80,7 +80,7 @@ public class Table {
     }
 
     /// Append data to the table
-    public func appendData<C: ContiguousMemory where C.Element == Double>(data: C) throws {
+    public func appendData<C: TensorType where C.Element == Double>(data: C) throws {
         guard let dataset = file.openDoubleDataset(name) else {
             throw Error.DatasetNotFound
         }
@@ -106,7 +106,7 @@ public class Table {
     ///
     /// - parameter start: The index of the first row to overwrite. Must be less than `rowCount`.
     /// - parameter data:  The new data.
-    public func overwriteFromRow<C: ContiguousMemory where C.Element == Double>(start: Int, with data: C) throws {
+    public func overwriteFromRow<C: TensorType where C.Element == Double>(start: Int, with data: C) throws {
         guard let dataset = file.openDoubleDataset(name) else {
             throw Error.DatasetNotFound
         }
