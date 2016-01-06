@@ -124,7 +124,7 @@ def evaluation(logits, labels, n=5):
         logit = logits[i:i+1, :]
         label = labels[i:i+1, :]
         sum += argNMax(label, logit, n)
-    return tf.div(sum, tf.to_float(tf.constant(labels.get_shape().as_list()[0])))
+    return sum
 
 def argNMax(label, logit, n):
     topLabelValues, topLabelIndices = tf.nn.top_k(label, n)
