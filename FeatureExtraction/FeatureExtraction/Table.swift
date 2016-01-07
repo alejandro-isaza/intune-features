@@ -106,7 +106,7 @@ public class Table {
     ///
     /// - parameter start: The index of the first row to overwrite. Must be less than `rowCount`.
     /// - parameter data:  The new data.
-    public func overwriteFromRow<C: TensorType where C.Element == Double>(start: Int, with data: C) throws {
+    public func overwriteFromRow<C: LinearType where C.Element == Double>(start: Int, with data: C) throws {
         guard let dataset = file.openDoubleDataset(name) else {
             throw Error.DatasetNotFound
         }
@@ -121,6 +121,6 @@ public class Table {
 
         let memSpace = Dataspace(dims: [newRows, rowSize])
 
-        try dataset.writeFrom(data.pointer, memSpace: memSpace, fileSpace: fileSpace)
+        try dataset.writeFrom(data.pointer + (data.startIndex * data.step), memSpace: memSpace, fileSpace: fileSpace)
     }
 }
