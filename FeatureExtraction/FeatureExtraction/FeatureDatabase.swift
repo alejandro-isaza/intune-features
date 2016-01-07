@@ -230,7 +230,6 @@ public class FeatureDatabase {
     }
 
     public func shuffle(var chunkSize chunkSize: Int, passes: Int = 1, progress: (Double -> Void)? = nil) throws {
-        let exampleCount = labelTables[0].rowCount
         chunkSize = min(chunkSize, exampleCount/2)
         let shuffleCount = passes * exampleCount / chunkSize
         for i in 0..<shuffleCount {
@@ -248,7 +247,7 @@ public class FeatureDatabase {
     }
 
     func shuffleDoubleTables(chunkSize chunkSize: Int, start1: Int, start2: Int, indices: [Int]) {
-        let data = RealArray(capacity: 2 * chunkSize * FeatureBuilder.bandNotes.count)
+        let data = RealArray(count: 2 * chunkSize * FeatureBuilder.bandNotes.count)
         for table in labelTables {
             shuffleTable(table, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices, inBuffer: data)
         }

@@ -108,7 +108,7 @@ def training(loss, learning_rate):
     train_op = optimizer.minimize(loss, global_step=global_step)
     return train_op
 
-def evaluation(logits, labels):
+def evaluation(logits, labels, n=5):
     """Evaluate the quality of the logits at predicting the label.
 
     Args:
@@ -119,8 +119,18 @@ def evaluation(logits, labels):
         A scalar float32 with a measure of the distance between the predictions
         and the labels.
     """
-    l2loss = tf.nn.l2_loss(logits - labels)
-    return tf.reduce_mean(l2loss)
+    sum = 0
+    for i in xrange(labels.get_shape()[0]):
+        logit = logits[i:i+1, :]
+        label = labels[i:i+1, :]
+        sum += argNMax(label, logit, n)
+    return sum
+
+def argNMax(label, logit, n):
+    topLabelValues, topLabelIndices = tf.nn.top_k(label, n)
+    repeatedIndices = tf.tile(tf.to_float(logit), tf.constant([5, 1]))
+    withinTop = tf.nn.in_top_k(repeatedIndices, topLabelIndices[0, :], n)
+    return tf.reduce_sum(tf.to_float(withinTop))
 
 def exportToHDF5(variables, session):
     file = h5py.File("net.h5", "w")

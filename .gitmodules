@@ -15,4 +15,4 @@
 	url = https://github.com/aleph7/PlotKit.git
 [submodule "Carthage/Checkouts/CommandLine"]
 	path = Carthage/Checkouts/CommandLine
-	url = https://github.com/jatoben/CommandLine.git
+	url = https://github.com/aleph7/CommandLine.git

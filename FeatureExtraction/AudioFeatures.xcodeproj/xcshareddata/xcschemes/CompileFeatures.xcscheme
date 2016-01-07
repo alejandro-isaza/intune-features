@@ -68,6 +68,10 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "--no-generate"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "--chunk 1024"
             isEnabled = "YES">
          </CommandLineArgument>
@@ -76,7 +80,7 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--root /Users/al/dev/VM/audio-features/AudioData/Polyphonic"
+            argument = "--root /Volumes/IntuneDrive/Training"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument

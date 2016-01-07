@@ -98,7 +98,7 @@ class TableTests: XCTestCase {
             let readData = RealArray(capacity: testData.count)
             readData.count = try table.readFromRow(0, count: 10, into: readData.mutablePointer) * rowSize
             XCTAssertEqual(readData[0..<50], testData[0..<50])
-            XCTAssertEqual([Double](readData[50..<60]), [Double](overwriteData))
+            XCTAssertEqual([Double](other: readData[50..<60]), [Double](other: overwriteData))
             XCTAssertEqual(readData[60..<100], testData[60..<100])
         } catch let error {
             XCTFail("Error when reading: \(error)")

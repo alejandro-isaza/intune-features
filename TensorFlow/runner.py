@@ -163,8 +163,10 @@ def run_training():
             duration = time.time() - start_time
             # Write the summaries and print an overview fairly often.
             if step % 100 == 0:
+                epoch_score = sess.run(score, feed_dict=feed_dict)
+                avg_score = epoch_score / FLAGS.batch_size
                 # Print status to stdout.
-                print('Step %d: loss = %.2f (%.3f sec)' % (step, loss_value, duration))
+                print('Step %d: loss = %.2f, score = %.4f, avg score = %.4f (%.3f sec)' % (step, loss_value, epoch_score, avg_score, duration))
                 # Update the events file.
                 summary_str = sess.run(summary_op, feed_dict=feed_dict)
                 summary_writer.add_summary(summary_str, step)

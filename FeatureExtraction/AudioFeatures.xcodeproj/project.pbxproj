@@ -31,7 +31,6 @@
 		6185AA081BD4118A00CD5FC5 /* net.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 6185AA071BD4118A00CD5FC5 /* net.h5 */; };
 		6185AA0B1BD411A400CD5FC5 /* testing.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 6185AA091BD411A400CD5FC5 /* testing.h5 */; };
 		6185AA0C1BD411A400CD5FC5 /* training.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 6185AA0A1BD411A400CD5FC5 /* training.h5 */; };
-		6188C7DC1C0680D0001A7EAA /* CommandLine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6188C7D71C066D50001A7EAA /* CommandLine.framework */; };
 		618ACC0C1BE0686D008C23A8 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618ACC0B1BE0686D008C23A8 /* Note.swift */; };
 		619297E41BE989EC009A90EB /* PeakLocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619297E31BE989EC009A90EB /* PeakLocationsViewController.swift */; };
 		61A46BCB1BDEC578001D2288 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A46BCA1BDEC578001D2288 /* AppDelegate.swift */; };
@@ -60,6 +59,13 @@
 		8C56779E1BE976140009ED31 /* FeatureBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C56779C1BE9731E0009ED31 /* FeatureBuilder.swift */; };
 		8C7845731BB9B06600C88426 /* FeatureExtraction.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C7845721BB9B06600C88426 /* FeatureExtraction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8C7E7ABB1BBB37CC00BBC93C /* PeakExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7E7ABA1BBB37CC00BBC93C /* PeakExtractor.swift */; };
+		8C94D98A1C3C3B58005B7BEF /* CommandLine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6188C7D71C066D50001A7EAA /* CommandLine.framework */; };
+		8C94D98D1C3C3BBA005B7BEF /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */; };
+		8C94D98E1C3C3BBA005B7BEF /* HDF5Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C861BF2784E000E0D34 /* HDF5Kit.framework */; };
+		8C94D98F1C3C3BBA005B7BEF /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4CA71BF2784E000E0D34 /* Upsurge.framework */; };
+		8C94D9901C3C3EDA005B7BEF /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */; };
+		8C94D9911C3C3EDA005B7BEF /* HDF5Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C861BF2784E000E0D34 /* HDF5Kit.framework */; };
+		8C94D9921C3C3EDA005B7BEF /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4CA71BF2784E000E0D34 /* Upsurge.framework */; };
 		8C97003A1BDFDCB4002A81A3 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9700391BDFDCB4002A81A3 /* main.swift */; };
 		8C9700EF1BE12C00002A81A3 /* PolyExampleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9700EE1BE12C00002A81A3 /* PolyExampleBuilder.swift */; };
 		8CDA0EF41BB9BA4300433755 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA0EF31BB9BA4300433755 /* Utilities.swift */; };
@@ -98,13 +104,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 5D06884E19674D7D00BBFAAC;
 			remoteInfo = CommandLineTests;
-		};
-		6188C7DA1C066D5B001A7EAA /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6188C7D11C066D4F001A7EAA /* CommandLine.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 5D06884219674D7D00BBFAAC;
-			remoteInfo = CommandLine;
 		};
 		61A46BE31BDEC58F001D2288 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -309,6 +308,13 @@
 			remoteGlobalIDString = 61B3149C1BBDBA3100F63C45;
 			remoteInfo = "HDF5Kit-OSX";
 		};
+		8C94D98B1C3C3B5D005B7BEF /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6188C7D11C066D4F001A7EAA /* CommandLine.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5D06884219674D7D00BBFAAC;
+			remoteInfo = CommandLine;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -452,6 +458,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				8C94D9901C3C3EDA005B7BEF /* FeatureExtraction.framework in Frameworks */,
+				8C94D9911C3C3EDA005B7BEF /* HDF5Kit.framework in Frameworks */,
+				8C94D9921C3C3EDA005B7BEF /* Upsurge.framework in Frameworks */,
 				6183736F1C0929A4000F48DA /* CommandLine.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -470,7 +479,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6188C7DC1C0680D0001A7EAA /* CommandLine.framework in Frameworks */,
+				8C94D98D1C3C3BBA005B7BEF /* FeatureExtraction.framework in Frameworks */,
+				8C94D98E1C3C3BBA005B7BEF /* HDF5Kit.framework in Frameworks */,
+				8C94D98F1C3C3BBA005B7BEF /* Upsurge.framework in Frameworks */,
+				8C94D98A1C3C3B58005B7BEF /* CommandLine.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -850,7 +862,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				6188C7DB1C066D5B001A7EAA /* PBXTargetDependency */,
+				8C94D98C1C3C3B5D005B7BEF /* PBXTargetDependency */,
 				61CE4CAF1BF27858000E0D34 /* PBXTargetDependency */,
 				61CE4CB11BF27858000E0D34 /* PBXTargetDependency */,
 				61CE4C651BF27814000E0D34 /* PBXTargetDependency */,
@@ -1234,11 +1246,6 @@
 			name = CommandLine;
 			targetProxy = 618373701C0929A8000F48DA /* PBXContainerItemProxy */;
 		};
-		6188C7DB1C066D5B001A7EAA /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CommandLine;
-			targetProxy = 6188C7DA1C066D5B001A7EAA /* PBXContainerItemProxy */;
-		};
 		61A46BE41BDEC58F001D2288 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8C78456E1BB9B06600C88426 /* FeatureExtraction */;
@@ -1292,6 +1299,11 @@
 			isa = PBXTargetDependency;
 			name = "HDF5Kit-OSX";
 			targetProxy = 8C2527531C0689E50038A73F /* PBXContainerItemProxy */;
+		};
+		8C94D98C1C3C3B5D005B7BEF /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CommandLine;
+			targetProxy = 8C94D98B1C3C3B5D005B7BEF /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
