@@ -16,7 +16,7 @@
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "8C78456E1BB9B06600C88426"
                BuildableName = "FeatureExtraction.framework"
-               BlueprintName = "FeatureExtraction"
+               BlueprintName = "FeatureExtraction-OSX"
                ReferencedContainer = "container:AudioFeatures.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -29,8 +29,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6180A7731C18ABFC00D63F00"
-               BuildableName = "FeatureExtractionTests.xctest"
-               BlueprintName = "FeatureExtractionTests"
+               BuildableName = "FeatureExtractionTests-OSX.xctest"
+               BlueprintName = "FeatureExtractionTests-OSX"
                ReferencedContainer = "container:AudioFeatures.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
@@ -47,8 +47,8 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "6180A7731C18ABFC00D63F00"
-               BuildableName = "FeatureExtractionTests.xctest"
-               BlueprintName = "FeatureExtractionTests"
+               BuildableName = "FeatureExtractionTests-OSX.xctest"
+               BlueprintName = "FeatureExtractionTests-OSX"
                ReferencedContainer = "container:AudioFeatures.xcodeproj">
             </BuildableReference>
          </TestableReference>
@@ -58,7 +58,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8C78456E1BB9B06600C88426"
             BuildableName = "FeatureExtraction.framework"
-            BlueprintName = "FeatureExtraction"
+            BlueprintName = "FeatureExtraction-OSX"
             ReferencedContainer = "container:AudioFeatures.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -80,7 +80,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8C78456E1BB9B06600C88426"
             BuildableName = "FeatureExtraction.framework"
-            BlueprintName = "FeatureExtraction"
+            BlueprintName = "FeatureExtraction-OSX"
             ReferencedContainer = "container:AudioFeatures.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
@@ -98,7 +98,7 @@
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "8C78456E1BB9B06600C88426"
             BuildableName = "FeatureExtraction.framework"
-            BlueprintName = "FeatureExtraction"
+            BlueprintName = "FeatureExtraction-OSX"
             ReferencedContainer = "container:AudioFeatures.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
