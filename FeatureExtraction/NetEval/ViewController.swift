@@ -69,7 +69,8 @@ class ViewController: UIViewController {
         timeTextField.text = "\(timeElapsed)s"
 
         var values = [(Int, Double)]()
-        for (i, v) in result.enumerate() {
+        for i in 0..<result.count {
+            let v = result[i]
             values.append((i, v))
         }
 

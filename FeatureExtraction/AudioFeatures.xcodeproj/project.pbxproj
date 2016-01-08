@@ -29,8 +29,6 @@
 		6185A7851BD337E100CD5FC5 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6185A7831BD337E100CD5FC5 /* LaunchScreen.storyboard */; };
 		6185A78B1BD337FB00CD5FC5 /* Net.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6185A78A1BD337FB00CD5FC5 /* Net.swift */; };
 		6185AA081BD4118A00CD5FC5 /* net.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 6185AA071BD4118A00CD5FC5 /* net.h5 */; };
-		6185AA0B1BD411A400CD5FC5 /* testing.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 6185AA091BD411A400CD5FC5 /* testing.h5 */; };
-		6185AA0C1BD411A400CD5FC5 /* training.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 6185AA0A1BD411A400CD5FC5 /* training.h5 */; };
 		618ACC0C1BE0686D008C23A8 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618ACC0B1BE0686D008C23A8 /* Note.swift */; };
 		619297E41BE989EC009A90EB /* PeakLocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619297E31BE989EC009A90EB /* PeakLocationsViewController.swift */; };
 		61A46BCB1BDEC578001D2288 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A46BCA1BDEC578001D2288 /* AppDelegate.swift */; };
@@ -104,6 +102,34 @@
 			proxyType = 2;
 			remoteGlobalIDString = 5D06884E19674D7D00BBFAAC;
 			remoteInfo = CommandLineTests;
+		};
+		6192A6F51C403A08001E824E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61CE4C661BF2784D000E0D34 /* Peak.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 005809441BD04F2700B164F6;
+			remoteInfo = PeakiOS;
+		};
+		6192A6F71C403A08001E824E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61CE4C691BF2784D000E0D34 /* HDF5Kit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 6185A7AA1BD3395200CD5FC5;
+			remoteInfo = "HDF5Kit-iOS";
+		};
+		6192A6F91C403A08001E824E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61CE4C6C1BF2784D000E0D34 /* BrainCore.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 6159F87D1BD1F59F0010F83C;
+			remoteInfo = BrainCore.iOS;
+		};
+		6192A6FB1C403A08001E824E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61CE4C721BF2784D000E0D34 /* Upsurge.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 614ACAC91BD1CBF300A1C13E;
+			remoteInfo = "Upsurge iOS";
 		};
 		61A46BE31BDEC58F001D2288 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -371,8 +397,6 @@
 		6185A7861BD337E100CD5FC5 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		6185A78A1BD337FB00CD5FC5 /* Net.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Net.swift; sourceTree = "<group>"; };
 		6185AA071BD4118A00CD5FC5 /* net.h5 */ = {isa = PBXFileReference; lastKnownFileType = text; path = net.h5; sourceTree = SOURCE_ROOT; };
-		6185AA091BD411A400CD5FC5 /* testing.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testing.h5; sourceTree = SOURCE_ROOT; };
-		6185AA0A1BD411A400CD5FC5 /* training.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = training.h5; sourceTree = SOURCE_ROOT; };
 		6188C7D11C066D4F001A7EAA /* CommandLine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CommandLine.xcodeproj; path = ../Carthage/Checkouts/CommandLine/CommandLine.xcodeproj; sourceTree = "<group>"; };
 		618ACC0B1BE0686D008C23A8 /* Note.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		619297E31BE989EC009A90EB /* PeakLocationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakLocationsViewController.swift; sourceTree = "<group>"; };
@@ -492,8 +516,6 @@
 		610AAB511BD98823008CC910 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				6185AA091BD411A400CD5FC5 /* testing.h5 */,
-				6185AA0A1BD411A400CD5FC5 /* training.h5 */,
 				6185AA071BD4118A00CD5FC5 /* net.h5 */,
 			);
 			name = Data;
@@ -770,6 +792,10 @@
 			buildRules = (
 			);
 			dependencies = (
+				6192A6F61C403A08001E824E /* PBXTargetDependency */,
+				6192A6F81C403A08001E824E /* PBXTargetDependency */,
+				6192A6FA1C403A08001E824E /* PBXTargetDependency */,
+				6192A6FC1C403A08001E824E /* PBXTargetDependency */,
 			);
 			name = NetEval;
 			productName = NetEval;
@@ -1120,8 +1146,6 @@
 				6185AA081BD4118A00CD5FC5 /* net.h5 in Resources */,
 				6185A7851BD337E100CD5FC5 /* LaunchScreen.storyboard in Resources */,
 				6185A7821BD337E100CD5FC5 /* Assets.xcassets in Resources */,
-				6185AA0B1BD411A400CD5FC5 /* testing.h5 in Resources */,
-				6185AA0C1BD411A400CD5FC5 /* training.h5 in Resources */,
 				8CFDC42B1C1F568700387DD9 /* ExampleInfoView.xib in Resources */,
 				6185A7801BD337E100CD5FC5 /* Main.storyboard in Resources */,
 			);
@@ -1245,6 +1269,26 @@
 			isa = PBXTargetDependency;
 			name = CommandLine;
 			targetProxy = 618373701C0929A8000F48DA /* PBXContainerItemProxy */;
+		};
+		6192A6F61C403A08001E824E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PeakiOS;
+			targetProxy = 6192A6F51C403A08001E824E /* PBXContainerItemProxy */;
+		};
+		6192A6F81C403A08001E824E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "HDF5Kit-iOS";
+			targetProxy = 6192A6F71C403A08001E824E /* PBXContainerItemProxy */;
+		};
+		6192A6FA1C403A08001E824E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = BrainCore.iOS;
+			targetProxy = 6192A6F91C403A08001E824E /* PBXContainerItemProxy */;
+		};
+		6192A6FC1C403A08001E824E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Upsurge iOS";
+			targetProxy = 6192A6FB1C403A08001E824E /* PBXContainerItemProxy */;
 		};
 		61A46BE41BDEC58F001D2288 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

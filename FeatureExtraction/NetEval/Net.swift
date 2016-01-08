@@ -109,14 +109,11 @@ func readData(filePath: String, datasetName: String) -> ([Double], [Int]) {
         fatalError("Failed to open file")
     }
 
-    guard let dataset = file.openDataset(datasetName, type: Double.self) else {
+    guard let dataset = file.openDoubleDataset(datasetName) else {
         fatalError("Failed to open Dataset")
     }
 
-    let size = Int(dataset.space.size)
-    var data = [Double](count: size, repeatedValue: 0.0)
-    dataset.readDouble(&data)
-
+    let data = try! dataset.read([0..])
     return (data, dataset.space.dims.map{ Int($0) })
 }
 
@@ -131,9 +128,10 @@ func createLayerFromFile(filePath: String, datasetName: String) -> InnerProductL
     return InnerProductLayer(weights: weightsMatrix, biases: RealArray(biases).toColumnMatrix())
 }
 
-func maxi<T: CollectionType where T.Generator.Element: Comparable>(elements: T) -> (Int, T.Generator.Element)? {
-    var result: (Int, T.Generator.Element)?
-    for (i, v) in elements.enumerate() {
+func maxi(elements: RealArray) -> (Int, Real)? {
+    var result: (Int, Real)?
+    for i in 0..<elements.count {
+        let v = elements[i]
         if let r = result {
             if v > r.1 {
                 result = (i, v)
