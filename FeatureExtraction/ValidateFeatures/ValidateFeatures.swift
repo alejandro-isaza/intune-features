@@ -33,7 +33,7 @@ public class ValidateFeatures {
             loadExampleData(&example)
             
             let featureBuilder = FeatureBuilder()
-            featureBuilder.generateFeatures(example) // Ignore return value, features will be preserved in the feature builder
+            featureBuilder.generateFeatures(example.data.0, example.data.1) // Ignore return value, features will be preserved in the feature builder
             
             print("Validating '\(example.filePath)' offset \(example.frameOffset) (\(feature.label.description))...", terminator: "")
             if !compare(feature, featureBuilder) {

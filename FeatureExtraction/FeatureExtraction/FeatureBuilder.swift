@@ -47,14 +47,14 @@ public struct FeatureBuilder {
         vDSP_hamm_windowD(window.mutablePointer, vDSP_Length(FeatureBuilder.sampleCount), 0)
     }
 
-    public func generateFeatures(example: Example) -> [String: RealArray] {
-        rms.update(example.data.1)
+    public func generateFeatures(data0: RealArray, _ data1: RealArray) -> [String: RealArray] {
+        rms.update(data1)
         
         // Previous spectrum
-        let spectrum0 = spectrumValues(example.data.0)
+        let spectrum0 = spectrumValues(data0)
         
         // Extract peaks
-        let spectrum1 = spectrumValues(example.data.1)
+        let spectrum1 = spectrumValues(data1)
         let points1 = spectrumPoints(spectrum1)
         let peaks1 = peakExtractor.process(points1, rms: rms.rms).sort{ $0.y > $1.y }
         

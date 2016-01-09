@@ -68,7 +68,7 @@ class FeatureCompiler {
             var features = [FeatureData]()
             exampleBuilder.forEachExampleInFile(file, note: nil, numExamples: MonoExampleBuilder.numNoiseExamples, action: { example in
                 let featureData = FeatureData(filePath: example.filePath, fileOffset: example.frameOffset, label: example.label)
-                featureData.features = self.featureBuilder.generateFeatures(example)
+                featureData.features = self.featureBuilder.generateFeatures(example.data.0, example.data.1)
                 features.append(featureData)
                 self.existingFiles.unionInPlace([example.filePath])
             })
@@ -93,7 +93,7 @@ class FeatureCompiler {
             let note = Note(midiNoteNumber: file.noteNumber)
             exampleBuilder.forEachExampleInFile(file.path, note: note, numExamples: MonoExampleBuilder.numNoteExamples, action: { example in
                 let featureData = FeatureData(filePath: example.filePath, fileOffset: example.frameOffset, label: example.label)
-                featureData.features = self.featureBuilder.generateFeatures(example)
+                featureData.features = self.featureBuilder.generateFeatures(example.data.0, example.data.1)
                 features.append(featureData)
                 self.existingFiles.unionInPlace([example.filePath])
             })
@@ -117,7 +117,7 @@ class FeatureCompiler {
             var features = [FeatureData]()
             exampleBuilder.forEachExampleInAudioFile(file.audioPath, midiFilePath: file.midiPath, action: { example in
                 let featureData = FeatureData(filePath: example.filePath, fileOffset: example.frameOffset, label: example.label)
-                featureData.features = self.featureBuilder.generateFeatures(example)
+                featureData.features = self.featureBuilder.generateFeatures(example.data.0, example.data.1)
                 features.append(featureData)
                 self.existingFiles.unionInPlace([example.filePath])
             })
