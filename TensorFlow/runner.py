@@ -25,7 +25,8 @@ FLAGS = flags.FLAGS
 flags.DEFINE_float('learning_rate', 0.001, 'Initial learning rate.')
 flags.DEFINE_integer('max_steps', 20000, 'Number of steps to run trainer.')
 flags.DEFINE_integer('hidden1', 4096, 'Number of units in hidden layer 1.')
-flags.DEFINE_integer('hidden2', 1024, 'Number of units in hidden layer 2.')
+flags.DEFINE_integer('hidden2', 8192, 'Number of units in hidden layer 2.')
+flags.DEFINE_integer('hidden3', 1024, 'Number of units in hidden layer 3.')
 flags.DEFINE_integer('batch_size', 1024, 'Batch size.  '
                      'Must divide evenly into the dataset sizes.')
 flags.DEFINE_string('training_data', 'training.h5',
@@ -127,7 +128,8 @@ def run_training():
                                train_data_set.example_size,
                                train_data_set.label_size,
                                FLAGS.hidden1,
-                               FLAGS.hidden2)
+                               FLAGS.hidden2,
+                               FLAGS.hidden3)
         # Add to the Graph the Ops for loss calculation.
         loss = net.loss(logits, labels_placeholder)
         # Add to the Graph the Ops that calculate and apply gradients.

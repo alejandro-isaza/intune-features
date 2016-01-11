@@ -21,7 +21,7 @@ import tensorflow.python.platform
 import tensorflow as tf
 
 
-def inference(features, example_size, label_size, hidden1_units, hidden2_units):
+def inference(features, example_size, label_size, hidden1_units, hidden2_units, hidden3_units):
     """Build the model up to where it may be used for inference.
 
     Args:
@@ -53,14 +53,23 @@ def inference(features, example_size, label_size, hidden1_units, hidden2_units):
         biases = tf.Variable(tf.zeros([hidden2_units]), name='___biases')
         hidden2 = tf.nn.relu(tf.matmul(hidden1, weights) + biases)
 
-    # Linear
+    # Hidden 3
     with tf.name_scope('hidden3') as scope:
         weights = tf.Variable(
-            tf.truncated_normal([hidden2_units, label_size],
+            tf.truncated_normal([hidden2_units, hidden3_units],
                                 stddev=1.0 / math.sqrt(float(hidden2_units))),
             name='___weights')
+        biases = tf.Variable(tf.zeros([hidden3_units]), name='___biases')
+        hidden3 = tf.nn.relu(tf.matmul(hidden2, weights) + biases)
+
+    # Linear
+    with tf.name_scope('hidden4') as scope:
+        weights = tf.Variable(
+            tf.truncated_normal([hidden3_units, label_size],
+                                stddev=1.0 / math.sqrt(float(hidden3_units))),
+            name='___weights')
         biases = tf.Variable(tf.zeros([label_size]), name='___biases')
-        logits = tf.matmul(hidden2, weights) + biases
+        logits = tf.matmul(hidden3, weights) + biases
 
     return logits
 
