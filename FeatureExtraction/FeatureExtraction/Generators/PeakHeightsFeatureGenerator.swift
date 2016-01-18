@@ -3,7 +3,7 @@
 import Foundation
 import Upsurge
 
-public class PeakHeightsFeature : BandsFeature {
+public class PeakHeightsFeatureGenerator : BandsFeatureGenerator {
     public var peakHeights: RealArray
 
     public override var data: RealArray {

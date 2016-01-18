@@ -2,7 +2,7 @@
 
 import Upsurge
 
-public class SpectrumFeature : BandsFeature {
+public class SpectrumFeatureGenerator : BandsFeatureGenerator {
     public var bands: RealArray
 
     public override var data: RealArray {

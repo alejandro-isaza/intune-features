@@ -3,7 +3,7 @@
 import Foundation
 import Upsurge
 
-public class SpectrumFluxFeature : BandsFeature {
+public class SpectrumFluxFeatureGenerator : BandsFeatureGenerator {
     public var fluxes: RealArray
 
     public override var data: RealArray {

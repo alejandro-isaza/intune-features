@@ -105,7 +105,22 @@ public class FeatureDatabase {
             let feature = FeatureData(filePath: fileNames[i], fileOffset: offsets[i], label: labels[i])
             for table in featureTables {
                 try! table.readFromRow(start + i, count: 1, into: data.mutablePointer)
-                feature.features[table.name] = RealArray(data)
+                switch table.name {
+                case FeatureDatabase.spectrumDatasetName:
+                    feature.feature.spectrum = RealArray(data)
+
+                case FeatureDatabase.spectrumFluxDatasetName:
+                    feature.feature.spectralFlux = RealArray(data)
+
+                case FeatureDatabase.peakHeightsDatasetName:
+                    feature.feature.peakHeights = RealArray(data)
+
+                case FeatureDatabase.peakLocationsDatasetName:
+                    feature.feature.peakLocations = RealArray(data)
+
+                default:
+                    break
+                }
             }
             features.append(feature)
         }
@@ -169,9 +184,23 @@ public class FeatureDatabase {
 
     func appendFeatures(features: ArraySlice<FeatureData>, toTable table: Table) {
         let allData = RealArray(capacity: features.count * FeatureBuilder.bandNotes.count)
-        for featureData in features {
-            guard let data = featureData.features[table.name] else {
-                preconditionFailure("Feature is missing dataset \(table.name)")
+        for feature in features {
+            let data: RealArray
+            switch table.name {
+            case FeatureDatabase.spectrumDatasetName:
+                data = feature.feature.spectrum
+
+            case FeatureDatabase.spectrumFluxDatasetName:
+                data = feature.feature.spectralFlux
+
+            case FeatureDatabase.peakHeightsDatasetName:
+                data = feature.feature.peakHeights
+
+            case FeatureDatabase.peakLocationsDatasetName:
+                data = feature.feature.peakLocations
+
+            default:
+                fatalError("Invalid table name")
             }
             allData.appendContentsOf(data)
         }

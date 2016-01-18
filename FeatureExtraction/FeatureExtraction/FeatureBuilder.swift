@@ -34,21 +34,20 @@ public struct FeatureBuilder {
     public let peakExtractor = PeakExtractor(heightCutoffMultiplier: peakHeightCutoffMultiplier, minimumNoteDistance: peakMinimumNoteDistance)
     public let fb = Double(samplingFrequency) / Double(sampleCount)
     
-    // Features
-    public let rms: RMSFeature = RMSFeature()
-    public let peakLocations = PeakLocationsFeature(notes: bandNotes, bandSize: bandSize)
-    public let peakHeights: PeakHeightsFeature = PeakHeightsFeature(notes: bandNotes, bandSize: bandSize)
-    public let spectrumFeature0: SpectrumFeature = SpectrumFeature(notes: bandNotes, bandSize: bandSize)
-    public let spectrumFeature1: SpectrumFeature = SpectrumFeature(notes: bandNotes, bandSize: bandSize)
-    public let spectrumFluxFeature: SpectrumFluxFeature = SpectrumFluxFeature(notes: bandNotes, bandSize: bandSize)
+    // Generators
+    public let peakLocations = PeakLocationsFeatureGenerator(notes: bandNotes, bandSize: bandSize)
+    public let peakHeights: PeakHeightsFeatureGenerator = PeakHeightsFeatureGenerator(notes: bandNotes, bandSize: bandSize)
+    public let spectrumFeature0: SpectrumFeatureGenerator = SpectrumFeatureGenerator(notes: bandNotes, bandSize: bandSize)
+    public let spectrumFeature1: SpectrumFeatureGenerator = SpectrumFeatureGenerator(notes: bandNotes, bandSize: bandSize)
+    public let spectrumFluxFeature: SpectrumFluxFeatureGenerator = SpectrumFluxFeatureGenerator(notes: bandNotes, bandSize: bandSize)
 
     public init() {
         window = RealArray(count: FeatureBuilder.sampleCount)
         vDSP_hamm_windowD(window.mutablePointer, vDSP_Length(FeatureBuilder.sampleCount), 0)
     }
 
-    public func generateFeatures(data0: RealArray, _ data1: RealArray) -> [String: RealArray] {
-        rms.update(data1)
+    public func generateFeatures<C: LinearType where C.Element == Real>(data0: C, _ data1: C) -> Feature {
+        let rms = rmsq(data1)
         
         // Previous spectrum
         let spectrum0 = spectrumValues(data0)
@@ -56,30 +55,30 @@ public struct FeatureBuilder {
         // Extract peaks
         let spectrum1 = spectrumValues(data1)
         let points1 = spectrumPoints(spectrum1)
-        let peaks1 = peakExtractor.process(points1, rms: rms.rms).sort{ $0.y > $1.y }
+        let peaks1 = peakExtractor.process(points1, rms: rms).sort{ $0.y > $1.y }
         
         peakLocations.update(peaks1)
-        peakHeights.update(peaks1, rms: rms.rms)
+        peakHeights.update(peaks1, rms: rms)
         spectrumFeature0.update(spectrum: spectrum0, baseFrequency: fb)
         spectrumFeature1.update(spectrum: spectrum1, baseFrequency: fb)
         spectrumFluxFeature.update(spectrum0: spectrumFeature0.data, spectrum1: spectrumFeature1.data)
         
-        return [
-            "rms": rms.data.copy(),
-            FeatureDatabase.peakLocationsDatasetName: peakLocations.data.copy(),
-            FeatureDatabase.peakHeightsDatasetName: peakHeights.data.copy(),
-            FeatureDatabase.spectrumDatasetName: spectrumFeature1.data.copy(),
-            FeatureDatabase.spectrumFluxDatasetName: spectrumFluxFeature.data.copy()
-        ]
+        return Feature(
+            rms: rms,
+            spectrum: spectrumFeature1.data.copy(),
+            spectralFlux: spectrumFluxFeature.data.copy(),
+            peakHeights: peakHeights.data.copy(),
+            peakLocations: peakLocations.data.copy()
+        )
     }
     
     /// Compute the power spectrum values
-    public func spectrumValues(data: RealArray) -> RealArray {
+    public func spectrumValues<C: LinearType where C.Element == Real>(data: C) -> RealArray {
         return sqrt(fft.forwardMags(data * window))
     }
-    
+
     /// Convert from spectrum values to frequency, value points
-    public func spectrumPoints(spectrum: RealArray) -> [Point] {
+    public func spectrumPoints<C: LinearType where C.Element == Real>(spectrum: C) -> [Point] {
         var points = [Point]()
         points.reserveCapacity(spectrum.count)
         for i in 0..<spectrum.count {

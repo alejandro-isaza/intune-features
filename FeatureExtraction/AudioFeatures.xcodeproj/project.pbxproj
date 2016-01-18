@@ -8,13 +8,21 @@
 
 /* Begin PBXBuildFile section */
 		610AAB851BDABEFA008CC910 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610AAB841BDABEFA008CC910 /* Point.swift */; };
+		610E29B51C4D7847006B6016 /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E29B41C4D7847006B6016 /* Feature.swift */; };
+		610E29B61C4D7847006B6016 /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E29B41C4D7847006B6016 /* Feature.swift */; };
+		610E29B81C4D78AC006B6016 /* PeakExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E29B71C4D78AC006B6016 /* PeakExtractor.swift */; };
+		610E29B91C4D78AC006B6016 /* PeakExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E29B71C4D78AC006B6016 /* PeakExtractor.swift */; };
+		610E29BA1C4D78B6006B6016 /* FeatureGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A146061C4D75B60063FE84 /* FeatureGenerator.swift */; };
+		610E29BB1C4D78B6006B6016 /* BandsFeatureGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A145FA1C4D759B0063FE84 /* BandsFeatureGenerator.swift */; };
+		610E29BC1C4D78B6006B6016 /* PeakHeightsFeatureGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A145FB1C4D759B0063FE84 /* PeakHeightsFeatureGenerator.swift */; };
+		610E29BD1C4D78B6006B6016 /* PeakLocationsFeatureGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A145FC1C4D759B0063FE84 /* PeakLocationsFeatureGenerator.swift */; };
+		610E29BF1C4D78B6006B6016 /* SpectrumFeatureGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A145FE1C4D759B0063FE84 /* SpectrumFeatureGenerator.swift */; };
+		610E29C01C4D78B6006B6016 /* SpectrumFluxFeatureGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A145FF1C4D759B0063FE84 /* SpectrumFluxFeatureGenerator.swift */; };
 		6117569F1C407B650025446F /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6117569E1C407B650025446F /* Accelerate.framework */; };
 		611756A01C407B930025446F /* DistancePeakExtractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA0EF51BB9C60800433755 /* DistancePeakExtractionTests.swift */; };
 		611756A11C407B930025446F /* FeatureDatabaaseShuffleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6180A72C1C179E9400D63F00 /* FeatureDatabaaseShuffleTests.swift */; };
 		611756A21C407B930025446F /* NoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610AAB661BD99737008CC910 /* NoteTests.swift */; };
 		611756A31C407B930025446F /* TableTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6180A7691C18AA0B00D63F00 /* TableTests.swift */; };
-		6122EF431BD80C6C001AE862 /* SpectrumFluxFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6122EF421BD80C6C001AE862 /* SpectrumFluxFeature.swift */; };
-		6122EF451BD81CE9001AE862 /* BandsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6122EF441BD81CE9001AE862 /* BandsFeature.swift */; };
 		6126D7171BE976D9007F8BE4 /* PeakHeightsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6126D7161BE976D9007F8BE4 /* PeakHeightsViewController.swift */; };
 		614F2DC11C1214E20041B8F1 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614F2DC01C1214E20041B8F1 /* Label.swift */; };
 		6156937B1BE82C5A0094E204 /* FileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6156937A1BE82C5A0094E204 /* FileViewController.swift */; };
@@ -36,6 +44,12 @@
 		6185AA081BD4118A00CD5FC5 /* net.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 6185AA071BD4118A00CD5FC5 /* net.h5 */; };
 		618ACC0C1BE0686D008C23A8 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618ACC0B1BE0686D008C23A8 /* Note.swift */; };
 		619297E41BE989EC009A90EB /* PeakLocationsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 619297E31BE989EC009A90EB /* PeakLocationsViewController.swift */; };
+		61A146001C4D759B0063FE84 /* BandsFeatureGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A145FA1C4D759B0063FE84 /* BandsFeatureGenerator.swift */; };
+		61A146011C4D759B0063FE84 /* PeakHeightsFeatureGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A145FB1C4D759B0063FE84 /* PeakHeightsFeatureGenerator.swift */; };
+		61A146021C4D759B0063FE84 /* PeakLocationsFeatureGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A145FC1C4D759B0063FE84 /* PeakLocationsFeatureGenerator.swift */; };
+		61A146041C4D759B0063FE84 /* SpectrumFeatureGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A145FE1C4D759B0063FE84 /* SpectrumFeatureGenerator.swift */; };
+		61A146051C4D759B0063FE84 /* SpectrumFluxFeatureGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A145FF1C4D759B0063FE84 /* SpectrumFluxFeatureGenerator.swift */; };
+		61A146071C4D75B60063FE84 /* FeatureGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A146061C4D75B60063FE84 /* FeatureGenerator.swift */; };
 		61A46BCB1BDEC578001D2288 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A46BCA1BDEC578001D2288 /* AppDelegate.swift */; };
 		61A46BCF1BDEC578001D2288 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 61A46BCE1BDEC578001D2288 /* Assets.xcassets */; };
 		61A46BD21BDEC578001D2288 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61A46BD01BDEC578001D2288 /* Main.storyboard */; };
@@ -44,28 +58,15 @@
 		61AAD7021BF54CC500C9BB65 /* BandsFeaturesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AAD7011BF54CC500C9BB65 /* BandsFeaturesViewController.swift */; };
 		61AAD7041BF54D6000C9BB65 /* SpectrumFluxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AAD7031BF54D6000C9BB65 /* SpectrumFluxViewController.swift */; };
 		61AD3A631BEBDD5500FA2DB7 /* FeatureDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AD3A621BEBDD5500FA2DB7 /* FeatureDatabase.swift */; };
-		61BBAF681BC43A7300A03FD0 /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF671BC43A7300A03FD0 /* Feature.swift */; };
 		61BBAF6F1BC43BF800A03FD0 /* Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF6E1BC43BF800A03FD0 /* Example.swift */; };
-		61BBAF711BC43F8100A03FD0 /* RMSFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF701BC43F8100A03FD0 /* RMSFeature.swift */; };
-		61BBAF731BC4408300A03FD0 /* PeakLocationsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF721BC4408300A03FD0 /* PeakLocationsFeature.swift */; };
-		61BBAF751BC4408F00A03FD0 /* PeakHeightsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF741BC4408F00A03FD0 /* PeakHeightsFeature.swift */; };
-		61BBAF771BC440A800A03FD0 /* SpectrumFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF761BC440A800A03FD0 /* SpectrumFeature.swift */; };
 		61BBC3C01C407891006C6DF0 /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61BBC3B61C407891006C6DF0 /* FeatureExtraction.framework */; };
-		61BBC3CD1C407905006C6DF0 /* PeakExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7E7ABA1BBB37CC00BBC93C /* PeakExtractor.swift */; };
 		61BBC3CE1C407905006C6DF0 /* Example.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF6E1BC43BF800A03FD0 /* Example.swift */; };
 		61BBC3CF1C407905006C6DF0 /* FeatureBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C56779C1BE9731E0009ED31 /* FeatureBuilder.swift */; };
 		61BBC3D01C407905006C6DF0 /* FeatureDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AD3A621BEBDD5500FA2DB7 /* FeatureDatabase.swift */; };
 		61BBC3D11C407905006C6DF0 /* FeatureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C56779A1BE9600C0009ED31 /* FeatureData.swift */; };
 		61BBC3D21C407905006C6DF0 /* IntTable.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EE30641C19173200324344 /* IntTable.swift */; };
 		61BBC3D31C407905006C6DF0 /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6180A7561C18990A00D63F00 /* Table.swift */; };
-		61BBC3D41C407905006C6DF0 /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF671BC43A7300A03FD0 /* Feature.swift */; };
-		61BBC3D51C407905006C6DF0 /* BandsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6122EF441BD81CE9001AE862 /* BandsFeature.swift */; };
 		61BBC3D61C407905006C6DF0 /* Label.swift in Sources */ = {isa = PBXBuildFile; fileRef = 614F2DC01C1214E20041B8F1 /* Label.swift */; };
-		61BBC3D71C407905006C6DF0 /* RMSFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF701BC43F8100A03FD0 /* RMSFeature.swift */; };
-		61BBC3D81C407905006C6DF0 /* PeakLocationsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF721BC4408300A03FD0 /* PeakLocationsFeature.swift */; };
-		61BBC3D91C407905006C6DF0 /* PeakHeightsFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF741BC4408F00A03FD0 /* PeakHeightsFeature.swift */; };
-		61BBC3DA1C407905006C6DF0 /* SpectrumFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61BBAF761BC440A800A03FD0 /* SpectrumFeature.swift */; };
-		61BBC3DB1C407905006C6DF0 /* SpectrumFluxFeature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6122EF421BD80C6C001AE862 /* SpectrumFluxFeature.swift */; };
 		61BBC3DC1C407905006C6DF0 /* Shuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D485AC1BC4A3D70086CED8 /* Shuffle.swift */; };
 		61BBC3DD1C407905006C6DF0 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610AAB841BDABEFA008CC910 /* Point.swift */; };
 		61BBC3DE1C407905006C6DF0 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618ACC0B1BE0686D008C23A8 /* Note.swift */; };
@@ -85,7 +86,6 @@
 		8C56779B1BE9600C0009ED31 /* FeatureData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C56779A1BE9600C0009ED31 /* FeatureData.swift */; };
 		8C56779E1BE976140009ED31 /* FeatureBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C56779C1BE9731E0009ED31 /* FeatureBuilder.swift */; };
 		8C7845731BB9B06600C88426 /* FeatureExtraction.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C7845721BB9B06600C88426 /* FeatureExtraction.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		8C7E7ABB1BBB37CC00BBC93C /* PeakExtractor.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7E7ABA1BBB37CC00BBC93C /* PeakExtractor.swift */; };
 		8C94D98A1C3C3B58005B7BEF /* CommandLine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6188C7D71C066D50001A7EAA /* CommandLine.framework */; };
 		8C94D98D1C3C3BBA005B7BEF /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */; };
 		8C94D98E1C3C3BBA005B7BEF /* HDF5Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C861BF2784E000E0D34 /* HDF5Kit.framework */; };
@@ -415,9 +415,9 @@
 /* Begin PBXFileReference section */
 		610AAB661BD99737008CC910 /* NoteTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteTests.swift; sourceTree = "<group>"; };
 		610AAB841BDABEFA008CC910 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
+		610E29B41C4D7847006B6016 /* Feature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
+		610E29B71C4D78AC006B6016 /* PeakExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakExtractor.swift; sourceTree = "<group>"; };
 		6117569E1C407B650025446F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
-		6122EF421BD80C6C001AE862 /* SpectrumFluxFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpectrumFluxFeature.swift; sourceTree = "<group>"; };
-		6122EF441BD81CE9001AE862 /* BandsFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandsFeature.swift; sourceTree = "<group>"; };
 		6126D7161BE976D9007F8BE4 /* PeakHeightsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakHeightsViewController.swift; sourceTree = "<group>"; };
 		614F2DC01C1214E20041B8F1 /* Label.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
 		6156937A1BE82C5A0094E204 /* FileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileViewController.swift; sourceTree = "<group>"; };
@@ -439,6 +439,12 @@
 		6188C7D11C066D4F001A7EAA /* CommandLine.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CommandLine.xcodeproj; path = ../Carthage/Checkouts/CommandLine/CommandLine.xcodeproj; sourceTree = "<group>"; };
 		618ACC0B1BE0686D008C23A8 /* Note.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Note.swift; sourceTree = "<group>"; };
 		619297E31BE989EC009A90EB /* PeakLocationsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakLocationsViewController.swift; sourceTree = "<group>"; };
+		61A145FA1C4D759B0063FE84 /* BandsFeatureGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandsFeatureGenerator.swift; sourceTree = "<group>"; };
+		61A145FB1C4D759B0063FE84 /* PeakHeightsFeatureGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakHeightsFeatureGenerator.swift; sourceTree = "<group>"; };
+		61A145FC1C4D759B0063FE84 /* PeakLocationsFeatureGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakLocationsFeatureGenerator.swift; sourceTree = "<group>"; };
+		61A145FE1C4D759B0063FE84 /* SpectrumFeatureGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpectrumFeatureGenerator.swift; sourceTree = "<group>"; };
+		61A145FF1C4D759B0063FE84 /* SpectrumFluxFeatureGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpectrumFluxFeatureGenerator.swift; sourceTree = "<group>"; };
+		61A146061C4D75B60063FE84 /* FeatureGenerator.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureGenerator.swift; sourceTree = "<group>"; };
 		61A46BC81BDEC578001D2288 /* FeatureExplorer.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FeatureExplorer.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		61A46BCA1BDEC578001D2288 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		61A46BCE1BDEC578001D2288 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -450,12 +456,7 @@
 		61AAD7011BF54CC500C9BB65 /* BandsFeaturesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandsFeaturesViewController.swift; sourceTree = "<group>"; };
 		61AAD7031BF54D6000C9BB65 /* SpectrumFluxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpectrumFluxViewController.swift; sourceTree = "<group>"; };
 		61AD3A621BEBDD5500FA2DB7 /* FeatureDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureDatabase.swift; sourceTree = "<group>"; };
-		61BBAF671BC43A7300A03FD0 /* Feature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
 		61BBAF6E1BC43BF800A03FD0 /* Example.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Example.swift; sourceTree = "<group>"; };
-		61BBAF701BC43F8100A03FD0 /* RMSFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = RMSFeature.swift; sourceTree = "<group>"; };
-		61BBAF721BC4408300A03FD0 /* PeakLocationsFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakLocationsFeature.swift; sourceTree = "<group>"; };
-		61BBAF741BC4408F00A03FD0 /* PeakHeightsFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakHeightsFeature.swift; sourceTree = "<group>"; };
-		61BBAF761BC440A800A03FD0 /* SpectrumFeature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpectrumFeature.swift; sourceTree = "<group>"; };
 		61BBC3B61C407891006C6DF0 /* FeatureExtraction.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureExtraction.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		61BBC3BF1C407891006C6DF0 /* FeatureExtractionTests-iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FeatureExtractionTests-iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		61BBC3E01C407A4A006C6DF0 /* HDF5Kit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HDF5Kit.framework; path = "/Users/al/dev/VM/intune-ios/Pods/../build/Debug-iphoneos/HDF5Kit.framework"; sourceTree = "<absolute>"; };
@@ -481,7 +482,6 @@
 		8C7845721BB9B06600C88426 /* FeatureExtraction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeatureExtraction.h; sourceTree = "<group>"; };
 		8C7845741BB9B06600C88426 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C7845801BB9B06600C88426 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		8C7E7ABA1BBB37CC00BBC93C /* PeakExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakExtractor.swift; sourceTree = "<group>"; };
 		8C9700371BDFDCB4002A81A3 /* PrepareAudio */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PrepareAudio; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C9700391BDFDCB4002A81A3 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		8C9700EE1BE12C00002A81A3 /* PolyExampleBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolyExampleBuilder.swift; sourceTree = "<group>"; };
@@ -629,6 +629,20 @@
 			name = Dependencies;
 			sourceTree = "<group>";
 		};
+		61A145F91C4D759B0063FE84 /* Generators */ = {
+			isa = PBXGroup;
+			children = (
+				61A146061C4D75B60063FE84 /* FeatureGenerator.swift */,
+				61A145FA1C4D759B0063FE84 /* BandsFeatureGenerator.swift */,
+				610E29B71C4D78AC006B6016 /* PeakExtractor.swift */,
+				61A145FB1C4D759B0063FE84 /* PeakHeightsFeatureGenerator.swift */,
+				61A145FC1C4D759B0063FE84 /* PeakLocationsFeatureGenerator.swift */,
+				61A145FE1C4D759B0063FE84 /* SpectrumFeatureGenerator.swift */,
+				61A145FF1C4D759B0063FE84 /* SpectrumFluxFeatureGenerator.swift */,
+			);
+			path = Generators;
+			sourceTree = "<group>";
+		};
 		61A46BC91BDEC578001D2288 /* FeatureExplorer */ = {
 			isa = PBXGroup;
 			children = (
@@ -750,21 +764,15 @@
 			children = (
 				8C7845721BB9B06600C88426 /* FeatureExtraction.h */,
 				8C7845741BB9B06600C88426 /* Info.plist */,
-				8C7E7ABA1BBB37CC00BBC93C /* PeakExtractor.swift */,
+				61A145F91C4D759B0063FE84 /* Generators */,
+				610E29B41C4D7847006B6016 /* Feature.swift */,
 				61BBAF6E1BC43BF800A03FD0 /* Example.swift */,
 				8C56779C1BE9731E0009ED31 /* FeatureBuilder.swift */,
 				61AD3A621BEBDD5500FA2DB7 /* FeatureDatabase.swift */,
 				8C56779A1BE9600C0009ED31 /* FeatureData.swift */,
 				61EE30641C19173200324344 /* IntTable.swift */,
 				6180A7561C18990A00D63F00 /* Table.swift */,
-				61BBAF671BC43A7300A03FD0 /* Feature.swift */,
-				6122EF441BD81CE9001AE862 /* BandsFeature.swift */,
 				614F2DC01C1214E20041B8F1 /* Label.swift */,
-				61BBAF701BC43F8100A03FD0 /* RMSFeature.swift */,
-				61BBAF721BC4408300A03FD0 /* PeakLocationsFeature.swift */,
-				61BBAF741BC4408F00A03FD0 /* PeakHeightsFeature.swift */,
-				61BBAF761BC440A800A03FD0 /* SpectrumFeature.swift */,
-				6122EF421BD80C6C001AE862 /* SpectrumFluxFeature.swift */,
 				61D485AC1BC4A3D70086CED8 /* Shuffle.swift */,
 				610AAB841BDABEFA008CC910 /* Point.swift */,
 				618ACC0B1BE0686D008C23A8 /* Note.swift */,
@@ -1347,24 +1355,24 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				61BBC3D51C407905006C6DF0 /* BandsFeature.swift in Sources */,
-				61BBC3D71C407905006C6DF0 /* RMSFeature.swift in Sources */,
 				61BBC3CE1C407905006C6DF0 /* Example.swift in Sources */,
 				61BBC3D31C407905006C6DF0 /* Table.swift in Sources */,
+				610E29BA1C4D78B6006B6016 /* FeatureGenerator.swift in Sources */,
 				61BBC3D01C407905006C6DF0 /* FeatureDatabase.swift in Sources */,
+				610E29BF1C4D78B6006B6016 /* SpectrumFeatureGenerator.swift in Sources */,
+				610E29BC1C4D78B6006B6016 /* PeakHeightsFeatureGenerator.swift in Sources */,
+				610E29BB1C4D78B6006B6016 /* BandsFeatureGenerator.swift in Sources */,
 				61BBC3DE1C407905006C6DF0 /* Note.swift in Sources */,
 				61BBC3DC1C407905006C6DF0 /* Shuffle.swift in Sources */,
 				61BBC3D11C407905006C6DF0 /* FeatureData.swift in Sources */,
+				610E29B91C4D78AC006B6016 /* PeakExtractor.swift in Sources */,
 				61BBC3DD1C407905006C6DF0 /* Point.swift in Sources */,
-				61BBC3DB1C407905006C6DF0 /* SpectrumFluxFeature.swift in Sources */,
-				61BBC3D91C407905006C6DF0 /* PeakHeightsFeature.swift in Sources */,
-				61BBC3D41C407905006C6DF0 /* Feature.swift in Sources */,
-				61BBC3CD1C407905006C6DF0 /* PeakExtractor.swift in Sources */,
 				61BBC3DF1C407905006C6DF0 /* Utilities.swift in Sources */,
-				61BBC3DA1C407905006C6DF0 /* SpectrumFeature.swift in Sources */,
 				61BBC3D21C407905006C6DF0 /* IntTable.swift in Sources */,
 				61BBC3D61C407905006C6DF0 /* Label.swift in Sources */,
-				61BBC3D81C407905006C6DF0 /* PeakLocationsFeature.swift in Sources */,
+				610E29BD1C4D78B6006B6016 /* PeakLocationsFeatureGenerator.swift in Sources */,
+				610E29B61C4D7847006B6016 /* Feature.swift in Sources */,
+				610E29C01C4D78B6006B6016 /* SpectrumFluxFeatureGenerator.swift in Sources */,
 				61BBC3CF1C407905006C6DF0 /* FeatureBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1395,23 +1403,23 @@
 			files = (
 				8C56779E1BE976140009ED31 /* FeatureBuilder.swift in Sources */,
 				61AD3A631BEBDD5500FA2DB7 /* FeatureDatabase.swift in Sources */,
-				61BBAF771BC440A800A03FD0 /* SpectrumFeature.swift in Sources */,
-				61BBAF751BC4408F00A03FD0 /* PeakHeightsFeature.swift in Sources */,
-				61BBAF731BC4408300A03FD0 /* PeakLocationsFeature.swift in Sources */,
-				61BBAF681BC43A7300A03FD0 /* Feature.swift in Sources */,
 				610AAB851BDABEFA008CC910 /* Point.swift in Sources */,
-				8C7E7ABB1BBB37CC00BBC93C /* PeakExtractor.swift in Sources */,
-				6122EF431BD80C6C001AE862 /* SpectrumFluxFeature.swift in Sources */,
+				61A146021C4D759B0063FE84 /* PeakLocationsFeatureGenerator.swift in Sources */,
+				61A146071C4D75B60063FE84 /* FeatureGenerator.swift in Sources */,
+				61A146051C4D759B0063FE84 /* SpectrumFluxFeatureGenerator.swift in Sources */,
 				61D485AD1BC4A3D70086CED8 /* Shuffle.swift in Sources */,
 				61BBAF6F1BC43BF800A03FD0 /* Example.swift in Sources */,
 				618ACC0C1BE0686D008C23A8 /* Note.swift in Sources */,
 				61EE30651C19173200324344 /* IntTable.swift in Sources */,
+				61A146041C4D759B0063FE84 /* SpectrumFeatureGenerator.swift in Sources */,
+				610E29B81C4D78AC006B6016 /* PeakExtractor.swift in Sources */,
+				610E29B51C4D7847006B6016 /* Feature.swift in Sources */,
+				61A146001C4D759B0063FE84 /* BandsFeatureGenerator.swift in Sources */,
 				6180A7831C18AD9100D63F00 /* Table.swift in Sources */,
 				8C56779B1BE9600C0009ED31 /* FeatureData.swift in Sources */,
+				61A146011C4D759B0063FE84 /* PeakHeightsFeatureGenerator.swift in Sources */,
 				8CDA0EF41BB9BA4300433755 /* Utilities.swift in Sources */,
 				614F2DC11C1214E20041B8F1 /* Label.swift in Sources */,
-				6122EF451BD81CE9001AE862 /* BandsFeature.swift in Sources */,
-				61BBAF711BC43F8100A03FD0 /* RMSFeature.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

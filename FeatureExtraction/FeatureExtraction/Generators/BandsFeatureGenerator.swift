@@ -2,7 +2,7 @@
 
 import Upsurge
 
-public class BandsFeature : Feature {
+public class BandsFeatureGenerator: FeatureGenerator {
     public let notes: Range<Int>
     public let bandSize: Double
 

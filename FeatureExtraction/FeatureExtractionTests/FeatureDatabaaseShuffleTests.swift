@@ -16,10 +16,10 @@ class FeatureDatabaaseShuffleTests: XCTestCase {
             let label = Label(note: note, atTime: 0)
             XCTAssertEqual(label.notes.count, 1)
             let feature = FeatureData(filePath: "a", fileOffset: 0, label: label)
-
-            for name in FeatureDatabase.featureNames {
-                feature.features[name] = RealArray(count: FeatureBuilder.bandNotes.count)
-            }
+            feature.feature.spectrum = RealArray(count: FeatureBuilder.bandNotes.count)
+            feature.feature.spectralFlux = RealArray(count: FeatureBuilder.bandNotes.count)
+            feature.feature.peakHeights = RealArray(count: FeatureBuilder.bandNotes.count)
+            feature.feature.peakLocations = RealArray(count: FeatureBuilder.bandNotes.count)
             features.append(feature)
         }
 

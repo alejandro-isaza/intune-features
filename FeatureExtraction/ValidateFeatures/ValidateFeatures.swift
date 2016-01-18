@@ -93,28 +93,28 @@ public class ValidateFeatures {
     
     func compare(feature: FeatureData, _ featureBuilder: FeatureBuilder) -> Bool {
         let expectedSpectrum = featureBuilder.spectrumFeature1
-        let actualSpectrum = feature.features[FeatureDatabase.spectrumDatasetName]!
+        let actualSpectrum = feature.feature.spectrum
         if !arraysMatch(actualSpectrum, rhs: expectedSpectrum) {
             print("Failed: Spectrum features don't match. Expected \(expectedSpectrum.data.description) got \(actualSpectrum.description)")
             return false
         }
 
         let expectedPeakLocations = featureBuilder.peakLocations
-        let actualPeakLocations = feature.features[FeatureDatabase.peakLocationsDatasetName]!
+        let actualPeakLocations = feature.feature.peakLocations
         if !arraysMatch(actualPeakLocations, rhs: expectedPeakLocations) {
             print("Failed: Peak location features don't match. Expected \(expectedPeakLocations.data.description) got \(actualPeakLocations.description)")
             return false
         }
 
         let expectedPeakHeights = featureBuilder.peakHeights
-        let actualPeakHeights = feature.features[FeatureDatabase.peakHeightsDatasetName]!
+        let actualPeakHeights = feature.feature.peakHeights
         if !arraysMatch(actualPeakHeights, rhs: expectedPeakHeights) {
             print("Failed: peak height features don't match. Expected \(expectedPeakHeights.data.description) got \(actualPeakHeights.description)")
             return false
         }
 
         let expectedFluxes = featureBuilder.spectrumFluxFeature
-        let actualFluxes = feature.features[FeatureDatabase.spectrumFluxDatasetName]!
+        let actualFluxes = feature.feature.spectralFlux
         if !arraysMatch(actualFluxes, rhs: expectedFluxes) {
             print("Failed: spectrum flux features don't match. Expected \(expectedFluxes.data.description) got \(actualFluxes.description)")
             return false
@@ -140,7 +140,7 @@ public class ValidateFeatures {
         return true
     }
     
-    func arraysMatch(lhs: RealArray, rhs: BandsFeature) -> Bool {
+    func arraysMatch(lhs: RealArray, rhs: BandsFeatureGenerator) -> Bool {
         if lhs.count != rhs.data.count {
             return false
         }
