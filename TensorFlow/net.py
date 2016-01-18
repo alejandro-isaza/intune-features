@@ -34,7 +34,6 @@ def inference(features, example_size, label_size, hidden1_units, hidden2_units, 
     Returns:
         softmax_linear: Output tensor with the computed logits.
     """
-
     # Hidden 1
     with tf.name_scope('hidden1') as scope:
         weights = tf.Variable(
@@ -53,23 +52,23 @@ def inference(features, example_size, label_size, hidden1_units, hidden2_units, 
         biases = tf.Variable(tf.zeros([hidden2_units]), name='___biases')
         hidden2 = tf.nn.relu(tf.matmul(hidden1, weights) + biases)
 
-    # Hidden 3
-    with tf.name_scope('hidden3') as scope:
-        weights = tf.Variable(
-            tf.truncated_normal([hidden2_units, hidden3_units],
-                                stddev=1.0 / math.sqrt(float(hidden2_units))),
-            name='___weights')
-        biases = tf.Variable(tf.zeros([hidden3_units]), name='___biases')
-        hidden3 = tf.nn.relu(tf.matmul(hidden2, weights) + biases)
+    # # Hidden 3
+    # with tf.name_scope('hidden3') as scope:
+    #     weights = tf.Variable(
+    #         tf.truncated_normal([hidden2_units, hidden3_units],
+    #                             stddev=1.0 / math.sqrt(float(hidden2_units))),
+    #         name='___weights')
+    #     biases = tf.Variable(tf.zeros([hidden3_units]), name='___biases')
+    #     hidden3 = tf.nn.relu(tf.matmul(hidden2, weights) + biases)
 
     # Linear
-    with tf.name_scope('hidden4') as scope:
+    with tf.name_scope('hidden3') as scope:
         weights = tf.Variable(
-            tf.truncated_normal([hidden3_units, label_size],
-                                stddev=1.0 / math.sqrt(float(hidden3_units))),
+            tf.truncated_normal([hidden2_units, label_size],
+                                stddev=1.0 / math.sqrt(float(hidden2_units))),
             name='___weights')
         biases = tf.Variable(tf.zeros([label_size]), name='___biases')
-        logits = tf.matmul(hidden3, weights) + biases
+        logits = tf.matmul(hidden2, weights) + biases
 
     return logits
 
@@ -117,7 +116,7 @@ def training(loss, learning_rate):
     train_op = optimizer.minimize(loss, global_step=global_step)
     return train_op
 
-def evaluation(logits, labels, n=5):
+def evaluation(logits, labels, on_size, onset_size, noise_size, n=5):
     """Evaluate the quality of the logits at predicting the label.
 
     Args:
@@ -129,11 +128,22 @@ def evaluation(logits, labels, n=5):
         and the labels.
     """
     sum = 0
+    old_sum = 0
     for i in xrange(labels.get_shape()[0]):
-        logit = logits[i:i+1, :]
-        label = labels[i:i+1, :]
-        sum += argNMax(label, logit, n)
-    return sum
+        logit = logits[i:i+1, 0:on_size]
+        logit_onset = logits[i:i+1, on_size:on_size+onset_size]
+        logit_noise = logits[i:i+1, on_size+onset_size:on_size+onset_size+noise_size]
+
+        label = labels[i:i+1, 0:on_size]
+        label_onset = labels[i:i+1, on_size:on_size+onset_size]
+        label_noise = labels[i:i+1, on_size+onset_size:on_size+onset_size+noise_size]
+
+        addition_val = argNMax(label, logit, n)
+        old_sum += addition_val
+        sum += 0.1 * tf.div(addition_val, n)
+        sum += 0.7 * tf.div(argNMax(label_onset, logit_onset, n), n)
+        sum += 0.2 * tf.sqrt(tf.pow(logit_noise - label_noise, 2))
+    return sum, old_sum
 
 def argNMax(label, logit, n):
     topLabelValues, topLabelIndices = tf.nn.top_k(label, n)

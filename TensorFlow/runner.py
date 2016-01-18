@@ -22,10 +22,10 @@ import net
 # Basic model parameters as external flags.
 flags = tf.app.flags
 FLAGS = flags.FLAGS
-flags.DEFINE_float('learning_rate', 0.001, 'Initial learning rate.')
+flags.DEFINE_float('learning_rate', 0.00001, 'Initial learning rate.')
 flags.DEFINE_integer('max_steps', 20000, 'Number of steps to run trainer.')
 flags.DEFINE_integer('hidden1', 4096, 'Number of units in hidden layer 1.')
-flags.DEFINE_integer('hidden2', 8192, 'Number of units in hidden layer 2.')
+flags.DEFINE_integer('hidden2', 2048, 'Number of units in hidden layer 2.')
 flags.DEFINE_integer('hidden3', 1024, 'Number of units in hidden layer 3.')
 flags.DEFINE_integer('batch_size', 1024, 'Batch size.  '
                      'Must divide evenly into the dataset sizes.')
@@ -77,10 +77,10 @@ def fill_feed_dict(data_set, features_pl, labels_pl):
     Returns:
         feed_dict: The feed dictionary mapping from placeholders to values.
     """
-    features_feed, on_labels, onset_labels = data_set.next_batch(FLAGS.batch_size)
+    features_feed, labels = data_set.next_batch(FLAGS.batch_size)
     feed_dict = {
         features_pl: features_feed,
-        labels_pl: on_labels,
+        labels_pl: labels,
     }
     return feed_dict
 
@@ -105,10 +105,11 @@ def do_eval(sess,
     feed_dict = fill_feed_dict(data_set,
                                features_placeholder,
                                labels_placeholder)
-    score = sess.run(score, feed_dict=feed_dict)
+    score, old_score = sess.run(score, feed_dict=feed_dict)
     average_score = score / FLAGS.batch_size
-    print('  Num examples: %d  score: %d  Average score @ 1: %0.04f' %
-        (FLAGS.batch_size, score, average_score))
+    average_old_score = old_score / FLAGS.batch_size
+    print('  Num examples: %d  score: %d  Average score @ 1: %0.04f, Average old score @ 1: %0.04f' %
+        (FLAGS.batch_size, score, average_score, average_old_score))
 
 
 def run_training():
@@ -116,6 +117,10 @@ def run_training():
 
     train_data_set = data_set.DataSet(FLAGS.training_data)
     test_data_set = data_set.DataSet(FLAGS.testing_data)
+    
+    on_label_size = train_data_set._on_labels.shape[1]
+    onset_label_size = train_data_set._onset_labels.shape[1]
+    noise_label_size = train_data_set._noise_label.shape[1]
 
     with tf.Graph().as_default():
         # Generate placeholders for the features and labels.
@@ -135,7 +140,7 @@ def run_training():
         # Add to the Graph the Ops that calculate and apply gradients.
         train_op = net.training(loss, FLAGS.learning_rate)
         # Add the Op to compare the logits to the labels during evaluation.
-        score = net.evaluation(logits, labels_placeholder)
+        score = net.evaluation(logits, labels_placeholder, on_label_size, onset_label_size, noise_label_size)
         # Build the summary operation based on the TF collection of Summaries.
         summary_op = tf.merge_all_summaries()
         # Create a saver for writing training checkpoints.
@@ -165,10 +170,11 @@ def run_training():
             duration = time.time() - start_time
             # Write the summaries and print an overview fairly often.
             if step % 100 == 0:
-                epoch_score = sess.run(score, feed_dict=feed_dict)
+                epoch_score, epoch_old_score = sess.run(score, feed_dict=feed_dict)
                 avg_score = epoch_score / FLAGS.batch_size
+                avg_old_score = epoch_old_score / FLAGS.batch_size
                 # Print status to stdout.
-                print('Step %d: loss = %.2f, score = %.4f, avg score = %.4f (%.3f sec)' % (step, loss_value, epoch_score, avg_score, duration))
+                print('Step %d: loss = %.2f, score = %.4f, avg score = %.4f avg old score: %.4f (%.3f sec)' % (step, loss_value, epoch_score, avg_score, avg_old_score, duration))
                 # Update the events file.
                 summary_str = sess.run(summary_op, feed_dict=feed_dict)
                 summary_writer.add_summary(summary_str, step)

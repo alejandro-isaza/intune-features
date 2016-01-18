@@ -20,12 +20,13 @@ class DataSet(object):
         self._flux = h5file['spectrum_flux']
         self._on_labels = h5file['on_label']
         self._onset_labels = h5file['onset_label']
+        self._noise_label = h5file['noise_label']
 
         assert(self._on_labels.shape[0] == self._spectrum.shape[0])
         self._example_count = self._on_labels.shape[0]
         self._example_size = self._spectrum.shape[1] + self._heights.shape[1] \
             + self._locations.shape[1] + self._flux.shape[1]
-        self._label_size = self._on_labels.shape[1]
+        self._label_size = self._on_labels.shape[1] + self._onset_labels.shape[1] + self._noise_label.shape[1]
         self._epochs_completed = 0
         self._index_in_epoch = 0
 
@@ -57,7 +58,7 @@ class DataSet(object):
             start = 0
             self._index_in_epoch = batch_size
             assert batch_size <= self._example_count
-    
+
         end = self._index_in_epoch
         batch = numpy.concatenate((
             self._spectrum[start:end, :],
@@ -65,4 +66,9 @@ class DataSet(object):
             self._locations[start:end, :],
             self._flux[start:end, :]),
             axis=1)
-        return batch, self._on_labels[start:end], self._onset_labels[start:end]
+        labels = numpy.concatenate((
+            self._on_labels[start:end, :],
+            self._onset_labels[start:end, :],
+            self._noise_label[start:end, :]),
+            axis=1)
+        return batch, labels
