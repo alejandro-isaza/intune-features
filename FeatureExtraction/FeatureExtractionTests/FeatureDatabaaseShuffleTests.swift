@@ -9,35 +9,48 @@ class FeatureDatabaaseShuffleTests: XCTestCase {
     override func setUp() {
         super.setUp()
 
+        let database = FeatureDatabase(filePath: "test.h5", overwrite: true, chunkSize: Note.noteCount)
+
         // Create one feature for each note
-        var features = [FeatureData]()
-        for n in Label.representableRange {
-            let note = Note(midiNoteNumber: n)
-            let label = Label(note: note, atTime: 0)
-            XCTAssertEqual(label.notes.count, 1)
-            let feature = FeatureData(filePath: "a", fileOffset: 0, label: label)
-            feature.feature.spectrum = RealArray(count: FeatureBuilder.bandNotes.count)
-            feature.feature.spectralFlux = RealArray(count: FeatureBuilder.bandNotes.count)
-            feature.feature.peakHeights = RealArray(count: FeatureBuilder.bandNotes.count)
-            feature.feature.peakLocations = RealArray(count: FeatureBuilder.bandNotes.count)
-            features.append(feature)
+        for n in Note.representableRange {
+            let sequence = Sequence(filePath: "", startOffset: 0)
+
+            let event = Sequence.Event()
+            event.offset = 0
+            event.notes = [Note(midiNoteNumber: n)]
+            event.velocities = [1.0]
+            sequence.events.append(event)
+
+            var feature = Feature()
+            feature.spectrum = RealArray(count: FeatureBuilder.bandNotes.count)
+            feature.spectralFlux = RealArray(count: FeatureBuilder.bandNotes.count)
+            feature.peakHeights = RealArray(count: FeatureBuilder.bandNotes.count)
+            feature.peakLocations = RealArray(count: FeatureBuilder.bandNotes.count)
+            sequence.features.append(feature)
+
+            try! database.appendSequence(sequence)
         }
 
-        let database = FeatureDatabase(filePath: "test.h5", overwrite: true, chunkSize: features.count)
-        try! database.appendFeatures(features)
         try! database.shuffle(chunkSize: 10, passes: 2, progress: nil)
     }
 
     func testShuffle() {
-        let database = FeatureDatabase(filePath: "test.h5", overwrite: false, chunkSize: Label.noteCount)
-        let shuffledFeatures = database.readFeatures(0, count: Label.noteCount)
+        let database = FeatureDatabase(filePath: "test.h5", overwrite: false, chunkSize: Note.noteCount)
+        let count = database.sequenceCount
+        XCTAssertEqual(count, Note.noteCount)
+
+        var shuffledSequences = [Sequence]()
+        shuffledSequences.reserveCapacity(count)
+        for i in 0..<count {
+            try! shuffledSequences.append(database.readSequenceAtIndex(i))
+        }
 
         var movedCount = 0
-        for i in 0..<Label.noteCount {
-            let note = Note(midiNoteNumber: i + Label.representableRange.start)
-            let label = shuffledFeatures[i].label
-            XCTAssertEqual(label.notes.count, 1)
-            if label.notes[0] != note {
+        for i in 0..<Note.noteCount {
+            let note = Note(midiNoteNumber: i + Note.representableRange.start)
+            let notes = shuffledSequences[i].events[0].notes
+            XCTAssertEqual(notes.count, 1)
+            if notes[0] != note {
                 movedCount += 1
             }
         }

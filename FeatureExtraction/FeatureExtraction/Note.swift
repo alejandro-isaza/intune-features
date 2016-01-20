@@ -3,6 +3,12 @@
 import Foundation
 
 public struct Note : Equatable, Hashable, CustomStringConvertible {
+    /// The range of notes that can be represented with a label (this needs to be a multiple of 12)
+    public static let representableRange = 36...95
+
+    /// The number of notes that can be represented with a label
+    public static let noteCount = representableRange.count
+
     public enum NoteType: Int {
         case C  = 0
         case CSharp = 1
@@ -69,4 +75,26 @@ public struct Note : Equatable, Hashable, CustomStringConvertible {
 
 public func ==(lhs: Note, rhs: Note) -> Bool {
     return lhs.note == rhs.note && lhs.octave == rhs.octave
+}
+
+public func vectorFromNotes(notes: [Note]) -> [Double] {
+    var vector = [Double](count: Note.representableRange.count, repeatedValue: 0.0)
+    for note in notes {
+        let index = note.midiNoteNumber - Note.representableRange.startIndex
+        vector[index] = 1.0
+    }
+    return vector
+}
+
+public func notesFromVector<C: CollectionType where C.Generator.Element == Double, C.Index == Int>(vector: C) -> [Note] {
+    precondition(vector.count == Note.representableRange.count)
+    var notes = [Note]()
+    for (index, value) in vector.enumerate() {
+        if value < 0.5 {
+            continue
+        }
+        let note = Note(midiNoteNumber: index + Note.representableRange.startIndex)
+        notes.append(note)
+    }
+    return notes
 }
