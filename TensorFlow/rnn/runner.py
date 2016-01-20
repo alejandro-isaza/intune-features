@@ -2,7 +2,7 @@ import tensorflow as tf
 from tensorflow.models.rnn import rnn, rnn_cell
 import numpy as np
 
-import dataset
+import data_set
 
 learning_rate = 0.0001
 max_epoch = 10000
