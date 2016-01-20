@@ -4,8 +4,14 @@ import HDF5Kit
 import Upsurge
 
 public class FeatureDatabase {
+    public enum Error: ErrorType {
+        case DatasetNotFound
+        case DatasetNotCompatible
+    }
+
     public static let fileListDatasetName = "file_list"
-    public static let fileNameDatasetName = "file_name"
+
+    public static let fileIdDatasetName = "file_id"
     public static let offsetDatasetName = "offset"
     public static let sequenceLengthDatasetName = "sequence_length"
     public static let eventOffsetDatasetName = "event_offset"
@@ -24,13 +30,9 @@ public class FeatureDatabase {
     let filePath: String
     let file: File
 
-    struct StringTable {
-        var name: String
-        var data: [String]
-    }
-
-    public internal(set) var fileList = Set<String>()
-    public internal(set) var fileNames = [String]()
+    public internal(set) var filePaths = [String]()
+    public internal(set) var fileIdsByPath = [String: Int]()
+    public internal(set) var filePathsById = [Int: String]()
     
     public var sequenceCount: Int {
         guard let offsetDataset = file.openIntDataset(FeatureDatabase.offsetDatasetName) else {
@@ -55,81 +57,55 @@ public class FeatureDatabase {
         }
     }
 
-    func create() {
-        let space = Dataspace(dims: [0], maxDims: [-1])
-        file.createStringDataset(FeatureDatabase.fileListDatasetName, dataspace: space, chunkDimensions: [32])!
-        Sequence.initializeDatabaseInFile(file)
-    }
-
     func load() {
-        guard let dataset = file.openStringDataset(FeatureDatabase.fileNameDatasetName) else {
-            preconditionFailure("Existing file doesn't have a \(FeatureDatabase.fileNameDatasetName) dataset")
+        filePaths = readFileList()
+        for (index, path) in filePaths.enumerate() {
+            fileIdsByPath[path] = index
+            filePathsById[index] = path
         }
-        precondition(dataset.space.dims.count == 1, "Existing dataset '\(FeatureDatabase.fileNameDatasetName)' is of the wrong size")
-
-        fileList = readFileList()
     }
 
-    func readFileNames(start: Int, count: Int) -> [String] {
-        let dataset = file.openStringDataset(FeatureDatabase.fileNameDatasetName)!
-        return dataset[start..<start + count]
-    }
-
-    func readFileList() -> Set<String> {
+    func readFileList() -> [String] {
         let dataset = file.openStringDataset(FeatureDatabase.fileListDatasetName)!
-        return Set(dataset[0..])
+        return dataset[0..]
     }
 
-    func readOffsets(start: Int, count: Int) -> [Int] {
-        let dataset = file.openIntDataset(FeatureDatabase.offsetDatasetName)!
-        return dataset[start..<start + count, 0]
-    }
+    func getFileId(path: String) throws -> Int {
+        if let id = fileIdsByPath[path] {
+            return id
+        }
 
-    func appendToFileList(files: Set<String>) throws {
         guard let dataset = file.openStringDataset(FeatureDatabase.fileListDatasetName) else {
             preconditionFailure("Existing file doesn't have a \(FeatureDatabase.fileListDatasetName) dataset")
         }
 
-        let newFiles = files.subtract(fileList)
-        if newFiles.isEmpty {
-            return
-        }
-        fileList.unionInPlace(newFiles)
+        let id = filePaths.count
+        filePaths.append(path)
+        fileIdsByPath[path] = id
+        filePathsById[id] = path
 
-        let currentSize = dataset.extent[0]
-        dataset.extent[0] += newFiles.count
-
-        let filespace = dataset.space
-        filespace.select(start: [currentSize], stride: nil, count: [newFiles.count], block: nil)
-
-        try dataset.write(Array(newFiles), fileSpace: filespace)
-    }
-
-    public func appendSequence(sequence: Sequence) throws {
-        try sequence.writeToFile(file)
-    }
-
-    public func readSequenceAtIndex(index: Int) throws -> Sequence {
-        let sequence = Sequence()
-        try sequence.readFromFile(file, row: index)
-        return sequence
+        try dataset.append([path], dimensions: [1])
+        return id
     }
 }
 
 
 // MARK: Sequence Writing
 
-public extension Sequence {
-    public static func initializeDatabaseInFile(file: File) {
+public extension FeatureDatabase {
+    public func create() {
         let chunkSize = 1024
         let eventChunkSize = 16
         let featureChunkSize = 32
+
+        let space = Dataspace(dims: [0], maxDims: [-1])
+        file.createStringDataset(FeatureDatabase.fileListDatasetName, dataspace: space, chunkDimensions: [32])!
 
         file.createIntDataset(FeatureDatabase.offsetDatasetName,
             dataspace: Dataspace(dims: [0], maxDims: [-1]),
             chunkDimensions: [chunkSize])
 
-        file.createStringDataset(FeatureDatabase.fileNameDatasetName,
+        file.createIntDataset(FeatureDatabase.fileIdDatasetName,
             dataspace: Dataspace(dims: [0], maxDims: [-1]),
             chunkDimensions: [chunkSize])
 
@@ -176,225 +152,229 @@ public extension Sequence {
             chunkDimensions: [chunkSize, featureChunkSize, featureSize])
     }
 
-    public func writeToFile(file: File) throws {
-        try writeOffsetToFile(file)
-        try writeFileNameToFile(file)
-        try writeEventsToFile(file)
-        try writeFeaturesToFile(file)
+    public func appendSequence(sequence: Sequence) throws {
+        try writeOffset(sequence)
+        try writeFile(sequence)
+        try writeEvents(sequence)
+        try writeFeatures(sequence)
     }
 
-    func writeOffsetToFile(file: File) throws {
+    func writeOffset(sequence: Sequence) throws {
         guard let offsetDataset = file.openIntDataset(FeatureDatabase.offsetDatasetName) else {
             throw Error.DatasetNotFound
         }
-        try offsetDataset.append([startOffset], dimensions: [1])
+        try offsetDataset.append([sequence.startOffset], dimensions: [1])
     }
 
-    func writeFileNameToFile(file: File) throws {
-        guard let fileDataset = file.openStringDataset(FeatureDatabase.fileNameDatasetName) else {
+    func writeFile(sequence: Sequence) throws {
+        guard let fileDataset = file.openIntDataset(FeatureDatabase.fileIdDatasetName) else {
             throw Error.DatasetNotFound
         }
-        try fileDataset.append([filePath], dimensions: [1])
+        let id = try getFileId(sequence.filePath)
+        try fileDataset.append([id], dimensions: [1])
     }
 
-    func writeEventsToFile(file: File) throws {
+    func writeEvents(sequence: Sequence) throws {
         guard let lengthDataset = file.openIntDataset(FeatureDatabase.sequenceLengthDatasetName) else {
             throw Error.DatasetNotFound
         }
-        try lengthDataset.append([events.count], dimensions: [1])
+        try lengthDataset.append([sequence.events.count], dimensions: [1])
 
-        try writeEventOffsetsToFile(file)
-        try writeEventNotesToFile(file)
-        try writeEventVelocitiesToFile(file)
+        try writeEventOffsets(sequence)
+        try writeEventNotes(sequence)
+        try writeEventVelocities(sequence)
     }
 
-    func writeEventOffsetsToFile(file: File) throws {
+    func writeEventOffsets(sequence: Sequence) throws {
         guard let eventOffsetDataset = file.openIntDataset(FeatureDatabase.eventOffsetDatasetName) else {
             throw Error.DatasetNotFound
         }
 
-        let eventOffsets = events.map({ $0.offset })
+        let eventOffsets = sequence.events.map({ $0.offset })
         try eventOffsetDataset.append(eventOffsets, dimensions: [1, eventOffsets.count])
     }
 
-    func writeEventNotesToFile(file: File) throws {
+    func writeEventNotes(sequence: Sequence) throws {
         guard let eventNoteDataset = file.openDoubleDataset(FeatureDatabase.eventNoteDatasetName) else {
             throw Error.DatasetNotFound
         }
 
-        var noteValues = [Real](count: Note.noteCount * events.count, repeatedValue: 0.0)
-        for event in events {
+        var noteValues = [Real](count: Note.noteCount * sequence.events.count, repeatedValue: 0.0)
+        for event in sequence.events {
             for note in event.notes {
                 noteValues[note.midiNoteNumber - Note.representableRange.startIndex] = 1.0
             }
         }
-        try eventNoteDataset.append(noteValues, dimensions: [1, events.count, Note.noteCount])
+        try eventNoteDataset.append(noteValues, dimensions: [1, sequence.events.count, Note.noteCount])
     }
 
-    func writeEventVelocitiesToFile(file: File) throws {
+    func writeEventVelocities(sequence: Sequence) throws {
         guard let eventVelocitiesDataset = file.openDoubleDataset(FeatureDatabase.eventVelocityDatasetName) else {
             throw Error.DatasetNotFound
         }
 
-        var velocities = [Real](count: Note.noteCount * events.count, repeatedValue: 0.0)
-        for (eventIndex, event) in events.enumerate() {
+        var velocities = [Real](count: Note.noteCount * sequence.events.count, repeatedValue: 0.0)
+        for (eventIndex, event) in sequence.events.enumerate() {
             for (noteIndex, note) in event.notes.enumerate() {
                 velocities[eventIndex * Note.noteCount + note.midiNoteNumber - Note.representableRange.startIndex] = event.velocities[noteIndex]
             }
         }
-        try eventVelocitiesDataset.append(velocities, dimensions: [1, events.count, Note.noteCount])
+        try eventVelocitiesDataset.append(velocities, dimensions: [1, sequence.events.count, Note.noteCount])
     }
 
-    func writeFeaturesToFile(file: File) throws {
-        precondition(features.count == featureOnsetValues.count)
+    func writeFeatures(sequence: Sequence) throws {
+        precondition(sequence.features.count == sequence.featureOnsetValues.count)
         
         guard let lengthDataset = file.openIntDataset(FeatureDatabase.featuresLengthDatasetName) else {
             throw Error.DatasetNotFound
         }
-        try lengthDataset.append([features.count], dimensions: [1])
+        try lengthDataset.append([sequence.features.count], dimensions: [1])
 
         guard let featureOnsetValuesDataset = file.openDoubleDataset(FeatureDatabase.featureOnsetValuesDatasetName) else {
             throw Error.DatasetNotFound
         }
-        try featureOnsetValuesDataset.append(featureOnsetValues, dimensions: [1, featureOnsetValues.count])
+        try featureOnsetValuesDataset.append(sequence.featureOnsetValues, dimensions: [1, sequence.featureOnsetValues.count])
         
-        try writeSpectrumToFile(file)
-        try writeSpectralFluxToFile(file)
-        try writePeakHeights(file)
-        try writePeakLocations(file)
+        try writeSpectrum(sequence)
+        try writeSpectralFlux(sequence)
+        try writePeakHeights(sequence)
+        try writePeakLocations(sequence)
     }
 
-    func writeSpectrumToFile(file: File) throws {
+    func writeSpectrum(sequence: Sequence) throws {
         guard let spectrumDataset = file.openDoubleDataset(FeatureDatabase.spectrumDatasetName) else {
             throw Error.DatasetNotFound
         }
 
         let featureSize = FeatureBuilder.bandNotes.count
-        var data = [Real](count: featureSize * features.count, repeatedValue: 0.0)
-        for (featureIndex, feature) in features.enumerate() {
+        var data = [Real](count: featureSize * sequence.features.count, repeatedValue: 0.0)
+        for (featureIndex, feature) in sequence.features.enumerate() {
             for i in 0..<featureSize {
                 data[featureIndex * featureSize + i] = feature.spectrum[i]
             }
         }
-        try spectrumDataset.append(data, dimensions: [1, features.count, featureSize])
+        try spectrumDataset.append(data, dimensions: [1, sequence.features.count, featureSize])
     }
 
-    func writeSpectralFluxToFile(file: File) throws {
+    func writeSpectralFlux(sequence: Sequence) throws {
         guard let spectralFluxDataset = file.openDoubleDataset(FeatureDatabase.spectrumFluxDatasetName) else {
             throw Error.DatasetNotFound
         }
 
         let featureSize = FeatureBuilder.bandNotes.count
-        var data = [Real](count: featureSize * features.count, repeatedValue: 0.0)
-        for (featureIndex, feature) in features.enumerate() {
+        var data = [Real](count: featureSize * sequence.features.count, repeatedValue: 0.0)
+        for (featureIndex, feature) in sequence.features.enumerate() {
             for i in 0..<featureSize {
                 data[featureIndex * featureSize + i] = feature.spectralFlux[i]
             }
         }
-        try spectralFluxDataset.append(data, dimensions: [1, features.count, featureSize])
+        try spectralFluxDataset.append(data, dimensions: [1, sequence.features.count, featureSize])
     }
 
-    func writePeakHeights(file: File) throws {
+    func writePeakHeights(sequence: Sequence) throws {
         guard let peakHeightsDataset = file.openDoubleDataset(FeatureDatabase.peakHeightsDatasetName) else {
             throw Error.DatasetNotFound
         }
 
         let featureSize = FeatureBuilder.bandNotes.count
-        var data = [Real](count: featureSize * features.count, repeatedValue: 0.0)
-        for (featureIndex, feature) in features.enumerate() {
+        var data = [Real](count: featureSize * sequence.features.count, repeatedValue: 0.0)
+        for (featureIndex, feature) in sequence.features.enumerate() {
             for i in 0..<featureSize {
                 data[featureIndex * featureSize + i] = feature.peakHeights[i]
             }
         }
-        try peakHeightsDataset.append(data, dimensions: [1, features.count, featureSize])
+        try peakHeightsDataset.append(data, dimensions: [1, sequence.features.count, featureSize])
     }
 
-    func writePeakLocations(file: File) throws {
+    func writePeakLocations(sequence: Sequence) throws {
         guard let peakLocationsDataset = file.openDoubleDataset(FeatureDatabase.peakLocationsDatasetName) else {
             throw Error.DatasetNotFound
         }
 
         let featureSize = FeatureBuilder.bandNotes.count
-        var data = [Real](count: featureSize * features.count, repeatedValue: 0.0)
-        for (featureIndex, feature) in features.enumerate() {
+        var data = [Real](count: featureSize * sequence.features.count, repeatedValue: 0.0)
+        for (featureIndex, feature) in sequence.features.enumerate() {
             for i in 0..<featureSize {
                 data[featureIndex * featureSize + i] = feature.peakLocations[i]
             }
         }
-        try peakLocationsDataset.append(data, dimensions: [1, features.count, featureSize])
+        try peakLocationsDataset.append(data, dimensions: [1, sequence.features.count, featureSize])
     }
 }
 
 
 // MARK: Sequence Reading
 
-public extension Sequence {
-    public func readFromFile(file: File, row: Int) throws {
-        try readOffsetFromFile(file, row: row)
-        try readFileNameFromFile(file, row: row)
-        try readEventsFromFile(file, row: row)
-        try readFeaturesFromFile(file, row: row)
+public extension FeatureDatabase {
+    public func readSequenceAtIndex(index: Int) throws -> Sequence {
+        let sequence = Sequence()
+        try readOffset(sequence, index: index)
+        try readFileName(sequence, index: index)
+        try readEvents(sequence, index: index)
+        try readFeatures(sequence, index: index)
+        return sequence
     }
 
-    func readOffsetFromFile(file: File, row: Int) throws {
+    func readOffset(sequence: Sequence, index: Int) throws {
         guard let offsetDataset = file.openIntDataset(FeatureDatabase.offsetDatasetName) else {
             throw Error.DatasetNotFound
         }
-        startOffset = try offsetDataset.read([row]).first!
+        sequence.startOffset = try offsetDataset.read([index]).first!
     }
 
-    func readFileNameFromFile(file: File, row: Int) throws {
-        guard let fileDataset = file.openStringDataset(FeatureDatabase.fileNameDatasetName) else {
+    func readFileName(sequence: Sequence, index: Int) throws {
+        guard let fileDataset = file.openIntDataset(FeatureDatabase.fileIdDatasetName) else {
             throw Error.DatasetNotFound
         }
-        filePath = try fileDataset.read([row]).first!
+        let id = try fileDataset.read([index]).first!
+        sequence.filePath = filePathsById[id] ?? ""
     }
 
-    func readEventsFromFile(file: File, row: Int) throws {
+    func readEvents(sequence: Sequence, index: Int) throws {
         guard let sequenceLengthDataset = file.openIntDataset(FeatureDatabase.sequenceLengthDatasetName) else {
             throw Error.DatasetNotFound
         }
-        let length = try sequenceLengthDataset.read([row]).first!
+        let length = try sequenceLengthDataset.read([index]).first!
 
-        events.removeAll()
+        sequence.events.removeAll()
         for _ in 0..<length {
-            events.append(Event())
+            sequence.events.append(Sequence.Event())
         }
 
-        try readEventOffsetsFromFile(file, row: row, length: length)
-        try readEventNotesFromFile(file, row: row, length: length)
-        try readEventVelocitiesFromFile(file, row: row, length: length)
+        try readEventOffsets(sequence, index: index, length: length)
+        try readEventNotes(sequence, index: index, length: length)
+        try readEventVelocities(sequence, index: index, length: length)
     }
 
-    func readEventOffsetsFromFile(file: File, row: Int, length: Int) throws {
+    func readEventOffsets(sequence: Sequence, index: Int, length: Int) throws {
         guard let eventOffsetDataset = file.openIntDataset(FeatureDatabase.eventOffsetDatasetName) else {
             throw Error.DatasetNotFound
         }
 
-        let offsets = try eventOffsetDataset.read([row, 0..<length])
-        for (i, event) in events.enumerate() {
+        let offsets = try eventOffsetDataset.read([index, 0..<length])
+        for (i, event) in sequence.events.enumerate() {
             event.offset = offsets[i]
         }
     }
 
-    func readEventNotesFromFile(file: File, row: Int, length: Int) throws {
+    func readEventNotes(sequence: Sequence, index: Int, length: Int) throws {
         guard let eventNoteDataset = file.openDoubleDataset(FeatureDatabase.eventNoteDatasetName) else {
             throw Error.DatasetNotFound
         }
 
-        let noteValues = try eventNoteDataset.read([row, 0..<length, 0..<Note.noteCount])
-        for (index, event) in events.enumerate() {
+        let noteValues = try eventNoteDataset.read([index, 0..<length, 0..<Note.noteCount])
+        for (index, event) in sequence.events.enumerate() {
             event.notes = notesFromVector(noteValues[index * Note.noteCount..<(index + 1) * Note.noteCount])
         }
     }
 
-    func readEventVelocitiesFromFile(file: File, row: Int, length: Int) throws {
+    func readEventVelocities(sequence: Sequence, index: Int, length: Int) throws {
         guard let eventVelocitiesDataset = file.openDoubleDataset(FeatureDatabase.eventVelocityDatasetName) else {
             throw Error.DatasetNotFound
         }
 
-        let velocities = try eventVelocitiesDataset.read([row, 0..<length, 0..<Note.noteCount])
-        for (eventIndex, event) in events.enumerate() {
+        let velocities = try eventVelocitiesDataset.read([index, 0..<length, 0..<Note.noteCount])
+        for (eventIndex, event) in sequence.events.enumerate() {
             event.velocities = [Double](count: event.notes.count, repeatedValue: 0.0)
             for (noteIndex, note) in event.notes.enumerate() {
                 event.velocities[noteIndex] = velocities[eventIndex * Note.noteCount + note.midiNoteNumber - Note.representableRange.startIndex]
@@ -402,36 +382,36 @@ public extension Sequence {
         }
     }
 
-    func readFeaturesFromFile(file: File, row: Int) throws {
+    func readFeatures(sequence: Sequence, index: Int) throws {
         guard let featuresLengthDataset = file.openIntDataset(FeatureDatabase.featuresLengthDatasetName) else {
             throw Error.DatasetNotFound
         }
-        let length = try featuresLengthDataset.read([row]).first!
+        let length = try featuresLengthDataset.read([index]).first!
 
         guard let featureOnsetValuesDataset = file.openDoubleDataset(FeatureDatabase.featureOnsetValuesDatasetName) else {
             throw Error.DatasetNotFound
         }
-        featureOnsetValues = try featureOnsetValuesDataset.read([row, 0..<length])
+        sequence.featureOnsetValues = try featureOnsetValuesDataset.read([index, 0..<length])
 
-        features.removeAll()
+        sequence.features.removeAll()
         for _ in 0..<length {
-            features.append(Feature())
+            sequence.features.append(Feature())
         }
 
-        try readSpectrumFromFile(file, row: row, length: length)
-        try readSpectralFluxFromFile(file, row: row, length: length)
-        try readPeakHeightsFromFile(file, row: row, length: length)
-        try readPeakLocationsFromFile(file, row: row, length: length)
+        try readSpectrum(sequence, index: index, length: length)
+        try readSpectralFlux(sequence, index: index, length: length)
+        try readPeakHeights(sequence, index: index, length: length)
+        try readPeakLocations(sequence, index: index, length: length)
     }
 
-    func readSpectrumFromFile(file: File, row: Int, length: Int) throws {
+    func readSpectrum(sequence: Sequence, index: Int, length: Int) throws {
         guard let spectrumDataset = file.openDoubleDataset(FeatureDatabase.spectrumDatasetName) else {
             throw Error.DatasetNotFound
         }
 
         let featureSize = FeatureBuilder.bandNotes.count
-        let spectrums = try spectrumDataset.read([row, 0..<length, 0..<featureSize])
-        for (featureIndex, feature) in features.enumerate() {
+        let spectrums = try spectrumDataset.read([index, 0..<length, 0..<featureSize])
+        for (featureIndex, feature) in sequence.features.enumerate() {
             spectrums.withUnsafeBufferPointer { pointer in
                 let offsetPointer = UnsafeMutablePointer<Double>(pointer.baseAddress + featureIndex * featureSize)
                 feature.spectrum.mutablePointer.assignFrom(offsetPointer, count: featureSize)
@@ -439,14 +419,14 @@ public extension Sequence {
         }
     }
 
-    func readSpectralFluxFromFile(file: File, row: Int, length: Int) throws {
+    func readSpectralFlux(sequence: Sequence, index: Int, length: Int) throws {
         guard let spectralFluxDataset = file.openDoubleDataset(FeatureDatabase.spectrumFluxDatasetName) else {
             throw Error.DatasetNotFound
         }
 
         let featureSize = FeatureBuilder.bandNotes.count
-        let spectrums = try spectralFluxDataset.read([row, 0..<length, 0..<featureSize])
-        for (featureIndex, feature) in features.enumerate() {
+        let spectrums = try spectralFluxDataset.read([index, 0..<length, 0..<featureSize])
+        for (featureIndex, feature) in sequence.features.enumerate() {
             spectrums.withUnsafeBufferPointer { pointer in
                 let offsetPointer = UnsafeMutablePointer<Double>(pointer.baseAddress + featureIndex * featureSize)
                 feature.spectralFlux.mutablePointer.assignFrom(offsetPointer, count: featureSize)
@@ -454,14 +434,14 @@ public extension Sequence {
         }
     }
 
-    func readPeakHeightsFromFile(file: File, row: Int, length: Int) throws {
+    func readPeakHeights(sequence: Sequence, index: Int, length: Int) throws {
         guard let peakHeightsDataset = file.openDoubleDataset(FeatureDatabase.peakHeightsDatasetName) else {
             throw Error.DatasetNotFound
         }
 
         let featureSize = FeatureBuilder.bandNotes.count
-        let spectrums = try peakHeightsDataset.read([row, 0..<length, 0..<featureSize])
-        for (featureIndex, feature) in features.enumerate() {
+        let spectrums = try peakHeightsDataset.read([index, 0..<length, 0..<featureSize])
+        for (featureIndex, feature) in sequence.features.enumerate() {
             spectrums.withUnsafeBufferPointer { pointer in
                 let offsetPointer = UnsafeMutablePointer<Double>(pointer.baseAddress + featureIndex * featureSize)
                 feature.peakHeights.mutablePointer.assignFrom(offsetPointer, count: featureSize)
@@ -469,14 +449,14 @@ public extension Sequence {
         }
     }
 
-    func readPeakLocationsFromFile(file: File, row: Int, length: Int) throws {
+    func readPeakLocations(sequence: Sequence, index: Int, length: Int) throws {
         guard let peakLocationsDataset = file.openDoubleDataset(FeatureDatabase.peakLocationsDatasetName) else {
             throw Error.DatasetNotFound
         }
 
         let featureSize = FeatureBuilder.bandNotes.count
-        let spectrums = try peakLocationsDataset.read([row, 0..<length, 0..<featureSize])
-        for (featureIndex, feature) in features.enumerate() {
+        let spectrums = try peakLocationsDataset.read([index, 0..<length, 0..<featureSize])
+        for (featureIndex, feature) in sequence.features.enumerate() {
             spectrums.withUnsafeBufferPointer { pointer in
                 let offsetPointer = UnsafeMutablePointer<Double>(pointer.baseAddress + featureIndex * featureSize)
                 feature.peakLocations.mutablePointer.assignFrom(offsetPointer, count: featureSize)

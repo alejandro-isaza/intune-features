@@ -24,7 +24,10 @@ public extension FeatureDatabase {
         let maxSequenceLength = 20
         let data = RealArray(count: 2 * chunkSize * FeatureBuilder.bandNotes.count * maxSequenceLength)
 
-        try shuffleStringTables(chunkSize: chunkSize, start1: start1, start2: start2, indices: indices)
+        guard let fileIdDataset = file.openIntDataset(FeatureDatabase.fileIdDatasetName) else {
+            fatalError("File doesn't have a \(FeatureDatabase.fileIdDatasetName) dataset")
+        }
+        try shuffle1DDataset(fileIdDataset, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices)
 
         guard let offsetDataset = file.openIntDataset(FeatureDatabase.offsetDatasetName) else {
             fatalError("File doesn't have a \(FeatureDatabase.offsetDatasetName) dataset")
@@ -183,27 +186,5 @@ public extension FeatureDatabase {
 
         try dataset.writeFrom(data.pointer, memSpace: Dataspace(dims: filespace1.selectionDims), fileSpace: filespace1)
         try dataset.writeFrom(data.pointer + chunkSize * eventCount, memSpace: Dataspace(dims: filespace2.selectionDims), fileSpace: filespace2)
-    }
-
-    func shuffleStringTables(chunkSize chunkSize: Int, start1: Int, start2: Int, indices: [Int]) throws {
-        guard let dataset = file.openStringDataset(FeatureDatabase.fileNameDatasetName) else {
-            preconditionFailure("Existing file doesn't have a \(FeatureDatabase.fileNameDatasetName) dataset")
-        }
-
-        var strings1 = dataset[start1..<start1 + chunkSize]
-        var strings2 = dataset[start2..<start2 + chunkSize]
-        var strings = strings1 + strings2
-
-        for i in 0..<2*chunkSize {
-            let index = indices[i]
-            if index != i {
-                swap(&strings[i], &strings[index])
-            }
-        }
-
-        strings1 = [String](strings.dropLast(chunkSize))
-        strings2 = [String](strings.dropFirst(chunkSize))
-        try dataset.write(strings1, to: [start1..<start1 + chunkSize])
-        try dataset.write(strings2, to: [start2..<start2 + chunkSize])
     }
 }

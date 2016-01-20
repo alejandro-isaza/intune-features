@@ -4,11 +4,6 @@ import HDF5Kit
 import Upsurge
 
 public class Sequence {
-    public enum Error: ErrorType {
-        case DatasetNotFound
-        case DatasetNotCompatible
-    }
-
     public class Event {
         public var offset: Int
         public var notes: [Note]
