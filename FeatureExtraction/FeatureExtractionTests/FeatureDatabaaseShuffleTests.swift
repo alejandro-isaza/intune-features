@@ -27,7 +27,8 @@ class FeatureDatabaaseShuffleTests: XCTestCase {
             feature.peakHeights = RealArray(count: FeatureBuilder.bandNotes.count)
             feature.peakLocations = RealArray(count: FeatureBuilder.bandNotes.count)
             sequence.features.append(feature)
-
+            sequence.featureOnsetValues.append(0)
+            
             try! database.appendSequence(sequence)
         }
 

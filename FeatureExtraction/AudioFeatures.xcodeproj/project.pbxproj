@@ -22,6 +22,8 @@
 		610E29C31C4D89C2006B6016 /* Sequence.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E29C11C4D89C2006B6016 /* Sequence.swift */; };
 		610E2A801C4F11D0006B6016 /* FeatureDatabase+Shuffling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E2A7F1C4F11D0006B6016 /* FeatureDatabase+Shuffling.swift */; };
 		610E2A811C4F11D0006B6016 /* FeatureDatabase+Shuffling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E2A7F1C4F11D0006B6016 /* FeatureDatabase+Shuffling.swift */; };
+		610E2A891C500C78006B6016 /* FeatureDatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E2A881C500C78006B6016 /* FeatureDatabaseTests.swift */; };
+		610E2A8A1C500C78006B6016 /* FeatureDatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E2A881C500C78006B6016 /* FeatureDatabaseTests.swift */; };
 		6117569F1C407B650025446F /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6117569E1C407B650025446F /* Accelerate.framework */; };
 		611756A01C407B930025446F /* DistancePeakExtractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA0EF51BB9C60800433755 /* DistancePeakExtractionTests.swift */; };
 		611756A11C407B930025446F /* FeatureDatabaaseShuffleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6180A72C1C179E9400D63F00 /* FeatureDatabaaseShuffleTests.swift */; };
@@ -411,6 +413,7 @@
 		610E29B71C4D78AC006B6016 /* PeakExtractor.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakExtractor.swift; sourceTree = "<group>"; };
 		610E29C11C4D89C2006B6016 /* Sequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sequence.swift; sourceTree = "<group>"; };
 		610E2A7F1C4F11D0006B6016 /* FeatureDatabase+Shuffling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FeatureDatabase+Shuffling.swift"; sourceTree = "<group>"; };
+		610E2A881C500C78006B6016 /* FeatureDatabaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureDatabaseTests.swift; sourceTree = "<group>"; };
 		6117569E1C407B650025446F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
 		6126D7161BE976D9007F8BE4 /* PeakHeightsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakHeightsViewController.swift; sourceTree = "<group>"; };
 		6156937A1BE82C5A0094E204 /* FileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileViewController.swift; sourceTree = "<group>"; };
@@ -771,6 +774,7 @@
 			children = (
 				8C7845801BB9B06600C88426 /* Info.plist */,
 				8CDA0EF51BB9C60800433755 /* DistancePeakExtractionTests.swift */,
+				610E2A881C500C78006B6016 /* FeatureDatabaseTests.swift */,
 				6180A72C1C179E9400D63F00 /* FeatureDatabaaseShuffleTests.swift */,
 				610AAB661BD99737008CC910 /* NoteTests.swift */,
 			);
@@ -1301,6 +1305,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				6180A7801C18AC0600D63F00 /* FeatureDatabaaseShuffleTests.swift in Sources */,
+				610E2A891C500C78006B6016 /* FeatureDatabaseTests.swift in Sources */,
 				6180A77F1C18AC0600D63F00 /* DistancePeakExtractionTests.swift in Sources */,
 				6180A7811C18AC0600D63F00 /* NoteTests.swift in Sources */,
 			);
@@ -1362,6 +1367,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				611756A21C407B930025446F /* NoteTests.swift in Sources */,
+				610E2A8A1C500C78006B6016 /* FeatureDatabaseTests.swift in Sources */,
 				611756A01C407B930025446F /* DistancePeakExtractionTests.swift in Sources */,
 				611756A11C407B930025446F /* FeatureDatabaaseShuffleTests.swift in Sources */,
 			);

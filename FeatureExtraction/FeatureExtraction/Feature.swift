@@ -11,10 +11,10 @@ public struct Feature {
 
     public init() {
         rms = 0
-        spectrum = RealArray()
-        spectralFlux = RealArray()
-        peakHeights = RealArray()
-        peakLocations = RealArray()
+        spectrum = RealArray(count: FeatureBuilder.bandNotes.count)
+        spectralFlux = RealArray(count: FeatureBuilder.bandNotes.count)
+        peakHeights = RealArray(count: FeatureBuilder.bandNotes.count)
+        peakLocations = RealArray(count: FeatureBuilder.bandNotes.count)
     }
 
     public init(rms: Real, spectrum: RealArray, spectralFlux: RealArray, peakHeights: RealArray, peakLocations: RealArray) {

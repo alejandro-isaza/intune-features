@@ -36,6 +36,11 @@ public extension FeatureDatabase {
         }
         try shuffle1DDataset(sequenceLengthDataset, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices)
 
+        guard let featuresLengthDataset = file.openIntDataset(FeatureDatabase.featuresLengthDatasetName) else {
+            fatalError("File doesn't have a \(FeatureDatabase.featuresLengthDatasetName) dataset")
+        }
+        try shuffle1DDataset(featuresLengthDataset, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices)
+
         guard let eventOffsetDataset = file.openIntDataset(FeatureDatabase.eventOffsetDatasetName) else {
             fatalError("File doesn't have a \(FeatureDatabase.eventOffsetDatasetName) dataset")
         }
@@ -70,6 +75,34 @@ public extension FeatureDatabase {
             fatalError("File doesn't have a \(FeatureDatabase.peakLocationsDatasetName) dataset")
         }
         try shuffleDataset(peakLocationsDataset, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices, inBuffer: data)
+
+        guard let featureOnsetValuesDataset = file.openDoubleDataset(FeatureDatabase.featureOnsetValuesDatasetName) else {
+            fatalError("File doesn't have a \(FeatureDatabase.featureOnsetValuesDatasetName) dataset")
+        }
+        try shuffle2DDataset(featureOnsetValuesDataset, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices, inBuffer: data)
+    }
+
+    func shuffle2DDataset(dataset: DoubleDataset, chunkSize: Int, start1: Int, start2: Int, indices: [Int], inBuffer data: RealArray) throws {
+        let featureCount = dataset.extent[1]
+
+        let filespace1 = dataset.space
+        filespace1.select([start1..<start1 + chunkSize, 0..<featureCount])
+        try dataset.readInto(data.mutablePointer, memSpace: Dataspace(dims: filespace1.selectionDims), fileSpace: filespace1)
+
+        let filespace2 = dataset.space
+        filespace2.select([start2..<start2 + chunkSize, 0..<featureCount])
+        try dataset.readInto(data.mutablePointer + chunkSize * featureCount, memSpace: Dataspace(dims: filespace2.selectionDims), fileSpace: filespace2)
+
+        data.count = 2 * chunkSize * featureCount
+        for i in 0..<2 * chunkSize {
+            let index = indices[i]
+            if index != i {
+                swapRowsInData(data, rowSize: featureCount, i, index)
+            }
+        }
+
+        try dataset.writeFrom(data.pointer, memSpace: Dataspace(dims: filespace1.selectionDims), fileSpace: filespace1)
+        try dataset.writeFrom(data.pointer + chunkSize * featureCount, memSpace: Dataspace(dims: filespace2.selectionDims), fileSpace: filespace2)
     }
 
     func shuffleDataset(dataset: DoubleDataset, chunkSize: Int, start1: Int, start2: Int, indices: [Int], inBuffer data: RealArray) throws {

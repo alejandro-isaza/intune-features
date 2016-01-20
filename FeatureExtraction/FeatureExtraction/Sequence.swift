@@ -26,6 +26,7 @@ public class Sequence {
     public var data = RealArray()
     public var events = [Event]()
     public var features = [Feature]()
+    public var featureOnsetValues = [Double]()
 
     public init() {
         self.filePath = ""

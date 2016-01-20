@@ -13,6 +13,8 @@ public class FeatureDatabase {
     public static let eventNoteDatasetName = "event_note"
     public static let eventVelocityDatasetName = "event_velocity"
 
+    public static let featuresLengthDatasetName = "features_length"
+    public static let featureOnsetValuesDatasetName = "features_onset_values"
     public static let peakLocationsDatasetName = "peak_locations"
     public static let peakHeightsDatasetName = "peak_heights"
     public static let spectrumDatasetName = "spectrum"
@@ -120,7 +122,8 @@ public class FeatureDatabase {
 public extension Sequence {
     public static func initializeDatabaseInFile(file: File) {
         let chunkSize = 1024
-        let sequenceChunkSize = 10
+        let eventChunkSize = 16
+        let featureChunkSize = 32
 
         file.createIntDataset(FeatureDatabase.offsetDatasetName,
             dataspace: Dataspace(dims: [0], maxDims: [-1]),
@@ -134,35 +137,43 @@ public extension Sequence {
             dataspace: Dataspace(dims: [0], maxDims: [-1]),
             chunkDimensions: [chunkSize])
 
+        file.createIntDataset(FeatureDatabase.featuresLengthDatasetName,
+            dataspace: Dataspace(dims: [0], maxDims: [-1]),
+            chunkDimensions: [chunkSize])
+
         file.createIntDataset(FeatureDatabase.eventOffsetDatasetName,
             dataspace: Dataspace(dims: [0, 0], maxDims: [-1, -1]),
-            chunkDimensions: [chunkSize, sequenceChunkSize])
+            chunkDimensions: [chunkSize, eventChunkSize])
+
+        file.createDoubleDataset(FeatureDatabase.featureOnsetValuesDatasetName,
+            dataspace: Dataspace(dims: [0, 0], maxDims: [-1, -1]),
+            chunkDimensions: [chunkSize, featureChunkSize])
 
         let labelSize = Note.noteCount
         file.createDoubleDataset(FeatureDatabase.eventNoteDatasetName,
             dataspace: Dataspace(dims: [0, 0, labelSize], maxDims: [-1, -1, labelSize]),
-            chunkDimensions: [chunkSize, sequenceChunkSize, labelSize])
+            chunkDimensions: [chunkSize, eventChunkSize, labelSize])
 
         file.createDoubleDataset(FeatureDatabase.eventVelocityDatasetName,
             dataspace: Dataspace(dims: [0, 0, labelSize], maxDims: [-1, -1, labelSize]),
-            chunkDimensions: [chunkSize, sequenceChunkSize, labelSize])
+            chunkDimensions: [chunkSize, eventChunkSize, labelSize])
 
         let featureSize = FeatureBuilder.bandNotes.count
         file.createDoubleDataset(FeatureDatabase.spectrumDatasetName,
             dataspace: Dataspace(dims: [0, 0, featureSize], maxDims: [-1, -1, featureSize]),
-            chunkDimensions: [chunkSize, sequenceChunkSize, featureSize])
+            chunkDimensions: [chunkSize, featureChunkSize, featureSize])
 
         file.createDoubleDataset(FeatureDatabase.spectrumFluxDatasetName,
             dataspace: Dataspace(dims: [0, 0, featureSize], maxDims: [-1, -1, featureSize]),
-            chunkDimensions: [chunkSize, sequenceChunkSize, featureSize])
+            chunkDimensions: [chunkSize, featureChunkSize, featureSize])
 
         file.createDoubleDataset(FeatureDatabase.peakHeightsDatasetName,
             dataspace: Dataspace(dims: [0, 0, featureSize], maxDims: [-1, -1, featureSize]),
-            chunkDimensions: [chunkSize, sequenceChunkSize, featureSize])
+            chunkDimensions: [chunkSize, featureChunkSize, featureSize])
 
         file.createDoubleDataset(FeatureDatabase.peakLocationsDatasetName,
             dataspace: Dataspace(dims: [0, 0, featureSize], maxDims: [-1, -1, featureSize]),
-            chunkDimensions: [chunkSize, sequenceChunkSize, featureSize])
+            chunkDimensions: [chunkSize, featureChunkSize, featureSize])
     }
 
     public func writeToFile(file: File) throws {
@@ -235,6 +246,18 @@ public extension Sequence {
     }
 
     func writeFeaturesToFile(file: File) throws {
+        precondition(features.count == featureOnsetValues.count)
+        
+        guard let lengthDataset = file.openIntDataset(FeatureDatabase.featuresLengthDatasetName) else {
+            throw Error.DatasetNotFound
+        }
+        try lengthDataset.append([features.count], dimensions: [1])
+
+        guard let featureOnsetValuesDataset = file.openDoubleDataset(FeatureDatabase.featureOnsetValuesDatasetName) else {
+            throw Error.DatasetNotFound
+        }
+        try featureOnsetValuesDataset.append(featureOnsetValues, dimensions: [1, featureOnsetValues.count])
+        
         try writeSpectrumToFile(file)
         try writeSpectralFluxToFile(file)
         try writePeakHeights(file)
@@ -380,69 +403,84 @@ public extension Sequence {
     }
 
     func readFeaturesFromFile(file: File, row: Int) throws {
-        try readSpectrumFromFile(file, row: row)
-        try readSpectralFluxFromFile(file, row: row)
-        try readPeakHeightsFromFile(file, row: row)
-        try readPeakLocationsFromFile(file, row: row)
+        guard let featuresLengthDataset = file.openIntDataset(FeatureDatabase.featuresLengthDatasetName) else {
+            throw Error.DatasetNotFound
+        }
+        let length = try featuresLengthDataset.read([row]).first!
+
+        guard let featureOnsetValuesDataset = file.openDoubleDataset(FeatureDatabase.featureOnsetValuesDatasetName) else {
+            throw Error.DatasetNotFound
+        }
+        featureOnsetValues = try featureOnsetValuesDataset.read([row, 0..<length])
+
+        features.removeAll()
+        for _ in 0..<length {
+            features.append(Feature())
+        }
+
+        try readSpectrumFromFile(file, row: row, length: length)
+        try readSpectralFluxFromFile(file, row: row, length: length)
+        try readPeakHeightsFromFile(file, row: row, length: length)
+        try readPeakLocationsFromFile(file, row: row, length: length)
     }
 
-    func readSpectrumFromFile(file: File, row: Int) throws {
+    func readSpectrumFromFile(file: File, row: Int, length: Int) throws {
         guard let spectrumDataset = file.openDoubleDataset(FeatureDatabase.spectrumDatasetName) else {
             throw Error.DatasetNotFound
         }
 
         let featureSize = FeatureBuilder.bandNotes.count
-        var data = [Real](count: featureSize * features.count, repeatedValue: 0.0)
+        let spectrums = try spectrumDataset.read([row, 0..<length, 0..<featureSize])
         for (featureIndex, feature) in features.enumerate() {
-            for i in 0..<featureSize {
-                data[featureIndex * featureSize + i] = feature.spectrum[i]
+            spectrums.withUnsafeBufferPointer { pointer in
+                let offsetPointer = UnsafeMutablePointer<Double>(pointer.baseAddress + featureIndex * featureSize)
+                feature.spectrum.mutablePointer.assignFrom(offsetPointer, count: featureSize)
             }
         }
-        try spectrumDataset.append(data, dimensions: [1, features.count, featureSize])
     }
 
-    func readSpectralFluxFromFile(file: File, row: Int) throws {
+    func readSpectralFluxFromFile(file: File, row: Int, length: Int) throws {
         guard let spectralFluxDataset = file.openDoubleDataset(FeatureDatabase.spectrumFluxDatasetName) else {
             throw Error.DatasetNotFound
         }
 
         let featureSize = FeatureBuilder.bandNotes.count
-        var data = [Real](count: featureSize * features.count, repeatedValue: 0.0)
+        let spectrums = try spectralFluxDataset.read([row, 0..<length, 0..<featureSize])
         for (featureIndex, feature) in features.enumerate() {
-            for i in 0..<featureSize {
-                data[featureIndex * featureSize + i] = feature.spectralFlux[i]
+            spectrums.withUnsafeBufferPointer { pointer in
+                let offsetPointer = UnsafeMutablePointer<Double>(pointer.baseAddress + featureIndex * featureSize)
+                feature.spectralFlux.mutablePointer.assignFrom(offsetPointer, count: featureSize)
             }
         }
-        try spectralFluxDataset.append(data, dimensions: [1, features.count, featureSize])
     }
 
-    func readPeakHeightsFromFile(file: File, row: Int) throws {
+    func readPeakHeightsFromFile(file: File, row: Int, length: Int) throws {
         guard let peakHeightsDataset = file.openDoubleDataset(FeatureDatabase.peakHeightsDatasetName) else {
             throw Error.DatasetNotFound
         }
 
         let featureSize = FeatureBuilder.bandNotes.count
-        var data = [Real](count: featureSize * features.count, repeatedValue: 0.0)
+        let spectrums = try peakHeightsDataset.read([row, 0..<length, 0..<featureSize])
         for (featureIndex, feature) in features.enumerate() {
-            for i in 0..<featureSize {
-                data[featureIndex * featureSize + i] = feature.peakHeights[i]
+            spectrums.withUnsafeBufferPointer { pointer in
+                let offsetPointer = UnsafeMutablePointer<Double>(pointer.baseAddress + featureIndex * featureSize)
+                feature.peakHeights.mutablePointer.assignFrom(offsetPointer, count: featureSize)
             }
         }
-        try peakHeightsDataset.append(data, dimensions: [1, features.count, featureSize])
     }
 
-    func readPeakLocationsFromFile(file: File, row: Int) throws {
+    func readPeakLocationsFromFile(file: File, row: Int, length: Int) throws {
         guard let peakLocationsDataset = file.openDoubleDataset(FeatureDatabase.peakLocationsDatasetName) else {
             throw Error.DatasetNotFound
         }
 
         let featureSize = FeatureBuilder.bandNotes.count
-        var data = [Real](count: featureSize * features.count, repeatedValue: 0.0)
+        let spectrums = try peakLocationsDataset.read([row, 0..<length, 0..<featureSize])
         for (featureIndex, feature) in features.enumerate() {
-            for i in 0..<featureSize {
-                data[featureIndex * featureSize + i] = feature.peakLocations[i]
+            spectrums.withUnsafeBufferPointer { pointer in
+                let offsetPointer = UnsafeMutablePointer<Double>(pointer.baseAddress + featureIndex * featureSize)
+                feature.peakLocations.mutablePointer.assignFrom(offsetPointer, count: featureSize)
             }
         }
-        try peakLocationsDataset.append(data, dimensions: [1, features.count, featureSize])
     }
 }
