@@ -6,10 +6,23 @@ import HDF5Kit
 import FeatureExtraction
 import Upsurge
 
+public struct Label: Equatable {
+    var eventNotes: [Note]
+    var eventVelocities: [Double]
+    
+    init() {
+        eventNotes = [Note]()
+        eventVelocities = [Double]()
+    }
+
+    init(eventNotes: [Note], eventVelocities: [Double]) {
+        self.eventNotes = eventNotes
+        self.eventVelocities = eventVelocities
+    }
+}
+
 public class ValidateFeatures {
-    let validateCount = 1000
     let labelBatch = 128
-    let repeatLabelThreshold = 5
     
     let featureDatabase: FeatureDatabase
     
@@ -18,29 +31,15 @@ public class ValidateFeatures {
     }
     
     public func validate() -> Bool {
-        let validateCount = min(1000, featureDatabase.exampleCount)
-        let step = featureDatabase.exampleCount / validateCount
+        let validateCount = min(1000, featureDatabase.sequenceCount)
+        let step = featureDatabase.sequenceCount / validateCount
         for i in 0..<validateCount {
             let index = i * step
-            let count = min(labelBatch, featureDatabase.exampleCount - index)
-            
-            let features = featureDatabase.readFeatures(index, count: count)
-            let feature = features[0]
+            let sequence = try! featureDatabase.readSequenceAtIndex(index)
 
-            let data0 = RealArray(count: FeatureBuilder.sampleCount, repeatedValue: 0)
-            let data1 = RealArray(count: FeatureBuilder.sampleCount, repeatedValue: 0)
-            var example = Example(filePath: feature.filePath, frameOffset: feature.fileOffset, label: feature.label, data: (data0, data1))
-            loadExampleData(&example)
-            
-            let featureBuilder = FeatureBuilder()
-            featureBuilder.generateFeatures(example.data.0, example.data.1) // Ignore return value, features will be preserved in the feature builder
-            
-            print("Validating '\(example.filePath)' offset \(example.frameOffset) (\(feature.label.description))...", terminator: "")
-            if !compare(feature, featureBuilder) {
+            print("Validating '\(sequence.filePath)' offset \(sequence.startOffset)...", terminator: "")
+            if !validateSequence(sequence) {
                 print("Failed: Features don't match")
-                return false
-            } else if !shufflingCheck(features) {
-                print("Failed: Data not sufficiently shuffled")
                 return false
             } else {
                 print("Passed")
@@ -49,13 +48,59 @@ public class ValidateFeatures {
         return true
     }
     
-    func loadExampleData(inout example: Example) {
-        guard let file = AudioFile.open(example.filePath) else {
-            fatalError("File not found '\(example.filePath)'")
+    func validateSequence(sequence: Sequence) -> Bool {
+        let filePath = sequence.filePath
+        let featureBuilder = FeatureBuilder()
+
+        for event in sequence.events {
+            let offset = event.offset
+            let featureIndex = (offset - sequence.startOffset) / FeatureBuilder.sampleStep
+            let expectedFeature = sequence.features[featureIndex]
+            let expectedLabel = Label(eventNotes: event.notes, eventVelocities: event.velocities)
+            
+            let data: (RealArray, RealArray) = (RealArray(count: FeatureBuilder.sampleCount), RealArray(count: FeatureBuilder.sampleCount))
+            loadExampleData(filePath, offset: offset, data: data)
+            let actualFeature = featureBuilder.generateFeatures(data.0, data.1)
+            
+            if !compareFeatures(expectedFeature, actualFeature) {
+                return false
+            }
+            if !validateLabels(filePath, offset: offset, expectedLabel: expectedLabel) {
+                return false
+            }
         }
         
-        readAtFrame(file, frame: example.frameOffset - FeatureBuilder.sampleCount / 2 - FeatureBuilder.sampleStep, data: example.data.0.mutablePointer)
-        readAtFrame(file, frame: example.frameOffset - FeatureBuilder.sampleCount / 2, data: example.data.1.mutablePointer)
+        return true
+    }
+    
+    func validateLabels(filePath: String, offset: Int, expectedLabel: Label) -> Bool {
+        if let actualLabel = polyLabel(filePath, offset: offset) {
+            if actualLabel != actualLabel {
+                print("Labels don't match. Expected \(expectedLabel.eventNotes.description) got \(actualLabel.eventNotes.description)")
+                return false
+            }
+        } else if let actualLabel = monoLabel(filePath, offset: offset) {
+            if expectedLabel != actualLabel {
+                print("Labels don't match. Expected \(expectedLabel.eventNotes.description) got \(actualLabel.eventNotes.description)")
+                return false
+            }
+        } else {
+            if expectedLabel != Label() {
+                print("Labels don't match. Expected \(expectedLabel.eventNotes.description) got \(Label().eventNotes.description)")
+                return false
+            }
+        }
+        
+        return true
+    }
+    
+    func loadExampleData(filePath: String, offset: Int, data: (RealArray, RealArray)) {
+        guard let file = AudioFile.open(filePath) else {
+            fatalError("File not found '\(filePath)'")
+        }
+        
+        readAtFrame(file, frame: offset - FeatureBuilder.sampleCount / 2 - FeatureBuilder.sampleStep, data: data.0.mutablePointer)
+        readAtFrame(file, frame: offset - FeatureBuilder.sampleCount / 2, data: data.1.mutablePointer)
     }
     
     func readAtFrame(file: AudioFile, frame: Int, data: UnsafeMutablePointer<Double>) {
@@ -72,83 +117,33 @@ public class ValidateFeatures {
         }
     }
     
-    func shufflingCheck(features: [FeatureData]) -> Bool {
-        var occurances = [Label: Int]()
-        for feature in features {
-            if let count = occurances[feature.label] {
-                occurances.updateValue(count + 1, forKey: feature.label)
-            } else {
-                occurances[feature.label] = 1
-            }
-        }
-        
-        let max = occurances.maxElement{ $0.0.1 >= $0.1.1 }!
-        if max.1 > repeatLabelThreshold {
-            print("A label occurred \(max.1) times")
-            return false
-        } else {
-            return true
-        }
-    }
-    
-    func compare(feature: FeatureData, _ featureBuilder: FeatureBuilder) -> Bool {
-        let expectedSpectrum = featureBuilder.spectrumFeature1
-        let actualSpectrum = feature.feature.spectrum
-        if !arraysMatch(actualSpectrum, rhs: expectedSpectrum) {
-            print("Failed: Spectrum features don't match. Expected \(expectedSpectrum.data.description) got \(actualSpectrum.description)")
+    func compareFeatures(expectedFeature: Feature, _ actualFeature: Feature) -> Bool {
+        let expectedSpectrum = expectedFeature.spectrum
+        let actualSpectrum = actualFeature.spectrum
+        if actualSpectrum != expectedSpectrum {
+            print("Failed: Spectrum features don't match. Expected \(expectedSpectrum.description) got \(actualSpectrum.description)")
             return false
         }
 
-        let expectedPeakLocations = featureBuilder.peakLocations
-        let actualPeakLocations = feature.feature.peakLocations
-        if !arraysMatch(actualPeakLocations, rhs: expectedPeakLocations) {
-            print("Failed: Peak location features don't match. Expected \(expectedPeakLocations.data.description) got \(actualPeakLocations.description)")
+        let expectedPeakLocations = expectedFeature.peakLocations
+        let actualPeakLocations = actualFeature.peakLocations
+        if actualPeakLocations != expectedPeakLocations {
+            print("Failed: Peak location features don't match. Expected \(expectedPeakLocations.description) got \(actualPeakLocations.description)")
             return false
         }
 
-        let expectedPeakHeights = featureBuilder.peakHeights
-        let actualPeakHeights = feature.feature.peakHeights
-        if !arraysMatch(actualPeakHeights, rhs: expectedPeakHeights) {
-            print("Failed: peak height features don't match. Expected \(expectedPeakHeights.data.description) got \(actualPeakHeights.description)")
+        let expectedPeakHeights = expectedFeature.peakHeights
+        let actualPeakHeights = actualFeature.peakHeights
+        if actualPeakHeights != expectedPeakHeights {
+            print("Failed: peak height features don't match. Expected \(expectedPeakHeights.description) got \(actualPeakHeights.description)")
             return false
         }
 
-        let expectedFluxes = featureBuilder.spectrumFluxFeature
-        let actualFluxes = feature.feature.spectralFlux
-        if !arraysMatch(actualFluxes, rhs: expectedFluxes) {
-            print("Failed: spectrum flux features don't match. Expected \(expectedFluxes.data.description) got \(actualFluxes.description)")
+        let expectedFluxes = expectedFeature.spectralFlux
+        let actualFluxes = actualFeature.spectralFlux
+        if actualFluxes != expectedFluxes {
+            print("Failed: spectrum flux features don't match. Expected \(expectedFluxes.description) got \(actualFluxes.description)")
             return false
-        }
-
-        if let label = polyLabel(feature.filePath, offset: feature.fileOffset) {
-            if feature.label != label {
-                print("Labels don't match. Expected \(label.description) got \(feature.label.description)")
-                return false
-            }
-        } else if let label = monoLabel(feature.filePath, offset: feature.fileOffset) {
-            if feature.label != label {
-                print("Labels don't match. Expected \(label.description) got \(feature.label.description)")
-                return false
-            }
-        } else {
-            if feature.label != Label() {
-                print("Labels don't match. Expected \(Label().description) got \(feature.label.description)")
-                return false
-            }
-        }
-        
-        return true
-    }
-    
-    func arraysMatch(lhs: RealArray, rhs: BandsFeatureGenerator) -> Bool {
-        if lhs.count != rhs.data.count {
-            return false
-        }
-
-        for i in 0..<lhs.count {
-            if lhs[i] != rhs.data[i] {
-                return false
-            }
         }
         
         return true
@@ -170,9 +165,9 @@ public class ValidateFeatures {
         }
         
         let note = Note(midiNoteNumber: noteNumber)
-        let time = Double(offset) / FeatureBuilder.samplingFrequency
+        let label = Label(eventNotes: [note], eventVelocities: [0.75])
 
-        return Label(note: note, atTime: time)
+        return label
     }
     
     func polyLabel(path: String, offset: Int) -> Label? {
@@ -214,8 +209,7 @@ public class ValidateFeatures {
                     break
                 }
                 
-                let noteStartTime = midFile.secondsForBeats(noteStart)
-                label.addNote(Note(midiNoteNumber: Int(note.note)), atTime: noteStartTime - time)
+                label.eventNotes.append(Note(midiNoteNumber: Int(note.note)))
             }
             
             return label
@@ -223,5 +217,23 @@ public class ValidateFeatures {
         
         return nil
     }
+    
+    func labelFromEvent(event: Sequence.Event) -> Label {
+        return Label(eventNotes: event.notes, eventVelocities: event.velocities)
+    }
 
+}
+
+public func ==(lhs: Label, rhs: Label) -> Bool {
+    for (lhsNote, rhsNote) in zip(lhs.eventNotes, rhs.eventNotes) {
+        if lhsNote != rhsNote {
+            return false
+        }
+    }
+    for (lhsVelocity, rhsVelocity) in zip(lhs.eventVelocities, rhs.eventVelocities) {
+        if lhsVelocity != rhsVelocity {
+            return false
+        }
+    }
+    return true
 }
