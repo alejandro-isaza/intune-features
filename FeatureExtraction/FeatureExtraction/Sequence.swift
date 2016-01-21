@@ -4,6 +4,11 @@ import HDF5Kit
 import Upsurge
 
 public class Sequence {
+    public static let minimumSequenceSamples = 2 * FeatureBuilder.sampleCount
+    public static let minimumSequenceDuration = Double(minimumSequenceSamples) / FeatureBuilder.samplingFrequency
+    public static let maximumSequenceDuration = 1.0
+    public static let maximumSequenceSamples = Int(maximumSequenceDuration * FeatureBuilder.samplingFrequency)
+
     public class Event {
         public var offset: Int
         public var notes: [Note]
