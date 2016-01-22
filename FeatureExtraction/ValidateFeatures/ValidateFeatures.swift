@@ -7,29 +7,34 @@ import FeatureExtraction
 import Upsurge
 
 public struct Label: Equatable {
-    var eventNotes: [Note]
-    var eventVelocities: [Double]
-    
+    var notes: [Note]
+    var velocities: [Double]
+    var onset: Double
+
     init() {
-        eventNotes = [Note]()
-        eventVelocities = [Double]()
+        notes = [Note]()
+        velocities = [Double]()
+        onset = 0.0
     }
 
-    init(eventNotes: [Note], eventVelocities: [Double]) {
-        self.eventNotes = eventNotes
-        self.eventVelocities = eventVelocities
+    init(notes: [Note], velocities: [Double], onset: Double) {
+        self.notes = notes
+        self.velocities = velocities
+        self.onset = onset
     }
 }
 
 public class ValidateFeatures {
     let labelBatch = 128
-    
+
     let featureDatabase: FeatureDatabase
-    
+    let featureBuilder = FeatureBuilder()
+
     public init(filePath: String) {
         featureDatabase = FeatureDatabase(filePath: filePath, overwrite: false)
+        featureDatabase = FeatureDatabase(filePath: filePath, overwrite: false)
     }
-    
+
     public func validate() -> Bool {
         let validateCount = min(1000, featureDatabase.sequenceCount)
         let step = featureDatabase.sequenceCount / validateCount
@@ -47,62 +52,67 @@ public class ValidateFeatures {
         }
         return true
     }
-    
+
     func validateSequence(sequence: Sequence) -> Bool {
         let filePath = sequence.filePath
-        let featureBuilder = FeatureBuilder()
 
-        for event in sequence.events {
-            let offset = event.offset
-            let featureIndex = (offset - sequence.startOffset) / FeatureBuilder.stepSize
-            let expectedFeature = sequence.features[featureIndex]
-            let expectedLabel = Label(eventNotes: event.notes, eventVelocities: event.velocities)
+        for (i, expectedFeature) in sequence.features.enumerate() {
+            let offset = sequence.startOffset + i * FeatureBuilder.sampleStep
+
+            var expectedLabel: Label
+            if let eventIndex = sequence.events.indexOf({ $0.offset == offset }) {
+                let event = sequence.events[eventIndex]
+                expectedLabel = Label(notes: event.notes, velocities: event.velocities, onset: sequence.featureOnsetValues[i])
+            } else {
+                expectedLabel = Label()
+                expectedLabel.onset = sequence.featureOnsetValues[i]
+            }
             
             let data: (RealArray, RealArray) = (RealArray(count: FeatureBuilder.windowSize), RealArray(count: FeatureBuilder.windowSize))
             loadExampleData(filePath, offset: offset, data: data)
             let actualFeature = featureBuilder.generateFeatures(data.0, data.1)
-            
+
             if !compareFeatures(expectedFeature, actualFeature) {
                 return false
             }
-            if !validateLabels(filePath, offset: offset, expectedLabel: expectedLabel) {
+            if !validateLabels(filePath, offset: offset, expectedLabel: expectedLabel, sequence: sequence) {
                 return false
             }
         }
-        
+
         return true
     }
-    
-    func validateLabels(filePath: String, offset: Int, expectedLabel: Label) -> Bool {
-        if let actualLabel = polyLabel(filePath, offset: offset) {
+
+    func validateLabels(filePath: String, offset: Int, expectedLabel: Label, sequence: Sequence) -> Bool {
+        if let actualLabel = polyLabel(filePath, offset: offset, sequence: sequence) {
             if actualLabel != actualLabel {
-                print("Labels don't match. Expected \(expectedLabel.eventNotes.description) got \(actualLabel.eventNotes.description)")
+                print("Labels don't match. Expected \(expectedLabel.notes.description) got \(actualLabel.notes.description)")
                 return false
             }
         } else if let actualLabel = monoLabel(filePath, offset: offset) {
             if expectedLabel != actualLabel {
-                print("Labels don't match. Expected \(expectedLabel.eventNotes.description) got \(actualLabel.eventNotes.description)")
+                print("Labels don't match. Expected \(expectedLabel.notes.description) got \(actualLabel.notes.description)")
                 return false
             }
         } else {
             if expectedLabel != Label() {
-                print("Labels don't match. Expected \(expectedLabel.eventNotes.description) got \(Label().eventNotes.description)")
+                print("Labels don't match. Expected \(expectedLabel.notes.description) got \(Label().notes.description)")
                 return false
             }
         }
-        
+
         return true
     }
-    
+
     func loadExampleData(filePath: String, offset: Int, data: (RealArray, RealArray)) {
         guard let file = AudioFile.open(filePath) else {
             fatalError("File not found '\(filePath)'")
         }
-        
+
         readAtFrame(file, frame: offset - FeatureBuilder.windowSize / 2 - FeatureBuilder.stepSize, data: data.0.mutablePointer)
         readAtFrame(file, frame: offset - FeatureBuilder.windowSize / 2, data: data.1.mutablePointer)
     }
-    
+
     func readAtFrame(file: AudioFile, frame: Int, data: UnsafeMutablePointer<Double>) {
         if frame >= 0 {
             file.currentFrame = frame
@@ -116,7 +126,7 @@ public class ValidateFeatures {
             file.readFrames(data + fillSize, count: FeatureBuilder.windowSize - fillSize)
         }
     }
-    
+
     func compareFeatures(expectedFeature: Feature, _ actualFeature: Feature) -> Bool {
         let expectedSpectrum = expectedFeature.spectrum
         let actualSpectrum = actualFeature.spectrum
@@ -145,10 +155,10 @@ public class ValidateFeatures {
             print("Failed: spectrum flux features don't match. Expected \(expectedFluxes.description) got \(actualFluxes.description)")
             return false
         }
-        
+
         return true
     }
-    
+
     func monoLabel(path: String, offset: Int) -> Label? {
         let monophonicFileExpression = try! NSRegularExpression(pattern: "/(\\d+)\\.\\w+", options: NSRegularExpressionOptions.CaseInsensitive)
         guard let results = monophonicFileExpression.firstMatchInString(path, options: NSMatchingOptions.ReportCompletion, range: NSMakeRange(0, path.characters.count)) else {
@@ -158,79 +168,99 @@ public class ValidateFeatures {
             return nil
         }
         let range = results.rangeAtIndex(1)
-        
+
         let fileName = (path as NSString).substringWithRange(range)
         guard let noteNumber = Int(fileName) else {
             return nil
         }
-        
-        let note = Note(midiNoteNumber: noteNumber)
-        let label = Label(eventNotes: [note], eventVelocities: [0.75])
+
+        let onsetIndexInWindow = FeatureBuilder.sampleCount - offset
+        let label: Label
+        if onsetIndexInWindow >= 0 && onsetIndexInWindow < featureBuilder.window.count {
+            let note = Note(midiNoteNumber: noteNumber)
+            let onset = featureBuilder.window[onsetIndexInWindow]
+            let velocity = 0.75
+
+            label = Label(notes: [note], velocities: [velocity], onset: onset)
+        } else {
+            label = Label()
+        }
 
         return label
     }
-    
-    func polyLabel(path: String, offset: Int) -> Label? {
+
+    func polyLabel(path: String, offset: Int, sequence: Sequence) -> Label? {
         let manager = NSFileManager.defaultManager()
         let url = NSURL.fileURLWithPath(path)
         guard let midFileURL = url.URLByDeletingPathExtension?.URLByAppendingPathExtension("mid") else {
             fatalError("Failed to build path")
         }
-        
+
         if manager.fileExistsAtPath(midFileURL.path!) {
             let midFile = Peak.MIDIFile(filePath: midFileURL.path!)!
-            
-            // Time in seconds for the middle of the current window
-            let time = Double(offset) / FeatureBuilder.samplingFrequency
-            
+
             // Discard margin in seconds
             let margin = (1.0 / 8.0) * Double(FeatureBuilder.windowSize) / FeatureBuilder.samplingFrequency
-            
+
             let offsetStart = offset - FeatureBuilder.windowSize / 2
             let timeStart = margin + Double(offsetStart) / FeatureBuilder.samplingFrequency
             let beatStart = midFile.beatsForSeconds(timeStart)
-            
+
             let offsetEnd = offset + FeatureBuilder.windowSize / 2
             let timeEnd = Double(offsetEnd) / FeatureBuilder.samplingFrequency - margin
             let beatEnd = midFile.beatsForSeconds(timeEnd)
-            
+
             var label = Label()
             for note in midFile.noteEvents {
                 let noteStart = note.timeStamp
                 let noteEnd = noteStart + Double(note.duration)
-                
+
                 // Ignore note events before the current window
                 if noteEnd < beatStart {
                     continue
                 }
-                
+
                 // Stop at the first note past the current window
                 if noteStart > beatEnd {
                     break
                 }
-                
-                label.eventNotes.append(Note(midiNoteNumber: Int(note.note)))
+
+                label.notes.append(Note(midiNoteNumber: Int(note.note)))
+                label.velocities.append(Double(note.velocity))
             }
-            
+
+            label.onset = onsetValueForWindowAt(offset, events: sequence.events)
+
             return label
         }
-        
+
         return nil
     }
-    
-    func labelFromEvent(event: Sequence.Event) -> Label {
-        return Label(eventNotes: event.notes, eventVelocities: event.velocities)
+
+    func labelFromEvent(offset: Int, targetEventIndex: Int, events: [Sequence.Event]) -> Label {
+        return Label(notes: events[targetEventIndex].notes, velocities: events[targetEventIndex].velocities, onset: onsetValueForWindowAt(offset, events: events))
+    }
+
+    func onsetValueForWindowAt(windowStart: Int, events: [Sequence.Event]) -> Double {
+        var value = 0.0
+        for event in events {
+            let index = event.offset - windowStart
+            if index >= 0 && index < featureBuilder.window.count {
+                value += featureBuilder.window[index]
+            }
+        }
+        return value
     }
 
 }
 
 public func ==(lhs: Label, rhs: Label) -> Bool {
-    for (lhsNote, rhsNote) in zip(lhs.eventNotes, rhs.eventNotes) {
+    for (lhsNote, rhsNote) in zip(lhs.notes, rhs.notes) {
         if lhsNote != rhsNote {
             return false
         }
     }
-    for (lhsVelocity, rhsVelocity) in zip(lhs.eventVelocities, rhs.eventVelocities) {
+    for (lhsVelocity, rhsVelocity) in zip(lhs.velocities, rhs.velocities) {
         if lhsVelocity != rhsVelocity {
             return false
         }
