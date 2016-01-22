@@ -124,10 +124,12 @@ class PolySequenceBuilder {
             }
 
             // End current sequence
+            assert(!currentSequence.isEmpty)
             sequences.append(currentSequence)
             currentSequence.removeAll()
 
             // Start a new sequence
+            currentSequence.append(event)
             currentSequenceStartBeat = eventStart
             currentSequenceStartTime = midiFile.secondsForBeats(eventStart)
             currentSequenceEndBeat = eventEnd
