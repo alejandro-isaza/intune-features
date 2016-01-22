@@ -14,10 +14,10 @@ public struct FeatureBuilder {
     public static let stepSize = 1024
 
     /// The range of notes to consider for labeling
-    public static let notes = 36...96
+    public static let notes = 21...108
 
     /// The range of notes to include in the spectrums
-    public static let bandNotes = 24...120
+    public static let bandNotes = 21...120
 
     /// The note resolution for the spectrums
     public static let bandSize = 1.0

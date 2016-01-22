@@ -106,12 +106,13 @@ class PolySequenceBuilder {
         for event in events {
             let eventStart = event.timeStamp
             let eventEnd = eventStart + Double(event.duration)
+            let eventEndTime = midiFile.secondsForBeats(eventEnd)
 
             if eventStart >= currentSequenceStartBeat && eventStart < currentSequenceEndBeat {
                 // Event fits in the current sequence
                 currentSequence.append(event)
                 currentSequenceEndBeat = max(currentSequenceEndBeat, eventEnd)
-                currentSequenceEndTime = midiFile.secondsForBeats(currentSequenceEndBeat)
+                currentSequenceEndTime = eventEndTime
                 continue
             }
 
@@ -119,7 +120,7 @@ class PolySequenceBuilder {
                 // Increase sequence length
                 currentSequence.append(event)
                 currentSequenceEndBeat = eventEnd
-                currentSequenceEndTime = midiFile.secondsForBeats(currentSequenceEndBeat)
+                currentSequenceEndTime = eventEndTime
                 continue
             }
 
@@ -133,7 +134,7 @@ class PolySequenceBuilder {
             currentSequenceStartBeat = eventStart
             currentSequenceStartTime = midiFile.secondsForBeats(eventStart)
             currentSequenceEndBeat = eventEnd
-            currentSequenceEndTime = midiFile.secondsForBeats(eventEnd)
+            currentSequenceEndTime = eventEndTime
         }
 
         return sequences
