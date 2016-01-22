@@ -4,9 +4,13 @@ import HDF5Kit
 import Upsurge
 
 public extension FeatureDatabase {
-    public func shuffle(var chunkSize chunkSize: Int, passes: Int = 1, progress: (Double -> Void)? = nil) throws {
+    public func shuffle(chunkSize chunkSize: Int, passes: Int = 1, progress: (Double -> Void)? = nil) throws {
         let count = sequenceCount
-        chunkSize = min(chunkSize, count/2)
+        if count < 2 * chunkSize {
+            // Not enough sequences to shuffle
+            return
+        }
+
         let shuffleCount = passes * count / chunkSize
         for i in 0..<shuffleCount {
             let start1 = i * chunkSize % (count - chunkSize + 1)
