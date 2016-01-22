@@ -32,7 +32,6 @@ public class ValidateFeatures {
 
     public init(filePath: String) {
         featureDatabase = FeatureDatabase(filePath: filePath, overwrite: false)
-        featureDatabase = FeatureDatabase(filePath: filePath, overwrite: false)
     }
 
     public func validate() -> Bool {
@@ -57,7 +56,7 @@ public class ValidateFeatures {
         let filePath = sequence.filePath
 
         for (i, expectedFeature) in sequence.features.enumerate() {
-            let offset = sequence.startOffset + i * FeatureBuilder.sampleStep
+            let offset = sequence.startOffset + i * FeatureBuilder.stepSize
 
             var expectedLabel: Label
             if let eventIndex = sequence.events.indexOf({ $0.offset == offset }) {
@@ -174,7 +173,7 @@ public class ValidateFeatures {
             return nil
         }
 
-        let onsetIndexInWindow = FeatureBuilder.sampleCount - offset
+        let onsetIndexInWindow = FeatureBuilder.windowSize - offset
         let label: Label
         if onsetIndexInWindow >= 0 && onsetIndexInWindow < featureBuilder.window.count {
             let note = Note(midiNoteNumber: noteNumber)
