@@ -17,15 +17,15 @@ class MonoExampleBuilder {
 
     let featureBuilder = FeatureBuilder()
 
-    func forEachNoteSequenceInFolder(folder: String, action: Sequence -> ()) {
+    func forEachNoteSequenceInFolder(folder: String, @noescape action: (Sequence) throws -> ()) rethrows {
         for note in FeatureBuilder.notes {
             let note = Note(midiNoteNumber: note)
-            forEachSequenceInFile(String(note), path: folder, note: note, action: action)
+            try forEachSequenceInFile(String(note), path: folder, note: note, action: action)
         }
         print("")
     }
 
-    func forEachNoiseSequenceInFolder(folder: String, action: Sequence -> ()) {
+    func forEachNoiseSequenceInFolder(folder: String, @noescape action: (Sequence) throws -> ()) rethrows {
         let fileManager = NSFileManager.defaultManager()
         guard let files = try? fileManager.contentsOfDirectoryAtURL(NSURL.fileURLWithPath(folder), includingPropertiesForKeys: [NSURLNameKey], options: NSDirectoryEnumerationOptions.SkipsHiddenFiles) else {
             fatalError("Failed to fetch contents of \(folder)")
@@ -34,25 +34,25 @@ class MonoExampleBuilder {
         for file in files {
             let filePath = file.path!
             print("Processing \(filePath)")
-            forEachSequenceInFile(filePath, note: nil, action: action)
+            try forEachSequenceInFile(filePath, note: nil, action: action)
         }
         print("")
     }
 
-    func forEachSequenceInFile(fileName: String, path: String, note: Note, action: Sequence -> ()) {
+    func forEachSequenceInFile(fileName: String, path: String, note: Note, @noescape action: (Sequence) throws -> ()) rethrows {
         let fileManager = NSFileManager.defaultManager()
         for type in fileExtensions {
             let fullFileName = "\(fileName).\(type)"
             let filePath = buildPathFromParts([path, fullFileName])
             if fileManager.fileExistsAtPath(filePath) {
                 print("Processing \(filePath)")
-                forEachSequenceInFile(filePath, note: note, action: action)
+                try forEachSequenceInFile(filePath, note: note, action: action)
                 break
             }
         }
     }
 
-    func forEachSequenceInFile(filePath: String, note: Note?, action: Sequence -> ()) {
+    func forEachSequenceInFile(filePath: String, note: Note?, @noescape action: (Sequence) throws -> ()) rethrows {
         let windowSize = FeatureBuilder.sampleCount
         let step = FeatureBuilder.sampleStep
         let padding = MonoExampleBuilder.padding
@@ -101,6 +101,6 @@ class MonoExampleBuilder {
             }
         }
 
-        action(sequence)
+        try action(sequence)
     }
 }

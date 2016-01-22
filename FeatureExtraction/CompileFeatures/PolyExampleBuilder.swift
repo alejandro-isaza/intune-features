@@ -14,14 +14,9 @@ class PolyExampleBuilder {
     ]
     let midiFileExtension = "mid"
 
-    private var data: (RealArray, RealArray)
+    let featureBuilder = FeatureBuilder()
     
-    init() {
-        data.0 = RealArray(count: FeatureBuilder.sampleCount)
-        data.1 = RealArray(count: FeatureBuilder.sampleCount)
-    }
-    
-    func forEachExampleInFolder(path: String, action: Example -> ()) {
+    func forEachSequenceInFolder(path: String, @noescape action: (Sequence) throws -> ()) rethrows {
         let fileManager = NSFileManager.defaultManager()
         
         guard let files = try? fileManager.contentsOfDirectoryAtURL(NSURL.fileURLWithPath(path), includingPropertiesForKeys: [NSURLNameKey], options: NSDirectoryEnumerationOptions.SkipsHiddenFiles) else {
@@ -30,12 +25,12 @@ class PolyExampleBuilder {
         let midiFiles = files.filter{ $0.path!.containsString(".mid") }
         
         for file in midiFiles {
-            forEachExampleInFile(file.path!.stringByReplacingOccurrencesOfString(".mid", withString: ""), action: action)
+            try forEachSequenceInFile(file.path!.stringByReplacingOccurrencesOfString(".mid", withString: ""), action: action)
         }
         print("")
     }
     
-    func forEachExampleInFile(filePath: String, action: Example -> ()) {
+    func forEachSequenceInFile(filePath: String, @noescape action: (Sequence) throws -> ()) rethrows {
         let fileManager = NSFileManager.defaultManager()
         
         let midiFilePath = "\(filePath).\(midiFileExtension)"
@@ -45,97 +40,140 @@ class PolyExampleBuilder {
             
             if fileManager.fileExistsAtPath(audioFilePath) {
                 print("Processing \(audioFilePath)")
-                forEachExampleInAudioFile(audioFilePath, midiFilePath: midiFilePath, action: action)
+                try forEachSequenceInAudioFile(audioFilePath, midiFilePath: midiFilePath, action: action)
                 break
             }
         }
     }
     
-    func forEachExampleInAudioFile(audioFilePath: String, midiFilePath: String, action: Example -> ()) {
-        let count = FeatureBuilder.sampleCount
-        let step = FeatureBuilder.sampleStep
-        let overlap = count - step
+    func forEachSequenceInAudioFile(audioFilePath: String, midiFilePath: String, @noescape action: (Sequence) throws -> ()) rethrows {
+        let windowSize = FeatureBuilder.sampleCount
+        let stepSize = FeatureBuilder.sampleStep
 
         guard let midiFile = MIDIFile(filePath: midiFilePath) else {
             fatalError("Failed to open MIDI file \(midiFilePath)")
         }
-        let noteEvents = midiFile.noteEvents
 
-        for i in 0..<count {
-            data.0[i] = 0.0
-            data.1[i] = 0.0
+        guard let audioFile = AudioFile.open(audioFilePath) else {
+            fatalError("Failed to open audio file \(audioFilePath)")
         }
-
-        let audioFile = AudioFile.open(audioFilePath)!
         assert(audioFile.sampleRate == FeatureBuilder.samplingFrequency)
-        guard audioFile.readFrames(data.1.mutablePointer + overlap, count: step) == step else {
-            return
-        }
 
-        while true {
-            data.0.mutablePointer.assignFrom(data.0.mutablePointer + step, count: overlap)
-            (data.0.mutablePointer + overlap).assignFrom(data.1.mutablePointer + overlap, count: step)
+        let noteSequences = splitEvents(midiFile)
+        for noteSequence in noteSequences {
+            let startTime = midiFile.secondsForBeats(noteSequence.first!.timeStamp)
+            let startSample = Int(startTime * FeatureBuilder.samplingFrequency) - windowSize
 
-            data.1.mutablePointer.assignFrom(data.1.mutablePointer + step, count: overlap)
-            guard audioFile.readFrames(data.1.mutablePointer + overlap, count: step) == step else {
-                break
+            let endTime = midiFile.secondsForBeats(noteSequence.last!.timeStamp + Double(noteSequence.last!.duration))
+            let endSample = Int(endTime * FeatureBuilder.samplingFrequency)
+
+            let windowCount = 1 + (endSample - startSample - windowSize) / stepSize
+            let sampleCount = windowCount * (stepSize - 1) + windowSize
+
+            let offset = max(startSample, 0)
+            let sequence = Sequence(filePath: audioFilePath, startOffset: offset)
+
+            audioFile.currentFrame = offset
+            sequence.data = RealArray(count: sampleCount)
+            guard audioFile.readFrames(sequence.data.mutablePointer, count: sampleCount) == sampleCount else {
+                return
             }
 
-            // Offset of the middle of the current window
-            let offset = audioFile.currentFrame - count/2
+            sequence.events = sequenceEventsFromNoteEvents(noteSequence, baseOffset: offset, midiFile: midiFile)
 
-            // Time in seconds for the middle of the current window
-            let time = Double(offset) / FeatureBuilder.samplingFrequency
-
-            // Discard margin in seconds
-            let margin = (1.0 / 8.0) * Double(count) / FeatureBuilder.samplingFrequency
-
-            let offsetStart = audioFile.currentFrame - count
-            let timeStart = margin + Double(offsetStart) / FeatureBuilder.samplingFrequency
-            let beatStart = midiFile.beatsForSeconds(timeStart)
-
-            let offsetEnd = audioFile.currentFrame
-            let timeEnd = Double(offsetEnd) / FeatureBuilder.samplingFrequency - margin
-            let beatEnd = midiFile.beatsForSeconds(timeEnd)
-
-            var label = Label()
-            for note in noteEvents {
-                let noteStart = note.timeStamp
-                let noteEnd = noteStart + MusicTimeStamp(note.duration)
-
-                // Ignore note events before the current window
-                if noteEnd < beatStart {
-                    continue
-                }
-
-                // Stop at the first note past the current window
-                if noteStart > beatEnd {
-                    break
-                }
-
-                let noteStartTime = midiFile.secondsForBeats(noteStart)
-                label.addNote(Note(midiNoteNumber: Int(note.note)), atTime: noteStartTime - time)
+            for i in 0..<windowCount-1 {
+                let start = i * stepSize
+                let end = start + windowSize
+                let feature = featureBuilder.generateFeatures(sequence.data[start..<end], sequence.data[start + stepSize..<end + stepSize])
+                sequence.features.append(feature)
+                sequence.featureOnsetValues.append(onsetValueForWindowAt(start + stepSize, events: sequence.events))
             }
 
-            let example = Example(
-                filePath: audioFilePath,
-                frameOffset: offset,
-                label: label,
-                data: data)
-            action(example)
+            try action(sequence)
         }
     }
 
-    func labelForNotes(notes: [Int]) -> [Int] {
-        var label = [Int](count: FeatureBuilder.notes.count, repeatedValue: 0)
-        for note in notes {
-            guard FeatureBuilder.notes.contains(note) else {
+    func splitEvents(midiFile: MIDIFile) -> [[MIDINoteEvent]] {
+        let events = midiFile.noteEvents
+
+        var sequences = [[MIDINoteEvent]]()
+        var currentSequence = [MIDINoteEvent]()
+        var currentSequenceStartBeat = 0.0
+        var currentSequenceEndBeat = 0.0
+        var currentSequenceStartTime = 0.0
+        var currentSequenceEndTime = 0.0
+
+        for event in events {
+            let eventStart = event.timeStamp
+            let eventEnd = eventStart + Double(event.duration)
+
+            if eventStart >= currentSequenceStartBeat && eventStart < currentSequenceEndBeat {
+                // Event fits in the current sequence
+                currentSequence.append(event)
+                currentSequenceEndBeat = max(currentSequenceEndBeat, eventEnd)
+                currentSequenceEndTime = midiFile.secondsForBeats(currentSequenceEndBeat)
                 continue
             }
-            let index = note - FeatureBuilder.notes.startIndex
-            label[index] = 1
+
+            if currentSequenceEndTime - currentSequenceStartTime < Sequence.minimumSequenceDuration {
+                // Increase sequence length
+                currentSequence.append(event)
+                currentSequenceEndBeat = eventEnd
+                currentSequenceEndTime = midiFile.secondsForBeats(currentSequenceEndBeat)
+                continue
+            }
+
+            // End current sequence
+            sequences.append(currentSequence)
+            currentSequence.removeAll()
+
+            // Start a new sequence
+            currentSequenceStartBeat = eventStart
+            currentSequenceStartTime = midiFile.secondsForBeats(eventStart)
+            currentSequenceEndBeat = eventEnd
+            currentSequenceEndTime = midiFile.secondsForBeats(eventEnd)
         }
-        return label
+
+        return sequences
     }
 
+    func sequenceEventsFromNoteEvents(noteEvents: [MIDINoteEvent], baseOffset offset: Int, midiFile: MIDIFile) -> [Sequence.Event] {
+        var notesByBeat = [Double: [(Note, Double)]]()
+        for noteEvent in noteEvents {
+            let note = Note(midiNoteNumber: Int(noteEvent.note))
+            let velocity = min(1, Double(noteEvent.velocity) / 127.0)
+
+            if let notes = notesByBeat[noteEvent.timeStamp] {
+                var newNotes = notes
+                newNotes.append((note, velocity))
+                notesByBeat.updateValue(newNotes, forKey: noteEvent.timeStamp)
+            } else {
+                notesByBeat[noteEvent.timeStamp] = [(note, velocity)]
+            }
+        }
+
+        var events: [Sequence.Event] = []
+        for (beat, notes) in notesByBeat {
+            let event = Sequence.Event()
+            let time = midiFile.secondsForBeats(beat)
+            let sample = Int(time * FeatureBuilder.samplingFrequency)
+            event.offset = sample - offset
+            event.notes = notes.map({ $0.0 })
+            event.velocities = notes.map({ $0.1 })
+            events.append(event)
+        }
+
+        return events
+    }
+
+    func onsetValueForWindowAt(windowStart: Int, events: [Sequence.Event]) -> Double {
+        var value = 0.0
+        for event in events {
+            let index = event.offset - windowStart
+            if index >= 0 && index < featureBuilder.window.count {
+                value += featureBuilder.window[index]
+            }
+        }
+        return value
+    }
 }

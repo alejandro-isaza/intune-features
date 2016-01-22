@@ -46,7 +46,7 @@ class FeatureCompiler {
 
     init(root: String, output: String, overwrite: Bool) {
         database = FeatureDatabase(filePath: output, overwrite: overwrite)
-        existingFiles = Set<String>(database.filePaths)
+        existingFiles = Set(database.filePaths)
         let urls = loadFiles(root)
         (polyphonicFiles, monophonicFiles, noiseFiles) = categorizeURLs(urls)
 
@@ -54,7 +54,7 @@ class FeatureCompiler {
         print("Processing \(polyphonicFiles.count) polyphonic + \(monophonicFiles.count) monophonic + \(noiseFiles.count) noise files\n")
     }
 
-    func compileNoiseFeatures() {
+    func compileNoiseFeatures() throws  {
         let exampleBuilder = MonoExampleBuilder()
         for (i, file) in noiseFiles.enumerate() {
             if FeatureCompiler.isTTY {
@@ -65,11 +65,11 @@ class FeatureCompiler {
                 continue
             }
 
-            exampleBuilder.forEachSequenceInFile(file, note: nil, action: { sequence in
-                try! self.database.appendSequence(sequence)
-                self.existingFiles.unionInPlace([sequence.filePath])
-            })
-
+            try exampleBuilder.forEachSequenceInFile(file, note: nil) { sequence in
+                try database.appendSequence(sequence)
+                existingFiles.unionInPlace([sequence.filePath])
+            }
+            database.flush()
         }
         print("")
     }
@@ -84,12 +84,12 @@ class FeatureCompiler {
             guard !existingFiles.contains(file.path) else {
                 continue
             }
-            
+
             let note = Note(midiNoteNumber: file.noteNumber)
-            exampleBuilder.forEachSequenceInFile(file.path, note: note, action: { sequence in
-                try! self.database.appendSequence(sequence)
-                self.existingFiles.unionInPlace([sequence.filePath])
-            })
+            try exampleBuilder.forEachSequenceInFile(file.path, note: note) { sequence in
+                try database.appendSequence(sequence)
+                existingFiles.unionInPlace([sequence.filePath])
+            }
         }
         print("")
     }
@@ -104,16 +104,12 @@ class FeatureCompiler {
             guard !existingFiles.contains(file.audioPath) else {
                 continue
             }
-            
-            var features = [FeatureData]()
-            exampleBuilder.forEachExampleInAudioFile(file.audioPath, midiFilePath: file.midiPath, action: { example in
-                let featureData = FeatureData(filePath: example.filePath, fileOffset: example.frameOffset, label: example.label)
-                featureData.feature = self.featureBuilder.generateFeatures(example.data.0, example.data.1)
-                features.append(featureData)
-                self.existingFiles.unionInPlace([example.filePath])
-            })
-            
-            try database.appendFeatures(features)
+
+            try exampleBuilder.forEachSequenceInAudioFile(file.audioPath, midiFilePath: file.midiPath) { sequence in
+                try database.appendSequence(sequence)
+                existingFiles.unionInPlace([sequence.filePath])
+            }
+            database.flush()
         }
         print("")
     }

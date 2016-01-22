@@ -57,6 +57,10 @@ public class FeatureDatabase {
         }
     }
 
+    public func flush() {
+        file.flush()
+    }
+    
     func load() {
         filePaths = readFileList()
         for (index, path) in filePaths.enumerate() {
