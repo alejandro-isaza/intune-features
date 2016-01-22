@@ -108,8 +108,8 @@ public class ValidateFeatures {
             fatalError("File not found '\(filePath)'")
         }
 
-        readAtFrame(file, frame: offset - FeatureBuilder.windowSize / 2 - FeatureBuilder.stepSize, data: data.0.mutablePointer)
-        readAtFrame(file, frame: offset - FeatureBuilder.windowSize / 2, data: data.1.mutablePointer)
+        readAtFrame(file, frame: offset, data: data.0.mutablePointer)
+        readAtFrame(file, frame: offset + FeatureBuilder.stepSize, data: data.1.mutablePointer)
     }
 
     func readAtFrame(file: AudioFile, frame: Int, data: UnsafeMutablePointer<Double>) {
