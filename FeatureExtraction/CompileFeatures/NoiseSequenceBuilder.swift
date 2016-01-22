@@ -5,7 +5,7 @@ import FeatureExtraction
 import Foundation
 import Upsurge
 
-class NoiseExampleBuilder {
+class NoiseSequenceBuilder {
     let fileExtensions = [
         "m4a",
         "caf",

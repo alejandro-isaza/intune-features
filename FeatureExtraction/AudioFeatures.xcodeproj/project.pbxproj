@@ -24,7 +24,7 @@
 		610E2A811C4F11D0006B6016 /* FeatureDatabase+Shuffling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E2A7F1C4F11D0006B6016 /* FeatureDatabase+Shuffling.swift */; };
 		610E2A891C500C78006B6016 /* FeatureDatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E2A881C500C78006B6016 /* FeatureDatabaseTests.swift */; };
 		610E2A8A1C500C78006B6016 /* FeatureDatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E2A881C500C78006B6016 /* FeatureDatabaseTests.swift */; };
-		610E2AE41C52C8D2006B6016 /* NoiseExampleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E2AE31C52C8D2006B6016 /* NoiseExampleBuilder.swift */; };
+		610E2AE41C52C8D2006B6016 /* NoiseSequenceBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E2AE31C52C8D2006B6016 /* NoiseSequenceBuilder.swift */; };
 		6117569F1C407B650025446F /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6117569E1C407B650025446F /* Accelerate.framework */; };
 		611756A01C407B930025446F /* DistancePeakExtractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA0EF51BB9C60800433755 /* DistancePeakExtractionTests.swift */; };
 		611756A11C407B930025446F /* FeatureDatabaaseShuffleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6180A72C1C179E9400D63F00 /* FeatureDatabaaseShuffleTests.swift */; };
@@ -89,11 +89,11 @@
 		8C94D9911C3C3EDA005B7BEF /* HDF5Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C861BF2784E000E0D34 /* HDF5Kit.framework */; };
 		8C94D9921C3C3EDA005B7BEF /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4CA71BF2784E000E0D34 /* Upsurge.framework */; };
 		8C97003A1BDFDCB4002A81A3 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9700391BDFDCB4002A81A3 /* main.swift */; };
-		8C9700EF1BE12C00002A81A3 /* PolyExampleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9700EE1BE12C00002A81A3 /* PolyExampleBuilder.swift */; };
+		8C9700EF1BE12C00002A81A3 /* PolySequenceBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9700EE1BE12C00002A81A3 /* PolySequenceBuilder.swift */; };
 		8CDA0EF41BB9BA4300433755 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA0EF31BB9BA4300433755 /* Utilities.swift */; };
 		8CDCA2E11C47116F00354F89 /* testing.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 8CDCA2DF1C47116F00354F89 /* testing.h5 */; };
 		8CDCA2E21C47116F00354F89 /* training.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 8CDCA2E01C47116F00354F89 /* training.h5 */; };
-		8CDE47961BBF117C00A98419 /* MonoExampleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE47921BBF117C00A98419 /* MonoExampleBuilder.swift */; };
+		8CDE47961BBF117C00A98419 /* MonoSequenceBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE47921BBF117C00A98419 /* MonoSequenceBuilder.swift */; };
 		8CDE47981BBF117C00A98419 /* FeatureCompiler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE47941BBF117C00A98419 /* FeatureCompiler.swift */; };
 		8CDE479C1BBF11A000A98419 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479B1BBF11A000A98419 /* main.swift */; };
 		8CDE47A01BBF2FA000A98419 /* String+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479F1BBF2FA000A98419 /* String+Paths.swift */; };
@@ -429,7 +429,7 @@
 		610E29C11C4D89C2006B6016 /* Sequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sequence.swift; sourceTree = "<group>"; };
 		610E2A7F1C4F11D0006B6016 /* FeatureDatabase+Shuffling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FeatureDatabase+Shuffling.swift"; sourceTree = "<group>"; };
 		610E2A881C500C78006B6016 /* FeatureDatabaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureDatabaseTests.swift; sourceTree = "<group>"; };
-		610E2AE31C52C8D2006B6016 /* NoiseExampleBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoiseExampleBuilder.swift; sourceTree = "<group>"; };
+		610E2AE31C52C8D2006B6016 /* NoiseSequenceBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoiseSequenceBuilder.swift; sourceTree = "<group>"; };
 		6117569E1C407B650025446F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
 		6126D7161BE976D9007F8BE4 /* PeakHeightsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakHeightsViewController.swift; sourceTree = "<group>"; };
 		6156937A1BE82C5A0094E204 /* FileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileViewController.swift; sourceTree = "<group>"; };
@@ -491,13 +491,13 @@
 		8C7845801BB9B06600C88426 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C9700371BDFDCB4002A81A3 /* PrepareAudio */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = PrepareAudio; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C9700391BDFDCB4002A81A3 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
-		8C9700EE1BE12C00002A81A3 /* PolyExampleBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolyExampleBuilder.swift; sourceTree = "<group>"; };
+		8C9700EE1BE12C00002A81A3 /* PolySequenceBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolySequenceBuilder.swift; sourceTree = "<group>"; };
 		8CDA0EF31BB9BA4300433755 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		8CDA0EF51BB9C60800433755 /* DistancePeakExtractionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistancePeakExtractionTests.swift; sourceTree = "<group>"; };
 		8CDCA2DF1C47116F00354F89 /* testing.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testing.h5; sourceTree = SOURCE_ROOT; };
 		8CDCA2E01C47116F00354F89 /* training.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = training.h5; sourceTree = SOURCE_ROOT; };
 		8CDE478A1BBF116900A98419 /* CompileFeatures */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CompileFeatures; sourceTree = BUILT_PRODUCTS_DIR; };
-		8CDE47921BBF117C00A98419 /* MonoExampleBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonoExampleBuilder.swift; sourceTree = "<group>"; };
+		8CDE47921BBF117C00A98419 /* MonoSequenceBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonoSequenceBuilder.swift; sourceTree = "<group>"; };
 		8CDE47941BBF117C00A98419 /* FeatureCompiler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureCompiler.swift; sourceTree = "<group>"; };
 		8CDE479B1BBF11A000A98419 /* main.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		8CDE479F1BBF2FA000A98419 /* String+Paths.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Paths.swift"; sourceTree = "<group>"; };
@@ -812,9 +812,9 @@
 			children = (
 				8CDE479B1BBF11A000A98419 /* main.swift */,
 				8CDE47941BBF117C00A98419 /* FeatureCompiler.swift */,
-				610E2AE31C52C8D2006B6016 /* NoiseExampleBuilder.swift */,
-				8CDE47921BBF117C00A98419 /* MonoExampleBuilder.swift */,
-				8C9700EE1BE12C00002A81A3 /* PolyExampleBuilder.swift */,
+				610E2AE31C52C8D2006B6016 /* NoiseSequenceBuilder.swift */,
+				8CDE47921BBF117C00A98419 /* MonoSequenceBuilder.swift */,
+				8C9700EE1BE12C00002A81A3 /* PolySequenceBuilder.swift */,
 				8CDE479F1BBF2FA000A98419 /* String+Paths.swift */,
 			);
 			path = CompileFeatures;
@@ -1451,11 +1451,11 @@
 			buildActionMask = 2147483647;
 			files = (
 				8CDE47981BBF117C00A98419 /* FeatureCompiler.swift in Sources */,
-				610E2AE41C52C8D2006B6016 /* NoiseExampleBuilder.swift in Sources */,
+				610E2AE41C52C8D2006B6016 /* NoiseSequenceBuilder.swift in Sources */,
 				8CDE47A01BBF2FA000A98419 /* String+Paths.swift in Sources */,
-				8CDE47961BBF117C00A98419 /* MonoExampleBuilder.swift in Sources */,
+				8CDE47961BBF117C00A98419 /* MonoSequenceBuilder.swift in Sources */,
 				8CDE479C1BBF11A000A98419 /* main.swift in Sources */,
-				8C9700EF1BE12C00002A81A3 /* PolyExampleBuilder.swift in Sources */,
+				8C9700EF1BE12C00002A81A3 /* PolySequenceBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

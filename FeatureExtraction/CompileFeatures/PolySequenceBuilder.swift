@@ -6,7 +6,7 @@ import FeatureExtraction
 import Foundation
 import Upsurge
 
-class PolyExampleBuilder {
+class PolySequenceBuilder {
     let audioFileExtensions = [
         "mp3",
         "wav",

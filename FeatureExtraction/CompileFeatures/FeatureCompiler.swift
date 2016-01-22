@@ -55,7 +55,7 @@ class FeatureCompiler {
     }
 
     func compileNoiseFeatures() throws  {
-        let exampleBuilder = NoiseExampleBuilder()
+        let exampleBuilder = NoiseSequenceBuilder()
         for (i, file) in noiseFiles.enumerate() {
             if FeatureCompiler.isTTY {
                 print(FeatureCompiler.eraseLastLineCommand, terminator: "")
@@ -75,7 +75,7 @@ class FeatureCompiler {
     }
 
     func compileMonoFeatures() throws {
-        let exampleBuilder = MonoExampleBuilder()
+        let exampleBuilder = MonoSequenceBuilder()
         for (i, file) in monophonicFiles.enumerate() {
             if FeatureCompiler.isTTY {
                 print(FeatureCompiler.eraseLastLineCommand, terminator: "")
@@ -95,7 +95,7 @@ class FeatureCompiler {
     }
 
     func compilePolyFeatures() throws {
-        let exampleBuilder = PolyExampleBuilder()
+        let exampleBuilder = PolySequenceBuilder()
         for (i, file) in polyphonicFiles.enumerate() {
             if FeatureCompiler.isTTY {
                 print(FeatureCompiler.eraseLastLineCommand, terminator: "")

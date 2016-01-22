@@ -5,7 +5,7 @@ import FeatureExtraction
 import Foundation
 import Upsurge
 
-class MonoExampleBuilder {
+class MonoSequenceBuilder {
     let fileExtensions = [
         "m4a",
         "caf",
@@ -41,7 +41,7 @@ class MonoExampleBuilder {
     func forEachSequenceInFile(filePath: String, note: Note, @noescape action: (Sequence) throws -> ()) rethrows {
         let windowSize = FeatureBuilder.windowSize
         let step = FeatureBuilder.stepSize
-        let padding = MonoExampleBuilder.padding
+        let padding = MonoSequenceBuilder.padding
 
         let audioFile = AudioFile.open(filePath)!
         guard audioFile.sampleRate == FeatureBuilder.samplingFrequency else {
