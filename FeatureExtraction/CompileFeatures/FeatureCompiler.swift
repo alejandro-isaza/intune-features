@@ -46,7 +46,7 @@ class FeatureCompiler {
 
     init(root: String, output: String, overwrite: Bool) {
         database = FeatureDatabase(filePath: output, overwrite: overwrite)
-        existingFiles = database.fileList
+        existingFiles = Set<String>(database.filePaths)
         let urls = loadFiles(root)
         (polyphonicFiles, monophonicFiles, noiseFiles) = categorizeURLs(urls)
 
@@ -54,7 +54,7 @@ class FeatureCompiler {
         print("Processing \(polyphonicFiles.count) polyphonic + \(monophonicFiles.count) monophonic + \(noiseFiles.count) noise files\n")
     }
 
-    func compileNoiseFeatures() throws {
+    func compileNoiseFeatures() {
         let exampleBuilder = MonoExampleBuilder()
         for (i, file) in noiseFiles.enumerate() {
             if FeatureCompiler.isTTY {
@@ -65,15 +65,11 @@ class FeatureCompiler {
                 continue
             }
 
-            var features = [FeatureData]()
-            exampleBuilder.forEachExampleInFile(file, note: nil, numExamples: MonoExampleBuilder.numNoiseExamples, action: { example in
-                let featureData = FeatureData(filePath: example.filePath, fileOffset: example.frameOffset, label: example.label)
-                featureData.feature = self.featureBuilder.generateFeatures(example.data.0, example.data.1)
-                features.append(featureData)
-                self.existingFiles.unionInPlace([example.filePath])
+            exampleBuilder.forEachSequenceInFile(file, note: nil, action: { sequence in
+                try! self.database.appendSequence(sequence)
+                self.existingFiles.unionInPlace([sequence.filePath])
             })
 
-            try database.appendFeatures(features)
         }
         print("")
     }
@@ -89,16 +85,11 @@ class FeatureCompiler {
                 continue
             }
             
-            var features = [FeatureData]()
             let note = Note(midiNoteNumber: file.noteNumber)
-            exampleBuilder.forEachExampleInFile(file.path, note: note, numExamples: MonoExampleBuilder.numNoteExamples, action: { example in
-                let featureData = FeatureData(filePath: example.filePath, fileOffset: example.frameOffset, label: example.label)
-                featureData.feature = self.featureBuilder.generateFeatures(example.data.0, example.data.1)
-                features.append(featureData)
-                self.existingFiles.unionInPlace([example.filePath])
+            exampleBuilder.forEachSequenceInFile(file.path, note: note, action: { sequence in
+                try! self.database.appendSequence(sequence)
+                self.existingFiles.unionInPlace([sequence.filePath])
             })
-
-            try database.appendFeatures(features)
         }
         print("")
     }
