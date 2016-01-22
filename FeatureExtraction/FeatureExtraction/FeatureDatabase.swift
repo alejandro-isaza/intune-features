@@ -206,7 +206,10 @@ public extension FeatureDatabase {
         var noteValues = [Real](count: Note.noteCount * sequence.events.count, repeatedValue: 0.0)
         for event in sequence.events {
             for note in event.notes {
-                noteValues[note.midiNoteNumber - Note.representableRange.startIndex] = 1.0
+                let index = note.midiNoteNumber - Note.representableRange.startIndex
+                if index >= 0 && index < Note.noteCount {
+                    noteValues[note.midiNoteNumber - Note.representableRange.startIndex] = 1.0
+                }
             }
         }
         try eventNoteDataset.append(noteValues, dimensions: [1, sequence.events.count, Note.noteCount])
@@ -220,7 +223,10 @@ public extension FeatureDatabase {
         var velocities = [Real](count: Note.noteCount * sequence.events.count, repeatedValue: 0.0)
         for (eventIndex, event) in sequence.events.enumerate() {
             for (noteIndex, note) in event.notes.enumerate() {
-                velocities[eventIndex * Note.noteCount + note.midiNoteNumber - Note.representableRange.startIndex] = event.velocities[noteIndex]
+                let index = note.midiNoteNumber - Note.representableRange.startIndex
+                if index >= 0 && index < Note.noteCount {
+                    velocities[eventIndex * Note.noteCount + index] = event.velocities[noteIndex]
+                }
             }
         }
         try eventVelocitiesDataset.append(velocities, dimensions: [1, sequence.events.count, Note.noteCount])
