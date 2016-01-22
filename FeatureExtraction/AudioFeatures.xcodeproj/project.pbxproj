@@ -24,6 +24,7 @@
 		610E2A811C4F11D0006B6016 /* FeatureDatabase+Shuffling.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E2A7F1C4F11D0006B6016 /* FeatureDatabase+Shuffling.swift */; };
 		610E2A891C500C78006B6016 /* FeatureDatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E2A881C500C78006B6016 /* FeatureDatabaseTests.swift */; };
 		610E2A8A1C500C78006B6016 /* FeatureDatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E2A881C500C78006B6016 /* FeatureDatabaseTests.swift */; };
+		610E2AE41C52C8D2006B6016 /* NoiseExampleBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E2AE31C52C8D2006B6016 /* NoiseExampleBuilder.swift */; };
 		6117569F1C407B650025446F /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6117569E1C407B650025446F /* Accelerate.framework */; };
 		611756A01C407B930025446F /* DistancePeakExtractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA0EF51BB9C60800433755 /* DistancePeakExtractionTests.swift */; };
 		611756A11C407B930025446F /* FeatureDatabaaseShuffleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6180A72C1C179E9400D63F00 /* FeatureDatabaaseShuffleTests.swift */; };
@@ -100,6 +101,20 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		610E2AF41C52C8D4006B6016 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61CE4C721BF2784D000E0D34 /* Upsurge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 61D0466D1C48BA5B00DB7279;
+			remoteInfo = "Upsurge tvOS";
+		};
+		610E2AF61C52C8D4006B6016 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61CE4C721BF2784D000E0D34 /* Upsurge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 61D046761C48BA5B00DB7279;
+			remoteInfo = "UpsurgeTests tvOS";
+		};
 		6180A77A1C18ABFC00D63F00 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8C7845661BB9B06600C88426 /* Project object */;
@@ -414,6 +429,7 @@
 		610E29C11C4D89C2006B6016 /* Sequence.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Sequence.swift; sourceTree = "<group>"; };
 		610E2A7F1C4F11D0006B6016 /* FeatureDatabase+Shuffling.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "FeatureDatabase+Shuffling.swift"; sourceTree = "<group>"; };
 		610E2A881C500C78006B6016 /* FeatureDatabaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureDatabaseTests.swift; sourceTree = "<group>"; };
+		610E2AE31C52C8D2006B6016 /* NoiseExampleBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoiseExampleBuilder.swift; sourceTree = "<group>"; };
 		6117569E1C407B650025446F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
 		6126D7161BE976D9007F8BE4 /* PeakHeightsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakHeightsViewController.swift; sourceTree = "<group>"; };
 		6156937A1BE82C5A0094E204 /* FileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileViewController.swift; sourceTree = "<group>"; };
@@ -704,6 +720,8 @@
 				61CE4CA91BF2784E000E0D34 /* UpsurgeTests OSX.xctest */,
 				61CE4CAB1BF2784E000E0D34 /* Upsurge.framework */,
 				61CE4CAD1BF2784E000E0D34 /* UpsurgeTests iOS.xctest */,
+				610E2AF51C52C8D4006B6016 /* Upsurge.framework */,
+				610E2AF71C52C8D4006B6016 /* UpsurgeTests tvOS.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -794,6 +812,7 @@
 			children = (
 				8CDE479B1BBF11A000A98419 /* main.swift */,
 				8CDE47941BBF117C00A98419 /* FeatureCompiler.swift */,
+				610E2AE31C52C8D2006B6016 /* NoiseExampleBuilder.swift */,
 				8CDE47921BBF117C00A98419 /* MonoExampleBuilder.swift */,
 				8C9700EE1BE12C00002A81A3 /* PolyExampleBuilder.swift */,
 				8CDE479F1BBF2FA000A98419 /* String+Paths.swift */,
@@ -1103,6 +1122,20 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		610E2AF51C52C8D4006B6016 /* Upsurge.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Upsurge.framework;
+			remoteRef = 610E2AF41C52C8D4006B6016 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		610E2AF71C52C8D4006B6016 /* UpsurgeTests tvOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "UpsurgeTests tvOS.xctest";
+			remoteRef = 610E2AF61C52C8D4006B6016 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		6188C7D71C066D50001A7EAA /* CommandLine.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -1418,6 +1451,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8CDE47981BBF117C00A98419 /* FeatureCompiler.swift in Sources */,
+				610E2AE41C52C8D2006B6016 /* NoiseExampleBuilder.swift in Sources */,
 				8CDE47A01BBF2FA000A98419 /* String+Paths.swift in Sources */,
 				8CDE47961BBF117C00A98419 /* MonoExampleBuilder.swift in Sources */,
 				8CDE479C1BBF11A000A98419 /* main.swift in Sources */,

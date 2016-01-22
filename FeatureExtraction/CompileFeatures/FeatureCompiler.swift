@@ -55,7 +55,7 @@ class FeatureCompiler {
     }
 
     func compileNoiseFeatures() throws  {
-        let exampleBuilder = MonoExampleBuilder()
+        let exampleBuilder = NoiseExampleBuilder()
         for (i, file) in noiseFiles.enumerate() {
             if FeatureCompiler.isTTY {
                 print(FeatureCompiler.eraseLastLineCommand, terminator: "")
@@ -65,7 +65,7 @@ class FeatureCompiler {
                 continue
             }
 
-            try exampleBuilder.forEachSequenceInFile(file, note: nil) { sequence in
+            try exampleBuilder.forEachSequenceInFile(file) { sequence in
                 try database.appendSequence(sequence)
                 existingFiles.unionInPlace([sequence.filePath])
             }

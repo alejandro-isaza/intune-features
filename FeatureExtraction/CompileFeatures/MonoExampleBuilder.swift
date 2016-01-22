@@ -17,24 +17,10 @@ class MonoExampleBuilder {
 
     let featureBuilder = FeatureBuilder()
 
-    func forEachNoteSequenceInFolder(folder: String, @noescape action: (Sequence) throws -> ()) rethrows {
+    func forEachSequenceInFolder(folder: String, @noescape action: (Sequence) throws -> ()) rethrows {
         for note in FeatureBuilder.notes {
             let note = Note(midiNoteNumber: note)
             try forEachSequenceInFile(String(note), path: folder, note: note, action: action)
-        }
-        print("")
-    }
-
-    func forEachNoiseSequenceInFolder(folder: String, @noescape action: (Sequence) throws -> ()) rethrows {
-        let fileManager = NSFileManager.defaultManager()
-        guard let files = try? fileManager.contentsOfDirectoryAtURL(NSURL.fileURLWithPath(folder), includingPropertiesForKeys: [NSURLNameKey], options: NSDirectoryEnumerationOptions.SkipsHiddenFiles) else {
-            fatalError("Failed to fetch contents of \(folder)")
-        }
-
-        for file in files {
-            let filePath = file.path!
-            print("Processing \(filePath)")
-            try forEachSequenceInFile(filePath, note: nil, action: action)
         }
         print("")
     }
@@ -52,7 +38,7 @@ class MonoExampleBuilder {
         }
     }
 
-    func forEachSequenceInFile(filePath: String, note: Note?, @noescape action: (Sequence) throws -> ()) rethrows {
+    func forEachSequenceInFile(filePath: String, note: Note, @noescape action: (Sequence) throws -> ()) rethrows {
         let windowSize = FeatureBuilder.windowSize
         let step = FeatureBuilder.stepSize
         let padding = MonoExampleBuilder.padding
@@ -79,10 +65,8 @@ class MonoExampleBuilder {
 
         let event = Sequence.Event()
         event.offset = padding
-        if let note = note {
-            event.notes = [note]
-            event.velocities = [0.75]
-        }
+        event.notes = [note]
+        event.velocities = [0.75]
         sequence.events.append(event)
 
         let windowCount = FeatureBuilder.windowCountInSamples(sequence.data.count)
