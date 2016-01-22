@@ -46,13 +46,13 @@ class FeaturesViewController: NSTabViewController {
     // MARK: - Feature extraction
 
     let window: RealArray = {
-        let array = RealArray(count: FeatureBuilder.sampleCount)
-        vDSP_hamm_windowD(array.mutablePointer, vDSP_Length(FeatureBuilder.sampleCount), 0)
+        let array = RealArray(count: FeatureBuilder.windowSize)
+        vDSP_hamm_windowD(array.mutablePointer, vDSP_Length(FeatureBuilder.windowSize), 0)
         return array
     }()
-    let fft = FFT(inputLength: FeatureBuilder.sampleCount)
+    let fft = FFT(inputLength: FeatureBuilder.windowSize)
     let peakExtractor = PeakExtractor(heightCutoffMultiplier: FeatureBuilder.peakHeightCutoffMultiplier, minimumNoteDistance: FeatureBuilder.peakMinimumNoteDistance)
-    let fb = Double(FeatureBuilder.samplingFrequency) / Double(FeatureBuilder.sampleCount)
+    let fb = Double(FeatureBuilder.samplingFrequency) / Double(FeatureBuilder.windowSize)
 
     /// Compute the power spectrum values
     func spectrumValues(data: RealArray) -> RealArray {

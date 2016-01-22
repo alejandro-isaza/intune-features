@@ -47,8 +47,8 @@ class PolyExampleBuilder {
     }
     
     func forEachSequenceInAudioFile(audioFilePath: String, midiFilePath: String, @noescape action: (Sequence) throws -> ()) rethrows {
-        let windowSize = FeatureBuilder.sampleCount
-        let stepSize = FeatureBuilder.sampleStep
+        let windowSize = FeatureBuilder.windowSize
+        let stepSize = FeatureBuilder.stepSize
 
         guard let midiFile = MIDIFile(filePath: midiFilePath) else {
             fatalError("Failed to open MIDI file \(midiFilePath)")
@@ -67,8 +67,8 @@ class PolyExampleBuilder {
             let endTime = midiFile.secondsForBeats(noteSequence.last!.timeStamp + Double(noteSequence.last!.duration))
             let endSample = Int(endTime * FeatureBuilder.samplingFrequency)
 
-            let windowCount = 1 + (endSample - startSample - windowSize) / stepSize
-            let sampleCount = windowCount * (stepSize - 1) + windowSize
+            let windowCount = FeatureBuilder.windowCountInSamples(endSample - startSample)
+            let sampleCount = FeatureBuilder.sampleCountInWindows(windowCount)
 
             let offset = max(startSample, 0)
             let sequence = Sequence(filePath: audioFilePath, startOffset: offset)

@@ -54,11 +54,11 @@ public class ValidateFeatures {
 
         for event in sequence.events {
             let offset = event.offset
-            let featureIndex = (offset - sequence.startOffset) / FeatureBuilder.sampleStep
+            let featureIndex = (offset - sequence.startOffset) / FeatureBuilder.stepSize
             let expectedFeature = sequence.features[featureIndex]
             let expectedLabel = Label(eventNotes: event.notes, eventVelocities: event.velocities)
             
-            let data: (RealArray, RealArray) = (RealArray(count: FeatureBuilder.sampleCount), RealArray(count: FeatureBuilder.sampleCount))
+            let data: (RealArray, RealArray) = (RealArray(count: FeatureBuilder.windowSize), RealArray(count: FeatureBuilder.windowSize))
             loadExampleData(filePath, offset: offset, data: data)
             let actualFeature = featureBuilder.generateFeatures(data.0, data.1)
             
@@ -99,21 +99,21 @@ public class ValidateFeatures {
             fatalError("File not found '\(filePath)'")
         }
         
-        readAtFrame(file, frame: offset - FeatureBuilder.sampleCount / 2 - FeatureBuilder.sampleStep, data: data.0.mutablePointer)
-        readAtFrame(file, frame: offset - FeatureBuilder.sampleCount / 2, data: data.1.mutablePointer)
+        readAtFrame(file, frame: offset - FeatureBuilder.windowSize / 2 - FeatureBuilder.stepSize, data: data.0.mutablePointer)
+        readAtFrame(file, frame: offset - FeatureBuilder.windowSize / 2, data: data.1.mutablePointer)
     }
     
     func readAtFrame(file: AudioFile, frame: Int, data: UnsafeMutablePointer<Double>) {
         if frame >= 0 {
             file.currentFrame = frame
-            file.readFrames(data, count: FeatureBuilder.sampleCount)
+            file.readFrames(data, count: FeatureBuilder.windowSize)
         } else {
             file.currentFrame = 0
             let fillSize = -frame
             for i in 0..<fillSize {
                 data[i] = 0.0
             }
-            file.readFrames(data + fillSize, count: FeatureBuilder.sampleCount - fillSize)
+            file.readFrames(data + fillSize, count: FeatureBuilder.windowSize - fillSize)
         }
     }
     
@@ -184,13 +184,13 @@ public class ValidateFeatures {
             let time = Double(offset) / FeatureBuilder.samplingFrequency
             
             // Discard margin in seconds
-            let margin = (1.0 / 8.0) * Double(FeatureBuilder.sampleCount) / FeatureBuilder.samplingFrequency
+            let margin = (1.0 / 8.0) * Double(FeatureBuilder.windowSize) / FeatureBuilder.samplingFrequency
             
-            let offsetStart = offset - FeatureBuilder.sampleCount / 2
+            let offsetStart = offset - FeatureBuilder.windowSize / 2
             let timeStart = margin + Double(offsetStart) / FeatureBuilder.samplingFrequency
             let beatStart = midFile.beatsForSeconds(timeStart)
             
-            let offsetEnd = offset + FeatureBuilder.sampleCount / 2
+            let offsetEnd = offset + FeatureBuilder.windowSize / 2
             let timeEnd = Double(offsetEnd) / FeatureBuilder.samplingFrequency - margin
             let beatEnd = midFile.beatsForSeconds(timeEnd)
             

@@ -13,7 +13,7 @@ class MonoExampleBuilder {
         "aiff"
     ]
     
-    static let padding = FeatureBuilder.sampleCount
+    static let padding = FeatureBuilder.windowSize
 
     let featureBuilder = FeatureBuilder()
 
@@ -53,8 +53,8 @@ class MonoExampleBuilder {
     }
 
     func forEachSequenceInFile(filePath: String, note: Note?, @noescape action: (Sequence) throws -> ()) rethrows {
-        let windowSize = FeatureBuilder.sampleCount
-        let step = FeatureBuilder.sampleStep
+        let windowSize = FeatureBuilder.windowSize
+        let step = FeatureBuilder.stepSize
         let padding = MonoExampleBuilder.padding
 
         let audioFile = AudioFile.open(filePath)!
@@ -85,8 +85,8 @@ class MonoExampleBuilder {
         }
         sequence.events.append(event)
 
-        let windowCount = (sequence.data.count - windowSize) / step
-        for i in 0..<windowCount {
+        let windowCount = FeatureBuilder.windowCountInSamples(sequence.data.count)
+        for i in 0..<windowCount-1 {
             let start = i * step
             let end = start + windowSize
 

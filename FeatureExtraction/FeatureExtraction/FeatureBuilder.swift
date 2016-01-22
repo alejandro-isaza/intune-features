@@ -8,10 +8,10 @@ public struct FeatureBuilder {
     public static let samplingFrequency = 44100.0
 
     /// Analysis window size in samples
-    public static let sampleCount = 8*1024
+    public static let windowSize = 8*1024
 
     /// Step size between analysis windows
-    public static let sampleStep = 1024
+    public static let stepSize = 1024
 
     /// The range of notes to consider for labeling
     public static let notes = 36...96
@@ -28,11 +28,27 @@ public struct FeatureBuilder {
     /// The minimum distance between peaks in notes
     public static let peakMinimumNoteDistance = 0.5
 
+    /// Calculate the number of windows that fit inside the given number of samples
+    public static func windowCountInSamples(samples: Int) -> Int {
+        if samples < windowSize {
+            return 0
+        }
+        return 1 + (samples - windowSize) / stepSize
+    }
+
+    /// Calculate the number of samples in the given number of contiguous windows
+    public static func sampleCountInWindows(windowCount: Int) -> Int {
+        if windowCount < 1 {
+            return 0
+        }
+        return (windowCount - 1) * stepSize + windowSize
+    }
+
     // Helpers
     public var window: RealArray
-    public let fft = FFT(inputLength: sampleCount)
+    public let fft = FFT(inputLength: windowSize)
     public let peakExtractor = PeakExtractor(heightCutoffMultiplier: peakHeightCutoffMultiplier, minimumNoteDistance: peakMinimumNoteDistance)
-    public let fb = Double(samplingFrequency) / Double(sampleCount)
+    public let fb = Double(samplingFrequency) / Double(windowSize)
     
     // Generators
     public let peakLocations = PeakLocationsFeatureGenerator(notes: bandNotes, bandSize: bandSize)
@@ -42,8 +58,8 @@ public struct FeatureBuilder {
     public let spectrumFluxFeature: SpectrumFluxFeatureGenerator = SpectrumFluxFeatureGenerator(notes: bandNotes, bandSize: bandSize)
 
     public init() {
-        window = RealArray(count: FeatureBuilder.sampleCount)
-        vDSP_hamm_windowD(window.mutablePointer, vDSP_Length(FeatureBuilder.sampleCount), 0)
+        window = RealArray(count: FeatureBuilder.windowSize)
+        vDSP_hamm_windowD(window.mutablePointer, vDSP_Length(FeatureBuilder.windowSize), 0)
     }
 
     public func generateFeatures<C: LinearType where C.Element == Real>(data0: C, _ data1: C) -> Feature {

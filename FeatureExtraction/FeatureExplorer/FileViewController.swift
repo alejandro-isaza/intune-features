@@ -30,10 +30,10 @@ class FileViewController: NSViewController {
 
         NSNotificationCenter.defaultCenter().addObserverForName(NSOutlineViewSelectionDidChangeNotification, object: nil, queue: nil, usingBlock: { notification in })
 
-        offsetStepper.minValue = Double(FeatureBuilder.sampleCount/2 + FeatureBuilder.sampleStep)
-        offsetStepper.increment = Double(FeatureBuilder.sampleStep)
+        offsetStepper.minValue = Double(FeatureBuilder.windowSize/2 + FeatureBuilder.stepSize)
+        offsetStepper.increment = Double(FeatureBuilder.stepSize)
         offsetStepper.maxValue = DBL_MAX
-        offsetSlider.minValue = Double(FeatureBuilder.sampleCount/2 + FeatureBuilder.sampleStep)
+        offsetSlider.minValue = Double(FeatureBuilder.windowSize/2 + FeatureBuilder.stepSize)
         offsetSlider.maxValue = DBL_MAX
 
         featuresViewController = storyboard!.instantiateControllerWithIdentifier("FeaturesViewController") as! FeaturesViewController
@@ -61,9 +61,9 @@ class FileViewController: NSViewController {
         midiFile = MIDIFile(filePath: midiFilePath)
 
         audioFile = AudioFile.open(example.filePath)
-        example.data.0 = RealArray(count: FeatureBuilder.sampleCount)
-        example.data.1 = RealArray(count: FeatureBuilder.sampleCount)
-        loadOffset(FeatureBuilder.sampleCount)
+        example.data.0 = RealArray(count: FeatureBuilder.windowSize)
+        example.data.1 = RealArray(count: FeatureBuilder.windowSize)
+        loadOffset(FeatureBuilder.windowSize)
     }
 
     func loadOffset(var offset: Int) {
@@ -71,19 +71,19 @@ class FileViewController: NSViewController {
             print("Failed to open file '\(example.filePath)'")
             return
         }
-        offsetStepper.maxValue = Double(audioFile.frameCount - FeatureBuilder.sampleCount/2)
-        offsetSlider.maxValue = Double(audioFile.frameCount - FeatureBuilder.sampleCount/2)
+        offsetStepper.maxValue = Double(audioFile.frameCount - FeatureBuilder.windowSize/2)
+        offsetSlider.maxValue = Double(audioFile.frameCount - FeatureBuilder.windowSize/2)
 
-        if offset < FeatureBuilder.sampleCount/2 + FeatureBuilder.sampleStep {
-            offset = FeatureBuilder.sampleCount/2 + FeatureBuilder.sampleStep
+        if offset < FeatureBuilder.windowSize/2 + FeatureBuilder.stepSize {
+            offset = FeatureBuilder.windowSize/2 + FeatureBuilder.stepSize
         }
         example.frameOffset = offset
 
-        audioFile.currentFrame = offset - FeatureBuilder.sampleCount/2 - FeatureBuilder.sampleStep
-        audioFile.readFrames(example.data.0.mutablePointer, count: FeatureBuilder.sampleCount)
+        audioFile.currentFrame = offset - FeatureBuilder.windowSize/2 - FeatureBuilder.stepSize
+        audioFile.readFrames(example.data.0.mutablePointer, count: FeatureBuilder.windowSize)
 
-        audioFile.currentFrame = offset - FeatureBuilder.sampleCount/2
-        audioFile.readFrames(example.data.1.mutablePointer, count: FeatureBuilder.sampleCount)
+        audioFile.currentFrame = offset - FeatureBuilder.windowSize/2
+        audioFile.readFrames(example.data.1.mutablePointer, count: FeatureBuilder.windowSize)
 
         featuresViewController.example = example
 
@@ -110,8 +110,8 @@ class FileViewController: NSViewController {
             return []
         }
         let time = Double(offset) / audioFile.sampleRate
-        let timeStart = Double(offset - FeatureBuilder.sampleCount/2) / audioFile.sampleRate
-        let timeEnd = Double(offset + FeatureBuilder.sampleCount/2) / audioFile.sampleRate
+        let timeStart = Double(offset - FeatureBuilder.windowSize/2) / audioFile.sampleRate
+        let timeEnd = Double(offset + FeatureBuilder.windowSize/2) / audioFile.sampleRate
         let beatStart = midiFile.beatsForSeconds(timeStart)
         let beatEnd = midiFile.beatsForSeconds(timeEnd)
 
