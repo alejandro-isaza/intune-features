@@ -58,6 +58,7 @@
 		61A46BD21BDEC578001D2288 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 61A46BD01BDEC578001D2288 /* Main.storyboard */; };
 		61A46BFE1BDED992001D2288 /* MainViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A46BFD1BDED992001D2288 /* MainViewController.swift */; };
 		61A46C001BDEE0BA001D2288 /* FilesystemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A46BFF1BDEE0BA001D2288 /* FilesystemViewController.swift */; };
+		61A979491C5325B300899F73 /* Splitter.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61A979481C5325B300899F73 /* Splitter.swift */; };
 		61AAD7021BF54CC500C9BB65 /* BandsFeaturesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AAD7011BF54CC500C9BB65 /* BandsFeaturesViewController.swift */; };
 		61AAD7041BF54D6000C9BB65 /* SpectrumFluxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AAD7031BF54D6000C9BB65 /* SpectrumFluxViewController.swift */; };
 		61AD3A631BEBDD5500FA2DB7 /* FeatureDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AD3A621BEBDD5500FA2DB7 /* FeatureDatabase.swift */; };
@@ -463,6 +464,7 @@
 		61A46BEC1BDEC59F001D2288 /* PlotKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = PlotKit.framework; path = ../Submodules/PlotKit/build/Debug/PlotKit.framework; sourceTree = "<group>"; };
 		61A46BFD1BDED992001D2288 /* MainViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MainViewController.swift; sourceTree = "<group>"; };
 		61A46BFF1BDEE0BA001D2288 /* FilesystemViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FilesystemViewController.swift; sourceTree = "<group>"; };
+		61A979481C5325B300899F73 /* Splitter.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Splitter.swift; sourceTree = "<group>"; };
 		61AAD7011BF54CC500C9BB65 /* BandsFeaturesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandsFeaturesViewController.swift; sourceTree = "<group>"; };
 		61AAD7031BF54D6000C9BB65 /* SpectrumFluxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpectrumFluxViewController.swift; sourceTree = "<group>"; };
 		61AD3A621BEBDD5500FA2DB7 /* FeatureDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureDatabase.swift; sourceTree = "<group>"; };
@@ -816,6 +818,7 @@
 				8CDE47921BBF117C00A98419 /* MonoSequenceBuilder.swift */,
 				8C9700EE1BE12C00002A81A3 /* PolySequenceBuilder.swift */,
 				8CDE479F1BBF2FA000A98419 /* String+Paths.swift */,
+				61A979481C5325B300899F73 /* Splitter.swift */,
 			);
 			path = CompileFeatures;
 			sourceTree = "<group>";
@@ -1456,6 +1459,7 @@
 				8CDE47961BBF117C00A98419 /* MonoSequenceBuilder.swift in Sources */,
 				8CDE479C1BBF11A000A98419 /* main.swift in Sources */,
 				8C9700EF1BE12C00002A81A3 /* PolySequenceBuilder.swift in Sources */,
+				61A979491C5325B300899F73 /* Splitter.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

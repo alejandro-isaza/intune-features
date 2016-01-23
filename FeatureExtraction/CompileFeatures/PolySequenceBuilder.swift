@@ -59,7 +59,8 @@ class PolySequenceBuilder {
         }
         assert(audioFile.sampleRate == FeatureBuilder.samplingFrequency)
 
-        let noteSequences = splitEvents(midiFile)
+        let splitter = Splitter(midiFile: midiFile)
+        let noteSequences = splitter.split()
         for noteSequence in noteSequences {
             let startTime = midiFile.secondsForBeats(noteSequence.first!.timeStamp)
             let startSample = Int(startTime * FeatureBuilder.samplingFrequency) - windowSize
@@ -91,53 +92,6 @@ class PolySequenceBuilder {
 
             try action(sequence)
         }
-    }
-
-    func splitEvents(midiFile: MIDIFile) -> [[MIDINoteEvent]] {
-        let events = midiFile.noteEvents
-
-        var sequences = [[MIDINoteEvent]]()
-        var currentSequence = [MIDINoteEvent]()
-        var currentSequenceStartBeat = 0.0
-        var currentSequenceEndBeat = 0.0
-        var currentSequenceStartTime = 0.0
-        var currentSequenceEndTime = 0.0
-
-        for event in events {
-            let eventStart = event.timeStamp
-            let eventEnd = eventStart + Double(event.duration)
-            let eventEndTime = midiFile.secondsForBeats(eventEnd)
-
-            if eventStart >= currentSequenceStartBeat && eventStart < currentSequenceEndBeat {
-                // Event fits in the current sequence
-                currentSequence.append(event)
-                currentSequenceEndBeat = max(currentSequenceEndBeat, eventEnd)
-                currentSequenceEndTime = eventEndTime
-                continue
-            }
-
-            if currentSequenceEndTime - currentSequenceStartTime < Sequence.minimumSequenceDuration {
-                // Increase sequence length
-                currentSequence.append(event)
-                currentSequenceEndBeat = eventEnd
-                currentSequenceEndTime = eventEndTime
-                continue
-            }
-
-            // End current sequence
-            assert(!currentSequence.isEmpty)
-            sequences.append(currentSequence)
-            currentSequence.removeAll()
-
-            // Start a new sequence
-            currentSequence.append(event)
-            currentSequenceStartBeat = eventStart
-            currentSequenceStartTime = midiFile.secondsForBeats(eventStart)
-            currentSequenceEndBeat = eventEnd
-            currentSequenceEndTime = eventEndTime
-        }
-
-        return sequences
     }
 
     func sequenceEventsFromNoteEvents(noteEvents: [MIDINoteEvent], baseOffset offset: Int, midiFile: MIDIFile) -> [Sequence.Event] {
