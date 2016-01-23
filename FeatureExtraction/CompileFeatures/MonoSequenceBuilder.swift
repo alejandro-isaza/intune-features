@@ -50,15 +50,16 @@ class MonoSequenceBuilder {
 
         let sequence = Sequence(filePath: filePath, startOffset: -padding)
 
-        let frameCount = min(Int(audioFile.frameCount) + padding, Sequence.maximumSequenceSamples)
-        if frameCount < Sequence.minimumSequenceSamples {
-            fatalError("Audio file at '\(filePath)' is too short. Need at least \(Sequence.minimumSequenceSamples) frames, have \(frameCount).")
+        let readCount = min(Int(audioFile.frameCount), Sequence.maximumSequenceSamples)
+        let sampleCount = max(readCount, FeatureBuilder.windowSize) + padding
+        if readCount < FeatureBuilder.windowSize / 2 {
+            fatalError("Audio file at '\(filePath)' is too short. Need at least \(FeatureBuilder.windowSize / 2) frames, have \(readCount).")
         }
 
-        sequence.data = RealArray(count: frameCount)
+        sequence.data = RealArray(count: sampleCount)
         for i in 0..<padding { sequence.data[i] = 0 }
+        for i in padding+readCount..<sampleCount { sequence.data[i] = 0 }
 
-        let readCount = frameCount - padding
         guard audioFile.readFrames(sequence.data.mutablePointer + padding, count: readCount) == readCount else {
             return
         }
