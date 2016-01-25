@@ -11,22 +11,27 @@ class Splitter {
 
     var sequences = [[MIDINoteEvent]]()
     var currentSequence = [MIDINoteEvent]()
-    var nextSequence = [MIDINoteEvent]()
 
     var currentSequenceStartBeat = 0.0
     var currentSequenceEndBeat = 0.0
     var currentSequenceStartTime = 0.0
     var currentSequenceEndTime = 0.0
-
     var currentSequenceCutoffTime = Sequence.maximumSequenceDuration
+
+    var index = 0
+    var restartIndex: Int?
 
     init(midiFile: MIDIFile) {
         self.midiFile = midiFile
         self.events = midiFile.noteEvents
     }
-    
+
+    /// Split a MIDI file into sequences of at least `Sequence.minimumSequenceDuration` and trying not to exceed `Sequence.maximumSequenceDuration`. This method should only be called once on a given instance of this class.
     func split() -> [[MIDINoteEvent]] {
-        for event in events {
+        while index < events.count {
+            let event = events[index]
+            index += 1
+
             let eventStartBeat = event.timeStamp
             let eventEndBeat = eventStartBeat + Double(event.duration)
 
@@ -49,7 +54,7 @@ class Splitter {
 
             if eventStartBeat >= currentSequenceEndBeat {
                 // Event starts a new sequence
-                startNewSequence(event)
+                index = startNewSequence(event)
                 continue
             }
 
@@ -65,31 +70,43 @@ class Splitter {
             let eventStartTime = midiFile.secondsForBeats(eventStartBeat)
             if eventStartTime < currentSequenceCutoffTime {
                 currentSequence.append(event)
-                nextSequence.append(event)
+                if restartIndex == nil {
+                    restartIndex = index - 1
+                }
             } else {
-                startNewSequence(event)
+                index = startNewSequence(event)
             }
         }
 
         return sequences
     }
 
-    func startNewSequence(event: MIDINoteEvent) {
-        assert(!currentSequence.isEmpty)
-        sequences.append(currentSequence)
-        currentSequence.removeAll()
+    func startNewSequence(event: MIDINoteEvent) -> Int {
+        closeCurrentSequence()
 
-        currentSequence.appendContentsOf(nextSequence)
-        nextSequence.removeAll()
         currentSequence.append(event)
 
-        currentSequenceStartBeat = currentSequence.first!.timeStamp
+        currentSequenceStartBeat = event.timeStamp
         currentSequenceStartTime = midiFile.secondsForBeats(currentSequenceStartBeat)
 
-        let lastEvent = currentSequence.last!
-        currentSequenceEndBeat = lastEvent.timeStamp + Double(lastEvent.duration)
+        currentSequenceEndBeat = event.timeStamp + Double(event.duration)
         currentSequenceEndTime = midiFile.secondsForBeats(currentSequenceEndBeat)
 
         currentSequenceCutoffTime = currentSequenceStartTime + Sequence.maximumSequenceDuration
+
+        if let newIndex = restartIndex {
+            restartIndex = nil
+            return newIndex
+        }
+
+        return index
+    }
+
+    func closeCurrentSequence() {
+        assert(!currentSequence.isEmpty)
+        assert(currentSequenceEndTime - currentSequenceStartTime >= Sequence.minimumSequenceDuration)
+
+        sequences.append(currentSequence)
+        currentSequence.removeAll()
     }
 }
