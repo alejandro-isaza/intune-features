@@ -85,6 +85,7 @@ class MonoSequenceBuilder {
                 sequence.featureOnsetValues.append(0)
             }
         }
+        precondition(sequence.features.count <= FeatureBuilder.sampleCountInWindows(Sequence.maximumSequenceSamples))
 
         try action(sequence)
     }

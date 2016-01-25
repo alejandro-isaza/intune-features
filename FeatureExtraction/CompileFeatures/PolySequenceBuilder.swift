@@ -65,7 +65,11 @@ class PolySequenceBuilder {
             let startTime = midiFile.secondsForBeats(noteSequence.first!.timeStamp)
             let startSample = Int(startTime * FeatureBuilder.samplingFrequency) - windowSize
 
-            let endTime = midiFile.secondsForBeats(noteSequence.last!.timeStamp + Double(noteSequence.last!.duration))
+            var endTime = midiFile.secondsForBeats(noteSequence.last!.timeStamp + Double(noteSequence.last!.duration))
+            if endTime - startTime > Sequence.maximumSequenceDuration {
+                precondition(midiFile.secondsForBeats(noteSequence.last!.timeStamp) - startTime < Sequence.maximumSequenceDuration)
+                endTime = Sequence.maximumSequenceDuration
+            }
             let endSample = Int(endTime * FeatureBuilder.samplingFrequency)
 
             let windowCount = FeatureBuilder.windowCountInSamples(endSample - startSample)
@@ -89,6 +93,7 @@ class PolySequenceBuilder {
                 sequence.features.append(feature)
                 sequence.featureOnsetValues.append(onsetValueForWindowAt(start + stepSize, events: sequence.events))
             }
+            precondition(sequence.features.count <= FeatureBuilder.sampleCountInWindows(Sequence.maximumSequenceSamples))
 
             try action(sequence)
         }
