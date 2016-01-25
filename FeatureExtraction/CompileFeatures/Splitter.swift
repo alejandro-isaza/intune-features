@@ -35,17 +35,17 @@ class Splitter {
             let eventStartBeat = event.timeStamp
             let eventEndBeat = eventStartBeat + Double(event.duration)
 
-            if eventEndBeat <= currentSequenceEndBeat {
+            let currentSequenceDuration = currentSequenceEndTime - currentSequenceStartTime
+            let eventStartTime = midiFile.secondsForBeats(eventStartBeat)
+            let eventEndTime = midiFile.secondsForBeats(eventEndBeat)
+
+            if eventEndBeat <= currentSequenceEndBeat && eventEndTime <= currentSequenceCutoffTime  {
                 // Event fits in the current sequence
                 currentSequence.append(event)
                 continue
             }
 
-            let currentSequenceDuration = currentSequenceEndTime - currentSequenceStartTime
-            let eventStartTime = midiFile.secondsForBeats(eventStartBeat)
-            let eventEndTime = midiFile.secondsForBeats(eventEndBeat)
-
-            if currentSequenceDuration < Sequence.minimumSequenceDuration && eventStartTime - currentSequenceStartTime < Sequence.maximumSequenceDuration {
+            if currentSequenceDuration < Sequence.minimumSequenceDuration && eventStartTime < currentSequenceCutoffTime {
                 // Event extends the curren sequence
                 currentSequence.append(event)
                 currentSequenceEndBeat = eventEndBeat
@@ -84,13 +84,15 @@ class Splitter {
     func startNewSequence(event: MIDINoteEvent) -> Int {
         closeCurrentSequence()
 
-        currentSequence.append(event)
-
         currentSequenceStartBeat = event.timeStamp
         currentSequenceStartTime = midiFile.secondsForBeats(currentSequenceStartBeat)
 
         currentSequenceEndBeat = event.timeStamp + Double(event.duration)
         currentSequenceEndTime = midiFile.secondsForBeats(currentSequenceEndBeat)
+
+        let eventStartTime = midiFile.secondsForBeats(event.timeStamp)
+        assert(eventStartTime - currentSequenceStartTime <= Sequence.minimumSequenceDuration)
+        currentSequence.append(event)
 
         currentSequenceCutoffTime = currentSequenceStartTime + Sequence.maximumSequenceDuration
 
