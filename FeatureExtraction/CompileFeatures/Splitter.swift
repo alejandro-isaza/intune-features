@@ -42,9 +42,10 @@ class Splitter {
             }
 
             let currentSequenceDuration = currentSequenceEndTime - currentSequenceStartTime
+            let eventStartTime = midiFile.secondsForBeats(eventStartBeat)
             let eventEndTime = midiFile.secondsForBeats(eventEndBeat)
 
-            if currentSequenceDuration < Sequence.minimumSequenceDuration {
+            if currentSequenceDuration < Sequence.minimumSequenceDuration && eventStartTime - currentSequenceStartTime < Sequence.maximumSequenceDuration {
                 // Event extends the curren sequence
                 currentSequence.append(event)
                 currentSequenceEndBeat = eventEndBeat
@@ -67,7 +68,6 @@ class Splitter {
             }
 
             // Event overflows
-            let eventStartTime = midiFile.secondsForBeats(eventStartBeat)
             if eventStartTime < currentSequenceCutoffTime {
                 currentSequence.append(event)
                 if restartIndex == nil {

@@ -66,8 +66,8 @@ class PolySequenceBuilder {
             let startSample = Int(startTime * FeatureBuilder.samplingFrequency) - windowSize
 
             var endTime = midiFile.secondsForBeats(noteSequence.last!.timeStamp + Double(noteSequence.last!.duration))
-            if endTime - startTime > Sequence.maximumSequenceDuration {
-                precondition(midiFile.secondsForBeats(noteSequence.last!.timeStamp) - startTime < Sequence.maximumSequenceDuration)
+            if endTime - startTime > Sequence.maximumSequenceDuration || endTime - startTime < Sequence.minimumSequenceDuration {
+                precondition(midiFile.secondsForBeats(noteSequence.last!.timeStamp) - startTime < Sequence.maximumSequenceDuration, "Note sequence contains too many notes in \(audioFilePath)")
                 endTime = Sequence.maximumSequenceDuration
             }
             let endSample = Int(endTime * FeatureBuilder.samplingFrequency)
@@ -93,7 +93,7 @@ class PolySequenceBuilder {
                 sequence.features.append(feature)
                 sequence.featureOnsetValues.append(onsetValueForWindowAt(start + stepSize, events: sequence.events))
             }
-            precondition(sequence.features.count <= FeatureBuilder.sampleCountInWindows(Sequence.maximumSequenceSamples))
+            precondition(sequence.features.count <= FeatureBuilder.sampleCountInWindows(Sequence.maximumSequenceSamples), "Too many features generated \((sequence.features.count)) for \(audioFilePath)")
 
             try action(sequence)
         }

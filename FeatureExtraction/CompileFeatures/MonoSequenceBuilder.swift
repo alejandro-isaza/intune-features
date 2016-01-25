@@ -85,7 +85,7 @@ class MonoSequenceBuilder {
                 sequence.featureOnsetValues.append(0)
             }
         }
-        precondition(sequence.features.count <= FeatureBuilder.sampleCountInWindows(Sequence.maximumSequenceSamples))
+        precondition(sequence.features.count <= FeatureBuilder.sampleCountInWindows(Sequence.maximumSequenceSamples), "Too many features generated \((sequence.features.count)) for \(filePath)")
 
         try action(sequence)
     }
