@@ -25,7 +25,7 @@ public extension FeatureDatabase {
     }
 
     func shuffleTables(chunkSize chunkSize: Int, start1: Int, start2: Int, indices: [Int]) throws {
-        let maxSequenceLength = 20
+        let maxSequenceLength = 30
         let data = RealArray(count: 2 * chunkSize * FeatureBuilder.bandNotes.count * maxSequenceLength)
 
         guard let fileIdDataset = file.openIntDataset(FeatureDatabase.fileIdDatasetName) else {
