@@ -25,8 +25,8 @@ public extension FeatureDatabase {
     }
 
     func shuffleTables(chunkSize chunkSize: Int, start1: Int, start2: Int, indices: [Int]) throws {
-        let maxSequenceLength = 30
-        let data = RealArray(count: 2 * chunkSize * FeatureBuilder.bandNotes.count * maxSequenceLength)
+        let maxFeaturesLength = 44
+        let data = RealArray(count: 2 * chunkSize * FeatureBuilder.bandNotes.count * maxFeaturesLength)
 
         guard let fileIdDataset = file.openIntDataset(FeatureDatabase.fileIdDatasetName) else {
             fatalError("File doesn't have a \(FeatureDatabase.fileIdDatasetName) dataset")
