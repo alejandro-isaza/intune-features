@@ -1,8 +1,7 @@
 import tensorflow as tf
 from tensorflow.models.rnn import rnn, rnn_cell
-import numpy as np
 
-import data_set
+from data_set import DataSet
 
 learning_rate = 0.0001
 max_epoch = 10000
@@ -17,7 +16,7 @@ train_data = DataSet("training.h5")
 test_data = DataSet("testing.h5")
 
 def fill_batch_vars(dataset, feature_var, label_var):
-    data, label = dataset.next_batch()
+    data, label = dataset.next_batch(batch_size)
     feed_dict = {
         feature_var: data,
         label_var: label
@@ -26,8 +25,8 @@ def fill_batch_vars(dataset, feature_var, label_var):
 
 if __name__ == '__main__':
     with tf.Graph().as_default(), tf.Session() as sess:
-        features_placeholder = tf.placeholder(tf.float32, shape=(batch_size, train_data.feature_size))
-        labels_placeholder = tf.placeholder(tf.float32, shape=(batch_size, train_data.label_size))
+        features_placeholder = tf.placeholder(tf.float32)
+        labels_placeholder = tf.placeholder(tf.float32)
 
         f_lstm = rnn_cell.BasicLSTMCell(lstm_units)
         f_stacked_lstm = rnn_cell.MultiRNNCell([lstm] * layer_count)
@@ -36,13 +35,12 @@ if __name__ == '__main__':
         r_stacked_lstm = rnn_cell.MultiRNNCell([lstm] * layer_count)
 
         logits = rnn.bidirectional_rnn(f_stacked_lstm, r_stacked_lstm, features_placeholder)
-        loss = tf.nn.l2_loss(logits - labels_placeholder)
-        loss = tf.reduce_mean(l2loss, name='l2loss_mean')
+        loss = tf.nn.softmax_cross_entropy_with_logits(logits, labels_placeholder)
 
 
         optimizer = tf.train.GradientDescentOptimizer(learning_rate)
         global_step = tf.Variable(0, name='global_step', trainable=False)
-        train_op = optimizer.minimize(total_loss, global_step=global_step)
+        train_op = optimizer.minimize(loss, global_step=global_step)
 
         init = tf.initialize_all_variables()
         sess.run(init)
