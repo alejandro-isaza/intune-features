@@ -68,7 +68,7 @@ class PolySequenceBuilder {
             var endTime = midiFile.secondsForBeats(noteSequence.last!.timeStamp + Double(noteSequence.last!.duration))
             if endTime - startTime > Sequence.maximumSequenceDuration || endTime - startTime < Sequence.minimumSequenceDuration {
                 precondition(midiFile.secondsForBeats(noteSequence.last!.timeStamp) - startTime < Sequence.maximumSequenceDuration, "Note sequence contains too many notes in \(audioFilePath)")
-                endTime = Sequence.maximumSequenceDuration
+                endTime = startTime + Sequence.maximumSequenceDuration
             }
             let endSample = Int(endTime * FeatureBuilder.samplingFrequency)
 
