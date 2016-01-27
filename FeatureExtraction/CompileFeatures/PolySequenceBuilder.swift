@@ -92,6 +92,7 @@ class PolySequenceBuilder {
                 let feature = featureBuilder.generateFeatures(sequence.data[start..<end], sequence.data[start + stepSize..<end + stepSize])
                 sequence.features.append(feature)
                 sequence.featureOnsetValues.append(onsetValueForWindowAt(start + stepSize, events: sequence.events))
+                sequence.featurePolyphonyValues.append(polyphonyValueForWindowAt(start + stepSize, events: sequence.events))
             }
             precondition(sequence.features.count <= FeatureBuilder.sampleCountInWindows(Sequence.maximumSequenceSamples), "Too many features generated \((sequence.features.count)) for \(audioFilePath)")
 
@@ -134,6 +135,17 @@ class PolySequenceBuilder {
             let index = event.offset - windowStart
             if index >= 0 && index < featureBuilder.window.count {
                 value += featureBuilder.window[index]
+            }
+        }
+        return value
+    }
+
+    func polyphonyValueForWindowAt(windowStart: Int, events: [Sequence.Event]) -> Double {
+        var value = 0.0
+        for event in events {
+            let index = event.offset - windowStart
+            if index >= 0 && index < featureBuilder.window.count {
+                value += 1
             }
         }
         return value

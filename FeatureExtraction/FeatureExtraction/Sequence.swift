@@ -27,6 +27,7 @@ public class Sequence {
     public var events = [Event]()
     public var features = [Feature]()
     public var featureOnsetValues = [Double]()
+    public var featurePolyphonyValues = [Double]()
 
     public init() {
         self.filePath = ""

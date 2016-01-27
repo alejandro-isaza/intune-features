@@ -21,6 +21,7 @@ public class FeatureDatabase {
 
     public static let featuresLengthDatasetName = "features_length"
     public static let featureOnsetValuesDatasetName = "features_onset_values"
+    public static let featurePolyphonyValuesDatasetName = "features_polyphony_values"
     public static let peakLocationsDatasetName = "peak_locations"
     public static let peakHeightsDatasetName = "peak_heights"
     public static let spectrumDatasetName = "spectrum"
@@ -129,6 +130,10 @@ public extension FeatureDatabase {
             dataspace: Dataspace(dims: [0, 0], maxDims: [-1, -1]),
             chunkDimensions: [chunkSize, featureChunkSize])
 
+        file.createDoubleDataset(FeatureDatabase.featurePolyphonyValuesDatasetName,
+            dataspace: Dataspace(dims: [0, 0], maxDims: [-1, -1]),
+            chunkDimensions: [chunkSize, featureChunkSize])
+
         let labelSize = Note.noteCount
         file.createDoubleDataset(FeatureDatabase.eventNoteDatasetName,
             dataspace: Dataspace(dims: [0, 0, labelSize], maxDims: [-1, -1, labelSize]),
@@ -234,6 +239,7 @@ public extension FeatureDatabase {
 
     func writeFeatures(sequence: Sequence) throws {
         precondition(sequence.features.count == sequence.featureOnsetValues.count)
+        precondition(sequence.features.count == sequence.featurePolyphonyValues.count)
         
         guard let lengthDataset = file.openIntDataset(FeatureDatabase.featuresLengthDatasetName) else {
             throw Error.DatasetNotFound
@@ -244,6 +250,11 @@ public extension FeatureDatabase {
             throw Error.DatasetNotFound
         }
         try featureOnsetValuesDataset.append(sequence.featureOnsetValues, dimensions: [1, sequence.featureOnsetValues.count])
+
+        guard let featurePolyphonyValuesDataset = file.openDoubleDataset(FeatureDatabase.featurePolyphonyValuesDatasetName) else {
+            throw Error.DatasetNotFound
+        }
+        try featurePolyphonyValuesDataset.append(sequence.featurePolyphonyValues, dimensions: [1, sequence.featurePolyphonyValues.count])
         
         try writeSpectrum(sequence)
         try writeSpectralFlux(sequence)
@@ -402,6 +413,11 @@ public extension FeatureDatabase {
             throw Error.DatasetNotFound
         }
         sequence.featureOnsetValues = try featureOnsetValuesDataset.read([index, 0..<length])
+
+        guard let featurePolyphonyValuesDataset = file.openDoubleDataset(FeatureDatabase.featurePolyphonyValuesDatasetName) else {
+            throw Error.DatasetNotFound
+        }
+        sequence.featurePolyphonyValues = try featurePolyphonyValuesDataset.read([index, 0..<length])
 
         sequence.features.removeAll()
         for _ in 0..<length {

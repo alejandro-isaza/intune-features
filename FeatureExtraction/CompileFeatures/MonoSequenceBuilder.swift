@@ -81,8 +81,10 @@ class MonoSequenceBuilder {
             let onsetIndexInWindow = padding - start
             if onsetIndexInWindow >= 0 && onsetIndexInWindow < featureBuilder.window.count {
                 sequence.featureOnsetValues.append(featureBuilder.window[onsetIndexInWindow])
+                sequence.featurePolyphonyValues.append(1)
             } else {
                 sequence.featureOnsetValues.append(0)
+                sequence.featurePolyphonyValues.append(0)
             }
         }
         precondition(sequence.features.count <= FeatureBuilder.sampleCountInWindows(Sequence.maximumSequenceSamples), "Too many features generated \((sequence.features.count)) for \(filePath)")

@@ -35,6 +35,7 @@ class FeatureDatabaseTests: XCTestCase {
         }
         sequence.features.append(feature1)
         sequence.featureOnsetValues.append(0.23)
+        sequence.featurePolyphonyValues.append(2)
 
         let feature2 = Feature()
         for i in 0..<FeatureBuilder.bandNotes.count {
@@ -45,6 +46,7 @@ class FeatureDatabaseTests: XCTestCase {
         }
         sequence.features.append(feature2)
         sequence.featureOnsetValues.append(0.65)
+        sequence.featurePolyphonyValues.append(1)
 
         write(sequence)
 
@@ -74,6 +76,7 @@ class FeatureDatabaseTests: XCTestCase {
         XCTAssertEqual(readFeature2.peakLocations, feature2.peakLocations)
 
         XCTAssertEqual(readSequence.featureOnsetValues, sequence.featureOnsetValues)
+        XCTAssertEqual(readSequence.featurePolyphonyValues, sequence.featurePolyphonyValues)
     }
 
     func write(sequence: Sequence) {

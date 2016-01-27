@@ -62,6 +62,7 @@ class NoiseSequenceBuilder {
                 let feature = featureBuilder.generateFeatures(sequence.data[start..<end], sequence.data[start + step..<end + step])
                 sequence.features.append(feature)
                 sequence.featureOnsetValues.append(0)
+                sequence.featurePolyphonyValues.append(0)
             }
             precondition(sequence.features.count <= FeatureBuilder.sampleCountInWindows(Sequence.maximumSequenceSamples), "Too many features generated \((sequence.features.count)) for \(filePath)")
             
