@@ -35,7 +35,7 @@ public class ValidateFeatures {
     }
 
     public func validate() -> Bool {
-        let validateCount = min(1000, featureDatabase.sequenceCount)
+        let validateCount = min(500, featureDatabase.sequenceCount)
         let step = featureDatabase.sequenceCount / validateCount
         for i in 0..<validateCount {
             let index = i * step
@@ -54,6 +54,7 @@ public class ValidateFeatures {
 
     func validateSequence(sequence: Sequence) -> Bool {
         let filePath = sequence.filePath
+        let data: (RealArray, RealArray) = (RealArray(count: FeatureBuilder.windowSize), RealArray(count: FeatureBuilder.windowSize))
 
         for (i, expectedFeature) in sequence.features.enumerate() {
             let offset = sequence.startOffset + i * FeatureBuilder.stepSize
@@ -67,7 +68,6 @@ public class ValidateFeatures {
                 expectedLabel.onset = sequence.featureOnsetValues[i]
             }
             
-            let data: (RealArray, RealArray) = (RealArray(count: FeatureBuilder.windowSize), RealArray(count: FeatureBuilder.windowSize))
             loadExampleData(filePath, offset: offset, data: data)
             let actualFeature = featureBuilder.generateFeatures(data.0, data.1)
 
@@ -115,14 +115,28 @@ public class ValidateFeatures {
     func readAtFrame(file: AudioFile, frame: Int, data: UnsafeMutablePointer<Double>) {
         if frame >= 0 {
             file.currentFrame = frame
-            file.readFrames(data, count: FeatureBuilder.windowSize)
+            guard let read = file.readFrames(data, count: FeatureBuilder.windowSize) else {
+                fatalError("Failed to read audio data")
+            }
+            for i in read..<FeatureBuilder.windowSize {
+                data[i] = 0.0
+            }
         } else {
             file.currentFrame = 0
             let fillSize = -frame
             for i in 0..<fillSize {
                 data[i] = 0.0
             }
-            file.readFrames(data + fillSize, count: FeatureBuilder.windowSize - fillSize)
+
+            let readCount = FeatureBuilder.windowSize - fillSize
+            if readCount > 0 {
+                guard let read = file.readFrames(data + fillSize, count: readCount) else {
+                    fatalError("Failed to read audio data")
+                }
+                for i in fillSize + read..<FeatureBuilder.windowSize {
+                    data[i] = 0.0
+                }
+            }
         }
     }
 
