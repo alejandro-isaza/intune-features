@@ -26,7 +26,7 @@ class DataSet:
                                    spectrum_flux_d[self.present_index:self.present_index+batch_size, :, :],
                                    peak_heights_d[self.present_index:self.present_index+batch_size, :, :],
                                    peak_locations_d[self.present_index:self.present_index+batch_size, :, :]), axis=2)
-        labels = features_onset_values_d[self.present_index:self.present_index+batch_size, :]
+        labels = np.expand_dims(features_onset_values_d[self.present_index:self.present_index+batch_size, :], 2)
         sequence_lengths = features_length_d[self.present_index:self.present_index+batch_size]
 
         self.present_index += batch_size
