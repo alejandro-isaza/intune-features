@@ -10,6 +10,9 @@ public struct Label: Equatable {
     var notes: [Note]
     var velocities: [Float]
     var onset: Float
+    var polyphony: Int {
+        return notes.count
+    }
 
     init() {
         notes = [Note]()
@@ -277,6 +280,12 @@ public func ==(lhs: Label, rhs: Label) -> Bool {
         if lhsVelocity != rhsVelocity {
             return false
         }
+    }
+    if lhs.onset != rhs.onset {
+        return false
+    }
+    if lhs.polyphony != rhs.polyphony {
+        return false
     }
     return true
 }
