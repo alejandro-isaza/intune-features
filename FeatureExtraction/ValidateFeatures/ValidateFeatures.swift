@@ -10,20 +10,20 @@ public struct Label: Equatable {
     var notes: [Note]
     var velocities: [Float]
     var onset: Float
-    var polyphony: Int {
-        return notes.count
-    }
+    var polyphony: Float
 
     init() {
         notes = [Note]()
         velocities = [Float]()
         onset = 0.0
+        polyphony = 0.0
     }
 
-    init(notes: [Note], velocities: [Float], onset: Float) {
+    init(notes: [Note], velocities: [Float], onset: Float, polyphony: Float) {
         self.notes = notes
         self.velocities = velocities
         self.onset = onset
+        self.polyphony = polyphony
     }
 }
 
@@ -65,10 +65,11 @@ public class ValidateFeatures {
             var expectedLabel: Label
             if let eventIndex = sequence.events.indexOf({ $0.offset == offset }) {
                 let event = sequence.events[eventIndex]
-                expectedLabel = Label(notes: event.notes, velocities: event.velocities, onset: sequence.featureOnsetValues[i])
+                expectedLabel = Label(notes: event.notes, velocities: event.velocities, onset: sequence.featureOnsetValues[i], polyphony: Float(event.notes.count))
             } else {
                 expectedLabel = Label()
                 expectedLabel.onset = sequence.featureOnsetValues[i]
+                expectedLabel.polyphony = sequence.featurePolyphonyValues[i]
             }
             
             loadExampleData(filePath, offset: offset, data: &data)
@@ -192,14 +193,14 @@ public class ValidateFeatures {
             return nil
         }
 
-        let onsetIndexInWindow = FeatureBuilder.windowSize - offset
+        let onsetIndexInWindow = -offset
         let label: Label
         if onsetIndexInWindow >= 0 && onsetIndexInWindow < featureBuilder.window.count {
             let note = Note(midiNoteNumber: noteNumber)
             let onset = Float(featureBuilder.window[onsetIndexInWindow])
             let velocity = Float(0.75)
 
-            label = Label(notes: [note], velocities: [velocity], onset: onset)
+            label = Label(notes: [note], velocities: [velocity], onset: onset, polyphony: 1.0)
         } else {
             label = Label()
         }
@@ -256,7 +257,9 @@ public class ValidateFeatures {
     }
 
     func labelFromEvent(offset: Int, targetEventIndex: Int, events: [Sequence.Event]) -> Label {
-        return Label(notes: events[targetEventIndex].notes, velocities: events[targetEventIndex].velocities, onset: onsetValueForWindowAt(offset, events: events))
+        let event = events[targetEventIndex]
+        let notes = event.notes
+        return Label(notes: notes, velocities: event.velocities, onset: onsetValueForWindowAt(offset, events: events), polyphony: Float(notes.count))
     }
 
     func onsetValueForWindowAt(windowStart: Int, events: [Sequence.Event]) -> Float {
@@ -287,6 +290,7 @@ public func ==(lhs: Label, rhs: Label) -> Bool {
         return false
     }
     if lhs.polyphony != rhs.polyphony {
+        print(lhs.polyphony, rhs.polyphony)
         return false
     }
     return true
