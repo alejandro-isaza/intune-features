@@ -15,7 +15,6 @@ public class FeatureDatabase {
     public static let offsetDatasetName = "offset"
     public static let sequenceLengthDatasetName = "sequence_length"
     public static let eventOffsetDatasetName = "event_offset"
-    public static let eventDurationDatasetName = "event_duration"
     public static let eventNoteDatasetName = "event_note"
     public static let eventVelocityDatasetName = "event_velocity"
 

@@ -87,6 +87,11 @@ public extension FeatureDatabase {
             fatalError("File doesn't have a \(FeatureDatabase.featureOnsetValuesDatasetName) dataset")
         }
         try shuffle2DDataset(featureOnsetValuesDataset, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices, inBuffer: data)
+        
+        guard let featurePolyphonyValuesDataset = file.openFloatDataset(FeatureDatabase.featurePolyphonyValuesDatasetName) else {
+            fatalError("File doesn't have a \(FeatureDatabase.featurePolyphonyValuesDatasetName) dataset")
+        }
+        try shuffle2DDataset(featurePolyphonyValuesDataset, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices, inBuffer: data)
     }
 
     func shuffle2DDataset(dataset: FloatDataset, chunkSize: Int, start1: Int, start2: Int, indices: [Int], inBuffer data: ValueArray<Float>) throws {
