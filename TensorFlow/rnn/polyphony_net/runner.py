@@ -7,17 +7,20 @@ from tensorflow.models.rnn import rnn, rnn_cell
 from data_set import DataSet
 
 learning_rate = 0.001
-max_epoch = 2000
+max_epoch = 5000
 
-batch_size = 150
+batch_size = 100
 
 lstm_units = 20
 layer_count = 3
 
 max_sequence_length = 43
 
+
 train_data = DataSet("training.h5")
 test_data = DataSet("testing.h5")
+
+output_size = train_data.label_size
 
 def fill_batch_vars(dataset, feature_var, label_var, length_var):
     data, label, length = dataset.next_batch(batch_size)
@@ -40,26 +43,27 @@ if __name__ == '__main__':
     with tf.Graph().as_default(), tf.Session() as sess:
         features_placeholder = tf.placeholder(tf.float32, shape=(batch_size, max_sequence_length, train_data.feature_size))
         sequence_lengths = tf.placeholder(tf.int64, shape=(batch_size))
-        labels_placeholder = tf.placeholder(tf.float32, shape=(batch_size, max_sequence_length, 1))
+        labels_placeholder = tf.placeholder(tf.float32, shape=(batch_size * max_sequence_length, output_size))
 
-        W = tf.Variable(tf.zeros([lstm_units, 2]), name="ipWeights")
-        b = tf.Variable(tf.zeros([2]), name="ipBiases")
 
-        lstm = rnn_cell.BasicLSTMCell(lstm_units)
-        stacked_lstm = rnn_cell.MultiRNNCell([lstm] * layer_count)
+        W = tf.Variable(tf.zeros([2 * lstm_units, output_size]))
+        b = tf.Variable(tf.zeros([output_size]))
+
+        f_lstm = rnn_cell.BasicLSTMCell(lstm_units)
+        f_stacked_lstm = rnn_cell.MultiRNNCell([f_lstm] * layer_count)
+
+        r_lstm = rnn_cell.BasicLSTMCell(lstm_units)
+        r_stacked_lstm = rnn_cell.MultiRNNCell([r_lstm] * layer_count)
 
         features = [tf.squeeze(t) for t in tf.split(1, max_sequence_length, features_placeholder)]
 
-        rnn_out, state = rnn.rnn(stacked_lstm, features, dtype=tf.float32, sequence_length=sequence_lengths)
+        rnn_out = rnn.bidirectional_rnn(f_stacked_lstm, r_stacked_lstm, features, dtype=tf.float32, sequence_length=sequence_lengths)
 
-        logits_large = tf.concat(1, [tf.reshape(tf.matmul(t, W) + b, [batch_size, 1, 2]) for t in rnn_out])
-        logits = tf.reshape(logits_large, [batch_size * max_sequence_length, 2])
+        logits_concat = tf.concat(1, [tf.reshape(tf.matmul(t, W) + b, [batch_size, 1, output_size]) for t in rnn_out])
+        logits = tf.reshape(logits_concat, [batch_size * max_sequence_length, output_size])
 
-        label_inverse = 1 - labels_placeholder
-        labels = tf.reshape(tf.concat(2, [labels_placeholder, label_inverse]), [batch_size * max_sequence_length, 2])
-
-        loss = tf.reduce_mean(tf.nn.softmax_cross_entropy_with_logits(logits, labels))
-        correct = tf.reduce_mean(tf.to_float(tf.equal(tf.argmax(logits, 1), tf.argmax(labels, 1))))
+        loss = tf.nn.l2_loss(labels_placeholder - logits)
+        correct = 100 * tf.reduce_mean(tf.to_float(tf.equal(tf.argmax(labels_placeholder, 1), tf.argmax(logits, 1))))
 
         optimizer = tf.train.AdamOptimizer(learning_rate)
         global_step = tf.Variable(0, name='global_step', trainable=False)
@@ -73,18 +77,20 @@ if __name__ == '__main__':
             feed_dict = fill_batch_vars(train_data, features_placeholder, labels_placeholder, sequence_lengths)
             percent_list = []
 
-            if i % 50 == 0:
+            if i % 100 == 0:
                 _, batch_loss, batch_percent = sess.run([train_op, loss, correct], feed_dict=feed_dict)
                 percent_list.append(batch_percent)
                 percent = np.mean(percent_list)
                 percent_list = []
-                print("%d | batch loss: %f, percent: %f%%" % (i, batch_loss, percent))
-                exportToHDF5(tf.trainable_variables(), sess)
+                print("%d | batch loss: %f, percent: %f%%" % (i, batch_loss / batch_size, percent))
 
-            if i % 10000 == 0:
+            if i % 500 == 0:
                 feed_dict = fill_batch_vars(test_data, features_placeholder, labels_placeholder, sequence_lengths)
                 test_percent = sess.run([correct], feed_dict=feed_dict)
-                print("    %d Testing percent: %f" % (i, test_percent[0]))
+                print("     %d Testing percent: %f" % (i, test_percent[0]))
+                exportToHDF5(tf.trainable_variables(), sess)
+                print("     exported.")
+
 
             _, batch_percent = sess.run([train_op, correct], feed_dict=feed_dict)
             percent_list.append(batch_percent)
