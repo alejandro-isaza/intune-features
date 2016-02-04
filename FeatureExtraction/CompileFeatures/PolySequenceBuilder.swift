@@ -79,7 +79,7 @@ class PolySequenceBuilder {
             let sequence = Sequence(filePath: audioFilePath, startOffset: offset)
 
             audioFile.currentFrame = offset
-            sequence.data = RealArray(count: sampleCount)
+            sequence.data = ValueArray<Double>(count: sampleCount)
             guard audioFile.readFrames(sequence.data.mutablePointer, count: sampleCount) == sampleCount else {
                 return
             }
@@ -122,26 +122,26 @@ class PolySequenceBuilder {
             let sample = Int(time * FeatureBuilder.samplingFrequency)
             event.offset = sample - offset
             event.notes = notes.map({ $0.0 })
-            event.velocities = notes.map({ $0.1 })
+            event.velocities = notes.map({ Float($0.1) })
             events.append(event)
         }
 
         return events
     }
 
-    func onsetValueForWindowAt(windowStart: Int, events: [Sequence.Event]) -> Double {
-        var value = 0.0
+    func onsetValueForWindowAt(windowStart: Int, events: [Sequence.Event]) -> Float {
+        var value = Float(0.0)
         for event in events {
             let index = event.offset - windowStart
             if index >= 0 && index < featureBuilder.window.count {
-                value += featureBuilder.window[index]
+                value += Float(featureBuilder.window[index])
             }
         }
         return value
     }
 
-    func polyphonyValueForWindowAt(windowStart: Int, events: [Sequence.Event]) -> Double {
-        var value = 0.0
+    func polyphonyValueForWindowAt(windowStart: Int, events: [Sequence.Event]) -> Float {
+        var value = Float(0.0)
         for event in events {
             let index = event.offset - windowStart
             if index >= 0 && index < featureBuilder.window.count {

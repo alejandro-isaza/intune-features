@@ -12,22 +12,22 @@ public class Sequence {
     public class Event {
         public var offset: Int
         public var notes: [Note]
-        public var velocities: [Double]
+        public var velocities: [Float]
 
         public init() {
             offset = 0
             notes = [Note]()
-            velocities = [Double]()
+            velocities = [Float]()
         }
     }
 
     public var filePath: String
     public var startOffset: Int
-    public var data = RealArray()
+    public var data = ValueArray<Double>()
     public var events = [Event]()
     public var features = [Feature]()
-    public var featureOnsetValues = [Double]()
-    public var featurePolyphonyValues = [Double]()
+    public var featureOnsetValues = [Float]()
+    public var featurePolyphonyValues = [Float]()
 
     public init() {
         self.filePath = ""

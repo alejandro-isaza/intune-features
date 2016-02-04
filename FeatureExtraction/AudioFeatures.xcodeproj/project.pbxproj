@@ -25,7 +25,6 @@
 		610E2A891C500C78006B6016 /* FeatureDatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E2A881C500C78006B6016 /* FeatureDatabaseTests.swift */; };
 		610E2A8A1C500C78006B6016 /* FeatureDatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E2A881C500C78006B6016 /* FeatureDatabaseTests.swift */; };
 		610E2AE41C52C8D2006B6016 /* NoiseSequenceBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E2AE31C52C8D2006B6016 /* NoiseSequenceBuilder.swift */; };
-		6117569F1C407B650025446F /* Accelerate.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6117569E1C407B650025446F /* Accelerate.framework */; };
 		611756A01C407B930025446F /* DistancePeakExtractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA0EF51BB9C60800433755 /* DistancePeakExtractionTests.swift */; };
 		611756A11C407B930025446F /* FeatureDatabaaseShuffleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6180A72C1C179E9400D63F00 /* FeatureDatabaaseShuffleTests.swift */; };
 		611756A21C407B930025446F /* NoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610AAB661BD99737008CC910 /* NoteTests.swift */; };
@@ -70,11 +69,9 @@
 		61BBC3DE1C407905006C6DF0 /* Note.swift in Sources */ = {isa = PBXBuildFile; fileRef = 618ACC0B1BE0686D008C23A8 /* Note.swift */; };
 		61BBC3DF1C407905006C6DF0 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA0EF31BB9BA4300433755 /* Utilities.swift */; };
 		61BBC3E31C407A4A006C6DF0 /* HDF5Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61BBC3E01C407A4A006C6DF0 /* HDF5Kit.framework */; };
-		61BBC3E41C407A4A006C6DF0 /* Peak.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61BBC3E11C407A4A006C6DF0 /* Peak.framework */; };
 		61BBC3E51C407A4A006C6DF0 /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61BBC3E21C407A4A006C6DF0 /* Upsurge.framework */; };
 		61BBC3E61C407A6B006C6DF0 /* FeatureExtraction.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C7845721BB9B06600C88426 /* FeatureExtraction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		61CE4CBD1BF278D7000E0D34 /* HDF5Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C861BF2784E000E0D34 /* HDF5Kit.framework */; };
-		61CE4CBE1BF278D7000E0D34 /* Peak.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C961BF2784E000E0D34 /* Peak.framework */; };
 		61CE4CBF1BF278D7000E0D34 /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4CA71BF2784E000E0D34 /* Upsurge.framework */; };
 		61D485AD1BC4A3D70086CED8 /* Shuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D485AC1BC4A3D70086CED8 /* Shuffle.swift */; };
 		61EB527E1BD55F90000572B9 /* Stats.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61EB527D1BD55F90000572B9 /* Stats.swift */; };
@@ -92,7 +89,6 @@
 		8C97003A1BDFDCB4002A81A3 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9700391BDFDCB4002A81A3 /* main.swift */; };
 		8C9700EF1BE12C00002A81A3 /* PolySequenceBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9700EE1BE12C00002A81A3 /* PolySequenceBuilder.swift */; };
 		8CDA0EF41BB9BA4300433755 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA0EF31BB9BA4300433755 /* Utilities.swift */; };
-		8CDCA2E11C47116F00354F89 /* testing.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 8CDCA2DF1C47116F00354F89 /* testing.h5 */; };
 		8CDCA2E21C47116F00354F89 /* training.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 8CDCA2E01C47116F00354F89 /* training.h5 */; };
 		8CDE47961BBF117C00A98419 /* MonoSequenceBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE47921BBF117C00A98419 /* MonoSequenceBuilder.swift */; };
 		8CDE47981BBF117C00A98419 /* FeatureCompiler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE47941BBF117C00A98419 /* FeatureCompiler.swift */; };
@@ -144,6 +140,13 @@
 			remoteGlobalIDString = 5D06884E19674D7D00BBFAAC;
 			remoteInfo = CommandLineTests;
 		};
+		618BA6A51C627E2300B01543 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61CE4C6F1BF2784D000E0D34 /* PlotKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 610B1B321BB740B800B64973;
+			remoteInfo = PlotKit;
+		};
 		6192A6F51C403A08001E824E /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 61CE4C661BF2784D000E0D34 /* Peak.xcodeproj */;
@@ -185,6 +188,20 @@
 			proxyType = 1;
 			remoteGlobalIDString = 61BBC3B51C407891006C6DF0;
 			remoteInfo = "FeatureExtraction-iOS";
+		};
+		61CB2E421C62BFBE0041F7FA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61CE4C691BF2784D000E0D34 /* HDF5Kit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 6185A7AA1BD3395200CD5FC5;
+			remoteInfo = "HDF5Kit-iOS";
+		};
+		61CB2E441C62BFBE0041F7FA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61CE4C721BF2784D000E0D34 /* Upsurge.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 614ACAC91BD1CBF300A1C13E;
+			remoteInfo = "Upsurge iOS";
 		};
 		61CE4C641BF27814000E0D34 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -340,13 +357,6 @@
 			remoteGlobalIDString = 614ACA6F1BD1CB7B00A1C13E;
 			remoteInfo = "Upsurge OSX";
 		};
-		61CE4CB71BF278CC000E0D34 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 61CE4C661BF2784D000E0D34 /* Peak.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0045498C1BD052B100AC387F;
-			remoteInfo = PeakOSX;
-		};
 		61CE4CB91BF278CC000E0D34 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 61CE4C691BF2784D000E0D34 /* HDF5Kit.xcodeproj */;
@@ -496,7 +506,6 @@
 		8C9700EE1BE12C00002A81A3 /* PolySequenceBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PolySequenceBuilder.swift; sourceTree = "<group>"; };
 		8CDA0EF31BB9BA4300433755 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		8CDA0EF51BB9C60800433755 /* DistancePeakExtractionTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DistancePeakExtractionTests.swift; sourceTree = "<group>"; };
-		8CDCA2DF1C47116F00354F89 /* testing.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = testing.h5; sourceTree = SOURCE_ROOT; };
 		8CDCA2E01C47116F00354F89 /* training.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = training.h5; sourceTree = SOURCE_ROOT; };
 		8CDE478A1BBF116900A98419 /* CompileFeatures */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = CompileFeatures; sourceTree = BUILT_PRODUCTS_DIR; };
 		8CDE47921BBF117C00A98419 /* MonoSequenceBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MonoSequenceBuilder.swift; sourceTree = "<group>"; };
@@ -537,9 +546,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6117569F1C407B650025446F /* Accelerate.framework in Frameworks */,
 				61BBC3E31C407A4A006C6DF0 /* HDF5Kit.framework in Frameworks */,
-				61BBC3E41C407A4A006C6DF0 /* Peak.framework in Frameworks */,
 				61BBC3E51C407A4A006C6DF0 /* Upsurge.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -568,7 +575,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				61CE4CBD1BF278D7000E0D34 /* HDF5Kit.framework in Frameworks */,
-				61CE4CBE1BF278D7000E0D34 /* Peak.framework in Frameworks */,
 				61CE4CBF1BF278D7000E0D34 /* Upsurge.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -590,7 +596,6 @@
 		610AAB511BD98823008CC910 /* Data */ = {
 			isa = PBXGroup;
 			children = (
-				8CDCA2DF1C47116F00354F89 /* testing.h5 */,
 				8CDCA2E01C47116F00354F89 /* training.h5 */,
 				6185AA071BD4118A00CD5FC5 /* net.h5 */,
 			);
@@ -912,6 +917,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				618BA6A61C627E2300B01543 /* PBXTargetDependency */,
 				61A46BE41BDEC58F001D2288 /* PBXTargetDependency */,
 				61A46BE81BDEC58F001D2288 /* PBXTargetDependency */,
 			);
@@ -932,6 +938,8 @@
 			buildRules = (
 			);
 			dependencies = (
+				61CB2E431C62BFBE0041F7FA /* PBXTargetDependency */,
+				61CB2E451C62BFBE0041F7FA /* PBXTargetDependency */,
 			);
 			name = "FeatureExtraction-iOS";
 			productName = "FeatureExtraction-iOS";
@@ -988,7 +996,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				61CE4CB81BF278CC000E0D34 /* PBXTargetDependency */,
 				61CE4CBA1BF278CC000E0D34 /* PBXTargetDependency */,
 				61CE4CBC1BF278CC000E0D34 /* PBXTargetDependency */,
 			);
@@ -1306,7 +1313,6 @@
 				6185A7821BD337E100CD5FC5 /* Assets.xcassets in Resources */,
 				8CFDC42B1C1F568700387DD9 /* ExampleInfoView.xib in Resources */,
 				6185A7801BD337E100CD5FC5 /* Main.storyboard in Resources */,
-				8CDCA2E11C47116F00354F89 /* testing.h5 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1476,6 +1482,11 @@
 			name = CommandLine;
 			targetProxy = 618373701C0929A8000F48DA /* PBXContainerItemProxy */;
 		};
+		618BA6A61C627E2300B01543 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PlotKit;
+			targetProxy = 618BA6A51C627E2300B01543 /* PBXContainerItemProxy */;
+		};
 		6192A6F61C403A08001E824E /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = PeakiOS;
@@ -1510,6 +1521,16 @@
 			target = 61BBC3B51C407891006C6DF0 /* FeatureExtraction-iOS */;
 			targetProxy = 61BBC3C11C407891006C6DF0 /* PBXContainerItemProxy */;
 		};
+		61CB2E431C62BFBE0041F7FA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "HDF5Kit-iOS";
+			targetProxy = 61CB2E421C62BFBE0041F7FA /* PBXContainerItemProxy */;
+		};
+		61CB2E451C62BFBE0041F7FA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Upsurge iOS";
+			targetProxy = 61CB2E441C62BFBE0041F7FA /* PBXContainerItemProxy */;
+		};
 		61CE4C651BF27814000E0D34 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8C78456E1BB9B06600C88426 /* FeatureExtraction-OSX */;
@@ -1524,11 +1545,6 @@
 			isa = PBXTargetDependency;
 			name = "Upsurge OSX";
 			targetProxy = 61CE4CB01BF27858000E0D34 /* PBXContainerItemProxy */;
-		};
-		61CE4CB81BF278CC000E0D34 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = PeakOSX;
-			targetProxy = 61CE4CB71BF278CC000E0D34 /* PBXContainerItemProxy */;
 		};
 		61CE4CBA1BF278CC000E0D34 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1702,7 +1718,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = FeatureExtraction/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.venturemedia.FeatureExtraction-iOS";
 				PRODUCT_MODULE_NAME = FeatureExtraction;
@@ -1723,7 +1739,7 @@
 				DYLIB_INSTALL_NAME_BASE = "@rpath";
 				INFOPLIST_FILE = FeatureExtraction/Info.plist;
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.venturemedia.FeatureExtraction-iOS";
 				PRODUCT_MODULE_NAME = FeatureExtraction;
@@ -1740,7 +1756,7 @@
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = FeatureExtractionTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.venturemedia.FeatureExtractionTests-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -1753,7 +1769,7 @@
 			buildSettings = {
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = FeatureExtractionTests/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.venturemedia.FeatureExtractionTests-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";

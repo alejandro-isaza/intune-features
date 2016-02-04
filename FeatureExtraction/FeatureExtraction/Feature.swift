@@ -3,21 +3,21 @@
 import Upsurge
 
 public struct Feature {
-    public var rms: Real
-    public var spectrum: RealArray
-    public var spectralFlux: RealArray
-    public var peakHeights: RealArray
-    public var peakLocations: RealArray
+    public var rms: Float
+    public var spectrum: ValueArray<Float>
+    public var spectralFlux: ValueArray<Float>
+    public var peakHeights: ValueArray<Float>
+    public var peakLocations: ValueArray<Float>
 
     public init() {
         rms = 0
-        spectrum = RealArray(count: FeatureBuilder.bandNotes.count)
-        spectralFlux = RealArray(count: FeatureBuilder.bandNotes.count)
-        peakHeights = RealArray(count: FeatureBuilder.bandNotes.count)
-        peakLocations = RealArray(count: FeatureBuilder.bandNotes.count)
+        spectrum = ValueArray<Float>(count: FeatureBuilder.bandNotes.count)
+        spectralFlux = ValueArray<Float>(count: FeatureBuilder.bandNotes.count)
+        peakHeights = ValueArray<Float>(count: FeatureBuilder.bandNotes.count)
+        peakLocations = ValueArray<Float>(count: FeatureBuilder.bandNotes.count)
     }
 
-    public init(rms: Real, spectrum: RealArray, spectralFlux: RealArray, peakHeights: RealArray, peakLocations: RealArray) {
+    public init(rms: Float, spectrum: ValueArray<Float>, spectralFlux: ValueArray<Float>, peakHeights: ValueArray<Float>, peakLocations: ValueArray<Float>) {
         self.rms = rms
         self.spectrum = spectrum
         self.spectralFlux = spectralFlux

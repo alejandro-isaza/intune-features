@@ -126,37 +126,37 @@ public extension FeatureDatabase {
             dataspace: Dataspace(dims: [0, 0], maxDims: [-1, -1]),
             chunkDimensions: [chunkSize, eventChunkSize])
 
-        file.createDoubleDataset(FeatureDatabase.featureOnsetValuesDatasetName,
+        file.createFloatDataset(FeatureDatabase.featureOnsetValuesDatasetName,
             dataspace: Dataspace(dims: [0, 0], maxDims: [-1, -1]),
             chunkDimensions: [chunkSize, featureChunkSize])
 
-        file.createDoubleDataset(FeatureDatabase.featurePolyphonyValuesDatasetName,
+        file.createFloatDataset(FeatureDatabase.featurePolyphonyValuesDatasetName,
             dataspace: Dataspace(dims: [0, 0], maxDims: [-1, -1]),
             chunkDimensions: [chunkSize, featureChunkSize])
 
         let labelSize = Note.noteCount
-        file.createDoubleDataset(FeatureDatabase.eventNoteDatasetName,
+        file.createFloatDataset(FeatureDatabase.eventNoteDatasetName,
             dataspace: Dataspace(dims: [0, 0, labelSize], maxDims: [-1, -1, labelSize]),
             chunkDimensions: [chunkSize, eventChunkSize, labelSize])
 
-        file.createDoubleDataset(FeatureDatabase.eventVelocityDatasetName,
+        file.createFloatDataset(FeatureDatabase.eventVelocityDatasetName,
             dataspace: Dataspace(dims: [0, 0, labelSize], maxDims: [-1, -1, labelSize]),
             chunkDimensions: [chunkSize, eventChunkSize, labelSize])
 
         let featureSize = FeatureBuilder.bandNotes.count
-        file.createDoubleDataset(FeatureDatabase.spectrumDatasetName,
+        file.createFloatDataset(FeatureDatabase.spectrumDatasetName,
             dataspace: Dataspace(dims: [0, 0, featureSize], maxDims: [-1, -1, featureSize]),
             chunkDimensions: [chunkSize, featureChunkSize, featureSize])
 
-        file.createDoubleDataset(FeatureDatabase.spectrumFluxDatasetName,
+        file.createFloatDataset(FeatureDatabase.spectrumFluxDatasetName,
             dataspace: Dataspace(dims: [0, 0, featureSize], maxDims: [-1, -1, featureSize]),
             chunkDimensions: [chunkSize, featureChunkSize, featureSize])
 
-        file.createDoubleDataset(FeatureDatabase.peakHeightsDatasetName,
+        file.createFloatDataset(FeatureDatabase.peakHeightsDatasetName,
             dataspace: Dataspace(dims: [0, 0, featureSize], maxDims: [-1, -1, featureSize]),
             chunkDimensions: [chunkSize, featureChunkSize, featureSize])
 
-        file.createDoubleDataset(FeatureDatabase.peakLocationsDatasetName,
+        file.createFloatDataset(FeatureDatabase.peakLocationsDatasetName,
             dataspace: Dataspace(dims: [0, 0, featureSize], maxDims: [-1, -1, featureSize]),
             chunkDimensions: [chunkSize, featureChunkSize, featureSize])
     }
@@ -204,11 +204,11 @@ public extension FeatureDatabase {
     }
 
     func writeEventNotes(sequence: Sequence) throws {
-        guard let eventNoteDataset = file.openDoubleDataset(FeatureDatabase.eventNoteDatasetName) else {
+        guard let eventNoteDataset = file.openFloatDataset(FeatureDatabase.eventNoteDatasetName) else {
             throw Error.DatasetNotFound
         }
 
-        var noteValues = [Real](count: Note.noteCount * sequence.events.count, repeatedValue: 0.0)
+        var noteValues = [Float](count: Note.noteCount * sequence.events.count, repeatedValue: 0.0)
         for event in sequence.events {
             for note in event.notes {
                 let index = note.midiNoteNumber - Note.representableRange.startIndex
@@ -221,11 +221,11 @@ public extension FeatureDatabase {
     }
 
     func writeEventVelocities(sequence: Sequence) throws {
-        guard let eventVelocitiesDataset = file.openDoubleDataset(FeatureDatabase.eventVelocityDatasetName) else {
+        guard let eventVelocitiesDataset = file.openFloatDataset(FeatureDatabase.eventVelocityDatasetName) else {
             throw Error.DatasetNotFound
         }
 
-        var velocities = [Real](count: Note.noteCount * sequence.events.count, repeatedValue: 0.0)
+        var velocities = [Float](count: Note.noteCount * sequence.events.count, repeatedValue: 0.0)
         for (eventIndex, event) in sequence.events.enumerate() {
             for (noteIndex, note) in event.notes.enumerate() {
                 let index = note.midiNoteNumber - Note.representableRange.startIndex
@@ -246,12 +246,12 @@ public extension FeatureDatabase {
         }
         try lengthDataset.append([sequence.features.count], dimensions: [1])
 
-        guard let featureOnsetValuesDataset = file.openDoubleDataset(FeatureDatabase.featureOnsetValuesDatasetName) else {
+        guard let featureOnsetValuesDataset = file.openFloatDataset(FeatureDatabase.featureOnsetValuesDatasetName) else {
             throw Error.DatasetNotFound
         }
         try featureOnsetValuesDataset.append(sequence.featureOnsetValues, dimensions: [1, sequence.featureOnsetValues.count])
 
-        guard let featurePolyphonyValuesDataset = file.openDoubleDataset(FeatureDatabase.featurePolyphonyValuesDatasetName) else {
+        guard let featurePolyphonyValuesDataset = file.openFloatDataset(FeatureDatabase.featurePolyphonyValuesDatasetName) else {
             throw Error.DatasetNotFound
         }
         try featurePolyphonyValuesDataset.append(sequence.featurePolyphonyValues, dimensions: [1, sequence.featurePolyphonyValues.count])
@@ -263,12 +263,12 @@ public extension FeatureDatabase {
     }
 
     func writeSpectrum(sequence: Sequence) throws {
-        guard let spectrumDataset = file.openDoubleDataset(FeatureDatabase.spectrumDatasetName) else {
+        guard let spectrumDataset = file.openFloatDataset(FeatureDatabase.spectrumDatasetName) else {
             throw Error.DatasetNotFound
         }
 
         let featureSize = FeatureBuilder.bandNotes.count
-        var data = [Real](count: featureSize * sequence.features.count, repeatedValue: 0.0)
+        var data = [Float](count: featureSize * sequence.features.count, repeatedValue: 0.0)
         for (featureIndex, feature) in sequence.features.enumerate() {
             for i in 0..<featureSize {
                 data[featureIndex * featureSize + i] = feature.spectrum[i]
@@ -278,12 +278,12 @@ public extension FeatureDatabase {
     }
 
     func writeSpectralFlux(sequence: Sequence) throws {
-        guard let spectralFluxDataset = file.openDoubleDataset(FeatureDatabase.spectrumFluxDatasetName) else {
+        guard let spectralFluxDataset = file.openFloatDataset(FeatureDatabase.spectrumFluxDatasetName) else {
             throw Error.DatasetNotFound
         }
 
         let featureSize = FeatureBuilder.bandNotes.count
-        var data = [Real](count: featureSize * sequence.features.count, repeatedValue: 0.0)
+        var data = [Float](count: featureSize * sequence.features.count, repeatedValue: 0.0)
         for (featureIndex, feature) in sequence.features.enumerate() {
             for i in 0..<featureSize {
                 data[featureIndex * featureSize + i] = feature.spectralFlux[i]
@@ -293,12 +293,12 @@ public extension FeatureDatabase {
     }
 
     func writePeakHeights(sequence: Sequence) throws {
-        guard let peakHeightsDataset = file.openDoubleDataset(FeatureDatabase.peakHeightsDatasetName) else {
+        guard let peakHeightsDataset = file.openFloatDataset(FeatureDatabase.peakHeightsDatasetName) else {
             throw Error.DatasetNotFound
         }
 
         let featureSize = FeatureBuilder.bandNotes.count
-        var data = [Real](count: featureSize * sequence.features.count, repeatedValue: 0.0)
+        var data = [Float](count: featureSize * sequence.features.count, repeatedValue: 0.0)
         for (featureIndex, feature) in sequence.features.enumerate() {
             for i in 0..<featureSize {
                 data[featureIndex * featureSize + i] = feature.peakHeights[i]
@@ -308,12 +308,12 @@ public extension FeatureDatabase {
     }
 
     func writePeakLocations(sequence: Sequence) throws {
-        guard let peakLocationsDataset = file.openDoubleDataset(FeatureDatabase.peakLocationsDatasetName) else {
+        guard let peakLocationsDataset = file.openFloatDataset(FeatureDatabase.peakLocationsDatasetName) else {
             throw Error.DatasetNotFound
         }
 
         let featureSize = FeatureBuilder.bandNotes.count
-        var data = [Real](count: featureSize * sequence.features.count, repeatedValue: 0.0)
+        var data = [Float](count: featureSize * sequence.features.count, repeatedValue: 0.0)
         for (featureIndex, feature) in sequence.features.enumerate() {
             for i in 0..<featureSize {
                 data[featureIndex * featureSize + i] = feature.peakLocations[i]
@@ -379,7 +379,7 @@ public extension FeatureDatabase {
     }
 
     func readEventNotes(sequence: Sequence, index: Int, length: Int) throws {
-        guard let eventNoteDataset = file.openDoubleDataset(FeatureDatabase.eventNoteDatasetName) else {
+        guard let eventNoteDataset = file.openFloatDataset(FeatureDatabase.eventNoteDatasetName) else {
             throw Error.DatasetNotFound
         }
 
@@ -390,13 +390,13 @@ public extension FeatureDatabase {
     }
 
     func readEventVelocities(sequence: Sequence, index: Int, length: Int) throws {
-        guard let eventVelocitiesDataset = file.openDoubleDataset(FeatureDatabase.eventVelocityDatasetName) else {
+        guard let eventVelocitiesDataset = file.openFloatDataset(FeatureDatabase.eventVelocityDatasetName) else {
             throw Error.DatasetNotFound
         }
 
         let velocities = try eventVelocitiesDataset.read([index, 0..<length, 0..<Note.noteCount])
         for (eventIndex, event) in sequence.events.enumerate() {
-            event.velocities = [Double](count: event.notes.count, repeatedValue: 0.0)
+            event.velocities = [Float](count: event.notes.count, repeatedValue: 0.0)
             for (noteIndex, note) in event.notes.enumerate() {
                 event.velocities[noteIndex] = velocities[eventIndex * Note.noteCount + note.midiNoteNumber - Note.representableRange.startIndex]
             }
@@ -409,12 +409,12 @@ public extension FeatureDatabase {
         }
         let length = try featuresLengthDataset.read([index]).first!
 
-        guard let featureOnsetValuesDataset = file.openDoubleDataset(FeatureDatabase.featureOnsetValuesDatasetName) else {
+        guard let featureOnsetValuesDataset = file.openFloatDataset(FeatureDatabase.featureOnsetValuesDatasetName) else {
             throw Error.DatasetNotFound
         }
         sequence.featureOnsetValues = try featureOnsetValuesDataset.read([index, 0..<length])
 
-        guard let featurePolyphonyValuesDataset = file.openDoubleDataset(FeatureDatabase.featurePolyphonyValuesDatasetName) else {
+        guard let featurePolyphonyValuesDataset = file.openFloatDataset(FeatureDatabase.featurePolyphonyValuesDatasetName) else {
             throw Error.DatasetNotFound
         }
         sequence.featurePolyphonyValues = try featurePolyphonyValuesDataset.read([index, 0..<length])
@@ -431,7 +431,7 @@ public extension FeatureDatabase {
     }
 
     func readSpectrum(sequence: Sequence, index: Int, length: Int) throws {
-        guard let spectrumDataset = file.openDoubleDataset(FeatureDatabase.spectrumDatasetName) else {
+        guard let spectrumDataset = file.openFloatDataset(FeatureDatabase.spectrumDatasetName) else {
             throw Error.DatasetNotFound
         }
 
@@ -439,14 +439,14 @@ public extension FeatureDatabase {
         let spectrums = try spectrumDataset.read([index, 0..<length, 0..<featureSize])
         for (featureIndex, feature) in sequence.features.enumerate() {
             spectrums.withUnsafeBufferPointer { pointer in
-                let offsetPointer = UnsafeMutablePointer<Double>(pointer.baseAddress + featureIndex * featureSize)
+                let offsetPointer = UnsafeMutablePointer<Float>(pointer.baseAddress + featureIndex * featureSize)
                 feature.spectrum.mutablePointer.assignFrom(offsetPointer, count: featureSize)
             }
         }
     }
 
     func readSpectralFlux(sequence: Sequence, index: Int, length: Int) throws {
-        guard let spectralFluxDataset = file.openDoubleDataset(FeatureDatabase.spectrumFluxDatasetName) else {
+        guard let spectralFluxDataset = file.openFloatDataset(FeatureDatabase.spectrumFluxDatasetName) else {
             throw Error.DatasetNotFound
         }
 
@@ -454,14 +454,14 @@ public extension FeatureDatabase {
         let spectrums = try spectralFluxDataset.read([index, 0..<length, 0..<featureSize])
         for (featureIndex, feature) in sequence.features.enumerate() {
             spectrums.withUnsafeBufferPointer { pointer in
-                let offsetPointer = UnsafeMutablePointer<Double>(pointer.baseAddress + featureIndex * featureSize)
+                let offsetPointer = UnsafeMutablePointer<Float>(pointer.baseAddress + featureIndex * featureSize)
                 feature.spectralFlux.mutablePointer.assignFrom(offsetPointer, count: featureSize)
             }
         }
     }
 
     func readPeakHeights(sequence: Sequence, index: Int, length: Int) throws {
-        guard let peakHeightsDataset = file.openDoubleDataset(FeatureDatabase.peakHeightsDatasetName) else {
+        guard let peakHeightsDataset = file.openFloatDataset(FeatureDatabase.peakHeightsDatasetName) else {
             throw Error.DatasetNotFound
         }
 
@@ -469,14 +469,14 @@ public extension FeatureDatabase {
         let spectrums = try peakHeightsDataset.read([index, 0..<length, 0..<featureSize])
         for (featureIndex, feature) in sequence.features.enumerate() {
             spectrums.withUnsafeBufferPointer { pointer in
-                let offsetPointer = UnsafeMutablePointer<Double>(pointer.baseAddress + featureIndex * featureSize)
+                let offsetPointer = UnsafeMutablePointer<Float>(pointer.baseAddress + featureIndex * featureSize)
                 feature.peakHeights.mutablePointer.assignFrom(offsetPointer, count: featureSize)
             }
         }
     }
 
     func readPeakLocations(sequence: Sequence, index: Int, length: Int) throws {
-        guard let peakLocationsDataset = file.openDoubleDataset(FeatureDatabase.peakLocationsDatasetName) else {
+        guard let peakLocationsDataset = file.openFloatDataset(FeatureDatabase.peakLocationsDatasetName) else {
             throw Error.DatasetNotFound
         }
 
@@ -484,7 +484,7 @@ public extension FeatureDatabase {
         let spectrums = try peakLocationsDataset.read([index, 0..<length, 0..<featureSize])
         for (featureIndex, feature) in sequence.features.enumerate() {
             spectrums.withUnsafeBufferPointer { pointer in
-                let offsetPointer = UnsafeMutablePointer<Double>(pointer.baseAddress + featureIndex * featureSize)
+                let offsetPointer = UnsafeMutablePointer<Float>(pointer.baseAddress + featureIndex * featureSize)
                 feature.peakLocations.mutablePointer.assignFrom(offsetPointer, count: featureSize)
             }
         }

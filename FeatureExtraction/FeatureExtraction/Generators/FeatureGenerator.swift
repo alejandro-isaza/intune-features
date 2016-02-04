@@ -4,5 +4,5 @@ import Upsurge
 
 public protocol FeatureGenerator {
     /// Serialize the feature
-    var data: RealArray { get }
+    var data: ValueArray<Double> { get }
 }

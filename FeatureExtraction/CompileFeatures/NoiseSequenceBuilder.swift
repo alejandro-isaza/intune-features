@@ -49,7 +49,7 @@ class NoiseSequenceBuilder {
                 fatalError("Audio file at '\(filePath)' is too short. Need at least \(Sequence.minimumSequenceSamples) frames, have \(sampleCount).")
             }
 
-            sequence.data = RealArray(count: sampleCount)
+            sequence.data = ValueArray<Double>(count: sampleCount)
             guard audioFile.readFrames(sequence.data.mutablePointer, count: sampleCount) == sampleCount else {
                 return
             }

@@ -4,14 +4,14 @@ import Foundation
 import Upsurge
 
 public class PeakHeightsFeatureGenerator : BandsFeatureGenerator {
-    public var peakHeights: RealArray
+    public var peakHeights: ValueArray<Double>
 
-    public override var data: RealArray {
+    public override var data: ValueArray<Double> {
         return peakHeights
     }
 
     public override init(notes: Range<Int>, bandSize: Double) {
-        peakHeights = RealArray(count: notes.count)
+        peakHeights = ValueArray<Double>(count: notes.count)
         super.init(notes: notes, bandSize: bandSize)
     }
 

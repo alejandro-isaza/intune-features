@@ -5,8 +5,8 @@ import HDF5Kit
 import Upsurge
 import XCTest
 
-func randomInInterval(interval: ClosedInterval<Double>) -> Double {
-    let r = Double(randomInRange(0..<Int.max)) / Double(Int.max)
+func randomInInterval(interval: ClosedInterval<Float>) -> Float {
+    let r = Float(randomInRange(0..<Int.max)) / Float(Int.max)
     return interval.start + (interval.end - interval.start) * r
 }
 

@@ -61,8 +61,8 @@ class FileViewController: NSViewController {
         midiFile = MIDIFile(filePath: midiFilePath)
 
         audioFile = AudioFile.open(example.filePath)
-        example.data.0 = RealArray(count: FeatureBuilder.windowSize)
-        example.data.1 = RealArray(count: FeatureBuilder.windowSize)
+        example.data.0 = ValueArray<Double>(count: FeatureBuilder.windowSize)
+        example.data.1 = ValueArray<Double>(count: FeatureBuilder.windowSize)
         loadOffset(FeatureBuilder.windowSize)
     }
 

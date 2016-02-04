@@ -16,7 +16,7 @@ class SpectrumViewController: BandsFeaturesViewController {
         plotView!.fixedXInterval = Double(FeatureBuilder.bandNotes.startIndex)...Double(FeatureBuilder.bandNotes.endIndex)
     }
 
-    func updateView(spectrum: RealArray, baseFrequency: Double, markNotes: [Int]) {
+    func updateView(spectrum: ValueArray<Double>, baseFrequency: Double, markNotes: [Int]) {
         _ = view // Force the view to load
         guard let plotView = plotView else {
             return

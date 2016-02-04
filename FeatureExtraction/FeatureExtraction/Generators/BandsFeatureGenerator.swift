@@ -6,8 +6,8 @@ public class BandsFeatureGenerator: FeatureGenerator {
     public let notes: Range<Int>
     public let bandSize: Double
 
-    public var data: RealArray {
-        return RealArray()
+    public var data: ValueArray<Double> {
+        return ValueArray<Double>()
     }
 
     public init(notes: Range<Int>, bandSize: Double) {

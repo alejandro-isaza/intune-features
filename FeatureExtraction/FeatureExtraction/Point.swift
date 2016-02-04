@@ -3,10 +3,10 @@
 import Upsurge
 
 public struct Point {
-    public var x: Real
-    public var y: Real
+    public var x: Double
+    public var y: Double
 
-    public init(x: Real, y: Real) {
+    public init(x: Double, y: Double) {
         self.x = x
         self.y = y
     }

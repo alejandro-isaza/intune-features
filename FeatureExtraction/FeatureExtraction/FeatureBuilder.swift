@@ -45,10 +45,10 @@ public struct FeatureBuilder {
     }
 
     // Helpers
-    public var window: RealArray
-    public let fft = FFT(inputLength: windowSize)
+    public var window: ValueArray<Double>
+    public let fft = FFTDouble(inputLength: windowSize)
     public let peakExtractor = PeakExtractor(heightCutoffMultiplier: peakHeightCutoffMultiplier, minimumNoteDistance: peakMinimumNoteDistance)
-    public let fb = Double(samplingFrequency) / Double(windowSize)
+    public let fb = samplingFrequency / Double(windowSize)
     
     // Generators
     public let peakLocations = PeakLocationsFeatureGenerator(notes: bandNotes, bandSize: bandSize)
@@ -58,12 +58,12 @@ public struct FeatureBuilder {
     public let spectrumFluxFeature: SpectrumFluxFeatureGenerator = SpectrumFluxFeatureGenerator(notes: bandNotes, bandSize: bandSize)
 
     public init() {
-        window = RealArray(count: FeatureBuilder.windowSize)
+        window = ValueArray<Double>(count: FeatureBuilder.windowSize)
         vDSP_hamm_windowD(window.mutablePointer, vDSP_Length(FeatureBuilder.windowSize), 0)
     }
 
-    public func generateFeatures<C: LinearType where C.Element == Real>(data0: C, _ data1: C) -> Feature {
-        let rms = rmsq(data1)
+    public func generateFeatures<C: LinearType where C.Element == Double>(data0: C, _ data1: C) -> Feature {
+        let rms = Double(rmsq(data1))
         
         // Previous spectrum
         let spectrum0 = spectrumValues(data0)
@@ -78,28 +78,30 @@ public struct FeatureBuilder {
         spectrumFeature0.update(spectrum: spectrum0, baseFrequency: fb)
         spectrumFeature1.update(spectrum: spectrum1, baseFrequency: fb)
         spectrumFluxFeature.update(spectrum0: spectrumFeature0.data, spectrum1: spectrumFeature1.data)
-        
-        return Feature(
-            rms: rms,
-            spectrum: spectrumFeature1.data.copy(),
-            spectralFlux: spectrumFluxFeature.data.copy(),
-            peakHeights: peakHeights.data.copy(),
-            peakLocations: peakLocations.data.copy()
-        )
+
+        var feature = Feature()
+        feature.rms = Float(rms)
+        for i in 0..<FeatureBuilder.bandNotes.count {
+            feature.spectrum[i] = Float(spectrumFeature1.data[i])
+            feature.spectralFlux[i] = Float(spectrumFluxFeature.data[i])
+            feature.peakHeights[i] = Float(peakHeights.data[i])
+            feature.peakLocations[i] = Float(peakLocations.data[i])
+        }
+        return feature
     }
     
     /// Compute the power spectrum values
-    public func spectrumValues<C: LinearType where C.Element == Real>(data: C) -> RealArray {
+    public func spectrumValues<C: LinearType where C.Element == Double>(data: C) -> ValueArray<Double> {
         return sqrt(fft.forwardMags(data * window))
     }
 
     /// Convert from spectrum values to frequency, value points
-    public func spectrumPoints<C: LinearType where C.Element == Real>(spectrum: C) -> [Point] {
+    public func spectrumPoints<C: LinearType where C.Element == Double>(spectrum: C) -> [Point] {
         var points = [Point]()
         points.reserveCapacity(spectrum.count)
         for i in 0..<spectrum.count {
             let v = spectrum[i]
-            points.append(Point(x: fb * Real(i), y: v))
+            points.append(Point(x: fb * Double(i), y: v))
         }
         return points
     }

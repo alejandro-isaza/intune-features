@@ -16,7 +16,7 @@ let count = 1024
 let fs = 44100.0
 let f0 = 10 * fs/Double(count)
 
-let t = RealArray((0..<count).map{ Double($0) / fs })
+let t = ValueArray<Double>((0..<count).map{ Double($0) / fs })
 let y = sin(t * 2.0 * M_PI * f0)
 plot(y, title: "Wave")
 

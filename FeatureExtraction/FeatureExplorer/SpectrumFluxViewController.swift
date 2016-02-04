@@ -22,7 +22,7 @@ class SpectrumFluxViewController: BandsFeaturesViewController {
 
     }
 
-    func updateView(spectrum0 spectrum0: RealArray, spectrum1: RealArray, markNotes: [Int]) {
+    func updateView(spectrum0 spectrum0: ValueArray<Double>, spectrum1: ValueArray<Double>, markNotes: [Int]) {
         _ = view // Force the view to load
         guard let plotView = plotView else {
             return

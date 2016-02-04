@@ -8,16 +8,16 @@ import Upsurge
 
 public struct Label: Equatable {
     var notes: [Note]
-    var velocities: [Double]
-    var onset: Double
+    var velocities: [Float]
+    var onset: Float
 
     init() {
         notes = [Note]()
-        velocities = [Double]()
+        velocities = [Float]()
         onset = 0.0
     }
 
-    init(notes: [Note], velocities: [Double], onset: Double) {
+    init(notes: [Note], velocities: [Float], onset: Float) {
         self.notes = notes
         self.velocities = velocities
         self.onset = onset
@@ -54,7 +54,7 @@ public class ValidateFeatures {
 
     func validateSequence(sequence: Sequence) -> Bool {
         let filePath = sequence.filePath
-        let data: (RealArray, RealArray) = (RealArray(count: FeatureBuilder.windowSize), RealArray(count: FeatureBuilder.windowSize))
+        let data: (ValueArray<Double>, ValueArray<Double>) = (ValueArray<Double>(count: FeatureBuilder.windowSize), ValueArray<Double>(count: FeatureBuilder.windowSize))
 
         for (i, expectedFeature) in sequence.features.enumerate() {
             let offset = sequence.startOffset + i * FeatureBuilder.stepSize
@@ -103,7 +103,7 @@ public class ValidateFeatures {
         return true
     }
 
-    func loadExampleData(filePath: String, offset: Int, data: (RealArray, RealArray)) {
+    func loadExampleData(filePath: String, offset: Int, data: (ValueArray<Double>, ValueArray<Double>)) {
         guard let file = AudioFile.open(filePath) else {
             fatalError("File not found '\(filePath)'")
         }
@@ -191,8 +191,8 @@ public class ValidateFeatures {
         let label: Label
         if onsetIndexInWindow >= 0 && onsetIndexInWindow < featureBuilder.window.count {
             let note = Note(midiNoteNumber: noteNumber)
-            let onset = featureBuilder.window[onsetIndexInWindow]
-            let velocity = 0.75
+            let onset = Float(featureBuilder.window[onsetIndexInWindow])
+            let velocity = Float(0.75)
 
             label = Label(notes: [note], velocities: [velocity], onset: onset)
         } else {
@@ -239,7 +239,7 @@ public class ValidateFeatures {
                 }
 
                 label.notes.append(Note(midiNoteNumber: Int(note.note)))
-                label.velocities.append(Double(note.velocity))
+                label.velocities.append(Float(note.velocity))
             }
 
             label.onset = onsetValueForWindowAt(offset, events: sequence.events)
@@ -254,12 +254,12 @@ public class ValidateFeatures {
         return Label(notes: events[targetEventIndex].notes, velocities: events[targetEventIndex].velocities, onset: onsetValueForWindowAt(offset, events: events))
     }
 
-    func onsetValueForWindowAt(windowStart: Int, events: [Sequence.Event]) -> Double {
-        var value = 0.0
+    func onsetValueForWindowAt(windowStart: Int, events: [Sequence.Event]) -> Float {
+        var value = Float(0.0)
         for event in events {
             let index = event.offset - windowStart
             if index >= 0 && index < featureBuilder.window.count {
-                value += featureBuilder.window[index]
+                value += Float(featureBuilder.window[index])
             }
         }
         return value

@@ -77,8 +77,8 @@ public func ==(lhs: Note, rhs: Note) -> Bool {
     return lhs.note == rhs.note && lhs.octave == rhs.octave
 }
 
-public func vectorFromNotes(notes: [Note]) -> [Double] {
-    var vector = [Double](count: Note.representableRange.count, repeatedValue: 0.0)
+public func vectorFromNotes(notes: [Note]) -> [Float] {
+    var vector = [Float](count: Note.representableRange.count, repeatedValue: 0.0)
     for note in notes {
         let index = note.midiNoteNumber - Note.representableRange.startIndex
         vector[index] = 1.0
@@ -86,7 +86,7 @@ public func vectorFromNotes(notes: [Note]) -> [Double] {
     return vector
 }
 
-public func notesFromVector<C: CollectionType where C.Generator.Element == Double, C.Index == Int>(vector: C) -> [Note] {
+public func notesFromVector<C: CollectionType where C.Generator.Element == Float, C.Index == Int>(vector: C) -> [Note] {
     precondition(vector.count == Note.representableRange.count)
     var notes = [Note]()
     for (index, value) in vector.enumerate() {

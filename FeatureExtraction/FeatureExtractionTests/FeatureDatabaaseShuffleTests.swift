@@ -21,11 +21,7 @@ class FeatureDatabaaseShuffleTests: XCTestCase {
             event.velocities = [1.0]
             sequence.events.append(event)
 
-            var feature = Feature()
-            feature.spectrum = RealArray(count: FeatureBuilder.bandNotes.count)
-            feature.spectralFlux = RealArray(count: FeatureBuilder.bandNotes.count)
-            feature.peakHeights = RealArray(count: FeatureBuilder.bandNotes.count)
-            feature.peakLocations = RealArray(count: FeatureBuilder.bandNotes.count)
+            let feature = Feature()
             sequence.features.append(feature)
             sequence.featureOnsetValues.append(0)
             sequence.featurePolyphonyValues.append(0)

@@ -80,10 +80,10 @@ class MonophonicNet {
         net.connectLayer(ip3LayerRef, toLayer: sinkRef)
     }
 
-    func run(exampleIndex: Int) -> RealArray {
+    func run(exampleIndex: Int) -> ValueArray<Double> {
         let start = exampleIndex*bandCount
         let end = start + bandCount
-        dataLayer.data = RealArray(capacity: bandCount * 3)
+        dataLayer.data = ValueArray<Double>(capacity: bandCount * 3)
         dataLayer.data.appendContentsOf(peakLocationData[start..<end])
         dataLayer.data.appendContentsOf(peakHeightData[start..<end])
         dataLayer.data.appendContentsOf(bandData[start..<end])
@@ -118,7 +118,7 @@ func createLayerFromFile(filePath: String, datasetName: String) -> InnerProductL
     let (biases, bdims) = readData(filePath, datasetName: "\(datasetName)___bias")
     print("Loaded \(datasetName) biases with \(bdims[0]) elements")
 
-    return InnerProductLayer(weights: weightsMatrix, biases: RealArray(biases).toColumnMatrix())
+    return InnerProductLayer(weights: weightsMatrix, biases: ValueArray<Double>(biases).toColumnMatrix())
 }
 
 func maxi<T: CollectionType where T.Generator.Element: Comparable>(elements: T) -> (Int, T.Generator.Element)? {

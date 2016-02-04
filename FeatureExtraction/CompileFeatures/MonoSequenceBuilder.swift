@@ -56,7 +56,7 @@ class MonoSequenceBuilder {
             fatalError("Audio file at '\(filePath)' is too short. Need at least \(FeatureBuilder.windowSize / 2) frames, have \(readCount).")
         }
 
-        sequence.data = RealArray(count: sampleCount)
+        sequence.data = ValueArray<Double>(count: sampleCount)
         for i in 0..<padding { sequence.data[i] = 0 }
         for i in padding+readCount..<sampleCount { sequence.data[i] = 0 }
 
@@ -80,7 +80,7 @@ class MonoSequenceBuilder {
 
             let onsetIndexInWindow = padding - start
             if onsetIndexInWindow >= 0 && onsetIndexInWindow < featureBuilder.window.count {
-                sequence.featureOnsetValues.append(featureBuilder.window[onsetIndexInWindow])
+                sequence.featureOnsetValues.append(Float(featureBuilder.window[onsetIndexInWindow]))
                 sequence.featurePolyphonyValues.append(1)
             } else {
                 sequence.featureOnsetValues.append(0)

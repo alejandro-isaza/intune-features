@@ -34,7 +34,7 @@ class ViewController: UIViewController {
         run()
     }
     
-    func update(labels: ArraySlice<Double>) {
+    func update(labels: ArraySlice<Float>) {
         var filterdLabels = [Int]()
         for (index, label) in labels.enumerate() {
             if label == 1 {

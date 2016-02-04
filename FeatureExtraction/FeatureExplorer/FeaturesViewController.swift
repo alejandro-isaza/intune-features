@@ -45,8 +45,8 @@ class FeaturesViewController: NSTabViewController {
 
     // MARK: - Feature extraction
 
-    let window: RealArray = {
-        let array = RealArray(count: FeatureBuilder.windowSize)
+    let window: ValueArray<Double> = {
+        let array = ValueArray<Double>(count: FeatureBuilder.windowSize)
         vDSP_hamm_windowD(array.mutablePointer, vDSP_Length(FeatureBuilder.windowSize), 0)
         return array
     }()
@@ -55,12 +55,12 @@ class FeaturesViewController: NSTabViewController {
     let fb = Double(FeatureBuilder.samplingFrequency) / Double(FeatureBuilder.windowSize)
 
     /// Compute the power spectrum values
-    func spectrumValues(data: RealArray) -> RealArray {
+    func spectrumValues(data: ValueArray<Double>) -> ValueArray<Double> {
         return sqrt(fft.forwardMags(data * window))
     }
 
     /// Convert from spectrum values to frequency, value points
-    func spectrumPoints(spectrum: RealArray) -> [FeatureExtraction.Point] {
+    func spectrumPoints(spectrum: ValueArray<Double>) -> [FeatureExtraction.Point] {
         return (0..<spectrum.count).map{ FeatureExtraction.Point(x: fb * Real($0), y: spectrum[$0]) }
     }
 

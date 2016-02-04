@@ -4,18 +4,18 @@ import Foundation
 import Upsurge
 
 public class SpectrumFluxFeatureGenerator : BandsFeatureGenerator {
-    public var fluxes: RealArray
+    public var fluxes: ValueArray<Double>
 
-    public override var data: RealArray {
+    public override var data: ValueArray<Double> {
         return fluxes
     }
 
     public override init(notes: Range<Int>, bandSize: Double) {
-        fluxes = RealArray(count: notes.count)
+        fluxes = ValueArray<Double>(count: notes.count)
         super.init(notes: notes, bandSize: bandSize)
     }
 
-    public func update(spectrum0 spectrum0: RealArray, spectrum1: RealArray) {
+    public func update(spectrum0 spectrum0: ValueArray<Double>, spectrum1: ValueArray<Double>) {
         let bandCount = notes.count
         precondition(spectrum0.count == bandCount && spectrum1.count == bandCount)
 
