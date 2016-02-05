@@ -50,7 +50,10 @@ class NoiseSequenceBuilder {
             }
 
             sequence.data = ValueArray<Double>(count: sampleCount)
-            guard audioFile.readFrames(sequence.data.mutablePointer, count: sampleCount) == sampleCount else {
+            let readCount = withPointer(&sequence.data) { pointer in
+                return audioFile.readFrames(pointer, count: sampleCount)
+            }
+            guard readCount == sampleCount else {
                 return
             }
 

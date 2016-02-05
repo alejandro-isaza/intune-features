@@ -26,7 +26,7 @@ public extension FeatureDatabase {
 
     func shuffleTables(chunkSize chunkSize: Int, start1: Int, start2: Int, indices: [Int]) throws {
         let maxFeaturesLength = 44
-        let data = ValueArray<Float>(count: 2 * chunkSize * FeatureBuilder.bandNotes.count * maxFeaturesLength)
+        var data = ValueArray<Float>(count: 2 * chunkSize * FeatureBuilder.bandNotes.count * maxFeaturesLength)
 
         guard let fileIdDataset = file.openIntDataset(FeatureDatabase.fileIdDatasetName) else {
             fatalError("File doesn't have a \(FeatureDatabase.fileIdDatasetName) dataset")
@@ -56,54 +56,58 @@ public extension FeatureDatabase {
         guard let eventNoteDataset = file.openFloatDataset(FeatureDatabase.eventNoteDatasetName) else {
             fatalError("File doesn't have a \(FeatureDatabase.eventNoteDatasetName) dataset")
         }
-        try shuffleDataset(eventNoteDataset, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices, inBuffer: data)
+        try shuffleDataset(eventNoteDataset, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices, inBuffer: &data)
 
         guard let eventVelocityDataset = file.openFloatDataset(FeatureDatabase.eventVelocityDatasetName) else {
             fatalError("File doesn't have a \(FeatureDatabase.eventVelocityDatasetName) dataset")
         }
-        try shuffleDataset(eventVelocityDataset, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices, inBuffer: data)
+        try shuffleDataset(eventVelocityDataset, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices, inBuffer: &data)
 
         guard let spectrumDataset = file.openFloatDataset(FeatureDatabase.spectrumDatasetName) else {
             fatalError("File doesn't have a \(FeatureDatabase.spectrumDatasetName) dataset")
         }
-        try shuffleDataset(spectrumDataset, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices, inBuffer: data)
+        try shuffleDataset(spectrumDataset, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices, inBuffer: &data)
 
         guard let spectralFluxDataset = file.openFloatDataset(FeatureDatabase.spectrumFluxDatasetName) else {
             fatalError("File doesn't have a \(FeatureDatabase.spectrumFluxDatasetName) dataset")
         }
-        try shuffleDataset(spectralFluxDataset, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices, inBuffer: data)
+        try shuffleDataset(spectralFluxDataset, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices, inBuffer: &data)
 
         guard let peakHeightsDataset = file.openFloatDataset(FeatureDatabase.peakHeightsDatasetName) else {
             fatalError("File doesn't have a \(FeatureDatabase.peakHeightsDatasetName) dataset")
         }
-        try shuffleDataset(peakHeightsDataset, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices, inBuffer: data)
+        try shuffleDataset(peakHeightsDataset, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices, inBuffer: &data)
 
         guard let peakLocationsDataset = file.openFloatDataset(FeatureDatabase.peakLocationsDatasetName) else {
             fatalError("File doesn't have a \(FeatureDatabase.peakLocationsDatasetName) dataset")
         }
-        try shuffleDataset(peakLocationsDataset, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices, inBuffer: data)
+        try shuffleDataset(peakLocationsDataset, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices, inBuffer: &data)
 
         guard let featureOnsetValuesDataset = file.openFloatDataset(FeatureDatabase.featureOnsetValuesDatasetName) else {
             fatalError("File doesn't have a \(FeatureDatabase.featureOnsetValuesDatasetName) dataset")
         }
-        try shuffle2DDataset(featureOnsetValuesDataset, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices, inBuffer: data)
+        try shuffle2DDataset(featureOnsetValuesDataset, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices, inBuffer: &data)
         
         guard let featurePolyphonyValuesDataset = file.openFloatDataset(FeatureDatabase.featurePolyphonyValuesDatasetName) else {
             fatalError("File doesn't have a \(FeatureDatabase.featurePolyphonyValuesDatasetName) dataset")
         }
-        try shuffle2DDataset(featurePolyphonyValuesDataset, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices, inBuffer: data)
+        try shuffle2DDataset(featurePolyphonyValuesDataset, chunkSize: chunkSize, start1: start1, start2: start2, indices: indices, inBuffer: &data)
     }
 
-    func shuffle2DDataset(dataset: FloatDataset, chunkSize: Int, start1: Int, start2: Int, indices: [Int], inBuffer data: ValueArray<Float>) throws {
+    func shuffle2DDataset(dataset: FloatDataset, chunkSize: Int, start1: Int, start2: Int, indices: [Int], inout inBuffer data: ValueArray<Float>) throws {
         let featureCount = dataset.extent[1]
 
         let filespace1 = dataset.space
         filespace1.select([start1..<start1 + chunkSize, 0..<featureCount])
-        try dataset.readInto(data.mutablePointer, memSpace: Dataspace(dims: filespace1.selectionDims), fileSpace: filespace1)
+        try withPointer(&data) { pointer in
+            try dataset.readInto(pointer, memSpace: Dataspace(dims: filespace1.selectionDims), fileSpace: filespace1)
+        }
 
         let filespace2 = dataset.space
         filespace2.select([start2..<start2 + chunkSize, 0..<featureCount])
-        try dataset.readInto(data.mutablePointer + chunkSize * featureCount, memSpace: Dataspace(dims: filespace2.selectionDims), fileSpace: filespace2)
+        try withPointer(&data) { pointer in
+            try dataset.readInto(pointer + chunkSize * featureCount, memSpace: Dataspace(dims: filespace2.selectionDims), fileSpace: filespace2)
+        }
 
         data.count = 2 * chunkSize * featureCount
         for i in 0..<2 * chunkSize {
@@ -117,18 +121,22 @@ public extension FeatureDatabase {
         try dataset.writeFrom(data.pointer + chunkSize * featureCount, memSpace: Dataspace(dims: filespace2.selectionDims), fileSpace: filespace2)
     }
 
-    func shuffleDataset(dataset: FloatDataset, chunkSize: Int, start1: Int, start2: Int, indices: [Int], inBuffer data: ValueArray<Float>) throws {
+    func shuffleDataset(dataset: FloatDataset, chunkSize: Int, start1: Int, start2: Int, indices: [Int], inout inBuffer data: ValueArray<Float>) throws {
         let eventCount = dataset.extent[1]
         let featureSize = dataset.extent[2]
         let blockSize = eventCount * featureSize
 
         let filespace1 = dataset.space
         filespace1.select([start1..<start1 + chunkSize, 0..<eventCount, 0..<featureSize])
-        try dataset.readInto(data.mutablePointer, memSpace: Dataspace(dims: filespace1.selectionDims), fileSpace: filespace1)
+        try withPointer(&data) { pointer in
+            try dataset.readInto(pointer, memSpace: Dataspace(dims: filespace1.selectionDims), fileSpace: filespace1)
+        }
 
         let filespace2 = dataset.space
-        filespace2.select([start2..<start2 + chunkSize, 0..<eventCount, 0..<featureSize])
-        try dataset.readInto(data.mutablePointer + chunkSize * blockSize, memSpace: Dataspace(dims: filespace2.selectionDims), fileSpace: filespace2)
+            filespace2.select([start2..<start2 + chunkSize, 0..<eventCount, 0..<featureSize])
+        try withPointer(&data) { pointer in
+            try dataset.readInto(pointer + chunkSize * blockSize, memSpace: Dataspace(dims: filespace2.selectionDims), fileSpace: filespace2)
+        }
 
         data.count = 2 * chunkSize * blockSize
         for i in 0..<2 * chunkSize {
@@ -151,15 +159,19 @@ public extension FeatureDatabase {
     }
 
     func shuffle1DDataset(dataset: IntDataset, chunkSize: Int, start1: Int, start2: Int, indices: [Int]) throws {
-        let data = ValueArray<Int>(capacity: 2 * chunkSize)
+        var data = ValueArray<Int>(capacity: 2 * chunkSize)
 
         let filespace1 = dataset.space
         filespace1.select([start1..<start1 + chunkSize])
-        try dataset.readInto(data.mutablePointer, memSpace: Dataspace(dims: filespace1.selectionDims), fileSpace: filespace1)
+        try withPointer(&data) { pointer in
+            try dataset.readInto(pointer, memSpace: Dataspace(dims: filespace1.selectionDims), fileSpace: filespace1)
+        }
 
         let filespace2 = dataset.space
         filespace2.select([start2..<start2 + chunkSize])
-        try dataset.readInto(data.mutablePointer + chunkSize, memSpace: Dataspace(dims: filespace2.selectionDims), fileSpace: filespace2)
+        try withPointer(&data) { pointer in
+            try dataset.readInto(pointer + chunkSize, memSpace: Dataspace(dims: filespace2.selectionDims), fileSpace: filespace2)
+        }
 
         data.count = 2 * chunkSize
         for i in 0..<2 * chunkSize {
@@ -175,15 +187,19 @@ public extension FeatureDatabase {
 
     func shuffle2DDataset(dataset: IntDataset, chunkSize: Int, start1: Int, start2: Int, indices: [Int]) throws {
         let eventCount = dataset.extent[1]
-        let data = ValueArray<Int>(capacity: 2 * chunkSize * eventCount)
+        var data = ValueArray<Int>(capacity: 2 * chunkSize * eventCount)
 
         let filespace1 = dataset.space
         filespace1.select([start1..<start1 + chunkSize, 0..<eventCount])
-        try dataset.readInto(data.mutablePointer, memSpace: Dataspace(dims: filespace1.selectionDims), fileSpace: filespace1)
+        try withPointer(&data) { pointer in
+            try dataset.readInto(pointer, memSpace: Dataspace(dims: filespace1.selectionDims), fileSpace: filespace1)
+        }
 
         let filespace2 = dataset.space
         filespace2.select([start2..<start2 + chunkSize, 0..<eventCount])
-        try dataset.readInto(data.mutablePointer + chunkSize * eventCount, memSpace: Dataspace(dims: filespace2.selectionDims), fileSpace: filespace2)
+        try withPointer(&data) { pointer in
+            try dataset.readInto(pointer + chunkSize * eventCount, memSpace: Dataspace(dims: filespace2.selectionDims), fileSpace: filespace2)
+        }
 
         data.count = 2 * chunkSize * eventCount
         for i in 0..<2 * chunkSize {

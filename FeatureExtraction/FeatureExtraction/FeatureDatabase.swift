@@ -439,7 +439,9 @@ public extension FeatureDatabase {
         for (featureIndex, feature) in sequence.features.enumerate() {
             spectrums.withUnsafeBufferPointer { pointer in
                 let offsetPointer = UnsafeMutablePointer<Float>(pointer.baseAddress + featureIndex * featureSize)
-                feature.spectrum.mutablePointer.assignFrom(offsetPointer, count: featureSize)
+                feature.spectrum.withUnsafeMutableBufferPointer { pointer in
+                    pointer.baseAddress.assignFrom(offsetPointer, count: featureSize)
+                }
             }
         }
     }
@@ -454,7 +456,9 @@ public extension FeatureDatabase {
         for (featureIndex, feature) in sequence.features.enumerate() {
             spectrums.withUnsafeBufferPointer { pointer in
                 let offsetPointer = UnsafeMutablePointer<Float>(pointer.baseAddress + featureIndex * featureSize)
-                feature.spectralFlux.mutablePointer.assignFrom(offsetPointer, count: featureSize)
+                feature.spectralFlux.withUnsafeMutableBufferPointer { pointer in
+                    pointer.baseAddress.assignFrom(offsetPointer, count: featureSize)
+                }
             }
         }
     }
@@ -469,7 +473,9 @@ public extension FeatureDatabase {
         for (featureIndex, feature) in sequence.features.enumerate() {
             spectrums.withUnsafeBufferPointer { pointer in
                 let offsetPointer = UnsafeMutablePointer<Float>(pointer.baseAddress + featureIndex * featureSize)
-                feature.peakHeights.mutablePointer.assignFrom(offsetPointer, count: featureSize)
+                feature.peakHeights.withUnsafeMutableBufferPointer { pointer in
+                    pointer.baseAddress.assignFrom(offsetPointer, count: featureSize)
+                }
             }
         }
     }
@@ -484,7 +490,9 @@ public extension FeatureDatabase {
         for (featureIndex, feature) in sequence.features.enumerate() {
             spectrums.withUnsafeBufferPointer { pointer in
                 let offsetPointer = UnsafeMutablePointer<Float>(pointer.baseAddress + featureIndex * featureSize)
-                feature.peakLocations.mutablePointer.assignFrom(offsetPointer, count: featureSize)
+                feature.peakLocations.withUnsafeMutableBufferPointer { pointer in
+                    pointer.baseAddress.assignFrom(offsetPointer, count: featureSize)
+                }
             }
         }
     }

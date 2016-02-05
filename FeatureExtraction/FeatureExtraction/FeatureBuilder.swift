@@ -59,7 +59,9 @@ public struct FeatureBuilder {
 
     public init() {
         window = ValueArray<Double>(count: FeatureBuilder.windowSize)
-        vDSP_hamm_windowD(window.mutablePointer, vDSP_Length(FeatureBuilder.windowSize), 0)
+        withPointer(&window) { pointer in
+            vDSP_hamm_windowD(pointer, vDSP_Length(FeatureBuilder.windowSize), 0)
+        }
     }
 
     public func generateFeatures<C: LinearType where C.Element == Double>(data0: C, _ data1: C) -> Feature {

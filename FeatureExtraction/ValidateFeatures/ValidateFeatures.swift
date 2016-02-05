@@ -57,7 +57,7 @@ public class ValidateFeatures {
 
     func validateSequence(sequence: Sequence) -> Bool {
         let filePath = sequence.filePath
-        let data: (ValueArray<Double>, ValueArray<Double>) = (ValueArray<Double>(count: FeatureBuilder.windowSize), ValueArray<Double>(count: FeatureBuilder.windowSize))
+        var data: (ValueArray<Double>, ValueArray<Double>) = (ValueArray<Double>(count: FeatureBuilder.windowSize), ValueArray<Double>(count: FeatureBuilder.windowSize))
 
         for (i, expectedFeature) in sequence.features.enumerate() {
             let offset = sequence.startOffset + i * FeatureBuilder.stepSize
@@ -71,7 +71,7 @@ public class ValidateFeatures {
                 expectedLabel.onset = sequence.featureOnsetValues[i]
             }
             
-            loadExampleData(filePath, offset: offset, data: data)
+            loadExampleData(filePath, offset: offset, data: &data)
             let actualFeature = featureBuilder.generateFeatures(data.0, data.1)
 
             if !compareFeatures(expectedFeature, actualFeature) {
@@ -106,13 +106,15 @@ public class ValidateFeatures {
         return true
     }
 
-    func loadExampleData(filePath: String, offset: Int, data: (ValueArray<Double>, ValueArray<Double>)) {
+    func loadExampleData(filePath: String, offset: Int, inout data: (ValueArray<Double>, ValueArray<Double>)) {
         guard let file = AudioFile.open(filePath) else {
             fatalError("File not found '\(filePath)'")
         }
 
-        readAtFrame(file, frame: offset, data: data.0.mutablePointer)
-        readAtFrame(file, frame: offset + FeatureBuilder.stepSize, data: data.1.mutablePointer)
+        withPointers(&data.0, &data.1) { p0, p1 in
+            readAtFrame(file, frame: offset, data: p0)
+            readAtFrame(file, frame: offset + FeatureBuilder.stepSize, data: p1)
+        }
     }
 
     func readAtFrame(file: AudioFile, frame: Int, data: UnsafeMutablePointer<Double>) {

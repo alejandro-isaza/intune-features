@@ -60,7 +60,10 @@ class MonoSequenceBuilder {
         for i in 0..<padding { sequence.data[i] = 0 }
         for i in padding+readCount..<sampleCount { sequence.data[i] = 0 }
 
-        guard audioFile.readFrames(sequence.data.mutablePointer + padding, count: readCount) == readCount else {
+        let actualReadCount = withPointer(&sequence.data) { pointer in
+            return audioFile.readFrames(pointer + padding, count: readCount)
+        }
+        guard actualReadCount == readCount else {
             return
         }
 
