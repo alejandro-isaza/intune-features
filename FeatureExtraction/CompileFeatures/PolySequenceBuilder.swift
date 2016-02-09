@@ -87,7 +87,7 @@ class PolySequenceBuilder {
                 return
             }
 
-            sequence.events = sequenceEventsFromNoteEvents(noteSequence, baseOffset: offset, midiFile: midiFile)
+            sequence.events = sequenceEventsFromNoteEvents(noteSequence, baseOffset: offset, midiFile: midiFile, cutoffOffset: endSample)
 
             for i in 0..<windowCount-1 {
                 let start = i * stepSize
@@ -103,7 +103,7 @@ class PolySequenceBuilder {
         }
     }
 
-    func sequenceEventsFromNoteEvents(noteEvents: [MIDINoteEvent], baseOffset offset: Int, midiFile: MIDIFile) -> [Sequence.Event] {
+    func sequenceEventsFromNoteEvents(noteEvents: [MIDINoteEvent], baseOffset offset: Int, midiFile: MIDIFile, cutoffOffset: Int) -> [Sequence.Event] {
         var notesByBeat = [Double: [(Note, Double)]]()
         for noteEvent in noteEvents {
             let note = Note(midiNoteNumber: Int(noteEvent.note))
@@ -123,6 +123,10 @@ class PolySequenceBuilder {
             let event = Sequence.Event()
             let time = midiFile.secondsForBeats(beat)
             let sample = Int(time * FeatureBuilder.samplingFrequency)
+            if sample > cutoffOffset {
+                break
+            }
+            
             event.offset = sample - offset
             event.notes = notes.map({ $0.0 })
             event.velocities = notes.map({ Float($0.1) })
