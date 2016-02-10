@@ -56,9 +56,7 @@ if __name__ == '__main__':
 
         features = [tf.squeeze(t) for t in tf.split(1, max_feature_length, features_placeholder)]
 
-        note_logits, polyphony_logits, onset_logits = net.run_net(features, feature_lengths, lstm_units, layer_count)
-
-        correct = net.correct((note_logits, note_labels_placeholder), (polyphony_logits, polyphony_labels_placeholder), (onset_logits, onset_labels_placeholder), feature_lengths_placeholder, sess)
+        note_logits, polyphony_logits, onset_logits = net.run_net(features, feature_lengths_placeholder, lstm_units, layer_count)
 
         optimizer = tf.train.AdamOptimizer(learning_rate)
         global_step = tf.Variable(0, name='global_step', trainable=False)

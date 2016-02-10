@@ -28,18 +28,22 @@ def loss((note_labels, note_logits), (polyphony_labels, polyphony_logits), (onse
     label_polyphonies = np.argmax(polyphony_labels, axis=2)
     logit_polyphonies = np.argmax(polyphony_logits, axis=2)
 
+    scores = []
     for i in xrange(runner.batch_size):
         length = feature_lengths[i]
         for j in xrange(length):
             label_polyphony = label_polyphonies[i, j]
             logit_polyphony = logit_polyphonies[i, j]
 
-            top_labels = note_labels[i, j, ...].sort()[0:label_polyphony]
-            top_logits = note_logits[i, j, ...].sort()[0:logit_polyphony]
+            top_labels = np.argpartition(note_labels[i, j, 0, :], -label_polyphony)[-label_polyphony:]
+            top_logits = np.argpartition(note_logits[i, j, 0, :], -logit_polyphony)[-logit_polyphony:]
 
             scores.append(edit_distance(top_labels, top_logits))
 
     return np.mean(scores)
+
+def correct((note_labels, note_logits), (polyphony_labels, polyphony_logits), (onset_labels, onset_logits), feature_lengths):
+    return loss((note_labels, note_logits), (polyphony_labels, polyphony_logits), (onset_labels, onset_logits), feature_lengths)
 
 def edit_distance(s, t):
     n = s.size
