@@ -33,8 +33,7 @@ class DataSet:
                                    peak_locations_d[self.present_index:self.present_index+batch_size, :, :]), axis=2)
 
         labels_raw = features_polyphony_values_d[self.present_index:self.present_index+batch_size, :].astype(int)
-        labels_reshape = np.reshape(labels_raw, (batch_size * features_polyphony_values_d.shape[1]))
-        labels = np.eye(self.label_size)[labels_reshape]
+        labels = np.eye(self.label_size)[labels_raw]
         sequence_lengths = features_length_d[self.present_index:self.present_index+batch_size]
 
         self.present_index += batch_size

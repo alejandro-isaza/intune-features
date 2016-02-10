@@ -7,20 +7,31 @@ from tensorflow.models.rnn import rnn, rnn_cell
 from data_set import DataSet
 
 learning_rate = 0.001
-max_epoch = 5000
+max_epoch = 20000
 
 batch_size = 100
 
 lstm_units = 20
-layer_count = 3
+layer_count = 1
 
 max_sequence_length = 43
-
 
 train_data = DataSet("training.h5")
 test_data = DataSet("testing.h5")
 
 output_size = train_data.label_size
+
+def correct(logits, labels, feature_length):
+    score = 0.0
+    for i in xrange(batch_size):
+        length = feature_length[i]
+        label_sequence = labels[i, 0:length, :]
+        logit_sequence = logits[i, 0:length, :]
+
+        score += np.sum(np.equal(np.argmax(label_sequence, axis=1), np.argmax(logit_sequence, axis=1)).astype(float)) / length
+
+    return 100 * score / batch_size
+
 
 def fill_batch_vars(dataset, feature_var, label_var, length_var):
     data, label, length = dataset.next_batch(batch_size)
@@ -29,7 +40,7 @@ def fill_batch_vars(dataset, feature_var, label_var, length_var):
         label_var: label,
         length_var: length
     }
-    return feed_dict
+    return feed_dict, length
 
 def exportToHDF5(variables, session):
     file = h5py.File("net.h5", "w")
@@ -43,7 +54,7 @@ if __name__ == '__main__':
     with tf.Graph().as_default(), tf.Session() as sess:
         features_placeholder = tf.placeholder(tf.float32, shape=(batch_size, max_sequence_length, train_data.feature_size))
         sequence_lengths = tf.placeholder(tf.int64, shape=(batch_size))
-        labels_placeholder = tf.placeholder(tf.float32, shape=(batch_size * max_sequence_length, output_size))
+        labels_placeholder = tf.placeholder(tf.float32, shape=(batch_size, max_sequence_length, output_size))
 
 
         W = tf.Variable(tf.zeros([lstm_units, output_size]))
@@ -56,11 +67,9 @@ if __name__ == '__main__':
 
         rnn_out, state = rnn.rnn(stacked_lstm, features, dtype=tf.float32, sequence_length=sequence_lengths)
 
-        logits_concat = tf.concat(1, [tf.reshape(tf.matmul(t, W) + b, [batch_size, 1, output_size]) for t in rnn_out])
-        logits = tf.reshape(logits_concat, [batch_size * max_sequence_length, output_size])
+        logits = tf.concat(1, [tf.reshape(tf.matmul(t, W) + b, [batch_size, 1, output_size]) for t in rnn_out])
 
         loss = tf.nn.l2_loss(labels_placeholder - logits)
-        correct = 100 * tf.reduce_mean(tf.to_float(tf.equal(tf.argmax(labels_placeholder, 1), tf.argmax(logits, 1))))
 
         optimizer = tf.train.AdamOptimizer(learning_rate)
         global_step = tf.Variable(0, name='global_step', trainable=False)
@@ -71,23 +80,29 @@ if __name__ == '__main__':
 
         # REMINDER: labels needs to be shaped like [time][batch_size][fw_output + bw_output]
         for i in xrange(max_epoch):
-            feed_dict = fill_batch_vars(train_data, features_placeholder, labels_placeholder, sequence_lengths)
+            feed_dict, length = fill_batch_vars(train_data, features_placeholder, labels_placeholder, sequence_lengths)
             percent_list = []
 
             if i % 100 == 0:
-                _, batch_loss, batch_percent = sess.run([train_op, loss, correct], feed_dict=feed_dict)
+                _, batch_loss, batch_logits = sess.run([train_op, loss, logits], feed_dict=feed_dict)
+                batch_labels = feed_dict[labels_placeholder]
+                batch_percent = correct(batch_logits, batch_labels, length)
                 percent_list.append(batch_percent)
                 percent = np.mean(percent_list)
                 percent_list = []
                 print("%d | batch loss: %f, percent: %f%%" % (i, batch_loss / batch_size, percent))
 
-            if i % 500 == 0:
-                feed_dict = fill_batch_vars(test_data, features_placeholder, labels_placeholder, sequence_lengths)
-                test_percent = sess.run([correct], feed_dict=feed_dict)
-                print("     %d Testing percent: %f" % (i, test_percent[0]))
-                exportToHDF5(tf.trainable_variables(), sess)
-                print("     exported.")
+                if i % 500 == 0:
+                    feed_dict, length = fill_batch_vars(test_data, features_placeholder, labels_placeholder, sequence_lengths)
+                    batch_logits = sess.run([logits], feed_dict=feed_dict)
+                    batch_labels = feed_dict[labels_placeholder]
+                    test_percent = correct(batch_logits[0], batch_labels, length)
+                    print("     %d Testing percent: %f" % (i, test_percent))
+                    exportToHDF5(tf.trainable_variables(), sess)
+                    print("     exported.")
 
-
-            _, batch_percent = sess.run([train_op, correct], feed_dict=feed_dict)
-            percent_list.append(batch_percent)
+            else:
+                _, batch_logits = sess.run([train_op, logits], feed_dict=feed_dict)
+                batch_labels = feed_dict[labels_placeholder]
+                batch_percent = correct(batch_logits, batch_labels, length)
+                percent_list.append(batch_percent)
