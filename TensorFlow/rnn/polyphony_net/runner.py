@@ -46,18 +46,15 @@ if __name__ == '__main__':
         labels_placeholder = tf.placeholder(tf.float32, shape=(batch_size * max_sequence_length, output_size))
 
 
-        W = tf.Variable(tf.zeros([2 * lstm_units, output_size]))
+        W = tf.Variable(tf.zeros([lstm_units, output_size]))
         b = tf.Variable(tf.zeros([output_size]))
 
-        f_lstm = rnn_cell.BasicLSTMCell(lstm_units)
-        f_stacked_lstm = rnn_cell.MultiRNNCell([f_lstm] * layer_count)
-
-        r_lstm = rnn_cell.BasicLSTMCell(lstm_units)
-        r_stacked_lstm = rnn_cell.MultiRNNCell([r_lstm] * layer_count)
+        lstm = rnn_cell.BasicLSTMCell(lstm_units)
+        stacked_lstm = rnn_cell.MultiRNNCell([lstm] * layer_count)
 
         features = [tf.squeeze(t) for t in tf.split(1, max_sequence_length, features_placeholder)]
 
-        rnn_out = rnn.bidirectional_rnn(f_stacked_lstm, r_stacked_lstm, features, dtype=tf.float32, sequence_length=sequence_lengths)
+        rnn_out, state = rnn.rnn(stacked_lstm, features, dtype=tf.float32, sequence_length=sequence_lengths)
 
         logits_concat = tf.concat(1, [tf.reshape(tf.matmul(t, W) + b, [batch_size, 1, output_size]) for t in rnn_out])
         logits = tf.reshape(logits_concat, [batch_size * max_sequence_length, output_size])
