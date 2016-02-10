@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="9059" systemVersion="15B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
+<document type="com.apple.InterfaceBuilder3.Cocoa.Storyboard.XIB" version="3.0" toolsVersion="9532" systemVersion="15D21" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES" initialViewController="B8D-0N-5wS">
     <dependencies>
         <deployment identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9059"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="9532"/>
     </dependencies>
     <scenes>
         <!--Application-->
@@ -676,7 +676,6 @@
                     <splitView key="splitView" autosaveName="MainViewController" dividerStyle="thin" vertical="YES" id="HFX-k4-dRP">
                         <rect key="frame" x="0.0" y="0.0" width="450" height="300"/>
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                     </splitView>
                     <connections>
                         <segue destination="0Qy-LS-BSf" kind="relationship" relationship="splitItems" id="vBp-2D-eBL"/>
@@ -703,7 +702,6 @@
                                         <constraints>
                                             <constraint firstAttribute="width" constant="120" id="pqk-1G-uoR"/>
                                         </constraints>
-                                        <animations/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Offset" id="g0M-5S-Wpl">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -715,7 +713,6 @@
                                         <constraints>
                                             <constraint firstAttribute="width" constant="120" id="Fd5-k3-eeJ"/>
                                         </constraints>
-                                        <animations/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="RMS" id="sPl-At-0rd">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -724,7 +721,6 @@
                                     </textField>
                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="GBR-dJ-oNB">
                                         <rect key="frame" x="148" y="52" width="282" height="22"/>
-                                        <animations/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="wWN-Og-Eju">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -733,7 +729,6 @@
                                     </textField>
                                     <stepper horizontalHuggingPriority="750" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Ozq-Du-DKg">
                                         <rect key="frame" x="414" y="103" width="19" height="27"/>
-                                        <animations/>
                                         <stepperCell key="cell" continuous="YES" alignment="left" maxValue="100" id="5su-pq-Xd4"/>
                                         <connections>
                                             <action selector="offsetDidChange:" target="56H-Xx-d65" id="Beo-rV-MFz"/>
@@ -741,7 +736,6 @@
                                     </stepper>
                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="anr-9l-4H2">
                                         <rect key="frame" x="148" y="141" width="282" height="22"/>
-                                        <animations/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="vK7-ON-ylN">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -753,7 +747,6 @@
                                         <constraints>
                                             <constraint firstAttribute="width" constant="120" id="pKw-D5-voe"/>
                                         </constraints>
-                                        <animations/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="File name" id="DIz-rP-Q9d">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -762,7 +755,6 @@
                                     </textField>
                                     <slider verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="NNw-m7-Del">
                                         <rect key="frame" x="146" y="80" width="286" height="20"/>
-                                        <animations/>
                                         <sliderCell key="cell" continuous="YES" state="on" alignment="left" maxValue="100" doubleValue="50" tickMarkPosition="above" sliderType="linear" id="Qa9-31-6Ot"/>
                                         <connections>
                                             <action selector="offsetDidChange:" target="56H-Xx-d65" id="8mD-AZ-g7d"/>
@@ -770,7 +762,6 @@
                                     </slider>
                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="Ofh-t9-Xhm">
                                         <rect key="frame" x="148" y="106" width="268" height="22"/>
-                                        <animations/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" title="0" drawsBackground="YES" id="QgA-bY-Sm1">
                                             <numberFormatter key="formatter" formatterBehavior="default10_4" numberStyle="decimal" minimumIntegerDigits="1" maximumIntegerDigits="2000000000" maximumFractionDigits="3" id="Qq6-bl-tqm"/>
                                             <font key="font" metaFont="system"/>
@@ -786,7 +777,6 @@
                                         <constraints>
                                             <constraint firstAttribute="width" constant="120" id="4Qz-0w-u8X"/>
                                         </constraints>
-                                        <animations/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="right" title="Notes" id="2Ba-jE-h9b">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="labelColor" catalog="System" colorSpace="catalog"/>
@@ -795,7 +785,6 @@
                                     </textField>
                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="hcA-sE-K3Y">
                                         <rect key="frame" x="148" y="20" width="282" height="22"/>
-                                        <animations/>
                                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="ezG-mE-0gS">
                                             <font key="font" metaFont="system"/>
                                             <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
@@ -831,11 +820,9 @@
                                     <constraint firstAttribute="trailing" secondItem="NNw-m7-Del" secondAttribute="trailing" constant="20" id="ur8-i6-8n4"/>
                                     <constraint firstItem="anr-9l-4H2" firstAttribute="top" secondItem="GLP-hF-wDf" secondAttribute="top" constant="20" id="xAw-zF-xQa"/>
                                 </constraints>
-                                <animations/>
                             </customView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="yYx-QQ-rI1">
                                 <rect key="frame" x="0.0" y="0.0" width="450" height="117"/>
-                                <animations/>
                             </customView>
                         </subviews>
                         <constraints>
@@ -847,7 +834,6 @@
                             <constraint firstAttribute="trailing" secondItem="GLP-hF-wDf" secondAttribute="trailing" id="tA3-9n-bCe"/>
                             <constraint firstItem="GLP-hF-wDf" firstAttribute="top" secondItem="Z9G-Hm-LVu" secondAttribute="top" id="uWO-Ba-amT"/>
                         </constraints>
-                        <animations/>
                     </view>
                     <connections>
                         <outlet property="contentView" destination="yYx-QQ-rI1" id="6qA-nc-AYe"/>
@@ -880,7 +866,6 @@
                                         <outlineView autoresizesSubviews="NO" verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" multipleSelection="NO" autosaveName="OutlineView" rowSizeStyle="automatic" headerView="xZw-kw-SvP" viewBased="YES" indentationPerLevel="16" autosaveExpandedItems="YES" autoresizesOutlineColumn="YES" outlineTableColumn="0qU-VW-Kcv" id="igX-XL-4Rk">
                                             <rect key="frame" x="0.0" y="0.0" width="300" height="277"/>
                                             <autoresizingMask key="autoresizingMask"/>
-                                            <animations/>
                                             <size key="intercellSpacing" width="2" height="3"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
@@ -904,7 +889,6 @@
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="YOQ-PU-Yol">
                                                                     <rect key="frame" x="0.0" y="0.0" width="200" height="17"/>
-                                                                    <animations/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="qHn-1p-xPc">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -918,7 +902,6 @@
                                                                 <constraint firstAttribute="bottom" secondItem="YOQ-PU-Yol" secondAttribute="bottom" id="NWn-CJ-wLZ"/>
                                                                 <constraint firstAttribute="trailing" secondItem="YOQ-PU-Yol" secondAttribute="trailing" constant="2" id="fZk-8A-Jpg"/>
                                                             </constraints>
-                                                            <animations/>
                                                             <connections>
                                                                 <outlet property="textField" destination="YOQ-PU-Yol" id="f14-ea-Mqa"/>
                                                             </connections>
@@ -944,7 +927,6 @@
                                                             <subviews>
                                                                 <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="6MY-gu-RR4">
                                                                     <rect key="frame" x="0.0" y="0.0" width="96" height="17"/>
-                                                                    <animations/>
                                                                     <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Folder" id="AgD-QR-t8W">
                                                                         <font key="font" metaFont="system"/>
                                                                         <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
@@ -958,7 +940,6 @@
                                                                 <constraint firstAttribute="bottom" secondItem="6MY-gu-RR4" secondAttribute="bottom" id="bm7-BD-nNe"/>
                                                                 <constraint firstItem="6MY-gu-RR4" firstAttribute="leading" secondItem="4tf-kv-D7C" secondAttribute="leading" constant="2" id="pmg-h6-mOU"/>
                                                             </constraints>
-                                                            <animations/>
                                                             <connections>
                                                                 <outlet property="textField" destination="6MY-gu-RR4" id="Pha-dd-qpG"/>
                                                             </connections>
@@ -972,27 +953,22 @@
                                             </connections>
                                         </outlineView>
                                     </subviews>
-                                    <animations/>
                                     <nil key="backgroundColor"/>
                                 </clipView>
                                 <constraints>
                                     <constraint firstAttribute="width" constant="300" id="lRl-4J-CJb"/>
                                 </constraints>
-                                <animations/>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="H7m-lf-e2P">
                                     <rect key="frame" x="1" y="283" width="448" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <animations/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="fiz-U6-d0n">
                                     <rect key="frame" x="224" y="17" width="15" height="102"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <animations/>
                                 </scroller>
                                 <tableHeaderView key="headerView" id="xZw-kw-SvP">
                                     <rect key="frame" x="0.0" y="0.0" width="300" height="23"/>
                                     <autoresizingMask key="autoresizingMask"/>
-                                    <animations/>
                                 </tableHeaderView>
                             </scrollView>
                         </subviews>
@@ -1002,7 +978,6 @@
                             <constraint firstAttribute="bottom" secondItem="aer-8T-bRQ" secondAttribute="bottom" id="oLx-O3-s7h"/>
                             <constraint firstItem="aer-8T-bRQ" firstAttribute="leading" secondItem="tWy-u5-yBI" secondAttribute="leading" id="yff-in-Nx7"/>
                         </constraints>
-                        <animations/>
                     </view>
                     <connections>
                         <outlet property="outlineView" destination="igX-XL-4Rk" id="KAB-AZ-ITr"/>
@@ -1024,7 +999,6 @@
                     </tabViewItems>
                     <tabView key="tabView" autoresizesSubviews="NO" type="noTabsNoBorder" id="g99-cU-HfO">
                         <autoresizingMask key="autoresizingMask"/>
-                        <animations/>
                         <font key="font" metaFont="message"/>
                         <tabViewItems/>
                     </tabView>
@@ -1049,7 +1023,6 @@
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="fAe-lR-hCM" customClass="PlotView" customModule="PlotKit">
                                 <rect key="frame" x="0.0" y="0.0" width="620" height="300"/>
-                                <animations/>
                             </customView>
                         </subviews>
                         <constraints>
@@ -1058,7 +1031,6 @@
                             <constraint firstItem="fAe-lR-hCM" firstAttribute="leading" secondItem="GbJ-46-abC" secondAttribute="leading" id="gDB-hz-blS"/>
                             <constraint firstAttribute="bottom" secondItem="fAe-lR-hCM" secondAttribute="bottom" id="zdB-2x-EbD"/>
                         </constraints>
-                        <animations/>
                     </view>
                     <connections>
                         <outlet property="plotView" destination="fAe-lR-hCM" id="QBc-Dw-cJV"/>
@@ -1078,7 +1050,6 @@
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="h2f-2P-Zgi" customClass="PlotView" customModule="PlotKit">
                                 <rect key="frame" x="0.0" y="0.0" width="620" height="300"/>
-                                <animations/>
                             </customView>
                         </subviews>
                         <constraints>
@@ -1087,7 +1058,6 @@
                             <constraint firstAttribute="trailing" secondItem="h2f-2P-Zgi" secondAttribute="trailing" id="VvV-nw-ckK"/>
                             <constraint firstItem="h2f-2P-Zgi" firstAttribute="top" secondItem="vuc-TI-ZRo" secondAttribute="top" id="vRY-4d-iDf"/>
                         </constraints>
-                        <animations/>
                     </view>
                     <connections>
                         <outlet property="plotView" destination="h2f-2P-Zgi" id="S8U-T1-tCm"/>
@@ -1107,7 +1077,6 @@
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="imB-Fc-8ZC" customClass="PlotView" customModule="PlotKit">
                                 <rect key="frame" x="0.0" y="0.0" width="620" height="300"/>
-                                <animations/>
                             </customView>
                         </subviews>
                         <constraints>
@@ -1116,7 +1085,6 @@
                             <constraint firstItem="imB-Fc-8ZC" firstAttribute="top" secondItem="dYN-k3-erU" secondAttribute="top" id="dZf-Ft-6jy"/>
                             <constraint firstAttribute="trailing" secondItem="imB-Fc-8ZC" secondAttribute="trailing" id="jbA-tq-Ly5"/>
                         </constraints>
-                        <animations/>
                     </view>
                     <connections>
                         <outlet property="plotView" destination="imB-Fc-8ZC" id="M6A-mT-f7B"/>
@@ -1136,7 +1104,6 @@
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="Qw6-8n-dEe" customClass="PlotView" customModule="PlotKit">
                                 <rect key="frame" x="0.0" y="0.0" width="620" height="300"/>
-                                <animations/>
                             </customView>
                         </subviews>
                         <constraints>
@@ -1145,7 +1112,6 @@
                             <constraint firstItem="Qw6-8n-dEe" firstAttribute="top" secondItem="W2B-VM-9lb" secondAttribute="top" id="Yik-H4-ccs"/>
                             <constraint firstAttribute="trailing" secondItem="Qw6-8n-dEe" secondAttribute="trailing" id="uGv-FR-M9E"/>
                         </constraints>
-                        <animations/>
                     </view>
                     <connections>
                         <outlet property="plotView" destination="Qw6-8n-dEe" id="CRM-Yz-uIH"/>

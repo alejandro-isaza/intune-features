@@ -22,7 +22,9 @@ class FeaturesViewController: NSTabViewController {
     var peakHeights: PeakHeightsViewController!
     var peakLocations: PeakLocationsViewController!
     var spectrumFlux: SpectrumFluxViewController!
-    var spectrumFeature = SpectrumFeature(notes: FeatureBuilder.bandNotes, bandSize: FeatureBuilder.bandSize)
+
+    let fb = Double(FeatureBuilder.samplingFrequency) / Double(FeatureBuilder.windowSize)
+    let featureBuilder = FeatureBuilder()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -43,41 +45,20 @@ class FeaturesViewController: NSTabViewController {
         selectedTabViewItemIndex = 0
     }
 
-    // MARK: - Feature extraction
-
-    let window: ValueArray<Double> = {
-        let array = ValueArray<Double>(count: FeatureBuilder.windowSize)
-        vDSP_hamm_windowD(array.mutablePointer, vDSP_Length(FeatureBuilder.windowSize), 0)
-        return array
-    }()
-    let fft = FFT(inputLength: FeatureBuilder.windowSize)
-    let peakExtractor = PeakExtractor(heightCutoffMultiplier: FeatureBuilder.peakHeightCutoffMultiplier, minimumNoteDistance: FeatureBuilder.peakMinimumNoteDistance)
-    let fb = Double(FeatureBuilder.samplingFrequency) / Double(FeatureBuilder.windowSize)
-
-    /// Compute the power spectrum values
-    func spectrumValues(data: ValueArray<Double>) -> ValueArray<Double> {
-        return sqrt(fft.forwardMags(data * window))
-    }
-
     /// Convert from spectrum values to frequency, value points
     func spectrumPoints(spectrum: ValueArray<Double>) -> [FeatureExtraction.Point] {
-        return (0..<spectrum.count).map{ FeatureExtraction.Point(x: fb * Real($0), y: spectrum[$0]) }
+        return (0..<spectrum.count).map{ FeatureExtraction.Point(x: fb * Double($0), y: spectrum[$0]) }
     }
 
     func updateFeatures() {
-        let spec0 = spectrumValues(example.data.0)
-        spectrumFeature.update(spectrum: spec0, baseFrequency: fb)
+        let feature = featureBuilder.generateFeatures(example.data[0..<FeatureBuilder.windowSize], example.data[FeatureBuilder.stepSize..<FeatureBuilder.windowSize + FeatureBuilder.stepSize])
 
-        let rms = rmsq(example.data.1)
-        let spec = spectrumValues(example.data.1)
-        let specPoints = spectrumPoints(spec)
-        let peaks = peakExtractor.process(specPoints, rms: rms).sort{ $0.y > $1.y }
         let markNotes = notes.map{ Int($0.note) }
 
-        spectrum.updateView(spec, baseFrequency: fb, markNotes: markNotes)
-        peakHeights.updateView(peaks, rms: rms, markNotes: markNotes)
-        peakLocations.updateView(peaks, markNotes: markNotes)
-        spectrumFlux.updateView(spectrum0: spectrumFeature.data, spectrum1: spectrum.feature.data, markNotes: markNotes)
+        spectrum.updateView(feature, markNotes: markNotes)
+        peakHeights.updateView(feature, markNotes: markNotes)
+        peakLocations.updateView(feature, markNotes: markNotes)
+        spectrumFlux.updateView(feature, markNotes: markNotes)
     }
     
 }

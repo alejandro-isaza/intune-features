@@ -7,7 +7,6 @@ import Upsurge
 
 class SpectrumFluxViewController: BandsFeaturesViewController {
     let yrange = -0.1...0.1
-    let feature: SpectrumFluxFeature = SpectrumFluxFeature(notes: FeatureBuilder.bandNotes, bandSize: FeatureBuilder.bandSize)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -22,19 +21,17 @@ class SpectrumFluxViewController: BandsFeaturesViewController {
 
     }
 
-    func updateView(spectrum0 spectrum0: ValueArray<Double>, spectrum1: ValueArray<Double>, markNotes: [Int]) {
+    func updateView(feature: Feature, markNotes: [Int]) {
         _ = view // Force the view to load
         guard let plotView = plotView else {
             return
         }
         plotView.clear()
 
-        feature.update(spectrum0: spectrum0, spectrum1: spectrum1)
-
         var points = Array<PlotKit.Point>()
-        for band in 0..<feature.fluxes.count {
-            let note = feature.noteForBand(band)
-            let y = feature.fluxes[band]
+        for band in 0..<feature.spectralFlux.count {
+            let note = Double(FeatureBuilder.bandNotes.startIndex + band)
+            let y = Double(feature.spectralFlux[band])
             points.append(Point(x: note, y: y))
         }
         let pointSet = PointSet(points: points)

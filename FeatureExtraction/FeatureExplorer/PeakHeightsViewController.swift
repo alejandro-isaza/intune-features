@@ -6,7 +6,6 @@ import PlotKit
 import Upsurge
 
 class PeakHeightsViewController: BandsFeaturesViewController {
-    let feature: PeakHeightsFeature = PeakHeightsFeature(notes: FeatureBuilder.bandNotes, bandSize: FeatureBuilder.bandSize)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,20 +15,18 @@ class PeakHeightsViewController: BandsFeaturesViewController {
         plotView!.fixedXInterval = Double(FeatureBuilder.bandNotes.startIndex)...Double(FeatureBuilder.bandNotes.endIndex)
     }
 
-    func updateView(peaks: [FeatureExtraction.Point], rms: Double, markNotes: [Int]) {
+    func updateView(feature: Feature, markNotes: [Int]) {
         _ = view // Force the view to load
         guard let plotView = plotView else {
             return
         }
         plotView.clear()
 
-        feature.update(peaks, rms: rms)
-
         var maxY: Double = 0
         var points = Array<PlotKit.Point>()
         for band in 0..<feature.peakHeights.count {
-            let note = feature.noteForBand(band)
-            let y = feature.peakHeights[band]
+            let note = Double(FeatureBuilder.bandNotes.startIndex + band)
+            let y = Double(feature.peakHeights[band])
             points.append(PlotKit.Point(x: note, y: y))
 
             if y > maxY {

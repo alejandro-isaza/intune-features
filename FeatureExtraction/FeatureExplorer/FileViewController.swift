@@ -61,8 +61,7 @@ class FileViewController: NSViewController {
         midiFile = MIDIFile(filePath: midiFilePath)
 
         audioFile = AudioFile.open(example.filePath)
-        example.data.0 = ValueArray<Double>(count: FeatureBuilder.windowSize)
-        example.data.1 = ValueArray<Double>(count: FeatureBuilder.windowSize)
+        example.data = ValueArray<Double>(count: FeatureBuilder.windowSize + FeatureBuilder.stepSize)
         loadOffset(FeatureBuilder.windowSize)
     }
 
@@ -79,11 +78,10 @@ class FileViewController: NSViewController {
         }
         example.frameOffset = offset
 
-        audioFile.currentFrame = offset - FeatureBuilder.windowSize/2 - FeatureBuilder.stepSize
-        audioFile.readFrames(example.data.0.mutablePointer, count: FeatureBuilder.windowSize)
-
-        audioFile.currentFrame = offset - FeatureBuilder.windowSize/2
-        audioFile.readFrames(example.data.1.mutablePointer, count: FeatureBuilder.windowSize)
+        audioFile.currentFrame = offset
+        withPointer(&example.data) { pointer in
+            audioFile.readFrames(pointer, count: FeatureBuilder.windowSize + FeatureBuilder.stepSize)
+        }
 
         featuresViewController.example = example
 
@@ -91,7 +89,7 @@ class FileViewController: NSViewController {
         offsetTextView.integerValue = example.frameOffset
         offsetStepper.integerValue = example.frameOffset
         offsetSlider.integerValue = example.frameOffset
-        rmsTextField.doubleValue = rmsq(example.data.1)
+        rmsTextField.doubleValue = rmsq(example.data)
 
         let notes = noteEventsAtOffset(offset)
         var notesString = ""
@@ -129,7 +127,7 @@ class FileViewController: NSViewController {
             }
 
             let noteStartTime = midiFile.secondsForBeats(noteStart)
-            if abs(noteStartTime - time) <= FeatureBuilder.maxNoteLag {
+            if abs(noteStartTime - time) <= 0.25 {
                 notes.append(note)
             }
         }

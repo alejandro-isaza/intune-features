@@ -6,7 +6,6 @@ import PlotKit
 import Upsurge
 
 class PeakLocationsViewController: BandsFeaturesViewController {
-    let feature: PeakLocationsFeature = PeakLocationsFeature(notes: FeatureBuilder.bandNotes, bandSize: FeatureBuilder.bandSize)
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -16,19 +15,18 @@ class PeakLocationsViewController: BandsFeaturesViewController {
         plotView!.fixedXInterval = Double(FeatureBuilder.bandNotes.startIndex)...Double(FeatureBuilder.bandNotes.endIndex)
     }
 
-    func updateView(peaks: [FeatureExtraction.Point], markNotes: [Int]) {
+    func updateView(feature: Feature, markNotes: [Int]) {
         _ = view // Force the view to load
         guard let plotView = plotView else {
             return
         }
         plotView.clear()
 
-        feature.update(peaks)
-
         var points = Array<PlotKit.Point>()
         for band in 0..<feature.peakLocations.count {
-            let note = feature.noteForBand(band)
-            points.append(PlotKit.Point(x: note, y: feature.peakLocations[band]))
+            let note = Double(FeatureBuilder.bandNotes.startIndex + band)
+            let y = Double(feature.peakLocations[band])
+            points.append(PlotKit.Point(x: note, y: y))
         }
         let pointSet = PointSet(points: points)
         pointSet.color = lineColor
