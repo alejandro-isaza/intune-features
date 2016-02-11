@@ -126,7 +126,7 @@ class PolySequenceBuilder {
             if sample > cutoffOffset {
                 break
             }
-            
+
             event.offset = sample - offset
             event.notes = notes.map({ $0.0 })
             event.velocities = notes.map({ Float($0.1) })
