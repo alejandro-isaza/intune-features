@@ -721,20 +721,14 @@
                                     <constraint firstItem="Bc6-2a-aAq" firstAttribute="centerY" secondItem="XMv-zX-DAz" secondAttribute="centerY" id="y3I-nf-foz"/>
                                 </constraints>
                             </customView>
-                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="wTD-L7-v7c" customClass="PlotView" customModule="PlotKit">
-                                <rect key="frame" x="0.0" y="248" width="795" height="200"/>
-                                <constraints>
-                                    <constraint firstAttribute="height" constant="200" id="Rqr-GB-yqh"/>
-                                </constraints>
-                            </customView>
                             <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sKb-6W-4vz">
-                                <rect key="frame" x="0.0" y="0.0" width="795" height="248"/>
+                                <rect key="frame" x="0.0" y="0.0" width="795" height="448"/>
                                 <clipView key="contentView" id="Zms-hx-c32">
-                                    <rect key="frame" x="1" y="23" width="793" height="224"/>
+                                    <rect key="frame" x="1" y="0.0" width="793" height="447"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <outlineView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="g8r-LQ-v6O" viewBased="YES" indentationPerLevel="16" outlineTableColumn="Mp7-8D-Czy" id="gP9-nm-kXv">
-                                            <rect key="frame" x="0.0" y="0.0" width="793" height="224"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="793" height="424"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <size key="intercellSpacing" width="3" height="2"/>
                                             <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
@@ -831,12 +825,9 @@
                             <constraint firstAttribute="trailing" secondItem="sKb-6W-4vz" secondAttribute="trailing" id="9rN-Ak-K3y"/>
                             <constraint firstItem="bUJ-XG-gUJ" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="Z1w-AD-3yI"/>
                             <constraint firstItem="bUJ-XG-gUJ" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="aJL-20-Koy"/>
-                            <constraint firstItem="wTD-L7-v7c" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="boC-IY-PpF"/>
                             <constraint firstAttribute="bottom" secondItem="sKb-6W-4vz" secondAttribute="bottom" id="eOS-JP-G5E"/>
-                            <constraint firstItem="sKb-6W-4vz" firstAttribute="top" secondItem="wTD-L7-v7c" secondAttribute="bottom" id="lRQ-Dl-JWT"/>
+                            <constraint firstItem="sKb-6W-4vz" firstAttribute="top" secondItem="bUJ-XG-gUJ" secondAttribute="bottom" id="j3Z-Rx-VUz"/>
                             <constraint firstItem="sKb-6W-4vz" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="olm-fU-vVJ"/>
-                            <constraint firstItem="wTD-L7-v7c" firstAttribute="top" secondItem="bUJ-XG-gUJ" secondAttribute="bottom" id="tcK-Xn-qx5"/>
-                            <constraint firstAttribute="trailing" secondItem="wTD-L7-v7c" secondAttribute="trailing" id="u3k-fb-oea"/>
                             <constraint firstAttribute="trailing" secondItem="bUJ-XG-gUJ" secondAttribute="trailing" id="wRS-E9-pR8"/>
                         </constraints>
                     </view>
@@ -846,7 +837,6 @@
                         <outlet property="offsetSlider" destination="ox9-Vj-LRr" id="9fa-3K-igD"/>
                         <outlet property="offsetTextField" destination="26E-1G-bfI" id="3Df-8X-PbC"/>
                         <outlet property="outlineView" destination="gP9-nm-kXv" id="MYb-ON-VME"/>
-                        <outlet property="plotView" destination="wTD-L7-v7c" id="yXC-ic-yfS"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

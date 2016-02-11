@@ -158,14 +158,15 @@ class NeuralNet {
     func processData(data: ValueArray<Double>) {
         let featureBuilder = FeatureBuilder()
         processingCount = 0
+        for layer in lstmLayers {
+            layer.reset()
+        }
 
         let indices = 0.stride(to: data.count - FeatureBuilder.windowSize - FeatureBuilder.stepSize, by: FeatureBuilder.stepSize)
         for i in indices {
             let feature = featureBuilder.generateFeatures(data[i..<i + FeatureBuilder.windowSize], data[i + FeatureBuilder.stepSize..<i + FeatureBuilder.windowSize + FeatureBuilder.stepSize])
             processFeature(feature)
             processingCount += 1
-
-            print("Processing \(processingCount) of \((data.count - FeatureBuilder.windowSize - FeatureBuilder.stepSize) / FeatureBuilder.stepSize)")
         }
     }
 

@@ -3,6 +3,9 @@
 import Cocoa
 import BrainCore
 
+class WaveformItem: NSObject {
+}
+
 class LayerItem: NSObject {
     var index: Int
     var timelines = [UnitTimelineItem]()
@@ -92,6 +95,7 @@ class OutputTimelineItem: NSObject {
 class OutlineViewDataSource: NSObject, NSOutlineViewDataSource {
     var neuralNet: NeuralNet
 
+    var waveformItem = WaveformItem()
     var layerItems = [LayerItem]()
     var outputItem = OutputItem()
 
@@ -116,7 +120,7 @@ class OutlineViewDataSource: NSObject, NSOutlineViewDataSource {
 
     func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
         if item == nil {
-            return neuralNet.lstmLayers.count + 1
+            return neuralNet.lstmLayers.count + 2
         } else if let layerItem = item as? LayerItem {
             return layerItem.timelines.count
         } else if let outputItem = item as? OutputItem {
@@ -127,8 +131,10 @@ class OutlineViewDataSource: NSObject, NSOutlineViewDataSource {
 
     func outlineView(outlineView: NSOutlineView, child index: Int, ofItem item: AnyObject?) -> AnyObject {
         if item == nil {
-            if index < layerItems.count {
-                return layerItems[index]
+            if index == 0 {
+                return waveformItem
+            } else if index - 1 < layerItems.count {
+                return layerItems[index - 1]
             } else {
                 return outputItem
             }

@@ -14,7 +14,6 @@ class RNNViewController: NSViewController, NSOutlineViewDelegate {
     @IBOutlet weak var lengthSlider: NSSlider!
     @IBOutlet weak var lengthTextField: NSTextField!
 
-    @IBOutlet weak var plotView: PlotView!
     @IBOutlet weak var outlineView: NSOutlineView!
 
     var audioFile: AudioFile?
@@ -29,7 +28,6 @@ class RNNViewController: NSViewController, NSOutlineViewDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        plotView.insets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
         updateView()
 
         dataSource = OutlineViewDataSource(neuralNet: neuralNet)
@@ -79,38 +77,8 @@ class RNNViewController: NSViewController, NSOutlineViewDelegate {
             data.count = audioFile.readFrames(pointer, count: sampleCount) ?? 0
         }
 
-        plotView.clear()
-        generatePointSets()
-
         snapshots.removeAll()
         neuralNet.processData(data)
-    }
-
-    func generatePointSets() {
-        let sampleCount = data.count
-        let samplesPerPoint = sampleCount / Int(view.bounds.width)
-        let valueCount = sampleCount / samplesPerPoint
-
-        let values = ValueArray<Double>(capacity: valueCount)
-
-        for index in 0.stride(to: sampleCount - samplesPerPoint, by: samplesPerPoint) {
-            // Get the RMS value for the current point
-            let size = min(samplesPerPoint, sampleCount - index)
-            let value = rmsq(data[index..<index+size])
-            values.append(value)
-        }
-
-        let top = PointSet(values: values)
-        top.pointType = .None
-        top.lineColor = waveformColor
-        top.fillColor = waveformColor
-        plotView.addPointSet(top)
-
-        let bottom = PointSet(values: -1 * values)
-        bottom.pointType = .None
-        bottom.lineColor = waveformColor
-        bottom.fillColor = waveformColor
-        plotView.addPointSet(bottom)
     }
 
 
@@ -196,7 +164,9 @@ class RNNViewController: NSViewController, NSOutlineViewDelegate {
         switch column.identifier {
         case ColumnIdentifiers.name:
             let title: String
-            if let layerItem = item as? LayerItem {
+            if item is WaveformItem {
+                title = "Waveform"
+            } else if let layerItem = item as? LayerItem {
                 title = "Layer \(layerItem.index)"
             } else if item is OutputItem {
                 title = "Output"
@@ -210,9 +180,12 @@ class RNNViewController: NSViewController, NSOutlineViewDelegate {
             return createOutlineLabel(title)
 
         case ColumnIdentifiers.timeline:
-            if item is UnitTimelineItem || item is OutputTimelineItem {
+            if item is WaveformItem {
                 let view = reusedView as? PlotView ?? PlotView()
-                view.insets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+                updateWaveformPlotView(view)
+                return view
+            } else if item is UnitTimelineItem || item is OutputTimelineItem {
+                let view = reusedView as? PlotView ?? PlotView()
                 updatePlotView(view, withItem: item)
                 return view
             } else {
@@ -248,7 +221,43 @@ class RNNViewController: NSViewController, NSOutlineViewDelegate {
         return container
     }
 
+    func updateWaveformPlotView(plotView: PlotView) {
+        let sampleCount = data.count
+        if sampleCount == 0 {
+            return
+        }
+        
+        let samplesPerPoint = sampleCount / Int(view.bounds.width)
+        let valueCount = sampleCount / samplesPerPoint
+
+        let values = ValueArray<Double>(capacity: valueCount)
+
+        for index in 0.stride(to: sampleCount - samplesPerPoint, by: samplesPerPoint) {
+            // Get the RMS value for the current point
+            let size = min(samplesPerPoint, sampleCount - index)
+            let value = rmsq(data[index..<index+size])
+            values.append(value)
+        }
+
+        plotView.insets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+        plotView.clear()
+
+        let top = PointSet(values: values)
+        top.pointType = .None
+        top.lineColor = waveformColor
+        top.fillColor = waveformColor
+        plotView.addPointSet(top)
+
+        let bottom = PointSet(values: -1 * values)
+        bottom.pointType = .None
+        bottom.lineColor = waveformColor
+        bottom.fillColor = waveformColor
+        plotView.addPointSet(bottom)
+    }
+
     func updatePlotView(plotView: PlotView, withItem item: AnyObject) {
+        plotView.insets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+
         let values: ValueArray<Double>
         if let unitItem = item as? UnitTimelineItem {
             values = valuesForLayerIndex(unitItem.layerIndex, unitIndex: unitItem.unitIndex)
