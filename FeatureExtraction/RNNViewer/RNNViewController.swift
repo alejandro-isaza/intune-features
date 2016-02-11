@@ -15,7 +15,8 @@ class RNNViewController: NSViewController, NSOutlineViewDelegate {
     @IBOutlet weak var lengthTextField: NSTextField!
 
     @IBOutlet weak var outlineView: NSOutlineView!
-
+    @IBOutlet weak var combinedPlotView: PlotView!
+    
     var audioFile: AudioFile?
     var offset = 0
     var length = 1.0
@@ -35,11 +36,18 @@ class RNNViewController: NSViewController, NSOutlineViewDelegate {
         outlineView.setDelegate(self)
         outlineView.reloadData()
 
+        let xaxis = Axis(orientation: .Horizontal, ticks: .Fit(5))
+        combinedPlotView.addAxis(xaxis)
+
+        let yaxis = Axis(orientation: .Vertical, ticks: .Fit(3))
+        combinedPlotView.addAxis(yaxis)
+
         neuralNet.forwardPassAction = { snapshot in
             self.snapshots.append(snapshot)
             if self.snapshots.count == self.neuralNet.processingCount {
                 dispatch_async(dispatch_get_main_queue()) {
                     self.outlineView.reloadData()
+                    self.updateCombinedPlotView()
                 }
             }
         }
@@ -182,7 +190,9 @@ class RNNViewController: NSViewController, NSOutlineViewDelegate {
         case ColumnIdentifiers.timeline:
             if item is WaveformItem {
                 let view = reusedView as? PlotView ?? PlotView()
-                updateWaveformPlotView(view)
+                view.insets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+                view.clear()
+                updateWaveformPlotView(view, withColor: waveformColor)
                 return view
             } else if item is UnitTimelineItem || item is OutputTimelineItem {
                 let view = reusedView as? PlotView ?? PlotView()
@@ -221,37 +231,42 @@ class RNNViewController: NSViewController, NSOutlineViewDelegate {
         return container
     }
 
-    func updateWaveformPlotView(plotView: PlotView) {
+    func updateWaveformPlotView(plotView: PlotView, withColor color: NSColor) {
         let sampleCount = data.count
         if sampleCount == 0 {
             return
         }
         
-        let samplesPerPoint = sampleCount / Int(view.bounds.width)
+        let samplesPerPoint = 256
         let valueCount = sampleCount / samplesPerPoint
 
-        let values = ValueArray<Double>(capacity: valueCount)
+        var pointsTop = Array<PlotKit.Point>()
+        pointsTop.reserveCapacity(valueCount)
 
-        for index in 0.stride(to: sampleCount - samplesPerPoint, by: samplesPerPoint) {
+        var pointsBottom = Array<PlotKit.Point>()
+        pointsBottom.reserveCapacity(valueCount)
+
+        let start = FeatureBuilder.windowSize/2 - FeatureBuilder.stepSize
+        let stepsInWindow = Double(FeatureBuilder.windowSize) / Double(FeatureBuilder.stepSize)
+        for index in start.stride(to: sampleCount - samplesPerPoint, by: samplesPerPoint) {
             // Get the RMS value for the current point
             let size = min(samplesPerPoint, sampleCount - index)
-            let value = rmsq(data[index..<index+size])
-            values.append(value)
+            let y = rmsq(data[index..<index+size])
+            let x = Double(index) / Double(FeatureBuilder.stepSize) - (stepsInWindow - 1) / 2
+            pointsTop.append(PlotKit.Point(x: x, y: y))
+            pointsBottom.append(PlotKit.Point(x: x, y: -y))
         }
 
-        plotView.insets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-        plotView.clear()
-
-        let top = PointSet(values: values)
+        let top = PointSet(points: pointsTop)
         top.pointType = .None
-        top.lineColor = waveformColor
-        top.fillColor = waveformColor
+        top.lineColor = color
+        top.fillColor = color
         plotView.addPointSet(top)
 
-        let bottom = PointSet(values: -1 * values)
+        let bottom = PointSet(points: pointsBottom)
         bottom.pointType = .None
-        bottom.lineColor = waveformColor
-        bottom.fillColor = waveformColor
+        bottom.lineColor = color
+        bottom.fillColor = color
         plotView.addPointSet(bottom)
     }
 
@@ -305,5 +320,42 @@ class RNNViewController: NSViewController, NSOutlineViewDelegate {
         }
 
         return 50
+    }
+
+    func outlineViewSelectionDidChange(notification: NSNotification) {
+        updateCombinedPlotView()
+    }
+
+    func updateCombinedPlotView() {
+        let colors = [NSColor.redColor(), NSColor.blueColor(), NSColor.blackColor(), NSColor.greenColor(), NSColor.purpleColor(), NSColor.cyanColor(), NSColor.darkGrayColor(), NSColor.yellowColor(), NSColor.magentaColor(), NSColor.orangeColor(), NSColor.brownColor()]
+        var colorIndex = 0
+
+        combinedPlotView.clear()
+        let indexes = outlineView.selectedRowIndexes
+        for index in indexes {
+            if let item = outlineView.itemAtRow(index) {
+                addItemToCombinedPlotView(item, withColor: colors[colorIndex])
+                colorIndex = (colorIndex + 1) % colors.count
+            }
+        }
+    }
+
+    func addItemToCombinedPlotView(item: AnyObject, withColor color: NSColor) {
+        let values: ValueArray<Double>
+        if item is WaveformItem {
+            updateWaveformPlotView(combinedPlotView, withColor: color)
+            return
+        } else if let unitItem = item as? UnitTimelineItem {
+            values = valuesForLayerIndex(unitItem.layerIndex, unitIndex: unitItem.unitIndex)
+        } else if let outputItem = item as? OutputTimelineItem {
+            values = valuesForOutputIndex(outputItem.index)
+        } else {
+            return
+        }
+
+        let pointSet = PointSet(values: values)
+        pointSet.pointType = .None
+        pointSet.lineColor = color
+        combinedPlotView.addPointSet(pointSet)
     }
 }
