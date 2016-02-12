@@ -182,9 +182,9 @@ class NeuralNet {
         data.count = dataSize
         for i in 0..<featureSize {
             data[i + 0 * featureSize] = feature.spectrum[i]
-            data[i + 1 * featureSize] = feature.peakHeights[i]
-            data[i + 2 * featureSize] = feature.peakLocations[i]
-            data[i + 3 * featureSize] = feature.spectralFlux[i]
+            data[i + 1 * featureSize] = feature.spectralFlux[i]
+            data[i + 2 * featureSize] = feature.peakHeights[i]
+            data[i + 3 * featureSize] = feature.peakLocations[i]
         }
         
         // Run net
