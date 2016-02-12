@@ -1,65 +1,75 @@
 import h5py as h5
 import numpy as np
 
+import os
+
 
 class DataSet:
     feature_size = 400
-    polyphony_label_size = 11
+    polyphony_label_size = 16
     note_label_size = 60
     onset_label_size = 2
     step_size = 1024
 
-    def __init__(self, file_name):
-        self.file_name = file_name
-        self.h5_file = h5.File(file_name, "r")
-        self.present_index = 0
-        self.sample_count = self.h5_file["features_length"].shape[0]
+    def __init__(self, audio_folder):
+        self.audio_folder = audio_folder
+        self.file_list = generate_file_list()
+
+    def generate_file_list():
+        file_list = []
+        for root, directories, files in os.walk(self.audio_folder):
+            file_list += [(file, h5.File(file, "r")["features/spectrum"].shape[0]) for file in files if ".h5" in file]
+        return file_list
+
+    def generate_batch_list(self, batch_size):
+        indices = np.random.choice(range(len(self.file_list)), batch_size)
+        offsets = [np.random.choice(range(offset)) for _, offset in self.file_list]
+        lengths = [np.random.choice(self.file_list[i][1] - offsets[i]) for i in indices]
+        return indices, offsets, lengths
+
+    def generate_batch_data(self, batch_size):
+        labels_onset = np.array()
+        labels_polyphony = np.array()
+        labels_notes = np.array()
+        features_spectrum = np.array()
+        features_flux = np.array()
+        features_peak_locations = np.array()
+        features_peak_heights = np.array()
+        feature_lengths = np.array()
+
+        for index, offset, length in generate_batch_list(batch_size):
+            file_name = self.file_list[index][0]
+            f = h5.File(file_name, "r")
+
+            labels_onset.append(f["labels/onset"][np.newaxis, offset:offset+length, ...])
+            labels_polyphony.append(f["labels/polyphony"][np.newaxis, offset:offset+length, ...])
+            labels_notes.append(f["labels/notes"][np.newaxis, offset:offset+length, np.newaxis, ...])
+            features_spectrum.append(f["features/spectrum"][np.newaxis, offset:offset+length, ...])
+            features_flux.append(f["features/flux"][np.newaxis, offset:offset+length, ...])
+            features_peak_locations.append(f["features/peak_locations"][np.newaxis, offset:offset+length, ...])
+            features_peak_heights.append(f["features/peak_heights"][np.newaxis, offset:offset+length, ...])
+            feature_lengths.append(length)
+
+        return labels_onset, labels_polyphony, labels_notes, features_spectrum, features_flux, features_peak_locations, features_peak_heights, feature_lengths
 
     def next_batch(self, batch_size):
         if (self.present_index + batch_size > self.sample_count):
             self.present_index = 0
 
-        features_length_d = self.h5_file["features_length"]
-        sequence_length_d = self.h5_file["sequence_length"]
+        labels_onset, labels_polyphony, labels_notes, features_spectrum, features_flux, features_peak_locations, features_peak_heights, feature_lengths = generate_batch_data(batch_size)
 
-        event_note_d = self.h5_file["event_note"]
-        event_offset_d = self.h5_file["event_offset"]
-        features_polyphony_values_d = self.h5_file["features_polyphony_values"]
-
-        peak_locations_d = self.h5_file["peak_locations"]
-        peak_heights_d = self.h5_file["peak_heights"]
-        spectrum_d = self.h5_file["spectrum"]
-        spectrum_flux_d = self.h5_file["spectrum_flux"]
-
-        features = np.concatenate((spectrum_d[self.present_index:self.present_index+batch_size, :, :],
-                                   spectrum_flux_d[self.present_index:self.present_index+batch_size, :, :],
-                                   peak_heights_d[self.present_index:self.present_index+batch_size, :, :],
-                                   peak_locations_d[self.present_index:self.present_index+batch_size, :, :]), axis=2)
+        features = np.concatenate((features_spectrum,
+                                   features_flux,
+                                   features_peak_locations,
+                                   features_peak_heights), axis=2)
 
         # Labels:
-        note_label_events_raw = np.expand_dims(event_note_d[self.present_index:self.present_index+batch_size, :, :], 2)
-        note_label_events_inverse = 1 - note_label_events_raw
-        note_label_events = np.concatenate((note_label_events_raw, note_label_events_inverse), axis=2)
+        labels_notes_inverse = 1 - labels_notes
+        note_labels = np.concatenate((labels_notes_inverse, labels_notes), axis=2)
 
-        note_labels_zeros = np.zeros((batch_size, features.shape[1], 1, note_label_events_raw.shape[3]))
-        note_labels_ones = np.ones((batch_size, features.shape[1], 1, note_label_events_raw.shape[3]))
-        note_labels= np.concatenate((note_labels_zeros, note_labels_ones), axis=2)
+        polyphony_labels = np.eye(DataSet.polyphony_label_size)[labels_polyphony]
 
-        for i in xrange(batch_size):
-            sequence_count = min(sequence_length_d[i + self.present_index], 20)
-            for j in xrange(sequence_count):
-                sequence_index = min(event_offset_d[i + self.present_index, j] // DataSet.step_size, 42)
-                note_labels[i, sequence_index, ...] = note_label_events[i, j, ...]
+        onset_labels_inverse = 1 - labels_onset
+        onset_labels = np.concatenate((onset_labels_inverse, labels_onset), axis=2)
 
-
-        polyphony_labels_raw = features_polyphony_values_d[self.present_index:self.present_index+batch_size, :].astype(int)
-        polyphony_labels = np.eye(DataSet.polyphony_label_size)[polyphony_labels_raw]
-
-        onset_labels = note_labels.any(axis=3)
-
-        feature_lengths = features_length_d[self.present_index:self.present_index+batch_size]
-        sequence_lengths = sequence_length_d[self.present_index:self.present_index+batch_size]
-
-        self.present_index += batch_size
-
-        return (features, feature_lengths), (note_labels, polyphony_labels, onset_labels), sequence_lengths
+        return (features, feature_lengths), (note_labels, polyphony_labels, onset_labels)
