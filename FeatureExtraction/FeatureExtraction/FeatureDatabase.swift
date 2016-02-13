@@ -9,491 +9,253 @@ public class FeatureDatabase {
         case DatasetNotCompatible
     }
 
-    public static let fileListDatasetName = "file_list"
-
-    public static let fileIdDatasetName = "file_id"
-    public static let offsetDatasetName = "offset"
-    public static let sequenceLengthDatasetName = "sequence_length"
-    public static let eventOffsetDatasetName = "event_offset"
-    public static let eventNoteDatasetName = "event_note"
-    public static let eventVelocityDatasetName = "event_velocity"
-
-    public static let featuresLengthDatasetName = "features_length"
-    public static let featureOnsetValuesDatasetName = "features_onset_values"
-    public static let featurePolyphonyValuesDatasetName = "features_polyphony_values"
-    public static let peakLocationsDatasetName = "peak_locations"
-    public static let peakHeightsDatasetName = "peak_heights"
-    public static let spectrumDatasetName = "spectrum"
-    public static let spectrumFluxDatasetName = "spectrum_flux"
-
     let chunkSize: Int
     let filePath: String
     let file: File
 
-    public internal(set) var filePaths = [String]()
-    public internal(set) var fileIdsByPath = [String: Int]()
-    public internal(set) var filePathsById = [Int: String]()
-    
-    public var sequenceCount: Int {
-        guard let offsetDataset = file.openIntDataset(FeatureDatabase.offsetDatasetName) else {
-            return 0
-        }
-        return offsetDataset.extent[0]
-    }
-
-    public init(filePath: String, overwrite: Bool, chunkSize: Int = 1024) {
+    public init(filePath: String, chunkSize: Int = 1024) {
         self.filePath = filePath
         self.chunkSize = chunkSize
 
-        if overwrite {
-            file = File.create(filePath, mode: .Truncate)!
-            create()
-        } else if let file = File.open(filePath, mode: .ReadWrite) {
-            self.file = file
-            load()
-        } else {
-            file = File.create(filePath, mode: .Exclusive)!
-            create()
+        file = File.create(filePath, mode: .Truncate)!
+        file.createGroup("events")
+        file.createGroup("labels")
+        file.createGroup("features")
+        
+        for table in Table.allValues {
+            table.createInFile(file)
         }
     }
 
     public func flush() {
         file.flush()
     }
-    
-    func load() {
-        filePaths = readFileList()
-        for (index, path) in filePaths.enumerate() {
-            fileIdsByPath[path] = index
-            filePathsById[index] = path
-        }
+}
+
+
+// MARK: Events
+
+public extension FeatureDatabase {
+    public func writeEvent(event: Event) throws {
+        try writeEventStart(event)
+        try writeEventDuration(event)
+        try writeEventNote(event)
+        try writeEventVelocity(event)
+
     }
 
-    func readFileList() -> [String] {
-        let dataset = file.openStringDataset(FeatureDatabase.fileListDatasetName)!
-        return dataset[0..]
+    func writeEventStart(event: Event) throws {
+        guard let dataset = file.openIntDataset(Table.eventsStart.rawValue) else {
+            throw Error.DatasetNotFound
+        }
+        try dataset.append([event.start], dimensions: [1])
     }
 
-    func getFileId(path: String) throws -> Int {
-        if let id = fileIdsByPath[path] {
-            return id
+    func writeEventDuration(event: Event) throws {
+        guard let dataset = file.openIntDataset(Table.eventsDuration.rawValue) else {
+            throw Error.DatasetNotFound
         }
+        try dataset.append([event.duration], dimensions: [1])
+    }
 
-        guard let dataset = file.openStringDataset(FeatureDatabase.fileListDatasetName) else {
-            preconditionFailure("Existing file doesn't have a \(FeatureDatabase.fileListDatasetName) dataset")
+    func writeEventNote(event: Event) throws {
+        guard let dataset = file.openIntDataset(Table.eventsNote.rawValue) else {
+            throw Error.DatasetNotFound
         }
+        try dataset.append([event.note.midiNoteNumber], dimensions: [1])
+    }
 
-        let id = filePaths.count
-        filePaths.append(path)
-        fileIdsByPath[path] = id
-        filePathsById[id] = path
+    func writeEventVelocity(event: Event) throws {
+        guard let dataset = file.openFloatDataset(Table.eventsVelocity.rawValue) else {
+            throw Error.DatasetNotFound
+        }
+        try dataset.append([event.velocity], dimensions: [1])
+    }
 
-        try dataset.append([path], dimensions: [1])
-        return id
+    public func readEventAtIndex(index: Int) throws -> Event {
+        var event = Event()
+        event.start = try readEventStartAtIndex(index)
+        event.duration = try readEventDurationAtIndex(index)
+        event.note = try readEventNoteAtIndex(index)
+        event.velocity = try readEventVelocityAtIndex(index)
+        return event
+    }
+
+    func readEventStartAtIndex(index: Int) throws -> Int {
+        guard let dataset = file.openIntDataset(Table.eventsStart.rawValue) else {
+            throw Error.DatasetNotFound
+        }
+        return try dataset.read([index]).first!
+    }
+
+    func readEventDurationAtIndex(index: Int) throws -> Int {
+        guard let dataset = file.openIntDataset(Table.eventsDuration.rawValue) else {
+            throw Error.DatasetNotFound
+        }
+        return try dataset.read([index]).first!
+    }
+
+    func readEventNoteAtIndex(index: Int) throws -> Note {
+        guard let dataset = file.openIntDataset(Table.eventsNote.rawValue) else {
+            throw Error.DatasetNotFound
+        }
+        return Note(midiNoteNumber: try dataset.read([index]).first!)
+    }
+
+    func readEventVelocityAtIndex(index: Int) throws -> Float {
+        guard let dataset = file.openFloatDataset(Table.eventsVelocity.rawValue) else {
+            throw Error.DatasetNotFound
+        }
+        return try dataset.read([index]).first!
     }
 }
 
 
-// MARK: Sequence Writing
+// MARK: Labels
 
 public extension FeatureDatabase {
-    public func create() {
-        let chunkSize = 1024
-        let eventChunkSize = 16
-        let featureChunkSize = 32
-
-        let space = Dataspace(dims: [0], maxDims: [-1])
-        file.createStringDataset(FeatureDatabase.fileListDatasetName, dataspace: space, chunkDimensions: [32])!
-
-        file.createIntDataset(FeatureDatabase.offsetDatasetName,
-            dataspace: Dataspace(dims: [0], maxDims: [-1]),
-            chunkDimensions: [chunkSize])
-
-        file.createIntDataset(FeatureDatabase.fileIdDatasetName,
-            dataspace: Dataspace(dims: [0], maxDims: [-1]),
-            chunkDimensions: [chunkSize])
-
-        file.createIntDataset(FeatureDatabase.sequenceLengthDatasetName,
-            dataspace: Dataspace(dims: [0], maxDims: [-1]),
-            chunkDimensions: [chunkSize])
-
-        file.createIntDataset(FeatureDatabase.featuresLengthDatasetName,
-            dataspace: Dataspace(dims: [0], maxDims: [-1]),
-            chunkDimensions: [chunkSize])
-
-        file.createIntDataset(FeatureDatabase.eventOffsetDatasetName,
-            dataspace: Dataspace(dims: [0, 0], maxDims: [-1, -1]),
-            chunkDimensions: [chunkSize, eventChunkSize])
-
-        file.createFloatDataset(FeatureDatabase.featureOnsetValuesDatasetName,
-            dataspace: Dataspace(dims: [0, 0], maxDims: [-1, -1]),
-            chunkDimensions: [chunkSize, featureChunkSize])
-
-        file.createFloatDataset(FeatureDatabase.featurePolyphonyValuesDatasetName,
-            dataspace: Dataspace(dims: [0, 0], maxDims: [-1, -1]),
-            chunkDimensions: [chunkSize, featureChunkSize])
-
-        let labelSize = Note.noteCount
-        file.createFloatDataset(FeatureDatabase.eventNoteDatasetName,
-            dataspace: Dataspace(dims: [0, 0, labelSize], maxDims: [-1, -1, labelSize]),
-            chunkDimensions: [chunkSize, eventChunkSize, labelSize])
-
-        file.createFloatDataset(FeatureDatabase.eventVelocityDatasetName,
-            dataspace: Dataspace(dims: [0, 0, labelSize], maxDims: [-1, -1, labelSize]),
-            chunkDimensions: [chunkSize, eventChunkSize, labelSize])
-
-        let featureSize = FeatureBuilder.bandNotes.count
-        file.createFloatDataset(FeatureDatabase.spectrumDatasetName,
-            dataspace: Dataspace(dims: [0, 0, featureSize], maxDims: [-1, -1, featureSize]),
-            chunkDimensions: [chunkSize, featureChunkSize, featureSize])
-
-        file.createFloatDataset(FeatureDatabase.spectrumFluxDatasetName,
-            dataspace: Dataspace(dims: [0, 0, featureSize], maxDims: [-1, -1, featureSize]),
-            chunkDimensions: [chunkSize, featureChunkSize, featureSize])
-
-        file.createFloatDataset(FeatureDatabase.peakHeightsDatasetName,
-            dataspace: Dataspace(dims: [0, 0, featureSize], maxDims: [-1, -1, featureSize]),
-            chunkDimensions: [chunkSize, featureChunkSize, featureSize])
-
-        file.createFloatDataset(FeatureDatabase.peakLocationsDatasetName,
-            dataspace: Dataspace(dims: [0, 0, featureSize], maxDims: [-1, -1, featureSize]),
-            chunkDimensions: [chunkSize, featureChunkSize, featureSize])
+    public func writeLabel(label: Label) throws {
+        try writeLabelOnset(label)
+        try writeLabelPolyphony(label)
+        try writeLabelNotes(label)
     }
 
-    public func appendSequence(sequence: Sequence) throws {
-        try writeOffset(sequence)
-        try writeFile(sequence)
-        try writeEvents(sequence)
-        try writeFeatures(sequence)
+    func writeLabelOnset(label: Label) throws {
+        guard let dataset = file.openFloatDataset(Table.labelsOnset.rawValue) else {
+            throw Error.DatasetNotFound
+        }
+        try dataset.append([label.onset], dimensions: [1])
     }
 
-    func writeOffset(sequence: Sequence) throws {
-        guard let offsetDataset = file.openIntDataset(FeatureDatabase.offsetDatasetName) else {
+    func writeLabelPolyphony(label: Label) throws {
+        guard let dataset = file.openFloatDataset(Table.labelsPolyphony.rawValue) else {
             throw Error.DatasetNotFound
         }
-        try offsetDataset.append([sequence.startOffset], dimensions: [1])
+        try dataset.append([label.onset], dimensions: [1])
     }
 
-    func writeFile(sequence: Sequence) throws {
-        guard let fileDataset = file.openIntDataset(FeatureDatabase.fileIdDatasetName) else {
+    func writeLabelNotes(label: Label) throws {
+        guard let dataset = file.openFloatDataset(Table.labelsNotes.rawValue) else {
             throw Error.DatasetNotFound
         }
-        let id = try getFileId(sequence.filePath)
-        try fileDataset.append([id], dimensions: [1])
+        try dataset.append(label.notes, dimensions: [1, label.notes.count])
     }
 
-    func writeEvents(sequence: Sequence) throws {
-        guard let lengthDataset = file.openIntDataset(FeatureDatabase.sequenceLengthDatasetName) else {
-            throw Error.DatasetNotFound
-        }
-        try lengthDataset.append([sequence.events.count], dimensions: [1])
-
-        try writeEventOffsets(sequence)
-        try writeEventNotes(sequence)
-        try writeEventVelocities(sequence)
+    public func readLabelAtIndex(index: Int) throws -> Label {
+        var label = Label()
+        label.onset = try readLabelOnsetAtIndex(index)
+        label.polyphony = try readLabelPolyphonyAtIndex(index)
+        label.notes = try readLabelNotesAtIndex(index)
+        return label
     }
 
-    func writeEventOffsets(sequence: Sequence) throws {
-        guard let eventOffsetDataset = file.openIntDataset(FeatureDatabase.eventOffsetDatasetName) else {
+    func readLabelOnsetAtIndex(index: Int) throws -> Float {
+        guard let dataset = file.openFloatDataset(Table.labelsOnset.rawValue) else {
             throw Error.DatasetNotFound
         }
-
-        let eventOffsets = sequence.events.map({ $0.offset })
-        try eventOffsetDataset.append(eventOffsets, dimensions: [1, eventOffsets.count])
+        return try dataset.read([index]).first!
     }
 
-    func writeEventNotes(sequence: Sequence) throws {
-        guard let eventNoteDataset = file.openFloatDataset(FeatureDatabase.eventNoteDatasetName) else {
+    func readLabelPolyphonyAtIndex(index: Int) throws -> Float {
+        guard let dataset = file.openFloatDataset(Table.labelsPolyphony.rawValue) else {
             throw Error.DatasetNotFound
         }
-
-        var noteValues = [Float](count: Note.noteCount * sequence.events.count, repeatedValue: 0.0)
-        for event in sequence.events {
-            for note in event.notes {
-                let index = note.midiNoteNumber - Note.representableRange.startIndex
-                if index >= 0 && index < Note.noteCount {
-                    noteValues[note.midiNoteNumber - Note.representableRange.startIndex] = 1.0
-                }
-            }
-        }
-        try eventNoteDataset.append(noteValues, dimensions: [1, sequence.events.count, Note.noteCount])
+        return try dataset.read([index]).first!
     }
 
-    func writeEventVelocities(sequence: Sequence) throws {
-        guard let eventVelocitiesDataset = file.openFloatDataset(FeatureDatabase.eventVelocityDatasetName) else {
+    func readLabelNotesAtIndex(index: Int) throws -> [Float] {
+        guard let dataset = file.openFloatDataset(Table.labelsNotes.rawValue) else {
             throw Error.DatasetNotFound
         }
-
-        var velocities = [Float](count: Note.noteCount * sequence.events.count, repeatedValue: 0.0)
-        for (eventIndex, event) in sequence.events.enumerate() {
-            for (noteIndex, note) in event.notes.enumerate() {
-                let index = note.midiNoteNumber - Note.representableRange.startIndex
-                if index >= 0 && index < Note.noteCount {
-                    velocities[eventIndex * Note.noteCount + index] = event.velocities[noteIndex]
-                }
-            }
-        }
-        try eventVelocitiesDataset.append(velocities, dimensions: [1, sequence.events.count, Note.noteCount])
-    }
-
-    func writeFeatures(sequence: Sequence) throws {
-        precondition(sequence.features.count == sequence.featureOnsetValues.count)
-        precondition(sequence.features.count == sequence.featurePolyphonyValues.count)
-        
-        guard let lengthDataset = file.openIntDataset(FeatureDatabase.featuresLengthDatasetName) else {
-            throw Error.DatasetNotFound
-        }
-        try lengthDataset.append([sequence.features.count], dimensions: [1])
-
-        guard let featureOnsetValuesDataset = file.openFloatDataset(FeatureDatabase.featureOnsetValuesDatasetName) else {
-            throw Error.DatasetNotFound
-        }
-        try featureOnsetValuesDataset.append(sequence.featureOnsetValues, dimensions: [1, sequence.featureOnsetValues.count])
-
-        guard let featurePolyphonyValuesDataset = file.openFloatDataset(FeatureDatabase.featurePolyphonyValuesDatasetName) else {
-            throw Error.DatasetNotFound
-        }
-        try featurePolyphonyValuesDataset.append(sequence.featurePolyphonyValues, dimensions: [1, sequence.featurePolyphonyValues.count])
-        
-        try writeSpectrum(sequence)
-        try writeSpectralFlux(sequence)
-        try writePeakHeights(sequence)
-        try writePeakLocations(sequence)
-    }
-
-    func writeSpectrum(sequence: Sequence) throws {
-        guard let spectrumDataset = file.openFloatDataset(FeatureDatabase.spectrumDatasetName) else {
-            throw Error.DatasetNotFound
-        }
-
-        let featureSize = FeatureBuilder.bandNotes.count
-        var data = [Float](count: featureSize * sequence.features.count, repeatedValue: 0.0)
-        for (featureIndex, feature) in sequence.features.enumerate() {
-            for i in 0..<featureSize {
-                data[featureIndex * featureSize + i] = feature.spectrum[i]
-            }
-        }
-        try spectrumDataset.append(data, dimensions: [1, sequence.features.count, featureSize])
-    }
-
-    func writeSpectralFlux(sequence: Sequence) throws {
-        guard let spectralFluxDataset = file.openFloatDataset(FeatureDatabase.spectrumFluxDatasetName) else {
-            throw Error.DatasetNotFound
-        }
-
-        let featureSize = FeatureBuilder.bandNotes.count
-        var data = [Float](count: featureSize * sequence.features.count, repeatedValue: 0.0)
-        for (featureIndex, feature) in sequence.features.enumerate() {
-            for i in 0..<featureSize {
-                data[featureIndex * featureSize + i] = feature.spectralFlux[i]
-            }
-        }
-        try spectralFluxDataset.append(data, dimensions: [1, sequence.features.count, featureSize])
-    }
-
-    func writePeakHeights(sequence: Sequence) throws {
-        guard let peakHeightsDataset = file.openFloatDataset(FeatureDatabase.peakHeightsDatasetName) else {
-            throw Error.DatasetNotFound
-        }
-
-        let featureSize = FeatureBuilder.bandNotes.count
-        var data = [Float](count: featureSize * sequence.features.count, repeatedValue: 0.0)
-        for (featureIndex, feature) in sequence.features.enumerate() {
-            for i in 0..<featureSize {
-                data[featureIndex * featureSize + i] = feature.peakHeights[i]
-            }
-        }
-        try peakHeightsDataset.append(data, dimensions: [1, sequence.features.count, featureSize])
-    }
-
-    func writePeakLocations(sequence: Sequence) throws {
-        guard let peakLocationsDataset = file.openFloatDataset(FeatureDatabase.peakLocationsDatasetName) else {
-            throw Error.DatasetNotFound
-        }
-
-        let featureSize = FeatureBuilder.bandNotes.count
-        var data = [Float](count: featureSize * sequence.features.count, repeatedValue: 0.0)
-        for (featureIndex, feature) in sequence.features.enumerate() {
-            for i in 0..<featureSize {
-                data[featureIndex * featureSize + i] = feature.peakLocations[i]
-            }
-        }
-        try peakLocationsDataset.append(data, dimensions: [1, sequence.features.count, featureSize])
+        return try dataset.read([index, 0..])
     }
 }
 
 
-// MARK: Sequence Reading
+// MARK: Feature Writing
 
 public extension FeatureDatabase {
-    public func readSequenceAtIndex(index: Int) throws -> Sequence {
-        let sequence = Sequence()
-        try readOffset(sequence, index: index)
-        try readFileName(sequence, index: index)
-        try readEvents(sequence, index: index)
-        try readFeatures(sequence, index: index)
-        return sequence
+    func writeFeature(feature: Feature) throws {
+        try writeSpectrum(feature)
+        try writeSpectralFlux(feature)
+        try writePeakHeights(feature)
+        try writePeakLocations(feature)
     }
 
-    func readOffset(sequence: Sequence, index: Int) throws {
-        guard let offsetDataset = file.openIntDataset(FeatureDatabase.offsetDatasetName) else {
-            throw Error.DatasetNotFound
-        }
-        sequence.startOffset = try offsetDataset.read([index]).first!
-    }
-
-    func readFileName(sequence: Sequence, index: Int) throws {
-        guard let fileDataset = file.openIntDataset(FeatureDatabase.fileIdDatasetName) else {
-            throw Error.DatasetNotFound
-        }
-        let id = try fileDataset.read([index]).first!
-        sequence.filePath = filePathsById[id] ?? ""
-    }
-
-    func readEvents(sequence: Sequence, index: Int) throws {
-        guard let sequenceLengthDataset = file.openIntDataset(FeatureDatabase.sequenceLengthDatasetName) else {
-            throw Error.DatasetNotFound
-        }
-        let length = try sequenceLengthDataset.read([index]).first!
-
-        sequence.events.removeAll()
-        for _ in 0..<length {
-            sequence.events.append(Sequence.Event())
-        }
-
-        try readEventOffsets(sequence, index: index, length: length)
-        try readEventNotes(sequence, index: index, length: length)
-        try readEventVelocities(sequence, index: index, length: length)
-    }
-
-    func readEventOffsets(sequence: Sequence, index: Int, length: Int) throws {
-        guard let eventOffsetDataset = file.openIntDataset(FeatureDatabase.eventOffsetDatasetName) else {
-            throw Error.DatasetNotFound
-        }
-
-        let offsets = try eventOffsetDataset.read([index, 0..<length])
-        for (i, event) in sequence.events.enumerate() {
-            event.offset = offsets[i]
-        }
-    }
-
-    func readEventNotes(sequence: Sequence, index: Int, length: Int) throws {
-        guard let eventNoteDataset = file.openFloatDataset(FeatureDatabase.eventNoteDatasetName) else {
-            throw Error.DatasetNotFound
-        }
-
-        let noteValues = try eventNoteDataset.read([index, 0..<length, 0..<Note.noteCount])
-        for (index, event) in sequence.events.enumerate() {
-            event.notes = notesFromVector(noteValues[index * Note.noteCount..<(index + 1) * Note.noteCount])
-        }
-    }
-
-    func readEventVelocities(sequence: Sequence, index: Int, length: Int) throws {
-        guard let eventVelocitiesDataset = file.openFloatDataset(FeatureDatabase.eventVelocityDatasetName) else {
-            throw Error.DatasetNotFound
-        }
-
-        let velocities = try eventVelocitiesDataset.read([index, 0..<length, 0..<Note.noteCount])
-        for (eventIndex, event) in sequence.events.enumerate() {
-            event.velocities = [Float](count: event.notes.count, repeatedValue: 0.0)
-            for (noteIndex, note) in event.notes.enumerate() {
-                event.velocities[noteIndex] = velocities[eventIndex * Note.noteCount + note.midiNoteNumber - Note.representableRange.startIndex]
-            }
-        }
-    }
-
-    func readFeatures(sequence: Sequence, index: Int) throws {
-        guard let featuresLengthDataset = file.openIntDataset(FeatureDatabase.featuresLengthDatasetName) else {
-            throw Error.DatasetNotFound
-        }
-        let length = try featuresLengthDataset.read([index]).first!
-
-        guard let featureOnsetValuesDataset = file.openFloatDataset(FeatureDatabase.featureOnsetValuesDatasetName) else {
-            throw Error.DatasetNotFound
-        }
-        sequence.featureOnsetValues = try featureOnsetValuesDataset.read([index, 0..<length])
-
-        guard let featurePolyphonyValuesDataset = file.openFloatDataset(FeatureDatabase.featurePolyphonyValuesDatasetName) else {
-            throw Error.DatasetNotFound
-        }
-        sequence.featurePolyphonyValues = try featurePolyphonyValuesDataset.read([index, 0..<length])
-
-        sequence.features.removeAll()
-        for _ in 0..<length {
-            sequence.features.append(Feature())
-        }
-
-        try readSpectrum(sequence, index: index, length: length)
-        try readSpectralFlux(sequence, index: index, length: length)
-        try readPeakHeights(sequence, index: index, length: length)
-        try readPeakLocations(sequence, index: index, length: length)
-    }
-
-    func readSpectrum(sequence: Sequence, index: Int, length: Int) throws {
-        guard let spectrumDataset = file.openFloatDataset(FeatureDatabase.spectrumDatasetName) else {
+    func writeSpectrum(feature: Feature) throws {
+        guard let dataset = file.openFloatDataset(Table.featuresSpectrum.rawValue) else {
             throw Error.DatasetNotFound
         }
 
         let featureSize = FeatureBuilder.bandNotes.count
-        let spectrums = try spectrumDataset.read([index, 0..<length, 0..<featureSize])
-        for (featureIndex, feature) in sequence.features.enumerate() {
-            spectrums.withUnsafeBufferPointer { pointer in
-                let offsetPointer = UnsafeMutablePointer<Float>(pointer.baseAddress + featureIndex * featureSize)
-                feature.spectrum.withUnsafeMutableBufferPointer { pointer in
-                    pointer.baseAddress.assignFrom(offsetPointer, count: featureSize)
-                }
-            }
-        }
+        let data = [Float](feature.spectrum)
+        try dataset.append(data, dimensions: [1, featureSize])
     }
 
-    func readSpectralFlux(sequence: Sequence, index: Int, length: Int) throws {
-        guard let spectralFluxDataset = file.openFloatDataset(FeatureDatabase.spectrumFluxDatasetName) else {
+    func writeSpectralFlux(feature: Feature) throws {
+        guard let dataset = file.openFloatDataset(Table.featuresFlux.rawValue) else {
             throw Error.DatasetNotFound
         }
 
         let featureSize = FeatureBuilder.bandNotes.count
-        let spectrums = try spectralFluxDataset.read([index, 0..<length, 0..<featureSize])
-        for (featureIndex, feature) in sequence.features.enumerate() {
-            spectrums.withUnsafeBufferPointer { pointer in
-                let offsetPointer = UnsafeMutablePointer<Float>(pointer.baseAddress + featureIndex * featureSize)
-                feature.spectralFlux.withUnsafeMutableBufferPointer { pointer in
-                    pointer.baseAddress.assignFrom(offsetPointer, count: featureSize)
-                }
-            }
-        }
+        let data = [Float](feature.spectralFlux)
+        try dataset.append(data, dimensions: [1, featureSize])
     }
 
-    func readPeakHeights(sequence: Sequence, index: Int, length: Int) throws {
-        guard let peakHeightsDataset = file.openFloatDataset(FeatureDatabase.peakHeightsDatasetName) else {
+    func writePeakHeights(feature: Feature) throws {
+        guard let dataset = file.openFloatDataset(Table.featuresPeakHeights.rawValue) else {
             throw Error.DatasetNotFound
         }
 
         let featureSize = FeatureBuilder.bandNotes.count
-        let spectrums = try peakHeightsDataset.read([index, 0..<length, 0..<featureSize])
-        for (featureIndex, feature) in sequence.features.enumerate() {
-            spectrums.withUnsafeBufferPointer { pointer in
-                let offsetPointer = UnsafeMutablePointer<Float>(pointer.baseAddress + featureIndex * featureSize)
-                feature.peakHeights.withUnsafeMutableBufferPointer { pointer in
-                    pointer.baseAddress.assignFrom(offsetPointer, count: featureSize)
-                }
-            }
-        }
+        let data = [Float](feature.peakHeights)
+        try dataset.append(data, dimensions: [1, featureSize])
     }
 
-    func readPeakLocations(sequence: Sequence, index: Int, length: Int) throws {
-        guard let peakLocationsDataset = file.openFloatDataset(FeatureDatabase.peakLocationsDatasetName) else {
+    func writePeakLocations(feature: Feature) throws {
+        guard let dataset = file.openFloatDataset(Table.featuresPeakLocations.rawValue) else {
             throw Error.DatasetNotFound
         }
 
         let featureSize = FeatureBuilder.bandNotes.count
-        let spectrums = try peakLocationsDataset.read([index, 0..<length, 0..<featureSize])
-        for (featureIndex, feature) in sequence.features.enumerate() {
-            spectrums.withUnsafeBufferPointer { pointer in
-                let offsetPointer = UnsafeMutablePointer<Float>(pointer.baseAddress + featureIndex * featureSize)
-                feature.peakLocations.withUnsafeMutableBufferPointer { pointer in
-                    pointer.baseAddress.assignFrom(offsetPointer, count: featureSize)
-                }
-            }
+        let data = [Float](feature.peakLocations)
+        try dataset.append(data, dimensions: [1, featureSize])
+    }
+
+    public func readFeatureAtIndex(index: Int) throws -> Feature {
+        var feature = Feature()
+        feature.spectrum = ValueArray(try readSpectrumAtIndex(index))
+        feature.spectralFlux = ValueArray(try readFluxAtIndex(index))
+        feature.peakHeights = ValueArray(try readPeakHeightsAtIndex(index))
+        feature.peakLocations = ValueArray(try readPeakLocationsAtIndex(index))
+        return feature
+    }
+
+    func readSpectrumAtIndex(index: Int) throws -> [Float] {
+        guard let dataset = file.openFloatDataset(Table.featuresSpectrum.rawValue) else {
+            throw Error.DatasetNotFound
         }
+        return try dataset.read([index, 0..])
+    }
+
+    func readFluxAtIndex(index: Int) throws -> [Float] {
+        guard let dataset = file.openFloatDataset(Table.featuresFlux.rawValue) else {
+            throw Error.DatasetNotFound
+        }
+        return try dataset.read([index, 0..])
+    }
+
+    func readPeakHeightsAtIndex(index: Int) throws -> [Float] {
+        guard let dataset = file.openFloatDataset(Table.featuresPeakHeights.rawValue) else {
+            throw Error.DatasetNotFound
+        }
+        return try dataset.read([index, 0..])
+    }
+
+    func readPeakLocationsAtIndex(index: Int) throws -> [Float] {
+        guard let dataset = file.openFloatDataset(Table.featuresPeakLocations.rawValue) else {
+            throw Error.DatasetNotFound
+        }
+        return try dataset.read([index, 0..])
     }
 }

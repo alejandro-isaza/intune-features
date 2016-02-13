@@ -17,6 +17,11 @@ extension String {
             self += "/" + strippedComponent
         }
     }
+
+    func stringByReplacingExtensionWith(newExtension: String) -> String {
+        let noExtension: NSString = (self as NSString).stringByDeletingPathExtension
+        return noExtension.stringByAppendingPathExtension(newExtension)!
+    }
 }
 
 func buildPathFromParts(parts: [String]) -> String {

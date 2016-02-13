@@ -7,152 +7,93 @@ import Foundation
 import Upsurge
 
 class PolySequenceBuilder {
-    let audioFileExtensions = [
-        "mp3",
-        "wav",
-        "m4a"
-    ]
-    let midiFileExtension = "mid"
+    static let maximumPolyphony = Float(6)
 
     let featureBuilder = FeatureBuilder()
-    
-    func forEachSequenceInFolder(path: String, @noescape action: (Sequence) throws -> ()) rethrows {
-        let fileManager = NSFileManager.defaultManager()
-        
-        guard let files = try? fileManager.contentsOfDirectoryAtURL(NSURL.fileURLWithPath(path), includingPropertiesForKeys: [NSURLNameKey], options: NSDirectoryEnumerationOptions.SkipsHiddenFiles) else {
-            fatalError("Failed to fetch contents of \(path)")
-        }
-        let midiFiles = files.filter{ $0.path!.containsString(".mid") }
-        
-        for file in midiFiles {
-            try forEachSequenceInFile(file.path!.stringByReplacingOccurrencesOfString(".mid", withString: ""), action: action)
-        }
-        print("")
-    }
-    
-    func forEachSequenceInFile(filePath: String, @noescape action: (Sequence) throws -> ()) rethrows {
-        let fileManager = NSFileManager.defaultManager()
-        
-        let midiFilePath = "\(filePath).\(midiFileExtension)"
+    var audioFilePath: String
+    var midiFilePath: String
+    var audioFile: AudioFile
+    var events = [Event]()
 
-        for ext in audioFileExtensions {
-            let audioFilePath = "\(filePath).\(ext)"
-            
-            if fileManager.fileExistsAtPath(audioFilePath) {
-                print("Processing \(audioFilePath)")
-                try forEachSequenceInAudioFile(audioFilePath, midiFilePath: midiFilePath, action: action)
-                break
-            }
+    init(audioFilePath: String, midiFilePath: String) {
+        self.audioFilePath = audioFilePath
+        self.midiFilePath = midiFilePath
+
+        audioFile = AudioFile.open(audioFilePath)!
+        guard audioFile.sampleRate == FeatureBuilder.samplingFrequency else {
+            fatalError("Sample rate mismatch: \(audioFilePath) => \(audioFile.sampleRate) != \(FeatureBuilder.samplingFrequency)")
         }
-    }
-    
-    func forEachSequenceInAudioFile(audioFilePath: String, midiFilePath: String, @noescape action: (Sequence) throws -> ()) rethrows {
-        let windowSize = FeatureBuilder.windowSize
-        let stepSize = FeatureBuilder.stepSize
 
         guard let midiFile = MIDIFile(filePath: midiFilePath) else {
             fatalError("Failed to open MIDI file \(midiFilePath)")
         }
 
-        guard let audioFile = AudioFile.open(audioFilePath) else {
-            fatalError("Failed to open audio file \(audioFilePath)")
+        let noteEvents = midiFile.noteEvents
+        events.reserveCapacity(noteEvents.count)
+        for note in noteEvents {
+            events.append(Event(midiNoteEvent: note, inFile: midiFile))
         }
-        assert(audioFile.sampleRate == FeatureBuilder.samplingFrequency)
+    }
+    
+    func forEachWindow(@noescape action: (Window) throws -> ()) rethrows {
+        let windowSize = FeatureBuilder.windowSize
+        let stepSize = FeatureBuilder.stepSize
 
-        let splitter = Splitter(midiFile: midiFile)
-        let noteSequences = splitter.split()
-        for noteSequence in noteSequences {
-            let startTime = midiFile.secondsForBeats(noteSequence.first!.timeStamp)
-            let startSample = Int(startTime * FeatureBuilder.samplingFrequency) - windowSize
+        var data = ValueArray<Double>(capacity: Int(audioFile.frameCount))
+        withPointer(&data) { pointer in
+            data.count = audioFile.readFrames(pointer, count: data.capacity) ?? 0
+        }
+        guard data.count >= windowSize + stepSize else {
+            return
+        }
 
-            var endTime = midiFile.secondsForBeats(noteSequence.last!.timeStamp + Double(noteSequence.last!.duration))
-            if endTime - startTime > Sequence.maximumSequenceDuration || endTime - startTime < Sequence.minimumSequenceDuration {
-                precondition(midiFile.secondsForBeats(noteSequence.last!.timeStamp) - startTime < Sequence.maximumSequenceDuration, "Note sequence contains too many notes in \(audioFilePath)")
-                endTime = startTime + Sequence.maximumSequenceDuration
-            }
-            let endSample = Int(endTime * FeatureBuilder.samplingFrequency)
+        let totalSampleCount = Int(audioFile.frameCount)
+        for offset in stepSize.stride(through: totalSampleCount - windowSize, by: stepSize) {
+            var window = Window(start: offset)
 
-            let windowCount = FeatureBuilder.windowCountInSamples(endSample - startSample)
-            let sampleCount = FeatureBuilder.sampleCountInWindows(windowCount)
+            let range1 = Range(start: offset - stepSize, end: offset - stepSize + windowSize)
+            let range2 = Range(start: offset, end: offset + windowSize)
+            window.feature = featureBuilder.generateFeatures(data[range1], data[range2])
 
-            let offset = max(startSample, 0)
-            let sequence = Sequence(filePath: audioFilePath, startOffset: offset)
+            window.label.onset = onsetValueForWindowAt(offset)
+            window.label.polyphony = polyphonyValueForWindowAt(offset)
+            window.label.notes = notesValueFroWindowAt(offset)
 
-            audioFile.currentFrame = offset
-            sequence.data = ValueArray<Double>(count: sampleCount)
-            let readCount = withPointer(&sequence.data) { pointer in
-                return audioFile.readFrames(pointer, count: sampleCount)
-            }
-            guard readCount == sampleCount else {
-                return
-            }
-
-            sequence.events = sequenceEventsFromNoteEvents(noteSequence, baseOffset: offset, midiFile: midiFile, cutoffOffset: endSample)
-
-            for i in 0..<windowCount-1 {
-                let start = i * stepSize
-                let end = start + windowSize
-                let feature = featureBuilder.generateFeatures(sequence.data[start..<end], sequence.data[start + stepSize..<end + stepSize])
-                sequence.features.append(feature)
-                sequence.featureOnsetValues.append(onsetValueForWindowAt(start + stepSize, events: sequence.events))
-                sequence.featurePolyphonyValues.append(polyphonyValueForWindowAt(start + stepSize, events: sequence.events))
-            }
-            precondition(sequence.features.count <= FeatureBuilder.sampleCountInWindows(Sequence.maximumSequenceSamples), "Too many features generated \((sequence.features.count)) for \(audioFilePath)")
-
-            try action(sequence)
+            try action(window)
         }
     }
 
-    func sequenceEventsFromNoteEvents(noteEvents: [MIDINoteEvent], baseOffset offset: Int, midiFile: MIDIFile, cutoffOffset: Int) -> [Sequence.Event] {
-        var notesByBeat = [Double: [(Note, Double)]]()
-        for noteEvent in noteEvents {
-            let note = Note(midiNoteNumber: Int(noteEvent.note))
-            let velocity = min(1, Double(noteEvent.velocity) / 127.0)
-
-            if let notes = notesByBeat[noteEvent.timeStamp] {
-                var newNotes = notes
-                newNotes.append((note, velocity))
-                notesByBeat.updateValue(newNotes, forKey: noteEvent.timeStamp)
-            } else {
-                notesByBeat[noteEvent.timeStamp] = [(note, velocity)]
+    func onsetValueForWindowAt(windowStart: Int) -> Float {
+        var value = Float(0.0)
+        var count = 0
+        for event in events {
+            let onsetIndexInWindow = event.start - windowStart
+            if onsetIndexInWindow >= 0 && onsetIndexInWindow < featureBuilder.window.count {
+                value += Float(featureBuilder.window[onsetIndexInWindow])
+                count += 1
             }
         }
-
-        var events: [Sequence.Event] = []
-        for (beat, notes) in notesByBeat {
-            let event = Sequence.Event()
-            let time = midiFile.secondsForBeats(beat)
-            let sample = Int(time * FeatureBuilder.samplingFrequency)
-            if sample > cutoffOffset {
-                break
-            }
-
-            event.offset = sample - offset
-            event.notes = notes.map({ $0.0 })
-            event.velocities = notes.map({ Float($0.1) })
-            events.append(event)
-        }
-
-        return events
+        return value / Float(count)
     }
 
-    func onsetValueForWindowAt(windowStart: Int, events: [Sequence.Event]) -> Float {
+    func polyphonyValueForWindowAt(windowStart: Int) -> Float {
         var value = Float(0.0)
         for event in events {
-            let index = event.offset - windowStart
-            if index >= 0 && index < featureBuilder.window.count {
-                value += Float(featureBuilder.window[index])
+            let onsetIndexInWindow = event.start - windowStart
+            if onsetIndexInWindow >= 0 && onsetIndexInWindow < featureBuilder.window.count {
+                value += Float(featureBuilder.window[onsetIndexInWindow])
             }
         }
-        return value
+        return min(PolySequenceBuilder.maximumPolyphony, value)
     }
 
-    func polyphonyValueForWindowAt(windowStart: Int, events: [Sequence.Event]) -> Float {
-        var value = Float(0.0)
+    func notesValueFroWindowAt(windowStart: Int) -> [Float] {
+        var value = [Float](count: Note.noteCount, repeatedValue: 0)
         for event in events {
-            let index = event.offset - windowStart
-            if index >= 0 && index < featureBuilder.window.count {
-                value += 1
+            let valueIndex = event.note.midiNoteNumber - Note.representableRange.startIndex
+            let onsetIndexInWindow = event.start - windowStart
+            if onsetIndexInWindow >= 0 && onsetIndexInWindow < featureBuilder.window.count {
+                value[valueIndex] += Float(featureBuilder.window[onsetIndexInWindow])
             }
         }
         return value

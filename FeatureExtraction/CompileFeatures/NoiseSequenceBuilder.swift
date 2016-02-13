@@ -6,71 +6,40 @@ import Foundation
 import Upsurge
 
 class NoiseSequenceBuilder {
-    let fileExtensions = [
-        "m4a",
-        "caf",
-        "wav",
-        "aiff"
-    ]
-
     let featureBuilder = FeatureBuilder()
+    var audioFilePath: String
+    var audioFile: AudioFile
 
-    func forEachSequenceInFile(fileName: String, path: String, @noescape action: (Sequence) throws -> ()) rethrows {
-        let fileManager = NSFileManager.defaultManager()
-        for type in fileExtensions {
-            let fullFileName = "\(fileName).\(type)"
-            let filePath = buildPathFromParts([path, fullFileName])
-            if fileManager.fileExistsAtPath(filePath) {
-                print("Processing \(filePath)")
-                try forEachSequenceInFile(filePath, action: action)
-                break
-            }
+    init(path: String) {
+        audioFilePath = path
+
+        audioFile = AudioFile.open(audioFilePath)!
+        guard audioFile.sampleRate == FeatureBuilder.samplingFrequency else {
+            fatalError("Sample rate mismatch: \(audioFilePath) => \(audioFile.sampleRate) != \(FeatureBuilder.samplingFrequency)")
         }
     }
 
-    func forEachSequenceInFile(filePath: String, @noescape action: (Sequence) throws -> ()) rethrows {
+    func forEachWindow(@noescape action: (Window) throws -> ()) rethrows {
         let windowSize = FeatureBuilder.windowSize
-        let step = FeatureBuilder.stepSize
+        let stepSize = FeatureBuilder.stepSize
 
-        let audioFile = AudioFile.open(filePath)!
-        guard audioFile.sampleRate == FeatureBuilder.samplingFrequency else {
-            fatalError("Sample rate mismatch: \(filePath) => \(audioFile.sampleRate) != \(FeatureBuilder.samplingFrequency)")
+        var data = ValueArray<Double>(capacity: Int(audioFile.frameCount))
+        withPointer(&data) { pointer in
+            data.count = audioFile.readFrames(pointer, count: data.capacity) ?? 0
+        }
+        guard data.count >= windowSize + stepSize else {
+            return
         }
 
         let totalSampleCount = Int(audioFile.frameCount)
-        let sequenceCount = max(1, totalSampleCount / Sequence.maximumSequenceSamples)
-        var offset = 0
+        for offset in stepSize.stride(through: totalSampleCount - windowSize, by: stepSize) {
+            var window = Window(start: offset)
 
-        for _ in 0..<sequenceCount {
-            let sequence = Sequence(filePath: filePath, startOffset: offset)
+            let range1 = Range(start: offset - stepSize, end: offset - stepSize + windowSize)
+            let range2 = Range(start: offset, end: offset + windowSize)
+            window.feature = featureBuilder.generateFeatures(data[range1], data[range2])
 
-            let sampleCount = min(totalSampleCount - offset, Sequence.maximumSequenceSamples)
-            if sampleCount < Sequence.minimumSequenceSamples {
-                fatalError("Audio file at '\(filePath)' is too short. Need at least \(Sequence.minimumSequenceSamples) frames, have \(sampleCount).")
-            }
-
-            sequence.data = ValueArray<Double>(count: sampleCount)
-            let readCount = withPointer(&sequence.data) { pointer in
-                return audioFile.readFrames(pointer, count: sampleCount)
-            }
-            guard readCount == sampleCount else {
-                return
-            }
-
-            let windowCount = FeatureBuilder.windowCountInSamples(sampleCount)
-            for i in 0..<windowCount-1 {
-                let start = i * step
-                let end = start + windowSize
-
-                let feature = featureBuilder.generateFeatures(sequence.data[start..<end], sequence.data[start + step..<end + step])
-                sequence.features.append(feature)
-                sequence.featureOnsetValues.append(0)
-                sequence.featurePolyphonyValues.append(0)
-            }
-            precondition(sequence.features.count <= FeatureBuilder.sampleCountInWindows(Sequence.maximumSequenceSamples), "Too many features generated \((sequence.features.count)) for \(filePath)")
-            
-            try action(sequence)
-            offset += sampleCount
+            try action(window)
         }
     }
 }

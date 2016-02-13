@@ -6,92 +6,67 @@ import Foundation
 import Upsurge
 
 class MonoSequenceBuilder {
-    let fileExtensions = [
-        "m4a",
-        "caf",
-        "wav",
-        "aiff"
-    ]
-    
     static let padding = FeatureBuilder.windowSize
 
     let featureBuilder = FeatureBuilder()
+    var audioFilePath: String
+    var audioFile: AudioFile
+    var event: Event
 
-    func forEachSequenceInFolder(folder: String, @noescape action: (Sequence) throws -> ()) rethrows {
-        for note in FeatureBuilder.notes {
-            let note = Note(midiNoteNumber: note)
-            try forEachSequenceInFile(String(note), path: folder, note: note, action: action)
-        }
-        print("")
-    }
+    init(path: String, note: Note) {
+        audioFilePath = path
+        audioFile = AudioFile.open(path)!
+        event = Event(note: note, start: MonoSequenceBuilder.padding, duration: Int(audioFile.frameCount), velocity: 0.63)
 
-    func forEachSequenceInFile(fileName: String, path: String, note: Note, @noescape action: (Sequence) throws -> ()) rethrows {
-        let fileManager = NSFileManager.defaultManager()
-        for type in fileExtensions {
-            let fullFileName = "\(fileName).\(type)"
-            let filePath = buildPathFromParts([path, fullFileName])
-            if fileManager.fileExistsAtPath(filePath) {
-                print("Processing \(filePath)")
-                try forEachSequenceInFile(filePath, note: note, action: action)
-                break
-            }
+        guard audioFile.sampleRate == FeatureBuilder.samplingFrequency else {
+            fatalError("Sample rate mismatch: \(audioFilePath) => \(audioFile.sampleRate) != \(FeatureBuilder.samplingFrequency)")
         }
     }
 
-    func forEachSequenceInFile(filePath: String, note: Note, @noescape action: (Sequence) throws -> ()) rethrows {
+    func forEachWindow(@noescape action: (Window) throws -> ()) rethrows {
         let windowSize = FeatureBuilder.windowSize
-        let step = FeatureBuilder.stepSize
+        let stepSize = FeatureBuilder.stepSize
         let padding = MonoSequenceBuilder.padding
 
-        let audioFile = AudioFile.open(filePath)!
-        guard audioFile.sampleRate == FeatureBuilder.samplingFrequency else {
-            fatalError("Sample rate mismatch: \(filePath) => \(audioFile.sampleRate) != \(FeatureBuilder.samplingFrequency)")
+        var data = ValueArray<Double>(capacity: Int(audioFile.frameCount) + padding)
+
+        // Pad at the start
+        for _ in 0..<padding {
+            data.append(0)
         }
 
-        let sequence = Sequence(filePath: filePath, startOffset: -padding)
-
-        let readCount = min(Int(audioFile.frameCount), Sequence.maximumSequenceSamples)
-        let sampleCount = max(readCount, FeatureBuilder.windowSize) + padding
-        if readCount < FeatureBuilder.windowSize / 2 {
-            fatalError("Audio file at '\(filePath)' is too short. Need at least \(FeatureBuilder.windowSize / 2) frames, have \(readCount).")
+        // Read audio
+        withPointer(&data) { pointer in
+            data.count += audioFile.readFrames(pointer + padding, count: data.capacity - padding) ?? 0
         }
-
-        sequence.data = ValueArray<Double>(count: sampleCount)
-        for i in 0..<padding { sequence.data[i] = 0 }
-        for i in padding+readCount..<sampleCount { sequence.data[i] = 0 }
-
-        let actualReadCount = withPointer(&sequence.data) { pointer in
-            return audioFile.readFrames(pointer + padding, count: readCount)
-        }
-        guard actualReadCount == readCount else {
+        guard data.count >= windowSize + stepSize else {
             return
         }
 
-        let event = Sequence.Event()
-        event.offset = padding
-        event.notes = [note]
-        event.velocities = [0.75]
-        sequence.events.append(event)
+        let totalSampleCount = Int(audioFile.frameCount)
+        for offset in stepSize.stride(through: totalSampleCount - windowSize, by: stepSize) {
+            var window = Window(start: offset)
 
-        let windowCount = FeatureBuilder.windowCountInSamples(sequence.data.count)
-        for i in 0..<windowCount-1 {
-            let start = i * step
-            let end = start + windowSize
+            let range1 = Range(start: offset - stepSize, end: offset - stepSize + windowSize)
+            let range2 = Range(start: offset, end: offset + windowSize)
+            window.feature = featureBuilder.generateFeatures(data[range1], data[range2])
 
-            let feature = featureBuilder.generateFeatures(sequence.data[start..<end], sequence.data[start + step..<end + step])
-            sequence.features.append(feature)
-
-            let onsetIndexInWindow = padding - start
+            let onsetIndexInWindow = padding - offset
             if onsetIndexInWindow >= 0 && onsetIndexInWindow < featureBuilder.window.count {
-                sequence.featureOnsetValues.append(Float(featureBuilder.window[onsetIndexInWindow]))
-                sequence.featurePolyphonyValues.append(1)
-            } else {
-                sequence.featureOnsetValues.append(0)
-                sequence.featurePolyphonyValues.append(0)
+                let windowingScale = Float(featureBuilder.window[onsetIndexInWindow])
+                window.label.onset = windowingScale
+                window.label.polyphony = windowingScale
+                window.label.notes = vectorFromNotes([event.note])
+                window.label.notes *= windowingScale
             }
-        }
-        precondition(sequence.features.count <= FeatureBuilder.sampleCountInWindows(Sequence.maximumSequenceSamples), "Too many features generated \((sequence.features.count)) for \(filePath)")
 
-        try action(sequence)
+            try action(window)
+        }
+    }
+}
+
+func *=(inout array: [Float], scale: Float) {
+    for i in 0..<array.count {
+        array[i] *= scale
     }
 }

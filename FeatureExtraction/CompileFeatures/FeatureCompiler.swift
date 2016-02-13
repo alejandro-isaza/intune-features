@@ -34,19 +34,14 @@ class FeatureCompiler {
     ]
 
     let monophonicFileExpression = try! NSRegularExpression(pattern: "/(\\d+)\\.\\w+", options: NSRegularExpressionOptions.CaseInsensitive)
-    
-    let database: FeatureDatabase
-    
-    var existingFiles: Set<String>
+
     var featureBuilder = FeatureBuilder()
     
     var polyphonicFiles = [PolyphonicFile]()
     var monophonicFiles = [MonophonicFile]()
     var noiseFiles = [String]()
 
-    init(root: String, output: String, overwrite: Bool) {
-        database = FeatureDatabase(filePath: output, overwrite: overwrite)
-        existingFiles = Set(database.filePaths)
+    init(root: String) {
         let urls = loadFiles(root)
         (polyphonicFiles, monophonicFiles, noiseFiles) = categorizeURLs(urls)
 
@@ -55,19 +50,18 @@ class FeatureCompiler {
     }
 
     func compileNoiseFeatures() throws  {
-        let exampleBuilder = NoiseSequenceBuilder()
         for (i, file) in noiseFiles.enumerate() {
             if FeatureCompiler.isTTY {
                 print(FeatureCompiler.eraseLastLineCommand, terminator: "")
             }
             print("Noise: \(i + 1) of \(noiseFiles.count)")
-            guard !existingFiles.contains(file) else {
-                continue
-            }
 
-            try exampleBuilder.forEachSequenceInFile(file) { sequence in
-                try database.appendSequence(sequence)
-                existingFiles.unionInPlace([sequence.filePath])
+            let databasePath = file.stringByReplacingExtensionWith("h5")
+            let database = FeatureDatabase(filePath: databasePath)
+            let exampleBuilder = NoiseSequenceBuilder(path: file)
+            try exampleBuilder.forEachWindow { window in
+                try database.writeLabel(window.label)
+                try database.writeFeature(window.feature)
             }
             database.flush()
         }
@@ -75,39 +69,45 @@ class FeatureCompiler {
     }
 
     func compileMonoFeatures() throws {
-        let exampleBuilder = MonoSequenceBuilder()
         for (i, file) in monophonicFiles.enumerate() {
             if FeatureCompiler.isTTY {
                 print(FeatureCompiler.eraseLastLineCommand, terminator: "")
             }
             print("Mono: \(i + 1) of \(monophonicFiles.count)")
-            guard !existingFiles.contains(file.path) else {
-                continue
-            }
+
+            let databasePath = file.path.stringByReplacingExtensionWith("h5")
+            let database = FeatureDatabase(filePath: databasePath)
 
             let note = Note(midiNoteNumber: file.noteNumber)
-            try exampleBuilder.forEachSequenceInFile(file.path, note: note) { sequence in
-                try database.appendSequence(sequence)
-                existingFiles.unionInPlace([sequence.filePath])
+            let exampleBuilder = MonoSequenceBuilder(path: file.path, note: note)
+
+            try database.writeEvent(exampleBuilder.event)
+            try exampleBuilder.forEachWindow { window in
+                try database.writeLabel(window.label)
+                try database.writeFeature(window.feature)
             }
         }
         print("")
     }
 
     func compilePolyFeatures() throws {
-        let exampleBuilder = PolySequenceBuilder()
         for (i, file) in polyphonicFiles.enumerate() {
             if FeatureCompiler.isTTY {
                 print(FeatureCompiler.eraseLastLineCommand, terminator: "")
             }
             print("Poly: \(i + 1) of \(polyphonicFiles.count)")
-            guard !existingFiles.contains(file.audioPath) else {
-                continue
-            }
 
-            try exampleBuilder.forEachSequenceInAudioFile(file.audioPath, midiFilePath: file.midiPath) { sequence in
-                try database.appendSequence(sequence)
-                existingFiles.unionInPlace([sequence.filePath])
+            let databasePath = file.audioPath.stringByReplacingExtensionWith("h5")
+            let database = FeatureDatabase(filePath: databasePath)
+
+            let exampleBuilder = PolySequenceBuilder(audioFilePath: file.audioPath, midiFilePath: file.midiPath)
+
+            for event in exampleBuilder.events {
+                try database.writeEvent(event)
+            }
+            try exampleBuilder.forEachWindow { window in
+                try database.writeLabel(window.label)
+                try database.writeFeature(window.feature)
             }
             database.flush()
         }
@@ -184,15 +184,5 @@ class FeatureCompiler {
         }
         
         return nil
-    }
-    
-    func shuffle(chunkSize chunkSize: Int, passes: Int) throws {
-        print("Shuffling...")
-        try database.shuffle(chunkSize: chunkSize, passes: passes) { progress in
-            if FeatureCompiler.isTTY {
-                print("\(FeatureCompiler.eraseLastLineCommand)Shuffling database data...\(round(progress * 10000) / 100)%")
-            }
-        }
-        print("")
     }
 }
