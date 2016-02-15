@@ -6,8 +6,8 @@ import os
 
 class DataSet:
     feature_size = 400
-    polyphony_label_size = 16
-    note_label_size = 60
+    polyphony_label_size = 7
+    note_label_size = 88
     onset_label_size = 2
     step_size = 1024
 
