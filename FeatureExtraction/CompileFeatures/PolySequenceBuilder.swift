@@ -57,8 +57,8 @@ class PolySequenceBuilder {
             window.feature = featureBuilder.generateFeatures(data[range1], data[range2])
 
             window.label.onset = onsetValueForWindowAt(offset)
-            window.label.polyphony = polyphonyValueForWindowAt(offset)
             window.label.notes = notesValueForWindowAt(offset)
+            window.label.polyphony = polyphonyValueFromNoteValues(window.label.notes)
 
             precondition(isfinite(window.label.onset))
 
@@ -84,15 +84,8 @@ class PolySequenceBuilder {
         return value
     }
 
-    func polyphonyValueForWindowAt(windowStart: Int) -> Float {
-        var value = Float(0.0)
-        for event in events {
-            let onsetIndexInWindow = event.start - windowStart
-            if onsetIndexInWindow >= 0 && onsetIndexInWindow < featureBuilder.window.count {
-                value += Float(featureBuilder.window[onsetIndexInWindow])
-            }
-        }
-        return min(PolySequenceBuilder.maximumPolyphony, value)
+    func polyphonyValueFromNoteValues(values: [Float]) -> Float {
+        return sum(values)
     }
 
     func notesValueForWindowAt(windowStart: Int) -> [Float] {

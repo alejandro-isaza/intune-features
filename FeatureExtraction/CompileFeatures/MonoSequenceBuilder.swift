@@ -56,10 +56,11 @@ class MonoSequenceBuilder {
             if onsetIndexInWindow >= 0 && onsetIndexInWindow < featureBuilder.window.count {
                 let windowingScale = Float(featureBuilder.window[onsetIndexInWindow])
                 window.label.onset = windowingScale
-                window.label.polyphony = windowingScale
             }
 
-            window.label.notes[event.note.midiNoteNumber - Note.representableRange.startIndex] = noteValue(offset)
+            let value = noteValue(offset)
+            window.label.notes[event.note.midiNoteNumber - Note.representableRange.startIndex] = value
+            window.label.polyphony = value
 
             try action(window)
         }
