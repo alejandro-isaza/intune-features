@@ -60,6 +60,8 @@ class PolySequenceBuilder {
             window.label.polyphony = polyphonyValueForWindowAt(offset)
             window.label.notes = notesValueForWindowAt(offset)
 
+            precondition(isfinite(window.label.onset))
+
             try action(window)
         }
     }
@@ -74,10 +76,12 @@ class PolySequenceBuilder {
                 count += 1
             }
         }
-        if count == 0 {
-            return 0
+        if count > 0 {
+            value /= Float(count)
         }
-        return value / Float(count)
+
+        precondition(isfinite(value))
+        return value
     }
 
     func polyphonyValueForWindowAt(windowStart: Int) -> Float {
@@ -124,8 +128,12 @@ class PolySequenceBuilder {
         var value = Float(0)
         for i in start..<end {
             let windowingValue = Float(featureBuilder.window[i - windowStart])
-            value += decayModel.decayValueForNote(event.note, atOffset: i - event.start) * windowingValue
+            let decayValue = decayModel.decayValueForNote(event.note, atOffset: i - event.start)
+            value += decayValue * windowingValue
         }
+        value /= decayModel.normalizationForNote(event.note)
+
+        precondition(isfinite(value))
         return value
     }
 }

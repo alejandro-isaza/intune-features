@@ -57,8 +57,9 @@ class MonoSequenceBuilder {
                 let windowingScale = Float(featureBuilder.window[onsetIndexInWindow])
                 window.label.onset = windowingScale
                 window.label.polyphony = windowingScale
-                window.label.notes[event.note.midiNoteNumber - Note.representableRange.startIndex] = noteValue(offset)
             }
+
+            window.label.notes[event.note.midiNoteNumber - Note.representableRange.startIndex] = noteValue(offset)
 
             try action(window)
         }
@@ -71,8 +72,12 @@ class MonoSequenceBuilder {
         var value = Float(0)
         for i in start..<end {
             let windowingValue = Float(featureBuilder.window[i - windowStart])
-            value += decayModel.decayValueForNote(event.note, atOffset: i - event.start) * windowingValue
+            let decayValue = decayModel.decayValueForNote(event.note, atOffset: i - event.start)
+            value += decayValue * windowingValue
         }
+        value /= decayModel.normalizationForNote(event.note)
+
+        precondition(isfinite(value))
         return value
     }
 }

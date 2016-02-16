@@ -131,7 +131,7 @@ public extension FeatureDatabase {
         guard let dataset = file.openFloatDataset(Table.labelsPolyphony.rawValue) else {
             throw Error.DatasetNotFound
         }
-        try dataset.append([label.onset], dimensions: [1])
+        try dataset.append([label.polyphony], dimensions: [1])
     }
 
     func writeLabelNotes(label: Label) throws {
