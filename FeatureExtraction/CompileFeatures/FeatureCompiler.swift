@@ -35,13 +35,16 @@ class FeatureCompiler {
 
     let monophonicFileExpression = try! NSRegularExpression(pattern: "/(\\d+)\\.\\w+", options: NSRegularExpressionOptions.CaseInsensitive)
 
-    var featureBuilder = FeatureBuilder()
-    
+    let featureBuilder = FeatureBuilder()
+    let overwrite: Bool
+
     var polyphonicFiles = [PolyphonicFile]()
     var monophonicFiles = [MonophonicFile]()
     var noiseFiles = [String]()
 
-    init(root: String) {
+    init(root: String, overwrite: Bool) {
+        self.overwrite = overwrite
+
         let urls = loadFiles(root)
         (polyphonicFiles, monophonicFiles, noiseFiles) = categorizeURLs(urls)
 
@@ -50,6 +53,7 @@ class FeatureCompiler {
     }
 
     func compileNoiseFeatures() throws  {
+        let fileManger = NSFileManager.defaultManager()
         for (i, file) in noiseFiles.enumerate() {
             if FeatureCompiler.isTTY {
                 print(FeatureCompiler.eraseLastLineCommand, terminator: "")
@@ -57,6 +61,10 @@ class FeatureCompiler {
             print("Noise: \(i + 1) of \(noiseFiles.count)")
 
             let databasePath = file.stringByReplacingExtensionWith("h5")
+            if !overwrite && fileManger.fileExistsAtPath(databasePath) {
+                continue
+            }
+
             let database = FeatureDatabase(filePath: databasePath)
             let exampleBuilder = NoiseSequenceBuilder(path: file)
             try exampleBuilder.forEachWindow { window in
@@ -69,6 +77,7 @@ class FeatureCompiler {
     }
 
     func compileMonoFeatures() throws {
+        let fileManger = NSFileManager.defaultManager()
         for (i, file) in monophonicFiles.enumerate() {
             if FeatureCompiler.isTTY {
                 print(FeatureCompiler.eraseLastLineCommand, terminator: "")
@@ -76,6 +85,9 @@ class FeatureCompiler {
             print("Mono: \(i + 1) of \(monophonicFiles.count)")
 
             let databasePath = file.path.stringByReplacingExtensionWith("h5")
+            if !overwrite && fileManger.fileExistsAtPath(databasePath) {
+                continue
+            }
             let database = FeatureDatabase(filePath: databasePath)
 
             let note = Note(midiNoteNumber: file.noteNumber)
@@ -91,6 +103,7 @@ class FeatureCompiler {
     }
 
     func compilePolyFeatures() throws {
+        let fileManger = NSFileManager.defaultManager()
         for (i, file) in polyphonicFiles.enumerate() {
             if FeatureCompiler.isTTY {
                 print(FeatureCompiler.eraseLastLineCommand, terminator: "")
@@ -98,6 +111,9 @@ class FeatureCompiler {
             print("Poly: \(i + 1) of \(polyphonicFiles.count)")
 
             let databasePath = file.audioPath.stringByReplacingExtensionWith("h5")
+            if !overwrite && fileManger.fileExistsAtPath(databasePath) {
+                continue
+            }
             let database = FeatureDatabase(filePath: databasePath)
 
             let exampleBuilder = PolySequenceBuilder(audioFilePath: file.audioPath, midiFilePath: file.midiPath)
