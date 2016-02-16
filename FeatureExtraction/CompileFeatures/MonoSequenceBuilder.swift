@@ -9,6 +9,7 @@ class MonoSequenceBuilder {
     static let padding = FeatureBuilder.windowSize
 
     let featureBuilder = FeatureBuilder()
+    let decayModel = DecayModel()
     var audioFilePath: String
     var audioFile: AudioFile
     var event: Event
@@ -56,12 +57,23 @@ class MonoSequenceBuilder {
                 let windowingScale = Float(featureBuilder.window[onsetIndexInWindow])
                 window.label.onset = windowingScale
                 window.label.polyphony = windowingScale
-                window.label.notes = vectorFromNotes([event.note])
-                window.label.notes *= windowingScale
+                window.label.notes[event.note.midiNoteNumber - Note.representableRange.startIndex] = noteValue(offset)
             }
 
             try action(window)
         }
+    }
+
+    func noteValue(windowStart: Int) -> Float {
+        let start = max(event.start, windowStart)
+        let end = min(event.start + event.duration, windowStart + FeatureBuilder.windowSize)
+
+        var value = Float(0)
+        for i in start..<end {
+            let windowingValue = Float(featureBuilder.window[i - windowStart])
+            value += decayModel.decayValueForNote(event.note, atOffset: i - event.start) * windowingValue
+        }
+        return value
     }
 }
 

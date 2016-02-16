@@ -14,6 +14,7 @@ class PolySequenceBuilder {
     var midiFilePath: String
     var audioFile: AudioFile
     var events = [Event]()
+    let decayModel = DecayModel()
 
     init(audioFilePath: String, midiFilePath: String) {
         self.audioFilePath = audioFilePath
@@ -57,7 +58,7 @@ class PolySequenceBuilder {
 
             window.label.onset = onsetValueForWindowAt(offset)
             window.label.polyphony = polyphonyValueForWindowAt(offset)
-            window.label.notes = notesValueFroWindowAt(offset)
+            window.label.notes = notesValueForWindowAt(offset)
 
             try action(window)
         }
@@ -73,6 +74,9 @@ class PolySequenceBuilder {
                 count += 1
             }
         }
+        if count == 0 {
+            return 0
+        }
         return value / Float(count)
     }
 
@@ -87,14 +91,40 @@ class PolySequenceBuilder {
         return min(PolySequenceBuilder.maximumPolyphony, value)
     }
 
-    func notesValueFroWindowAt(windowStart: Int) -> [Float] {
+    func notesValueForWindowAt(windowStart: Int) -> [Float] {
         var value = [Float](count: Note.noteCount, repeatedValue: 0)
+        for noteNumber in Note.representableRange {
+            let note = Note(midiNoteNumber: noteNumber)
+            value[noteNumber - Note.representableRange.startIndex] = valueForNote(note, windowStart: windowStart)
+        }
+        return value
+    }
+
+    func valueForNote(note: Note, windowStart: Int) -> Float {
+        var value = Float(0)
         for event in events {
-            let valueIndex = event.note.midiNoteNumber - Note.representableRange.startIndex
-            let onsetIndexInWindow = event.start - windowStart
-            if onsetIndexInWindow >= 0 && onsetIndexInWindow < featureBuilder.window.count {
-                value[valueIndex] += Float(featureBuilder.window[onsetIndexInWindow])
+            if event.note != note {
+                continue
             }
+            if event.start + event.duration < windowStart {
+                continue
+            }
+            if event.start > windowStart + FeatureBuilder.windowSize {
+                break
+            }
+            value += valueForEvent(event, windowStart: windowStart)
+        }
+        return value
+    }
+
+    func valueForEvent(event: Event, windowStart: Int) -> Float {
+        let start = max(event.start, windowStart)
+        let end = min(event.start + event.duration, windowStart + FeatureBuilder.windowSize)
+
+        var value = Float(0)
+        for i in start..<end {
+            let windowingValue = Float(featureBuilder.window[i - windowStart])
+            value += decayModel.decayValueForNote(event.note, atOffset: i - event.start) * windowingValue
         }
         return value
     }

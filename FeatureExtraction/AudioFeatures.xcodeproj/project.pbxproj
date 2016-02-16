@@ -22,7 +22,6 @@
 		610E2A8A1C500C78006B6016 /* FeatureDatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E2A881C500C78006B6016 /* FeatureDatabaseTests.swift */; };
 		610E2AE41C52C8D2006B6016 /* NoiseSequenceBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E2AE31C52C8D2006B6016 /* NoiseSequenceBuilder.swift */; };
 		611756A01C407B930025446F /* DistancePeakExtractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA0EF51BB9C60800433755 /* DistancePeakExtractionTests.swift */; };
-		611756A11C407B930025446F /* FeatureDatabaaseShuffleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6180A72C1C179E9400D63F00 /* FeatureDatabaaseShuffleTests.swift */; };
 		611756A21C407B930025446F /* NoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610AAB661BD99737008CC910 /* NoteTests.swift */; };
 		6126D7171BE976D9007F8BE4 /* PeakHeightsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6126D7161BE976D9007F8BE4 /* PeakHeightsViewController.swift */; };
 		6141B1861C6BD3EC0074BD8C /* Peak.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C961BF2784E000E0D34 /* Peak.framework */; };
@@ -52,9 +51,13 @@
 		6156937B1BE82C5A0094E204 /* FileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6156937A1BE82C5A0094E204 /* FileViewController.swift */; };
 		615693891BE82F6A0094E204 /* FeaturesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615693881BE82F6A0094E204 /* FeaturesViewController.swift */; };
 		6156938B1BE83D4C0094E204 /* SpectrumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6156938A1BE83D4C0094E204 /* SpectrumViewController.swift */; };
+		616AE4741C728F6900FA6F99 /* DecayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616AE4731C728F6900FA6F99 /* DecayModel.swift */; };
+		616AE4841C73AC0900FA6F99 /* LayerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616AE4831C73AC0900FA6F99 /* LayerItem.swift */; };
+		616AE4861C73AC3900FA6F99 /* OutputItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616AE4851C73AC3900FA6F99 /* OutputItem.swift */; };
+		616AE4881C73AC6D00FA6F99 /* LabelsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616AE4871C73AC6D00FA6F99 /* LabelsItem.swift */; };
+		616AE4891C73CF8100FA6F99 /* String+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479F1BBF2FA000A98419 /* String+Paths.swift */; };
 		6180A7791C18ABFC00D63F00 /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */; };
 		6180A77F1C18AC0600D63F00 /* DistancePeakExtractionTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA0EF51BB9C60800433755 /* DistancePeakExtractionTests.swift */; };
-		6180A7801C18AC0600D63F00 /* FeatureDatabaaseShuffleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6180A72C1C179E9400D63F00 /* FeatureDatabaaseShuffleTests.swift */; };
 		6180A7811C18AC0600D63F00 /* NoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610AAB661BD99737008CC910 /* NoteTests.swift */; };
 		6183736F1C0929A4000F48DA /* CommandLine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6188C7D71C066D50001A7EAA /* CommandLine.framework */; };
 		6185A77B1BD337E100CD5FC5 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6185A77A1BD337E100CD5FC5 /* AppDelegate.swift */; };
@@ -564,7 +567,10 @@
 		6156937A1BE82C5A0094E204 /* FileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileViewController.swift; sourceTree = "<group>"; };
 		615693881BE82F6A0094E204 /* FeaturesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturesViewController.swift; sourceTree = "<group>"; };
 		6156938A1BE83D4C0094E204 /* SpectrumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpectrumViewController.swift; sourceTree = "<group>"; };
-		6180A72C1C179E9400D63F00 /* FeatureDatabaaseShuffleTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureDatabaaseShuffleTests.swift; sourceTree = "<group>"; };
+		616AE4731C728F6900FA6F99 /* DecayModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecayModel.swift; sourceTree = "<group>"; };
+		616AE4831C73AC0900FA6F99 /* LayerItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayerItem.swift; sourceTree = "<group>"; };
+		616AE4851C73AC3900FA6F99 /* OutputItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutputItem.swift; sourceTree = "<group>"; };
+		616AE4871C73AC6D00FA6F99 /* LabelsItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelsItem.swift; sourceTree = "<group>"; };
 		6180A7741C18ABFC00D63F00 /* FeatureExtractionTests-OSX.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FeatureExtractionTests-OSX.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6185A7781BD337E100CD5FC5 /* NetEval.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NetEval.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		6185A77A1BD337E100CD5FC5 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -879,6 +885,9 @@
 				61EA997A1C6BC8D700A4AFB6 /* AppDelegate.swift */,
 				61EA997C1C6BC8D700A4AFB6 /* RNNViewController.swift */,
 				6141B1B31C6C0A980074BD8C /* OutlineViewDataSource.swift */,
+				616AE4831C73AC0900FA6F99 /* LayerItem.swift */,
+				616AE4851C73AC3900FA6F99 /* OutputItem.swift */,
+				616AE4871C73AC6D00FA6F99 /* LabelsItem.swift */,
 				6141B1A71C6BFE420074BD8C /* NeuralNet.swift */,
 				61EA997E1C6BC8D700A4AFB6 /* Assets.xcassets */,
 				61EA99801C6BC8D700A4AFB6 /* Main.storyboard */,
@@ -958,7 +967,6 @@
 				8C7845801BB9B06600C88426 /* Info.plist */,
 				8CDA0EF51BB9C60800433755 /* DistancePeakExtractionTests.swift */,
 				610E2A881C500C78006B6016 /* FeatureDatabaseTests.swift */,
-				6180A72C1C179E9400D63F00 /* FeatureDatabaaseShuffleTests.swift */,
 				610AAB661BD99737008CC910 /* NoteTests.swift */,
 			);
 			path = FeatureExtractionTests;
@@ -981,6 +989,7 @@
 				8CDE47921BBF117C00A98419 /* MonoSequenceBuilder.swift */,
 				8C9700EE1BE12C00002A81A3 /* PolySequenceBuilder.swift */,
 				8CDE479F1BBF2FA000A98419 /* String+Paths.swift */,
+				616AE4731C728F6900FA6F99 /* DecayModel.swift */,
 			);
 			path = CompileFeatures;
 			sourceTree = "<group>";
@@ -1546,7 +1555,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6180A7801C18AC0600D63F00 /* FeatureDatabaaseShuffleTests.swift in Sources */,
 				610E2A891C500C78006B6016 /* FeatureDatabaseTests.swift in Sources */,
 				6180A77F1C18AC0600D63F00 /* DistancePeakExtractionTests.swift in Sources */,
 				6180A7811C18AC0600D63F00 /* NoteTests.swift in Sources */,
@@ -1614,7 +1622,6 @@
 				611756A21C407B930025446F /* NoteTests.swift in Sources */,
 				610E2A8A1C500C78006B6016 /* FeatureDatabaseTests.swift in Sources */,
 				611756A01C407B930025446F /* DistancePeakExtractionTests.swift in Sources */,
-				611756A11C407B930025446F /* FeatureDatabaaseShuffleTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1623,9 +1630,13 @@
 			buildActionMask = 2147483647;
 			files = (
 				6141B1B41C6C0A980074BD8C /* OutlineViewDataSource.swift in Sources */,
+				616AE4861C73AC3900FA6F99 /* OutputItem.swift in Sources */,
 				61EA997D1C6BC8D700A4AFB6 /* RNNViewController.swift in Sources */,
+				616AE4881C73AC6D00FA6F99 /* LabelsItem.swift in Sources */,
 				6141B1A81C6BFE430074BD8C /* NeuralNet.swift in Sources */,
+				616AE4841C73AC0900FA6F99 /* LayerItem.swift in Sources */,
 				61EA997B1C6BC8D700A4AFB6 /* AppDelegate.swift in Sources */,
+				616AE4891C73CF8100FA6F99 /* String+Paths.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1680,6 +1691,7 @@
 				8CDE47A01BBF2FA000A98419 /* String+Paths.swift in Sources */,
 				8CDE47961BBF117C00A98419 /* MonoSequenceBuilder.swift in Sources */,
 				8CDE479C1BBF11A000A98419 /* main.swift in Sources */,
+				616AE4741C728F6900FA6F99 /* DecayModel.swift in Sources */,
 				8C9700EF1BE12C00002A81A3 /* PolySequenceBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
