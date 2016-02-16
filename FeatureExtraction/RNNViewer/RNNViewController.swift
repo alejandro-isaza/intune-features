@@ -2,6 +2,7 @@
 
 import Cocoa
 import FeatureExtraction
+import HDF5Kit
 import Peak
 import PlotKit
 import Upsurge
@@ -18,6 +19,7 @@ class RNNViewController: NSViewController, NSOutlineViewDelegate {
     @IBOutlet weak var combinedPlotView: PlotView!
     
     var audioFile: AudioFile?
+    var labelsFile: File?
     var offset = 0
     var length = 1.0
     var data = ValueArray<Double>()
@@ -120,6 +122,8 @@ class RNNViewController: NSViewController, NSOutlineViewDelegate {
         precondition(audioFile.sampleRate == FeatureBuilder.samplingFrequency)
         self.audioFile = audioFile
 
+        labelsFile = File.open(path.stringByReplacingExtensionWith("h5"), mode: .ReadOnly)
+
         let frameCount = Int(audioFile.frameCount)
         offsetSlider.maxValue = Double(frameCount - FeatureBuilder.windowSize)
 
@@ -174,10 +178,22 @@ class RNNViewController: NSViewController, NSOutlineViewDelegate {
             let title: String
             if item is WaveformItem {
                 title = "Waveform"
+            } else if item is LabelsItem {
+                title = "Labels"
             } else if let layerItem = item as? LayerItem {
                 title = "Layer \(layerItem.index)"
             } else if item is OutputItem {
                 title = "Output"
+            } else if let labelItem = item as? LabelTimelineItem {
+                switch labelItem.type {
+                case .Onset:
+                    title = "Onset"
+                case .Polyphony:
+                    title = "Polyphony"
+                case .Note(let noteNumber):
+                    let note = Note(midiNoteNumber: noteNumber + Note.representableRange.startIndex)
+                    title = "Note \(note)"
+                }
             } else if let timelineItem = item as? UnitTimelineItem {
                 title = "\(timelineItem.unitIndex)"
             } else if let timelineItem = item as? OutputTimelineItem {
@@ -193,6 +209,12 @@ class RNNViewController: NSViewController, NSOutlineViewDelegate {
                 view.insets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
                 view.clear()
                 updateWaveformPlotView(view, withColor: waveformColor)
+                return view
+            } else if let labelItem = item as? LabelTimelineItem  {
+                let view = reusedView as? PlotView ?? PlotView()
+                view.insets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
+                view.clear()
+                updateLabelsPlotView(view, withItem: labelItem, withColor: NSColor.redColor())
                 return view
             } else if item is UnitTimelineItem || item is OutputTimelineItem {
                 let view = reusedView as? PlotView ?? PlotView()
@@ -270,6 +292,35 @@ class RNNViewController: NSViewController, NSOutlineViewDelegate {
         plotView.addPointSet(bottom)
     }
 
+    func updateLabelsPlotView(plotView: PlotView, withItem item: LabelTimelineItem, withColor color: NSColor) {
+        let featureOffset = max(0, offset / FeatureBuilder.stepSize - 1)
+        let sampleCount = Int(length * FeatureBuilder.samplingFrequency)
+        let featureCount = FeatureBuilder.windowCountInSamples(sampleCount)
+
+        var values = ValueArray<Double>()
+        switch item.type {
+        case .Onset:
+            if let dataset = labelsFile?.openDoubleDataset(Table.labelsOnset.rawValue) {
+                values = ValueArray(dataset[featureOffset..<featureOffset + featureCount])
+            }
+
+        case .Polyphony:
+            if let dataset = labelsFile?.openDoubleDataset(Table.labelsPolyphony.rawValue) {
+                values = ValueArray(dataset[featureOffset..<featureOffset + featureCount])
+            }
+
+        case .Note(let noteNumber):
+            if let dataset = labelsFile?.openDoubleDataset(Table.labelsNotes.rawValue) {
+                values = ValueArray(dataset[featureOffset..<featureOffset + featureCount, noteNumber])
+            }
+        }
+
+        let pointSet = PointSet(values: values)
+        pointSet.pointType = .None
+        pointSet.lineColor = color
+        plotView.addPointSet(pointSet)
+    }
+
     func updatePlotView(plotView: PlotView, withItem item: AnyObject) {
         plotView.insets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
 
@@ -315,7 +366,7 @@ class RNNViewController: NSViewController, NSOutlineViewDelegate {
     }
 
     func outlineView(outlineView: NSOutlineView, heightOfRowByItem item: AnyObject) -> CGFloat {
-        if item is LayerItem || item is OutputItem {
+        if item is LabelsItem || item is LayerItem || item is OutputItem {
             return 20
         }
 
@@ -341,10 +392,12 @@ class RNNViewController: NSViewController, NSOutlineViewDelegate {
     }
 
     func addItemToCombinedPlotView(item: AnyObject, withColor color: NSColor) {
-        let values: ValueArray<Double>
+        var values = ValueArray<Double>()
         if item is WaveformItem {
             updateWaveformPlotView(combinedPlotView, withColor: color)
             return
+        } else if let labelItem = item as? LabelTimelineItem {
+            updateLabelsPlotView(combinedPlotView, withItem: labelItem, withColor: color)
         } else if let unitItem = item as? UnitTimelineItem {
             values = valuesForLayerIndex(unitItem.layerIndex, unitIndex: unitItem.unitIndex)
         } else if let outputItem = item as? OutputTimelineItem {

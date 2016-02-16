@@ -2,105 +2,27 @@
 
 import Cocoa
 import BrainCore
+import FeatureExtraction
 
 class WaveformItem: NSObject {
-}
-
-class LayerItem: NSObject {
-    var index: Int
-    var timelines = [UnitTimelineItem]()
-
-    init(index: Int) {
-        self.index = index
-    }
-
-
-    // MARK: NSObject
-
-    override func isEqual(object: AnyObject?) -> Bool {
-        guard let rhs = object as? LayerItem else {
-            return false
-        }
-        return index == rhs.index
-    }
-
-    override var hashValue: Int {
-        return index.hashValue
-    }
-}
-
-class UnitTimelineItem: NSObject {
-    var layerIndex: Int
-    var unitIndex: Int
-
-    init (layerIndex: Int, unitIndex: Int) {
-        self.layerIndex = layerIndex
-        self.unitIndex = unitIndex
-    }
-
-
-    // MARK: NSObject
-
-    override func isEqual(object: AnyObject?) -> Bool {
-        guard let rhs = object as? UnitTimelineItem else {
-            return false
-        }
-        return layerIndex == rhs.layerIndex && unitIndex == rhs.unitIndex
-    }
-
-    override var hashValue: Int {
-        return layerIndex.hashValue ^ unitIndex.hashValue
-    }
-}
-
-class OutputItem: NSObject {
-    var timelines = [OutputTimelineItem]()
-
-    // MARK: NSObject
-
-    override func isEqual(object: AnyObject?) -> Bool {
-        guard let _ = object as? OutputItem else {
-            return false
-        }
-        return true
-    }
-
-    override var hashValue: Int {
-        return 0.hashValue
-    }
-}
-
-class OutputTimelineItem: NSObject {
-    var index: Int
-
-    init(resultIndex: Int) {
-        self.index = resultIndex
-    }
-
-
-    // MARK: NSObject
-
-    override func isEqual(object: AnyObject?) -> Bool {
-        guard let rhs = object as? OutputTimelineItem else {
-            return false
-        }
-        return index == rhs.index
-    }
-
-    override var hashValue: Int {
-        return index.hashValue
-    }
 }
 
 class OutlineViewDataSource: NSObject, NSOutlineViewDataSource {
     var neuralNet: NeuralNet
 
     var waveformItem = WaveformItem()
+    var labelsItem = LabelsItem()
     var layerItems = [LayerItem]()
     var outputItem = OutputItem()
 
     init(neuralNet: NeuralNet) {
         self.neuralNet = neuralNet
+
+        labelsItem.timelines.append(LabelTimelineItem(type: .Onset))
+        labelsItem.timelines.append(LabelTimelineItem(type: .Polyphony))
+        for i in 0..<Note.noteCount {
+            labelsItem.timelines.append(LabelTimelineItem(type: .Note(i)))
+        }
 
         for (layerIndex, layer) in neuralNet.lstmLayers.enumerate() {
             let item = LayerItem(index: layerIndex)
@@ -120,7 +42,9 @@ class OutlineViewDataSource: NSObject, NSOutlineViewDataSource {
 
     func outlineView(outlineView: NSOutlineView, numberOfChildrenOfItem item: AnyObject?) -> Int {
         if item == nil {
-            return neuralNet.lstmLayers.count + 2
+            return neuralNet.lstmLayers.count + 3
+        } else if item is LabelsItem {
+            return labelsItem.timelines.count
         } else if let layerItem = item as? LayerItem {
             return layerItem.timelines.count
         } else if let outputItem = item as? OutputItem {
@@ -133,11 +57,15 @@ class OutlineViewDataSource: NSObject, NSOutlineViewDataSource {
         if item == nil {
             if index == 0 {
                 return waveformItem
-            } else if index - 1 < layerItems.count {
-                return layerItems[index - 1]
+            } else if index == 1 {
+                return labelsItem
+            } else if index - 2 < layerItems.count {
+                return layerItems[index - 2]
             } else {
                 return outputItem
             }
+        } else if let labelsItem = item as? LabelsItem {
+            return labelsItem.timelines[index]
         } else if let layerItem = item as? LayerItem {
             return layerItem.timelines[index]
         } else if let outputItem = item as? OutputItem {
@@ -148,6 +76,6 @@ class OutlineViewDataSource: NSObject, NSOutlineViewDataSource {
     }
 
     func outlineView(outlineView: NSOutlineView, isItemExpandable item: AnyObject) -> Bool {
-        return item is LayerItem || item is OutputItem
+        return item is LayerItem || item is LabelsItem || item is OutputItem
     }
 }
