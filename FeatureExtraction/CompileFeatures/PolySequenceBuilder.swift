@@ -85,7 +85,13 @@ class PolySequenceBuilder {
     }
 
     func polyphonyValueFromNoteValues(values: [Float]) -> Float {
-        return sum(values)
+        var value = Float(0)
+        for v in values {
+            if v > 0 {
+                value += 1
+            }
+        }
+        return value
     }
 
     func notesValueForWindowAt(windowStart: Int) -> [Float] {
@@ -111,7 +117,7 @@ class PolySequenceBuilder {
             }
             value += valueForEvent(event, windowStart: windowStart)
         }
-        return value
+        return 2 * value
     }
 
     func valueForEvent(event: Event, windowStart: Int) -> Float {

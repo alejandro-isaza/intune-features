@@ -60,7 +60,7 @@ class MonoSequenceBuilder {
 
             let value = noteValue(offset)
             window.label.notes[event.note.midiNoteNumber - Note.representableRange.startIndex] = value
-            window.label.polyphony = value
+            window.label.polyphony = value == 0 ? 0 : 1
 
             try action(window)
         }
@@ -79,7 +79,7 @@ class MonoSequenceBuilder {
         value /= decayModel.normalizationForNote(event.note)
 
         precondition(isfinite(value))
-        return value
+        return 2 * value
     }
 }
 
