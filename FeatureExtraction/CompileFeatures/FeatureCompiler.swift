@@ -22,7 +22,20 @@ class FeatureCompiler {
     
     struct PolyphonicFile {
         let audioPath: String
-        let midiPath: String
+        let midiPath: String?
+        let csvPath: String?
+
+        init(audioPath: String, midiPath: String) {
+            self.audioPath = audioPath
+            self.midiPath = midiPath
+            self.csvPath = nil
+        }
+
+        init(audioPath: String, csvPath: String) {
+            self.audioPath = audioPath
+            self.midiPath = nil
+            self.csvPath = csvPath
+        }
     }
     
     let audioExtensions = [
@@ -116,7 +129,14 @@ class FeatureCompiler {
             }
             let database = FeatureDatabase(filePath: databasePath)
 
-            let exampleBuilder = PolySequenceBuilder(audioFilePath: file.audioPath, midiFilePath: file.midiPath)
+            let exampleBuilder: PolySequenceBuilder
+            if let midiPath = file.midiPath {
+                exampleBuilder = PolySequenceBuilder(audioFilePath: file.audioPath, midiFilePath: midiPath)
+            } else if let csvPath = file.csvPath {
+                exampleBuilder = PolySequenceBuilder(audioFilePath: file.audioPath, csvFilePath: csvPath)
+            } else {
+                continue
+            }
 
             for event in exampleBuilder.events {
                 try database.writeEvent(event)
@@ -197,6 +217,14 @@ class FeatureCompiler {
         
         if manager.fileExistsAtPath(midFile.path!) {
             return PolyphonicFile(audioPath: url.path!, midiPath: midFile.path!)
+        }
+
+        guard let csvFile = url.URLByDeletingPathExtension?.URLByAppendingPathExtension("csv") else {
+            fatalError("Failed to build path")
+        }
+
+        if manager.fileExistsAtPath(csvFile.path!) {
+            return PolyphonicFile(audioPath: url.path!, csvPath: csvFile.path!)
         }
         
         return nil

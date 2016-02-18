@@ -12,7 +12,7 @@ public struct Event {
     /// The duration of the event in samples
     public var duration = 0
 
-    /// The note's MIDI velocity
+    /// The note's MIDI velocity between 0 and 1
     public var velocity = Float(0)
 
     public init() {
@@ -30,6 +30,6 @@ public struct Event {
         start = Int(file.secondsForBeats(midiNoteEvent.timeStamp) * FeatureBuilder.samplingFrequency)
         let end = Int(file.secondsForBeats(midiNoteEvent.timeStamp + Double(midiNoteEvent.duration)) * FeatureBuilder.samplingFrequency)
         duration = end - start
-        velocity = Float(midiNoteEvent.velocity / 127)
+        velocity = Float(midiNoteEvent.velocity) / 127.0
     }
 }

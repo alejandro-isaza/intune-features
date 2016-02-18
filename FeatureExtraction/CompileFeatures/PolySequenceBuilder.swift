@@ -11,14 +11,12 @@ class PolySequenceBuilder {
 
     let featureBuilder = FeatureBuilder()
     var audioFilePath: String
-    var midiFilePath: String
     var audioFile: AudioFile
     var events = [Event]()
     let decayModel = DecayModel()
 
     init(audioFilePath: String, midiFilePath: String) {
         self.audioFilePath = audioFilePath
-        self.midiFilePath = midiFilePath
 
         audioFile = AudioFile.open(audioFilePath)!
         guard audioFile.sampleRate == FeatureBuilder.samplingFrequency else {
@@ -35,7 +33,42 @@ class PolySequenceBuilder {
             events.append(Event(midiNoteEvent: note, inFile: midiFile))
         }
     }
-    
+
+    init(audioFilePath: String, csvFilePath: String) {
+        self.audioFilePath = audioFilePath
+
+        audioFile = AudioFile.open(audioFilePath)!
+        guard audioFile.sampleRate == FeatureBuilder.samplingFrequency else {
+            fatalError("Sample rate mismatch: \(audioFilePath) => \(audioFile.sampleRate) != \(FeatureBuilder.samplingFrequency)")
+        }
+
+        guard let csvString = try? String(contentsOfFile: csvFilePath) else {
+            fatalError("Failed to open CSV file \(csvFilePath)")
+        }
+
+        let newline = NSCharacterSet.newlineCharacterSet()
+        var lines: [String] = []
+        csvString.stringByTrimmingCharactersInSet(newline).enumerateLines { line, stop in lines.append(line) }
+        events.reserveCapacity(lines.count)
+
+        let delimiter = NSCharacterSet(charactersInString: ",")
+        for line in lines {
+            let values = line.componentsSeparatedByCharactersInSet(delimiter)
+            precondition(values.count == 4 || values.count == 3, "Invalid CSV file")
+            let note = Note(midiNoteNumber: Int(values[0])!)
+            let start = Int(values[1])!
+            let duration = Int(values[2])!
+
+            var velocity = 63
+            if values.count >= 4 {
+                velocity = Int(values[3])!
+            }
+
+            let event = Event(note: note, start: start, duration: duration, velocity: Float(velocity) / 127.0)
+            events.append(event)
+        }
+    }
+
     func forEachWindow(@noescape action: (Window) throws -> ()) rethrows {
         let windowSize = FeatureBuilder.windowSize
         let stepSize = FeatureBuilder.stepSize
