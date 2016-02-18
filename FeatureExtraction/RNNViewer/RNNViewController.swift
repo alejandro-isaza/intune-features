@@ -71,6 +71,7 @@ class RNNViewController: NSViewController {
                 view.color = self.itemColors[item]
             } else {
                 self.selectedItems.remove(item)
+                self.itemColors[item] = nil
                 view.color = NSColor.clearColor()
             }
             self.updateCombinedPlotView()
