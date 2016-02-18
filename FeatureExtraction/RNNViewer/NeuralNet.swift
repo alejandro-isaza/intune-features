@@ -69,6 +69,9 @@ class NeuralNet {
     // MARK: Network definition
 
     var lstmLayers = [LSTMLayer]()
+    var onsetSize = 0
+    var polySize = 0
+    var noteSize = 0
     var outputSize = 0
 
     func buildNet() -> Net {
@@ -126,9 +129,30 @@ class NeuralNet {
         net.connectBuffer(polyBuffer, atOffset: 0, toLayer: polySinkLayerRef)
 
         lstmLayers = [lstm0Layer, lstm1Layer, lstm2Layer]
+        onsetSize = onsetLayer.outputSize
+        polySize = polyLayer.outputSize
+        noteSize = noteLayer.outputSize
         outputSize = noteLayer.outputSize + onsetLayer.outputSize + polyLayer.outputSize
 
         return net
+    }
+
+    func titleForOutputIndex(index: Int) -> String {
+        if index < noteSize {
+            return Note(midiNoteNumber: index + Note.representableRange.startIndex).description
+        } else if index < noteSize + onsetSize {
+            if onsetSize == 1 {
+                return "Onset"
+            } else {
+                return "Onset \(index - noteSize)"
+            }
+        } else {
+            if polySize == 1 {
+                return "Polyphony"
+            } else {
+                return "Polyphony \(index - noteSize - onsetSize)"
+            }
+        }
     }
 
     func createIPLayerFromFile(filePath: String, weightsName: String, biasesName: String) -> InnerProductLayer {

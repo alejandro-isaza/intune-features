@@ -132,7 +132,7 @@ class CollectionViewDataSource: NSObject, NSCollectionViewDataSource {
         }
 
         if section == numberOfSections - 1 {
-            return "\(index)"
+            return neuralNet.titleForOutputIndex(index)
         }
 
         return "Layer \(index)"
