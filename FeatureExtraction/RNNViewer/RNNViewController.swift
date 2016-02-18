@@ -8,7 +8,10 @@ import PlotKit
 import Upsurge
 
 class RNNViewController: NSViewController {
-    let waveformColor = NSColor.blueColor()
+    private struct Keys {
+        static let openDirectory = "openDirectory"
+        static let openPath = "openPath"
+    }
 
     @IBOutlet weak var collectionView: NSCollectionView!
     @IBOutlet weak var offsetSlider: NSSlider!
@@ -35,6 +38,19 @@ class RNNViewController: NSViewController {
 
         updateView()
 
+        combinedPlotView.addAxis(Axis(orientation: .Horizontal, ticks: .Fit(5)))
+        combinedPlotView.addAxis(Axis(orientation: .Vertical, ticks: .Fit(3)))
+
+        neuralNet.forwardPassAction = { snapshot in
+            self.snapshots.append(snapshot)
+            if self.snapshots.count == self.neuralNet.processingCount {
+                dispatch_async(dispatch_get_main_queue()) {
+                    self.collectionView.reloadData()
+                    self.updateCombinedPlotView()
+                }
+            }
+        }
+
         collectionViewDelegate = CollectionViewDelegate()
         collectionViewDataSource = CollectionViewDataSource(neuralNet: neuralNet)
         collectionViewDataSource.itemSelected = { add, item in
@@ -51,22 +67,11 @@ class RNNViewController: NSViewController {
         collectionView.registerNib(NSNib(nibNamed: CollectionViewItem.identifier, bundle: nil)!, forItemWithIdentifier: CollectionViewItem.identifier)
         collectionView.dataSource = collectionViewDataSource
         collectionView.delegate = collectionViewDelegate
-        collectionView.reloadData()
+        selectedItems.insert(collectionViewDataSource.waveformItem)
 
-        let xaxis = Axis(orientation: .Horizontal, ticks: .Fit(5))
-        combinedPlotView.addAxis(xaxis)
-
-        let yaxis = Axis(orientation: .Vertical, ticks: .Fit(3))
-        combinedPlotView.addAxis(yaxis)
-
-        neuralNet.forwardPassAction = { snapshot in
-            self.snapshots.append(snapshot)
-            if self.snapshots.count == self.neuralNet.processingCount {
-                dispatch_async(dispatch_get_main_queue()) {
-                    self.collectionView.reloadData()
-                    self.updateCombinedPlotView()
-                }
-            }
+        if let path = NSUserDefaults.standardUserDefaults().valueForKey(Keys.openPath) as? String {
+            let url = NSURL(string: path)
+            openURL(url)
         }
     }
 
@@ -77,13 +82,14 @@ class RNNViewController: NSViewController {
         lengthSlider.doubleValue = length
     }
 
-    func updateOpenPath(path: String?) {
-        guard let path = path else {
-            return
-        }
+    func savePath(path: String?) {
+        guard let path = path else { return }
+        let nsPath = NSString(string: path)
+        let directory = nsPath.stringByDeletingLastPathComponent
 
         let defaults = NSUserDefaults.standardUserDefaults()
-        defaults.setValue(path, forKey: "openPath")
+        defaults.setValue(directory, forKey: Keys.openDirectory)
+        defaults.setValue(path, forKey: Keys.openPath)
         defaults.synchronize()
     }
 
@@ -113,22 +119,21 @@ class RNNViewController: NSViewController {
         let panel = NSOpenPanel()
         panel.allowedFileTypes = ["wav", "m4a", "aiff", "mp3"]
 
-        let defaults = NSUserDefaults.standardUserDefaults()
-        if let path = defaults.valueForKey("openPath") as? String {
+        if let path = NSUserDefaults.standardUserDefaults().valueForKey(Keys.openDirectory) as? String {
             panel.directoryURL = NSURL(fileURLWithPath: path)
         }
 
         panel.beginSheetModalForWindow(view.window!, completionHandler: { result in
             if result == NSFileHandlingPanelOKButton {
-                let url = panel.URLs.first!
-                self.updateOpenPath(panel.directoryURL?.path)
+                let url = panel.URLs.first
+                self.savePath(url?.path)
                 self.openURL(url)
             }
         })
     }
 
-    func openURL(url: NSURL) {
-        guard let path = url.path else {
+    func openURL(url: NSURL?) {
+        guard let path = url?.path else {
             return
         }
         guard let audioFile = AudioFile.open(path) else {
