@@ -7,6 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		004A0BDD1C74FC0700F78DE5 /* CollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004A0BDC1C74FC0700F78DE5 /* CollectionView.swift */; };
+		004A0BF01C751FD800F78DE5 /* CollectionViewItem.xib in Resources */ = {isa = PBXBuildFile; fileRef = 004A0BEF1C751FD800F78DE5 /* CollectionViewItem.xib */; };
+		004A0BFA1C75268D00F78DE5 /* CollectionViewHeader.xib in Resources */ = {isa = PBXBuildFile; fileRef = 004A0BF91C75268D00F78DE5 /* CollectionViewHeader.xib */; };
+		004A0BFC1C754AA900F78DE5 /* WaveformItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 004A0BFB1C754AA900F78DE5 /* WaveformItem.swift */; };
 		610AAB851BDABEFA008CC910 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610AAB841BDABEFA008CC910 /* Point.swift */; };
 		610E29B51C4D7847006B6016 /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E29B41C4D7847006B6016 /* Feature.swift */; };
 		610E29B61C4D7847006B6016 /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E29B41C4D7847006B6016 /* Feature.swift */; };
@@ -38,7 +42,6 @@
 		6141B19B1C6BD3ED0074BD8C /* FeatureExtraction.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6141B1A81C6BFE430074BD8C /* NeuralNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6141B1A71C6BFE420074BD8C /* NeuralNet.swift */; };
 		6141B1B21C6C07430074BD8C /* net.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 6141B1B11C6C07430074BD8C /* net.h5 */; };
-		6141B1B41C6C0A980074BD8C /* OutlineViewDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6141B1B31C6C0A980074BD8C /* OutlineViewDataSource.swift */; };
 		6141B1C41C6E538F0074BD8C /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6141B1C31C6E538F0074BD8C /* Table.swift */; };
 		6141B1C51C6E538F0074BD8C /* Table.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6141B1C31C6E538F0074BD8C /* Table.swift */; };
 		6141B1D41C6E5B200074BD8C /* Event.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6141B1D31C6E5B200074BD8C /* Event.swift */; };
@@ -549,6 +552,10 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		004A0BDC1C74FC0700F78DE5 /* CollectionView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CollectionView.swift; sourceTree = "<group>"; };
+		004A0BEF1C751FD800F78DE5 /* CollectionViewItem.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewItem.xib; sourceTree = "<group>"; };
+		004A0BF91C75268D00F78DE5 /* CollectionViewHeader.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CollectionViewHeader.xib; sourceTree = "<group>"; };
+		004A0BFB1C754AA900F78DE5 /* WaveformItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = WaveformItem.swift; sourceTree = "<group>"; };
 		610AAB661BD99737008CC910 /* NoteTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteTests.swift; sourceTree = "<group>"; };
 		610AAB841BDABEFA008CC910 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		610E29B41C4D7847006B6016 /* Feature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
@@ -559,7 +566,6 @@
 		6126D7161BE976D9007F8BE4 /* PeakHeightsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakHeightsViewController.swift; sourceTree = "<group>"; };
 		6141B1A71C6BFE420074BD8C /* NeuralNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeuralNet.swift; sourceTree = "<group>"; };
 		6141B1B11C6C07430074BD8C /* net.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = net.h5; sourceTree = "<group>"; };
-		6141B1B31C6C0A980074BD8C /* OutlineViewDataSource.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutlineViewDataSource.swift; sourceTree = "<group>"; };
 		6141B1C31C6E538F0074BD8C /* Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
 		6141B1D31C6E5B200074BD8C /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		6141B1D61C6E5B290074BD8C /* Label.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
@@ -881,17 +887,20 @@
 		61EA99791C6BC8D700A4AFB6 /* RNNViewer */ = {
 			isa = PBXGroup;
 			children = (
+				61EA997E1C6BC8D700A4AFB6 /* Assets.xcassets */,
 				6141B1B11C6C07430074BD8C /* net.h5 */,
+				61EA99831C6BC8D700A4AFB6 /* Info.plist */,
+				61EA99801C6BC8D700A4AFB6 /* Main.storyboard */,
 				61EA997A1C6BC8D700A4AFB6 /* AppDelegate.swift */,
 				61EA997C1C6BC8D700A4AFB6 /* RNNViewController.swift */,
-				6141B1B31C6C0A980074BD8C /* OutlineViewDataSource.swift */,
 				616AE4831C73AC0900FA6F99 /* LayerItem.swift */,
 				616AE4851C73AC3900FA6F99 /* OutputItem.swift */,
 				616AE4871C73AC6D00FA6F99 /* LabelsItem.swift */,
+				004A0BFB1C754AA900F78DE5 /* WaveformItem.swift */,
 				6141B1A71C6BFE420074BD8C /* NeuralNet.swift */,
-				61EA997E1C6BC8D700A4AFB6 /* Assets.xcassets */,
-				61EA99801C6BC8D700A4AFB6 /* Main.storyboard */,
-				61EA99831C6BC8D700A4AFB6 /* Info.plist */,
+				004A0BDC1C74FC0700F78DE5 /* CollectionView.swift */,
+				004A0BEF1C751FD800F78DE5 /* CollectionViewItem.xib */,
+				004A0BF91C75268D00F78DE5 /* CollectionViewHeader.xib */,
 			);
 			path = RNNViewer;
 			sourceTree = "<group>";
@@ -1542,6 +1551,8 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				004A0BFA1C75268D00F78DE5 /* CollectionViewHeader.xib in Resources */,
+				004A0BF01C751FD800F78DE5 /* CollectionViewItem.xib in Resources */,
 				61EA997F1C6BC8D700A4AFB6 /* Assets.xcassets in Resources */,
 				6141B1B21C6C07430074BD8C /* net.h5 in Resources */,
 				61EA99821C6BC8D700A4AFB6 /* Main.storyboard in Resources */,
@@ -1629,13 +1640,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				6141B1B41C6C0A980074BD8C /* OutlineViewDataSource.swift in Sources */,
 				616AE4861C73AC3900FA6F99 /* OutputItem.swift in Sources */,
 				61EA997D1C6BC8D700A4AFB6 /* RNNViewController.swift in Sources */,
 				616AE4881C73AC6D00FA6F99 /* LabelsItem.swift in Sources */,
+				004A0BDD1C74FC0700F78DE5 /* CollectionView.swift in Sources */,
 				6141B1A81C6BFE430074BD8C /* NeuralNet.swift in Sources */,
 				616AE4841C73AC0900FA6F99 /* LayerItem.swift in Sources */,
 				61EA997B1C6BC8D700A4AFB6 /* AppDelegate.swift in Sources */,
+				004A0BFC1C754AA900F78DE5 /* WaveformItem.swift in Sources */,
 				616AE4891C73CF8100FA6F99 /* String+Paths.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

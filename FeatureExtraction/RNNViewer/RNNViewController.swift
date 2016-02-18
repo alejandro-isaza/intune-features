@@ -7,15 +7,14 @@ import Peak
 import PlotKit
 import Upsurge
 
-class RNNViewController: NSViewController, NSOutlineViewDelegate {
+class RNNViewController: NSViewController {
     let waveformColor = NSColor.blueColor()
 
+    @IBOutlet weak var collectionView: NSCollectionView!
     @IBOutlet weak var offsetSlider: NSSlider!
     @IBOutlet weak var offsetTextField: NSTextField!
     @IBOutlet weak var lengthSlider: NSSlider!
     @IBOutlet weak var lengthTextField: NSTextField!
-
-    @IBOutlet weak var outlineView: NSOutlineView!
     @IBOutlet weak var combinedPlotView: PlotView!
     
     var audioFile: AudioFile?
@@ -24,19 +23,35 @@ class RNNViewController: NSViewController, NSOutlineViewDelegate {
     var length = 1.0
     var data = ValueArray<Double>()
     var snapshots = [Snapshot]()
+    var selectedItems = Set<NSObject>()
 
     var neuralNet = try! NeuralNet()
-    var dataSource: OutlineViewDataSource!
+
+    var collectionViewDataSource: CollectionViewDataSource!
+    var collectionViewDelegate: CollectionViewDelegate!
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         updateView()
 
-        dataSource = OutlineViewDataSource(neuralNet: neuralNet)
-        outlineView.setDataSource(dataSource)
-        outlineView.setDelegate(self)
-        outlineView.reloadData()
+        collectionViewDelegate = CollectionViewDelegate()
+        collectionViewDataSource = CollectionViewDataSource(neuralNet: neuralNet)
+        collectionViewDataSource.itemSelected = { add, item in
+            if add {
+                self.selectedItems.insert(item)
+            } else {
+                self.selectedItems.remove(item)
+            }
+            self.updateCombinedPlotView()
+        }
+        collectionViewDataSource.isItemSelected = { item in
+            return self.selectedItems.contains(item)
+        }
+        collectionView.registerNib(NSNib(nibNamed: CollectionViewItem.identifier, bundle: nil)!, forItemWithIdentifier: CollectionViewItem.identifier)
+        collectionView.dataSource = collectionViewDataSource
+        collectionView.delegate = collectionViewDelegate
+        collectionView.reloadData()
 
         let xaxis = Axis(orientation: .Horizontal, ticks: .Fit(5))
         combinedPlotView.addAxis(xaxis)
@@ -48,7 +63,7 @@ class RNNViewController: NSViewController, NSOutlineViewDelegate {
             self.snapshots.append(snapshot)
             if self.snapshots.count == self.neuralNet.processingCount {
                 dispatch_async(dispatch_get_main_queue()) {
-                    self.outlineView.reloadData()
+                    self.collectionView.reloadData()
                     self.updateCombinedPlotView()
                 }
             }
@@ -158,101 +173,6 @@ class RNNViewController: NSViewController, NSOutlineViewDelegate {
         reload()
     }
 
-
-    // MARK: NSOutlineViewDelegate
-
-    struct ColumnIdentifiers {
-        static let name = "NameColumn"
-        static let timeline = "TimelineColumn"
-    }
-
-    func outlineView(outlineView: NSOutlineView, viewForTableColumn tableColumn: NSTableColumn?, item: AnyObject) -> NSView? {
-        guard let column = tableColumn else {
-            return nil
-        }
-
-        let reusedView = outlineView.makeViewWithIdentifier(column.identifier, owner: self)
-
-        switch column.identifier {
-        case ColumnIdentifiers.name:
-            let title: String
-            if item is WaveformItem {
-                title = "Waveform"
-            } else if item is LabelsItem {
-                title = "Labels"
-            } else if let layerItem = item as? LayerItem {
-                title = "Layer \(layerItem.index)"
-            } else if item is OutputItem {
-                title = "Output"
-            } else if let labelItem = item as? LabelTimelineItem {
-                switch labelItem.type {
-                case .Onset:
-                    title = "Onset"
-                case .Polyphony:
-                    title = "Polyphony"
-                case .Note(let noteNumber):
-                    let note = Note(midiNoteNumber: noteNumber + Note.representableRange.startIndex)
-                    title = "Note \(note)"
-                }
-            } else if let timelineItem = item as? UnitTimelineItem {
-                title = "\(timelineItem.unitIndex)"
-            } else if let timelineItem = item as? OutputTimelineItem {
-                title = "\(timelineItem.index)"
-            } else {
-                title = ""
-            }
-            return createOutlineLabel(title)
-
-        case ColumnIdentifiers.timeline:
-            if item is WaveformItem {
-                let view = reusedView as? PlotView ?? PlotView()
-                view.insets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-                view.clear()
-                updateWaveformPlotView(view, withColor: waveformColor)
-                return view
-            } else if let labelItem = item as? LabelTimelineItem  {
-                let view = reusedView as? PlotView ?? PlotView()
-                view.insets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-                view.clear()
-                updateLabelsPlotView(view, withItem: labelItem, withColor: NSColor.redColor())
-                return view
-            } else if item is UnitTimelineItem || item is OutputTimelineItem {
-                let view = reusedView as? PlotView ?? PlotView()
-                updatePlotView(view, withItem: item)
-                return view
-            } else {
-                return nil
-            }
-
-        default:
-            return nil
-        }
-    }
-
-    func createOutlineLabel(title: String) -> NSView {
-        let container = NSView()
-        container.translatesAutoresizingMaskIntoConstraints = false
-
-        let textField = NSTextField()
-        textField.translatesAutoresizingMaskIntoConstraints = false
-        textField.drawsBackground = false
-        textField.bezeled = false
-        textField.editable = false
-        textField.selectable = false
-        textField.refusesFirstResponder = true
-        textField.maximumNumberOfLines = 1
-        textField.lineBreakMode = NSLineBreakMode.ByTruncatingTail
-        textField.stringValue = title
-        container.addSubview(textField)
-
-        textField.leadingAnchor.constraintEqualToAnchor(container.leadingAnchor, constant: 8).active = true
-        textField.trailingAnchor.constraintEqualToAnchor(container.trailingAnchor).active = true
-        textField.topAnchor.constraintEqualToAnchor(container.topAnchor, constant: 1).active = true
-        textField.bottomAnchor.constraintEqualToAnchor(container.bottomAnchor).active = true
-
-        return container
-    }
-
     func updateWaveformPlotView(plotView: PlotView, withColor color: NSColor) {
         let sampleCount = data.count
         if sampleCount == 0 {
@@ -321,25 +241,6 @@ class RNNViewController: NSViewController, NSOutlineViewDelegate {
         plotView.addPointSet(pointSet)
     }
 
-    func updatePlotView(plotView: PlotView, withItem item: AnyObject) {
-        plotView.insets = NSEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
-
-        let values: ValueArray<Double>
-        if let unitItem = item as? UnitTimelineItem {
-            values = valuesForLayerIndex(unitItem.layerIndex, unitIndex: unitItem.unitIndex)
-        } else if let outputItem = item as? OutputTimelineItem {
-            values = valuesForOutputIndex(outputItem.index)
-        } else {
-            return
-        }
-
-        let pointSet = PointSet(values: values)
-        pointSet.pointType = .None
-        pointSet.lineColor = NSColor.redColor()
-        plotView.clear()
-        plotView.addPointSet(pointSet)
-    }
-
     func valuesForLayerIndex(layerIndex: Int, unitIndex: Int) -> ValueArray<Double> {
         let values = ValueArray<Double>(capacity: snapshots.count)
         for snapshot in snapshots {
@@ -365,29 +266,14 @@ class RNNViewController: NSViewController, NSOutlineViewDelegate {
         return values
     }
 
-    func outlineView(outlineView: NSOutlineView, heightOfRowByItem item: AnyObject) -> CGFloat {
-        if item is LabelsItem || item is LayerItem || item is OutputItem {
-            return 20
-        }
-
-        return 50
-    }
-
-    func outlineViewSelectionDidChange(notification: NSNotification) {
-        updateCombinedPlotView()
-    }
-
     func updateCombinedPlotView() {
         let colors = [NSColor.redColor(), NSColor.blueColor(), NSColor.blackColor(), NSColor.greenColor(), NSColor.purpleColor(), NSColor.cyanColor(), NSColor.darkGrayColor(), NSColor.yellowColor(), NSColor.magentaColor(), NSColor.orangeColor(), NSColor.brownColor()]
         var colorIndex = 0
 
         combinedPlotView.clear()
-        let indexes = outlineView.selectedRowIndexes
-        for index in indexes {
-            if let item = outlineView.itemAtRow(index) {
-                addItemToCombinedPlotView(item, withColor: colors[colorIndex])
-                colorIndex = (colorIndex + 1) % colors.count
-            }
+        selectedItems.forEach { item in
+            addItemToCombinedPlotView(item, withColor: colors[colorIndex])
+            colorIndex = (colorIndex + 1) % colors.count
         }
     }
 
