@@ -15,14 +15,8 @@ batch_size = 150
 lstm_units = 20
 layer_count = 3
 
-max_feature_length = 43
-
 train_data = DataSet("Training")
 test_data = DataSet("Testing")
-
-note_label_size = train_data.note_label_size
-polyphony_label_size =  train_data.polyphony_label_size
-onset_label_size = train_data.onset_label_size
 
 def fill_batch_vars(dataset, feature_var, note_label_var, polyphony_label_var, onset_label_var, feature_length_var):
     (features, feature_lengths), (note_labels, polyphony_labels, onset_labels) = dataset.next_batch(batch_size)
@@ -45,17 +39,17 @@ def exportToHDF5(variables, session):
 
 if __name__ == '__main__':
     with tf.Graph().as_default(), tf.Session() as sess:
-        features_placeholder = tf.placeholder(tf.float32, shape=(batch_size, max_feature_length, train_data.feature_size))
+        features_placeholder = tf.placeholder(tf.float32, shape=(batch_size, DataSet.max_sequence_length, train_data.feature_size))
         feature_lengths_placeholder = tf.placeholder(tf.int64, shape=(batch_size))
-        note_labels_placeholder = tf.placeholder(tf.float32, shape=(batch_size, max_feature_length, 2, note_label_size))
-        polyphony_labels_placeholder = tf.placeholder(tf.float32, shape=(batch_size, max_feature_length, polyphony_label_size))
-        onset_labels_placeholder = tf.placeholder(tf.float32, shape=(batch_size, max_feature_length, onset_label_size))
+        note_labels_placeholder = tf.placeholder(tf.float32, shape=(batch_size, DataSet.max_sequence_length, 2, DataSet.note_label_size))
+        polyphony_labels_placeholder = tf.placeholder(tf.float32, shape=(batch_size, DataSet.max_sequence_length, DataSet.polyphony_label_size))
+        onset_labels_placeholder = tf.placeholder(tf.float32, shape=(batch_size, DataSet.max_sequence_length, DataSet.onset_label_size))
 
-        features = [tf.squeeze(t) for t in tf.split(1, max_feature_length, features_placeholder)]
+        features = [tf.squeeze(t) for t in tf.split(1, DataSet.max_sequence_length, features_placeholder)]
 
         note_logits, polyphony_logits, onset_logits = net.run_net(features, feature_lengths_placeholder, lstm_units, layer_count)
 
-        loss = (tf.nn.l2_loss(note_labels_placeholder-note_logits) + tf.nn.l2_loss(polyphony_labels_placeholder-polyphony_logits) + tf.nn.l2_loss(onset_labels_placeholder-onset_logits)) / (batch_size * max_feature_length)
+        loss = (tf.nn.l2_loss(polyphony_labels_placeholder-polyphony_logits) + tf.nn.l2_loss(onset_labels_placeholder-onset_logits)) / (batch_size)
 
         optimizer = tf.train.AdamOptimizer(learning_rate)
         global_step = tf.Variable(0, name='global_step', trainable=False)
