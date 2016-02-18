@@ -128,6 +128,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		00E1DA1F1C763E0800BB899E /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61CE4C661BF2784D000E0D34 /* Peak.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0077C6551C63D42200AC71CA;
+			remoteInfo = PeakiOSExample;
+		};
 		610E2AF41C52C8D4006B6016 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 61CE4C721BF2784D000E0D34 /* Upsurge.xcodeproj */;
@@ -835,6 +842,7 @@
 				61CE4C941BF2784E000E0D34 /* PeakiOSTests.xctest */,
 				61CE4C961BF2784E000E0D34 /* Peak.framework */,
 				61CE4C981BF2784E000E0D34 /* PeakOSXTests.xctest */,
+				00E1DA201C763E0800BB899E /* PeakiOSExample.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1340,6 +1348,13 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
+		00E1DA201C763E0800BB899E /* PeakiOSExample.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = PeakiOSExample.app;
+			remoteRef = 00E1DA1F1C763E0800BB899E /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
 		610E2AF51C52C8D4006B6016 /* Upsurge.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;

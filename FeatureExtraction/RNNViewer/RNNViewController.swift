@@ -7,6 +7,15 @@ import Peak
 import PlotKit
 import Upsurge
 
+var availableColorIndex = 0
+let availableColors = [NSColor.redColor(), NSColor.blueColor(), NSColor.greenColor(), NSColor.purpleColor(), NSColor.cyanColor(), NSColor.darkGrayColor(), NSColor.yellowColor(), NSColor.magentaColor(), NSColor.orangeColor(), NSColor.brownColor()]
+
+func nextColor() -> NSColor {
+    let color = availableColors[availableColorIndex]
+    availableColorIndex = (availableColorIndex + 1) % availableColors.count
+    return color
+}
+
 class RNNViewController: NSViewController {
     private struct Keys {
         static let openDirectory = "openDirectory"
@@ -26,7 +35,9 @@ class RNNViewController: NSViewController {
     var length = 1.0
     var data = ValueArray<Double>()
     var snapshots = [Snapshot]()
+
     var selectedItems = Set<NSObject>()
+    var itemColors = [NSObject: NSColor]()
 
     var neuralNet = try! NeuralNet()
 
@@ -53,21 +64,29 @@ class RNNViewController: NSViewController {
 
         collectionViewDelegate = CollectionViewDelegate()
         collectionViewDataSource = CollectionViewDataSource(neuralNet: neuralNet)
-        collectionViewDataSource.itemSelected = { add, item in
-            if add {
+        collectionViewDataSource.itemSelected = { view, item, selected in
+            if selected {
                 self.selectedItems.insert(item)
+                self.itemColors[item] = nextColor()
+                view.color = self.itemColors[item]
             } else {
                 self.selectedItems.remove(item)
+                view.color = NSColor.clearColor()
             }
             self.updateCombinedPlotView()
         }
-        collectionViewDataSource.isItemSelected = { item in
-            return self.selectedItems.contains(item)
+        collectionViewDataSource.itemInfo = { item in
+            let selected = self.selectedItems.contains(item)
+            let color = self.itemColors[item] ?? NSColor.clearColor()
+            return (selected, color)
         }
         collectionView.registerNib(NSNib(nibNamed: CollectionViewItem.identifier, bundle: nil)!, forItemWithIdentifier: CollectionViewItem.identifier)
         collectionView.dataSource = collectionViewDataSource
         collectionView.delegate = collectionViewDelegate
-        selectedItems.insert(collectionViewDataSource.waveformItem)
+
+        let item = collectionViewDataSource.waveformItem
+        selectedItems.insert(item)
+        itemColors[item] = nextColor()
 
         if let path = NSUserDefaults.standardUserDefaults().valueForKey(Keys.openPath) as? String {
             let url = NSURL(string: path)
@@ -272,13 +291,9 @@ class RNNViewController: NSViewController {
     }
 
     func updateCombinedPlotView() {
-        let colors = [NSColor.redColor(), NSColor.blueColor(), NSColor.blackColor(), NSColor.greenColor(), NSColor.purpleColor(), NSColor.cyanColor(), NSColor.darkGrayColor(), NSColor.yellowColor(), NSColor.magentaColor(), NSColor.orangeColor(), NSColor.brownColor()]
-        var colorIndex = 0
-
         combinedPlotView.clear()
         selectedItems.forEach { item in
-            addItemToCombinedPlotView(item, withColor: colors[colorIndex])
-            colorIndex = (colorIndex + 1) % colors.count
+            addItemToCombinedPlotView(item, withColor: itemColors[item]!)
         }
     }
 

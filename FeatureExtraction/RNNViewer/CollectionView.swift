@@ -7,11 +7,17 @@ class CollectionViewItem: NSCollectionViewItem {
     static let identifier = "CollectionViewItem"
 
     @IBOutlet weak var checkBox: NSButton!
-    var item: NSObject!
-    var itemSelected: ((Bool, NSObject) -> ())!
+    var itemSelected: ((Bool) -> ())!
+    var color: NSColor! {
+        didSet {
+            view.layer?.borderColor = color.CGColor
+            view.layer?.borderWidth = 3
+        }
+    }
 
     @IBAction func checkBoxAction(sender: NSButton) {
-        itemSelected(sender.state == 1, item)
+        let selected = sender.state == 1
+        itemSelected(selected)
     }
 }
 
@@ -29,8 +35,8 @@ class CollectionViewDataSource: NSObject, NSCollectionViewDataSource {
     var layerItems = [LayerItem]()
     var outputItem = OutputItem()
 
-    var itemSelected: ((Bool, NSObject) -> ())!
-    var isItemSelected: ((NSObject) -> (Bool))!
+    var itemSelected: ((CollectionViewItem, NSObject, Bool) -> ())!
+    var itemInfo: ((NSObject) -> (selected: Bool, color: NSColor))!
 
     var numberOfSections: Int {
         return neuralNet.lstmLayers.count + 3
@@ -90,11 +96,16 @@ class CollectionViewDataSource: NSObject, NSCollectionViewDataSource {
     }
 
     func collectionView(collectionView: NSCollectionView, itemForRepresentedObjectAtIndexPath indexPath: NSIndexPath) -> NSCollectionViewItem {
+        let item = itemForIndex(indexPath.item, inSection: indexPath.section)
+        let info = itemInfo(item)
+
         let view = collectionView.makeItemWithIdentifier(CollectionViewItem.identifier, forIndexPath: indexPath) as! CollectionViewItem
-        view.item = itemForIndex(indexPath.item, inSection: indexPath.section)
-        view.itemSelected = itemSelected
+        view.itemSelected = { selected in
+            self.itemSelected(view, item, selected)
+        }
         view.checkBox.title = titleForIndex(indexPath.item, inSection: indexPath.section)
-        view.checkBox.state = isItemSelected(view.item) ? 1 : 0
+        view.checkBox.state = info.selected ? 1 : 0
+        view.color = info.color
         return view
     }
 
@@ -123,8 +134,10 @@ class CollectionViewDataSource: NSObject, NSCollectionViewDataSource {
         if section == 1 {
             let labelItem = labelsItem.timelines[index]
             switch labelItem.type {
-            case .Onset: return "Onset"
-            case .Polyphony: return "Polyphony"
+            case .Onset:
+                return "Onset"
+            case .Polyphony:
+                return "Polyphony"
             case .Note(let noteNumber):
                 let note = Note(midiNoteNumber: noteNumber + Note.representableRange.startIndex)
                 return "Note \(note)"
