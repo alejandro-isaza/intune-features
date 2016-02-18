@@ -35,7 +35,9 @@ class NeuralNet {
     var runner: Runner!
 
     var dataLayer = Source()
-    var sinkLayer = Sink()
+    var notesSinkLayer = Sink()
+    var onsetsSinkLayer = Sink()
+    var polySinkLayer = Sink()
 
     var forwardPassAction: (Snapshot -> Void)?
     var processingCount = 0
@@ -45,7 +47,7 @@ class NeuralNet {
 
         self.netPath = NSBundle.mainBundle().pathForResource("net", ofType: "h5")!
 
-        let net = try buildNet()
+        let net = buildNet()
         runner = try Runner(net: net, device: device)
         runner.forwardPassAction = {
             let snapshot = Snapshot()
@@ -53,7 +55,11 @@ class NeuralNet {
                 snapshot.activations.append(valueArrayFromBuffer(lstm.state))
             }
 
-            snapshot.output = ValueArray(self.sinkLayer.data)
+
+            snapshot.output = ValueArray(capacity: self.outputSize)
+            snapshot.output.appendContentsOf(self.notesSinkLayer.data)
+            snapshot.output.appendContentsOf(self.onsetsSinkLayer.data)
+            snapshot.output.appendContentsOf(self.polySinkLayer.data)
 
             self.forwardPassAction?(snapshot)
         }
@@ -65,19 +71,23 @@ class NeuralNet {
     var lstmLayers = [LSTMLayer]()
     var outputSize = 0
 
-    func buildNet() throws -> Net {
+    func buildNet() -> Net {
         let net = Net()
 
-        let lstm0Layer = try createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell0BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell0BasicLSTMCellLinearBias")
-        let lstm1Layer = try createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell1BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell1BasicLSTMCellLinearBias")
-        let lstm2Layer = try createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell2BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell2BasicLSTMCellLinearBias")
-        let ipLayer = try createIPLayerFromFile(netPath, weightsName: "Variable", biasesName: "Variable_1")
+        let lstm0Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell0BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell0BasicLSTMCellLinearBias")
+        let lstm1Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell1BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell1BasicLSTMCellLinearBias")
+        let lstm2Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell2BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell2BasicLSTMCellLinearBias")
+        let noteLayer = createIPLayerFromFile(netPath, weightsName: "note_ip_weights", biasesName: "note_ip_biases")
+        let onsetLayer = createIPLayerFromFile(netPath, weightsName: "onset_ip_weights", biasesName: "onset_ip_biases")
+        let polyLayer = createIPLayerFromFile(netPath, weightsName: "polyphony_ip_weights", biasesName: "polyphony_ip_biases")
 
         let inputBufferRef = net.addBufferWithName("data", size: lstm0Layer.inputSize)
         let buffer0 = net.addBufferWithName("buffer0", size: lstm0Layer.outputSize)
         let buffer1 = net.addBufferWithName("buffer1", size: lstm1Layer.outputSize)
         let buffer2 = net.addBufferWithName("buffer2", size: lstm2Layer.outputSize)
-        let outBuffer = net.addBufferWithName("buffer2", size: ipLayer.outputSize)
+        let notesBuffer = net.addBufferWithName("notesBuffer", size: noteLayer.outputSize)
+        let onsetsBuffer = net.addBufferWithName("onsetsBuffer", size: onsetLayer.outputSize)
+        let polyBuffer = net.addBufferWithName("ployBuffer", size: polyLayer.outputSize)
 
         let dataLayerRef = net.addLayer(dataLayer, name: "data")
         net.connectLayer(dataLayerRef, toBuffer: inputBufferRef)
@@ -94,20 +104,34 @@ class NeuralNet {
         net.connectBuffer(buffer1, atOffset: 0, toLayer: lstm2LayerRef)
         net.connectLayer(lstm2LayerRef, toBuffer: buffer2)
 
-        let ipLayerRef = net.addLayer(ipLayer, name: "ip")
-        net.connectBuffer(buffer2, atOffset: 0, toLayer: ipLayerRef)
-        net.connectLayer(ipLayerRef, toBuffer: outBuffer)
+        let noteLayerRef = net.addLayer(noteLayer, name: "noteLayer")
+        net.connectBuffer(buffer2, atOffset: 0, toLayer: noteLayerRef)
+        net.connectLayer(noteLayerRef, toBuffer: notesBuffer)
 
-        let sinkRef = net.addLayer(sinkLayer, name: "sink")
-        net.connectBuffer(outBuffer, atOffset: 0, toLayer: sinkRef)
+        let onsetLayerRef = net.addLayer(onsetLayer, name: "onsetLayer")
+        net.connectBuffer(buffer2, atOffset: 0, toLayer: onsetLayerRef)
+        net.connectLayer(onsetLayerRef, toBuffer: onsetsBuffer)
+
+        let polyLayerRef = net.addLayer(polyLayer, name: "polyLayer")
+        net.connectBuffer(buffer2, atOffset: 0, toLayer: polyLayerRef)
+        net.connectLayer(polyLayerRef, toBuffer: polyBuffer)
+
+        let notesSinkLayerRef = net.addLayer(notesSinkLayer, name: "notes")
+        net.connectBuffer(notesBuffer, atOffset: 0, toLayer: notesSinkLayerRef)
+
+        let onsetsSinkLayerRef = net.addLayer(onsetsSinkLayer, name: "onsets")
+        net.connectBuffer(onsetsBuffer, atOffset: 0, toLayer: onsetsSinkLayerRef)
+
+        let polySinkLayerRef = net.addLayer(polySinkLayer, name: "poly")
+        net.connectBuffer(polyBuffer, atOffset: 0, toLayer: polySinkLayerRef)
 
         lstmLayers = [lstm0Layer, lstm1Layer, lstm2Layer]
-        outputSize = ipLayer.outputSize
+        outputSize = noteLayer.outputSize + onsetLayer.outputSize + polyLayer.outputSize
 
         return net
     }
 
-    func createIPLayerFromFile(filePath: String, weightsName: String, biasesName: String) throws -> InnerProductLayer {
+    func createIPLayerFromFile(filePath: String, weightsName: String, biasesName: String) -> InnerProductLayer {
         guard let file = File.open(filePath, mode: .ReadOnly) else {
             fatalError("Failed to open file")
         }
@@ -121,7 +145,7 @@ class NeuralNet {
         return layer
     }
 
-    func createLSTMLayerFromFile(filePath: String, weightsName: String, biasesName: String) throws -> LSTMLayer {
+    func createLSTMLayerFromFile(filePath: String, weightsName: String, biasesName: String) -> LSTMLayer {
         guard let file = File.open(filePath, mode: .ReadOnly) else {
             fatalError("Failed to open file")
         }
