@@ -636,7 +636,7 @@
         <scene sceneID="hIz-AP-VOD">
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="RNNViewController" customModule="RNNViewer" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" id="m2S-Jp-Qdl">
+                    <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
                         <rect key="frame" x="0.0" y="0.0" width="795" height="494"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
@@ -721,13 +721,13 @@
                                     <constraint firstItem="Bc6-2a-aAq" firstAttribute="centerY" secondItem="XMv-zX-DAz" secondAttribute="centerY" id="y3I-nf-foz"/>
                                 </constraints>
                             </customView>
-                            <scrollView autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DrE-Yd-c3X">
+                            <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DrE-Yd-c3X">
                                 <rect key="frame" x="0.0" y="200" width="795" height="200"/>
-                                <clipView key="contentView" id="QyK-Bk-s9F">
+                                <clipView key="contentView" wantsLayer="YES" id="QyK-Bk-s9F">
                                     <rect key="frame" x="1" y="1" width="793" height="198"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
-                                        <collectionView id="v5w-Vt-3wd">
+                                        <collectionView wantsLayer="YES" id="v5w-Vt-3wd">
                                             <rect key="frame" x="0.0" y="0.0" width="793" height="198"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <collectionViewFlowLayout key="collectionViewLayout" id="Vkt-Vx-WPl">
