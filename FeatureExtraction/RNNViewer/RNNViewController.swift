@@ -50,7 +50,7 @@ class RNNViewController: NSViewController {
         updateView()
 
         combinedPlotView.addAxis(Axis(orientation: .Horizontal, ticks: .Fit(5)))
-        combinedPlotView.addAxis(Axis(orientation: .Vertical, ticks: .Fit(3)))
+        combinedPlotView.addAxis(Axis(orientation: .Vertical, ticks: .Distance(0.1)))
 
         neuralNet.forwardPassAction = { snapshot in
             self.snapshots.append(snapshot)

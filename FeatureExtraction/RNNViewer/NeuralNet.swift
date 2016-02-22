@@ -132,7 +132,7 @@ class NeuralNet {
         onsetSize = onsetLayer.outputSize
         polySize = polyLayer.outputSize
         noteSize = noteLayer.outputSize
-        outputSize = noteLayer.outputSize + onsetLayer.outputSize + polyLayer.outputSize
+        outputSize = onsetSize + polySize + noteSize
 
         return net
     }
