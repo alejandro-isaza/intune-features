@@ -8,11 +8,11 @@ from data_set import DataSet
 import net
 
 learning_rate = 0.001
-max_epoch = 20000
+max_epoch = 100000
 
-batch_size = 150
+batch_size = 50
 
-lstm_units = 20
+lstm_units = 120
 layer_count = 3
 
 train_data = DataSet("Training")
@@ -29,8 +29,8 @@ def fill_batch_vars(dataset, feature_var, note_label_var, polyphony_label_var, o
     }
     return feed_dict
 
-def exportToHDF5(variables, session):
-    file = h5py.File("net.h5", "w")
+def exportToHDF5(i, variables, session):
+    file = h5py.File("net%d.h5" % i, "w")
 
     for variable in variables:
         name = variable.name.replace("/","")[:-2]
@@ -40,16 +40,19 @@ def exportToHDF5(variables, session):
 if __name__ == '__main__':
     with tf.Graph().as_default(), tf.Session() as sess:
         features_placeholder = tf.placeholder(tf.float32, shape=(batch_size, DataSet.max_sequence_length, train_data.feature_size))
-        feature_lengths_placeholder = tf.placeholder(tf.int64, shape=(batch_size))
-        note_labels_placeholder = tf.placeholder(tf.float32, shape=(batch_size, DataSet.max_sequence_length, 2, DataSet.note_label_size))
-        polyphony_labels_placeholder = tf.placeholder(tf.float32, shape=(batch_size, DataSet.max_sequence_length, DataSet.polyphony_label_size))
+        feature_lengths_placeholder = tf.placeholder(tf.float32, shape=(batch_size))
+        note_labels_placeholder = tf.placeholder(tf.float32, shape=(batch_size, DataSet.max_sequence_length, DataSet.note_label_size))
+        polyphony_labels_placeholder = tf.placeholder(tf.float32, shape=(batch_size, DataSet.max_sequence_length))
         onset_labels_placeholder = tf.placeholder(tf.float32, shape=(batch_size, DataSet.max_sequence_length, DataSet.onset_label_size))
 
         features = [tf.squeeze(t) for t in tf.split(1, DataSet.max_sequence_length, features_placeholder)]
 
         note_logits, polyphony_logits, onset_logits = net.run_net(features, feature_lengths_placeholder, lstm_units, layer_count)
 
-        loss = (tf.nn.l2_loss(polyphony_labels_placeholder-polyphony_logits) + tf.nn.l2_loss(onset_labels_placeholder-onset_logits)) / (batch_size)
+        sequence_count = tf.reduce_sum(feature_lengths_placeholder)
+        loss = ((1) * tf.nn.l2_loss(note_labels_placeholder-note_logits) +
+                (88) * tf.nn.l2_loss(polyphony_labels_placeholder-polyphony_logits) +
+                (44) * tf.nn.l2_loss(onset_labels_placeholder-onset_logits)) / sequence_count
 
         optimizer = tf.train.AdamOptimizer(learning_rate)
         global_step = tf.Variable(0, name='global_step', trainable=False)
@@ -67,21 +70,23 @@ if __name__ == '__main__':
                 np_note_logits, np_polyphony_logits, np_onset_logits = sess.run([note_logits, polyphony_logits, onset_logits], feed_dict=feed_dict)
                 np_note_labels, np_polyphony_labels, np_onset_labels = (feed_dict[note_labels_placeholder], feed_dict[polyphony_labels_placeholder], feed_dict[onset_labels_placeholder])
                 feature_lengths = feed_dict[feature_lengths_placeholder]
-                score = net.correct((np_note_labels, np_note_logits), (np_polyphony_labels, np_polyphony_logits), (np_onset_labels, np_onset_logits), feature_lengths)
-                print("%d | batch loss: %f, score: %f" % (i, batch_loss / batch_size, score))
+                score = net.correct((np_note_labels, np_note_logits), (np_polyphony_logits, np_polyphony_labels), (np_onset_logits, np_onset_labels), feature_lengths)
+                print("%d | batch loss: %f, score: %f" % (i, batch_loss, score))
 
                 if i % 500 == 0:
                     feed_dict = fill_batch_vars(test_data, features_placeholder, note_labels_placeholder, polyphony_labels_placeholder, onset_labels_placeholder, feature_lengths_placeholder)
-                    test_percent = sess.run([loss], feed_dict=feed_dict)
+                    test_percent = sess.run(loss, feed_dict=feed_dict)
 
                     np_note_logits, np_polyphony_logits, np_onset_logits = sess.run([note_logits, polyphony_logits, onset_logits], feed_dict=feed_dict)
                     np_note_labels, np_polyphony_labels, np_onset_labels = (feed_dict[note_labels_placeholder], feed_dict[polyphony_labels_placeholder], feed_dict[onset_labels_placeholder])
                     feature_lengths = feed_dict[feature_lengths_placeholder]
-                    score = net.correct((np_note_labels, np_note_logits), (np_polyphony_labels, np_polyphony_logits), (np_onset_labels, np_onset_logits), feature_lengths)
+                    score = net.correct((np_note_labels, np_note_logits), (np_polyphony_logits, np_polyphony_labels), (np_onset_logits, np_onset_labels), feature_lengths)
 
-                    print("     %d Testing loss: %f, score: %f" % (i, test_percent[0], score))
-                    exportToHDF5(tf.trainable_variables(), sess)
-                    print("     exported.")
+                    print("     %d Testing loss: %f, score: %f" % (i, test_percent, score))
+
+                    if i % 1000 == 0:
+                        exportToHDF5(i/1000, tf.trainable_variables(), sess)
+                        print("     exported.")
 
             else:
                 _ = sess.run([train_op], feed_dict=feed_dict)

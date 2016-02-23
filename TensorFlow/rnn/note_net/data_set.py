@@ -34,8 +34,8 @@ class DataSet:
         indices, offsets, lengths = self.generate_batch_list(batch_size)
 
         labels_onset = np.zeros((batch_size, DataSet.max_sequence_length, 1), dtype=int)
-        labels_polyphony = np.zeros((batch_size, DataSet.max_sequence_length, 1))
-        labels_notes = np.zeros((batch_size, DataSet.max_sequence_length, 1, DataSet.note_label_size))
+        labels_polyphony = np.zeros((batch_size, DataSet.max_sequence_length))
+        labels_notes = np.zeros((batch_size, DataSet.max_sequence_length, DataSet.note_label_size))
         features_spectrum = np.zeros((batch_size, DataSet.max_sequence_length, 100))
         features_flux = np.zeros((batch_size, DataSet.max_sequence_length, 100))
         features_peak_locations = np.zeros((batch_size, DataSet.max_sequence_length, 100))
@@ -51,8 +51,8 @@ class DataSet:
             f = h5.File(self.audio_folder+"/"+file_name, "r")
 
             labels_onset[i, 0:length, ...] = f["labels/onset"][offset:offset+length, ...][:, np.newaxis, ...]
-            labels_polyphony[i, 0:length, ...] = f["labels/polyphony"][offset:offset+length, ...][:, np.newaxis, ...]
-            labels_notes[i, 0:length, ...] = f["labels/notes"][offset:offset+length, ...][:, np.newaxis, :, ...]
+            labels_polyphony[i, 0:length, ...] = f["labels/polyphony"][offset:offset+length, ...]
+            labels_notes[i, 0:length, ...] = f["labels/notes"][offset:offset+length, ...]
             features_spectrum[i, 0:length, ...] = f["features/spectrum"][offset:offset+length, ...]
             features_flux[i, 0:length, ...] =  f["features/flux"][offset:offset+length, ...]
             features_peak_locations[i, 0:length, ...] = f["features/peak_locations"][offset:offset+length, ...]
@@ -66,14 +66,10 @@ class DataSet:
 
         features = np.concatenate((features_spectrum,
                                    features_flux,
-                                   features_peak_locations,
-                                   features_peak_heights), axis=2)
-
-        # Labels:
-        labels_notes_inverse = 1 - labels_notes
-        note_labels = np.concatenate((labels_notes_inverse, labels_notes), axis=2)
+                                   features_peak_heights,
+                                   features_peak_locations), axis=2)
 
         onset_labels_inverse = 1 - labels_onset
         onset_labels = np.concatenate((onset_labels_inverse, labels_onset), axis=2)
 
-        return (features, feature_lengths), (note_labels, labels_polyphony, onset_labels)
+        return (features, feature_lengths), (labels_notes, labels_polyphony, onset_labels)
