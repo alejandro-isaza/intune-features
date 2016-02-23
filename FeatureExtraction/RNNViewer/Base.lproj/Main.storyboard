@@ -729,7 +729,7 @@
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <collectionView wantsLayer="YES" id="v5w-Vt-3wd">
-                                            <rect key="frame" x="0.0" y="0.0" width="793" height="234"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="793" height="235"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <collectionViewFlowLayout key="collectionViewLayout" id="Vkt-Vx-WPl">
                                                 <size key="itemSize" width="110" height="30"/>
@@ -745,8 +745,8 @@
                                     <rect key="frame" x="1" y="144" width="233" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
-                                <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="2VU-JX-Iib">
-                                    <rect key="frame" x="234" y="1" width="15" height="143"/>
+                                <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="2VU-JX-Iib">
+                                    <rect key="frame" x="778" y="1" width="16" height="233"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>

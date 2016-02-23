@@ -25,6 +25,14 @@ class CollectionViewHeader: NSView {
     static let identifier = "CollectionViewHeader"
 
     @IBOutlet weak var label: NSTextField!
+    @IBOutlet weak var checkBox: NSButton!
+
+    var selectAllAction: ((Bool) -> ())!
+
+    @IBAction func checkBoxAction(sender: NSButton) {
+        let selected = sender.state == 1
+        selectAllAction(selected)
+    }
 }
 
 class CollectionViewDataSource: NSObject, NSCollectionViewDataSource {
@@ -35,7 +43,8 @@ class CollectionViewDataSource: NSObject, NSCollectionViewDataSource {
     var layerItems = [LayerItem]()
     var outputItem = OutputItem()
 
-    var itemSelected: ((CollectionViewItem, NSObject, Bool) -> ())!
+    var itemSelected: ((CollectionViewItem, Bool) -> ())!
+    var sectionSelected: ((Int, Bool) -> ())!
     var itemInfo: ((NSObject) -> (selected: Bool, color: NSColor))!
 
     var numberOfSections: Int {
@@ -69,6 +78,9 @@ class CollectionViewDataSource: NSObject, NSCollectionViewDataSource {
 
     func collectionView(collectionView: NSCollectionView, viewForSupplementaryElementOfKind kind: String, atIndexPath indexPath: NSIndexPath) -> NSView {
         let view = collectionView.makeSupplementaryViewOfKind(kind, withIdentifier: CollectionViewHeader.identifier, forIndexPath: indexPath) as! CollectionViewHeader
+        view.selectAllAction = { selected in
+            self.sectionSelected(indexPath.section, selected)
+        }
         view.label.stringValue = titleForSection(indexPath.section)
         view.layer?.backgroundColor = NSColor.windowBackgroundColor().CGColor
         return view
@@ -100,8 +112,9 @@ class CollectionViewDataSource: NSObject, NSCollectionViewDataSource {
         let info = itemInfo(item)
 
         let view = collectionView.makeItemWithIdentifier(CollectionViewItem.identifier, forIndexPath: indexPath) as! CollectionViewItem
+        view.representedObject = item
         view.itemSelected = { selected in
-            self.itemSelected(view, item, selected)
+            self.itemSelected(view, selected)
         }
         view.checkBox.title = titleForIndex(indexPath.item, inSection: indexPath.section)
         view.checkBox.state = info.selected ? 1 : 0

@@ -64,17 +64,20 @@ class RNNViewController: NSViewController {
 
         collectionViewDelegate = CollectionViewDelegate()
         collectionViewDataSource = CollectionViewDataSource(neuralNet: neuralNet)
-        collectionViewDataSource.itemSelected = { view, item, selected in
+        collectionViewDataSource.itemSelected = { item, selected in
             if selected {
-                self.selectedItems.insert(item)
-                self.itemColors[item] = nextColor()
-                view.color = self.itemColors[item]
+                self.selectItem(item)
             } else {
-                self.selectedItems.remove(item)
-                self.itemColors[item] = nil
-                view.color = NSColor.clearColor()
+                self.deselectItem(item)
             }
             self.updateCombinedPlotView()
+        }
+        collectionViewDataSource.sectionSelected = { index, selected in
+            if selected {
+                self.selectSection(index)
+            } else {
+                self.deselectSection(index)
+            }
         }
         collectionViewDataSource.itemInfo = { item in
             let selected = self.selectedItems.contains(item)
@@ -93,6 +96,46 @@ class RNNViewController: NSViewController {
             let url = NSURL(string: path)
             openURL(url)
         }
+    }
+
+    func selectSection(section: Int) {
+        let itemCount = collectionView.numberOfItemsInSection(section)
+        for i in 0..<itemCount {
+            let indexPath = NSIndexPath(forItem: i, inSection: section)
+            let item = collectionView.itemAtIndexPath(indexPath) as! CollectionViewItem
+            selectItem(item)
+        }
+        self.updateCombinedPlotView()
+    }
+
+    func selectItem(item: CollectionViewItem) {
+        guard let dataItem = item.representedObject as? NSObject else {
+            return
+        }
+        selectedItems.insert(dataItem)
+        itemColors[dataItem] = nextColor()
+        item.color = itemColors[dataItem]
+        item.checkBox.state = NSOnState
+    }
+
+    func deselectSection(section: Int) {
+        let itemCount = collectionView.numberOfItemsInSection(section)
+        for i in 0..<itemCount {
+            let indexPath = NSIndexPath(forItem: i, inSection: section)
+            let item = collectionView.itemAtIndexPath(indexPath) as! CollectionViewItem
+            deselectItem(item)
+        }
+        self.updateCombinedPlotView()
+    }
+
+    func deselectItem(item: CollectionViewItem) {
+        guard let dataItem = item.representedObject as? NSObject else {
+            return
+        }
+        selectedItems.remove(dataItem)
+        itemColors[dataItem] = nil
+        item.color = NSColor.clearColor()
+        item.checkBox.state = NSOffState
     }
 
     func updateView() {
@@ -292,7 +335,7 @@ class RNNViewController: NSViewController {
     }
 
     func updateCombinedPlotView() {
-        combinedPlotView.clear()
+        combinedPlotView.removeAllPlots()
         selectedItems.forEach { item in
             addItemToCombinedPlotView(item, withColor: itemColors[item]!)
         }
