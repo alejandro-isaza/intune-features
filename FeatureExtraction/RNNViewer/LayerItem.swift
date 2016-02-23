@@ -26,9 +26,10 @@ class LayerItem: NSObject {
     }
 }
 
-class UnitTimelineItem: NSObject {
+class UnitTimelineItem: NSObject, SelectableItem {
     var layerIndex: Int
     var unitIndex: Int
+    var color = NSColor.blackColor()
 
     init (layerIndex: Int, unitIndex: Int) {
         self.layerIndex = layerIndex

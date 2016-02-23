@@ -638,11 +638,11 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="RNNViewController" customModule="RNNViewer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="795" height="494"/>
+                        <rect key="frame" x="0.0" y="0.0" width="795" height="499"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="bUJ-XG-gUJ">
-                                <rect key="frame" x="0.0" y="400" width="795" height="94"/>
+                                <rect key="frame" x="0.0" y="405" width="795" height="94"/>
                                 <subviews>
                                     <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ox9-Vj-LRr">
                                         <rect key="frame" x="68" y="53" width="601" height="20"/>
@@ -722,17 +722,17 @@
                                     <constraint firstItem="Bc6-2a-aAq" firstAttribute="centerY" secondItem="XMv-zX-DAz" secondAttribute="centerY" id="y3I-nf-foz"/>
                                 </constraints>
                             </customView>
-                            <scrollView wantsLayer="YES" misplaced="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DrE-Yd-c3X">
-                                <rect key="frame" x="0.0" y="165" width="795" height="235"/>
+                            <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DrE-Yd-c3X">
+                                <rect key="frame" x="0.0" y="167" width="795" height="238"/>
                                 <clipView key="contentView" wantsLayer="YES" id="QyK-Bk-s9F">
-                                    <rect key="frame" x="1" y="1" width="793" height="233"/>
+                                    <rect key="frame" x="1" y="1" width="793" height="236"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <collectionView wantsLayer="YES" id="v5w-Vt-3wd">
-                                            <rect key="frame" x="0.0" y="0.0" width="793" height="235"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="793" height="240"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <collectionViewFlowLayout key="collectionViewLayout" id="Vkt-Vx-WPl">
-                                                <size key="itemSize" width="110" height="30"/>
+                                                <size key="itemSize" width="150" height="30"/>
                                             </collectionViewFlowLayout>
                                             <color key="primaryBackgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                         </collectionView>
@@ -746,12 +746,12 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="2VU-JX-Iib">
-                                    <rect key="frame" x="778" y="1" width="16" height="233"/>
+                                    <rect key="frame" x="778" y="1" width="16" height="236"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
-                            <customView misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="yf2-Xh-UOU" customClass="PlotView" customModule="PlotKit">
-                                <rect key="frame" x="0.0" y="0.0" width="795" height="165"/>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="yf2-Xh-UOU" customClass="PlotView" customModule="PlotKit">
+                                <rect key="frame" x="0.0" y="0.0" width="795" height="167"/>
                             </customView>
                         </subviews>
                         <constraints>
@@ -779,7 +779,7 @@
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75.5" y="828"/>
+            <point key="canvasLocation" x="75.5" y="830.5"/>
         </scene>
     </scenes>
 </document>

@@ -2,12 +2,13 @@
 
 import Cocoa
 import BrainCore
+import FeatureExtraction
 
 class LabelsItem: NSObject {
     var timelines = [LabelTimelineItem]()
 }
 
-class LabelTimelineItem: NSObject {
+class LabelTimelineItem: NSObject, SelectableItem {
     enum Type {
         case Onset
         case Polyphony
@@ -15,9 +16,18 @@ class LabelTimelineItem: NSObject {
     }
 
     var type: Type
+    var color: NSColor
 
     init(type: Type) {
         self.type = type
+        switch type {
+        case .Onset:
+            color = NSColor.blackColor()
+        case .Polyphony:
+            color = NSColor.darkGrayColor()
+        case .Note(let number):
+            color = Note(midiNoteNumber: number + Note.representableRange.startIndex).color
+        }
     }
 
 

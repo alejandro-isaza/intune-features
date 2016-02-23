@@ -37,7 +37,6 @@ class RNNViewController: NSViewController {
     var snapshots = [Snapshot]()
 
     var selectedItems = Set<NSObject>()
-    var itemColors = [NSObject: NSColor]()
 
     var neuralNet = try! NeuralNet()
 
@@ -72,6 +71,10 @@ class RNNViewController: NSViewController {
             }
             self.updateCombinedPlotView()
         }
+        collectionViewDataSource.colorChanged = { item, color in
+            self.setColor(color, forItem: item)
+            self.updateCombinedPlotView()
+        }
         collectionViewDataSource.sectionSelected = { index, selected in
             if selected {
                 self.selectSection(index)
@@ -79,10 +82,9 @@ class RNNViewController: NSViewController {
                 self.deselectSection(index)
             }
         }
-        collectionViewDataSource.itemInfo = { item in
+        collectionViewDataSource.selectionStatus = { item in
             let selected = self.selectedItems.contains(item)
-            let color = self.itemColors[item] ?? NSColor.clearColor()
-            return (selected, color)
+            return selected
         }
         collectionView.registerNib(NSNib(nibNamed: CollectionViewItem.identifier, bundle: nil)!, forItemWithIdentifier: CollectionViewItem.identifier)
         collectionView.dataSource = collectionViewDataSource
@@ -90,12 +92,19 @@ class RNNViewController: NSViewController {
 
         let item = collectionViewDataSource.waveformItem
         selectedItems.insert(item)
-        itemColors[item] = nextColor()
 
         if let path = NSUserDefaults.standardUserDefaults().valueForKey(Keys.openPath) as? String {
             let url = NSURL(string: path)
             openURL(url)
         }
+    }
+
+    func setColor(color: NSColor, forItem item: CollectionViewItem) {
+        guard let dataItem = item.representedObject as? SelectableItem else {
+            return
+        }
+        dataItem.color = color
+        item.colorWell.color = color
     }
 
     func selectSection(section: Int) {
@@ -113,8 +122,6 @@ class RNNViewController: NSViewController {
             return
         }
         selectedItems.insert(dataItem)
-        itemColors[dataItem] = nextColor()
-        item.color = itemColors[dataItem]
         item.checkBox.state = NSOnState
     }
 
@@ -133,8 +140,6 @@ class RNNViewController: NSViewController {
             return
         }
         selectedItems.remove(dataItem)
-        itemColors[dataItem] = nil
-        item.color = NSColor.clearColor()
         item.checkBox.state = NSOffState
     }
 
@@ -337,7 +342,9 @@ class RNNViewController: NSViewController {
     func updateCombinedPlotView() {
         combinedPlotView.removeAllPlots()
         selectedItems.forEach { item in
-            addItemToCombinedPlotView(item, withColor: itemColors[item]!)
+            if let selectableItem = item as? SelectableItem {
+                addItemToCombinedPlotView(item, withColor: selectableItem.color)
+            }
         }
     }
 

@@ -3,21 +3,26 @@
 import Cocoa
 import FeatureExtraction
 
+protocol SelectableItem: NSObjectProtocol {
+    var color: NSColor { get set }
+}
+
 class CollectionViewItem: NSCollectionViewItem {
     static let identifier = "CollectionViewItem"
 
     @IBOutlet weak var checkBox: NSButton!
+    @IBOutlet weak var colorWell: NSColorWell!
+    
     var itemSelected: ((Bool) -> ())!
-    var color: NSColor! {
-        didSet {
-            view.layer?.borderColor = color.CGColor
-            view.layer?.borderWidth = 3
-        }
-    }
+    var colorChanged: (NSColor -> ())!
 
     @IBAction func checkBoxAction(sender: NSButton) {
         let selected = sender.state == 1
         itemSelected(selected)
+    }
+
+    @IBAction func colorAction(sender: NSColorWell) {
+        colorChanged(sender.color)
     }
 }
 
@@ -44,8 +49,9 @@ class CollectionViewDataSource: NSObject, NSCollectionViewDataSource {
     var outputItem = OutputItem()
 
     var itemSelected: ((CollectionViewItem, Bool) -> ())!
+    var colorChanged: ((CollectionViewItem, NSColor) -> ())!
     var sectionSelected: ((Int, Bool) -> ())!
-    var itemInfo: ((NSObject) -> (selected: Bool, color: NSColor))!
+    var selectionStatus: ((NSObject) -> Bool)!
 
     var numberOfSections: Int {
         return neuralNet.lstmLayers.count + 3
@@ -109,16 +115,21 @@ class CollectionViewDataSource: NSObject, NSCollectionViewDataSource {
 
     func collectionView(collectionView: NSCollectionView, itemForRepresentedObjectAtIndexPath indexPath: NSIndexPath) -> NSCollectionViewItem {
         let item = itemForIndex(indexPath.item, inSection: indexPath.section)
-        let info = itemInfo(item)
+        let selected = selectionStatus(item)
 
         let view = collectionView.makeItemWithIdentifier(CollectionViewItem.identifier, forIndexPath: indexPath) as! CollectionViewItem
         view.representedObject = item
         view.itemSelected = { selected in
             self.itemSelected(view, selected)
         }
+        view.colorChanged = { color in
+            self.colorChanged(view, color)
+        }
         view.checkBox.title = titleForIndex(indexPath.item, inSection: indexPath.section)
-        view.checkBox.state = info.selected ? 1 : 0
-        view.color = info.color
+        view.checkBox.state = selected ? 1 : 0
+        if let selectableItem = item as? SelectableItem {
+            view.colorWell.color = selectableItem.color
+        }
         return view
     }
 

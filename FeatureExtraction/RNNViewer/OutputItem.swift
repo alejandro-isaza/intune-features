@@ -2,6 +2,7 @@
 
 import Cocoa
 import BrainCore
+import FeatureExtraction
 
 class OutputItem: NSObject {
     var timelines = [OutputTimelineItem]()
@@ -20,11 +21,17 @@ class OutputItem: NSObject {
     }
 }
 
-class OutputTimelineItem: NSObject {
+class OutputTimelineItem: NSObject, SelectableItem {
     var index: Int
+    var color: NSColor
 
     init(resultIndex: Int) {
         self.index = resultIndex
+        if resultIndex < Note.noteCount {
+            color = Note(midiNoteNumber: resultIndex + Note.representableRange.startIndex).color
+        } else {
+            color = NSColor.blackColor()
+        }
     }
 
 
