@@ -17,16 +17,21 @@ class LabelTimelineItem: NSObject, SelectableItem {
 
     var type: Type
     var color: NSColor
+    var title: String
 
     init(type: Type) {
         self.type = type
         switch type {
         case .Onset:
             color = NSColor.blackColor()
+            title = "Onset Label"
         case .Polyphony:
             color = NSColor.darkGrayColor()
+            title = "Polyphony Label"
         case .Note(let number):
-            color = Note(midiNoteNumber: number + Note.representableRange.startIndex).color
+            let note = Note(midiNoteNumber: number + Note.representableRange.startIndex)
+            color = note.color
+            title = "\(note.description) Label"
         }
     }
 

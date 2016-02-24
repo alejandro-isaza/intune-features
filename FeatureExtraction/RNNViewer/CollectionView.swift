@@ -5,6 +5,7 @@ import FeatureExtraction
 
 protocol SelectableItem: NSObjectProtocol {
     var color: NSColor { get set }
+    var title: String { get }
 }
 
 class CollectionViewItem: NSCollectionViewItem {
@@ -48,7 +49,7 @@ class CollectionViewDataSource: NSObject, NSCollectionViewDataSource {
     var layerItems = [LayerItem]()
     var outputItem = OutputItem()
 
-    var itemSelected: ((CollectionViewItem, Bool) -> ())!
+    var objectSelected: ((NSObject, Bool) -> ())!
     var colorChanged: ((CollectionViewItem, NSColor) -> ())!
     var sectionSelected: ((Int, Bool) -> ())!
     var selectionStatus: ((NSObject) -> Bool)!
@@ -77,7 +78,7 @@ class CollectionViewDataSource: NSObject, NSCollectionViewDataSource {
         }
 
         for index in 0..<neuralNet.outputSize {
-            let item = OutputTimelineItem(resultIndex: index)
+            let item = OutputTimelineItem(resultIndex: index, title: neuralNet.titleForOutputIndex(index))
             outputItem.timelines.append(item)
         }
     }
@@ -114,20 +115,20 @@ class CollectionViewDataSource: NSObject, NSCollectionViewDataSource {
     }
 
     func collectionView(collectionView: NSCollectionView, itemForRepresentedObjectAtIndexPath indexPath: NSIndexPath) -> NSCollectionViewItem {
-        let item = itemForIndex(indexPath.item, inSection: indexPath.section)
-        let selected = selectionStatus(item)
+        let object = objectAtIndex(indexPath.item, inSection: indexPath.section)
+        let selected = selectionStatus(object)
 
         let view = collectionView.makeItemWithIdentifier(CollectionViewItem.identifier, forIndexPath: indexPath) as! CollectionViewItem
-        view.representedObject = item
+        view.representedObject = object
         view.itemSelected = { selected in
-            self.itemSelected(view, selected)
+            self.objectSelected(object, selected)
         }
         view.colorChanged = { color in
             self.colorChanged(view, color)
         }
-        view.checkBox.title = titleForIndex(indexPath.item, inSection: indexPath.section)
         view.checkBox.state = selected ? 1 : 0
-        if let selectableItem = item as? SelectableItem {
+        if let selectableItem = object as? SelectableItem {
+            view.checkBox.title = selectableItem.title
             view.colorWell.color = selectableItem.color
         }
         return view
@@ -150,32 +151,7 @@ class CollectionViewDataSource: NSObject, NSCollectionViewDataSource {
         return "Layer \(layerIndex)"
     }
 
-    private func titleForIndex(index: Int, inSection section: Int) -> String {
-        if section == 0 {
-            return "Waveform"
-        }
-
-        if section == 1 {
-            let labelItem = labelsItem.timelines[index]
-            switch labelItem.type {
-            case .Onset:
-                return "Onset"
-            case .Polyphony:
-                return "Polyphony"
-            case .Note(let noteNumber):
-                let note = Note(midiNoteNumber: noteNumber + Note.representableRange.startIndex)
-                return "Note \(note)"
-            }
-        }
-
-        if section == numberOfSections - 1 {
-            return neuralNet.titleForOutputIndex(index)
-        }
-
-        return "Layer \(index)"
-    }
-
-    private func itemForIndex(index: Int, inSection section: Int) -> NSObject {
+    func objectAtIndex(index: Int, inSection section: Int) -> NSObject {
         if section == 0 {
             return waveformItem
         }

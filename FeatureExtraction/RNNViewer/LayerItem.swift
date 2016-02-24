@@ -31,6 +31,10 @@ class UnitTimelineItem: NSObject, SelectableItem {
     var unitIndex: Int
     var color = NSColor.blackColor()
 
+    var title: String {
+        return "Layer \(layerIndex) unit \(unitIndex)"
+    }
+
     init (layerIndex: Int, unitIndex: Int) {
         self.layerIndex = layerIndex
         self.unitIndex = unitIndex

@@ -63,11 +63,11 @@ class RNNViewController: NSViewController {
 
         collectionViewDelegate = CollectionViewDelegate()
         collectionViewDataSource = CollectionViewDataSource(neuralNet: neuralNet)
-        collectionViewDataSource.itemSelected = { item, selected in
+        collectionViewDataSource.objectSelected = { object, selected in
             if selected {
-                self.selectItem(item)
+                self.selectedItems.insert(object)
             } else {
-                self.deselectItem(item)
+                self.selectedItems.remove(object)
             }
             self.updateCombinedPlotView()
         }
@@ -110,37 +110,25 @@ class RNNViewController: NSViewController {
     func selectSection(section: Int) {
         let itemCount = collectionView.numberOfItemsInSection(section)
         for i in 0..<itemCount {
-            let indexPath = NSIndexPath(forItem: i, inSection: section)
-            let item = collectionView.itemAtIndexPath(indexPath) as! CollectionViewItem
-            selectItem(item)
+            let object = collectionViewDataSource.objectAtIndex(i, inSection: section)
+            selectedItems.insert(object)
+            if let item = collectionView.itemAtIndexPath(NSIndexPath(forItem: i, inSection: section)) as? CollectionViewItem {
+                item.checkBox.state = NSOnState
+            }
         }
         self.updateCombinedPlotView()
-    }
-
-    func selectItem(item: CollectionViewItem) {
-        guard let dataItem = item.representedObject as? NSObject else {
-            return
-        }
-        selectedItems.insert(dataItem)
-        item.checkBox.state = NSOnState
     }
 
     func deselectSection(section: Int) {
         let itemCount = collectionView.numberOfItemsInSection(section)
         for i in 0..<itemCount {
-            let indexPath = NSIndexPath(forItem: i, inSection: section)
-            let item = collectionView.itemAtIndexPath(indexPath) as! CollectionViewItem
-            deselectItem(item)
+            let object = collectionViewDataSource.objectAtIndex(i, inSection: section)
+            selectedItems.remove(object)
+            if let item = collectionView.itemAtIndexPath(NSIndexPath(forItem: i, inSection: section)) as? CollectionViewItem {
+                item.checkBox.state = NSOffState
+            }
         }
         self.updateCombinedPlotView()
-    }
-
-    func deselectItem(item: CollectionViewItem) {
-        guard let dataItem = item.representedObject as? NSObject else {
-            return
-        }
-        selectedItems.remove(dataItem)
-        item.checkBox.state = NSOffState
     }
 
     func updateView() {
@@ -276,13 +264,13 @@ class RNNViewController: NSViewController {
         top.pointType = .None
         top.lineColor = color
         top.fillColor = color
-        plotView.addPointSet(top)
+        plotView.addPointSet(top, title: "Waveform")
 
         let bottom = PointSet(points: pointsBottom)
         bottom.pointType = .None
         bottom.lineColor = color
         bottom.fillColor = color
-        plotView.addPointSet(bottom)
+        plotView.addPointSet(bottom, title: "Waveform")
     }
 
     func updateLabelsPlotView(plotView: PlotView, withItem item: LabelTimelineItem, withColor color: NSColor) {
@@ -311,7 +299,7 @@ class RNNViewController: NSViewController {
         let pointSet = PointSet(values: values)
         pointSet.pointType = .None
         pointSet.lineColor = color
-        plotView.addPointSet(pointSet)
+        plotView.addPointSet(pointSet, title: item.title)
     }
 
     func valuesForLayerIndex(layerIndex: Int, unitIndex: Int) -> ValueArray<Double> {
@@ -350,14 +338,19 @@ class RNNViewController: NSViewController {
 
     func addItemToCombinedPlotView(item: AnyObject, withColor color: NSColor) {
         var values = ValueArray<Double>()
+        var title = ""
         if item is WaveformItem {
+            title = "Waveform"
             updateWaveformPlotView(combinedPlotView, withColor: color)
             return
         } else if let labelItem = item as? LabelTimelineItem {
+            title = labelItem.title
             updateLabelsPlotView(combinedPlotView, withItem: labelItem, withColor: color)
         } else if let unitItem = item as? UnitTimelineItem {
+            title = unitItem.title
             values = valuesForLayerIndex(unitItem.layerIndex, unitIndex: unitItem.unitIndex)
         } else if let outputItem = item as? OutputTimelineItem {
+            title = outputItem.title
             values = valuesForOutputIndex(outputItem.index)
         } else {
             return
@@ -366,6 +359,6 @@ class RNNViewController: NSViewController {
         let pointSet = PointSet(values: values)
         pointSet.pointType = .None
         pointSet.lineColor = color
-        combinedPlotView.addPointSet(pointSet)
+        combinedPlotView.addPointSet(pointSet, title: title)
     }
 }
