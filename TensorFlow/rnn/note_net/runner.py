@@ -12,8 +12,8 @@ max_epoch = 100000
 
 batch_size = 50
 
-lstm_units = 120
-layer_count = 3
+lstm_units = 400
+layer_count = 2
 
 train_data = DataSet("Training")
 test_data = DataSet("Testing")
@@ -43,16 +43,16 @@ if __name__ == '__main__':
         feature_lengths_placeholder = tf.placeholder(tf.float32, shape=(batch_size))
         note_labels_placeholder = tf.placeholder(tf.float32, shape=(batch_size, DataSet.max_sequence_length, DataSet.note_label_size))
         polyphony_labels_placeholder = tf.placeholder(tf.float32, shape=(batch_size, DataSet.max_sequence_length))
-        onset_labels_placeholder = tf.placeholder(tf.float32, shape=(batch_size, DataSet.max_sequence_length, DataSet.onset_label_size))
+        onset_labels_placeholder = tf.placeholder(tf.float32, shape=(batch_size, DataSet.max_sequence_length))
 
         features = [tf.squeeze(t) for t in tf.split(1, DataSet.max_sequence_length, features_placeholder)]
 
         note_logits, polyphony_logits, onset_logits = net.run_net(features, feature_lengths_placeholder, lstm_units, layer_count)
 
         sequence_count = tf.reduce_sum(feature_lengths_placeholder)
-        loss = ((1) * tf.nn.l2_loss(note_labels_placeholder-note_logits) +
-                (88) * tf.nn.l2_loss(polyphony_labels_placeholder-polyphony_logits) +
-                (44) * tf.nn.l2_loss(onset_labels_placeholder-onset_logits)) / sequence_count
+        loss = (tf.nn.l2_loss(note_labels_placeholder-note_logits) +
+                tf.nn.l2_loss(polyphony_labels_placeholder-polyphony_logits) +
+                tf.nn.l2_loss(onset_labels_placeholder-onset_logits)) / sequence_count
 
         optimizer = tf.train.AdamOptimizer(learning_rate)
         global_step = tf.Variable(0, name='global_step', trainable=False)
@@ -70,9 +70,10 @@ if __name__ == '__main__':
                 np_note_logits, np_polyphony_logits, np_onset_logits = sess.run([note_logits, polyphony_logits, onset_logits], feed_dict=feed_dict)
                 np_note_labels, np_polyphony_labels, np_onset_labels = (feed_dict[note_labels_placeholder], feed_dict[polyphony_labels_placeholder], feed_dict[onset_labels_placeholder])
                 feature_lengths = feed_dict[feature_lengths_placeholder]
-                score = net.correct((np_note_labels, np_note_logits), (np_polyphony_logits, np_polyphony_labels), (np_onset_logits, np_onset_labels), feature_lengths)
-                print("%d | batch loss: %f, score: %f" % (i, batch_loss, score))
-
+                note_score = net.note_score((np_note_labels, np_note_logits), (np_polyphony_logits, np_polyphony_labels), feature_lengths)
+                polyphony_score = net.polyphony_score((np_polyphony_logits, np_polyphony_labels), feature_lengths)
+                onset_score = net.onset_score((np_onset_logits, np_onset_labels), feature_lengths)
+                print("%d | batch loss: %f, note cost: %f, polyphony cost: %f, onset cost: %f" % (i, batch_loss, note_score, polyphony_score, onset_score))
                 if i % 500 == 0:
                     feed_dict = fill_batch_vars(test_data, features_placeholder, note_labels_placeholder, polyphony_labels_placeholder, onset_labels_placeholder, feature_lengths_placeholder)
                     test_percent = sess.run(loss, feed_dict=feed_dict)
@@ -80,11 +81,13 @@ if __name__ == '__main__':
                     np_note_logits, np_polyphony_logits, np_onset_logits = sess.run([note_logits, polyphony_logits, onset_logits], feed_dict=feed_dict)
                     np_note_labels, np_polyphony_labels, np_onset_labels = (feed_dict[note_labels_placeholder], feed_dict[polyphony_labels_placeholder], feed_dict[onset_labels_placeholder])
                     feature_lengths = feed_dict[feature_lengths_placeholder]
-                    score = net.correct((np_note_labels, np_note_logits), (np_polyphony_logits, np_polyphony_labels), (np_onset_logits, np_onset_labels), feature_lengths)
+                    note_score = net.note_score((np_note_labels, np_note_logits), (np_polyphony_logits, np_polyphony_labels), feature_lengths)
+                    polyphony_score = net.polyphony_score((np_polyphony_logits, np_polyphony_labels), feature_lengths)
+                    onset_score = net.onset_score((np_onset_logits, np_onset_labels), feature_lengths)
 
-                    print("     %d Testing loss: %f, score: %f" % (i, test_percent, score))
+                    print("     %d Testing loss: %f, note cost: %f, polyphony cost: %f, onset cost: %f" % (i, test_percent, note_score, polyphony_score, onset_score))
 
-                    if i % 1000 == 0:
+                    if i % 10000 == 0:
                         exportToHDF5(i/1000, tf.trainable_variables(), sess)
                         print("     exported.")
 

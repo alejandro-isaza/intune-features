@@ -8,7 +8,7 @@ class DataSet:
     feature_size = 400
     polyphony_label_size = 1
     note_label_size = 88
-    onset_label_size = 2
+    onset_label_size = 1
     step_size = 1024
     min_sequence_length = 15
     max_sequence_length = 130
@@ -33,7 +33,7 @@ class DataSet:
     def generate_batch_data(self, batch_size):
         indices, offsets, lengths = self.generate_batch_list(batch_size)
 
-        labels_onset = np.zeros((batch_size, DataSet.max_sequence_length, 1), dtype=int)
+        labels_onset = np.zeros((batch_size, DataSet.max_sequence_length), dtype=int)
         labels_polyphony = np.zeros((batch_size, DataSet.max_sequence_length))
         labels_notes = np.zeros((batch_size, DataSet.max_sequence_length, DataSet.note_label_size))
         features_spectrum = np.zeros((batch_size, DataSet.max_sequence_length, 100))
@@ -50,7 +50,7 @@ class DataSet:
             file_name = self.file_list[index][0]
             f = h5.File(self.audio_folder+"/"+file_name, "r")
 
-            labels_onset[i, 0:length, ...] = f["labels/onset"][offset:offset+length, ...][:, np.newaxis, ...]
+            labels_onset[i, 0:length, ...] = f["labels/onset"][offset:offset+length, ...]
             labels_polyphony[i, 0:length, ...] = f["labels/polyphony"][offset:offset+length, ...]
             labels_notes[i, 0:length, ...] = f["labels/notes"][offset:offset+length, ...]
             features_spectrum[i, 0:length, ...] = f["features/spectrum"][offset:offset+length, ...]
@@ -69,7 +69,4 @@ class DataSet:
                                    features_peak_heights,
                                    features_peak_locations), axis=2)
 
-        onset_labels_inverse = 1 - labels_onset
-        onset_labels = np.concatenate((onset_labels_inverse, labels_onset), axis=2)
-
-        return (features, feature_lengths), (labels_notes, labels_polyphony, onset_labels)
+        return (features, feature_lengths), (labels_notes, labels_polyphony, labels_onset)
