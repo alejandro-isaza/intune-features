@@ -33,7 +33,7 @@ class DataSet:
     def generate_batch_data(self, batch_size):
         indices, offsets, lengths = self.generate_batch_list(batch_size)
 
-        labels_onset = np.zeros((batch_size, DataSet.max_sequence_length), dtype=int)
+        labels_onset = np.zeros((batch_size, DataSet.max_sequence_length))
         labels_polyphony = np.zeros((batch_size, DataSet.max_sequence_length))
         labels_notes = np.zeros((batch_size, DataSet.max_sequence_length, DataSet.note_label_size))
         features_spectrum = np.zeros((batch_size, DataSet.max_sequence_length, 100))
