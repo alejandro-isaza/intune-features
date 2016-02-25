@@ -74,72 +74,27 @@ class NeuralNet {
     var noteSize = 0
     var outputSize = 0
 
-    func buildNet() -> Net {
-        let net = Net()
-
-        let lstm0Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell0BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell0BasicLSTMCellLinearBias")
-        let lstm1Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell1BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell1BasicLSTMCellLinearBias")
-        let lstm2Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell2BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell2BasicLSTMCellLinearBias")
-        let noteLayer = createIPLayerFromFile(netPath, weightsName: "note_ip_weights", biasesName: "note_ip_biases")
-        let onsetLayer = createIPLayerFromFile(netPath, weightsName: "onset_ip_weights", biasesName: "onset_ip_biases")
-        let polyLayer = createIPLayerFromFile(netPath, weightsName: "polyphony_ip_weights", biasesName: "polyphony_ip_biases")
-
-        let inputBufferRef = net.addBufferWithName("data", size: lstm0Layer.inputSize)
-        let buffer0 = net.addBufferWithName("buffer0", size: lstm0Layer.outputSize)
-        let buffer1 = net.addBufferWithName("buffer1", size: lstm1Layer.outputSize)
-        let buffer2 = net.addBufferWithName("buffer2", size: lstm2Layer.outputSize)
-        let notesBuffer = net.addBufferWithName("notesBuffer", size: noteLayer.outputSize)
-        let onsetsBuffer = net.addBufferWithName("onsetsBuffer", size: onsetLayer.outputSize)
-        let polyBuffer = net.addBufferWithName("ployBuffer", size: polyLayer.outputSize)
-
-        let dataLayerRef = net.addLayer(dataLayer, name: "data")
-        net.connectLayer(dataLayerRef, toBuffer: inputBufferRef)
-
-        let lstm0LayerRef = net.addLayer(lstm0Layer, name: "lstm0")
-        net.connectBuffer(inputBufferRef, atOffset: 0, toLayer: lstm0LayerRef)
-        net.connectLayer(lstm0LayerRef, toBuffer: buffer0)
-
-        let lstm1LayerRef = net.addLayer(lstm1Layer, name: "lstm1")
-        net.connectBuffer(buffer0, atOffset: 0, toLayer: lstm1LayerRef)
-        net.connectLayer(lstm1LayerRef, toBuffer: buffer1)
-
-        let lstm2LayerRef = net.addLayer(lstm2Layer, name: "lstm2")
-        net.connectBuffer(buffer1, atOffset: 0, toLayer: lstm2LayerRef)
-        net.connectLayer(lstm2LayerRef, toBuffer: buffer2)
-
-        let noteLayerRef = net.addLayer(noteLayer, name: "noteLayer")
-        net.connectBuffer(buffer2, atOffset: 0, toLayer: noteLayerRef)
-        net.connectLayer(noteLayerRef, toBuffer: notesBuffer)
-
-        let onsetLayerRef = net.addLayer(onsetLayer, name: "onsetLayer")
-        net.connectBuffer(buffer2, atOffset: 0, toLayer: onsetLayerRef)
-        net.connectLayer(onsetLayerRef, toBuffer: onsetsBuffer)
-
-        let polyLayerRef = net.addLayer(polyLayer, name: "polyLayer")
-        net.connectBuffer(buffer2, atOffset: 0, toLayer: polyLayerRef)
-        net.connectLayer(polyLayerRef, toBuffer: polyBuffer)
-
-        let notesSinkLayerRef = net.addLayer(notesSinkLayer, name: "notes")
-        net.connectBuffer(notesBuffer, atOffset: 0, toLayer: notesSinkLayerRef)
-
-        let onsetsSinkLayerRef = net.addLayer(onsetsSinkLayer, name: "onsets")
-        net.connectBuffer(onsetsBuffer, atOffset: 0, toLayer: onsetsSinkLayerRef)
-
-        let polySinkLayerRef = net.addLayer(polySinkLayer, name: "poly")
-        net.connectBuffer(polyBuffer, atOffset: 0, toLayer: polySinkLayerRef)
-
-        lstmLayers = [lstm0Layer, lstm1Layer, lstm2Layer]
-        onsetSize = onsetLayer.outputSize
-        polySize = polyLayer.outputSize
-        noteSize = noteLayer.outputSize
-        outputSize = onsetSize + polySize + noteSize
-
-        return net
-    }
-
     func titleForOutputIndex(index: Int) -> String {
         if index < noteSize {
-            return Note(midiNoteNumber: index + Note.representableRange.startIndex).description
+            return "\(Note(midiNoteNumber: index + Note.representableRange.startIndex).description) Output"
+        } else if index < noteSize + onsetSize {
+            if onsetSize == 1 {
+                return "Onset Output"
+            } else {
+                return "Onset \(index - noteSize) Output"
+            }
+        } else {
+            if polySize == 1 {
+                return "Polyphony Output"
+            } else {
+                return "Polyphony \(index - noteSize - onsetSize) Output"
+            }
+        }
+    }
+
+    func shortTitleForOutputIndex(index: Int) -> String {
+        if index < noteSize {
+            return "\(Note(midiNoteNumber: index + Note.representableRange.startIndex).description)"
         } else if index < noteSize + onsetSize {
             if onsetSize == 1 {
                 return "Onset"
@@ -238,4 +193,184 @@ class NeuralNet {
         // Run net
         runner.forward()
     }
+}
+
+/// LSTM -> LSTM -> (IP, IP, IP)
+extension NeuralNet {
+//    func buildNet() -> Net {
+//        let net = Net()
+//
+//        let lstm0Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell0BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell0BasicLSTMCellLinearBias")
+//        let lstm1Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell1BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell1BasicLSTMCellLinearBias")
+//        let noteLayer = createIPLayerFromFile(netPath, weightsName: "note_ip_weights", biasesName: "note_ip_biases")
+//        let onsetLayer = createIPLayerFromFile(netPath, weightsName: "onset_ip_weights", biasesName: "onset_ip_biases")
+//        let polyLayer = createIPLayerFromFile(netPath, weightsName: "polyphony_ip_weights", biasesName: "polyphony_ip_biases")
+//
+//        let inputBufferRef = net.addBufferWithName("data", size: lstm0Layer.inputSize)
+//        let buffer0 = net.addBufferWithName("buffer0", size: lstm0Layer.outputSize)
+//        let buffer1 = net.addBufferWithName("buffer1", size: lstm1Layer.outputSize)
+//        let notesBuffer = net.addBufferWithName("notesBuffer", size: noteLayer.outputSize)
+//        let onsetsBuffer = net.addBufferWithName("onsetsBuffer", size: onsetLayer.outputSize)
+//        let polyBuffer = net.addBufferWithName("ployBuffer", size: polyLayer.outputSize)
+//
+//        let dataLayerRef = net.addLayer(dataLayer, name: "data")
+//        net.connectLayer(dataLayerRef, toBuffer: inputBufferRef)
+//
+//        let lstm0LayerRef = net.addLayer(lstm0Layer, name: "lstm0")
+//        net.connectBuffer(inputBufferRef, atOffset: 0, toLayer: lstm0LayerRef)
+//        net.connectLayer(lstm0LayerRef, toBuffer: buffer0)
+//
+//        let lstm1LayerRef = net.addLayer(lstm1Layer, name: "lstm1")
+//        net.connectBuffer(buffer0, atOffset: 0, toLayer: lstm1LayerRef)
+//        net.connectLayer(lstm1LayerRef, toBuffer: buffer1)
+//
+//        let noteLayerRef = net.addLayer(noteLayer, name: "noteLayer")
+//        net.connectBuffer(buffer1, atOffset: 0, toLayer: noteLayerRef)
+//        net.connectLayer(noteLayerRef, toBuffer: notesBuffer)
+//
+//        let onsetLayerRef = net.addLayer(onsetLayer, name: "onsetLayer")
+//        net.connectBuffer(buffer1, atOffset: 0, toLayer: onsetLayerRef)
+//        net.connectLayer(onsetLayerRef, toBuffer: onsetsBuffer)
+//
+//        let polyLayerRef = net.addLayer(polyLayer, name: "polyLayer")
+//        net.connectBuffer(buffer1, atOffset: 0, toLayer: polyLayerRef)
+//        net.connectLayer(polyLayerRef, toBuffer: polyBuffer)
+//
+//        let onsetsSinkLayerRef = net.addLayer(onsetsSinkLayer, name: "onsets")
+//        net.connectBuffer(onsetsBuffer, atOffset: 0, toLayer: onsetsSinkLayerRef)
+//
+//        let polySinkLayerRef = net.addLayer(polySinkLayer, name: "poly")
+//        net.connectBuffer(polyBuffer, atOffset: 0, toLayer: polySinkLayerRef)
+//
+//        let notesSinkLayerRef = net.addLayer(notesSinkLayer, name: "notes")
+//        net.connectBuffer(notesBuffer, atOffset: 0, toLayer: notesSinkLayerRef)
+//
+//        lstmLayers = [lstm0Layer, lstm1Layer]
+//        onsetSize = onsetLayer.outputSize
+//        polySize = polyLayer.outputSize
+//        noteSize = noteLayer.outputSize
+//        outputSize = onsetSize + polySize + noteSize
+//        
+//        return net
+//    }
+}
+
+/// LSTM -> LSTM -> LSTM -> (IP, IP, IP)
+extension NeuralNet {
+    func buildNet() -> Net {
+        let net = Net()
+
+        let lstm0Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell0BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell0BasicLSTMCellLinearBias")
+        let lstm1Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell1BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell1BasicLSTMCellLinearBias")
+        let lstm2Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell2BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell2BasicLSTMCellLinearBias")
+        let noteLayer = createIPLayerFromFile(netPath, weightsName: "note_ip_weights", biasesName: "note_ip_biases")
+        let onsetLayer = createIPLayerFromFile(netPath, weightsName: "onset_ip_weights", biasesName: "onset_ip_biases")
+        let polyLayer = createIPLayerFromFile(netPath, weightsName: "polyphony_ip_weights", biasesName: "polyphony_ip_biases")
+
+        let inputBufferRef = net.addBufferWithName("data", size: lstm0Layer.inputSize)
+        let buffer0 = net.addBufferWithName("buffer0", size: lstm0Layer.outputSize)
+        let buffer1 = net.addBufferWithName("buffer1", size: lstm1Layer.outputSize)
+        let buffer2 = net.addBufferWithName("buffer2", size: lstm2Layer.outputSize)
+        let notesBuffer = net.addBufferWithName("notesBuffer", size: noteLayer.outputSize)
+        let onsetsBuffer = net.addBufferWithName("onsetsBuffer", size: onsetLayer.outputSize)
+        let polyBuffer = net.addBufferWithName("ployBuffer", size: polyLayer.outputSize)
+
+        let dataLayerRef = net.addLayer(dataLayer, name: "data")
+        net.connectLayer(dataLayerRef, toBuffer: inputBufferRef)
+
+        let lstm0LayerRef = net.addLayer(lstm0Layer, name: "lstm0")
+        net.connectBuffer(inputBufferRef, atOffset: 0, toLayer: lstm0LayerRef)
+        net.connectLayer(lstm0LayerRef, toBuffer: buffer0)
+
+        let lstm1LayerRef = net.addLayer(lstm1Layer, name: "lstm1")
+        net.connectBuffer(buffer0, atOffset: 0, toLayer: lstm1LayerRef)
+        net.connectLayer(lstm1LayerRef, toBuffer: buffer1)
+
+        let lstm2LayerRef = net.addLayer(lstm2Layer, name: "lstm2")
+        net.connectBuffer(buffer1, atOffset: 0, toLayer: lstm2LayerRef)
+        net.connectLayer(lstm2LayerRef, toBuffer: buffer2)
+
+        let noteLayerRef = net.addLayer(noteLayer, name: "noteLayer")
+        net.connectBuffer(buffer2, atOffset: 0, toLayer: noteLayerRef)
+        net.connectLayer(noteLayerRef, toBuffer: notesBuffer)
+
+        let onsetLayerRef = net.addLayer(onsetLayer, name: "onsetLayer")
+        net.connectBuffer(buffer2, atOffset: 0, toLayer: onsetLayerRef)
+        net.connectLayer(onsetLayerRef, toBuffer: onsetsBuffer)
+
+        let polyLayerRef = net.addLayer(polyLayer, name: "polyLayer")
+        net.connectBuffer(buffer2, atOffset: 0, toLayer: polyLayerRef)
+        net.connectLayer(polyLayerRef, toBuffer: polyBuffer)
+
+        let onsetsSinkLayerRef = net.addLayer(onsetsSinkLayer, name: "onsets")
+        net.connectBuffer(onsetsBuffer, atOffset: 0, toLayer: onsetsSinkLayerRef)
+
+        let polySinkLayerRef = net.addLayer(polySinkLayer, name: "poly")
+        net.connectBuffer(polyBuffer, atOffset: 0, toLayer: polySinkLayerRef)
+
+        let notesSinkLayerRef = net.addLayer(notesSinkLayer, name: "notes")
+        net.connectBuffer(notesBuffer, atOffset: 0, toLayer: notesSinkLayerRef)
+
+        lstmLayers = [lstm0Layer, lstm1Layer, lstm2Layer]
+        onsetSize = onsetLayer.outputSize
+        polySize = polyLayer.outputSize
+        noteSize = noteLayer.outputSize
+        outputSize = onsetSize + polySize + noteSize
+
+        return net
+    }
+}
+
+/// IP -> LSTM -> LSTM -> LSTM
+extension NeuralNet {
+//    func buildNet() -> Net {
+//        let net = Net()
+//
+//        let ipLayer = createIPLayerFromFile(netPath, weightsName: "feature_ip_weights", biasesName: "feature_ip_biases")
+//        let lstm0Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell0BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell0BasicLSTMCellLinearBias")
+//        let lstm1Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell1BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell1BasicLSTMCellLinearBias")
+//        let lstm2Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell2BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell2BasicLSTMCellLinearBias")
+//
+//        let inputBufferRef = net.addBufferWithName("data", size: ipLayer.inputSize)
+//        let ipBuffer = net.addBufferWithName("notesBuffer", size: ipLayer.outputSize)
+//        let buffer0 = net.addBufferWithName("buffer0", size: lstm0Layer.outputSize)
+//        let buffer1 = net.addBufferWithName("buffer1", size: lstm1Layer.outputSize)
+//        let buffer2 = net.addBufferWithName("buffer2", size: lstm2Layer.outputSize)
+//
+//        let dataLayerRef = net.addLayer(dataLayer, name: "data")
+//        net.connectLayer(dataLayerRef, toBuffer: inputBufferRef)
+//
+//        let ipLayerRef = net.addLayer(ipLayer, name: "ip")
+//        net.connectBuffer(inputBufferRef, atOffset: 0, toLayer: ipLayerRef)
+//        net.connectLayer(ipLayerRef, toBuffer: ipBuffer)
+//
+//        let lstm0LayerRef = net.addLayer(lstm0Layer, name: "lstm0")
+//        net.connectBuffer(ipBuffer, atOffset: 0, toLayer: lstm0LayerRef)
+//        net.connectLayer(lstm0LayerRef, toBuffer: buffer0)
+//
+//        let lstm1LayerRef = net.addLayer(lstm1Layer, name: "lstm1")
+//        net.connectBuffer(buffer0, atOffset: 0, toLayer: lstm1LayerRef)
+//        net.connectLayer(lstm1LayerRef, toBuffer: buffer1)
+//
+//        let lstm2LayerRef = net.addLayer(lstm2Layer, name: "lstm2")
+//        net.connectBuffer(buffer1, atOffset: 0, toLayer: lstm2LayerRef)
+//        net.connectLayer(lstm2LayerRef, toBuffer: buffer2)
+//
+//        let onsetsSinkLayerRef = net.addLayer(onsetsSinkLayer, name: "onsets")
+//        net.connectBuffer(buffer2, atOffset: 0, toLayer: onsetsSinkLayerRef)
+//
+//        let polySinkLayerRef = net.addLayer(polySinkLayer, name: "poly")
+//        net.connectBuffer(buffer2, atOffset: Note.noteCount, toLayer: polySinkLayerRef)
+//
+//        let notesSinkLayerRef = net.addLayer(notesSinkLayer, name: "notes")
+//        net.connectBuffer(buffer2, atOffset: Note.noteCount + 1, toLayer: notesSinkLayerRef)
+//
+//        lstmLayers = [lstm0Layer, lstm1Layer, lstm2Layer]
+//        onsetSize = 1
+//        polySize = 1
+//        noteSize = Note.noteCount
+//        outputSize = onsetSize + polySize + noteSize
+//
+//        return net
+//    }
 }
