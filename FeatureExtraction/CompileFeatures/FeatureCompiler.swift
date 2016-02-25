@@ -48,14 +48,15 @@ class FeatureCompiler {
 
     let monophonicFileExpression = try! NSRegularExpression(pattern: "/(\\d+)\\.\\w+", options: NSRegularExpressionOptions.CaseInsensitive)
 
-    let featureBuilder = FeatureBuilder()
+    let windowSize: Int
     let overwrite: Bool
 
     var polyphonicFiles = [PolyphonicFile]()
     var monophonicFiles = [MonophonicFile]()
     var noiseFiles = [String]()
 
-    init(root: String, overwrite: Bool) {
+    init(root: String, overwrite: Bool, windowSize: Int) {
+        self.windowSize = windowSize
         self.overwrite = overwrite
 
         let urls = loadFiles(root)
@@ -79,7 +80,7 @@ class FeatureCompiler {
             }
 
             let database = FeatureDatabase(filePath: databasePath)
-            let exampleBuilder = NoiseSequenceBuilder(path: file)
+            let exampleBuilder = NoiseSequenceBuilder(path: file, windowSize: windowSize)
             try exampleBuilder.forEachWindow { window in
                 try database.writeLabel(window.label)
                 try database.writeFeature(window.feature)
@@ -104,7 +105,7 @@ class FeatureCompiler {
             let database = FeatureDatabase(filePath: databasePath)
 
             let note = Note(midiNoteNumber: file.noteNumber)
-            let exampleBuilder = MonoSequenceBuilder(path: file.path, note: note)
+            let exampleBuilder = MonoSequenceBuilder(path: file.path, note: note, windowSize: windowSize)
 
             try database.writeEvent(exampleBuilder.event)
             try exampleBuilder.forEachWindow { window in
@@ -131,9 +132,9 @@ class FeatureCompiler {
 
             let exampleBuilder: PolySequenceBuilder
             if let midiPath = file.midiPath {
-                exampleBuilder = PolySequenceBuilder(audioFilePath: file.audioPath, midiFilePath: midiPath)
+                exampleBuilder = PolySequenceBuilder(audioFilePath: file.audioPath, midiFilePath: midiPath, windowSize: windowSize)
             } else if let csvPath = file.csvPath {
-                exampleBuilder = PolySequenceBuilder(audioFilePath: file.audioPath, csvFilePath: csvPath)
+                exampleBuilder = PolySequenceBuilder(audioFilePath: file.audioPath, csvFilePath: csvPath, windowSize: windowSize)
             } else {
                 continue
             }

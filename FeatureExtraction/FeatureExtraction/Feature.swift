@@ -11,10 +11,10 @@ public struct Feature {
 
     public init() {
         rms = 0
-        spectrum = ValueArray<Float>(count: FeatureBuilder.bandNotes.count)
-        spectralFlux = ValueArray<Float>(count: FeatureBuilder.bandNotes.count)
-        peakHeights = ValueArray<Float>(count: FeatureBuilder.bandNotes.count)
-        peakLocations = ValueArray<Float>(count: FeatureBuilder.bandNotes.count)
+        spectrum = ValueArray<Float>(count: Configuration.bandNotes.count)
+        spectralFlux = ValueArray<Float>(count: Configuration.bandNotes.count)
+        peakHeights = ValueArray<Float>(count: Configuration.bandNotes.count)
+        peakLocations = ValueArray<Float>(count: Configuration.bandNotes.count)
     }
 
     public init(rms: Float, spectrum: ValueArray<Float>, spectralFlux: ValueArray<Float>, peakHeights: ValueArray<Float>, peakLocations: ValueArray<Float>) {

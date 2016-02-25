@@ -6,28 +6,31 @@ import Foundation
 import Upsurge
 
 class MonoSequenceBuilder {
-    static let padding = FeatureBuilder.windowSize
-
-    let featureBuilder = FeatureBuilder()
+    let windowSize: Int
+    let padding: Int
+    let featureBuilder: FeatureBuilder
+    
     let decayModel = DecayModel()
     var audioFilePath: String
     var audioFile: AudioFile
     var event: Event
 
-    init(path: String, note: Note) {
+    init(path: String, note: Note, windowSize: Int) {
+        self.windowSize = windowSize
+        padding = windowSize
+        featureBuilder = FeatureBuilder(windowSize: windowSize)
+        
         audioFilePath = path
         audioFile = AudioFile.open(path)!
-        event = Event(note: note, start: MonoSequenceBuilder.padding, duration: Int(audioFile.frameCount), velocity: 0.63)
+        event = Event(note: note, start: padding, duration: Int(audioFile.frameCount), velocity: 0.63)
 
-        guard audioFile.sampleRate == FeatureBuilder.samplingFrequency else {
-            fatalError("Sample rate mismatch: \(audioFilePath) => \(audioFile.sampleRate) != \(FeatureBuilder.samplingFrequency)")
+        guard audioFile.sampleRate == Configuration.samplingFrequency else {
+            fatalError("Sample rate mismatch: \(audioFilePath) => \(audioFile.sampleRate) != \(Configuration.samplingFrequency)")
         }
     }
 
     func forEachWindow(@noescape action: (Window) throws -> ()) rethrows {
-        let windowSize = FeatureBuilder.windowSize
-        let stepSize = FeatureBuilder.stepSize
-        let padding = MonoSequenceBuilder.padding
+        let stepSize = featureBuilder.stepSize
 
         var data = ValueArray<Double>(capacity: Int(audioFile.frameCount) + padding)
 
@@ -53,8 +56,8 @@ class MonoSequenceBuilder {
             window.feature = featureBuilder.generateFeatures(data[range1], data[range2])
 
             let onsetIndexInWindow = padding - offset
-            if onsetIndexInWindow >= 0 && onsetIndexInWindow < featureBuilder.window.count {
-                let windowingScale = Float(featureBuilder.window[onsetIndexInWindow])
+            if onsetIndexInWindow >= 0 && onsetIndexInWindow < featureBuilder.windowingFunction.count {
+                let windowingScale = Float(featureBuilder.windowingFunction[onsetIndexInWindow])
                 window.label.onset = windowingScale
             }
 
@@ -68,11 +71,11 @@ class MonoSequenceBuilder {
 
     func noteValue(windowStart: Int) -> Float {
         let start = max(event.start, windowStart)
-        let end = min(event.start + event.duration, windowStart + FeatureBuilder.windowSize)
+        let end = min(event.start + event.duration, windowStart + windowSize)
 
         var value = Float(0)
         for i in start..<end {
-            let windowingValue = Float(featureBuilder.window[i - windowStart])
+            let windowingValue = Float(featureBuilder.windowingFunction[i - windowStart])
             let decayValue = decayModel.decayValueForNote(event.note, atOffset: i - event.start)
             value += decayValue * windowingValue
         }

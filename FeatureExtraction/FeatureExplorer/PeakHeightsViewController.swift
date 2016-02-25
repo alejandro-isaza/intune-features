@@ -12,7 +12,7 @@ class PeakHeightsViewController: BandsFeaturesViewController {
 
         plotView!.addAxis(Axis(orientation: .Vertical, ticks: .Fit(3)))
         plotView!.addAxis(Axis(orientation: .Horizontal, ticks: .Distance(12)))
-        plotView!.fixedXInterval = Double(FeatureBuilder.bandNotes.startIndex)...Double(FeatureBuilder.bandNotes.endIndex)
+        plotView!.fixedXInterval = Double(Configuration.bandNotes.startIndex)...Double(Configuration.bandNotes.endIndex)
     }
 
     func updateView(feature: Feature, markNotes: [Int]) {
@@ -20,12 +20,12 @@ class PeakHeightsViewController: BandsFeaturesViewController {
         guard let plotView = plotView else {
             return
         }
-        plotView.clear()
+        plotView.removeAllPlots()
 
         var maxY: Double = 0
         var points = Array<PlotKit.Point>()
         for band in 0..<feature.peakHeights.count {
-            let note = Double(FeatureBuilder.bandNotes.startIndex + band)
+            let note = Double(Configuration.bandNotes.startIndex + band)
             let y = Double(feature.peakHeights[band])
             points.append(PlotKit.Point(x: note, y: y))
 
@@ -34,7 +34,7 @@ class PeakHeightsViewController: BandsFeaturesViewController {
             }
         }
         let pointSet = PointSet(points: points)
-        pointSet.color = lineColor
+        pointSet.lineColor = lineColor
         plotView.addPointSet(pointSet)
 
         // Markers
@@ -45,7 +45,7 @@ class PeakHeightsViewController: BandsFeaturesViewController {
             markPoints.append(Point(x: Double(note), y: 0))
         }
         let markPointSet = PointSet(points: markPoints)
-        markPointSet.color = markerColor
+        markPointSet.pointColor = markerColor
         plotView.addPointSet(markPointSet)
     }
 }

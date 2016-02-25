@@ -50,7 +50,7 @@ public enum Table: String {
     }
 
     public var maxDims: [Int] {
-        let featureSize = FeatureBuilder.bandNotes.count
+        let featureSize = Configuration.bandNotes.count
 
         switch self {
         case eventsStart: return [-1]
@@ -71,7 +71,7 @@ public enum Table: String {
 
     public var chunkDimensions: [Int] {
         let chunkSize = 1024
-        let featureSize = FeatureBuilder.bandNotes.count
+        let featureSize = Configuration.bandNotes.count
 
         switch self {
         case eventsStart: return [chunkSize]

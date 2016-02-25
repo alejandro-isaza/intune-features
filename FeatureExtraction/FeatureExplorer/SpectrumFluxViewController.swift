@@ -12,7 +12,7 @@ class SpectrumFluxViewController: BandsFeaturesViewController {
         super.viewDidLoad()
 
         plotView!.fixedYInterval = yrange
-        plotView!.fixedXInterval = Double(FeatureBuilder.bandNotes.startIndex)...Double(FeatureBuilder.bandNotes.endIndex)
+        plotView!.fixedXInterval = Double(Configuration.bandNotes.startIndex)...Double(Configuration.bandNotes.endIndex)
         plotView!.addAxis(Axis(orientation: .Vertical, ticks: .Distance(0.05)))
 
         var haxis = Axis(orientation: .Horizontal, ticks: .Distance(12))
@@ -26,16 +26,16 @@ class SpectrumFluxViewController: BandsFeaturesViewController {
         guard let plotView = plotView else {
             return
         }
-        plotView.clear()
+        plotView.removeAllPlots()
 
         var points = Array<PlotKit.Point>()
         for band in 0..<feature.spectralFlux.count {
-            let note = Double(FeatureBuilder.bandNotes.startIndex + band)
+            let note = Double(Configuration.bandNotes.startIndex + band)
             let y = Double(feature.spectralFlux[band])
             points.append(Point(x: note, y: y))
         }
         let pointSet = PointSet(points: points)
-        pointSet.color = lineColor
+        pointSet.lineColor = lineColor
         plotView.addPointSet(pointSet)
 
         // Markers
@@ -47,7 +47,7 @@ class SpectrumFluxViewController: BandsFeaturesViewController {
             markPoints.append(Point(x: Double(note), y: 0))
         }
         let markPointSet = PointSet(points: markPoints)
-        markPointSet.color = markerColor
+        markPointSet.pointColor = markerColor
         plotView.addPointSet(markPointSet)
     }
 }

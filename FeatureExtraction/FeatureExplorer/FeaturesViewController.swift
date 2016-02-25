@@ -6,6 +6,8 @@ import Upsurge
 import Peak
 
 class FeaturesViewController: NSTabViewController {
+    let windowSize = 8192
+
     var example = Example() {
         didSet {
             updateFeatures()
@@ -23,11 +25,12 @@ class FeaturesViewController: NSTabViewController {
     var peakLocations: PeakLocationsViewController!
     var spectrumFlux: SpectrumFluxViewController!
 
-    let fb = Double(FeatureBuilder.samplingFrequency) / Double(FeatureBuilder.windowSize)
-    let featureBuilder = FeatureBuilder()
+    var featureBuilder: FeatureBuilder!
 
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        featureBuilder = FeatureBuilder(windowSize: windowSize)
 
         view.translatesAutoresizingMaskIntoConstraints = false
         tabView.translatesAutoresizingMaskIntoConstraints = false
@@ -47,11 +50,11 @@ class FeaturesViewController: NSTabViewController {
 
     /// Convert from spectrum values to frequency, value points
     func spectrumPoints(spectrum: ValueArray<Double>) -> [FeatureExtraction.Point] {
-        return (0..<spectrum.count).map{ FeatureExtraction.Point(x: fb * Double($0), y: spectrum[$0]) }
+        return (0..<spectrum.count).map{ FeatureExtraction.Point(x: featureBuilder.baseFrequency * Double($0), y: spectrum[$0]) }
     }
 
     func updateFeatures() {
-        let feature = featureBuilder.generateFeatures(example.data[0..<FeatureBuilder.windowSize], example.data[FeatureBuilder.stepSize..<FeatureBuilder.windowSize + FeatureBuilder.stepSize])
+        let feature = featureBuilder.generateFeatures(example.data[0..<featureBuilder.windowSize], example.data[featureBuilder.stepSize..<featureBuilder.windowSize + featureBuilder.stepSize])
 
         let markNotes = notes.map{ Int($0.note) }
 

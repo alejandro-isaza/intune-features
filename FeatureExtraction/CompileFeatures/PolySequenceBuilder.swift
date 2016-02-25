@@ -9,18 +9,23 @@ import Upsurge
 class PolySequenceBuilder {
     static let maximumPolyphony = Float(6)
 
-    let featureBuilder = FeatureBuilder()
+    let windowSize: Int
+    let featureBuilder: FeatureBuilder
+    
     var audioFilePath: String
     var audioFile: AudioFile
     var events = [Event]()
     let decayModel = DecayModel()
 
-    init(audioFilePath: String, midiFilePath: String) {
+    init(audioFilePath: String, midiFilePath: String, windowSize: Int) {
+        self.windowSize = windowSize
+        featureBuilder = FeatureBuilder(windowSize: windowSize)
+
         self.audioFilePath = audioFilePath
 
         audioFile = AudioFile.open(audioFilePath)!
-        guard audioFile.sampleRate == FeatureBuilder.samplingFrequency else {
-            fatalError("Sample rate mismatch: \(audioFilePath) => \(audioFile.sampleRate) != \(FeatureBuilder.samplingFrequency)")
+        guard audioFile.sampleRate == Configuration.samplingFrequency else {
+            fatalError("Sample rate mismatch: \(audioFilePath) => \(audioFile.sampleRate) != \(Configuration.samplingFrequency)")
         }
 
         guard let midiFile = MIDIFile(filePath: midiFilePath) else {
@@ -34,12 +39,15 @@ class PolySequenceBuilder {
         }
     }
 
-    init(audioFilePath: String, csvFilePath: String) {
-        self.audioFilePath = audioFilePath
+    init(audioFilePath: String, csvFilePath: String, windowSize: Int) {
+        self.windowSize = windowSize
+        featureBuilder = FeatureBuilder(windowSize: windowSize)
 
+        self.audioFilePath = audioFilePath
+        
         audioFile = AudioFile.open(audioFilePath)!
-        guard audioFile.sampleRate == FeatureBuilder.samplingFrequency else {
-            fatalError("Sample rate mismatch: \(audioFilePath) => \(audioFile.sampleRate) != \(FeatureBuilder.samplingFrequency)")
+        guard audioFile.sampleRate == Configuration.samplingFrequency else {
+            fatalError("Sample rate mismatch: \(audioFilePath) => \(audioFile.sampleRate) != \(Configuration.samplingFrequency)")
         }
 
         guard let csvString = try? String(contentsOfFile: csvFilePath) else {
@@ -70,8 +78,7 @@ class PolySequenceBuilder {
     }
 
     func forEachWindow(@noescape action: (Window) throws -> ()) rethrows {
-        let windowSize = FeatureBuilder.windowSize
-        let stepSize = FeatureBuilder.stepSize
+        let stepSize = featureBuilder.stepSize
 
         var data = ValueArray<Double>(capacity: Int(audioFile.frameCount))
         withPointer(&data) { pointer in
@@ -104,8 +111,8 @@ class PolySequenceBuilder {
         var count = 0
         for event in events {
             let onsetIndexInWindow = event.start - windowStart
-            if onsetIndexInWindow >= 0 && onsetIndexInWindow < featureBuilder.window.count {
-                value += Float(featureBuilder.window[onsetIndexInWindow])
+            if onsetIndexInWindow >= 0 && onsetIndexInWindow < featureBuilder.windowingFunction.count {
+                value += Float(featureBuilder.windowingFunction[onsetIndexInWindow])
                 count += 1
             }
         }
@@ -145,7 +152,7 @@ class PolySequenceBuilder {
             if event.start + event.duration < windowStart {
                 continue
             }
-            if event.start > windowStart + FeatureBuilder.windowSize {
+            if event.start > windowStart + windowSize {
                 break
             }
             value += valueForEvent(event, windowStart: windowStart)
@@ -155,11 +162,11 @@ class PolySequenceBuilder {
 
     func valueForEvent(event: Event, windowStart: Int) -> Float {
         let start = max(event.start, windowStart)
-        let end = min(event.start + event.duration, windowStart + FeatureBuilder.windowSize)
+        let end = min(event.start + event.duration, windowStart + windowSize)
 
         var value = Float(0)
         for i in start..<end {
-            let windowingValue = Float(featureBuilder.window[i - windowStart])
+            let windowingValue = Float(featureBuilder.windowingFunction[i - windowStart])
             let decayValue = decayModel.decayValueForNote(event.note, atOffset: i - event.start)
             value += decayValue * windowingValue
         }

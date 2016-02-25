@@ -6,22 +6,24 @@ import Foundation
 import Upsurge
 
 class NoiseSequenceBuilder {
-    let featureBuilder = FeatureBuilder()
+    let windowSize: Int
+    let featureBuilder: FeatureBuilder
     var audioFilePath: String
     var audioFile: AudioFile
 
-    init(path: String) {
+    init(path: String, windowSize: Int) {
+        self.windowSize = windowSize
+        featureBuilder = FeatureBuilder(windowSize: windowSize)
         audioFilePath = path
 
         audioFile = AudioFile.open(audioFilePath)!
-        guard audioFile.sampleRate == FeatureBuilder.samplingFrequency else {
-            fatalError("Sample rate mismatch: \(audioFilePath) => \(audioFile.sampleRate) != \(FeatureBuilder.samplingFrequency)")
+        guard audioFile.sampleRate == Configuration.samplingFrequency else {
+            fatalError("Sample rate mismatch: \(audioFilePath) => \(audioFile.sampleRate) != \(Configuration.samplingFrequency)")
         }
     }
 
     func forEachWindow(@noescape action: (Window) throws -> ()) rethrows {
-        let windowSize = FeatureBuilder.windowSize
-        let stepSize = FeatureBuilder.stepSize
+        let stepSize = featureBuilder.stepSize
 
         var data = ValueArray<Double>(capacity: Int(audioFile.frameCount))
         withPointer(&data) { pointer in

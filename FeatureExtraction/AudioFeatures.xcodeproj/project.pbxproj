@@ -90,6 +90,8 @@
 		61BBC3E51C407A4A006C6DF0 /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61BBC3E21C407A4A006C6DF0 /* Upsurge.framework */; };
 		61BBC3E61C407A6B006C6DF0 /* FeatureExtraction.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C7845721BB9B06600C88426 /* FeatureExtraction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		61C3CFD71C7CE3B3002A9C90 /* Note+Color.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C3CFD61C7CE3B3002A9C90 /* Note+Color.swift */; };
+		61C3CFEF1C7F7F5B002A9C90 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C3CFEE1C7F7F5B002A9C90 /* Configuration.swift */; };
+		61C3CFF01C7F7F5B002A9C90 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C3CFEE1C7F7F5B002A9C90 /* Configuration.swift */; };
 		61CE4CBD1BF278D7000E0D34 /* HDF5Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C861BF2784E000E0D34 /* HDF5Kit.framework */; };
 		61CE4CBF1BF278D7000E0D34 /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4CA71BF2784E000E0D34 /* Upsurge.framework */; };
 		61D485AD1BC4A3D70086CED8 /* Shuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D485AC1BC4A3D70086CED8 /* Shuffle.swift */; };
@@ -563,6 +565,7 @@
 		61BBC3E11C407A4A006C6DF0 /* Peak.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Peak.framework; path = "/Users/al/dev/VM/intune-ios/Pods/../build/Debug-iphoneos/Peak.framework"; sourceTree = "<absolute>"; };
 		61BBC3E21C407A4A006C6DF0 /* Upsurge.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Upsurge.framework; path = "/Users/al/dev/VM/intune-ios/Pods/../build/Debug-iphoneos/Upsurge.framework"; sourceTree = "<absolute>"; };
 		61C3CFD61C7CE3B3002A9C90 /* Note+Color.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "Note+Color.swift"; sourceTree = "<group>"; };
+		61C3CFEE1C7F7F5B002A9C90 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		61CE4C5B1BED8B36000E0D34 /* Peak.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Peak.framework; path = ../Carthage/Checkouts/Peak/build/Debug/Peak.framework; sourceTree = "<group>"; };
 		61CE4C661BF2784D000E0D34 /* Peak.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Peak.xcodeproj; path = ../Carthage/Checkouts/Peak/Peak.xcodeproj; sourceTree = "<group>"; };
 		61CE4C691BF2784D000E0D34 /* HDF5Kit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HDF5Kit.xcodeproj; path = ../Carthage/Checkouts/HDF5Kit/HDF5Kit.xcodeproj; sourceTree = "<group>"; };
@@ -864,6 +867,7 @@
 			isa = PBXGroup;
 			children = (
 				8C7845741BB9B06600C88426 /* Info.plist */,
+				61C3CFEE1C7F7F5B002A9C90 /* Configuration.swift */,
 				6141B1D31C6E5B200074BD8C /* Event.swift */,
 				610E29B41C4D7847006B6016 /* Feature.swift */,
 				8C56779C1BE9731E0009ED31 /* FeatureBuilder.swift */,
@@ -1449,6 +1453,7 @@
 				610E29BA1C4D78B6006B6016 /* FeatureGenerator.swift in Sources */,
 				61BBC3D01C407905006C6DF0 /* FeatureDatabase.swift in Sources */,
 				610E29BF1C4D78B6006B6016 /* SpectrumFeatureGenerator.swift in Sources */,
+				61C3CFF01C7F7F5B002A9C90 /* Configuration.swift in Sources */,
 				610E29BC1C4D78B6006B6016 /* PeakHeightsFeatureGenerator.swift in Sources */,
 				610E29BB1C4D78B6006B6016 /* BandsFeatureGenerator.swift in Sources */,
 				61BBC3DE1C407905006C6DF0 /* Note.swift in Sources */,
@@ -1510,6 +1515,7 @@
 				8C56779E1BE976140009ED31 /* FeatureBuilder.swift in Sources */,
 				61AD3A631BEBDD5500FA2DB7 /* FeatureDatabase.swift in Sources */,
 				610AAB851BDABEFA008CC910 /* Point.swift in Sources */,
+				61C3CFEF1C7F7F5B002A9C90 /* Configuration.swift in Sources */,
 				61A146021C4D759B0063FE84 /* PeakLocationsFeatureGenerator.swift in Sources */,
 				61A146071C4D75B60063FE84 /* FeatureGenerator.swift in Sources */,
 				61A146051C4D759B0063FE84 /* SpectrumFluxFeatureGenerator.swift in Sources */,

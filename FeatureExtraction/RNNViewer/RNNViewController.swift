@@ -17,6 +17,8 @@ func nextColor() -> NSColor {
 }
 
 class RNNViewController: NSViewController {
+    let windowSize = 8192
+
     private struct Keys {
         static let openDirectory = "openDirectory"
         static let openPath = "openPath"
@@ -38,7 +40,7 @@ class RNNViewController: NSViewController {
 
     var selectedItems = Set<NSObject>()
 
-    var neuralNet = try! NeuralNet()
+    var neuralNet: NeuralNet!
 
     var collectionViewDataSource: CollectionViewDataSource!
     var collectionViewDelegate: CollectionViewDelegate!
@@ -46,6 +48,7 @@ class RNNViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        neuralNet = try! NeuralNet(windowSize: windowSize)
         updateView()
 
         combinedPlotView.addAxis(Axis(orientation: .Horizontal, ticks: .Fit(5)))
@@ -156,7 +159,7 @@ class RNNViewController: NSViewController {
 
         audioFile.currentFrame = offset
 
-        let sampleCount = Int(length * FeatureBuilder.samplingFrequency)
+        let sampleCount = Int(length * Configuration.samplingFrequency)
         if data.capacity < sampleCount {
             data = ValueArray<Double>(capacity: sampleCount)
         }
@@ -195,13 +198,13 @@ class RNNViewController: NSViewController {
         guard let audioFile = AudioFile.open(path) else {
             return
         }
-        precondition(audioFile.sampleRate == FeatureBuilder.samplingFrequency)
+        precondition(audioFile.sampleRate == Configuration.samplingFrequency)
         self.audioFile = audioFile
 
         labelsFile = File.open(path.stringByReplacingExtensionWith("h5"), mode: .ReadOnly)
 
         let frameCount = Int(audioFile.frameCount)
-        offsetSlider.maxValue = Double(frameCount - FeatureBuilder.windowSize)
+        offsetSlider.maxValue = Double(frameCount - windowSize)
 
         offset = 0
         offsetSlider.integerValue = offset
@@ -249,13 +252,14 @@ class RNNViewController: NSViewController {
         var pointsBottom = Array<PlotKit.Point>()
         pointsBottom.reserveCapacity(valueCount)
 
-        let start = FeatureBuilder.windowSize/2 - FeatureBuilder.stepSize
-        let stepsInWindow = Double(FeatureBuilder.windowSize) / Double(FeatureBuilder.stepSize)
+        let stepSize = windowSize / Configuration.stepFraction
+        let start = windowSize/2 - stepSize
+        let stepsInWindow = Double(windowSize) / Double(stepSize)
         for index in start.stride(to: sampleCount - samplesPerPoint, by: samplesPerPoint) {
             // Get the RMS value for the current point
             let size = min(samplesPerPoint, sampleCount - index)
             let y = rmsq(data[index..<index+size])
-            let x = Double(index) / Double(FeatureBuilder.stepSize) - (stepsInWindow - 1) / 2
+            let x = Double(index) / Double(stepSize) - (stepsInWindow - 1) / 2
             pointsTop.append(PlotKit.Point(x: x, y: y))
             pointsBottom.append(PlotKit.Point(x: x, y: -y))
         }
@@ -274,9 +278,10 @@ class RNNViewController: NSViewController {
     }
 
     func updateLabelsPlotView(plotView: PlotView, withItem item: LabelTimelineItem, withColor color: NSColor) {
-        let featureOffset = max(0, offset / FeatureBuilder.stepSize - 1)
-        let sampleCount = Int(length * FeatureBuilder.samplingFrequency)
-        let featureCount = FeatureBuilder.windowCountInSamples(sampleCount)
+        let stepSize = windowSize / Configuration.stepFraction
+        let featureOffset = max(0, offset / stepSize - 1)
+        let sampleCount = Int(length * Configuration.samplingFrequency)
+        let featureCount = Configuration.windowCountInSamples(sampleCount, windowSize: windowSize)
 
         var values = ValueArray<Double>()
         switch item.type {

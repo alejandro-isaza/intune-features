@@ -33,6 +33,7 @@ class NeuralNet {
     let netPath: String
     let device: MTLDevice
     var runner: Runner!
+    let featureBuilder: FeatureBuilder
 
     var dataLayer = Source()
     var notesSinkLayer = Sink()
@@ -42,8 +43,10 @@ class NeuralNet {
     var forwardPassAction: (Snapshot -> Void)?
     var processingCount = 0
 
-    init() throws {
+
+    init(windowSize: Int) throws {
         device = MTLCreateSystemDefaultDevice()!
+        featureBuilder = FeatureBuilder(windowSize: windowSize)
 
         self.netPath = NSBundle.mainBundle().pathForResource("net", ofType: "h5")!
 
@@ -159,15 +162,14 @@ class NeuralNet {
     // MARK: Network execution
 
     func processData(data: ValueArray<Double>) {
-        let featureBuilder = FeatureBuilder()
         processingCount = 0
         for layer in lstmLayers {
             layer.reset()
         }
 
-        let indices = 0.stride(to: data.count - FeatureBuilder.windowSize - FeatureBuilder.stepSize, by: FeatureBuilder.stepSize)
+        let indices = 0.stride(to: data.count - featureBuilder.windowSize - featureBuilder.stepSize, by: featureBuilder.stepSize)
         for i in indices {
-            let feature = featureBuilder.generateFeatures(data[i..<i + FeatureBuilder.windowSize], data[i + FeatureBuilder.stepSize..<i + FeatureBuilder.windowSize + FeatureBuilder.stepSize])
+            let feature = featureBuilder.generateFeatures(data[i..<i + featureBuilder.windowSize], data[i + featureBuilder.stepSize..<i + featureBuilder.windowSize + featureBuilder.stepSize])
             processFeature(feature)
             processingCount += 1
         }
@@ -175,7 +177,7 @@ class NeuralNet {
 
     private func processFeature(feature: Feature) {
         var data = dataLayer.data
-        let featureSize = FeatureBuilder.bandNotes.count
+        let featureSize = Configuration.bandNotes.count
         let dataSize = 4 * featureSize
         if data.capacity < dataSize {
             dataLayer.data = ValueArray<Float>(capacity: dataSize)

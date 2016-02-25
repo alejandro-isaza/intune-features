@@ -187,7 +187,7 @@ public extension FeatureDatabase {
             throw Error.DatasetNotFound
         }
 
-        let featureSize = FeatureBuilder.bandNotes.count
+        let featureSize = Configuration.bandNotes.count
         let data = [Float](feature.spectrum)
         try dataset.append(data, dimensions: [1, featureSize])
     }
@@ -197,7 +197,7 @@ public extension FeatureDatabase {
             throw Error.DatasetNotFound
         }
 
-        let featureSize = FeatureBuilder.bandNotes.count
+        let featureSize = Configuration.bandNotes.count
         let data = [Float](feature.spectralFlux)
         try dataset.append(data, dimensions: [1, featureSize])
     }
@@ -207,7 +207,7 @@ public extension FeatureDatabase {
             throw Error.DatasetNotFound
         }
 
-        let featureSize = FeatureBuilder.bandNotes.count
+        let featureSize = Configuration.bandNotes.count
         let data = [Float](feature.peakHeights)
         try dataset.append(data, dimensions: [1, featureSize])
     }
@@ -217,7 +217,7 @@ public extension FeatureDatabase {
             throw Error.DatasetNotFound
         }
 
-        let featureSize = FeatureBuilder.bandNotes.count
+        let featureSize = Configuration.bandNotes.count
         let data = [Float](feature.peakLocations)
         try dataset.append(data, dimensions: [1, featureSize])
     }

@@ -4,7 +4,7 @@ import Foundation
 
 public struct Note : Equatable, Hashable, CustomStringConvertible {
     /// The range of notes that can be represented with a label (this needs to be a multiple of 12)
-    public static let representableRange = FeatureBuilder.notes
+    public static let representableRange = Configuration.notes
 
     /// The number of notes that can be represented with a label
     public static let noteCount = representableRange.count
