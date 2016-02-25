@@ -6,6 +6,7 @@ import FeatureExtraction
 protocol SelectableItem: NSObjectProtocol {
     var color: NSColor { get set }
     var title: String { get }
+    var shortTitle: String { get }
 }
 
 class CollectionViewItem: NSCollectionViewItem {
@@ -78,7 +79,10 @@ class CollectionViewDataSource: NSObject, NSCollectionViewDataSource {
         }
 
         for index in 0..<neuralNet.outputSize {
-            let item = OutputTimelineItem(resultIndex: index, title: neuralNet.titleForOutputIndex(index))
+            let item = OutputTimelineItem(
+                resultIndex: index,
+                title: neuralNet.titleForOutputIndex(index),
+                shortTitle: neuralNet.shortTitleForOutputIndex(index))
             outputItem.timelines.append(item)
         }
     }
@@ -128,7 +132,7 @@ class CollectionViewDataSource: NSObject, NSCollectionViewDataSource {
         }
         view.checkBox.state = selected ? 1 : 0
         if let selectableItem = object as? SelectableItem {
-            view.checkBox.title = selectableItem.title
+            view.checkBox.title = selectableItem.shortTitle
             view.colorWell.color = selectableItem.color
         }
         return view

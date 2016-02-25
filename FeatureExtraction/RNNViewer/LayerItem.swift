@@ -35,6 +35,10 @@ class UnitTimelineItem: NSObject, SelectableItem {
         return "Layer \(layerIndex) unit \(unitIndex)"
     }
 
+    var shortTitle: String {
+        return "\(unitIndex)"
+    }
+
     init (layerIndex: Int, unitIndex: Int) {
         self.layerIndex = layerIndex
         self.unitIndex = unitIndex

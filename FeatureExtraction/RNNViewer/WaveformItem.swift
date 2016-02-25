@@ -7,4 +7,7 @@ class WaveformItem: NSObject, SelectableItem {
     var title: String {
         return "Waveform"
     }
+    var shortTitle: String {
+        return "Waveform"
+    }
 }

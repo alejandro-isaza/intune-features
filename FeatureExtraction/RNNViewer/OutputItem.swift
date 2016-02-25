@@ -25,10 +25,12 @@ class OutputTimelineItem: NSObject, SelectableItem {
     var index: Int
     var color: NSColor
     var title: String
+    var shortTitle: String
 
-    init(resultIndex: Int, title: String) {
+    init(resultIndex: Int, title: String, shortTitle: String) {
         self.index = resultIndex
         self.title = title
+        self.shortTitle = shortTitle
         if resultIndex < Note.noteCount {
             color = Note(midiNoteNumber: resultIndex + Note.representableRange.startIndex).color
         } else {
