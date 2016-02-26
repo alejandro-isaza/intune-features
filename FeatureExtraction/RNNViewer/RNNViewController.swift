@@ -287,17 +287,20 @@ class RNNViewController: NSViewController {
         switch item.type {
         case .Onset:
             if let dataset = labelsFile?.openDoubleDataset(Table.labelsOnset.rawValue) {
-                values = ValueArray(dataset[featureOffset..<featureOffset + featureCount])
+                let count = min(featureCount, dataset.space.dims[0])
+                values = ValueArray(dataset[featureOffset..<featureOffset + count])
             }
 
         case .Polyphony:
             if let dataset = labelsFile?.openDoubleDataset(Table.labelsPolyphony.rawValue) {
-                values = ValueArray(dataset[featureOffset..<featureOffset + featureCount])
+                let count = min(featureCount, dataset.space.dims[0])
+                values = ValueArray(dataset[featureOffset..<featureOffset + count])
             }
 
         case .Note(let noteNumber):
             if let dataset = labelsFile?.openDoubleDataset(Table.labelsNotes.rawValue) {
-                values = ValueArray(dataset[featureOffset..<featureOffset + featureCount, noteNumber])
+                let count = min(featureCount, dataset.space.dims[0])
+                values = ValueArray(dataset[featureOffset..<featureOffset + count, noteNumber])
             }
         }
 
