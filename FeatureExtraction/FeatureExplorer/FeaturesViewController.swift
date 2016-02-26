@@ -6,8 +6,6 @@ import Upsurge
 import Peak
 
 class FeaturesViewController: NSTabViewController {
-    let windowSize = 8192
-
     var example = Example() {
         didSet {
             updateFeatures()

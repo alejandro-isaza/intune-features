@@ -7,9 +7,6 @@ import Peak
 import Upsurge
 
 class FileViewController: NSViewController {
-    let windowSize = 8192
-    let stepSize = 8192 / Configuration.stepFraction
-
     var example = Example()
     var audioFile: AudioFile?
     var midiFile: MIDIFile?
