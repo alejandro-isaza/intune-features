@@ -17,7 +17,7 @@ func nextColor() -> NSColor {
 }
 
 class RNNViewController: NSViewController {
-    let windowSize = 8192
+    let windowSize = 2048
 
     private struct Keys {
         static let openDirectory = "openDirectory"
@@ -287,19 +287,19 @@ class RNNViewController: NSViewController {
         switch item.type {
         case .Onset:
             if let dataset = labelsFile?.openDoubleDataset(Table.labelsOnset.rawValue) {
-                let count = min(featureCount, dataset.space.dims[0])
+                let count = min(featureCount, dataset.space.dims[0] - featureOffset)
                 values = ValueArray(dataset[featureOffset..<featureOffset + count])
             }
 
         case .Polyphony:
             if let dataset = labelsFile?.openDoubleDataset(Table.labelsPolyphony.rawValue) {
-                let count = min(featureCount, dataset.space.dims[0])
+                let count = min(featureCount, dataset.space.dims[0] - featureOffset)
                 values = ValueArray(dataset[featureOffset..<featureOffset + count])
             }
 
         case .Note(let noteNumber):
             if let dataset = labelsFile?.openDoubleDataset(Table.labelsNotes.rawValue) {
-                let count = min(featureCount, dataset.space.dims[0])
+                let count = min(featureCount, dataset.space.dims[0] - featureOffset)
                 values = ValueArray(dataset[featureOffset..<featureOffset + count, noteNumber])
             }
         }

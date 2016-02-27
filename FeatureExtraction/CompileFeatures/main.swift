@@ -8,8 +8,8 @@ let cli = CommandLine(arguments: Process.arguments)
 // Generation options
 let rootFilePath = StringOption(shortFlag: "r", longFlag: "root", required: true, helpMessage: "Path to the audio data.")
 let overwrite = BoolOption(longFlag: "overwrite", required: false, helpMessage: "Overwrite existing feature files.")
-let windowSize = IntOption(shortFlag: "w", longFlag: "window", required: false, helpMessage: "Audio window size in samples")
-cli.addOptions(rootFilePath, overwrite)
+let windowSize = IntOption(shortFlag: "w", longFlag: "window", required: true, helpMessage: "Audio window size in samples")
+cli.addOptions(rootFilePath, overwrite, windowSize)
 
 // Other options
 let help = BoolOption(shortFlag: "h", longFlag: "help", helpMessage: "Prints a help message.")
@@ -27,7 +27,7 @@ if help.value {
     exit(EX_OK)
 }
 
-let featureCompiler = FeatureCompiler(root: rootFilePath.value!, overwrite: overwrite.value, windowSize: windowSize.value ?? 8192)
+let featureCompiler = FeatureCompiler(root: rootFilePath.value!, overwrite: overwrite.value, windowSize: windowSize.value!)
 
 try featureCompiler.compileNoiseFeatures()
 try featureCompiler.compileMonoFeatures()
