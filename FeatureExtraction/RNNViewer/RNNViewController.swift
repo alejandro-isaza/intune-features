@@ -18,6 +18,7 @@ func nextColor() -> NSColor {
 
 class RNNViewController: NSViewController {
     let windowSize = 2048
+    let stepSize = 1024
 
     private struct Keys {
         static let openDirectory = "openDirectory"
@@ -29,6 +30,7 @@ class RNNViewController: NSViewController {
     @IBOutlet weak var offsetTextField: NSTextField!
     @IBOutlet weak var lengthSlider: NSSlider!
     @IBOutlet weak var lengthTextField: NSTextField!
+    @IBOutlet weak var pianoRollView: PianoRollView!
     @IBOutlet weak var combinedPlotView: PlotView!
     
     var audioFile: AudioFile?
@@ -36,11 +38,16 @@ class RNNViewController: NSViewController {
     var offset = 0
     var length = 1.0
     var data = ValueArray<Double>()
+    var labelEvents = [Event]()
+    var netEvents = [Event]()
     var snapshots = [Snapshot]()
 
     var selectedItems = Set<NSObject>()
 
+    var networkOffset = 0
+    var networkLastOffset = 0
     var neuralNet: NeuralNet!
+    var networkDecoder = NetworkDecoder()
 
     var collectionViewDataSource: CollectionViewDataSource!
     var collectionViewDelegate: CollectionViewDelegate!
@@ -55,13 +62,31 @@ class RNNViewController: NSViewController {
         combinedPlotView.addAxis(Axis(orientation: .Vertical, ticks: .Distance(0.1)))
 
         neuralNet.forwardPassAction = { snapshot in
+            let output = snapshot.output
+            let count = output.count
+            self.networkDecoder.processOutput(output[count - 2], polyphonyValue: output[count - 1], noteValues: output[0..<Note.noteCount])
+
+            self.networkOffset += self.stepSize
             self.snapshots.append(snapshot)
             if self.snapshots.count == self.neuralNet.processingCount {
                 dispatch_async(dispatch_get_main_queue()) {
                     self.collectionView.reloadData()
                     self.updateCombinedPlotView()
+                    self.updatePianoRollView()
                 }
             }
+        }
+        networkDecoder.eventAction = { notes in
+            for i in 0..<self.netEvents.count {
+                if self.netEvents[i].duration == 0 {
+                    self.netEvents[i].duration = self.networkOffset - self.networkLastOffset
+                }
+            }
+            for note in notes {
+                let event = Event(note: note, start: self.networkOffset, duration: 0, velocity: 0.63)
+                self.netEvents.append(event)
+            }
+            self.networkLastOffset = self.networkOffset
         }
 
         collectionViewDelegate = CollectionViewDelegate()
@@ -168,7 +193,11 @@ class RNNViewController: NSViewController {
         }
 
         snapshots.removeAll()
+        netEvents.removeAll()
+        networkOffset = offset
+        networkLastOffset = offset
         neuralNet.processData(data)
+        updatePianoRollView()
     }
 
 
@@ -209,8 +238,35 @@ class RNNViewController: NSViewController {
         offset = 0
         offsetSlider.integerValue = offset
         offsetTextField.integerValue = offset
-        
+
+        loadEvents()
         reload()
+    }
+
+    func loadEvents() {
+        labelEvents.removeAll()
+
+        guard let labelsFile = labelsFile else {
+            return
+        }
+        guard let startDataset = labelsFile.openIntDataset(Table.eventsStart.rawValue) else {
+            return
+        }
+        guard let durationDataset = labelsFile.openIntDataset(Table.eventsDuration.rawValue) else {
+            return
+        }
+        guard let noteDataset = labelsFile.openIntDataset(Table.eventsNote.rawValue) else {
+            return
+        }
+
+        let eventCount = startDataset.extent[0]
+        labelEvents.reserveCapacity(eventCount)
+
+        for i in 0..<eventCount {
+            let note = Note(midiNoteNumber: noteDataset[i].first!)
+            let event = Event(note: note, start: startDataset[i].first!, duration: durationDataset[i].first!, velocity: 0.63)
+            labelEvents.append(event)
+        }
     }
 
     @IBAction func offsetSliderDidChange(sender: AnyObject) {
@@ -275,6 +331,15 @@ class RNNViewController: NSViewController {
         bottom.lineColor = color
         bottom.fillColor = color
         plotView.addPointSet(bottom, title: "Waveform")
+    }
+
+    func updatePianoRollView() {
+        pianoRollView.labelEvents = labelEvents
+        pianoRollView.netEvents = netEvents
+
+        let start = offset
+        let sampleCount = Int(length * Configuration.samplingFrequency)
+        pianoRollView.range = start..<start + sampleCount
     }
 
     func updateLabelsPlotView(plotView: PlotView, withItem item: LabelTimelineItem, withColor color: NSColor) {

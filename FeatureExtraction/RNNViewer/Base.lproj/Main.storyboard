@@ -638,11 +638,11 @@
             <objects>
                 <viewController id="XfG-lQ-9wD" customClass="RNNViewController" customModule="RNNViewer" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" wantsLayer="YES" id="m2S-Jp-Qdl">
-                        <rect key="frame" x="0.0" y="0.0" width="795" height="499"/>
+                        <rect key="frame" x="0.0" y="0.0" width="795" height="688"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <subviews>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="bUJ-XG-gUJ">
-                                <rect key="frame" x="0.0" y="405" width="795" height="94"/>
+                                <rect key="frame" x="0.0" y="594" width="795" height="94"/>
                                 <subviews>
                                     <slider verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="ox9-Vj-LRr">
                                         <rect key="frame" x="68" y="53" width="601" height="20"/>
@@ -723,13 +723,13 @@
                                 </constraints>
                             </customView>
                             <scrollView wantsLayer="YES" autohidesScrollers="YES" horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="DrE-Yd-c3X">
-                                <rect key="frame" x="0.0" y="167" width="795" height="238"/>
+                                <rect key="frame" x="0.0" y="348" width="795" height="246"/>
                                 <clipView key="contentView" wantsLayer="YES" id="QyK-Bk-s9F">
-                                    <rect key="frame" x="1" y="1" width="793" height="236"/>
+                                    <rect key="frame" x="1" y="1" width="793" height="244"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <collectionView wantsLayer="YES" id="v5w-Vt-3wd">
-                                            <rect key="frame" x="0.0" y="0.0" width="793" height="240"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="793" height="310"/>
                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                             <collectionViewFlowLayout key="collectionViewLayout" id="Vkt-Vx-WPl">
                                                 <size key="itemSize" width="150" height="30"/>
@@ -739,31 +739,40 @@
                                     </subviews>
                                 </clipView>
                                 <constraints>
-                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="200" id="hab-WR-KT7"/>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="100" id="hab-WR-KT7"/>
                                 </constraints>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="zc7-w3-o0c">
                                     <rect key="frame" x="1" y="144" width="233" height="15"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="2VU-JX-Iib">
-                                    <rect key="frame" x="778" y="1" width="16" height="236"/>
+                                    <rect key="frame" x="778" y="1" width="16" height="244"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                             </scrollView>
                             <customView translatesAutoresizingMaskIntoConstraints="NO" id="yf2-Xh-UOU" customClass="PlotView" customModule="PlotKit">
-                                <rect key="frame" x="0.0" y="0.0" width="795" height="167"/>
+                                <rect key="frame" x="0.0" y="0.0" width="795" height="172"/>
+                            </customView>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="0UQ-Vm-tm5" customClass="PianoRollView" customModule="RNNViewer" customModuleProvider="target">
+                                <rect key="frame" x="60" y="172" width="675" height="176"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="176" id="LTw-Ly-7D9"/>
+                                </constraints>
                             </customView>
                         </subviews>
                         <constraints>
                             <constraint firstItem="DrE-Yd-c3X" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="EDd-Qv-sta"/>
-                            <constraint firstItem="yf2-Xh-UOU" firstAttribute="top" secondItem="DrE-Yd-c3X" secondAttribute="bottom" id="Gob-s0-zzC"/>
                             <constraint firstItem="yf2-Xh-UOU" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="K3Z-TC-run"/>
+                            <constraint firstItem="yf2-Xh-UOU" firstAttribute="top" secondItem="0UQ-Vm-tm5" secondAttribute="bottom" id="NsO-2m-hY2"/>
+                            <constraint firstAttribute="trailing" secondItem="0UQ-Vm-tm5" secondAttribute="trailing" constant="60" id="PXo-Lu-Iaa"/>
                             <constraint firstAttribute="trailing" secondItem="yf2-Xh-UOU" secondAttribute="trailing" id="WFB-0H-e2D"/>
                             <constraint firstItem="yf2-Xh-UOU" firstAttribute="height" secondItem="DrE-Yd-c3X" secondAttribute="height" multiplier="0.7" id="WmE-D4-zHR"/>
                             <constraint firstItem="bUJ-XG-gUJ" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" id="Z1w-AD-3yI"/>
                             <constraint firstItem="bUJ-XG-gUJ" firstAttribute="top" secondItem="m2S-Jp-Qdl" secondAttribute="top" id="aJL-20-Koy"/>
                             <constraint firstAttribute="trailing" secondItem="DrE-Yd-c3X" secondAttribute="trailing" id="dZh-Ew-aND"/>
                             <constraint firstItem="DrE-Yd-c3X" firstAttribute="top" secondItem="bUJ-XG-gUJ" secondAttribute="bottom" id="oy2-qX-bNT"/>
+                            <constraint firstItem="0UQ-Vm-tm5" firstAttribute="top" secondItem="DrE-Yd-c3X" secondAttribute="bottom" id="rWJ-Ov-Phq"/>
+                            <constraint firstItem="0UQ-Vm-tm5" firstAttribute="leading" secondItem="m2S-Jp-Qdl" secondAttribute="leading" constant="60" id="riv-Jg-Ye7"/>
                             <constraint firstAttribute="trailing" secondItem="bUJ-XG-gUJ" secondAttribute="trailing" id="wRS-E9-pR8"/>
                             <constraint firstAttribute="bottom" secondItem="yf2-Xh-UOU" secondAttribute="bottom" id="ynD-JZ-Euh"/>
                         </constraints>
@@ -775,11 +784,12 @@
                         <outlet property="lengthTextField" destination="04M-HV-WhD" id="2Vx-aG-Zvb"/>
                         <outlet property="offsetSlider" destination="ox9-Vj-LRr" id="9fa-3K-igD"/>
                         <outlet property="offsetTextField" destination="26E-1G-bfI" id="3Df-8X-PbC"/>
+                        <outlet property="pianoRollView" destination="0UQ-Vm-tm5" id="dyy-5j-K0g"/>
                     </connections>
                 </viewController>
                 <customObject id="rPt-NT-nkU" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="75.5" y="830.5"/>
+            <point key="canvasLocation" x="75.5" y="924.5"/>
         </scene>
     </scenes>
 </document>
