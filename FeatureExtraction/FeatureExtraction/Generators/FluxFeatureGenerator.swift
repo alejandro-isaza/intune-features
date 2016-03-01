@@ -3,7 +3,7 @@
 import Foundation
 import Upsurge
 
-public class SpectrumFluxFeatureGenerator : BandsFeatureGenerator {
+public class FluxFeatureGenerator : BandsFeatureGenerator {
     public var fluxes: ValueArray<Double>
 
     public override var data: ValueArray<Double> {
@@ -15,12 +15,12 @@ public class SpectrumFluxFeatureGenerator : BandsFeatureGenerator {
         super.init(notes: notes, bandSize: bandSize)
     }
 
-    public func update(spectrum0 spectrum0: ValueArray<Double>, spectrum1: ValueArray<Double>) {
+    public func update(data0 data0: ValueArray<Double>, data1: ValueArray<Double>) {
         let bandCount = notes.count
-        precondition(spectrum0.count == bandCount && spectrum1.count == bandCount)
+        precondition(data0.count == bandCount && data1.count == bandCount)
 
         for band in 0..<bandCount {
-            fluxes[band] = spectrum1[band] - spectrum0[band]
+            fluxes[band] = data1[band] - data0[band]
         }
     }
 }
