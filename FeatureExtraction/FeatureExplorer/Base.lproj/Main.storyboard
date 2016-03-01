@@ -959,7 +959,7 @@
                                     <constraint firstAttribute="width" constant="300" id="lRl-4J-CJb"/>
                                 </constraints>
                                 <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="YES" id="H7m-lf-e2P">
-                                    <rect key="frame" x="1" y="283" width="448" height="16"/>
+                                    <rect key="frame" x="0.0" y="284" width="300" height="16"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                 </scroller>
                                 <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="fiz-U6-d0n">
@@ -987,15 +987,46 @@
             </objects>
             <point key="canvasLocation" x="662" y="235"/>
         </scene>
+        <!--Peak Flux-->
+        <scene sceneID="hiE-Y0-iwP">
+            <objects>
+                <viewController title="Peak Flux" storyboardIdentifier="PeakHeightsFluxViewController" id="8We-Vu-AIQ" customClass="PeakHeightsFluxViewController" customModule="FeatureExplorer" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="75v-C3-2CW">
+                        <rect key="frame" x="0.0" y="0.0" width="620" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="7U9-Yz-CaV" customClass="PlotView" customModule="PlotKit">
+                                <rect key="frame" x="0.0" y="0.0" width="620" height="300"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="120" id="o6S-Wu-OEE"/>
+                                </constraints>
+                            </customView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstItem="7U9-Yz-CaV" firstAttribute="top" secondItem="75v-C3-2CW" secondAttribute="top" id="2v4-0G-rbw"/>
+                            <constraint firstItem="7U9-Yz-CaV" firstAttribute="leading" secondItem="75v-C3-2CW" secondAttribute="leading" id="EcM-BD-yP0"/>
+                            <constraint firstAttribute="trailing" secondItem="7U9-Yz-CaV" secondAttribute="trailing" id="Ggs-by-M23"/>
+                            <constraint firstAttribute="bottom" secondItem="7U9-Yz-CaV" secondAttribute="bottom" id="lCJ-1Q-F3Y"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="plotView" destination="7U9-Yz-CaV" id="pQc-X0-CkS"/>
+                    </connections>
+                </viewController>
+                <customObject id="BZW-Uj-cr5" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2049" y="1633"/>
+        </scene>
         <!--Features View Controller-->
         <scene sceneID="7TR-ta-I6n">
             <objects>
-                <tabViewController identifier="FeaturesViewController" storyboardIdentifier="FeaturesViewController" selectedTabViewItemIndex="0" id="sa1-nq-uS7" customClass="FeaturesViewController" customModule="FeatureExplorer" customModuleProvider="target" sceneMemberID="viewController">
+                <tabViewController identifier="FeaturesViewController" storyboardIdentifier="FeaturesViewController" selectedTabViewItemIndex="4" id="sa1-nq-uS7" customClass="FeaturesViewController" customModule="FeatureExplorer" customModuleProvider="target" sceneMemberID="viewController">
                     <tabViewItems>
                         <tabViewItem id="0Hy-DM-eLc"/>
                         <tabViewItem id="AXI-9h-HmP"/>
                         <tabViewItem id="Fju-ty-Qnk"/>
                         <tabViewItem id="WSj-3B-FdW"/>
+                        <tabViewItem id="1sl-NA-mta"/>
                     </tabViewItems>
                     <tabView key="tabView" autoresizesSubviews="NO" type="noTabsNoBorder" id="g99-cU-HfO">
                         <autoresizingMask key="autoresizingMask"/>
@@ -1007,6 +1038,7 @@
                         <segue destination="iu4-yz-Gtg" kind="relationship" relationship="tabItems" id="sFl-0Z-IPq"/>
                         <segue destination="RTh-T8-aZm" kind="relationship" relationship="tabItems" id="Spa-jo-Y4M"/>
                         <segue destination="6Kd-Zk-rLq" kind="relationship" relationship="tabItems" id="0qu-xN-bOg"/>
+                        <segue destination="8We-Vu-AIQ" kind="relationship" relationship="tabItems" id="I0b-Qp-paU"/>
                     </connections>
                 </tabViewController>
                 <customObject id="h80-g0-NDa" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>

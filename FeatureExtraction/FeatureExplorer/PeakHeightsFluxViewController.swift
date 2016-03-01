@@ -5,39 +5,39 @@ import FeatureExtraction
 import PlotKit
 import Upsurge
 
-class SpectrumFluxViewController: BandsFeaturesViewController {
-    let yrange = -1...1
-
+class PeakHeightsFluxViewController: BandsFeaturesViewController {
+    let yrange = -0.1...0.1
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         plotView!.fixedYInterval = yrange
         plotView!.fixedXInterval = Double(Configuration.bandNotes.startIndex)...Double(Configuration.bandNotes.endIndex)
         plotView!.addAxis(Axis(orientation: .Vertical, ticks: .Distance(0.05)))
-
+        
         var haxis = Axis(orientation: .Horizontal, ticks: .Distance(12))
         haxis.position = .Value(0.0)
         plotView!.addAxis(haxis)
-
+        
     }
-
+    
     func updateView(feature: Feature, markNotes: [Int]) {
         _ = view // Force the view to load
         guard let plotView = plotView else {
             return
         }
         plotView.removeAllPlots()
-
+        
         var points = Array<PlotKit.Point>()
-        for band in 0..<feature.spectralFlux.count {
+        for band in 0..<feature.peakHeightsFlux.count {
             let note = Double(Configuration.bandNotes.startIndex + band)
-            let y = Double(feature.spectralFlux[band])
+            let y = Double(feature.peakHeightsFlux[band])
             points.append(Point(x: note, y: y))
         }
         let pointSet = PointSet(points: points)
         pointSet.lineColor = lineColor
         plotView.addPointSet(pointSet)
-
+        
         // Markers
         var markPoints = Array<PlotKit.Point>()
         for note in markNotes {

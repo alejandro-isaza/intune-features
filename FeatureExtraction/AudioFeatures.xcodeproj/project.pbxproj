@@ -103,6 +103,7 @@
 		8C2527391C064E570038A73F /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C2527381C064E570038A73F /* main.swift */; };
 		8C25274E1C066BB20038A73F /* ValidateFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C25274D1C066BB20038A73F /* ValidateFeatures.swift */; };
 		8C56779E1BE976140009ED31 /* FeatureBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C56779C1BE9731E0009ED31 /* FeatureBuilder.swift */; };
+		8C64869D1C86490300CE400E /* PeakHeightsFluxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C64869A1C86490300CE400E /* PeakHeightsFluxViewController.swift */; };
 		8C7845731BB9B06600C88426 /* FeatureExtraction.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C7845721BB9B06600C88426 /* FeatureExtraction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8C94D98A1C3C3B58005B7BEF /* CommandLine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6188C7D71C066D50001A7EAA /* CommandLine.framework */; };
 		8C94D98D1C3C3BBA005B7BEF /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */; };
@@ -586,6 +587,7 @@
 		8C2527381C064E570038A73F /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		8C25274D1C066BB20038A73F /* ValidateFeatures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidateFeatures.swift; sourceTree = "<group>"; };
 		8C56779C1BE9731E0009ED31 /* FeatureBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureBuilder.swift; sourceTree = "<group>"; };
+		8C64869A1C86490300CE400E /* PeakHeightsFluxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakHeightsFluxViewController.swift; sourceTree = "<group>"; };
 		8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureExtraction.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C7845721BB9B06600C88426 /* FeatureExtraction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeatureExtraction.h; sourceTree = "<group>"; };
 		8C7845741BB9B06600C88426 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -735,6 +737,7 @@
 				61AAD7011BF54CC500C9BB65 /* BandsFeaturesViewController.swift */,
 				6156938A1BE83D4C0094E204 /* SpectrumViewController.swift */,
 				6126D7161BE976D9007F8BE4 /* PeakHeightsViewController.swift */,
+				8C64869A1C86490300CE400E /* PeakHeightsFluxViewController.swift */,
 				619297E31BE989EC009A90EB /* PeakLocationsViewController.swift */,
 				61AAD7031BF54D6000C9BB65 /* SpectrumFluxViewController.swift */,
 				61A46BCE1BDEC578001D2288 /* Assets.xcassets */,
@@ -1441,6 +1444,7 @@
 				61EA99631C6BC3C500A4AFB6 /* Example.swift in Sources */,
 				619297E41BE989EC009A90EB /* PeakLocationsViewController.swift in Sources */,
 				61A46BCB1BDEC578001D2288 /* AppDelegate.swift in Sources */,
+				8C64869D1C86490300CE400E /* PeakHeightsFluxViewController.swift in Sources */,
 				6126D7171BE976D9007F8BE4 /* PeakHeightsViewController.swift in Sources */,
 				6156938B1BE83D4C0094E204 /* SpectrumViewController.swift in Sources */,
 			);
