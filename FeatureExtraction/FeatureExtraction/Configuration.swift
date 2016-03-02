@@ -21,12 +21,6 @@ public final class Configuration {
     /// The note resolution for the spectrums
     public static let bandSize = 1.0
 
-    /// The peak height cutoff as a multiplier of the RMS
-    public static let peakHeightCutoffMultiplier = 0.05
-
-    /// The minimum distance between peaks in notes
-    public static let peakMinimumNoteDistance = 0.5
-
     /// Calculate the number of windows that fit inside the given number of samples
     public static func windowCountInSamples(samples: Int, windowSize: Int) -> Int {
         if samples < windowSize {

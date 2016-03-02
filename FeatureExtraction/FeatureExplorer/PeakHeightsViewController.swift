@@ -13,6 +13,7 @@ class PeakHeightsViewController: BandsFeaturesViewController {
         plotView!.addAxis(Axis(orientation: .Vertical, ticks: .Fit(3)))
         plotView!.addAxis(Axis(orientation: .Horizontal, ticks: .Distance(12)))
         plotView!.fixedXInterval = Double(Configuration.bandNotes.startIndex)...Double(Configuration.bandNotes.endIndex)
+        plotView!.fixedYInterval = 0.0...1.0
     }
 
     func updateView(feature: Feature, markNotes: [Int]) {

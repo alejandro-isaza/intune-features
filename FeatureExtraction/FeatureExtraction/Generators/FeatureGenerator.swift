@@ -5,4 +5,7 @@ import Upsurge
 public protocol FeatureGenerator {
     /// Serialize the feature
     var data: ValueArray<Double> { get }
+
+    /// Reset the internal state of the generator when there is a discontunuity in the data stream
+    func reset()
 }

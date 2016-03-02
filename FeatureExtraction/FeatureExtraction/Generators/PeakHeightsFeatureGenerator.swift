@@ -4,6 +4,11 @@ import Foundation
 import Upsurge
 
 public class PeakHeightsFeatureGenerator : BandsFeatureGenerator {
+    public let peaksMovingAverageSize = 5
+    public let rmsMovingAverageSize = 10
+
+    public var rmsHistory: ValueArray<Double>
+    public var peakHistory: ValueArray<Double>
     public var peakHeights: ValueArray<Double>
 
     public override var data: ValueArray<Double> {
@@ -12,21 +17,55 @@ public class PeakHeightsFeatureGenerator : BandsFeatureGenerator {
 
     public override init(notes: Range<Int>, bandSize: Double) {
         peakHeights = ValueArray<Double>(count: notes.count)
+        peakHistory = ValueArray<Double>(count: notes.count * peaksMovingAverageSize, repeatedValue: 0.0)
+        rmsHistory = ValueArray<Double>(count: rmsMovingAverageSize, repeatedValue: 0.0)
         super.init(notes: notes, bandSize: bandSize)
     }
 
+    public override func reset() {
+        for i in 0..<rmsMovingAverageSize {
+            rmsHistory[i] = 0
+        }
+        for i in 0..<peakHistory.count {
+            peakHistory[i] = 0
+        }
+    }
+    
     public func update(peaks: [Point], rms: Double) {
         let bandCount = notes.count
-        for i in 0..<bandCount {
-            peakHeights[i] = 0.0
+
+        // Shift RMS values
+        withPointer(&rmsHistory) { pointer in
+            pointer.assignFrom(pointer + 1, count: rmsMovingAverageSize - 1)
         }
 
+        // Shift peaks
+        withPointer(&peakHistory) { pointer in
+            pointer.assignFrom(pointer + bandCount, count: (peaksMovingAverageSize  - 1) * bandCount)
+        }
+        for i in 0..<bandCount {
+            peakHistory[(peaksMovingAverageSize - 1) * bandCount + i] = 0
+        }
+
+        // Compute average RMS
+        rmsHistory[rmsMovingAverageSize - 1] = rms
+        let rmsAverage = mean(rmsHistory)
+
+        // Compute new peaks
         for peak in peaks {
             let note = freqToNote(peak.x)
             let band = bandForNote(note)
-            if band >= 0 && band < bandCount && peakHeights[band] < peak.y {
-                peakHeights[band] = peak.y / rms
+            if band >= 0 && band < bandCount {
+                let newHeight = peak.y / rmsAverage
+                peakHistory[(peaksMovingAverageSize - 1) * bandCount + band] = newHeight
             }
         }
+
+        // Compute peak averages
+        for i in 0..<bandCount {
+            let peakMean = mean(ValueArraySlice(base: peakHistory, startIndex: i, endIndex: (peaksMovingAverageSize - 1) * bandCount + i, step: bandCount))
+            peakHeights[i] = peakMean
+        }
+
     }
 }

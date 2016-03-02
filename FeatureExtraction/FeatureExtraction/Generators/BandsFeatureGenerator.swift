@@ -22,4 +22,6 @@ public class BandsFeatureGenerator: FeatureGenerator {
     public func noteForBand(band: Int) -> Double {
         return Double(notes.startIndex) + Double(band) * bandSize
     }
+
+    public func reset() {}
 }

@@ -4,68 +4,23 @@ import Foundation
 import Upsurge
 
 public class PeakExtractor {
-    public let heightCutoffMultiplier: Double
-    public let minimumNoteDistance: Double
-
-    public init(heightCutoffMultiplier: Double, minimumNoteDistance: Double) {
-        self.heightCutoffMultiplier = heightCutoffMultiplier
-        self.minimumNoteDistance = minimumNoteDistance
+    public init() {
     }
 
     public func process(input: [Point], rms: Double) -> [Point] {
-        let peaks = findPeaks(input)
-        return filterPeaks(peaks, rms: rms)
+        return findPeaks(input)
     }
 
     func findPeaks(input: [Point]) -> [Point] {
         var peaks = [Point]()
         
         for i in 1...input.count-2 {
-            if input[i-1].y <= input[i].y && input[i].y >= input[i+1].y {
-                peaks.append(input[i])
+            let peak = input[i]
+            if input[i-1].y <= peak.y && peak.y >= input[i+1].y {
+                peaks.append(peak)
             }
         }
         
         return peaks
-    }
-
-    func filterPeaks(input: [Point], rms: Double) -> [Point] {
-        let peaks = filterPeaksByHeight(input, rms: rms)
-        return choosePeaks(peaks)
-    }
-
-    func filterPeaksByHeight(input: [Point], rms: Double) -> [Point] {
-        return input.filter { (peak: Point) -> Bool in
-            return peak.y > heightCutoffMultiplier * rms
-        }
-    }
-
-    func choosePeaks(input: [Point]) -> [Point] {
-        var chosenPeaks = [Point]()
-        
-        var currentPeakRange = 0.0...0.0
-        for peak in input {
-            if currentPeakRange.contains(peak.x) {
-                if let lastPeak = chosenPeaks.last where lastPeak.y < peak.y {
-                    chosenPeaks.removeLast()
-                    chosenPeaks.append(peak)
-                    currentPeakRange = binCutoffRange(peak.x)
-                }
-            } else {
-                chosenPeaks.append(peak)
-                currentPeakRange = binCutoffRange(peak.x)
-            }
-        }
-        
-        return chosenPeaks
-    }
-
-    func binCutoffRange(freq: Double) -> ClosedInterval<Double> {
-        let note = freqToNote(freq)
-        
-        let upperBound = noteToFreq(note + minimumNoteDistance)
-        let lowerBound = noteToFreq(note - minimumNoteDistance)
-        
-        return lowerBound...upperBound
     }
 }
