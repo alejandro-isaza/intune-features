@@ -47,6 +47,7 @@ class MonoSequenceBuilder {
             return
         }
 
+        featureBuilder.reset()
         let totalSampleCount = Int(audioFile.frameCount)
         for offset in stepSize.stride(through: totalSampleCount - windowSize, by: stepSize) {
             var window = Window(start: offset)

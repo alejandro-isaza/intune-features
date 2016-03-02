@@ -17,7 +17,7 @@ public struct FeatureBuilder {
     public let peakLocations: PeakLocationsFeatureGenerator
     public let peakHeights0: PeakHeightsFeatureGenerator
     public let peakHeights1: PeakHeightsFeatureGenerator
-    public let peakHeightsFluxFeature: FluxFeatureGenerator
+    public let peakHeightsFlux: FluxFeatureGenerator
     public let spectrumFeature0: SpectrumFeatureGenerator
     public let spectrumFeature1: SpectrumFeatureGenerator
     public let spectrumFluxFeature: FluxFeatureGenerator
@@ -38,10 +38,20 @@ public struct FeatureBuilder {
         peakLocations = PeakLocationsFeatureGenerator(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
         peakHeights0 = PeakHeightsFeatureGenerator(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
         peakHeights1 = PeakHeightsFeatureGenerator(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
-        peakHeightsFluxFeature = FluxFeatureGenerator(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
+        peakHeightsFlux = FluxFeatureGenerator(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
         spectrumFeature0 = SpectrumFeatureGenerator(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
         spectrumFeature1 = SpectrumFeatureGenerator(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
         spectrumFluxFeature = FluxFeatureGenerator(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
+    }
+
+    public func reset() {
+        peakLocations.reset()
+        peakHeights0.reset()
+        peakHeights1.reset()
+        peakHeightsFlux.reset()
+        spectrumFeature0.reset()
+        spectrumFeature1.reset()
+        spectrumFluxFeature.reset()
     }
 
     public func generateFeatures<C: LinearType where C.Element == Double>(data0: C, _ data1: C) -> Feature {
@@ -62,7 +72,7 @@ public struct FeatureBuilder {
         peakLocations.update(peaks1)
         peakHeights0.update(peaks0, rms: rms)
         peakHeights1.update(peaks1, rms: rms)
-        peakHeightsFluxFeature.update(data0: peakHeights0.data, data1: peakHeights1.data)
+        peakHeightsFlux.update(data0: peakHeights0.data, data1: peakHeights1.data)
         spectrumFeature0.update(spectrum: spectrum0, baseFrequency: baseFrequency)
         spectrumFeature1.update(spectrum: spectrum1, baseFrequency: baseFrequency)
         spectrumFluxFeature.update(data0: spectrumFeature0.data, data1: spectrumFeature1.data)
@@ -73,7 +83,7 @@ public struct FeatureBuilder {
             feature.spectrum[i] = Float(spectrumFeature1.data[i])
             feature.spectralFlux[i] = Float(spectrumFluxFeature.data[i])
             feature.peakHeights[i] = Float(peakHeights1.data[i])
-            feature.peakHeightsFlux[i] = Float(peakHeightsFluxFeature.data[i])
+            feature.peakHeightsFlux[i] = Float(peakHeightsFlux.data[i])
             feature.peakLocations[i] = Float(peakLocations.data[i])
         }
         return feature

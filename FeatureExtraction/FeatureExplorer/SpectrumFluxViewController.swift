@@ -6,7 +6,7 @@ import PlotKit
 import Upsurge
 
 class SpectrumFluxViewController: BandsFeaturesViewController {
-    let yrange = -1...1
+    let yrange = -1.0...1.0
 
     override func viewDidLoad() {
         super.viewDidLoad()
