@@ -4,7 +4,7 @@ import FeatureExtraction
 import Upsurge
 
 let windowSize = 2048
-let stepSize = windowSize / Configuration.stepFraction
+let stepSize = 1024
 
 struct Example {
     var filePath = ""

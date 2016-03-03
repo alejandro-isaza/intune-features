@@ -22,9 +22,9 @@ public struct FeatureBuilder {
     public let spectrumFeature1: SpectrumFeatureGenerator
     public let spectrumFluxFeature: FluxFeatureGenerator
 
-    public init(windowSize: Int) {
+    public init(windowSize: Int, stepSize: Int) {
         self.windowSize = windowSize
-        stepSize = windowSize / Configuration.stepFraction
+        self.stepSize = stepSize
         baseFrequency = Configuration.samplingFrequency / Double(windowSize)
 
         windowingFunction = ValueArray<Double>(count: windowSize)

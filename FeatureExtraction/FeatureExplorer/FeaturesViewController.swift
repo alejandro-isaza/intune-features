@@ -29,7 +29,7 @@ class FeaturesViewController: NSTabViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        featureBuilder = FeatureBuilder(windowSize: windowSize)
+        featureBuilder = FeatureBuilder(windowSize: windowSize, stepSize: stepSize)
 
         view.translatesAutoresizingMaskIntoConstraints = false
         tabView.translatesAutoresizingMaskIntoConstraints = false

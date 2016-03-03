@@ -7,13 +7,15 @@ import Upsurge
 
 class NoiseSequenceBuilder {
     let windowSize: Int
+    let stepSize: Int
     let featureBuilder: FeatureBuilder
     var audioFilePath: String
     var audioFile: AudioFile
 
-    init(path: String, windowSize: Int) {
+    init(path: String, windowSize: Int, stepSize: Int) {
         self.windowSize = windowSize
-        featureBuilder = FeatureBuilder(windowSize: windowSize)
+        self.stepSize = stepSize
+        featureBuilder = FeatureBuilder(windowSize: windowSize, stepSize: stepSize)
         audioFilePath = path
 
         audioFile = AudioFile.open(audioFilePath)!

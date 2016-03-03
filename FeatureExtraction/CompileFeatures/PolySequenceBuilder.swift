@@ -10,6 +10,7 @@ class PolySequenceBuilder {
     static let maximumPolyphony = Float(6)
 
     let windowSize: Int
+    let stepSize: Int
     let featureBuilder: FeatureBuilder
     
     var audioFilePath: String
@@ -17,9 +18,10 @@ class PolySequenceBuilder {
     var events = [Event]()
     let decayModel = DecayModel()
 
-    init(audioFilePath: String, midiFilePath: String, windowSize: Int) {
+    init(audioFilePath: String, midiFilePath: String, windowSize: Int, stepSize: Int) {
         self.windowSize = windowSize
-        featureBuilder = FeatureBuilder(windowSize: windowSize)
+        self.stepSize = stepSize
+        featureBuilder = FeatureBuilder(windowSize: windowSize, stepSize: stepSize)
 
         self.audioFilePath = audioFilePath
 
@@ -39,9 +41,10 @@ class PolySequenceBuilder {
         }
     }
 
-    init(audioFilePath: String, csvFilePath: String, windowSize: Int) {
+    init(audioFilePath: String, csvFilePath: String, windowSize: Int, stepSize: Int) {
         self.windowSize = windowSize
-        featureBuilder = FeatureBuilder(windowSize: windowSize)
+        self.stepSize = stepSize
+        featureBuilder = FeatureBuilder(windowSize: windowSize, stepSize: stepSize)
 
         self.audioFilePath = audioFilePath
         
@@ -78,8 +81,6 @@ class PolySequenceBuilder {
     }
 
     func forEachWindow(@noescape action: (Window) throws -> ()) rethrows {
-        let stepSize = featureBuilder.stepSize
-
         var data = ValueArray<Double>(capacity: Int(audioFile.frameCount))
         withPointer(&data) { pointer in
             data.count = audioFile.readFrames(pointer, count: data.capacity) ?? 0

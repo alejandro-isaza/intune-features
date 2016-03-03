@@ -55,7 +55,7 @@ class RNNViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        neuralNet = try! NeuralNet(windowSize: windowSize)
+        neuralNet = try! NeuralNet(windowSize: windowSize, stepSize: stepSize)
         updateView()
 
         combinedPlotView.addAxis(Axis(orientation: .Horizontal, ticks: .Fit(5)))
@@ -308,7 +308,6 @@ class RNNViewController: NSViewController {
         var pointsBottom = Array<PlotKit.Point>()
         pointsBottom.reserveCapacity(valueCount)
 
-        let stepSize = windowSize / Configuration.stepFraction
         let start = windowSize/2 - stepSize
         let stepsInWindow = Double(windowSize) / Double(stepSize)
         for index in start.stride(to: sampleCount - samplesPerPoint, by: samplesPerPoint) {
@@ -343,10 +342,9 @@ class RNNViewController: NSViewController {
     }
 
     func updateLabelsPlotView(plotView: PlotView, withItem item: LabelTimelineItem, withColor color: NSColor) {
-        let stepSize = windowSize / Configuration.stepFraction
         let featureOffset = max(0, offset / stepSize - 1)
         let sampleCount = Int(length * Configuration.samplingFrequency)
-        let featureCount = Configuration.windowCountInSamples(sampleCount, windowSize: windowSize)
+        let featureCount = Configuration.windowCountInSamples(sampleCount, windowSize: windowSize, stepSize: stepSize)
 
         var values = ValueArray<Double>()
         switch item.type {

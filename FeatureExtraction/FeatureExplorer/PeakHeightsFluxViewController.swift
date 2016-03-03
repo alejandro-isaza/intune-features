@@ -29,9 +29,9 @@ class PeakHeightsFluxViewController: BandsFeaturesViewController {
         plotView.removeAllPlots()
         
         var points = Array<PlotKit.Point>()
-        for band in 0..<feature.peakHeightsFlux.count {
+        for band in 0..<feature.peakFlux.count {
             let note = Double(Configuration.bandNotes.startIndex + band)
-            let y = Double(feature.peakHeightsFlux[band])
+            let y = Double(feature.peakFlux[band])
             points.append(Point(x: note, y: y))
         }
         let pointSet = PointSet(points: points)

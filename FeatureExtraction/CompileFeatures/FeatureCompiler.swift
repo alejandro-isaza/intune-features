@@ -49,21 +49,23 @@ class FeatureCompiler {
     let monophonicFileExpression = try! NSRegularExpression(pattern: "/(\\d+)\\.\\w+", options: NSRegularExpressionOptions.CaseInsensitive)
 
     let windowSize: Int
+    let stepSize: Int
     let overwrite: Bool
 
     var polyphonicFiles = [PolyphonicFile]()
     var monophonicFiles = [MonophonicFile]()
     var noiseFiles = [String]()
 
-    init(root: String, overwrite: Bool, windowSize: Int) {
+    init(root: String, overwrite: Bool, windowSize: Int, stepSize: Int) {
         self.windowSize = windowSize
+        self.stepSize = stepSize
         self.overwrite = overwrite
 
         let urls = loadFiles(root)
         (polyphonicFiles, monophonicFiles, noiseFiles) = categorizeURLs(urls)
 
         print("\nWorking Directory: \(NSFileManager.defaultManager().currentDirectoryPath)")
-        print("Window size \(windowSize)")
+        print("Window size \(windowSize), step size \(stepSize)")
         print("Processing \(polyphonicFiles.count) polyphonic + \(monophonicFiles.count) monophonic + \(noiseFiles.count) noise files\n")
     }
 
@@ -81,7 +83,7 @@ class FeatureCompiler {
             }
 
             let database = FeatureDatabase(filePath: databasePath)
-            let exampleBuilder = NoiseSequenceBuilder(path: file, windowSize: windowSize)
+            let exampleBuilder = NoiseSequenceBuilder(path: file, windowSize: windowSize, stepSize: stepSize)
             try exampleBuilder.forEachWindow { window in
                 try database.writeLabel(window.label)
                 try database.writeFeature(window.feature)
@@ -106,7 +108,7 @@ class FeatureCompiler {
             let database = FeatureDatabase(filePath: databasePath)
 
             let note = Note(midiNoteNumber: file.noteNumber)
-            let exampleBuilder = MonoSequenceBuilder(path: file.path, note: note, windowSize: windowSize)
+            let exampleBuilder = MonoSequenceBuilder(path: file.path, note: note, windowSize: windowSize, stepSize: stepSize)
 
             try database.writeEvent(exampleBuilder.event)
             try exampleBuilder.forEachWindow { window in
@@ -133,9 +135,9 @@ class FeatureCompiler {
 
             let exampleBuilder: PolySequenceBuilder
             if let midiPath = file.midiPath {
-                exampleBuilder = PolySequenceBuilder(audioFilePath: file.audioPath, midiFilePath: midiPath, windowSize: windowSize)
+                exampleBuilder = PolySequenceBuilder(audioFilePath: file.audioPath, midiFilePath: midiPath, windowSize: windowSize, stepSize: stepSize)
             } else if let csvPath = file.csvPath {
-                exampleBuilder = PolySequenceBuilder(audioFilePath: file.audioPath, csvFilePath: csvPath, windowSize: windowSize)
+                exampleBuilder = PolySequenceBuilder(audioFilePath: file.audioPath, csvFilePath: csvPath, windowSize: windowSize, stepSize: stepSize)
             } else {
                 continue
             }

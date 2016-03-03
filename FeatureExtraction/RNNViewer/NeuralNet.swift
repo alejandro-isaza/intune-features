@@ -44,9 +44,9 @@ class NeuralNet {
     var processingCount = 0
 
 
-    init(windowSize: Int) throws {
+    init(windowSize: Int, stepSize: Int) throws {
         device = MTLCreateSystemDefaultDevice()!
-        featureBuilder = FeatureBuilder(windowSize: windowSize)
+        featureBuilder = FeatureBuilder(windowSize: windowSize, stepSize: stepSize)
 
         self.netPath = NSBundle.mainBundle().pathForResource("net", ofType: "h5")!
 

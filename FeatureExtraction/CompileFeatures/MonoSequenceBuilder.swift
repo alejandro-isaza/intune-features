@@ -7,6 +7,7 @@ import Upsurge
 
 class MonoSequenceBuilder {
     let windowSize: Int
+    let stepSize: Int
     let padding: Int
     let featureBuilder: FeatureBuilder
     
@@ -15,10 +16,11 @@ class MonoSequenceBuilder {
     var audioFile: AudioFile
     var event: Event
 
-    init(path: String, note: Note, windowSize: Int) {
+    init(path: String, note: Note, windowSize: Int, stepSize: Int) {
         self.windowSize = windowSize
+        self.stepSize = stepSize
         padding = windowSize
-        featureBuilder = FeatureBuilder(windowSize: windowSize)
+        featureBuilder = FeatureBuilder(windowSize: windowSize, stepSize: stepSize)
         
         audioFilePath = path
         audioFile = AudioFile.open(path)!
@@ -30,8 +32,6 @@ class MonoSequenceBuilder {
     }
 
     func forEachWindow(@noescape action: (Window) throws -> ()) rethrows {
-        let stepSize = featureBuilder.stepSize
-
         var data = ValueArray<Double>(capacity: Int(audioFile.frameCount) + padding)
 
         // Pad at the start
