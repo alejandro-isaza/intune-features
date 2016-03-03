@@ -83,12 +83,31 @@ class FeatureCompiler {
             }
 
             let database = FeatureDatabase(filePath: databasePath)
+
+            var labels = [Label]()
+            labels.reserveCapacity(database.chunkSize)
+
+            var features = [Feature]()
+            features.reserveCapacity(database.chunkSize)
+
             let exampleBuilder = NoiseSequenceBuilder(path: file, windowSize: windowSize, stepSize: stepSize)
             try exampleBuilder.forEachWindow { window in
-                try database.writeLabel(window.label)
-                try database.writeFeature(window.feature)
+                labels.append(window.label)
+                features.append(window.feature)
+                if labels.count >= database.chunkSize {
+                    try database.writeLabels(labels)
+                    try database.writeFeatures(features)
+                    database.flush()
+                    labels.removeAll(keepCapacity: true)
+                    features.removeAll(keepCapacity: true)
+                }
             }
-            database.flush()
+
+            if labels.count > 0 {
+                try database.writeLabels(labels)
+                try database.writeFeatures(features)
+                database.flush()
+            }
         }
         print("")
     }
@@ -111,9 +130,29 @@ class FeatureCompiler {
             let exampleBuilder = MonoSequenceBuilder(path: file.path, note: note, windowSize: windowSize, stepSize: stepSize)
 
             try database.writeEvent(exampleBuilder.event)
+
+            var labels = [Label]()
+            labels.reserveCapacity(database.chunkSize)
+
+            var features = [Feature]()
+            features.reserveCapacity(database.chunkSize)
+
             try exampleBuilder.forEachWindow { window in
-                try database.writeLabel(window.label)
-                try database.writeFeature(window.feature)
+                labels.append(window.label)
+                features.append(window.feature)
+                if labels.count >= database.chunkSize {
+                    try database.writeLabels(labels)
+                    try database.writeFeatures(features)
+                    database.flush()
+                    labels.removeAll(keepCapacity: true)
+                    features.removeAll(keepCapacity: true)
+                }
+            }
+
+            if labels.count > 0 {
+                try database.writeLabels(labels)
+                try database.writeFeatures(features)
+                database.flush()
             }
         }
         print("")
@@ -145,11 +184,30 @@ class FeatureCompiler {
             for event in exampleBuilder.events {
                 try database.writeEvent(event)
             }
+
+            var labels = [Label]()
+            labels.reserveCapacity(database.chunkSize)
+
+            var features = [Feature]()
+            features.reserveCapacity(database.chunkSize)
+
             try exampleBuilder.forEachWindow { window in
-                try database.writeLabel(window.label)
-                try database.writeFeature(window.feature)
+                labels.append(window.label)
+                features.append(window.feature)
+                if labels.count >= database.chunkSize {
+                    try database.writeLabels(labels)
+                    try database.writeFeatures(features)
+                    database.flush()
+                    labels.removeAll(keepCapacity: true)
+                    features.removeAll(keepCapacity: true)
+                }
             }
-            database.flush()
+
+            if labels.count > 0 {
+                try database.writeLabels(labels)
+                try database.writeFeatures(features)
+                database.flush()
+            }
         }
         print("")
     }
