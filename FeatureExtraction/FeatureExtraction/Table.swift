@@ -16,6 +16,7 @@ public enum Table: String {
     case featuresFlux = "/features/flux"
     case featuresPeakLocations = "/features/peak_locations"
     case featuresPeakHeights = "/features/peak_heights"
+    case featuresPeakFlux = "/features/peak_flux"
 
     public static let allValues = [
         eventsStart,
@@ -28,7 +29,8 @@ public enum Table: String {
         featuresSpectrum,
         featuresFlux,
         featuresPeakLocations,
-        featuresPeakHeights
+        featuresPeakHeights,
+        featuresPeakFlux
     ]
 
     public var rank: Int {
@@ -46,6 +48,7 @@ public enum Table: String {
         case featuresFlux: return 2
         case featuresPeakLocations: return 2
         case featuresPeakHeights: return 2
+        case featuresPeakFlux: return 2
         }
     }
 
@@ -62,10 +65,12 @@ public enum Table: String {
         case labelsPolyphony: return [-1]
         case labelsNotes: return [-1, Note.noteCount]
 
-        case featuresSpectrum: return [-1, featureSize]
-        case featuresFlux: return [-1, featureSize]
-        case featuresPeakLocations: return [-1, featureSize]
-        case featuresPeakHeights: return [-1, featureSize]
+        case featuresSpectrum: fallthrough
+        case featuresFlux: fallthrough
+        case featuresPeakLocations: fallthrough
+        case featuresPeakHeights: fallthrough
+        case featuresPeakFlux:
+            return [-1, featureSize]
         }
     }
 
@@ -83,10 +88,12 @@ public enum Table: String {
         case labelsPolyphony: return [chunkSize]
         case labelsNotes: return [chunkSize, Note.noteCount]
 
-        case featuresSpectrum: return [chunkSize, featureSize]
-        case featuresFlux: return [chunkSize, featureSize]
-        case featuresPeakLocations: return [chunkSize, featureSize]
-        case featuresPeakHeights: return [chunkSize, featureSize]
+        case featuresSpectrum: fallthrough
+        case featuresFlux: fallthrough
+        case featuresPeakLocations: fallthrough
+        case featuresPeakHeights: fallthrough
+        case featuresPeakFlux:
+            return [chunkSize, featureSize]
         }
     }
 
@@ -106,7 +113,8 @@ public enum Table: String {
         case featuresSpectrum: fallthrough
         case featuresFlux: fallthrough
         case featuresPeakLocations: fallthrough
-        case featuresPeakHeights:
+        case featuresPeakHeights: fallthrough
+        case featuresPeakFlux:
             file.createFloatDataset(rawValue, dataspace: dataspace, chunkDimensions: chunkDimensions)
         }
     }

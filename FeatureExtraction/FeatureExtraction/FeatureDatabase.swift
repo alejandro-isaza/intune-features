@@ -179,6 +179,7 @@ public extension FeatureDatabase {
         try writeSpectrum(feature)
         try writeSpectralFlux(feature)
         try writePeakHeights(feature)
+        try writePeakFlux(feature)
         try writePeakLocations(feature)
     }
 
@@ -212,6 +213,16 @@ public extension FeatureDatabase {
         try dataset.append(data, dimensions: [1, featureSize])
     }
 
+    func writePeakFlux(feature: Feature) throws {
+        guard let dataset = file.openFloatDataset(Table.featuresPeakFlux.rawValue) else {
+            throw Error.DatasetNotFound
+        }
+
+        let featureSize = Configuration.bandNotes.count
+        let data = [Float](feature.peakFlux)
+        try dataset.append(data, dimensions: [1, featureSize])
+    }
+
     func writePeakLocations(feature: Feature) throws {
         guard let dataset = file.openFloatDataset(Table.featuresPeakLocations.rawValue) else {
             throw Error.DatasetNotFound
@@ -227,6 +238,7 @@ public extension FeatureDatabase {
         feature.spectrum = ValueArray(try readSpectrumAtIndex(index))
         feature.spectralFlux = ValueArray(try readFluxAtIndex(index))
         feature.peakHeights = ValueArray(try readPeakHeightsAtIndex(index))
+        feature.peakFlux = ValueArray(try readPeakFluxAtIndex(index))
         feature.peakLocations = ValueArray(try readPeakLocationsAtIndex(index))
         return feature
     }
@@ -247,6 +259,13 @@ public extension FeatureDatabase {
 
     func readPeakHeightsAtIndex(index: Int) throws -> [Float] {
         guard let dataset = file.openFloatDataset(Table.featuresPeakHeights.rawValue) else {
+            throw Error.DatasetNotFound
+        }
+        return try dataset.read([index, 0..])
+    }
+
+    func readPeakFluxAtIndex(index: Int) throws -> [Float] {
+        guard let dataset = file.openFloatDataset(Table.featuresPeakFlux.rawValue) else {
             throw Error.DatasetNotFound
         }
         return try dataset.read([index, 0..])

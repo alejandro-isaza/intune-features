@@ -4,6 +4,7 @@ import Foundation
 import Upsurge
 
 public class PeakHeightsFeatureGenerator : BandsFeatureGenerator {
+    public let minRMS = 0.0001
     public let peaksMovingAverageSize = 5
     public let rmsMovingAverageSize = 10
 
@@ -24,7 +25,7 @@ public class PeakHeightsFeatureGenerator : BandsFeatureGenerator {
 
     public override func reset() {
         for i in 0..<rmsMovingAverageSize {
-            rmsHistory[i] = 0
+            rmsHistory[i] = minRMS
         }
         for i in 0..<peakHistory.count {
             peakHistory[i] = 0
@@ -33,6 +34,7 @@ public class PeakHeightsFeatureGenerator : BandsFeatureGenerator {
     
     public func update(peaks: [Point], rms: Double) {
         let bandCount = notes.count
+        let safeRMS = max(rms, minRMS)
 
         // Shift RMS values
         withPointer(&rmsHistory) { pointer in
@@ -48,8 +50,9 @@ public class PeakHeightsFeatureGenerator : BandsFeatureGenerator {
         }
 
         // Compute average RMS
-        rmsHistory[rmsMovingAverageSize - 1] = rms
+        rmsHistory[rmsMovingAverageSize - 1] = safeRMS
         let rmsAverage = mean(rmsHistory)
+        precondition(rmsAverage >= minRMS)
 
         // Compute new peaks
         for peak in peaks {
@@ -57,6 +60,7 @@ public class PeakHeightsFeatureGenerator : BandsFeatureGenerator {
             let band = bandForNote(note)
             if band >= 0 && band < bandCount {
                 let newHeight = peak.y / rmsAverage
+                precondition(isfinite(newHeight))
                 peakHistory[(peaksMovingAverageSize - 1) * bandCount + band] = newHeight
             }
         }
@@ -64,8 +68,8 @@ public class PeakHeightsFeatureGenerator : BandsFeatureGenerator {
         // Compute peak averages
         for i in 0..<bandCount {
             let peakMean = mean(ValueArraySlice(base: peakHistory, startIndex: i, endIndex: (peaksMovingAverageSize - 1) * bandCount + i, step: bandCount))
+            precondition(isfinite(peakMean))
             peakHeights[i] = peakMean
         }
-
     }
 }
