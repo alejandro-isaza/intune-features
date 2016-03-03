@@ -33,7 +33,7 @@ public struct FeatureBuilder {
         }
 
         fft = FFTDouble(inputLength: windowSize)
-        peakExtractor = PeakExtractor()
+        peakExtractor = PeakExtractor(minimumNoteDistance: Configuration.bandSize)
 
         peakLocations = PeakLocationsFeatureGenerator(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
         peakHeights0 = PeakHeightsFeatureGenerator(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
