@@ -114,25 +114,15 @@ class FeatureCompiler {
         }
 
         var labels = [Label]()
-        labels.reserveCapacity(database.chunkSize)
-
         var features = [Feature]()
-        features.reserveCapacity(database.chunkSize)
 
         let exampleBuilder = NoiseSequenceBuilder(path: file, windowSize: windowSize, stepSize: stepSize)
         exampleBuilder.forEachWindow { window in
             labels.append(window.label)
             features.append(window.feature)
-            if labels.count >= database.chunkSize {
-                writeLabels(labels, features: features, toDatabase: database)
-                labels.removeAll(keepCapacity: true)
-                features.removeAll(keepCapacity: true)
-            }
         }
 
-        if labels.count > 0 {
-            writeLabels(labels, features: features, toDatabase: database)
-        }
+        writeLabels(labels, features: features, toDatabase: database)
         dispatch_sync(dispatch_get_main_queue()) {
             database = nil
         }
@@ -183,24 +173,14 @@ class FeatureCompiler {
         }
 
         var labels = [Label]()
-        labels.reserveCapacity(database.chunkSize)
-
         var features = [Feature]()
-        features.reserveCapacity(database.chunkSize)
 
         exampleBuilder.forEachWindow { window in
             labels.append(window.label)
             features.append(window.feature)
-            if labels.count >= database.chunkSize {
-                writeLabels(labels, features: features, toDatabase: database)
-                labels.removeAll(keepCapacity: true)
-                features.removeAll(keepCapacity: true)
-            }
         }
 
-        if labels.count > 0 {
-            writeLabels(labels, features: features, toDatabase: database)
-        }
+        writeLabels(labels, features: features, toDatabase: database)
         dispatch_sync(dispatch_get_main_queue()) {
             database = nil
         }
@@ -258,24 +238,14 @@ class FeatureCompiler {
         }
 
         var labels = [Label]()
-        labels.reserveCapacity(database.chunkSize)
-
         var features = [Feature]()
-        features.reserveCapacity(database.chunkSize)
 
         exampleBuilder.forEachWindow { window in
             labels.append(window.label)
             features.append(window.feature)
-            if labels.count >= database.chunkSize {
-                writeLabels(labels, features: features, toDatabase: database)
-                labels.removeAll(keepCapacity: true)
-                features.removeAll(keepCapacity: true)
-            }
         }
 
-        if labels.count > 0 {
-            writeLabels(labels, features: features, toDatabase: database)
-        }
+        writeLabels(labels, features: features, toDatabase: database)
         dispatch_sync(dispatch_get_main_queue()) {
             database = nil
         }
