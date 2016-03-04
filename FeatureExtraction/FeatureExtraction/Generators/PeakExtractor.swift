@@ -10,49 +10,53 @@ public class PeakExtractor {
         self.configuration = configuration
     }
 
-    public func process(input: [Point], rms: Double) -> [Point] {
-        let peaks = findPeaks(input)
+    public func process(spectrum: ValueArray<Double>, rms: Double) -> ValueArray<Double> {
+        let peaks = findPeaks(spectrum)
         return choosePeaks(peaks)
     }
 
-    func findPeaks(input: [Point]) -> [Point] {
-        var peaks = [Point]()
+    func findPeaks(spectrum: ValueArray<Double>) -> ValueArray<Double> {
+        let peaks = ValueArray<Double>(count: spectrum.count, repeatedValue: 0)
         
-        for i in 1...input.count-2 {
-            let peak = input[i]
-            if input[i-1].y <= peak.y && peak.y >= input[i+1].y {
-                peaks.append(peak)
+        for i in 1..<spectrum.count - 1 {
+            let peak = spectrum[i]
+            if spectrum[i-1] <= peak && peak >= spectrum[i+1] {
+                peaks[i] = peak
             }
         }
         
         return peaks
     }
 
-    func choosePeaks(input: [Point]) -> [Point] {
-        var chosenPeaks = [Point]()
+    func choosePeaks(peaks: ValueArray<Double>) -> ValueArray<Double> {
+        var chosenPeaks = [(Int, Double)]()
 
-        var currentPeakRange = 0.0...0.0
-        for peak in input {
-            if currentPeakRange.contains(peak.x) {
-                if let lastPeak = chosenPeaks.last where lastPeak.y < peak.y {
+        var currentPeakRange = 0...0
+        for (band, peak) in peaks.enumerate() {
+            if currentPeakRange.contains(band) {
+                if let lastPeak = chosenPeaks.last where lastPeak.1 < peak {
                     chosenPeaks.removeLast()
-                    chosenPeaks.append(peak)
-                    currentPeakRange = binCutoffRange(peak.x)
+                    chosenPeaks.append((band, peak))
+                    currentPeakRange = binCutoffRange(band)
                 }
             } else {
-                chosenPeaks.append(peak)
-                currentPeakRange = binCutoffRange(peak.x)
+                chosenPeaks.append((band, peak))
+                currentPeakRange = binCutoffRange(band)
             }
         }
 
-        return chosenPeaks
+        let newPeaks = ValueArray<Double>(count: peaks.count, repeatedValue: 0)
+        for (band, peak) in chosenPeaks {
+            newPeaks[band] = peak
+        }
+        return newPeaks
     }
 
-    func binCutoffRange(freq: Double) -> ClosedInterval<Double> {
-        let note = freqToNote(freq)
+    func binCutoffRange(band: Int) -> Range<Int> {
+        let note = configuration.noteForBand(band)
 
-        let upperBound = noteToFreq(note + configuration.minimumPeakDistance)
-        let lowerBound = noteToFreq(note - configuration.minimumPeakDistance)
+        let upperBound = configuration.bandForNote(note + configuration.minimumPeakDistance)
+        let lowerBound = configuration.bandForNote(note - configuration.minimumPeakDistance)
 
         return lowerBound...upperBound
     }

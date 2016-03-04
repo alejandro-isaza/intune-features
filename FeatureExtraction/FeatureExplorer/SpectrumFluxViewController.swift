@@ -7,7 +7,7 @@ import Upsurge
 
 class SpectrumFluxViewController: BandsFeaturesViewController {
     var configuration: Configuration?
-    let yrange = -1.0...1.0
+    let yrange = -0.1...0.1
 
     override func viewDidLoad() {
         super.viewDidLoad()

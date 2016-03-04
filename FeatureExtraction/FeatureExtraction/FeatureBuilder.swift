@@ -12,7 +12,6 @@ public struct FeatureBuilder {
     public let peakExtractor: PeakExtractor
 
     // Generators
-    public let peakLocations: PeakLocationsFeatureGenerator
     public let peakHeights0: PeakHeightsFeatureGenerator
     public let peakHeights1: PeakHeightsFeatureGenerator
     public let peakFlux: FluxFeatureGenerator
@@ -31,7 +30,6 @@ public struct FeatureBuilder {
         fft = FFTDouble(inputLength: configuration.windowSize)
         peakExtractor = PeakExtractor(configuration: configuration)
 
-        peakLocations = PeakLocationsFeatureGenerator(configuration: configuration)
         peakHeights0 = PeakHeightsFeatureGenerator(configuration: configuration)
         peakHeights1 = PeakHeightsFeatureGenerator(configuration: configuration)
         peakFlux = FluxFeatureGenerator(configuration: configuration)
@@ -41,7 +39,6 @@ public struct FeatureBuilder {
     }
 
     public func reset() {
-        peakLocations.reset()
         peakHeights0.reset()
         peakHeights1.reset()
         peakFlux.reset()
@@ -53,24 +50,20 @@ public struct FeatureBuilder {
     public func generateFeatures<C: LinearType where C.Element == Double>(data0: C, _ data1: C) -> Feature {
         let rms = Double(rmsq(data1))
        
-        // Previous spectrum
+        // Compute spectrum
         let spectrum0 = spectrumValues(data0)
-
-        // Previous heights
-        let points0 = spectrumPoints(spectrum0)
-        let peaks0 = peakExtractor.process(points0, rms: rms).sort{ $0.y > $1.y }
+        spectrumFeature0.update(spectrum: spectrum0, baseFrequency: configuration.baseFrequency)
+        
+        let spectrum1 = spectrumValues(data1)
+        spectrumFeature1.update(spectrum: spectrum1, baseFrequency: configuration.baseFrequency)
 
         // Extract peaks
-        let spectrum1 = spectrumValues(data1)
-        let points1 = spectrumPoints(spectrum1)
-        let peaks1 = peakExtractor.process(points1, rms: rms).sort{ $0.y > $1.y }
-        
-        peakLocations.update(peaks1)
+        let peaks0 = peakExtractor.process(spectrumFeature0.bands, rms: rms)
+        let peaks1 = peakExtractor.process(spectrumFeature1.bands, rms: rms)
+
         peakHeights0.update(peaks0, rms: rms)
         peakHeights1.update(peaks1, rms: rms)
         peakFlux.update(data0: peakHeights0.data, data1: peakHeights1.data)
-        spectrumFeature0.update(spectrum: spectrum0, baseFrequency: configuration.baseFrequency)
-        spectrumFeature1.update(spectrum: spectrum1, baseFrequency: configuration.baseFrequency)
         spectrumFluxFeature.update(data0: spectrumFeature0.data, data1: spectrumFeature1.data)
 
         let feature = Feature(bandCount: configuration.bandCount)
@@ -79,7 +72,6 @@ public struct FeatureBuilder {
             feature.spectralFlux[i] = Float(spectrumFluxFeature.data[i])
             feature.peakHeights[i] = Float(peakHeights1.data[i])
             feature.peakFlux[i] = Float(peakFlux.data[i])
-            feature.peakLocations[i] = Float(peakLocations.data[i])
         }
         return feature
     }

@@ -20,11 +20,11 @@ public class SpectrumFeatureGenerator: BandsFeatureGenerator {
         for band in 0..<bandCount {
             let note = configuration.noteForBand(band)
 
-            let lowerFrequency = noteToFreq(note - configuration.spectrumResolution/2)
+            let lowerFrequency = noteToFreq(note - 1/configuration.spectrumResolution/2)
             let lowerBin = lowerFrequency / fb
             let lowerIndex = Int(ceil(lowerBin))
 
-            let upperFrequency = noteToFreq(note + configuration.spectrumResolution/2)
+            let upperFrequency = noteToFreq(note + 1/configuration.spectrumResolution/2)
             let upperBin = upperFrequency / fb
             let upperIndex = Int(floor(upperBin))
 
@@ -34,7 +34,7 @@ public class SpectrumFeatureGenerator: BandsFeatureGenerator {
             }
 
             if lowerIndex > 0 {
-                let lowerWeight = 1.0 + (lowerBin - Double(lowerIndex))
+                let lowerWeight = Double(lowerIndex) - lowerBin
                 bandValue += data[lowerIndex - 1] * lowerWeight
             }
 

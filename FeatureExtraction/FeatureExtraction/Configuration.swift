@@ -19,7 +19,7 @@ public struct Configuration {
     public var spectrumNoteRange = 21...120
 
     /// The resolution for the spectrum in notes per band
-    public var spectrumResolution = 1.0
+    public var spectrumResolution = 2.0
 
     /// The frequency resolution for the spectrum
     public var baseFrequency: Double {
@@ -27,13 +27,10 @@ public struct Configuration {
     }
 
     /// The minimum distance between peaks in notes
-    public let minimumPeakDistance = 1.0
-
-    /// The number of windows to use for the peaks average
-    public var peaksMovingAverageSize = 5
+    public let minimumPeakDistance = 0.5
 
     /// The number of windows to use for the RMS average
-    public var rmsMovingAverageSize = 10
+    public var rmsMovingAverageSize = 20
 
     public init() {
     }
@@ -106,7 +103,6 @@ public struct Configuration {
         string += "spectrumNoteRange = \(spectrumNoteRange)\n"
         string += "spectrumResolution = \(spectrumResolution)\n"
         string += "minimumPeakDistance = \(minimumPeakDistance)\n"
-        string += "peaksMovingAverageSize = \(peaksMovingAverageSize)\n"
         string += "rmsMovingAverageSize = \(rmsMovingAverageSize)\n"
         return string
     }
