@@ -13,10 +13,10 @@ public struct Label {
     /// The note value for each note
     public var notes: [Float]
 
-    public init() {
+    public init(noteCount: Int) {
         onset = 0
         polyphony = 0
-        notes = [Float](count: Note.noteCount, repeatedValue: 0.0)
+        notes = [Float](count: noteCount, repeatedValue: 0)
     }
 
     public init(onset: Float, polyphony: Float, notes: [Float]) {

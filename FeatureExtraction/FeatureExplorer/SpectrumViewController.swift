@@ -6,25 +6,33 @@ import PlotKit
 import Upsurge
 
 class SpectrumViewController: BandsFeaturesViewController {
+    var configuration: Configuration?
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
         plotView!.addAxis(Axis(orientation: .Vertical, ticks: .Fit(3)))
         plotView!.addAxis(Axis(orientation: .Horizontal, ticks: .Distance(12)))
-        plotView!.fixedXInterval = Double(Configuration.bandNotes.startIndex)...Double(Configuration.bandNotes.endIndex)
     }
 
     func updateView(feature: Feature, markNotes: [Int]) {
-        _ = view // Force the view to load
+        if !viewLoaded {
+            return
+        }
+        guard let configuration = configuration else {
+            return
+        }
         guard let plotView = plotView else {
             return
         }
+
         plotView.removeAllPlots()
+        plotView.fixedXInterval = Double(configuration.spectrumNoteRange.startIndex)...Double(configuration.spectrumNoteRange.endIndex)
 
         var maxY: Double = 0
         var points = Array<PlotKit.Point>()
-        for band in 0..<Configuration.bandNotes.count {
-            let note = Configuration.bandNotes.startIndex + band
+        for band in 0..<configuration.spectrumNoteRange.count {
+            let note = configuration.spectrumNoteRange.startIndex + band
             let y = Double(feature.spectrum[band])
             points.append(Point(x: Double(note), y: y))
 

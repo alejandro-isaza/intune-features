@@ -4,6 +4,7 @@ import Cocoa
 import FeatureExtraction
 
 class PianoRollView: NSView {
+    var configuration: Configuration!
     let labelColor = NSColor.blueColor()
     let netColor = NSColor.redColor()
 
@@ -50,7 +51,7 @@ class PianoRollView: NSView {
     override func drawRect(dirtyRect: NSRect) {
         super.drawRect(dirtyRect)
 
-        noteLineWidth = bounds.height / CGFloat(Note.noteCount)
+        noteLineWidth = bounds.height / CGFloat(configuration.representableNoteRange.count)
         sampleWidth = bounds.width / CGFloat(range.count)
 
         labelColor.setFill()
@@ -69,7 +70,7 @@ class PianoRollView: NSView {
     private func eventRect(event: Event) -> NSRect {
         let x = CGFloat(event.start - range.startIndex) * sampleWidth
         let width = CGFloat(event.duration) * sampleWidth
-        let y = CGFloat(event.note.midiNoteNumber - Note.representableRange.startIndex) * noteLineWidth
+        let y = CGFloat(event.note.midiNoteNumber - configuration.representableNoteRange.startIndex) * noteLineWidth
         return NSRect(x: x, y: y, width: width, height: noteLineWidth)
     }
 
@@ -88,12 +89,12 @@ class PianoRollView: NSView {
         let location = convertPoint(event.locationInWindow, fromView: nil)
 
         let index = Int(round(location.y / noteLineWidth))
-        if index < 0 || index >= Note.noteCount {
+        if index < 0 || index >= configuration?.representableNoteRange.count {
             valueView.hidden = true
             return
         }
         
-        let note = Note(midiNoteNumber: index + Note.representableRange.startIndex)
+        let note = Note(midiNoteNumber: index + configuration.representableNoteRange.startIndex)
 
         valueView.stringValue = note.description
         valueView.hidden = false

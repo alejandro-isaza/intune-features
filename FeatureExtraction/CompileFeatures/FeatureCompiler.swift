@@ -48,8 +48,8 @@ class FeatureCompiler {
 
     let monophonicFileExpression = try! NSRegularExpression(pattern: "/(\\d+)\\.\\w+", options: NSRegularExpressionOptions.CaseInsensitive)
 
-    let windowSize: Int
-    let stepSize: Int
+    let decayModel: DecayModel
+    let configuration: Configuration
     let overwrite: Bool
 
     var polyphonicFiles = [PolyphonicFile]()
@@ -57,11 +57,10 @@ class FeatureCompiler {
     var noiseFiles = [String]()
 
     let queue: NSOperationQueue
-    var decayModel = DecayModel()
     
-    init(root: String, overwrite: Bool, windowSize: Int, stepSize: Int) {
-        self.windowSize = windowSize
-        self.stepSize = stepSize
+    init(root: String, overwrite: Bool, configuration: Configuration) {
+        self.decayModel = DecayModel(representableNoteRange: configuration.representableNoteRange)
+        self.configuration = configuration
         self.overwrite = overwrite
 
         queue = NSOperationQueue()
@@ -110,13 +109,13 @@ class FeatureCompiler {
 
         var database: FeatureDatabase!
         dispatch_sync(dispatch_get_main_queue()) {
-            database = FeatureDatabase(filePath: databasePath)
+            database = FeatureDatabase(filePath: databasePath, configuration: self.configuration)
         }
 
         var labels = [Label]()
         var features = [Feature]()
 
-        let exampleBuilder = NoiseSequenceBuilder(path: file, windowSize: windowSize, stepSize: stepSize)
+        let exampleBuilder = NoiseSequenceBuilder(path: file, configuration: configuration)
         exampleBuilder.forEachWindow { window in
             labels.append(window.label)
             features.append(window.feature)
@@ -162,11 +161,11 @@ class FeatureCompiler {
 
         var database: FeatureDatabase!
         dispatch_sync(dispatch_get_main_queue()) {
-            database = FeatureDatabase(filePath: databasePath)
+            database = FeatureDatabase(filePath: databasePath, configuration: self.configuration)
         }
 
         let note = Note(midiNoteNumber: file.noteNumber)
-        let exampleBuilder = MonoSequenceBuilder(path: file.path, note: note, decayModel: decayModel, windowSize: windowSize, stepSize: stepSize)
+        let exampleBuilder = MonoSequenceBuilder(path: file.path, note: note, decayModel: decayModel, configuration: configuration)
 
         dispatch_async(dispatch_get_main_queue()) {
             try! database.writeEvent(exampleBuilder.event)
@@ -219,14 +218,14 @@ class FeatureCompiler {
 
         var database: FeatureDatabase!
         dispatch_sync(dispatch_get_main_queue()) {
-            database = FeatureDatabase(filePath: databasePath)
+            database = FeatureDatabase(filePath: databasePath, configuration: self.configuration)
         }
 
         let exampleBuilder: PolySequenceBuilder
         if let midiPath = file.midiPath {
-            exampleBuilder = PolySequenceBuilder(audioFilePath: file.audioPath, midiFilePath: midiPath, decayModel: decayModel, windowSize: windowSize, stepSize: stepSize)
+            exampleBuilder = PolySequenceBuilder(audioFilePath: file.audioPath, midiFilePath: midiPath, decayModel: decayModel, configuration: configuration)
         } else if let csvPath = file.csvPath {
-            exampleBuilder = PolySequenceBuilder(audioFilePath: file.audioPath, csvFilePath: csvPath, decayModel: decayModel, windowSize: windowSize, stepSize: stepSize)
+            exampleBuilder = PolySequenceBuilder(audioFilePath: file.audioPath, csvFilePath: csvPath, decayModel: decayModel, configuration: configuration)
         } else {
             return
         }

@@ -6,13 +6,13 @@ import PlotKit
 import Upsurge
 
 class SpectrumFluxViewController: BandsFeaturesViewController {
+    var configuration: Configuration?
     let yrange = -1.0...1.0
 
     override func viewDidLoad() {
         super.viewDidLoad()
 
         plotView!.fixedYInterval = yrange
-        plotView!.fixedXInterval = Double(Configuration.bandNotes.startIndex)...Double(Configuration.bandNotes.endIndex)
         plotView!.addAxis(Axis(orientation: .Vertical, ticks: .Distance(0.05)))
 
         var haxis = Axis(orientation: .Horizontal, ticks: .Distance(12))
@@ -22,15 +22,22 @@ class SpectrumFluxViewController: BandsFeaturesViewController {
     }
 
     func updateView(feature: Feature, markNotes: [Int]) {
-        _ = view // Force the view to load
+        if !viewLoaded {
+            return
+        }
+        guard let configuration = configuration else {
+            return
+        }
         guard let plotView = plotView else {
             return
         }
+
         plotView.removeAllPlots()
+        plotView.fixedXInterval = Double(configuration.spectrumNoteRange.startIndex)...Double(configuration.spectrumNoteRange.endIndex)
 
         var points = Array<PlotKit.Point>()
         for band in 0..<feature.spectralFlux.count {
-            let note = Double(Configuration.bandNotes.startIndex + band)
+            let note = Double(configuration.spectrumNoteRange.startIndex + band)
             let y = Double(feature.spectralFlux[band])
             points.append(Point(x: note, y: y))
         }

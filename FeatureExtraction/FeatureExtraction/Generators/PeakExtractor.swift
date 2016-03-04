@@ -4,10 +4,10 @@ import Foundation
 import Upsurge
 
 public class PeakExtractor {
-    public let minimumNoteDistance: Double
+    let configuration: Configuration
 
-    public init(minimumNoteDistance: Double) {
-        self.minimumNoteDistance = minimumNoteDistance
+    public init(configuration: Configuration) {
+        self.configuration = configuration
     }
 
     public func process(input: [Point], rms: Double) -> [Point] {
@@ -51,8 +51,8 @@ public class PeakExtractor {
     func binCutoffRange(freq: Double) -> ClosedInterval<Double> {
         let note = freqToNote(freq)
 
-        let upperBound = noteToFreq(note + minimumNoteDistance)
-        let lowerBound = noteToFreq(note - minimumNoteDistance)
+        let upperBound = noteToFreq(note + configuration.minimumPeakDistance)
+        let lowerBound = noteToFreq(note - configuration.minimumPeakDistance)
 
         return lowerBound...upperBound
     }

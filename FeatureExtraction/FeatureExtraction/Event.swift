@@ -25,10 +25,10 @@ public struct Event {
         self.velocity = velocity
     }
 
-    public init(midiNoteEvent: MIDINoteEvent, inFile file: MIDIFile) {
+    public init(midiNoteEvent: MIDINoteEvent, inFile file: MIDIFile, samplingFrequency: Double) {
         note = Note(midiNoteNumber: Int(midiNoteEvent.note))
-        start = Int(file.secondsForBeats(midiNoteEvent.timeStamp) * Configuration.samplingFrequency)
-        let end = Int(file.secondsForBeats(midiNoteEvent.timeStamp + Double(midiNoteEvent.duration)) * Configuration.samplingFrequency)
+        start = Int(file.secondsForBeats(midiNoteEvent.timeStamp) * samplingFrequency)
+        let end = Int(file.secondsForBeats(midiNoteEvent.timeStamp + Double(midiNoteEvent.duration)) * samplingFrequency)
         duration = end - start
         velocity = Float(midiNoteEvent.velocity) / 127.0
     }

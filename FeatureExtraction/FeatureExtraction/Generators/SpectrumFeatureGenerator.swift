@@ -2,29 +2,29 @@
 
 import Upsurge
 
-public class SpectrumFeatureGenerator : BandsFeatureGenerator {
+public class SpectrumFeatureGenerator: BandsFeatureGenerator {
     public var bands: ValueArray<Double>
 
     public override var data: ValueArray<Double> {
         return bands
     }
 
-    public override init(notes: Range<Int>, bandSize: Double) {
-        bands = ValueArray<Double>(count: notes.count)
-        super.init(notes: notes, bandSize: bandSize)
+    public override init(configuration: Configuration) {
+        bands = ValueArray<Double>(count: configuration.bandCount)
+        super.init(configuration: configuration)
     }
 
     public func update(spectrum data: ValueArray<Double>, baseFrequency fb: Double) {
-        let bandCount = notes.count
+        let bandCount = configuration.bandCount
 
         for band in 0..<bandCount {
-            let note = noteForBand(band)
+            let note = configuration.noteForBand(band)
 
-            let lowerFrequency = noteToFreq(note - bandSize/2)
+            let lowerFrequency = noteToFreq(note - configuration.spectrumResolution/2)
             let lowerBin = lowerFrequency / fb
             let lowerIndex = Int(ceil(lowerBin))
 
-            let upperFrequency = noteToFreq(note + bandSize/2)
+            let upperFrequency = noteToFreq(note + configuration.spectrumResolution/2)
             let upperBin = upperFrequency / fb
             let upperIndex = Int(floor(upperBin))
 

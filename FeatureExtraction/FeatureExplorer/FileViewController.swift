@@ -7,7 +7,13 @@ import Peak
 import Upsurge
 
 class FileViewController: NSViewController {
-    var example = Example()
+    var configuration: Configuration! {
+        didSet {
+            updateConfiguration()
+        }
+    }
+
+    var example: Example?
     var audioFile: AudioFile?
     var midiFile: MIDIFile?
 
@@ -30,11 +36,9 @@ class FileViewController: NSViewController {
 
         NSNotificationCenter.defaultCenter().addObserverForName(NSOutlineViewSelectionDidChangeNotification, object: nil, queue: nil, usingBlock: { notification in })
 
-        offsetStepper.minValue = Double(windowSize/2 + stepSize)
-        offsetStepper.increment = Double(stepSize)
-        offsetStepper.maxValue = DBL_MAX
-        offsetSlider.minValue = Double(windowSize/2 + stepSize)
-        offsetSlider.maxValue = DBL_MAX
+        if configuration != nil {
+            updateConfiguration()
+        }
 
         featuresViewController = storyboard!.instantiateControllerWithIdentifier("FeaturesViewController") as! FeaturesViewController
         addChildViewController(featuresViewController)
@@ -48,6 +52,15 @@ class FileViewController: NSViewController {
         featuresView.bottomAnchor.constraintEqualToAnchor(contentView.bottomAnchor).active = true
     }
 
+    func updateConfiguration() {
+        offsetStepper.minValue = Double(configuration.windowSize/2 + configuration.stepSize)
+        offsetStepper.increment = Double(configuration.stepSize)
+        offsetStepper.maxValue = DBL_MAX
+        offsetSlider.minValue = Double(configuration.windowSize/2 + configuration.stepSize)
+        offsetSlider.maxValue = DBL_MAX
+
+    }
+
     func loadExample(filePath: String) {
         fileNameTextField.stringValue = ""
         offsetTextView.integerValue = 0
@@ -56,40 +69,42 @@ class FileViewController: NSViewController {
         rmsTextField.stringValue = ""
         notesTextField.stringValue = ""
 
+        var example = Example(dataSize: configuration.windowSize + configuration.stepSize)
         example.filePath = filePath
+        self.example = example
+
         let midiFilePath = (filePath as NSString).stringByDeletingPathExtension + ".mid"
         midiFile = MIDIFile(filePath: midiFilePath)
 
         audioFile = AudioFile.open(example.filePath)
-        example.data = ValueArray<Double>(count: windowSize + stepSize)
-        loadOffset(windowSize)
+        loadOffset(configuration.windowSize)
     }
 
     func loadOffset(var offset: Int) {
         guard let audioFile = audioFile else {
-            print("Failed to open file '\(example.filePath)'")
+            print("Failed to open file '\(example!.filePath)'")
             return
         }
-        offsetStepper.maxValue = Double(audioFile.frameCount - windowSize/2)
-        offsetSlider.maxValue = Double(audioFile.frameCount - windowSize/2)
+        offsetStepper.maxValue = Double(audioFile.frameCount - configuration.windowSize/2)
+        offsetSlider.maxValue = Double(audioFile.frameCount - configuration.windowSize/2)
 
-        if offset < windowSize/2 + stepSize {
-            offset = windowSize/2 + stepSize
+        if offset < configuration.windowSize/2 + configuration.stepSize {
+            offset = configuration.windowSize/2 + configuration.stepSize
         }
-        example.frameOffset = offset
+        example!.frameOffset = offset
 
         audioFile.currentFrame = offset
-        withPointer(&example.data) { pointer in
-            audioFile.readFrames(pointer, count: windowSize + stepSize)
+        withPointer(&example!.data) { pointer in
+            audioFile.readFrames(pointer, count: configuration.windowSize + configuration.stepSize)
         }
 
         featuresViewController.example = example
 
-        fileNameTextField.stringValue = example.filePath
-        offsetTextView.integerValue = example.frameOffset
-        offsetStepper.integerValue = example.frameOffset
-        offsetSlider.integerValue = example.frameOffset
-        rmsTextField.doubleValue = rmsq(example.data)
+        fileNameTextField.stringValue = example!.filePath
+        offsetTextView.integerValue = example!.frameOffset
+        offsetStepper.integerValue = example!.frameOffset
+        offsetSlider.integerValue = example!.frameOffset
+        rmsTextField.doubleValue = rmsq(example!.data)
 
         let notes = noteEventsAtOffset(offset)
         var notesString = ""
@@ -108,8 +123,8 @@ class FileViewController: NSViewController {
             return []
         }
         let time = Double(offset) / audioFile.sampleRate
-        let timeStart = Double(offset - windowSize/2) / audioFile.sampleRate
-        let timeEnd = Double(offset + windowSize/2) / audioFile.sampleRate
+        let timeStart = Double(offset - configuration.windowSize/2) / audioFile.sampleRate
+        let timeEnd = Double(offset + configuration.windowSize/2) / audioFile.sampleRate
         let beatStart = midiFile.beatsForSeconds(timeStart)
         let beatEnd = midiFile.beatsForSeconds(timeEnd)
 

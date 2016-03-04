@@ -52,8 +52,8 @@ public enum Table: String {
         }
     }
 
-    public var maxDims: [Int] {
-        let featureSize = Configuration.bandNotes.count
+    public func maxDims(configuration: Configuration) -> [Int] {
+        let featureSize = configuration.bandCount
 
         switch self {
         case eventsStart: return [-1]
@@ -63,7 +63,7 @@ public enum Table: String {
 
         case labelsOnset: return [-1]
         case labelsPolyphony: return [-1]
-        case labelsNotes: return [-1, Note.noteCount]
+        case labelsNotes: return [-1, configuration.representableNoteRange.count]
 
         case featuresSpectrum: fallthrough
         case featuresFlux: fallthrough
@@ -74,9 +74,8 @@ public enum Table: String {
         }
     }
 
-    public var chunkDimensions: [Int] {
-        let chunkSize = 1024
-        let featureSize = Configuration.bandNotes.count
+    public func chunkDimensions(chunkSize: Int, configuration: Configuration) -> [Int] {
+        let featureSize = configuration.bandCount
 
         switch self {
         case eventsStart: return [chunkSize]
@@ -86,7 +85,7 @@ public enum Table: String {
 
         case labelsOnset: return [chunkSize]
         case labelsPolyphony: return [chunkSize]
-        case labelsNotes: return [chunkSize, Note.noteCount]
+        case labelsNotes: return [chunkSize, configuration.representableNoteRange.count]
 
         case featuresSpectrum: fallthrough
         case featuresFlux: fallthrough
@@ -97,14 +96,14 @@ public enum Table: String {
         }
     }
 
-    public func createInFile(file: File) {
+    public func createInFile(file: File, chunkSize: Int, configuration: Configuration) {
         let dims = [Int](count: rank, repeatedValue: 0)
-        let dataspace = Dataspace(dims: dims, maxDims: maxDims)
+        let dataspace = Dataspace(dims: dims, maxDims: maxDims(configuration))
         switch self {
         case eventsStart: fallthrough
         case eventsDuration: fallthrough
         case eventsNote:
-            file.createIntDataset(rawValue, dataspace: dataspace, chunkDimensions: chunkDimensions)
+            file.createIntDataset(rawValue, dataspace: dataspace, chunkDimensions: chunkDimensions(chunkSize, configuration: configuration))
 
         case eventsVelocity: fallthrough
         case labelsOnset: fallthrough
@@ -115,7 +114,7 @@ public enum Table: String {
         case featuresPeakLocations: fallthrough
         case featuresPeakHeights: fallthrough
         case featuresPeakFlux:
-            file.createFloatDataset(rawValue, dataspace: dataspace, chunkDimensions: chunkDimensions)
+            file.createFloatDataset(rawValue, dataspace: dataspace, chunkDimensions: chunkDimensions(chunkSize, configuration: configuration))
         }
     }
 }

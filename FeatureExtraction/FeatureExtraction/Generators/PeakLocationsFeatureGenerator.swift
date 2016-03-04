@@ -3,25 +3,25 @@
 import Foundation
 import Upsurge
 
-public class PeakLocationsFeatureGenerator : BandsFeatureGenerator {
+public class PeakLocationsFeatureGenerator: BandsFeatureGenerator {
     public var peakLocations: ValueArray<Double>
 
     public override var data: ValueArray<Double> {
         return peakLocations
     }
     
-    public override init(notes: Range<Int>, bandSize: Double) {
-        peakLocations = ValueArray<Double>(count: notes.count)
-        super.init(notes: notes, bandSize: bandSize)
+    public override init(configuration: Configuration) {
+        peakLocations = ValueArray<Double>(count: configuration.bandCount)
+        super.init(configuration: configuration)
     }
 
     public func update(peaks: [Point]) {
-        let bandCount = notes.count
+        let bandCount = configuration.bandCount
         
         var peaksByBand = [Int: Point]()
         for peak in peaks {
             let note = freqToNote(peak.x)
-            let band = bandForNote(note)
+            let band = configuration.bandForNote(note)
             guard band >= 0 && band < bandCount else {
                 continue
             }
@@ -36,7 +36,7 @@ public class PeakLocationsFeatureGenerator : BandsFeatureGenerator {
         }
 
         for band in 0..<bandCount {
-            let note = noteForBand(band)
+            let note = configuration.noteForBand(band)
             if let peak = peaksByBand[band] {
                 let peakN = freqToNote(peak.x)
                 peakLocations[band] = 1.0 - abs(note - peakN)

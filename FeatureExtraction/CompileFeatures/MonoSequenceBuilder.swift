@@ -6,29 +6,27 @@ import Foundation
 import Upsurge
 
 class MonoSequenceBuilder {
-    let windowSize: Int
-    let stepSize: Int
+    let decayModel: DecayModel
+    let configuration: Configuration
     let padding: Int
     let featureBuilder: FeatureBuilder
     
-    let decayModel: DecayModel
     var audioFilePath: String
     var audioFile: AudioFile
     var event: Event
 
-    init(path: String, note: Note, decayModel: DecayModel, windowSize: Int, stepSize: Int) {
-        self.windowSize = windowSize
-        self.stepSize = stepSize
+    init(path: String, note: Note, decayModel: DecayModel, configuration: Configuration) {
         self.decayModel = decayModel
-        padding = windowSize
-        featureBuilder = FeatureBuilder(windowSize: windowSize, stepSize: stepSize)
+        self.configuration = configuration
+        padding = configuration.windowSize
+        featureBuilder = FeatureBuilder(configuration: configuration)
         
         audioFilePath = path
         audioFile = AudioFile.open(path)!
         event = Event(note: note, start: padding, duration: Int(audioFile.frameCount), velocity: 0.63)
 
-        guard audioFile.sampleRate == Configuration.samplingFrequency else {
-            fatalError("Sample rate mismatch: \(audioFilePath) => \(audioFile.sampleRate) != \(Configuration.samplingFrequency)")
+        guard audioFile.sampleRate == configuration.samplingFrequency else {
+            fatalError("Sample rate mismatch: \(audioFilePath) => \(audioFile.sampleRate) != \(configuration.samplingFrequency)")
         }
     }
 
@@ -44,17 +42,17 @@ class MonoSequenceBuilder {
         withPointer(&data) { pointer in
             data.count += audioFile.readFrames(pointer + padding, count: data.capacity - padding) ?? 0
         }
-        guard data.count >= windowSize + stepSize else {
+        guard data.count >= configuration.windowSize + configuration.stepSize else {
             return
         }
 
         featureBuilder.reset()
         let totalSampleCount = Int(audioFile.frameCount)
-        for offset in stepSize.stride(through: totalSampleCount - windowSize, by: stepSize) {
-            var window = Window(start: offset)
+        for offset in configuration.stepSize.stride(through: totalSampleCount - configuration.windowSize, by: configuration.stepSize) {
+            var window = Window(start: offset, noteCount: configuration.representableNoteRange.count, bandCount: configuration.bandCount)
 
-            let range1 = Range(start: offset - stepSize, end: offset - stepSize + windowSize)
-            let range2 = Range(start: offset, end: offset + windowSize)
+            let range1 = Range(start: offset - configuration.stepSize, end: offset - configuration.stepSize + configuration.windowSize)
+            let range2 = Range(start: offset, end: offset + configuration.windowSize)
             window.feature = featureBuilder.generateFeatures(data[range1], data[range2])
 
             let onsetIndexInWindow = padding - offset
@@ -64,7 +62,7 @@ class MonoSequenceBuilder {
             }
 
             let value = noteValue(offset)
-            window.label.notes[event.note.midiNoteNumber - Note.representableRange.startIndex] = value
+            window.label.notes[event.note.midiNoteNumber - configuration.representableNoteRange.startIndex] = value
             window.label.polyphony = value == 0 ? 0 : 1
 
             try action(window)
@@ -73,7 +71,7 @@ class MonoSequenceBuilder {
 
     func noteValue(windowStart: Int) -> Float {
         let start = max(event.start, windowStart)
-        let end = min(event.start + event.duration, windowStart + windowSize)
+        let end = min(event.start + event.duration, windowStart + configuration.windowSize)
 
         var value = Float(0)
         for i in start..<end {

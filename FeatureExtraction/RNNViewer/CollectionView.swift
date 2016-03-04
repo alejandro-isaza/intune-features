@@ -43,6 +43,7 @@ class CollectionViewHeader: NSView {
 }
 
 class CollectionViewDataSource: NSObject, NSCollectionViewDataSource {
+    let configuration: Configuration
     var neuralNet: NeuralNet
 
     var waveformItem = WaveformItem()
@@ -60,12 +61,13 @@ class CollectionViewDataSource: NSObject, NSCollectionViewDataSource {
     }
 
     init(neuralNet: NeuralNet) {
+        self.configuration = neuralNet.configuration
         self.neuralNet = neuralNet
 
-        labelsItem.timelines.append(LabelTimelineItem(type: .Onset))
-        labelsItem.timelines.append(LabelTimelineItem(type: .Polyphony))
-        for i in 0..<Note.noteCount {
-            labelsItem.timelines.append(LabelTimelineItem(type: .Note(i)))
+        labelsItem.timelines.append(LabelTimelineItem(type: .Onset, configuration: configuration))
+        labelsItem.timelines.append(LabelTimelineItem(type: .Polyphony, configuration: configuration))
+        for i in 0..<configuration.representableNoteRange.count {
+            labelsItem.timelines.append(LabelTimelineItem(type: .Note(i), configuration: configuration))
         }
 
         for (layerIndex, layer) in neuralNet.lstmLayers.enumerate() {
@@ -82,7 +84,8 @@ class CollectionViewDataSource: NSObject, NSCollectionViewDataSource {
             let item = OutputTimelineItem(
                 resultIndex: index,
                 title: neuralNet.titleForOutputIndex(index),
-                shortTitle: neuralNet.shortTitleForOutputIndex(index))
+                shortTitle: neuralNet.shortTitleForOutputIndex(index),
+                configuration: configuration)
             outputItem.timelines.append(item)
         }
     }

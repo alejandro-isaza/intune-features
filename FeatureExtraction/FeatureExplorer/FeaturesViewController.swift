@@ -6,7 +6,9 @@ import Upsurge
 import Peak
 
 class FeaturesViewController: NSTabViewController {
-    var example = Example() {
+    let configuration = Configuration()
+
+    var example: Example! {
         didSet {
             updateFeatures()
         }
@@ -29,16 +31,21 @@ class FeaturesViewController: NSTabViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        featureBuilder = FeatureBuilder(windowSize: windowSize, stepSize: stepSize)
+        featureBuilder = FeatureBuilder(configuration: configuration)
 
         view.translatesAutoresizingMaskIntoConstraints = false
         tabView.translatesAutoresizingMaskIntoConstraints = false
         
         spectrum = storyboard!.instantiateControllerWithIdentifier("SpectrumViewController") as! SpectrumViewController
+        spectrum.configuration = configuration
         peakHeights = storyboard!.instantiateControllerWithIdentifier("PeakHeightsViewController") as! PeakHeightsViewController
+        peakHeights.configuration = configuration
         peakHeightsFlux = storyboard!.instantiateControllerWithIdentifier("PeakHeightsFluxViewController") as! PeakHeightsFluxViewController
+        peakHeightsFlux.configuration = configuration
         peakLocations = storyboard!.instantiateControllerWithIdentifier("PeakLocationsViewController") as! PeakLocationsViewController
+        peakLocations.configuration = configuration
         spectrumFlux = storyboard!.instantiateControllerWithIdentifier("SpectrumFluxViewController") as! SpectrumFluxViewController
+        spectrumFlux.configuration = configuration
         tabViewItems = [
             NSTabViewItem(viewController: spectrum),
             NSTabViewItem(viewController: peakHeights),
@@ -51,11 +58,11 @@ class FeaturesViewController: NSTabViewController {
 
     /// Convert from spectrum values to frequency, value points
     func spectrumPoints(spectrum: ValueArray<Double>) -> [FeatureExtraction.Point] {
-        return (0..<spectrum.count).map{ FeatureExtraction.Point(x: featureBuilder.baseFrequency * Double($0), y: spectrum[$0]) }
+        return (0..<spectrum.count).map{ FeatureExtraction.Point(x: configuration.baseFrequency * Double($0), y: spectrum[$0]) }
     }
 
     func updateFeatures() {
-        let feature = featureBuilder.generateFeatures(example.data[0..<featureBuilder.windowSize], example.data[featureBuilder.stepSize..<featureBuilder.windowSize + featureBuilder.stepSize])
+        let feature = featureBuilder.generateFeatures(example.data[0..<configuration.windowSize], example.data[configuration.stepSize..<configuration.windowSize + configuration.stepSize])
 
         let markNotes = notes.map{ Int($0.note) }
 

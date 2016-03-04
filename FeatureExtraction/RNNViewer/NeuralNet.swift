@@ -30,6 +30,7 @@ class Snapshot {
 }
 
 class NeuralNet {
+    let configuration: Configuration
     let netPath: String
     let device: MTLDevice
     var runner: Runner!
@@ -44,9 +45,10 @@ class NeuralNet {
     var processingCount = 0
 
 
-    init(windowSize: Int, stepSize: Int) throws {
+    init(configuration: Configuration) throws {
+        self.configuration = configuration
         device = MTLCreateSystemDefaultDevice()!
-        featureBuilder = FeatureBuilder(windowSize: windowSize, stepSize: stepSize)
+        featureBuilder = FeatureBuilder(configuration: configuration)
 
         self.netPath = NSBundle.mainBundle().pathForResource("net", ofType: "h5")!
 
@@ -79,7 +81,7 @@ class NeuralNet {
 
     func titleForOutputIndex(index: Int) -> String {
         if index < noteSize {
-            return "\(Note(midiNoteNumber: index + Note.representableRange.startIndex).description) Output"
+            return "\(Note(midiNoteNumber: index + configuration.representableNoteRange.startIndex).description) Output"
         } else if index < noteSize + onsetSize {
             if onsetSize == 1 {
                 return "Onset Output"
@@ -97,7 +99,7 @@ class NeuralNet {
 
     func shortTitleForOutputIndex(index: Int) -> String {
         if index < noteSize {
-            return "\(Note(midiNoteNumber: index + Note.representableRange.startIndex).description)"
+            return "\(Note(midiNoteNumber: index + configuration.representableNoteRange.startIndex).description)"
         } else if index < noteSize + onsetSize {
             if onsetSize == 1 {
                 return "Onset"
@@ -167,9 +169,9 @@ class NeuralNet {
             layer.reset()
         }
 
-        let indices = 0.stride(to: data.count - featureBuilder.windowSize - featureBuilder.stepSize, by: featureBuilder.stepSize)
+        let indices = 0.stride(to: data.count - configuration.windowSize - configuration.stepSize, by: configuration.stepSize)
         for i in indices {
-            let feature = featureBuilder.generateFeatures(data[i..<i + featureBuilder.windowSize], data[i + featureBuilder.stepSize..<i + featureBuilder.windowSize + featureBuilder.stepSize])
+            let feature = featureBuilder.generateFeatures(data[i..<i + configuration.windowSize], data[i + configuration.stepSize..<i + configuration.windowSize + configuration.stepSize])
             processFeature(feature)
             processingCount += 1
         }
@@ -177,7 +179,7 @@ class NeuralNet {
 
     private func processFeature(feature: Feature) {
         var data = dataLayer.data
-        let featureSize = Configuration.bandNotes.count
+        let featureSize = configuration.bandCount
         let dataSize = 4 * featureSize
         if data.capacity < dataSize {
             dataLayer.data = ValueArray<Float>(capacity: dataSize)

@@ -22,17 +22,19 @@ class OutputItem: NSObject {
 }
 
 class OutputTimelineItem: NSObject, SelectableItem {
+    let configuration: Configuration
     var index: Int
     var color: NSColor
     var title: String
     var shortTitle: String
 
-    init(resultIndex: Int, title: String, shortTitle: String) {
+    init(resultIndex: Int, title: String, shortTitle: String, configuration: Configuration) {
+        self.configuration = configuration
         self.index = resultIndex
         self.title = title
         self.shortTitle = shortTitle
-        if resultIndex < Note.noteCount {
-            color = Note(midiNoteNumber: resultIndex + Note.representableRange.startIndex).color
+        if resultIndex < configuration.representableNoteRange.count {
+            color = Note(midiNoteNumber: resultIndex + configuration.representableNoteRange.startIndex).color
         } else {
             color = NSColor.blackColor()
         }

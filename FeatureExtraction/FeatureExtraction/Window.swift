@@ -18,9 +18,9 @@ public struct Window {
         self.feature = feature
     }
 
-    public init(start: Int) {
+    public init(start: Int, noteCount: Int, bandCount: Int) {
         self.start = start
-        self.label = Label()
-        self.feature = Feature()
+        self.label = Label(noteCount: noteCount)
+        self.feature = Feature(bandCount: bandCount)
     }
 }

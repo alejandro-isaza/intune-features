@@ -4,9 +4,7 @@ import Accelerate
 import Upsurge
 
 public struct FeatureBuilder {
-    public let windowSize: Int
-    public let stepSize: Int
-    public let baseFrequency: Double
+    public let configuration: Configuration
 
     // Helpers
     public var windowingFunction: ValueArray<Double>
@@ -22,26 +20,24 @@ public struct FeatureBuilder {
     public let spectrumFeature1: SpectrumFeatureGenerator
     public let spectrumFluxFeature: FluxFeatureGenerator
 
-    public init(windowSize: Int, stepSize: Int) {
-        self.windowSize = windowSize
-        self.stepSize = stepSize
-        baseFrequency = Configuration.samplingFrequency / Double(windowSize)
+    public init(configuration: Configuration) {
+        self.configuration = configuration
 
-        windowingFunction = ValueArray<Double>(count: windowSize)
+        windowingFunction = ValueArray<Double>(count: configuration.windowSize)
         withPointer(&windowingFunction) { pointer in
-            vDSP_hamm_windowD(pointer, vDSP_Length(windowSize), 0)
+            vDSP_hamm_windowD(pointer, vDSP_Length(configuration.windowSize), 0)
         }
 
-        fft = FFTDouble(inputLength: windowSize)
-        peakExtractor = PeakExtractor(minimumNoteDistance: Configuration.bandSize)
+        fft = FFTDouble(inputLength: configuration.windowSize)
+        peakExtractor = PeakExtractor(configuration: configuration)
 
-        peakLocations = PeakLocationsFeatureGenerator(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
-        peakHeights0 = PeakHeightsFeatureGenerator(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
-        peakHeights1 = PeakHeightsFeatureGenerator(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
-        peakFlux = FluxFeatureGenerator(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
-        spectrumFeature0 = SpectrumFeatureGenerator(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
-        spectrumFeature1 = SpectrumFeatureGenerator(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
-        spectrumFluxFeature = FluxFeatureGenerator(notes: Configuration.bandNotes, bandSize: Configuration.bandSize)
+        peakLocations = PeakLocationsFeatureGenerator(configuration: configuration)
+        peakHeights0 = PeakHeightsFeatureGenerator(configuration: configuration)
+        peakHeights1 = PeakHeightsFeatureGenerator(configuration: configuration)
+        peakFlux = FluxFeatureGenerator(configuration: configuration)
+        spectrumFeature0 = SpectrumFeatureGenerator(configuration: configuration)
+        spectrumFeature1 = SpectrumFeatureGenerator(configuration: configuration)
+        spectrumFluxFeature = FluxFeatureGenerator(configuration: configuration)
     }
 
     public func reset() {
@@ -73,13 +69,12 @@ public struct FeatureBuilder {
         peakHeights0.update(peaks0, rms: rms)
         peakHeights1.update(peaks1, rms: rms)
         peakFlux.update(data0: peakHeights0.data, data1: peakHeights1.data)
-        spectrumFeature0.update(spectrum: spectrum0, baseFrequency: baseFrequency)
-        spectrumFeature1.update(spectrum: spectrum1, baseFrequency: baseFrequency)
+        spectrumFeature0.update(spectrum: spectrum0, baseFrequency: configuration.baseFrequency)
+        spectrumFeature1.update(spectrum: spectrum1, baseFrequency: configuration.baseFrequency)
         spectrumFluxFeature.update(data0: spectrumFeature0.data, data1: spectrumFeature1.data)
 
-        var feature = Feature()
-        feature.rms = Float(rms)
-        for i in 0..<Configuration.bandNotes.count {
+        let feature = Feature(bandCount: configuration.bandCount)
+        for i in 0..<configuration.bandCount {
             feature.spectrum[i] = Float(spectrumFeature1.data[i])
             feature.spectralFlux[i] = Float(spectrumFluxFeature.data[i])
             feature.peakHeights[i] = Float(peakHeights1.data[i])
@@ -100,7 +95,7 @@ public struct FeatureBuilder {
         points.reserveCapacity(spectrum.count)
         for i in 0..<spectrum.count {
             let v = spectrum[i]
-            points.append(Point(x: baseFrequency * Double(i), y: v))
+            points.append(Point(x: configuration.baseFrequency * Double(i), y: v))
         }
         return points
     }

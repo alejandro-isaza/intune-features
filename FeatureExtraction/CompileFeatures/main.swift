@@ -1,6 +1,7 @@
 //  Copyright © 2015 Venture Media. All rights reserved.
 
 import CommandLine
+import FeatureExtraction
 import Foundation
 
 let cli = CommandLine(arguments: Process.arguments)
@@ -28,7 +29,12 @@ if help.value {
     exit(EX_OK)
 }
 
-let featureCompiler = FeatureCompiler(root: rootFilePath.value!, overwrite: overwrite.value, windowSize: windowSize.value!, stepSize: stepSize.value!)
+var configuration = Configuration()
+configuration.windowSize = windowSize.value!
+configuration.stepSize = stepSize.value!
+try configuration.description.writeToFile("configuration.txt", atomically: true, encoding: NSUTF8StringEncoding)
+
+let featureCompiler = FeatureCompiler(root: rootFilePath.value!, overwrite: overwrite.value, configuration: configuration)
 
 try featureCompiler.compileNoiseFeatures()
 try featureCompiler.compileMonoFeatures()

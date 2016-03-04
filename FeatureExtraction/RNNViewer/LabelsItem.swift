@@ -15,13 +15,15 @@ class LabelTimelineItem: NSObject, SelectableItem {
         case Note(Int)
     }
 
+    let configuration: Configuration
     var type: Type
     var color: NSColor
     var title: String
     var shortTitle: String
 
-    init(type: Type) {
+    init(type: Type, configuration: Configuration) {
         self.type = type
+        self.configuration = configuration
         switch type {
         case .Onset:
             color = NSColor.blackColor()
@@ -32,7 +34,7 @@ class LabelTimelineItem: NSObject, SelectableItem {
             title = "Polyphony Label"
             shortTitle = "Polyphony"
         case .Note(let number):
-            let note = Note(midiNoteNumber: number + Note.representableRange.startIndex)
+            let note = Note(midiNoteNumber: number + configuration.representableNoteRange.startIndex)
             color = note.color
             title = "\(note.description) Label"
             shortTitle = note.description

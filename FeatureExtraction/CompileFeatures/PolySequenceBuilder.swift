@@ -7,28 +7,24 @@ import Foundation
 import Upsurge
 
 class PolySequenceBuilder {
-    static let maximumPolyphony = Float(6)
-
-    let windowSize: Int
-    let stepSize: Int
+    let decayModel: DecayModel
+    let configuration: Configuration
     let featureBuilder: FeatureBuilder
     
     var audioFilePath: String
     var audioFile: AudioFile
     var events = [Event]()
-    let decayModel: DecayModel
 
-    init(audioFilePath: String, midiFilePath: String, decayModel: DecayModel, windowSize: Int, stepSize: Int) {
-        self.windowSize = windowSize
-        self.stepSize = stepSize
+    init(audioFilePath: String, midiFilePath: String, decayModel: DecayModel, configuration: Configuration) {
         self.decayModel = decayModel
-        featureBuilder = FeatureBuilder(windowSize: windowSize, stepSize: stepSize)
+        self.configuration = configuration
+        featureBuilder = FeatureBuilder(configuration: configuration)
 
         self.audioFilePath = audioFilePath
 
         audioFile = AudioFile.open(audioFilePath)!
-        guard audioFile.sampleRate == Configuration.samplingFrequency else {
-            fatalError("Sample rate mismatch: \(audioFilePath) => \(audioFile.sampleRate) != \(Configuration.samplingFrequency)")
+        guard audioFile.sampleRate == configuration.samplingFrequency else {
+            fatalError("Sample rate mismatch: \(audioFilePath) => \(audioFile.sampleRate) != \(configuration.samplingFrequency)")
         }
 
         guard let midiFile = MIDIFile(filePath: midiFilePath) else {
@@ -38,21 +34,20 @@ class PolySequenceBuilder {
         let noteEvents = midiFile.noteEvents
         events.reserveCapacity(noteEvents.count)
         for note in noteEvents {
-            events.append(Event(midiNoteEvent: note, inFile: midiFile))
+            events.append(Event(midiNoteEvent: note, inFile: midiFile, samplingFrequency: configuration.samplingFrequency))
         }
     }
 
-    init(audioFilePath: String, csvFilePath: String, decayModel: DecayModel, windowSize: Int, stepSize: Int) {
-        self.windowSize = windowSize
-        self.stepSize = stepSize
+    init(audioFilePath: String, csvFilePath: String, decayModel: DecayModel, configuration: Configuration) {
         self.decayModel = decayModel
-        featureBuilder = FeatureBuilder(windowSize: windowSize, stepSize: stepSize)
+        self.configuration = configuration
+        featureBuilder = FeatureBuilder(configuration: configuration)
 
         self.audioFilePath = audioFilePath
         
         audioFile = AudioFile.open(audioFilePath)!
-        guard audioFile.sampleRate == Configuration.samplingFrequency else {
-            fatalError("Sample rate mismatch: \(audioFilePath) => \(audioFile.sampleRate) != \(Configuration.samplingFrequency)")
+        guard audioFile.sampleRate == configuration.samplingFrequency else {
+            fatalError("Sample rate mismatch: \(audioFilePath) => \(audioFile.sampleRate) != \(configuration.samplingFrequency)")
         }
 
         guard let csvString = try? String(contentsOfFile: csvFilePath) else {
@@ -87,17 +82,17 @@ class PolySequenceBuilder {
         withPointer(&data) { pointer in
             data.count = audioFile.readFrames(pointer, count: data.capacity) ?? 0
         }
-        guard data.count >= windowSize + stepSize else {
+        guard data.count >= configuration.windowSize + configuration.stepSize else {
             return
         }
 
         featureBuilder.reset()
         let totalSampleCount = Int(audioFile.frameCount)
-        for offset in stepSize.stride(through: totalSampleCount - windowSize, by: stepSize) {
-            var window = Window(start: offset)
+        for offset in configuration.stepSize.stride(through: totalSampleCount - configuration.windowSize, by: configuration.stepSize) {
+            var window = Window(start: offset, noteCount: configuration.representableNoteRange.count, bandCount: configuration.bandCount)
 
-            let range1 = Range(start: offset - stepSize, end: offset - stepSize + windowSize)
-            let range2 = Range(start: offset, end: offset + windowSize)
+            let range1 = Range(start: offset - configuration.stepSize, end: offset - configuration.stepSize + configuration.windowSize)
+            let range2 = Range(start: offset, end: offset + configuration.windowSize)
             window.feature = featureBuilder.generateFeatures(data[range1], data[range2])
 
             window.label.onset = onsetValueForWindowAt(offset)
@@ -139,10 +134,10 @@ class PolySequenceBuilder {
     }
 
     func notesValueForWindowAt(windowStart: Int) -> [Float] {
-        var value = [Float](count: Note.noteCount, repeatedValue: 0)
-        for noteNumber in Note.representableRange {
+        var value = [Float](count: configuration.representableNoteRange.count, repeatedValue: 0)
+        for noteNumber in configuration.representableNoteRange {
             let note = Note(midiNoteNumber: noteNumber)
-            value[noteNumber - Note.representableRange.startIndex] = valueForNote(note, windowStart: windowStart)
+            value[noteNumber - configuration.representableNoteRange.startIndex] = valueForNote(note, windowStart: windowStart)
         }
         return value
     }
@@ -156,7 +151,7 @@ class PolySequenceBuilder {
             if event.start + event.duration < windowStart {
                 continue
             }
-            if event.start > windowStart + windowSize {
+            if event.start > windowStart + configuration.windowSize {
                 break
             }
             value += valueForEvent(event, windowStart: windowStart)
@@ -166,7 +161,7 @@ class PolySequenceBuilder {
 
     func valueForEvent(event: Event, windowStart: Int) -> Float {
         let start = max(event.start, windowStart)
-        let end = min(event.start + event.duration, windowStart + windowSize)
+        let end = min(event.start + event.duration, windowStart + configuration.windowSize)
 
         var value = Float(0)
         for i in start..<end {

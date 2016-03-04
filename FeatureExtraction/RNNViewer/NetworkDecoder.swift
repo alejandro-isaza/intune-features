@@ -3,6 +3,7 @@
 import FeatureExtraction
 
 class NetworkDecoder {
+    let configuration: Configuration
     var lastOnsetValue = Float()
     var peakCandidate: Float?
     var valleyCandidate: Float?
@@ -11,6 +12,10 @@ class NetworkDecoder {
     var currentNotes = [Note]()
     var eventAction: ([Note] -> Void)?
 
+    init(configuration: Configuration) {
+        self.configuration = configuration
+    }
+    
     func processOutput<C: CollectionType where C.Generator.Element == Float>(onsetValue: Float, polyphonyValue: Float, noteValues: C) {
         if let postponeOnset = postponeOnset {
             if postponeOnset == 0 {
@@ -40,7 +45,7 @@ class NetworkDecoder {
         let polyphony = Int(polyphonyValue)
         var topNotes = [(Float, Note)](count: polyphony, repeatedValue: (0, Note(midiNoteNumber: 0)))
         for (i, value) in noteValues.enumerate() {
-            let note = Note(midiNoteNumber: i + Note.representableRange.startIndex)
+            let note = Note(midiNoteNumber: i + configuration.representableNoteRange.startIndex)
             sortedInsertNote(note, value: value, into: &topNotes)
         }
 

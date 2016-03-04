@@ -1,6 +1,7 @@
 //  Copyright © 2015 Venture Media. All rights reserved.
 
 import Cocoa
+import FeatureExtraction
 
 class MainViewController: NSSplitViewController {
     var filesystemViewController: FilesystemViewController!
@@ -14,6 +15,7 @@ class MainViewController: NSSplitViewController {
             self.fileViewController.loadExample(path)
         }
         fileViewController = splitViewItems[1].viewController as! FileViewController
+        fileViewController.configuration = Configuration()
     }
     
 }

@@ -13,7 +13,7 @@ public class FeatureDatabase {
     let filePath: String
     let file: File
 
-    public init(filePath: String, chunkSize: Int = 1024) {
+    public init(filePath: String, chunkSize: Int = 1024, configuration: Configuration) {
         self.filePath = filePath
         self.chunkSize = chunkSize
 
@@ -23,7 +23,7 @@ public class FeatureDatabase {
         file.createGroup("features")
         
         for table in Table.allValues {
-            table.createInFile(file)
+            table.createInFile(file, chunkSize: chunkSize, configuration: configuration)
         }
     }
 
@@ -140,12 +140,15 @@ public extension FeatureDatabase {
         guard let dataset = file.openFloatDataset(Table.labelsNotes.rawValue) else {
             throw Error.DatasetNotFound
         }
+        guard let noteCount = labels.first?.notes.count else {
+            return
+        }
         let notes = labels.flatMap({ $0.notes })
-        try dataset.append(notes, dimensions: [labels.count, Note.noteCount])
+        try dataset.append(notes, dimensions: [labels.count, noteCount])
     }
 
     public func readLabelAtIndex(index: Int) throws -> Label {
-        var label = Label()
+        var label = Label(noteCount: 0)
         label.onset = try readLabelOnsetAtIndex(index)
         label.polyphony = try readLabelPolyphonyAtIndex(index)
         label.notes = try readLabelNotesAtIndex(index)
@@ -191,7 +194,9 @@ public extension FeatureDatabase {
             throw Error.DatasetNotFound
         }
 
-        let featureSize = Configuration.bandNotes.count
+        guard let featureSize = features.first?.spectrum.count else {
+            return
+        }
         let data = features.flatMap({ $0.spectrum })
         try dataset.append(data, dimensions: [features.count, featureSize])
     }
@@ -201,7 +206,9 @@ public extension FeatureDatabase {
             throw Error.DatasetNotFound
         }
 
-        let featureSize = Configuration.bandNotes.count
+        guard let featureSize = features.first?.spectrum.count else {
+            return
+        }
         let data = features.flatMap({ $0.spectralFlux })
         try dataset.append(data, dimensions: [features.count, featureSize])
     }
@@ -211,7 +218,9 @@ public extension FeatureDatabase {
             throw Error.DatasetNotFound
         }
 
-        let featureSize = Configuration.bandNotes.count
+        guard let featureSize = features.first?.spectrum.count else {
+            return
+        }
         let data = features.flatMap({ $0.peakHeights })
         try dataset.append(data, dimensions: [features.count, featureSize])
     }
@@ -221,7 +230,9 @@ public extension FeatureDatabase {
             throw Error.DatasetNotFound
         }
 
-        let featureSize = Configuration.bandNotes.count
+        guard let featureSize = features.first?.spectrum.count else {
+            return
+        }
         let data = features.flatMap({ $0.peakFlux })
         try dataset.append(data, dimensions: [features.count, featureSize])
     }
@@ -231,13 +242,15 @@ public extension FeatureDatabase {
             throw Error.DatasetNotFound
         }
 
-        let featureSize = Configuration.bandNotes.count
+        guard let featureSize = features.first?.spectrum.count else {
+            return
+        }
         let data = features.flatMap({ $0.peakLocations })
         try dataset.append(data, dimensions: [features.count, featureSize])
     }
 
     public func readFeatureAtIndex(index: Int) throws -> Feature {
-        var feature = Feature()
+        var feature = Feature(bandCount: 0)
         feature.spectrum = ValueArray(try readSpectrumAtIndex(index))
         feature.spectralFlux = ValueArray(try readFluxAtIndex(index))
         feature.peakHeights = ValueArray(try readPeakHeightsAtIndex(index))

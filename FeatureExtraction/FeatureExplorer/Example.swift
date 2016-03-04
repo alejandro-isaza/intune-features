@@ -3,11 +3,12 @@
 import FeatureExtraction
 import Upsurge
 
-let windowSize = 2048
-let stepSize = 1024
-
 struct Example {
     var filePath = ""
     var frameOffset = 0
-    var data = ValueArray<Double>()
+    var data: ValueArray<Double>
+
+    init(dataSize: Int) {
+        data = ValueArray<Double>(count: dataSize, repeatedValue: 0)
+    }
 }

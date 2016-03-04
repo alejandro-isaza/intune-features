@@ -4,13 +4,15 @@ import FeatureExtraction
 import HDF5Kit
 
 class DecayModel {
+    let representableNoteRange: Range<Int>
     let parameterCount = 4
     let file: File
 
     let parameters: [Float]
     let sums: [Float]
 
-    init() {
+    init(representableNoteRange: Range<Int>) {
+        self.representableNoteRange = representableNoteRange
         guard let file = File.open("note_curves.h5", mode: .ReadOnly) else {
             fatalError("Note curve parameters file 'note_curves.h5' not found.")
         }
@@ -22,8 +24,8 @@ class DecayModel {
         let sumsDataset = file.openFloatDataset("curve_sum")!
         sums = try! sumsDataset.read()
 
-        precondition(parameters.count == parameterCount * Note.noteCount)
-        precondition(sums.count == Note.noteCount)
+        precondition(parameters.count == parameterCount * representableNoteRange.count)
+        precondition(sums.count == representableNoteRange.count)
     }
 
     func decayValueForNote(note: Note, atOffset offset: Int) -> Float {
@@ -31,7 +33,7 @@ class DecayModel {
             return 0
         }
 
-        let noteIndex = note.midiNoteNumber - Note.representableRange.startIndex
+        let noteIndex = note.midiNoteNumber - representableNoteRange.startIndex
         let index = noteIndex * parameterCount
         let a = parameters[index + 0]
         let b = Float(offset) - parameters[index + 1]
@@ -41,7 +43,7 @@ class DecayModel {
     }
 
     func normalizationForNote(note: Note) -> Float {
-        let index = note.midiNoteNumber - Note.representableRange.startIndex
+        let index = note.midiNoteNumber - representableNoteRange.startIndex
         return sums[index]
     }
 }

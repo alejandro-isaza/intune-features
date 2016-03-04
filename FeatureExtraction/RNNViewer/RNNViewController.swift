@@ -17,8 +17,7 @@ func nextColor() -> NSColor {
 }
 
 class RNNViewController: NSViewController {
-    let windowSize = 2048
-    let stepSize = 1024
+    let configuration = Configuration()
 
     private struct Keys {
         static let openDirectory = "openDirectory"
@@ -47,7 +46,7 @@ class RNNViewController: NSViewController {
     var networkOffset = 0
     var networkLastOffset = 0
     var neuralNet: NeuralNet!
-    var networkDecoder = NetworkDecoder()
+    var networkDecoder: NetworkDecoder!
 
     var collectionViewDataSource: CollectionViewDataSource!
     var collectionViewDelegate: CollectionViewDelegate!
@@ -55,18 +54,20 @@ class RNNViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        neuralNet = try! NeuralNet(windowSize: windowSize, stepSize: stepSize)
+        networkDecoder = NetworkDecoder(configuration: configuration)
+        neuralNet = try! NeuralNet(configuration: configuration)
         updateView()
 
+        pianoRollView.configuration = configuration
         combinedPlotView.addAxis(Axis(orientation: .Horizontal, ticks: .Fit(5)))
         combinedPlotView.addAxis(Axis(orientation: .Vertical, ticks: .Distance(0.1)))
 
         neuralNet.forwardPassAction = { snapshot in
             let output = snapshot.output
             let count = output.count
-            self.networkDecoder.processOutput(output[count - 2], polyphonyValue: output[count - 1], noteValues: output[0..<Note.noteCount])
+            self.networkDecoder.processOutput(output[count - 2], polyphonyValue: output[count - 1], noteValues: output[0..<self.configuration.representableNoteRange.count])
 
-            self.networkOffset += self.stepSize
+            self.networkOffset += self.configuration.stepSize
             self.snapshots.append(snapshot)
             if self.snapshots.count == self.neuralNet.processingCount {
                 dispatch_async(dispatch_get_main_queue()) {
@@ -114,6 +115,7 @@ class RNNViewController: NSViewController {
             let selected = self.selectedItems.contains(item)
             return selected
         }
+
         collectionView.registerNib(NSNib(nibNamed: CollectionViewItem.identifier, bundle: nil)!, forItemWithIdentifier: CollectionViewItem.identifier)
         collectionView.dataSource = collectionViewDataSource
         collectionView.delegate = collectionViewDelegate
@@ -184,7 +186,7 @@ class RNNViewController: NSViewController {
 
         audioFile.currentFrame = offset
 
-        let sampleCount = Int(length * Configuration.samplingFrequency)
+        let sampleCount = Int(length * configuration.samplingFrequency)
         if data.capacity < sampleCount {
             data = ValueArray<Double>(capacity: sampleCount)
         }
@@ -227,13 +229,13 @@ class RNNViewController: NSViewController {
         guard let audioFile = AudioFile.open(path) else {
             return
         }
-        precondition(audioFile.sampleRate == Configuration.samplingFrequency)
+        precondition(audioFile.sampleRate == configuration.samplingFrequency)
         self.audioFile = audioFile
 
         labelsFile = File.open(path.stringByReplacingExtensionWith("h5"), mode: .ReadOnly)
 
         let frameCount = Int(audioFile.frameCount)
-        offsetSlider.maxValue = Double(frameCount - windowSize)
+        offsetSlider.maxValue = Double(frameCount - configuration.windowSize)
 
         offset = 0
         offsetSlider.integerValue = offset
@@ -308,13 +310,13 @@ class RNNViewController: NSViewController {
         var pointsBottom = Array<PlotKit.Point>()
         pointsBottom.reserveCapacity(valueCount)
 
-        let start = windowSize/2 - stepSize
-        let stepsInWindow = Double(windowSize) / Double(stepSize)
+        let start = configuration.windowSize/2 - configuration.stepSize
+        let stepsInWindow = Double(configuration.windowSize) / Double(configuration.stepSize)
         for index in start.stride(to: sampleCount - samplesPerPoint, by: samplesPerPoint) {
             // Get the RMS value for the current point
             let size = min(samplesPerPoint, sampleCount - index)
             let y = rmsq(data[index..<index+size])
-            let x = Double(index) / Double(stepSize) - (stepsInWindow - 1) / 2
+            let x = Double(index) / Double(configuration.stepSize) - (stepsInWindow - 1) / 2
             pointsTop.append(PlotKit.Point(x: x, y: y))
             pointsBottom.append(PlotKit.Point(x: x, y: -y))
         }
@@ -337,14 +339,14 @@ class RNNViewController: NSViewController {
         pianoRollView.netEvents = netEvents
 
         let start = offset
-        let sampleCount = Int(length * Configuration.samplingFrequency)
+        let sampleCount = Int(length * configuration.samplingFrequency)
         pianoRollView.range = start..<start + sampleCount
     }
 
     func updateLabelsPlotView(plotView: PlotView, withItem item: LabelTimelineItem, withColor color: NSColor) {
-        let featureOffset = max(0, offset / stepSize - 1)
-        let sampleCount = Int(length * Configuration.samplingFrequency)
-        let featureCount = Configuration.windowCountInSamples(sampleCount, windowSize: windowSize, stepSize: stepSize)
+        let featureOffset = max(0, offset / configuration.stepSize - 1)
+        let sampleCount = Int(length * configuration.samplingFrequency)
+        let featureCount = configuration.windowCountInSamples(sampleCount)
 
         var values = ValueArray<Double>()
         switch item.type {
