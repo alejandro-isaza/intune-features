@@ -31,7 +31,7 @@ class PeakLocationsViewController: BandsFeaturesViewController {
 
         var points = Array<PlotKit.Point>()
         for band in 0..<feature.peakLocations.count {
-            let note = Double(configuration.spectrumNoteRange.startIndex + band)
+            let note = configuration.noteForBand(band)
             let y = Double(feature.peakLocations[band])
             points.append(PlotKit.Point(x: note, y: y))
         }

@@ -37,7 +37,7 @@ class PeakHeightsFluxViewController: BandsFeaturesViewController {
 
         var points = Array<PlotKit.Point>()
         for band in 0..<feature.peakFlux.count {
-            let note = Double(configuration.spectrumNoteRange.startIndex + band)
+            let note = configuration.noteForBand(band)
             let y = Double(feature.peakFlux[band])
             points.append(Point(x: note, y: y))
         }

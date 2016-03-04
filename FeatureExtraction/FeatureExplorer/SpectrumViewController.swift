@@ -31,8 +31,8 @@ class SpectrumViewController: BandsFeaturesViewController {
 
         var maxY: Double = 0
         var points = Array<PlotKit.Point>()
-        for band in 0..<configuration.spectrumNoteRange.count {
-            let note = configuration.spectrumNoteRange.startIndex + band
+        for band in 0..<configuration.bandCount {
+            let note = configuration.noteForBand(band)
             let y = Double(feature.spectrum[band])
             points.append(Point(x: Double(note), y: y))
 

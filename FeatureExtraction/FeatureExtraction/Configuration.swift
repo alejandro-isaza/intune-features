@@ -83,15 +83,15 @@ public struct Configuration {
     // MARK: Bands
 
     public var bandCount: Int {
-        return spectrumNoteRange.count
+        return spectrumNoteRange.count * Int(spectrumResolution)
     }
 
     public func bandForNote(note: Double) -> Int {
-        return Int(round((note - Double(representableNoteRange.startIndex)) / spectrumResolution))
+        return Int(round((note - Double(representableNoteRange.startIndex)) * spectrumResolution))
     }
 
     public func noteForBand(band: Int) -> Double {
-        return Double(representableNoteRange.startIndex) + Double(band) * spectrumResolution
+        return Double(representableNoteRange.startIndex) + Double(band) / spectrumResolution
     }
 
 

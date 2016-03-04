@@ -37,7 +37,7 @@ class SpectrumFluxViewController: BandsFeaturesViewController {
 
         var points = Array<PlotKit.Point>()
         for band in 0..<feature.spectralFlux.count {
-            let note = Double(configuration.spectrumNoteRange.startIndex + band)
+            let note = configuration.noteForBand(band)
             let y = Double(feature.spectralFlux[band])
             points.append(Point(x: note, y: y))
         }
