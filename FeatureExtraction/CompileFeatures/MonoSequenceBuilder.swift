@@ -11,14 +11,15 @@ class MonoSequenceBuilder {
     let padding: Int
     let featureBuilder: FeatureBuilder
     
-    let decayModel = DecayModel()
+    let decayModel: DecayModel
     var audioFilePath: String
     var audioFile: AudioFile
     var event: Event
 
-    init(path: String, note: Note, windowSize: Int, stepSize: Int) {
+    init(path: String, note: Note, decayModel: DecayModel, windowSize: Int, stepSize: Int) {
         self.windowSize = windowSize
         self.stepSize = stepSize
+        self.decayModel = decayModel
         padding = windowSize
         featureBuilder = FeatureBuilder(windowSize: windowSize, stepSize: stepSize)
         

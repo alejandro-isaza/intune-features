@@ -56,10 +56,17 @@ class FeatureCompiler {
     var monophonicFiles = [MonophonicFile]()
     var noiseFiles = [String]()
 
+    let queue: NSOperationQueue
+    var decayModel = DecayModel()
+    
     init(root: String, overwrite: Bool, windowSize: Int, stepSize: Int) {
         self.windowSize = windowSize
         self.stepSize = stepSize
         self.overwrite = overwrite
+
+        queue = NSOperationQueue()
+        queue.name = "Operations"
+        queue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount
 
         let urls = loadFiles(root)
         (polyphonicFiles, monophonicFiles, noiseFiles) = categorizeURLs(urls)
@@ -70,146 +77,216 @@ class FeatureCompiler {
     }
 
     func compileNoiseFeatures() throws  {
-        let fileManger = NSFileManager.defaultManager()
-        for (i, file) in noiseFiles.enumerate() {
-            if FeatureCompiler.isTTY {
-                print(FeatureCompiler.eraseLastLineCommand, terminator: "")
-            }
-            print("Noise: \(i + 1) of \(noiseFiles.count)")
+        var completeCount = 0
+        for file in noiseFiles {
+            queue.addOperationWithBlock {
+                self.compileNoiseFeaturesInFile(file)
 
-            let databasePath = file.stringByReplacingExtensionWith("h5")
-            if !overwrite && fileManger.fileExistsAtPath(databasePath) {
-                continue
-            }
-
-            let database = FeatureDatabase(filePath: databasePath)
-
-            var labels = [Label]()
-            labels.reserveCapacity(database.chunkSize)
-
-            var features = [Feature]()
-            features.reserveCapacity(database.chunkSize)
-
-            let exampleBuilder = NoiseSequenceBuilder(path: file, windowSize: windowSize, stepSize: stepSize)
-            try exampleBuilder.forEachWindow { window in
-                labels.append(window.label)
-                features.append(window.feature)
-                if labels.count >= database.chunkSize {
-                    try database.writeLabels(labels)
-                    try database.writeFeatures(features)
-                    database.flush()
-                    labels.removeAll(keepCapacity: true)
-                    features.removeAll(keepCapacity: true)
+                dispatch_async(dispatch_get_main_queue()) {
+                    completeCount += 1
+                    if FeatureCompiler.isTTY {
+                        print(FeatureCompiler.eraseLastLineCommand, terminator: "")
+                    }
+                    print("Noise: \(completeCount) of \(self.noiseFiles.count)")
                 }
             }
-
-            if labels.count > 0 {
-                try database.writeLabels(labels)
-                try database.writeFeatures(features)
-                database.flush()
+        }
+        while true {
+            NSRunLoop.currentRunLoop().runUntilDate(NSDate(timeIntervalSinceNow: 1))
+            if queue.operationCount == 0 {
+                break
             }
         }
         print("")
+    }
+
+    func compileNoiseFeaturesInFile(file: String) {
+        let fileManager = NSFileManager()
+
+        let databasePath = file.stringByReplacingExtensionWith("h5")
+        if !overwrite && fileManager.fileExistsAtPath(databasePath) {
+            return
+        }
+
+        var database: FeatureDatabase!
+        dispatch_sync(dispatch_get_main_queue()) {
+            database = FeatureDatabase(filePath: databasePath)
+        }
+
+        var labels = [Label]()
+        labels.reserveCapacity(database.chunkSize)
+
+        var features = [Feature]()
+        features.reserveCapacity(database.chunkSize)
+
+        let exampleBuilder = NoiseSequenceBuilder(path: file, windowSize: windowSize, stepSize: stepSize)
+        exampleBuilder.forEachWindow { window in
+            labels.append(window.label)
+            features.append(window.feature)
+            if labels.count >= database.chunkSize {
+                writeLabels(labels, features: features, toDatabase: database)
+                labels.removeAll(keepCapacity: true)
+                features.removeAll(keepCapacity: true)
+            }
+        }
+
+        if labels.count > 0 {
+            writeLabels(labels, features: features, toDatabase: database)
+        }
+        dispatch_sync(dispatch_get_main_queue()) {
+            database = nil
+        }
     }
 
     func compileMonoFeatures() throws {
-        let fileManger = NSFileManager.defaultManager()
-        for (i, file) in monophonicFiles.enumerate() {
-            if FeatureCompiler.isTTY {
-                print(FeatureCompiler.eraseLastLineCommand, terminator: "")
-            }
-            print("Mono: \(i + 1) of \(monophonicFiles.count)")
+        var completeCount = 0
+        for file in monophonicFiles {
+            queue.addOperationWithBlock {
+                self.compileMonoFeaturesInFile(file)
 
-            let databasePath = file.path.stringByReplacingExtensionWith("h5")
-            if !overwrite && fileManger.fileExistsAtPath(databasePath) {
-                continue
-            }
-            let database = FeatureDatabase(filePath: databasePath)
-
-            let note = Note(midiNoteNumber: file.noteNumber)
-            let exampleBuilder = MonoSequenceBuilder(path: file.path, note: note, windowSize: windowSize, stepSize: stepSize)
-
-            try database.writeEvent(exampleBuilder.event)
-
-            var labels = [Label]()
-            labels.reserveCapacity(database.chunkSize)
-
-            var features = [Feature]()
-            features.reserveCapacity(database.chunkSize)
-
-            try exampleBuilder.forEachWindow { window in
-                labels.append(window.label)
-                features.append(window.feature)
-                if labels.count >= database.chunkSize {
-                    try database.writeLabels(labels)
-                    try database.writeFeatures(features)
-                    database.flush()
-                    labels.removeAll(keepCapacity: true)
-                    features.removeAll(keepCapacity: true)
+                dispatch_async(dispatch_get_main_queue()) {
+                    completeCount += 1
+                    if FeatureCompiler.isTTY {
+                        print(FeatureCompiler.eraseLastLineCommand, terminator: "")
+                    }
+                    print("Mono: \(completeCount) of \(self.monophonicFiles.count)")
                 }
             }
-
-            if labels.count > 0 {
-                try database.writeLabels(labels)
-                try database.writeFeatures(features)
-                database.flush()
+        }
+        while true {
+            NSRunLoop.currentRunLoop().runUntilDate(NSDate(timeIntervalSinceNow: 1))
+            if queue.operationCount == 0 {
+                break
             }
         }
         print("")
     }
 
+    func compileMonoFeaturesInFile(file: MonophonicFile) {
+        let fileManager = NSFileManager()
+
+        let databasePath = file.path.stringByReplacingExtensionWith("h5")
+        if !overwrite && fileManager.fileExistsAtPath(databasePath) {
+            return
+        }
+
+        var database: FeatureDatabase!
+        dispatch_sync(dispatch_get_main_queue()) {
+            database = FeatureDatabase(filePath: databasePath)
+        }
+
+        let note = Note(midiNoteNumber: file.noteNumber)
+        let exampleBuilder = MonoSequenceBuilder(path: file.path, note: note, decayModel: decayModel, windowSize: windowSize, stepSize: stepSize)
+
+        dispatch_async(dispatch_get_main_queue()) {
+            try! database.writeEvent(exampleBuilder.event)
+        }
+
+        var labels = [Label]()
+        labels.reserveCapacity(database.chunkSize)
+
+        var features = [Feature]()
+        features.reserveCapacity(database.chunkSize)
+
+        exampleBuilder.forEachWindow { window in
+            labels.append(window.label)
+            features.append(window.feature)
+            if labels.count >= database.chunkSize {
+                writeLabels(labels, features: features, toDatabase: database)
+                labels.removeAll(keepCapacity: true)
+                features.removeAll(keepCapacity: true)
+            }
+        }
+
+        if labels.count > 0 {
+            writeLabels(labels, features: features, toDatabase: database)
+        }
+        dispatch_sync(dispatch_get_main_queue()) {
+            database = nil
+        }
+    }
+
     func compilePolyFeatures() throws {
-        let fileManger = NSFileManager.defaultManager()
-        for (i, file) in polyphonicFiles.enumerate() {
-            if FeatureCompiler.isTTY {
-                print(FeatureCompiler.eraseLastLineCommand, terminator: "")
-            }
-            print("Poly: \(i + 1) of \(polyphonicFiles.count)")
+        var completeCount = 0
+        for file in polyphonicFiles {
+            queue.addOperationWithBlock {
+                self.compilePolyFeaturesInFile(file)
 
-            let databasePath = file.audioPath.stringByReplacingExtensionWith("h5")
-            if !overwrite && fileManger.fileExistsAtPath(databasePath) {
-                continue
-            }
-            let database = FeatureDatabase(filePath: databasePath)
-
-            let exampleBuilder: PolySequenceBuilder
-            if let midiPath = file.midiPath {
-                exampleBuilder = PolySequenceBuilder(audioFilePath: file.audioPath, midiFilePath: midiPath, windowSize: windowSize, stepSize: stepSize)
-            } else if let csvPath = file.csvPath {
-                exampleBuilder = PolySequenceBuilder(audioFilePath: file.audioPath, csvFilePath: csvPath, windowSize: windowSize, stepSize: stepSize)
-            } else {
-                continue
-            }
-
-            for event in exampleBuilder.events {
-                try database.writeEvent(event)
-            }
-
-            var labels = [Label]()
-            labels.reserveCapacity(database.chunkSize)
-
-            var features = [Feature]()
-            features.reserveCapacity(database.chunkSize)
-
-            try exampleBuilder.forEachWindow { window in
-                labels.append(window.label)
-                features.append(window.feature)
-                if labels.count >= database.chunkSize {
-                    try database.writeLabels(labels)
-                    try database.writeFeatures(features)
-                    database.flush()
-                    labels.removeAll(keepCapacity: true)
-                    features.removeAll(keepCapacity: true)
+                dispatch_async(dispatch_get_main_queue()) {
+                    completeCount += 1
+                    if FeatureCompiler.isTTY {
+                        print(FeatureCompiler.eraseLastLineCommand, terminator: "")
+                    }
+                    print("Poly: \(completeCount) of \(self.polyphonicFiles.count)")
                 }
             }
-
-            if labels.count > 0 {
-                try database.writeLabels(labels)
-                try database.writeFeatures(features)
-                database.flush()
+        }
+        while true {
+            NSRunLoop.currentRunLoop().runUntilDate(NSDate(timeIntervalSinceNow: 1))
+            if queue.operationCount == 0 {
+                break
             }
         }
         print("")
+    }
+
+    func compilePolyFeaturesInFile(file: PolyphonicFile) {
+        let fileManager = NSFileManager()
+        let databasePath = file.audioPath.stringByReplacingExtensionWith("h5")
+        if !overwrite && fileManager.fileExistsAtPath(databasePath) {
+            return
+        }
+
+        var database: FeatureDatabase!
+        dispatch_sync(dispatch_get_main_queue()) {
+            database = FeatureDatabase(filePath: databasePath)
+        }
+
+        let exampleBuilder: PolySequenceBuilder
+        if let midiPath = file.midiPath {
+            exampleBuilder = PolySequenceBuilder(audioFilePath: file.audioPath, midiFilePath: midiPath, decayModel: decayModel, windowSize: windowSize, stepSize: stepSize)
+        } else if let csvPath = file.csvPath {
+            exampleBuilder = PolySequenceBuilder(audioFilePath: file.audioPath, csvFilePath: csvPath, decayModel: decayModel, windowSize: windowSize, stepSize: stepSize)
+        } else {
+            return
+        }
+
+        dispatch_async(dispatch_get_main_queue()) {
+            for event in exampleBuilder.events {
+                try! database.writeEvent(event)
+            }
+        }
+
+        var labels = [Label]()
+        labels.reserveCapacity(database.chunkSize)
+
+        var features = [Feature]()
+        features.reserveCapacity(database.chunkSize)
+
+        exampleBuilder.forEachWindow { window in
+            labels.append(window.label)
+            features.append(window.feature)
+            if labels.count >= database.chunkSize {
+                writeLabels(labels, features: features, toDatabase: database)
+                labels.removeAll(keepCapacity: true)
+                features.removeAll(keepCapacity: true)
+            }
+        }
+
+        if labels.count > 0 {
+            writeLabels(labels, features: features, toDatabase: database)
+        }
+        dispatch_sync(dispatch_get_main_queue()) {
+            database = nil
+        }
+    }
+
+    func writeLabels(labels: [Label], features: [Feature], toDatabase database: FeatureDatabase) {
+        dispatch_sync(dispatch_get_main_queue()) {
+            try! database.writeLabels(labels)
+            try! database.writeFeatures(features)
+            database.flush()
+        }
     }
 
     func loadFiles(root: String) -> [NSURL] {

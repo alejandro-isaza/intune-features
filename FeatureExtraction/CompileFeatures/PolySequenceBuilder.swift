@@ -16,11 +16,12 @@ class PolySequenceBuilder {
     var audioFilePath: String
     var audioFile: AudioFile
     var events = [Event]()
-    let decayModel = DecayModel()
+    let decayModel: DecayModel
 
-    init(audioFilePath: String, midiFilePath: String, windowSize: Int, stepSize: Int) {
+    init(audioFilePath: String, midiFilePath: String, decayModel: DecayModel, windowSize: Int, stepSize: Int) {
         self.windowSize = windowSize
         self.stepSize = stepSize
+        self.decayModel = decayModel
         featureBuilder = FeatureBuilder(windowSize: windowSize, stepSize: stepSize)
 
         self.audioFilePath = audioFilePath
@@ -41,9 +42,10 @@ class PolySequenceBuilder {
         }
     }
 
-    init(audioFilePath: String, csvFilePath: String, windowSize: Int, stepSize: Int) {
+    init(audioFilePath: String, csvFilePath: String, decayModel: DecayModel, windowSize: Int, stepSize: Int) {
         self.windowSize = windowSize
         self.stepSize = stepSize
+        self.decayModel = decayModel
         featureBuilder = FeatureBuilder(windowSize: windowSize, stepSize: stepSize)
 
         self.audioFilePath = audioFilePath
