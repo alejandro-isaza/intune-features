@@ -71,7 +71,7 @@ class FeatureCompiler {
         (polyphonicFiles, monophonicFiles, noiseFiles) = categorizeURLs(urls)
 
         print("\nWorking Directory: \(NSFileManager.defaultManager().currentDirectoryPath)")
-        print("Window size \(windowSize), step size \(stepSize)")
+        print("Window size \(configuration.windowSize), step size \(configuration.stepSize)")
         print("Processing \(polyphonicFiles.count) polyphonic + \(monophonicFiles.count) monophonic + \(noiseFiles.count) noise files\n")
     }
 
