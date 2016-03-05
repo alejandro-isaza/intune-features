@@ -4,6 +4,7 @@ import Cocoa
 import FeatureExtraction
 import Upsurge
 import Peak
+import PlotKit
 
 class FeaturesViewController: NSTabViewController {
     let configuration = Configuration()
@@ -20,6 +21,7 @@ class FeaturesViewController: NSTabViewController {
         }
     }
 
+    var fft: FFTViewController!
     var spectrum: SpectrumViewController!
     var peakHeights: PeakHeightsViewController!
     var peakHeightsFlux: PeakHeightsFluxViewController!
@@ -35,6 +37,9 @@ class FeaturesViewController: NSTabViewController {
         view.translatesAutoresizingMaskIntoConstraints = false
         tabView.translatesAutoresizingMaskIntoConstraints = false
         
+
+        fft = storyboard!.instantiateControllerWithIdentifier("FFTViewController") as! FFTViewController
+        fft.configuration = configuration
         spectrum = storyboard!.instantiateControllerWithIdentifier("SpectrumViewController") as! SpectrumViewController
         spectrum.configuration = configuration
         peakHeights = storyboard!.instantiateControllerWithIdentifier("PeakHeightsViewController") as! PeakHeightsViewController
@@ -44,6 +49,7 @@ class FeaturesViewController: NSTabViewController {
         spectrumFlux = storyboard!.instantiateControllerWithIdentifier("SpectrumFluxViewController") as! SpectrumFluxViewController
         spectrumFlux.configuration = configuration
         tabViewItems = [
+            NSTabViewItem(viewController: fft),
             NSTabViewItem(viewController: spectrum),
             NSTabViewItem(viewController: peakHeights),
             NSTabViewItem(viewController: peakHeightsFlux),
@@ -59,9 +65,13 @@ class FeaturesViewController: NSTabViewController {
 
     func updateFeatures() {
         let feature = featureBuilder.generateFeatures(example.data[0..<configuration.windowSize], example.data[configuration.stepSize..<configuration.windowSize + configuration.stepSize])
+        let FFTData = featureBuilder.spectrumValues(example.data[configuration.stepSize..<configuration.windowSize + configuration.stepSize])
+        let FFTPoints = featureBuilder.spectrumPoints(FFTData).map{ PlotKit.Point(x: freqToNote($0.x), y: $0.y) }.filter{ Double(configuration.representableNoteRange.startIndex) <= $0.x && $0.x < Double(configuration.representableNoteRange.endIndex) }
+
 
         let markNotes = notes.map{ Int($0.note) }
 
+        fft.updateView(FFTPoints)
         spectrum.updateView(feature, markNotes: markNotes)
         peakHeights.updateView(feature, markNotes: markNotes)
         peakHeightsFlux.updateView(feature, markNotes: markNotes)

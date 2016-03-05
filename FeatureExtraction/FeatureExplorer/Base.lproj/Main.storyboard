@@ -1017,16 +1017,46 @@
             </objects>
             <point key="canvasLocation" x="2049" y="1633"/>
         </scene>
+        <!--FFT-->
+        <scene sceneID="mM4-2Q-Aoq">
+            <objects>
+                <viewController title="FFT" storyboardIdentifier="FFTViewController" id="k1g-SQ-uaS" customClass="FFTViewController" customModule="FeatureExplorer" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" id="4el-gY-gjE">
+                        <rect key="frame" x="0.0" y="0.0" width="620" height="300"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <subviews>
+                            <customView translatesAutoresizingMaskIntoConstraints="NO" id="on4-hS-ccS" customClass="PlotView" customModule="PlotKit">
+                                <rect key="frame" x="0.0" y="0.0" width="620" height="300"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" relation="greaterThanOrEqual" constant="120" id="aps-Dl-cTJ"/>
+                                </constraints>
+                            </customView>
+                        </subviews>
+                        <constraints>
+                            <constraint firstAttribute="trailing" secondItem="on4-hS-ccS" secondAttribute="trailing" id="jox-43-Anf"/>
+                            <constraint firstAttribute="bottom" secondItem="on4-hS-ccS" secondAttribute="bottom" id="tew-d9-rEr"/>
+                            <constraint firstItem="on4-hS-ccS" firstAttribute="leading" secondItem="4el-gY-gjE" secondAttribute="leading" id="vaP-ch-P0U"/>
+                            <constraint firstItem="on4-hS-ccS" firstAttribute="top" secondItem="4el-gY-gjE" secondAttribute="top" id="xbn-mq-Tnw"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="plotView" destination="on4-hS-ccS" id="daG-pC-iqb"/>
+                    </connections>
+                </viewController>
+                <customObject id="xID-nz-cBt" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2049" y="2043"/>
+        </scene>
         <!--Features View Controller-->
         <scene sceneID="7TR-ta-I6n">
             <objects>
-                <tabViewController identifier="FeaturesViewController" storyboardIdentifier="FeaturesViewController" selectedTabViewItemIndex="4" id="sa1-nq-uS7" customClass="FeaturesViewController" customModule="FeatureExplorer" customModuleProvider="target" sceneMemberID="viewController">
+                <tabViewController identifier="FeaturesViewController" storyboardIdentifier="FeaturesViewController" selectedTabViewItemIndex="3" id="sa1-nq-uS7" customClass="FeaturesViewController" customModule="FeatureExplorer" customModuleProvider="target" sceneMemberID="viewController">
                     <tabViewItems>
                         <tabViewItem id="0Hy-DM-eLc"/>
                         <tabViewItem id="AXI-9h-HmP"/>
-                        <tabViewItem id="Fju-ty-Qnk"/>
                         <tabViewItem id="WSj-3B-FdW"/>
                         <tabViewItem id="1sl-NA-mta"/>
+                        <tabViewItem id="bVY-Du-yZ6"/>
                     </tabViewItems>
                     <tabView key="tabView" autoresizesSubviews="NO" type="noTabsNoBorder" id="g99-cU-HfO">
                         <autoresizingMask key="autoresizingMask"/>
@@ -1036,9 +1066,9 @@
                     <connections>
                         <segue destination="n4E-iJ-xjN" kind="relationship" relationship="tabItems" id="b9K-4u-xXz"/>
                         <segue destination="iu4-yz-Gtg" kind="relationship" relationship="tabItems" id="sFl-0Z-IPq"/>
-                        <segue destination="RTh-T8-aZm" kind="relationship" relationship="tabItems" id="Spa-jo-Y4M"/>
                         <segue destination="6Kd-Zk-rLq" kind="relationship" relationship="tabItems" id="0qu-xN-bOg"/>
                         <segue destination="8We-Vu-AIQ" kind="relationship" relationship="tabItems" id="I0b-Qp-paU"/>
+                        <segue destination="k1g-SQ-uaS" kind="relationship" relationship="tabItems" id="oWr-AA-9NU"/>
                     </connections>
                 </tabViewController>
                 <customObject id="h80-g0-NDa" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
@@ -1151,7 +1181,7 @@
                 </viewController>
                 <customObject id="uWS-SW-02S" userLabel="First Responder" customClass="NSResponder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2035" y="1210"/>
+            <point key="canvasLocation" x="2035" y="1230"/>
         </scene>
     </scenes>
 </document>
