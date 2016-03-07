@@ -19,7 +19,7 @@ public struct Configuration {
     public var spectrumNoteRange = 21...120
 
     /// The resolution for the spectrum in notes per band
-    public var spectrumResolution = 2.0
+    public var spectrumResolution = 1.0
 
     /// The frequency resolution for the spectrum
     public var baseFrequency: Double {
