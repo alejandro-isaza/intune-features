@@ -64,23 +64,19 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "--root /Volumes/IntuneDrive/Training"
-            isEnabled = "NO">
-         </CommandLineArgument>
-         <CommandLineArgument
             argument = "--step 1024"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--window 2048"
+            argument = "--window 8192"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--overwrite"
+            argument = "--input ../AudioData"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--root ../AudioData"
+            argument = "--output ../AudioData"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>

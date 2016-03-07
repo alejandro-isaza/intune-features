@@ -48,29 +48,31 @@ class FeatureCompiler {
 
     let monophonicFileExpression = try! NSRegularExpression(pattern: "/(\\d+)\\.\\w+", options: NSRegularExpressionOptions.CaseInsensitive)
 
+    let outputFolder: String
+    var outputCount = 0
+    var fileList = ""
+
     let decayModel: DecayModel
     let configuration: Configuration
-    let overwrite: Bool
 
     var polyphonicFiles = [PolyphonicFile]()
     var monophonicFiles = [MonophonicFile]()
     var noiseFiles = [String]()
-
+    
     let queue: NSOperationQueue
     
-    init(root: String, overwrite: Bool, configuration: Configuration) {
+    init(inputFolder: String, outputFolder: String, configuration: Configuration) {
+        self.outputFolder = outputFolder
         self.decayModel = DecayModel(representableNoteRange: configuration.representableNoteRange)
         self.configuration = configuration
-        self.overwrite = overwrite
 
         queue = NSOperationQueue()
         queue.name = "Operations"
         queue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount
 
-        let urls = loadFiles(root)
+        let urls = loadFiles(inputFolder)
         (polyphonicFiles, monophonicFiles, noiseFiles) = categorizeURLs(urls)
 
-        print("\nWorking Directory: \(NSFileManager.defaultManager().currentDirectoryPath)")
         print("Window size \(configuration.windowSize), step size \(configuration.stepSize)")
         print("Processing \(polyphonicFiles.count) polyphonic + \(monophonicFiles.count) monophonic + \(noiseFiles.count) noise files\n")
     }
@@ -100,18 +102,6 @@ class FeatureCompiler {
     }
 
     func compileNoiseFeaturesInFile(file: String) {
-        let fileManager = NSFileManager()
-
-        let databasePath = file.stringByReplacingExtensionWith("h5")
-        if !overwrite && fileManager.fileExistsAtPath(databasePath) {
-            return
-        }
-
-        var database: FeatureDatabase!
-        dispatch_sync(dispatch_get_main_queue()) {
-            database = FeatureDatabase(filePath: databasePath, configuration: self.configuration)
-        }
-
         var labels = [Label]()
         var features = [Feature]()
 
@@ -121,10 +111,7 @@ class FeatureCompiler {
             features.append(window.feature)
         }
 
-        writeLabels(labels, features: features, toDatabase: database)
-        dispatch_sync(dispatch_get_main_queue()) {
-            database = nil
-        }
+        writeLabels(file, labels: labels, features: features, events: [])
     }
 
     func compileMonoFeatures() throws {
@@ -152,24 +139,8 @@ class FeatureCompiler {
     }
 
     func compileMonoFeaturesInFile(file: MonophonicFile) {
-        let fileManager = NSFileManager()
-
-        let databasePath = file.path.stringByReplacingExtensionWith("h5")
-        if !overwrite && fileManager.fileExistsAtPath(databasePath) {
-            return
-        }
-
-        var database: FeatureDatabase!
-        dispatch_sync(dispatch_get_main_queue()) {
-            database = FeatureDatabase(filePath: databasePath, configuration: self.configuration)
-        }
-
         let note = Note(midiNoteNumber: file.noteNumber)
         let exampleBuilder = MonoSequenceBuilder(path: file.path, note: note, decayModel: decayModel, configuration: configuration)
-
-        dispatch_async(dispatch_get_main_queue()) {
-            try! database.writeEvent(exampleBuilder.event)
-        }
 
         var labels = [Label]()
         var features = [Feature]()
@@ -179,10 +150,7 @@ class FeatureCompiler {
             features.append(window.feature)
         }
 
-        writeLabels(labels, features: features, toDatabase: database)
-        dispatch_sync(dispatch_get_main_queue()) {
-            database = nil
-        }
+        writeLabels(file.path, labels: labels, features: features, events: [exampleBuilder.event])
     }
 
     func compilePolyFeatures() throws {
@@ -210,17 +178,6 @@ class FeatureCompiler {
     }
 
     func compilePolyFeaturesInFile(file: PolyphonicFile) {
-        let fileManager = NSFileManager()
-        let databasePath = file.audioPath.stringByReplacingExtensionWith("h5")
-        if !overwrite && fileManager.fileExistsAtPath(databasePath) {
-            return
-        }
-
-        var database: FeatureDatabase!
-        dispatch_sync(dispatch_get_main_queue()) {
-            database = FeatureDatabase(filePath: databasePath, configuration: self.configuration)
-        }
-
         let exampleBuilder: PolySequenceBuilder
         if let midiPath = file.midiPath {
             exampleBuilder = PolySequenceBuilder(audioFilePath: file.audioPath, midiFilePath: midiPath, decayModel: decayModel, configuration: configuration)
@@ -228,12 +185,6 @@ class FeatureCompiler {
             exampleBuilder = PolySequenceBuilder(audioFilePath: file.audioPath, csvFilePath: csvPath, decayModel: decayModel, configuration: configuration)
         } else {
             return
-        }
-
-        dispatch_async(dispatch_get_main_queue()) {
-            for event in exampleBuilder.events {
-                try! database.writeEvent(event)
-            }
         }
 
         var labels = [Label]()
@@ -244,18 +195,28 @@ class FeatureCompiler {
             features.append(window.feature)
         }
 
-        writeLabels(labels, features: features, toDatabase: database)
+        writeLabels(file.audioPath, labels: labels, features: features, events: exampleBuilder.events)
+    }
+
+    func writeLabels(filePath: String, labels: [Label], features: [Feature], events: [Event]) {
         dispatch_sync(dispatch_get_main_queue()) {
-            database = nil
+            try! self.writeOnMainThread(filePath, labels: labels, features: features, events: events)
         }
     }
 
-    func writeLabels(labels: [Label], features: [Feature], toDatabase database: FeatureDatabase) {
-        dispatch_sync(dispatch_get_main_queue()) {
-            try! database.writeLabels(labels)
-            try! database.writeFeatures(features)
-            database.flush()
-        }
+    func writeOnMainThread(filePath: String, labels: [Label], features: [Feature], events: [Event]) throws {
+        let fileName = String(format: "%.5d.h5", arguments: [outputCount])
+        let databasePath = outputFolder.stringByAppendingPathComponent(fileName)
+        outputCount += 1
+
+        fileList += "\(filePath), \(databasePath)\n"
+        try! fileList.writeToFile(outputFolder.stringByAppendingPathComponent("file_list.txt"), atomically: true, encoding: NSUTF8StringEncoding)
+
+        let database = FeatureDatabase(filePath: databasePath, configuration: configuration)
+        try database.writeLabels(labels)
+        try database.writeFeatures(features)
+        try database.writeEvents(events)
+        database.flush()
     }
 
     func loadFiles(root: String) -> [NSURL] {

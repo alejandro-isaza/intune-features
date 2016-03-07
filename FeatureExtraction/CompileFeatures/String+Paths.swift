@@ -18,10 +18,23 @@ extension String {
         }
     }
 
+    var lastPathComponent: String {
+        return (self as NSString).lastPathComponent
+    }
+
+    func stringByDeletingLastPathComponent(newExtension: String) -> String {
+        return (self as NSString).stringByDeletingLastPathComponent
+    }
+
     func stringByReplacingExtensionWith(newExtension: String) -> String {
         let noExtension: NSString = (self as NSString).stringByDeletingPathExtension
         return noExtension.stringByAppendingPathExtension(newExtension)!
     }
+
+    func stringByAppendingPathComponent(component: String) -> String {
+        return (self as NSString).stringByAppendingPathComponent(component)
+    }
+
 }
 
 func buildPathFromParts(parts: [String]) -> String {

@@ -36,40 +36,43 @@ public class FeatureDatabase {
 // MARK: Events
 
 public extension FeatureDatabase {
-    public func writeEvent(event: Event) throws {
-        try writeEventStart(event)
-        try writeEventDuration(event)
-        try writeEventNote(event)
-        try writeEventVelocity(event)
-
+    public func writeEvents(events: [Event]) throws {
+        try writeEventStarts(events)
+        try writeEventDurations(events)
+        try writeEventNotes(events)
+        try writeEventVelocities(events)
     }
 
-    func writeEventStart(event: Event) throws {
+    func writeEventStarts(events: [Event]) throws {
         guard let dataset = file.openIntDataset(Table.eventsStart.rawValue) else {
             throw Error.DatasetNotFound
         }
-        try dataset.append([event.start], dimensions: [1])
+        let data = events.map({ $0.start })
+        try dataset.append(data, dimensions: [events.count])
     }
 
-    func writeEventDuration(event: Event) throws {
+    func writeEventDurations(events: [Event]) throws {
         guard let dataset = file.openIntDataset(Table.eventsDuration.rawValue) else {
             throw Error.DatasetNotFound
         }
-        try dataset.append([event.duration], dimensions: [1])
+        let data = events.map({ $0.duration })
+        try dataset.append(data, dimensions: [events.count])
     }
 
-    func writeEventNote(event: Event) throws {
+    func writeEventNotes(events: [Event]) throws {
         guard let dataset = file.openIntDataset(Table.eventsNote.rawValue) else {
             throw Error.DatasetNotFound
         }
-        try dataset.append([event.note.midiNoteNumber], dimensions: [1])
+        let data = events.map({ $0.note.midiNoteNumber })
+        try dataset.append(data, dimensions: [events.count])
     }
 
-    func writeEventVelocity(event: Event) throws {
+    func writeEventVelocities(events: [Event]) throws {
         guard let dataset = file.openFloatDataset(Table.eventsVelocity.rawValue) else {
             throw Error.DatasetNotFound
         }
-        try dataset.append([event.velocity], dimensions: [1])
+        let data = events.map({ $0.velocity })
+        try dataset.append(data, dimensions: [events.count])
     }
 
     public func readEventAtIndex(index: Int) throws -> Event {
@@ -268,13 +271,6 @@ public extension FeatureDatabase {
 
     func readPeakFluxAtIndex(index: Int) throws -> [Float] {
         guard let dataset = file.openFloatDataset(Table.featuresPeakFlux.rawValue) else {
-            throw Error.DatasetNotFound
-        }
-        return try dataset.read([index, 0..])
-    }
-
-    func readPeakLocationsAtIndex(index: Int) throws -> [Float] {
-        guard let dataset = file.openFloatDataset(Table.featuresPeakLocations.rawValue) else {
             throw Error.DatasetNotFound
         }
         return try dataset.read([index, 0..])
