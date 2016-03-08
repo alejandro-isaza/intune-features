@@ -70,7 +70,7 @@ class FeaturesViewController: NSTabViewController {
     func updateFeatures() {
         let feature = featureBuilder.generateFeatures(example.data[0..<configuration.windowSize], example.data[configuration.stepSize..<configuration.windowSize + configuration.stepSize])
         let FFTData = featureBuilder.spectrumValues(example.data[configuration.stepSize..<configuration.windowSize + configuration.stepSize])
-        let FFTPoints = featureBuilder.spectrumPoints(FFTData).map{ PlotKit.Point(x: freqToNote($0.x), y: $0.y) }.filter{ Double(configuration.representableNoteRange.startIndex) <= $0.x && $0.x < Double(configuration.representableNoteRange.endIndex) }
+        let FFTPoints = featureBuilder.spectrumPoints(FFTData).map{ PlotKit.Point(x: freqToNote($0.x), y: $0.y) }.filter{ Double(configuration.spectrumNoteRange.startIndex) <= $0.x && $0.x < Double(configuration.spectrumNoteRange.endIndex) }
 
 
         let markNotes = notes.map{ Int($0.note) }

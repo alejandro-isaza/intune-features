@@ -12,6 +12,7 @@ class FFTViewController: BandsFeaturesViewController {
         super.viewDidLoad()
         plotView!.addAxis(Axis(orientation: .Vertical, ticks: .Fit(3)))
         plotView!.addAxis(Axis(orientation: .Horizontal, ticks: .Distance(12)))
+        plotView!.fixedYInterval = 0.0...0.02
     }
     
     func updateView(points: [PlotKit.Point]) {
