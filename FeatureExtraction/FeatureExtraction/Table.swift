@@ -14,6 +14,7 @@ public enum Table: String {
 
     case featuresSpectrum = "/features/spectrum"
     case featuresFlux = "/features/flux"
+    case featuresPeakLocations = "/features/peak_locations"
     case featuresPeakHeights = "/features/peak_heights"
     case featuresPeakFlux = "/features/peak_flux"
 
@@ -27,6 +28,7 @@ public enum Table: String {
         labelsNotes,
         featuresSpectrum,
         featuresFlux,
+        featuresPeakLocations,
         featuresPeakHeights,
         featuresPeakFlux
     ]
@@ -44,6 +46,7 @@ public enum Table: String {
 
         case featuresSpectrum: return 2
         case featuresFlux: return 2
+        case featuresPeakLocations: return 2
         case featuresPeakHeights: return 2
         case featuresPeakFlux: return 2
         }
@@ -64,6 +67,7 @@ public enum Table: String {
 
         case featuresSpectrum: fallthrough
         case featuresFlux: fallthrough
+        case featuresPeakLocations: fallthrough
         case featuresPeakHeights: fallthrough
         case featuresPeakFlux:
             return [-1, featureSize]
@@ -85,6 +89,7 @@ public enum Table: String {
 
         case featuresSpectrum: fallthrough
         case featuresFlux: fallthrough
+        case featuresPeakLocations: fallthrough
         case featuresPeakHeights: fallthrough
         case featuresPeakFlux:
             return [chunkSize, featureSize]
@@ -106,6 +111,7 @@ public enum Table: String {
         case labelsNotes: fallthrough
         case featuresSpectrum: fallthrough
         case featuresFlux: fallthrough
+        case featuresPeakLocations: fallthrough
         case featuresPeakHeights: fallthrough
         case featuresPeakFlux:
             file.createFloatDataset(rawValue, dataspace: dataspace, chunkDimensions: chunkDimensions(chunkSize, configuration: configuration))

@@ -12,6 +12,7 @@ public struct FeatureBuilder {
     public let peakExtractor: PeakExtractor
 
     // Generators
+    public let peakLocations: PeakLocationsFeatureGenerator
     public let peakHeights0: PeakHeightsFeatureGenerator
     public let peakHeights1: PeakHeightsFeatureGenerator
     public let peakFlux: FluxFeatureGenerator
@@ -30,6 +31,7 @@ public struct FeatureBuilder {
         fft = FFTDouble(inputLength: configuration.windowSize)
         peakExtractor = PeakExtractor(configuration: configuration)
 
+        peakLocations = PeakLocationsFeatureGenerator(configuration: configuration)
         peakHeights0 = PeakHeightsFeatureGenerator(configuration: configuration)
         peakHeights1 = PeakHeightsFeatureGenerator(configuration: configuration)
         peakFlux = FluxFeatureGenerator(configuration: configuration)
@@ -39,6 +41,7 @@ public struct FeatureBuilder {
     }
 
     public func reset() {
+        peakLocations.reset()
         peakHeights0.reset()
         peakHeights1.reset()
         peakFlux.reset()
@@ -52,15 +55,18 @@ public struct FeatureBuilder {
        
         // Compute spectrum
         let spectrum0 = spectrumValues(data0)
+        let points0 = spectrumPoints(spectrum0)
         spectrumFeature0.update(spectrum: spectrum0, baseFrequency: configuration.baseFrequency)
         
         let spectrum1 = spectrumValues(data1)
+        let points1 = spectrumPoints(spectrum1)
         spectrumFeature1.update(spectrum: spectrum1, baseFrequency: configuration.baseFrequency)
 
         // Extract peaks
-        let peaks0 = peakExtractor.process(spectrumFeature0.bands, rms: rms)
-        let peaks1 = peakExtractor.process(spectrumFeature1.bands, rms: rms)
+        let peaks0 = peakExtractor.process(points0, rms: rms)
+        let peaks1 = peakExtractor.process(points1, rms: rms)
 
+        peakLocations.update(peaks1)
         peakHeights0.update(peaks0, rms: rms)
         peakHeights1.update(peaks1, rms: rms)
         peakFlux.update(data0: peakHeights0.data, data1: peakHeights1.data)
@@ -72,6 +78,7 @@ public struct FeatureBuilder {
             feature.spectralFlux[i] = Float(spectrumFluxFeature.data[i])
             feature.peakHeights[i] = Float(peakHeights1.data[i])
             feature.peakFlux[i] = Float(peakFlux.data[i])
+            feature.peakLocations[i] = Float(peakLocations.data[i])
         }
         return feature
     }

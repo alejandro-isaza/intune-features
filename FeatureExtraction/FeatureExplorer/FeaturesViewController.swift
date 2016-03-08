@@ -25,6 +25,7 @@ class FeaturesViewController: NSTabViewController {
     var spectrum: SpectrumViewController!
     var peakHeights: PeakHeightsViewController!
     var peakHeightsFlux: PeakHeightsFluxViewController!
+    var peakLocations: PeakLocationsViewController!
     var spectrumFlux: SpectrumFluxViewController!
 
     var featureBuilder: FeatureBuilder!
@@ -46,6 +47,8 @@ class FeaturesViewController: NSTabViewController {
         peakHeights.configuration = configuration
         peakHeightsFlux = storyboard!.instantiateControllerWithIdentifier("PeakHeightsFluxViewController") as! PeakHeightsFluxViewController
         peakHeightsFlux.configuration = configuration
+        peakLocations = storyboard!.instantiateControllerWithIdentifier("PeakLocationsViewController") as! PeakLocationsViewController
+        peakLocations.configuration = configuration
         spectrumFlux = storyboard!.instantiateControllerWithIdentifier("SpectrumFluxViewController") as! SpectrumFluxViewController
         spectrumFlux.configuration = configuration
         tabViewItems = [
@@ -53,6 +56,7 @@ class FeaturesViewController: NSTabViewController {
             NSTabViewItem(viewController: spectrum),
             NSTabViewItem(viewController: peakHeights),
             NSTabViewItem(viewController: peakHeightsFlux),
+            NSTabViewItem(viewController: peakLocations),
             NSTabViewItem(viewController: spectrumFlux)
         ]
         selectedTabViewItemIndex = 0
@@ -75,6 +79,7 @@ class FeaturesViewController: NSTabViewController {
         spectrum.updateView(feature, markNotes: markNotes)
         peakHeights.updateView(feature, markNotes: markNotes)
         peakHeightsFlux.updateView(feature, markNotes: markNotes)
+        peakLocations.updateView(feature, markNotes: markNotes)
         spectrumFlux.updateView(feature, markNotes: markNotes)
     }
     

@@ -10,53 +10,60 @@ public class PeakExtractor {
         self.configuration = configuration
     }
 
-    public func process(spectrum: ValueArray<Double>, rms: Double) -> ValueArray<Double> {
-        let peaks = findPeaks(spectrum)
-        return choosePeaks(peaks)
+    public func process(input: [Point], rms: Double) -> [Point] {
+        let peaks = findPeaks(input)
+        return filterPeaks(peaks, rms: rms)
     }
 
-    func findPeaks(spectrum: ValueArray<Double>) -> ValueArray<Double> {
-        let peaks = ValueArray<Double>(count: spectrum.count, repeatedValue: 0)
-        
-        for i in 1..<spectrum.count - 1 {
-            let peak = spectrum[i]
-            if spectrum[i-1] <= peak && peak >= spectrum[i+1] {
-                peaks[i] = peak
+    func findPeaks(input: [Point]) -> [Point] {
+        var peaks = [Point]()
+
+        for i in 1...input.count-2 {
+            let peak = input[i]
+            if input[i-1].y <= peak.y && peak.y >= input[i+1].y {
+                peaks.append(peak)
             }
         }
-        
+
         return peaks
     }
 
-    func choosePeaks(peaks: ValueArray<Double>) -> ValueArray<Double> {
-        var chosenPeaks = [(Int, Double)]()
+    func filterPeaks(input: [Point], rms: Double) -> [Point] {
+        let peaks = filterPeaksByHeight(input, rms: rms)
+        return choosePeaks(peaks)
+    }
 
-        var currentPeakRange = 0...0
-        for (band, peak) in peaks.enumerate() {
-            if currentPeakRange.contains(band) {
-                if let lastPeak = chosenPeaks.last where lastPeak.1 < peak {
+    func filterPeaksByHeight(input: [Point], rms: Double) -> [Point] {
+        return input.filter { (peak: Point) -> Bool in
+            return peak.y > configuration.peakHeightCutoffMultiplier * rms
+        }
+    }
+
+    func choosePeaks(input: [Point]) -> [Point] {
+        var chosenPeaks = [Point]()
+
+        var currentPeakRange = 0.0...0.0
+        for peak in input {
+            if currentPeakRange.contains(peak.x) {
+                if let lastPeak = chosenPeaks.last where lastPeak.y < peak.y {
                     chosenPeaks.removeLast()
-                    chosenPeaks.append((band, peak))
-                    currentPeakRange = binCutoffRange(band)
+                    chosenPeaks.append(peak)
+                    currentPeakRange = binCutoffRange(peak.x)
                 }
             } else {
-                chosenPeaks.append((band, peak))
-                currentPeakRange = binCutoffRange(band)
+                chosenPeaks.append(peak)
+                currentPeakRange = binCutoffRange(peak.x)
             }
         }
 
-        let newPeaks = ValueArray<Double>(count: peaks.count, repeatedValue: 0)
-        for (band, peak) in chosenPeaks {
-            newPeaks[band] = peak
-        }
-        return newPeaks
+        return chosenPeaks
     }
 
-    func binCutoffRange(band: Int) -> Range<Int> {
-        let note = configuration.noteForBand(band)
+    func binCutoffRange(freq: Double) -> ClosedInterval<Double> {
+        let note = freqToNote(freq)
 
-        let upperBound = configuration.bandForNote(note + configuration.minimumPeakDistance)
-        let lowerBound = configuration.bandForNote(note - configuration.minimumPeakDistance)
+        let upperBound = noteToFreq(note + configuration.minimumPeakDistance)
+        let lowerBound = noteToFreq(note - configuration.minimumPeakDistance)
 
         return lowerBound...upperBound
     }

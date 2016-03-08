@@ -35,7 +35,8 @@ public class PeakHeightsFeatureGenerator: BandsFeatureGenerator {
         }
     }
     
-    public func update(peaks: ValueArray<Double>, rms: Double) {
+    public func update(peaks: [Point], rms: Double) {
+        let bandCount = configuration.bandCount
         let safeRMS = max(rms, minRMS)
 
         // Compute average RMS
@@ -44,14 +45,22 @@ public class PeakHeightsFeatureGenerator: BandsFeatureGenerator {
         rmsHistory[rmsHistoryIndex] = safeRMS
         rmsHistoryIndex = (rmsHistoryIndex + 1) % configuration.rmsMovingAverageSize
 
-        // Compute new peaks
-        for (band, peak) in peaks.enumerate() {
-            let newHeight = peak / rmsAverage
-            precondition(isfinite(newHeight))
+        for band in 0..<bandCount {
+            peakHeights[band] = 0
+        }
 
-            let offset = offsets?[band] ?? 0.0
-            let scale = scales?[band] ?? 1.0
-            peakHeights[band] = (newHeight - offset) / scale
+        // Compute new peaks
+        for peak in peaks {
+            let note = freqToNote(peak.x)
+            let band = configuration.bandForNote(note)
+            if band >= 0 && band < bandCount {
+                let newHeight = peak.y / rmsAverage
+                precondition(isfinite(newHeight))
+
+                let offset = offsets?[band] ?? 0.0
+                let scale = scales?[band] ?? 1.0
+                peakHeights[band] = (newHeight - offset) / scale
+            }
         }
     }
 }

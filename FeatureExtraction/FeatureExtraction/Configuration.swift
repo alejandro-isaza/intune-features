@@ -27,7 +27,10 @@ public struct Configuration {
     }
 
     /// The minimum distance between peaks in notes
-    public let minimumPeakDistance = 0.5
+    public var minimumPeakDistance = 0.5
+
+    /// The peak height cutoff as a multiplier of the RMS
+    public var peakHeightCutoffMultiplier = 0.05
 
     /// The number of windows to use for the RMS average
     public var rmsMovingAverageSize = 20
@@ -103,6 +106,7 @@ public struct Configuration {
         string += "spectrumNoteRange = \(spectrumNoteRange)\n"
         string += "spectrumResolution = \(spectrumResolution)\n"
         string += "minimumPeakDistance = \(minimumPeakDistance)\n"
+        string += "peakHeightCutoffMultiplier = \(peakHeightCutoffMultiplier)\n"
         string += "rmsMovingAverageSize = \(rmsMovingAverageSize)\n"
         return string
     }
