@@ -10,9 +10,9 @@ public class FluxFeatureGenerator: BandsFeatureGenerator {
         return fluxes
     }
 
-    public override init(configuration: Configuration) {
+    public override init(configuration: Configuration, offsets: ValueArray<Double>? = nil, scales: ValueArray<Double>? = nil) {
         fluxes = ValueArray<Double>(count: configuration.bandCount)
-        super.init(configuration: configuration)
+        super.init(configuration: configuration, offsets: offsets, scales: scales)
     }
 
     public func update(data0 data0: ValueArray<Double>, data1: ValueArray<Double>) {
@@ -20,7 +20,9 @@ public class FluxFeatureGenerator: BandsFeatureGenerator {
         precondition(data0.count == bandCount && data1.count == bandCount)
 
         for band in 0..<bandCount {
-            fluxes[band] = data1[band] - data0[band]
+            let offset = offsets?[band] ?? 0.0
+            let scale = scales?[band] ?? 1.0
+            fluxes[band] = (data1[band] - data0[band] - offset) / scale
         }
     }
 }

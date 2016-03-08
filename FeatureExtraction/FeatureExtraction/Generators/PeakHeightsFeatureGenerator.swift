@@ -16,12 +16,12 @@ public class PeakHeightsFeatureGenerator: BandsFeatureGenerator {
         return peakHeights
     }
 
-    public override init(configuration: Configuration) {
+    public override init(configuration: Configuration, offsets: ValueArray<Double>? = nil, scales: ValueArray<Double>? = nil) {
         let bandCount = configuration.bandCount
         rmsHistory = ValueArray<Double>(count: configuration.rmsMovingAverageSize, repeatedValue: 0.0)
         rmsAverage = minRMS
         peakHeights = ValueArray<Double>(count: bandCount, repeatedValue: 0.0)
-        super.init(configuration: configuration)
+        super.init(configuration: configuration, offsets: offsets, scales: scales)
     }
 
     public override func reset() {
@@ -48,7 +48,10 @@ public class PeakHeightsFeatureGenerator: BandsFeatureGenerator {
         for (band, peak) in peaks.enumerate() {
             let newHeight = peak / rmsAverage
             precondition(isfinite(newHeight))
-            peakHeights[band] = newHeight
+
+            let offset = offsets?[band] ?? 0.0
+            let scale = scales?[band] ?? 1.0
+            peakHeights[band] = (newHeight - offset) / scale
         }
     }
 }

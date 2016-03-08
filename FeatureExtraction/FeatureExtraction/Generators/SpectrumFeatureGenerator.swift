@@ -9,9 +9,9 @@ public class SpectrumFeatureGenerator: BandsFeatureGenerator {
         return bands
     }
 
-    public override init(configuration: Configuration) {
+    public override init(configuration: Configuration, offsets: ValueArray<Double>? = nil, scales: ValueArray<Double>? = nil) {
         bands = ValueArray<Double>(count: configuration.bandCount)
-        super.init(configuration: configuration)
+        super.init(configuration: configuration, offsets: offsets, scales: scales)
     }
 
     public func update(spectrum data: ValueArray<Double>, baseFrequency fb: Double) {
@@ -42,8 +42,10 @@ public class SpectrumFeatureGenerator: BandsFeatureGenerator {
                 let upperWeight = upperBin - Double(upperIndex)
                 bandValue += data[upperIndex + 1] * upperWeight
             }
-            
-            bands[band] = bandValue
+
+            let offset = offsets?[band] ?? 0.0
+            let scale = scales?[band] ?? 1.0
+            bands[band] = (bandValue - offset) / scale
         }
     }
 }
