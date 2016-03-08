@@ -54,7 +54,7 @@ public class PeakHeightsFeatureGenerator: BandsFeatureGenerator {
             let note = freqToNote(peak.x)
             let band = configuration.bandForNote(note)
             if band >= 0 && band < bandCount {
-                let newHeight = peak.y / rmsAverage
+                let newHeight = max(peak.y / rmsAverage, peakHeights[band])
                 precondition(isfinite(newHeight))
 
                 let offset = offsets?[band] ?? 0.0
