@@ -74,6 +74,7 @@ class NeuralNet {
     // MARK: Network definition
 
     var lstmLayers = [LSTMLayer]()
+    var inputSize = 0
     var onsetSize = 0
     var polySize = 0
     var noteSize = 0
@@ -180,17 +181,21 @@ class NeuralNet {
     private func processFeature(feature: Feature) {
         var data = dataLayer.data
         let featureSize = configuration.bandCount
-        let dataSize = 3 * featureSize
-        if data.capacity < dataSize {
-            dataLayer.data = ValueArray<Float>(capacity: dataSize)
+        if data.capacity < inputSize {
+            dataLayer.data = ValueArray<Float>(capacity: inputSize)
             data = dataLayer.data
         }
 
-        data.count = dataSize
+        data.count = inputSize
+        for i in 0..<inputSize {
+            data[i] = Float.NaN
+        }
+
         for i in 0..<featureSize {
             data[i + 0 * featureSize] = feature.spectrum[i]
             data[i + 1 * featureSize] = feature.spectralFlux[i]
             data[i + 2 * featureSize] = feature.peakHeights[i]
+            data[i + 3 * featureSize] = feature.peakFlux[i]
         }
         
         // Run net
@@ -209,7 +214,8 @@ class NeuralNet {
 //        let onsetLayer = createIPLayerFromFile(netPath, weightsName: "onset_ip_weights", biasesName: "onset_ip_biases")
 //        let polyLayer = createIPLayerFromFile(netPath, weightsName: "polyphony_ip_weights", biasesName: "polyphony_ip_biases")
 //
-//        let inputBufferRef = net.addBufferWithName("data", size: lstm0Layer.inputSize)
+//        inputSize = lstm0Layer.inputSize
+//        let inputBufferRef = net.addBufferWithName("data", size: inputSize)
 //        let buffer0 = net.addBufferWithName("buffer0", size: lstm0Layer.outputSize)
 //        let buffer1 = net.addBufferWithName("buffer1", size: lstm1Layer.outputSize)
 //        let notesBuffer = net.addBufferWithName("notesBuffer", size: noteLayer.outputSize)
@@ -270,7 +276,8 @@ extension NeuralNet {
         let onsetLayer = createIPLayerFromFile(netPath, weightsName: "onset_ip_weights", biasesName: "onset_ip_biases")
         let polyLayer = createIPLayerFromFile(netPath, weightsName: "polyphony_ip_weights", biasesName: "polyphony_ip_biases")
 
-        let inputBufferRef = net.addBufferWithName("data", size: lstm0Layer.inputSize)
+        inputSize = lstm0Layer.inputSize
+        let inputBufferRef = net.addBufferWithName("data", size: inputSize)
         let buffer0 = net.addBufferWithName("buffer0", size: lstm0Layer.outputSize)
         let buffer1 = net.addBufferWithName("buffer1", size: lstm1Layer.outputSize)
         let buffer2 = net.addBufferWithName("buffer2", size: lstm2Layer.outputSize)
