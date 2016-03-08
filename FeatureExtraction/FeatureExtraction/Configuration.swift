@@ -110,4 +110,31 @@ public struct Configuration {
         string += "rmsMovingAverageSize = \(rmsMovingAverageSize)\n"
         return string
     }
+
+    public func serializeToJSON() -> String {
+        var string = "{\n"
+
+        string += "  \"samplingFrequency\": \(samplingFrequency),\n"
+        string += "  \"windowSize\": \(windowSize),\n"
+        string += "  \"stepSize\": \(stepSize),\n"
+        string += "  \"representableNoteRange\": \"\(representableNoteRange)\",\n"
+        string += "  \"spectrumNoteRange\": \"\(spectrumNoteRange)\",\n"
+        string += "  \"spectrumResolution\": \(spectrumResolution),\n"
+        string += "  \"minimumPeakDistance\": \(minimumPeakDistance),\n"
+        string += "  \"peakHeightCutoffMultiplier\": \(peakHeightCutoffMultiplier),\n"
+        string += "  \"rmsMovingAverageSize\": \(rmsMovingAverageSize),\n"
+
+        string += "  \"features\": ["
+        for feature in Table.features {
+            string += "\"\(feature.rawValue)\", "
+        }
+        if string.hasSuffix(", ") {
+            string.removeAtIndex(string.endIndex.advancedBy(-1))
+            string.removeAtIndex(string.endIndex.advancedBy(-1))
+        }
+        string += "]\n"
+
+        string += "}"
+        return string
+    }
 }

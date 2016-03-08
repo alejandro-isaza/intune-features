@@ -32,7 +32,7 @@ if help.value {
 var configuration = Configuration()
 configuration.windowSize = windowSize.value!
 configuration.stepSize = stepSize.value!
-try configuration.description.writeToFile("configuration.txt", atomically: true, encoding: NSUTF8StringEncoding)
+try configuration.serializeToJSON().writeToFile("configuration.json", atomically: true, encoding: NSUTF8StringEncoding)
 
 let featureCompiler = FeatureCompiler(inputFolder: inputFolder.value!, outputFolder: outputFolder.value!, configuration: configuration)
 

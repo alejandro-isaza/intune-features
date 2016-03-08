@@ -33,6 +33,14 @@ public enum Table: String {
         featuresPeakFlux
     ]
 
+    public static let features = [
+        featuresSpectrum,
+        featuresFlux,
+        featuresPeakHeights,
+        featuresPeakLocations,
+        featuresPeakFlux
+    ]
+
     public var rank: Int {
         switch self {
         case eventsStart: return 1
