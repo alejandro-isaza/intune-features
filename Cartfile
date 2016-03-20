@@ -4,4 +4,4 @@ github "aleph7/BrainCore" "master"
 github "aleph7/PlotKit" "master"
 github "hoseking/Peak" "master"
 
-github "aleph7/CommandLine" ~> 2.0
+github "jatoben/CommandLine" ~> 2.2
