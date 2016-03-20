@@ -42,7 +42,7 @@ class NetworkDecoder {
     }
 
     func processOnset<C: CollectionType where C.Generator.Element == Float>(onsetValue: Float, polyphonyValue: Float, noteValues: C) {
-        let polyphony = Int(polyphonyValue)
+        let polyphony = max(0, Int(polyphonyValue))
         var topNotes = [(Float, Note)](count: polyphony, repeatedValue: (0, Note(midiNoteNumber: 0)))
         for (i, value) in noteValues.enumerate() {
             let note = Note(midiNoteNumber: i + configuration.representableNoteRange.startIndex)

@@ -77,6 +77,17 @@
 		61AAD7021BF54CC500C9BB65 /* BandsFeaturesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AAD7011BF54CC500C9BB65 /* BandsFeaturesViewController.swift */; };
 		61AAD7041BF54D6000C9BB65 /* SpectrumFluxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AAD7031BF54D6000C9BB65 /* SpectrumFluxViewController.swift */; };
 		61AD3A631BEBDD5500FA2DB7 /* FeatureDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AD3A621BEBDD5500FA2DB7 /* FeatureDatabase.swift */; };
+		61B51C001C9C5E8A00644BB5 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B51BFF1C9C5E8A00644BB5 /* main.swift */; };
+		61B51C201C9C6E8100644BB5 /* PolySequenceBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9700EE1BE12C00002A81A3 /* PolySequenceBuilder.swift */; };
+		61B51C211C9C6EBE00644BB5 /* DecayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616AE4731C728F6900FA6F99 /* DecayModel.swift */; };
+		61B51C221C9C6EC200644BB5 /* String+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479F1BBF2FA000A98419 /* String+Paths.swift */; };
+		61B51C251C9C780B00644BB5 /* NeuralNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B51C241C9C780B00644BB5 /* NeuralNet.swift */; };
+		61B51C261C9C7E8700644BB5 /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */; };
+		61B51C271C9C7E8700644BB5 /* BrainCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C7A1BF2784E000E0D34 /* BrainCore.framework */; };
+		61B51C281C9C7E8700644BB5 /* CommandLine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6188C7D71C066D50001A7EAA /* CommandLine.framework */; };
+		61B51C291C9C7E8700644BB5 /* HDF5Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C861BF2784E000E0D34 /* HDF5Kit.framework */; };
+		61B51C2A1C9C7E8700644BB5 /* Peak.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C961BF2784E000E0D34 /* Peak.framework */; };
+		61B51C2B1C9C7E8700644BB5 /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4CA71BF2784E000E0D34 /* Upsurge.framework */; };
 		61BBC3C01C407891006C6DF0 /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61BBC3B61C407891006C6DF0 /* FeatureExtraction.framework */; };
 		61BBC3CF1C407905006C6DF0 /* FeatureBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C56779C1BE9731E0009ED31 /* FeatureBuilder.swift */; };
 		61BBC3D01C407905006C6DF0 /* FeatureDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AD3A621BEBDD5500FA2DB7 /* FeatureDatabase.swift */; };
@@ -226,6 +237,48 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8C78456E1BB9B06600C88426;
 			remoteInfo = FeatureExtraction;
+		};
+		61B51C141C9C5EA700644BB5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8C7845661BB9B06600C88426 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 8C78456E1BB9B06600C88426;
+			remoteInfo = "FeatureExtraction-OSX";
+		};
+		61B51C161C9C5EA700644BB5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6188C7D11C066D4F001A7EAA /* CommandLine.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5D06884219674D7D00BBFAAC;
+			remoteInfo = CommandLine;
+		};
+		61B51C181C9C5EA700644BB5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61CE4C661BF2784D000E0D34 /* Peak.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0045498C1BD052B100AC387F;
+			remoteInfo = PeakOSX;
+		};
+		61B51C1A1C9C5EA700644BB5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61CE4C691BF2784D000E0D34 /* HDF5Kit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 61B3149C1BBDBA3100F63C45;
+			remoteInfo = "HDF5Kit-OSX";
+		};
+		61B51C1C1C9C5EA700644BB5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61CE4C6C1BF2784D000E0D34 /* BrainCore.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 6159F85E1BD1F55D0010F83C;
+			remoteInfo = BrainCore.OSX;
+		};
+		61B51C1E1C9C5EA700644BB5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61CE4C721BF2784D000E0D34 /* Upsurge.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 614ACA6F1BD1CB7B00A1C13E;
+			remoteInfo = "Upsurge OSX";
 		};
 		61BBC3C11C407891006C6DF0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -512,6 +565,15 @@
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		61B51BFB1C9C5E8900644BB5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
@@ -561,6 +623,9 @@
 		61AAD7011BF54CC500C9BB65 /* BandsFeaturesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandsFeaturesViewController.swift; sourceTree = "<group>"; };
 		61AAD7031BF54D6000C9BB65 /* SpectrumFluxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpectrumFluxViewController.swift; sourceTree = "<group>"; };
 		61AD3A621BEBDD5500FA2DB7 /* FeatureDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureDatabase.swift; sourceTree = "<group>"; };
+		61B51BFD1C9C5E8900644BB5 /* Evaluate */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Evaluate; sourceTree = BUILT_PRODUCTS_DIR; };
+		61B51BFF1C9C5E8A00644BB5 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		61B51C241C9C780B00644BB5 /* NeuralNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeuralNet.swift; sourceTree = "<group>"; };
 		61BBC3B61C407891006C6DF0 /* FeatureExtraction.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureExtraction.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		61BBC3BF1C407891006C6DF0 /* FeatureExtractionTests-iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FeatureExtractionTests-iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		61BBC3E01C407A4A006C6DF0 /* HDF5Kit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HDF5Kit.framework; path = "/Users/al/dev/VM/intune-ios/Pods/../build/Debug-iphoneos/HDF5Kit.framework"; sourceTree = "<absolute>"; };
@@ -622,6 +687,19 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		61B51BFA1C9C5E8900644BB5 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				61B51C261C9C7E8700644BB5 /* FeatureExtraction.framework in Frameworks */,
+				61B51C271C9C7E8700644BB5 /* BrainCore.framework in Frameworks */,
+				61B51C281C9C7E8700644BB5 /* CommandLine.framework in Frameworks */,
+				61B51C291C9C7E8700644BB5 /* HDF5Kit.framework in Frameworks */,
+				61B51C2A1C9C7E8700644BB5 /* Peak.framework in Frameworks */,
+				61B51C2B1C9C7E8700644BB5 /* Upsurge.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -751,6 +829,15 @@
 			path = FeatureExplorer;
 			sourceTree = "<group>";
 		};
+		61B51BFE1C9C5E8A00644BB5 /* Evaluate */ = {
+			isa = PBXGroup;
+			children = (
+				61B51BFF1C9C5E8A00644BB5 /* main.swift */,
+				61B51C241C9C780B00644BB5 /* NeuralNet.swift */,
+			);
+			path = Evaluate;
+			sourceTree = "<group>";
+		};
 		61CE4C671BF2784D000E0D34 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -852,6 +939,7 @@
 				8C2527371C064E560038A73F /* ValidateFeatures */,
 				61EA99791C6BC8D700A4AFB6 /* RNNViewer */,
 				618B7E2F1BBF4A8F0011E8D3 /* Dependencies */,
+				61B51BFE1C9C5E8A00644BB5 /* Evaluate */,
 				8C7845701BB9B06600C88426 /* Products */,
 				B5F7CD465AC17DFE1FC7BC55 /* Frameworks */,
 			);
@@ -868,6 +956,7 @@
 				61BBC3B61C407891006C6DF0 /* FeatureExtraction.framework */,
 				61BBC3BF1C407891006C6DF0 /* FeatureExtractionTests-iOS.xctest */,
 				61EA99781C6BC8D700A4AFB6 /* RNNViewer.app */,
+				61B51BFD1C9C5E8900644BB5 /* Evaluate */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -994,6 +1083,29 @@
 			productName = FeatureExplorer;
 			productReference = 61A46BC81BDEC578001D2288 /* FeatureExplorer.app */;
 			productType = "com.apple.product-type.application";
+		};
+		61B51BFC1C9C5E8900644BB5 /* Evaluate */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 61B51C131C9C5E8A00644BB5 /* Build configuration list for PBXNativeTarget "Evaluate" */;
+			buildPhases = (
+				61B51BF91C9C5E8900644BB5 /* Sources */,
+				61B51BFA1C9C5E8900644BB5 /* Frameworks */,
+				61B51BFB1C9C5E8900644BB5 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				61B51C151C9C5EA700644BB5 /* PBXTargetDependency */,
+				61B51C171C9C5EA700644BB5 /* PBXTargetDependency */,
+				61B51C191C9C5EA700644BB5 /* PBXTargetDependency */,
+				61B51C1B1C9C5EA700644BB5 /* PBXTargetDependency */,
+				61B51C1D1C9C5EA700644BB5 /* PBXTargetDependency */,
+				61B51C1F1C9C5EA700644BB5 /* PBXTargetDependency */,
+			);
+			name = Evaluate;
+			productName = Evaluate;
+			productReference = 61B51BFD1C9C5E8900644BB5 /* Evaluate */;
+			productType = "com.apple.product-type.tool";
 		};
 		61BBC3B51C407891006C6DF0 /* FeatureExtraction-iOS */ = {
 			isa = PBXNativeTarget;
@@ -1138,6 +1250,9 @@
 					61A46BC71BDEC578001D2288 = {
 						CreatedOnToolsVersion = 7.1;
 					};
+					61B51BFC1C9C5E8900644BB5 = {
+						CreatedOnToolsVersion = 7.2.1;
+					};
 					61BBC3B51C407891006C6DF0 = {
 						CreatedOnToolsVersion = 7.2;
 					};
@@ -1205,6 +1320,7 @@
 				61A46BC71BDEC578001D2288 /* FeatureExplorer */,
 				8C2527351C064E560038A73F /* ValidateFeatures */,
 				61EA99771C6BC8D700A4AFB6 /* RNNViewer */,
+				61B51BFC1C9C5E8900644BB5 /* Evaluate */,
 			);
 		};
 /* End PBXProject section */
@@ -1455,6 +1571,18 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		61B51BF91C9C5E8900644BB5 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				61B51C211C9C6EBE00644BB5 /* DecayModel.swift in Sources */,
+				61B51C251C9C780B00644BB5 /* NeuralNet.swift in Sources */,
+				61B51C201C9C6E8100644BB5 /* PolySequenceBuilder.swift in Sources */,
+				61B51C001C9C5E8A00644BB5 /* main.swift in Sources */,
+				61B51C221C9C6EC200644BB5 /* String+Paths.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		61BBC3B11C407891006C6DF0 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1614,6 +1742,36 @@
 		61A46BE81BDEC58F001D2288 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = "Upsurge OSX";
+		};
+		61B51C151C9C5EA700644BB5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 8C78456E1BB9B06600C88426 /* FeatureExtraction-OSX */;
+			targetProxy = 61B51C141C9C5EA700644BB5 /* PBXContainerItemProxy */;
+		};
+		61B51C171C9C5EA700644BB5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CommandLine;
+			targetProxy = 61B51C161C9C5EA700644BB5 /* PBXContainerItemProxy */;
+		};
+		61B51C191C9C5EA700644BB5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PeakOSX;
+			targetProxy = 61B51C181C9C5EA700644BB5 /* PBXContainerItemProxy */;
+		};
+		61B51C1B1C9C5EA700644BB5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "HDF5Kit-OSX";
+			targetProxy = 61B51C1A1C9C5EA700644BB5 /* PBXContainerItemProxy */;
+		};
+		61B51C1D1C9C5EA700644BB5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = BrainCore.OSX;
+			targetProxy = 61B51C1C1C9C5EA700644BB5 /* PBXContainerItemProxy */;
+		};
+		61B51C1F1C9C5EA700644BB5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Upsurge OSX";
+			targetProxy = 61B51C1E1C9C5EA700644BB5 /* PBXContainerItemProxy */;
 		};
 		61BBC3C21C407891006C6DF0 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -1778,6 +1936,26 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = com.venturemedia.FeatureExplorer;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
+		61B51C011C9C5E8A00644BB5 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) '@executable_path/Frameworks' '@executable_path' '@loader_path/Frameworks'";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		61B51C021C9C5E8A00644BB5 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_IDENTITY = "-";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) '@executable_path/Frameworks' '@executable_path' '@loader_path/Frameworks'";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 			};
 			name = Release;
@@ -2069,6 +2247,14 @@
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
+		};
+		61B51C131C9C5E8A00644BB5 /* Build configuration list for PBXNativeTarget "Evaluate" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				61B51C011C9C5E8A00644BB5 /* Debug */,
+				61B51C021C9C5E8A00644BB5 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
 		};
 		61BBC3CB1C407891006C6DF0 /* Build configuration list for PBXNativeTarget "FeatureExtraction-iOS" */ = {
 			isa = XCConfigurationList;

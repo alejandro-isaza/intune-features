@@ -24,49 +24,29 @@ class Sink: SinkLayer {
     }
 }
 
-class Snapshot {
-    var activations = [Blob]()
-    var output = Blob()
-}
-
 class NeuralNet {
     let configuration: Configuration
     let netPath: String
     let device: MTLDevice
     var runner: Runner!
-    let featureBuilder: FeatureBuilder
 
     var dataLayer = Source()
     var notesSinkLayer = Sink()
     var onsetsSinkLayer = Sink()
     var polySinkLayer = Sink()
 
-    var forwardPassAction: (Snapshot -> Void)?
-    var processingCount = 0
+    var forwardPassAction: ((polyphony: Float, onset: Float, notes: ValueArray<Float>) -> Void)?
 
 
-    init(configuration: Configuration) throws {
+    init(file: String, configuration: Configuration) throws {
         self.configuration = configuration
+        self.netPath = file
         device = MTLCreateSystemDefaultDevice()!
-        featureBuilder = FeatureBuilder(configuration: configuration)
-
-        self.netPath = NSBundle.mainBundle().pathForResource("net", ofType: "h5")!
 
         let net = buildNet()
         runner = try Runner(net: net, device: device)
         runner.forwardPassAction = {
-            let snapshot = Snapshot()
-            for lstm in self.lstmLayers {
-                snapshot.activations.append(valueArrayFromBuffer(lstm.state))
-            }
-
-
-            snapshot.output = ValueArray(capacity: self.outputSize)
-            snapshot.output.appendContentsOf(self.notesSinkLayer.data)
-            snapshot.output.appendContentsOf(self.onsetsSinkLayer.data)
-            snapshot.output.appendContentsOf(self.polySinkLayer.data)
-
-            self.forwardPassAction?(snapshot)
+            self.forwardPassAction?(polyphony: self.polySinkLayer.data[0], onset: self.onsetsSinkLayer.data[0], notes: self.notesSinkLayer.data)
         }
     }
 
@@ -164,21 +144,7 @@ class NeuralNet {
 
     // MARK: Network execution
 
-    func processData(data: ValueArray<Double>) {
-        processingCount = 0
-        for layer in lstmLayers {
-            layer.reset()
-        }
-
-        let indices = 0.stride(to: data.count - configuration.windowSize - configuration.stepSize, by: configuration.stepSize)
-        for i in indices {
-            let feature = featureBuilder.generateFeatures(data[i..<i + configuration.windowSize], data[i + configuration.stepSize..<i + configuration.windowSize + configuration.stepSize])
-            processFeature(feature)
-            processingCount += 1
-        }
-    }
-
-    private func processFeature(feature: Feature) {
+    func processFeature(feature: Feature) {
         var data = dataLayer.data
         let featureSize = configuration.bandCount
         if data.capacity < inputSize {
@@ -197,13 +163,13 @@ class NeuralNet {
             data[i + 2 * featureSize] = feature.peakHeights[i]
             data[i + 3 * featureSize] = feature.peakLocations[i]
         }
-        
+
         // Run net
         runner.forward()
     }
 }
 
-/// LSTM -> LSTM -> LSTM -> IP -> (IP, IP, IP)
+/// LSTM -> LSTM -> LSTM -> (IP, IP, IP)
 extension NeuralNet {
     func buildNet() -> Net {
         let net = Net()
@@ -211,7 +177,6 @@ extension NeuralNet {
         let lstm0Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell0BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell0BasicLSTMCellLinearBias")
         let lstm1Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell1BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell1BasicLSTMCellLinearBias")
         let lstm2Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell2BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell2BasicLSTMCellLinearBias")
-        let ipOutLayer = createIPLayerFromFile(netPath, weightsName: "out0_ip_weights", biasesName: "out0_ip_biases")
         let noteLayer = createIPLayerFromFile(netPath, weightsName: "note_ip_weights", biasesName: "note_ip_biases")
         let onsetLayer = createIPLayerFromFile(netPath, weightsName: "onset_ip_weights", biasesName: "onset_ip_biases")
         let polyLayer = createIPLayerFromFile(netPath, weightsName: "polyphony_ip_weights", biasesName: "polyphony_ip_biases")
@@ -221,7 +186,6 @@ extension NeuralNet {
         let buffer0 = net.addBufferWithName("buffer0", size: lstm0Layer.outputSize)
         let buffer1 = net.addBufferWithName("buffer1", size: lstm1Layer.outputSize)
         let buffer2 = net.addBufferWithName("buffer2", size: lstm2Layer.outputSize)
-        let ipOutBuffer = net.addBufferWithName("ipOutBUffer", size: ipOutLayer.outputSize)
         let notesBuffer = net.addBufferWithName("notesBuffer", size: noteLayer.outputSize)
         let onsetsBuffer = net.addBufferWithName("onsetsBuffer", size: onsetLayer.outputSize)
         let polyBuffer = net.addBufferWithName("ployBuffer", size: polyLayer.outputSize)
@@ -241,20 +205,16 @@ extension NeuralNet {
         net.connectBuffer(buffer1, atOffset: 0, toLayer: lstm2LayerRef)
         net.connectLayer(lstm2LayerRef, toBuffer: buffer2)
 
-        let ipOutLayerRef = net.addLayer(ipOutLayer, name: "ipOut")
-        net.connectBuffer(buffer2, atOffset: 0, toLayer: ipOutLayerRef)
-        net.connectLayer(ipOutLayerRef, toBuffer: ipOutBuffer)
-
         let noteLayerRef = net.addLayer(noteLayer, name: "noteLayer")
-        net.connectBuffer(ipOutBuffer, atOffset: 0, toLayer: noteLayerRef)
+        net.connectBuffer(buffer2, atOffset: 0, toLayer: noteLayerRef)
         net.connectLayer(noteLayerRef, toBuffer: notesBuffer)
 
         let onsetLayerRef = net.addLayer(onsetLayer, name: "onsetLayer")
-        net.connectBuffer(ipOutBuffer, atOffset: 0, toLayer: onsetLayerRef)
+        net.connectBuffer(buffer2, atOffset: 0, toLayer: onsetLayerRef)
         net.connectLayer(onsetLayerRef, toBuffer: onsetsBuffer)
 
         let polyLayerRef = net.addLayer(polyLayer, name: "polyLayer")
-        net.connectBuffer(ipOutBuffer, atOffset: 0, toLayer: polyLayerRef)
+        net.connectBuffer(buffer2, atOffset: 0, toLayer: polyLayerRef)
         net.connectLayer(polyLayerRef, toBuffer: polyBuffer)
 
         let onsetsSinkLayerRef = net.addLayer(onsetsSinkLayer, name: "onsets")
@@ -265,13 +225,13 @@ extension NeuralNet {
 
         let notesSinkLayerRef = net.addLayer(notesSinkLayer, name: "notes")
         net.connectBuffer(notesBuffer, atOffset: 0, toLayer: notesSinkLayerRef)
-
+        
         lstmLayers = [lstm0Layer, lstm1Layer, lstm2Layer]
         onsetSize = onsetLayer.outputSize
         polySize = polyLayer.outputSize
         noteSize = noteLayer.outputSize
         outputSize = onsetSize + polySize + noteSize
-
+        
         return net
     }
 }

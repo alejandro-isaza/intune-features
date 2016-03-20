@@ -1,5 +1,6 @@
 //  Copyright © 2015 Venture Media. All rights reserved.
 
+import Foundation
 import Upsurge
 
 public struct Configuration {
@@ -36,6 +37,45 @@ public struct Configuration {
     public var rmsMovingAverageSize = 20
 
     public init() {
+    }
+
+    public init?(file: String) {
+        guard let data = NSData(contentsOfFile: file) else {
+            return nil
+        }
+
+        let jsonObject = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())
+        guard let values = jsonObject as? [String: NSObject] else {
+            return nil
+        }
+
+        if let value = values["samplingFrequency"] as? NSNumber {
+            samplingFrequency = value.doubleValue
+        }
+        if let value = values["windowSize"] as? NSNumber {
+            windowSize = value.integerValue
+        }
+        if let value = values["stepSize"] as? NSNumber {
+            stepSize = value.integerValue
+        }
+        if let value = values["representableNoteRange"] as? String, range = parseRange(value) {
+            representableNoteRange = range
+        }
+        if let value = values["spectrumNoteRange"] as? String, range = parseRange(value) {
+            spectrumNoteRange = range
+        }
+        if let value = values["spectrumResolution"] as? NSNumber {
+            spectrumResolution = value.doubleValue
+        }
+        if let value = values["minimumPeakDistance"] as? NSNumber {
+            minimumPeakDistance = value.doubleValue
+        }
+        if let value = values["peakHeightCutoffMultiplier"] as? NSNumber {
+            peakHeightCutoffMultiplier = value.doubleValue
+        }
+        if let value = values["rmsMovingAverageSize"] as? NSNumber {
+            rmsMovingAverageSize = value.integerValue
+        }
     }
 
     /// Calculate the number of windows that fit inside the given number of samples
