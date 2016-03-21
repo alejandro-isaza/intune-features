@@ -28,10 +28,10 @@ public struct Configuration {
     }
 
     /// The minimum distance between peaks in notes
-    public var minimumPeakDistance = 1.0 / 3.0
+    public var minimumPeakDistance = 0.5
 
     /// The peak height cutoff as a multiplier of the RMS
-    public var peakHeightCutoffMultiplier = 0.01
+    public var peakHeightCutoffMultiplier = 0.05
 
     /// The number of windows to use for the RMS average
     public var rmsMovingAverageSize = 20
