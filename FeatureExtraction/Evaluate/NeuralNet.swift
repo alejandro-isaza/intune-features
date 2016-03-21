@@ -162,6 +162,7 @@ class NeuralNet {
             data[i + 1 * featureSize] = feature.spectralFlux[i]
             data[i + 2 * featureSize] = feature.peakHeights[i]
             data[i + 3 * featureSize] = feature.peakLocations[i]
+            data[i + 4 * featureSize] = feature.peakFlux[i]
         }
 
         // Run net
