@@ -40,6 +40,9 @@ guard let configuration = Configuration(file: configOpt.value!) else {
 var results = [(polyphony: Float, onset: Float, notes: ValueArray<Float>)]()
 let neuralNet = try! NeuralNet(file: networkOpt.value!, configuration: configuration)
 neuralNet.forwardPassAction = { polyphony, onset, notes in
+    if !isfinite(polyphony) || !isfinite(onset) || !notes.map({ isfinite($0) }).reduce(true, combine: { $0 && $1 }) {
+        print("Network output NaN")
+    }
     results.append((polyphony: polyphony, onset: onset, notes: notes))
 }
 
@@ -50,6 +53,24 @@ let midiFile = midiFileOpt.value ?? audioFile.stringByReplacingExtensionWith("mi
 let featureBuilder = PolySequenceBuilder(audioFilePath: audioFile, midiFilePath: midiFile, decayModel: decayModel, configuration: configuration)
 featureBuilder.forEachWindow { window in
     windows.append(window)
+    if !isfinite(window.label.onset) || !isfinite(window.label.polyphony) || !window.label.notes.map({ isfinite($0) }).reduce(true, combine: { $0 && $1 }) {
+        print("Found NaN in labels")
+    }
+    if !window.feature.spectrum.map({ isfinite($0) }).reduce(true, combine: { $0 && $1 }) {
+        print("Found NaN in spectrum")
+    }
+    if !window.feature.spectralFlux.map({ isfinite($0) }).reduce(true, combine: { $0 && $1 }) {
+        print("Found NaN in spectralFlux")
+    }
+    if !window.feature.peakHeights.map({ isfinite($0) }).reduce(true, combine: { $0 && $1 }) {
+        print("Found NaN in peakHeights")
+    }
+    if !window.feature.peakLocations.map({ isfinite($0) }).reduce(true, combine: { $0 && $1 }) {
+        print("Found NaN in peakLocations")
+    }
+    if !window.feature.peakFlux.map({ isfinite($0) }).reduce(true, combine: { $0 && $1 }) {
+        print("Found NaN in peakFlux")
+    }
     neuralNet.processFeature(window.feature)
 }
 

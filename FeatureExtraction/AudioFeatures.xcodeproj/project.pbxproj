@@ -2255,6 +2255,7 @@
 				61B51C021C9C5E8A00644BB5 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		61BBC3CB1C407891006C6DF0 /* Build configuration list for PBXNativeTarget "FeatureExtraction-iOS" */ = {
 			isa = XCConfigurationList;

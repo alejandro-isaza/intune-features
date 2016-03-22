@@ -31,6 +31,21 @@ class NeuralNet {
     var runner: Runner!
 
     var dataLayer = Source()
+    var lstm0Layer: LSTMLayer!
+    var lstm1Layer: LSTMLayer!
+    var lstm2Layer: LSTMLayer!
+    var noteLayer: InnerProductLayer!
+    var onsetLayer: InnerProductLayer!
+    var polyLayer: InnerProductLayer!
+
+    var inputBufferRef: Net.BufferRef!
+    var buffer0: Net.BufferRef!
+    var buffer1: Net.BufferRef!
+    var buffer2: Net.BufferRef!
+    var notesBuffer: Net.BufferRef!
+    var onsetsBuffer: Net.BufferRef!
+    var polyBuffer: Net.BufferRef!
+
     var notesSinkLayer = Sink()
     var onsetsSinkLayer = Sink()
     var polySinkLayer = Sink()
@@ -45,8 +60,13 @@ class NeuralNet {
 
         let net = buildNet()
         runner = try Runner(net: net, device: device)
-        runner.forwardPassAction = {
-            self.forwardPassAction?(polyphony: self.polySinkLayer.data[0], onset: self.onsetsSinkLayer.data[0], notes: self.notesSinkLayer.data)
+        runner.forwardPassAction = { buffers in
+            let polyphony = self.polySinkLayer.data[0]
+            let onset = self.onsetsSinkLayer.data[0]
+            let notes = ValueArray(self.notesSinkLayer.data)
+            dispatch_async(dispatch_get_main_queue()) {
+                self.forwardPassAction?(polyphony: polyphony, onset: onset, notes: notes)
+            }
         }
     }
 
@@ -162,10 +182,12 @@ class NeuralNet {
             data[i + 1 * featureSize] = feature.spectralFlux[i]
             data[i + 2 * featureSize] = feature.peakHeights[i]
             data[i + 3 * featureSize] = feature.peakLocations[i]
-            data[i + 4 * featureSize] = feature.peakFlux[i]
         }
 
         // Run net
+        if !data.map({ isfinite($0) }).reduce(true, combine: { $0 && $1 }) {
+            fatalError("Net input data is not all finite")
+        }
         runner.forward()
     }
 }
@@ -175,21 +197,21 @@ extension NeuralNet {
     func buildNet() -> Net {
         let net = Net()
 
-        let lstm0Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell0BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell0BasicLSTMCellLinearBias")
-        let lstm1Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell1BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell1BasicLSTMCellLinearBias")
-        let lstm2Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell2BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell2BasicLSTMCellLinearBias")
-        let noteLayer = createIPLayerFromFile(netPath, weightsName: "note_ip_weights", biasesName: "note_ip_biases")
-        let onsetLayer = createIPLayerFromFile(netPath, weightsName: "onset_ip_weights", biasesName: "onset_ip_biases")
-        let polyLayer = createIPLayerFromFile(netPath, weightsName: "polyphony_ip_weights", biasesName: "polyphony_ip_biases")
+        lstm0Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell0BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell0BasicLSTMCellLinearBias")
+        lstm1Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell1BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell1BasicLSTMCellLinearBias")
+        lstm2Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell2BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell2BasicLSTMCellLinearBias")
+        noteLayer = createIPLayerFromFile(netPath, weightsName: "note_ip_weights", biasesName: "note_ip_biases")
+        onsetLayer = createIPLayerFromFile(netPath, weightsName: "onset_ip_weights", biasesName: "onset_ip_biases")
+        polyLayer = createIPLayerFromFile(netPath, weightsName: "polyphony_ip_weights", biasesName: "polyphony_ip_biases")
 
         inputSize = lstm0Layer.inputSize
-        let inputBufferRef = net.addBufferWithName("data", size: inputSize)
-        let buffer0 = net.addBufferWithName("buffer0", size: lstm0Layer.outputSize)
-        let buffer1 = net.addBufferWithName("buffer1", size: lstm1Layer.outputSize)
-        let buffer2 = net.addBufferWithName("buffer2", size: lstm2Layer.outputSize)
-        let notesBuffer = net.addBufferWithName("notesBuffer", size: noteLayer.outputSize)
-        let onsetsBuffer = net.addBufferWithName("onsetsBuffer", size: onsetLayer.outputSize)
-        let polyBuffer = net.addBufferWithName("ployBuffer", size: polyLayer.outputSize)
+        inputBufferRef = net.addBufferWithName("data", size: inputSize)
+        buffer0 = net.addBufferWithName("buffer0", size: lstm0Layer.outputSize)
+        buffer1 = net.addBufferWithName("buffer1", size: lstm1Layer.outputSize)
+        buffer2 = net.addBufferWithName("buffer2", size: lstm2Layer.outputSize)
+        notesBuffer = net.addBufferWithName("notesBuffer", size: noteLayer.outputSize)
+        onsetsBuffer = net.addBufferWithName("onsetsBuffer", size: onsetLayer.outputSize)
+        polyBuffer = net.addBufferWithName("ployBuffer", size: polyLayer.outputSize)
 
         let dataLayerRef = net.addLayer(dataLayer, name: "data")
         net.connectLayer(dataLayerRef, toBuffer: inputBufferRef)

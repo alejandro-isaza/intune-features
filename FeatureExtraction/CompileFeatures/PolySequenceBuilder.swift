@@ -91,8 +91,8 @@ class PolySequenceBuilder {
         for offset in configuration.stepSize.stride(through: totalSampleCount - configuration.windowSize, by: configuration.stepSize) {
             var window = Window(start: offset, noteCount: configuration.representableNoteRange.count, bandCount: configuration.bandCount)
 
-            let range1 = Range(start: offset - configuration.stepSize, end: offset - configuration.stepSize + configuration.windowSize)
-            let range2 = Range(start: offset, end: offset + configuration.windowSize)
+            let range1 = offset - configuration.stepSize..<offset - configuration.stepSize + configuration.windowSize
+            let range2 = offset..<offset + configuration.windowSize
             window.feature = featureBuilder.generateFeatures(data[range1], data[range2])
 
             window.label.onset = onsetValueForWindowAt(offset)
