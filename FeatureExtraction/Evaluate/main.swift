@@ -2,6 +2,7 @@
 
 import CommandLine
 import FeatureExtraction
+import NeuralNet
 import Upsurge
 
 let cli = CommandLine(arguments: Process.arguments)
@@ -39,11 +40,11 @@ guard let configuration = Configuration(file: configOpt.value!) else {
 
 var results = [(polyphony: Float, onset: Float, notes: ValueArray<Float>)]()
 let neuralNet = try! NeuralNet(file: networkOpt.value!, configuration: configuration)
-neuralNet.forwardPassAction = { polyphony, onset, notes in
-    if !isfinite(polyphony) || !isfinite(onset) || !notes.map({ isfinite($0) }).reduce(true, combine: { $0 && $1 }) {
+neuralNet.forwardPassAction = { snapshot in
+    if !isfinite(snapshot.polyphony) || !isfinite(snapshot.onset) || !snapshot.notes.map({ isfinite($0) }).reduce(true, combine: { $0 && $1 }) {
         print("Network output NaN")
     }
-    results.append((polyphony: polyphony, onset: onset, notes: notes))
+    results.append((polyphony: snapshot.polyphony, onset: snapshot.onset, notes: snapshot.notes))
 }
 
 var windows = [Window]()

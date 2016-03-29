@@ -6,7 +6,7 @@ import Metal
 import HDF5Kit
 import Upsurge
 
-//: Define a DataLayer that returns a static piece of data
+/// Define a DataLayer that returns a static piece of data
 class Source: DataLayer {
     var data = Blob()
 
@@ -15,7 +15,7 @@ class Source: DataLayer {
     }
 }
 
-//: Define a SinkLayer that stores the last piece of data it got
+/// Define a SinkLayer that stores the last piece of data it got
 class Sink: SinkLayer {
     var data = Blob()
 
@@ -24,95 +24,85 @@ class Sink: SinkLayer {
     }
 }
 
-class NeuralNet {
-    let configuration: Configuration
+/// A network snapshot. This includes the output of the network and the LSTM layer activation buffers.
+public struct Snapshot {
+    public var onset: Float
+    public var polyphony: Float
+    public var notes: Blob
+    public var activationBuffers = [MTLBuffer]()
+
+    public init(onset: Float, polyphony: Float, notes: Blob) {
+        self.onset = onset
+        self.polyphony = polyphony
+        self.notes = notes
+    }
+}
+
+public class NeuralNet {
+    public let configuration: Configuration
     let netPath: String
     let device: MTLDevice
     var runner: Runner!
+    let featureBuilder: FeatureBuilder
 
     var dataLayer = Source()
-    var lstm0Layer: LSTMLayer!
-    var lstm1Layer: LSTMLayer!
-    var lstm2Layer: LSTMLayer!
-    var noteLayer: InnerProductLayer!
-    var onsetLayer: InnerProductLayer!
-    var polyLayer: InnerProductLayer!
-
-    var inputBufferRef: Net.BufferRef!
-    var buffer0: Net.BufferRef!
-    var buffer1: Net.BufferRef!
-    var buffer2: Net.BufferRef!
-    var notesBuffer: Net.BufferRef!
-    var onsetsBuffer: Net.BufferRef!
-    var polyBuffer: Net.BufferRef!
-
     var notesSinkLayer = Sink()
     var onsetsSinkLayer = Sink()
     var polySinkLayer = Sink()
 
-    var forwardPassAction: ((polyphony: Float, onset: Float, notes: ValueArray<Float>) -> Void)?
+    public var forwardPassAction: (Snapshot -> Void)?
+    public internal(set) var processingCount = 0
 
 
-    init(file: String, configuration: Configuration) throws {
-        self.configuration = configuration
+    public convenience init(configuration: Configuration) throws {
+        let path = NSBundle(forClass: NeuralNet.self).pathForResource("net", ofType: "h5")!
+        try self.init(file: path, configuration: configuration)
+    }
+
+    public init(file: String, configuration: Configuration) throws {
         self.netPath = file
+        self.configuration = configuration
+
         device = MTLCreateSystemDefaultDevice()!
+        featureBuilder = FeatureBuilder(configuration: configuration)
 
         let net = buildNet()
         runner = try Runner(net: net, device: device)
         runner.forwardPassAction = { buffers in
-            let polyphony = self.polySinkLayer.data[0]
-            let onset = self.onsetsSinkLayer.data[0]
-            let notes = ValueArray(self.notesSinkLayer.data)
-            dispatch_async(dispatch_get_main_queue()) {
-                self.forwardPassAction?(polyphony: polyphony, onset: onset, notes: notes)
+            var snapshot = Snapshot(onset: self.onsetsSinkLayer.data[0], polyphony: self.polySinkLayer.data[0], notes: self.notesSinkLayer.data)
+            for lstm in self.lstmLayers {
+                snapshot.activationBuffers.append(lstm.stateBuffer)
             }
+
+            self.forwardPassAction?(snapshot)
         }
     }
 
 
     // MARK: Network definition
 
-    var lstmLayers = [LSTMLayer]()
-    var inputSize = 0
-    var onsetSize = 0
-    var polySize = 0
-    var noteSize = 0
-    var outputSize = 0
+    public internal(set) var lstmLayers = [LSTMLayer]()
+    public internal(set) var inputSize = 0
+    public internal(set) var noteSize = 0
+    public internal(set) var outputSize = 0
 
-    func titleForOutputIndex(index: Int) -> String {
+    public func titleForOutputIndex(index: Int) -> String {
         if index < noteSize {
             return "\(Note(midiNoteNumber: index + configuration.representableNoteRange.startIndex).description) Output"
-        } else if index < noteSize + onsetSize {
-            if onsetSize == 1 {
-                return "Onset Output"
-            } else {
-                return "Onset \(index - noteSize) Output"
-            }
+        } else if index < noteSize + 1 {
+            return "Onset Output"
         } else {
-            if polySize == 1 {
-                return "Polyphony Output"
-            } else {
-                return "Polyphony \(index - noteSize - onsetSize) Output"
-            }
+            return "Polyphony Output"
         }
     }
 
-    func shortTitleForOutputIndex(index: Int) -> String {
+    public func shortTitleForOutputIndex(index: Int) -> String {
         if index < noteSize {
             return "\(Note(midiNoteNumber: index + configuration.representableNoteRange.startIndex).description)"
-        } else if index < noteSize + onsetSize {
-            if onsetSize == 1 {
-                return "Onset"
-            } else {
-                return "Onset \(index - noteSize)"
-            }
+        } else if index < noteSize + 1 {
+            return "Onset"
         } else {
-            if polySize == 1 {
-                return "Polyphony"
-            } else {
-                return "Polyphony \(index - noteSize - onsetSize)"
-            }
+            return "Polyphony"
         }
     }
 
@@ -164,7 +154,26 @@ class NeuralNet {
 
     // MARK: Network execution
 
-    func processFeature(feature: Feature) {
+    public func reset() {
+        processingCount = 0
+        for layer in lstmLayers {
+            layer.reset()
+        }
+    }
+
+    public func processData(data: ValueArray<Double>) {
+        reset()
+
+        let indices = 0.stride(to: data.count - configuration.windowSize - configuration.stepSize, by: configuration.stepSize)
+        for i in indices {
+            let feature = featureBuilder.generateFeatures(data[i..<i + configuration.windowSize], data[i + configuration.stepSize..<i + configuration.windowSize + configuration.stepSize])
+            processFeature(feature)
+        }
+    }
+
+    public func processFeature(feature: Feature) {
+        processingCount += 1
+
         var data = dataLayer.data
         let featureSize = configuration.bandCount
         if data.capacity < inputSize {
@@ -183,35 +192,28 @@ class NeuralNet {
             data[i + 2 * featureSize] = feature.peakHeights[i]
             data[i + 3 * featureSize] = feature.peakLocations[i]
         }
-
+        
         // Run net
-        if !data.map({ isfinite($0) }).reduce(true, combine: { $0 && $1 }) {
-            fatalError("Net input data is not all finite")
-        }
         runner.forward()
     }
 }
 
-/// LSTM -> LSTM -> LSTM -> (IP, IP, IP)
+/// LSTM -> (IP, IP, IP)
 extension NeuralNet {
     func buildNet() -> Net {
         let net = Net()
 
-        lstm0Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell0BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell0BasicLSTMCellLinearBias")
-        lstm1Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell1BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell1BasicLSTMCellLinearBias")
-        lstm2Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell2BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell2BasicLSTMCellLinearBias")
-        noteLayer = createIPLayerFromFile(netPath, weightsName: "note_ip_weights", biasesName: "note_ip_biases")
-        onsetLayer = createIPLayerFromFile(netPath, weightsName: "onset_ip_weights", biasesName: "onset_ip_biases")
-        polyLayer = createIPLayerFromFile(netPath, weightsName: "polyphony_ip_weights", biasesName: "polyphony_ip_biases")
+        let lstm0Layer = createLSTMLayerFromFile(netPath, weightsName: "RNNMultiRNNCellCell0BasicLSTMCellLinearMatrix", biasesName: "RNNMultiRNNCellCell0BasicLSTMCellLinearBias")
+        let noteLayer = createIPLayerFromFile(netPath, weightsName: "note_ip_weights", biasesName: "note_ip_biases")
+        let onsetLayer = createIPLayerFromFile(netPath, weightsName: "onset_ip_weights", biasesName: "onset_ip_biases")
+        let polyLayer = createIPLayerFromFile(netPath, weightsName: "polyphony_ip_weights", biasesName: "polyphony_ip_biases")
 
         inputSize = lstm0Layer.inputSize
-        inputBufferRef = net.addBufferWithName("data", size: inputSize)
-        buffer0 = net.addBufferWithName("buffer0", size: lstm0Layer.outputSize)
-        buffer1 = net.addBufferWithName("buffer1", size: lstm1Layer.outputSize)
-        buffer2 = net.addBufferWithName("buffer2", size: lstm2Layer.outputSize)
-        notesBuffer = net.addBufferWithName("notesBuffer", size: noteLayer.outputSize)
-        onsetsBuffer = net.addBufferWithName("onsetsBuffer", size: onsetLayer.outputSize)
-        polyBuffer = net.addBufferWithName("ployBuffer", size: polyLayer.outputSize)
+        let inputBufferRef = net.addBufferWithName("data", size: inputSize)
+        let buffer0 = net.addBufferWithName("buffer0", size: lstm0Layer.outputSize)
+        let notesBuffer = net.addBufferWithName("notesBuffer", size: noteLayer.outputSize)
+        let onsetsBuffer = net.addBufferWithName("onsetsBuffer", size: onsetLayer.outputSize)
+        let polyBuffer = net.addBufferWithName("ployBuffer", size: polyLayer.outputSize)
 
         let dataLayerRef = net.addLayer(dataLayer, name: "data")
         net.connectLayer(dataLayerRef, toBuffer: inputBufferRef)
@@ -220,24 +222,16 @@ extension NeuralNet {
         net.connectBuffer(inputBufferRef, atOffset: 0, toLayer: lstm0LayerRef)
         net.connectLayer(lstm0LayerRef, toBuffer: buffer0)
 
-        let lstm1LayerRef = net.addLayer(lstm1Layer, name: "lstm1")
-        net.connectBuffer(buffer0, atOffset: 0, toLayer: lstm1LayerRef)
-        net.connectLayer(lstm1LayerRef, toBuffer: buffer1)
-
-        let lstm2LayerRef = net.addLayer(lstm2Layer, name: "lstm2")
-        net.connectBuffer(buffer1, atOffset: 0, toLayer: lstm2LayerRef)
-        net.connectLayer(lstm2LayerRef, toBuffer: buffer2)
-
         let noteLayerRef = net.addLayer(noteLayer, name: "noteLayer")
-        net.connectBuffer(buffer2, atOffset: 0, toLayer: noteLayerRef)
+        net.connectBuffer(buffer0, atOffset: 0, toLayer: noteLayerRef)
         net.connectLayer(noteLayerRef, toBuffer: notesBuffer)
 
         let onsetLayerRef = net.addLayer(onsetLayer, name: "onsetLayer")
-        net.connectBuffer(buffer2, atOffset: 0, toLayer: onsetLayerRef)
+        net.connectBuffer(buffer0, atOffset: 0, toLayer: onsetLayerRef)
         net.connectLayer(onsetLayerRef, toBuffer: onsetsBuffer)
 
         let polyLayerRef = net.addLayer(polyLayer, name: "polyLayer")
-        net.connectBuffer(buffer2, atOffset: 0, toLayer: polyLayerRef)
+        net.connectBuffer(buffer0, atOffset: 0, toLayer: polyLayerRef)
         net.connectLayer(polyLayerRef, toBuffer: polyBuffer)
 
         let onsetsSinkLayerRef = net.addLayer(onsetsSinkLayer, name: "onsets")
@@ -248,13 +242,11 @@ extension NeuralNet {
 
         let notesSinkLayerRef = net.addLayer(notesSinkLayer, name: "notes")
         net.connectBuffer(notesBuffer, atOffset: 0, toLayer: notesSinkLayerRef)
-        
-        lstmLayers = [lstm0Layer, lstm1Layer, lstm2Layer]
-        onsetSize = onsetLayer.outputSize
-        polySize = polyLayer.outputSize
+
+        lstmLayers = [lstm0Layer]
         noteSize = noteLayer.outputSize
-        outputSize = onsetSize + polySize + noteSize
-        
+        outputSize = 2 + noteSize
+
         return net
     }
 }

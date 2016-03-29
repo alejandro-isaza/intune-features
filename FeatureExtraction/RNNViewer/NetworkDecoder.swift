@@ -16,7 +16,7 @@ class NetworkDecoder {
         self.configuration = configuration
     }
     
-    func processOutput<C: CollectionType where C.Generator.Element == Float>(onsetValue: Float, polyphonyValue: Float, noteValues: C) {
+    func processOutput<C: CollectionType where C.Generator.Element == Float>(onsetValue onsetValue: Float, polyphonyValue: Float, noteValues: C) {
         if let postponeOnset = postponeOnset {
             if postponeOnset == 0 {
                 processOnset(onsetValue, polyphonyValue: polyphonyValue, noteValues: noteValues)

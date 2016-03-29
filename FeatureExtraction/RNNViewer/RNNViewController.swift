@@ -1,8 +1,10 @@
 //  Copyright © 2016 Venture Media. All rights reserved.
 
+import BrainCore
 import Cocoa
 import FeatureExtraction
 import HDF5Kit
+import NeuralNet
 import Peak
 import PlotKit
 import Upsurge
@@ -63,9 +65,7 @@ class RNNViewController: NSViewController {
         combinedPlotView.addAxis(Axis(orientation: .Vertical, ticks: .Distance(0.1)))
 
         neuralNet.forwardPassAction = { snapshot in
-            let output = snapshot.output
-            let count = output.count
-            self.networkDecoder.processOutput(output[count - 2], polyphonyValue: output[count - 1], noteValues: output[0..<self.configuration.representableNoteRange.count])
+            self.networkDecoder.processOutput(onsetValue: snapshot.onset, polyphonyValue: snapshot.polyphony, noteValues: snapshot.notes)
 
             self.networkOffset += self.configuration.stepSize
             self.snapshots.append(snapshot)
@@ -378,7 +378,8 @@ class RNNViewController: NSViewController {
     func valuesForLayerIndex(layerIndex: Int, unitIndex: Int) -> ValueArray<Double> {
         let values = ValueArray<Double>(capacity: snapshots.count)
         for snapshot in snapshots {
-            let activations = snapshot.activations[layerIndex]
+            let activationsBuffer = snapshot.activationBuffers[layerIndex]
+            let activations = BrainCore.unsafeBufferPointerFromBuffer(activationsBuffer)
             var value = Double(activations[unitIndex])
             if !isfinite(value) {
                 value = 0
@@ -391,11 +392,14 @@ class RNNViewController: NSViewController {
     func valuesForOutputIndex(index: Int) -> ValueArray<Double> {
         let values = ValueArray<Double>(capacity: snapshots.count)
         for snapshot in snapshots {
-            var value = Double(snapshot.output[index])
-            if !isfinite(value) {
-                value = 0
+            if index == 0 {
+                values.append(Double(snapshot.onset))
+            } else if index == 1 {
+                values.append(Double(snapshot.polyphony))
+            } else {
+                let value = Double(snapshot.notes[index - 2])
+                values.append(value)
             }
-            values.append(value)
         }
         return values
     }

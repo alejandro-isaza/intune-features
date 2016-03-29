@@ -2,6 +2,7 @@
 
 import Cocoa
 import FeatureExtraction
+import NeuralNet
 
 protocol SelectableItem: NSObjectProtocol {
     var color: NSColor { get set }
