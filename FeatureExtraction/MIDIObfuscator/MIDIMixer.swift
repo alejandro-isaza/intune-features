@@ -7,10 +7,10 @@ import AudioToolbox
 class MIDIMixer {
     let minChunkSize = 3
     let maxChunkSize = 20
+    let maxDelay = 0.07
 
     let duplicationProbability = 0.2
 
-    let maxDelay = 0.125
 
 
     var inputFile: MIDIFile
@@ -20,36 +20,41 @@ class MIDIMixer {
     }
 
     func mix() -> MusicSequence {
-        var chunks = splitChunks(inputFile.noteEvents)
+        var inputEvents = inputFile.noteEvents
+        var chunks = splitChunks(&inputEvents)
         duplicateChunks(&chunks)
         addDelays(&chunks)
+
         var sequence = sequenceFromChunk(chunks.flatMap({ $0 }))
         setTempo(&sequence)
         return sequence
     }
 
-    func splitChunks(inputEvents: Chunk) -> [Chunk] {
-        var chunks = [inputEvents]
-        var chunkedEvents = [Chunk]()
+    func splitChunks(inout inputEvents: [MIDINoteEvent]) -> [Chunk] {
+        var chunkedEvents = chunkFromEvents(inputEvents)
+        var splitChunks = [Chunk]()
 
         var chunkSize = min(random(min: minChunkSize, max: maxChunkSize), inputEvents.count)
         var chunk = Chunk()
         var chordCount = 0
         var noteCount = 0
-        applyToChords(&chunks) { noteEventSlice in
+        applyToChords(&chunkedEvents) { chord in
             if chordCount < chunkSize {
-                chunk.appendContentsOf(noteEventSlice)
+                chunk.append(chord)
                 chordCount += 1
-                noteCount += noteEventSlice.count
+                noteCount += chord.count
             } else {
-                chunkedEvents.append(chunk)
+                splitChunks.append(chunk)
                 chunkSize = min(random(min: self.minChunkSize, max: self.maxChunkSize), inputEvents.count - noteCount)
-                chunk = Chunk()
+                chunk = Chunk([chord])
                 chordCount = 0
                 noteCount = 0
             }
         }
-        return chunkedEvents
+        if chordCount > 0 {
+            splitChunks.append(chunk)
+        }
+        return splitChunks
     }
 
     func duplicateChunks(inout chunks: [Chunk]) {
@@ -57,7 +62,7 @@ class MIDIMixer {
         var offset = 0
         for (i, chunk) in iterableChunks.enumerate() {
             if random(probability: duplicationProbability) {
-                chunks.insert(chunk, atIndex: i+offset)
+                chunks.insert(chunks[i+offset], atIndex: i+offset)
                 offset += 1
                 shiftChunks(&chunks[i+offset..<chunks.count], offset: duration(chunk))
             }
@@ -66,10 +71,10 @@ class MIDIMixer {
 
     func addDelays(inout chunks: [Chunk]) {
         var offset = 0.0
-        applyToChords(&chunks){ noteEventSlice in
-            let delay = random(min: -self.maxDelay, max: self.maxDelay)
-            for i in noteEventSlice.startIndex..<noteEventSlice.endIndex {
-                noteEventSlice[i].timeStamp = max(noteEventSlice[i].timeStamp + offset + delay, 0)
+        applyToChords(&chunks){ chord in
+            let delay = random(min: -self.maxDelay, max: self.maxDelay+1)
+            for i in 0..<chord.count {
+                chord[i].timeStamp = max(chord[i].timeStamp + offset + delay, 0)
             }
             offset += delay
         }
@@ -91,9 +96,11 @@ class MIDIMixer {
             fatalError("Failed to add track to sequence.")
         }
 
-        for event in chunk {
-            var message = MIDINoteMessage(channel: event.channel, note: event.note, velocity: event.velocity, releaseVelocity: 0, duration: event.duration)
-            MusicTrackNewMIDINoteEvent(track, event.timeStamp, &message)
+        for chord in chunk {
+            for event in chord {
+                var message = MIDINoteMessage(channel: event.channel, note: event.note, velocity: event.velocity, releaseVelocity: 0, duration: event.duration)
+                MusicTrackNewMIDINoteEvent(track, event.timeStamp, &message)
+            }
         }
 
     }
