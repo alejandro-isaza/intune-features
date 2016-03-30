@@ -25,18 +25,26 @@ class MIDIMixer {
         return sequence
     }
 
-    func splitChunks(inputEvents: [MIDINoteEvent]) -> [Chunk] {
+    func splitChunks(inputEvents: Chunk) -> [Chunk] {
+        var chunks = [inputEvents]
         var chunkedEvents = [Chunk]()
-        var i = 0
-        while i < inputEvents.count {
-            var chunkSize = min(random(min: minChunkSize, max: maxChunkSize), inputEvents.count - i)
-            while chunkSize != inputEvents.count - i && inputEvents[i+chunkSize-1].timeStamp == inputEvents[i+chunkSize].timeStamp {
-                chunkSize += 1
-            }
 
-            let chunk = Chunk(inputEvents[i..<i+chunkSize])
-            chunkedEvents.append(chunk)
-            i += chunkSize
+        var chunkSize = min(random(min: minChunkSize, max: maxChunkSize), inputEvents.count)
+        var chunk = Chunk()
+        var chordCount = 0
+        var noteCount = 0
+        applyToChords(&chunks) { noteEventSlice in
+            if chordCount < chunkSize {
+                chunk.appendContentsOf(noteEventSlice)
+                chordCount += 1
+                noteCount += noteEventSlice.count
+            } else {
+                chunkedEvents.append(chunk)
+                chunkSize = min(random(min: self.minChunkSize, max: self.maxChunkSize), inputEvents.count - noteCount)
+                chunk = Chunk()
+                chordCount = 0
+                noteCount = 0
+            }
         }
         return chunkedEvents
     }
