@@ -25,7 +25,7 @@ class DecayModel {
         sums = try! sumsDataset.read()
 
         precondition(parameters.count == parameterCount * representableNoteRange.count)
-        precondition(sums.count == representableNoteRange.count)
+        precondition(sums.count == representableNoteRange.count * 4)
     }
 
     func decayValueForNote(note: Note, atOffset offset: Int) -> Float {
@@ -42,8 +42,14 @@ class DecayModel {
         return a * exp(b * b * c) + d
     }
 
-    func normalizationForNote(note: Note) -> Float {
+    func normalizationForNote(note: Note, windowSize: Int) -> Float {
         let index = note.midiNoteNumber - representableNoteRange.startIndex
-        return sums[index]
+        switch windowSize {
+        case 8192: return sums[index + 3 * representableNoteRange.count]
+        case 4096: return sums[index + 2 * representableNoteRange.count]
+        case 2048: return sums[index + 1 * representableNoteRange.count]
+        case 1024: return sums[index + 0 * representableNoteRange.count]
+        default: fatalError("Invalid window size")
+        }
     }
 }

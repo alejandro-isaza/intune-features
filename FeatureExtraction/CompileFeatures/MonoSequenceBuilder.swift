@@ -79,7 +79,7 @@ class MonoSequenceBuilder {
             let decayValue = decayModel.decayValueForNote(event.note, atOffset: i - event.start)
             value += decayValue * windowingValue
         }
-        value /= decayModel.normalizationForNote(event.note)
+        value /= decayModel.normalizationForNote(event.note, windowSize: configuration.windowSize)
 
         precondition(isfinite(value))
         return 2 * value
