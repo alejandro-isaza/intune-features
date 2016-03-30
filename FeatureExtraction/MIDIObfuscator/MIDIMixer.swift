@@ -10,6 +10,8 @@ class MIDIMixer {
 
     let duplicationProbability = 0.2
 
+    let maxDelay = 0.125
+
 
     var inputFile: MIDIFile
 
@@ -20,6 +22,7 @@ class MIDIMixer {
     func mix() -> MusicSequence {
         var chunks = splitChunks(inputFile.noteEvents)
         duplicateChunks(&chunks)
+        addDelays(&chunks)
         var sequence = sequenceFromChunk(chunks.flatMap({ $0 }))
         setTempo(&sequence)
         return sequence
@@ -58,6 +61,17 @@ class MIDIMixer {
                 offset += 1
                 shiftChunks(&chunks[i+offset..<chunks.count], offset: duration(chunk))
             }
+        }
+    }
+
+    func addDelays(inout chunks: [Chunk]) {
+        var offset = 0.0
+        applyToChords(&chunks){ noteEventSlice in
+            let delay = random(min: -self.maxDelay, max: self.maxDelay)
+            for i in noteEventSlice.startIndex..<noteEventSlice.endIndex {
+                noteEventSlice[i].timeStamp = max(noteEventSlice[i].timeStamp + offset + delay, 0)
+            }
+            offset += delay
         }
     }
 
