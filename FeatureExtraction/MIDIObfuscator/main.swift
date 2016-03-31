@@ -11,8 +11,13 @@ let inputOpt = StringOption(shortFlag: "i", longFlag: "input", required: true, h
 cli.addOptions(inputOpt)
 
 // Output options
-let outputOpt = StringOption(shortFlag: "o", longFlag: "output", required: true, helpMessage: "Output path to write processed MIDI file.")
-cli.addOptions(outputOpt)
+let midiOutputOpt = StringOption(shortFlag: "m", longFlag: "midi-output", required: true, helpMessage: "Output path to write processed MIDI file.")
+cli.addOptions(midiOutputOpt)
+
+let refOutputOpt = StringOption(shortFlag: "r", longFlag: "ref-output", required: true, helpMessage: "Output path to write chord reference file.")
+cli.addOptions(refOutputOpt)
+
+
 
 // Other options
 let helpOpt = BoolOption(shortFlag: "h", longFlag: "help", helpMessage: "Prints a help message.")
@@ -34,9 +39,14 @@ guard let inputFilePath = inputOpt.value else {
     fatalError("No input file supplied via '--input -i'.")
 }
 
-guard let outputFilePath = outputOpt.value else {
-    fatalError("No output file supplied via '--output -o'.")
+guard let midiOutputFilePath = midiOutputOpt.value else {
+    fatalError("No midi output file supplied.")
 }
+
+guard let refOutputFilePath = refOutputOpt.value else {
+    fatalError("No chord reference output file supplied.")
+}
+
 
 guard let inputFile = MIDIFile(filePath: inputFilePath) else {
     fatalError("Could not open: \(inputFilePath)")
@@ -45,6 +55,14 @@ guard let inputFile = MIDIFile(filePath: inputFilePath) else {
 let midiMixer = MIDIMixer(inputFile: inputFile)
 var outputSequence = midiMixer.mix()
 
-guard let outputFile = MIDIFile.create(outputFilePath, sequence: outputSequence) else {
-    fatalError("Could not open: \(outputFilePath)")
+guard let outputFile = MIDIFile.create(midiOutputFilePath, sequence: outputSequence) else {
+    fatalError("Could not open: \(midiOutputFilePath)")
+}
+
+let url = NSURL.fileURLWithPath(refOutputFilePath)
+let referenceText = midiMixer.referenceChordIndices.reduce("", combine: { "\($0.0)\($0.1)\n" })
+do {
+    try referenceText.writeToURL(url, atomically: true, encoding: NSUTF8StringEncoding)
+} catch {
+    fatalError("Could not write chord reference file")
 }

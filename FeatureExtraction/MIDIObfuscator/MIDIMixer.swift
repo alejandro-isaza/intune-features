@@ -17,14 +17,17 @@ class MIDIMixer {
 
 
     var inputFile: MIDIFile
+    var inputEvents: [MIDINoteEvent]
+    var referenceChordIndices = [Int]()
 
     init(inputFile: MIDIFile) {
         self.inputFile = inputFile
+        self.inputEvents = inputFile.noteEvents
     }
 
     func mix() -> MusicSequence {
-        var inputEvents = inputFile.noteEvents
         var chunks = splitChunks(&inputEvents)
+        self.referenceChordIndices = [Int](0..<chunks.reduce(0, combine: { $0.0 + $0.1.count }))
         duplicateChunks(&chunks)
         addMistakes(&chunks)
         addDelays(&chunks)
@@ -51,8 +54,8 @@ class MIDIMixer {
                 splitChunks.append(chunk)
                 chunkSize = min(random(min: self.minChunkSize, max: self.maxChunkSize), inputEvents.count - noteCount)
                 chunk = Chunk([chord])
-                chordCount = 0
-                noteCount = 0
+                chordCount = 1
+                noteCount = chord.count
             }
         }
         if chordCount > 0 {
@@ -67,6 +70,12 @@ class MIDIMixer {
         for (i, chunk) in iterableChunks.enumerate() {
             if random(probability: duplicationProbability) {
                 chunks.insert(chunks[i+offset], atIndex: i+offset)
+
+                let chordIndex = chunks[0..<i+offset].flatMap({ $0 }).count
+                let chordCount = chunks[i+offset].count
+                let referenceIndices = referenceChordIndices[chordIndex..<chordIndex+chordCount]
+                referenceChordIndices.insertContentsOf(referenceIndices, at: chordIndex)
+
                 offset += 1
                 shiftChunks(&chunks[i+offset..<chunks.count], offset: duration(chunk))
             }
@@ -96,6 +105,10 @@ class MIDIMixer {
                     nextChord[j].note = UInt8(Int(nextChord[j].note) + sign * mistake)
                     offset = max(offset, nextChord[j].duration + mistakeBuffer)
                 }
+
+                let chordIndex = chunks[0...i].flatMap({ $0 }).count
+                let referenceIndex = referenceChordIndices[chordIndex-1]
+                referenceChordIndices.insert(referenceIndex, atIndex: chordIndex)
 
                 chunks[i].append(nextChord)
                 shiftChunks(&chunks[i+1..<chunks.count], offset: Double(offset))
