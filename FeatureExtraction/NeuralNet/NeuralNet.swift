@@ -53,14 +53,16 @@ public class NeuralNet {
     public var forwardPassAction: (Snapshot -> Void)?
     public internal(set) var processingCount = 0
 
-
-    public convenience init(configuration: Configuration) throws {
-        let path = NSBundle(forClass: NeuralNet.self).pathForResource("net", ofType: "h5")!
-        try self.init(file: path, configuration: configuration)
+    /// Initialize with built-in network and configuration
+    public convenience init() throws {
+        let bundle = NSBundle(forClass: NeuralNet.self)
+        let configPath = bundle.pathForResource("configuration", ofType: "json")!
+        let netpPath = bundle.pathForResource("net", ofType: "h5")!
+        try self.init(networkFile: netpPath, configuration: Configuration(file: configPath)!)
     }
 
-    public init(file: String, configuration: Configuration) throws {
-        self.netPath = file
+    public init(networkFile: String, configuration: Configuration) throws {
+        self.netPath = networkFile
         self.configuration = configuration
 
         device = MTLCreateSystemDefaultDevice()!
@@ -85,26 +87,6 @@ public class NeuralNet {
     public internal(set) var inputSize = 0
     public internal(set) var noteSize = 0
     public internal(set) var outputSize = 0
-
-    public func titleForOutputIndex(index: Int) -> String {
-        if index < noteSize {
-            return "\(Note(midiNoteNumber: index + configuration.representableNoteRange.startIndex).description) Output"
-        } else if index < noteSize + 1 {
-            return "Onset Output"
-        } else {
-            return "Polyphony Output"
-        }
-    }
-
-    public func shortTitleForOutputIndex(index: Int) -> String {
-        if index < noteSize {
-            return "\(Note(midiNoteNumber: index + configuration.representableNoteRange.startIndex).description)"
-        } else if index < noteSize + 1 {
-            return "Onset"
-        } else {
-            return "Polyphony"
-        }
-    }
 
     func createIPLayerFromFile(filePath: String, weightsName: String, biasesName: String) -> InnerProductLayer {
         guard let file = File.open(filePath, mode: .ReadOnly) else {

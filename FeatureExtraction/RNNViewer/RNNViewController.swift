@@ -19,7 +19,7 @@ func nextColor() -> NSColor {
 }
 
 class RNNViewController: NSViewController {
-    let configuration = Configuration()
+    var configuration = Configuration()
 
     private struct Keys {
         static let openDirectory = "openDirectory"
@@ -56,8 +56,9 @@ class RNNViewController: NSViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        neuralNet = try! NeuralNet()
+        configuration = neuralNet.configuration
         networkDecoder = NetworkDecoder(configuration: configuration)
-        neuralNet = try! NeuralNet(configuration: configuration)
         updateView()
 
         pianoRollView.configuration = configuration

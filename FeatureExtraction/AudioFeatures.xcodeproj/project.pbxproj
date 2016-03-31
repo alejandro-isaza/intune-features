@@ -25,6 +25,7 @@
 		610E2A8A1C500C78006B6016 /* FeatureDatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E2A881C500C78006B6016 /* FeatureDatabaseTests.swift */; };
 		610E2AE41C52C8D2006B6016 /* NoiseSequenceBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E2AE31C52C8D2006B6016 /* NoiseSequenceBuilder.swift */; };
 		611756A21C407B930025446F /* NoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610AAB661BD99737008CC910 /* NoteTests.swift */; };
+		612131C71CAC6D8500299E03 /* configuration.json in Resources */ = {isa = PBXBuildFile; fileRef = 612131C61CAC6D8500299E03 /* configuration.json */; };
 		612131CF1CADCCAD00299E03 /* DecayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612131CB1CADC8E800299E03 /* DecayModel.swift */; };
 		612131D01CADCCAD00299E03 /* DecayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612131CB1CADC8E800299E03 /* DecayModel.swift */; };
 		612131D11CADCCB700299E03 /* note_curves.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 612131CC1CADC8E800299E03 /* note_curves.h5 */; };
@@ -659,6 +660,7 @@
 		610E2A881C500C78006B6016 /* FeatureDatabaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureDatabaseTests.swift; sourceTree = "<group>"; };
 		610E2AE31C52C8D2006B6016 /* NoiseSequenceBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoiseSequenceBuilder.swift; sourceTree = "<group>"; };
 		6117569E1C407B650025446F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
+		612131C61CAC6D8500299E03 /* configuration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = configuration.json; sourceTree = "<group>"; };
 		612131CB1CADC8E800299E03 /* DecayModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecayModel.swift; sourceTree = "<group>"; };
 		612131CC1CADC8E800299E03 /* note_curves.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = note_curves.h5; sourceTree = "<group>"; };
 		6126D7161BE976D9007F8BE4 /* PeakHeightsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakHeightsViewController.swift; sourceTree = "<group>"; };
@@ -865,6 +867,7 @@
 		612CE8CC1CAB0B2800C260EC /* NeuralNet */ = {
 			isa = PBXGroup;
 			children = (
+				612131C61CAC6D8500299E03 /* configuration.json */,
 				612CE8E81CAB0B8E00C260EC /* net.h5 */,
 				612CE8CD1CAB0B2800C260EC /* NeuralNet.h */,
 				612CE8CF1CAB0B2800C260EC /* Info.plist */,
@@ -1686,6 +1689,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				612131C71CAC6D8500299E03 /* configuration.json in Resources */,
 				612CE8EA1CAB0B8E00C260EC /* net.h5 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

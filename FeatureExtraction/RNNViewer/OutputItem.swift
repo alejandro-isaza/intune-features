@@ -33,10 +33,10 @@ class OutputTimelineItem: NSObject, SelectableItem {
         self.index = resultIndex
         self.title = title
         self.shortTitle = shortTitle
-        if resultIndex < configuration.representableNoteRange.count {
-            color = Note(midiNoteNumber: resultIndex + configuration.representableNoteRange.startIndex).color
-        } else {
+        if resultIndex < 2 {
             color = NSColor.blackColor()
+        } else {
+            color = Note(midiNoteNumber: resultIndex - 2 + configuration.representableNoteRange.startIndex).color
         }
     }
 

@@ -81,11 +81,18 @@ class CollectionViewDataSource: NSObject, NSCollectionViewDataSource {
             }
         }
 
-        for index in 0..<neuralNet.outputSize {
+        let onsetItem = OutputTimelineItem(resultIndex: 0, title: "Onset Output", shortTitle: "Onset", configuration: configuration)
+        outputItem.timelines.append(onsetItem)
+
+        let polyItem = OutputTimelineItem(resultIndex: 1, title: "Polyphony Output", shortTitle: "Polyphony", configuration: configuration)
+        outputItem.timelines.append(polyItem)
+
+        for index in 0..<neuralNet.noteSize {
+            let title = "\(Note(midiNoteNumber: index + configuration.representableNoteRange.startIndex).description)"
             let item = OutputTimelineItem(
-                resultIndex: index,
-                title: neuralNet.titleForOutputIndex(index),
-                shortTitle: neuralNet.shortTitleForOutputIndex(index),
+                resultIndex: index + 2,
+                title: title + " Output",
+                shortTitle: title,
                 configuration: configuration)
             outputItem.timelines.append(item)
         }
