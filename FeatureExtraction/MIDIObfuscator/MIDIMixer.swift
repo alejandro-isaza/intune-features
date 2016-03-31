@@ -8,6 +8,8 @@ class MIDIMixer {
     let minChunkSize = 3
     let maxChunkSize = 20
 
+    let duplicationProbability = 0.2
+
 
     var inputFile: MIDIFile
 
@@ -37,6 +39,18 @@ class MIDIMixer {
             i += chunkSize
         }
         return chunkedEvents
+    }
+
+    func duplicateChunks(inout chunks: [Chunk]) {
+        let iterableChunks = chunks
+        var offset = 0
+        for (i, chunk) in iterableChunks.enumerate() {
+            if random(probability: duplicationProbability) {
+                chunks.insert(chunk, atIndex: i+offset)
+                offset += 1
+                shiftChunks(&chunks[i+offset..<chunks.count], offset: duration(chunk))
+            }
+        }
     }
 
     func sequenceFromChunk(chunk: Chunk) -> MusicSequence {
