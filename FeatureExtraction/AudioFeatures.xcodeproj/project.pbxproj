@@ -25,6 +25,10 @@
 		610E2A8A1C500C78006B6016 /* FeatureDatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E2A881C500C78006B6016 /* FeatureDatabaseTests.swift */; };
 		610E2AE41C52C8D2006B6016 /* NoiseSequenceBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E2AE31C52C8D2006B6016 /* NoiseSequenceBuilder.swift */; };
 		611756A21C407B930025446F /* NoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610AAB661BD99737008CC910 /* NoteTests.swift */; };
+		612131CF1CADCCAD00299E03 /* DecayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612131CB1CADC8E800299E03 /* DecayModel.swift */; };
+		612131D01CADCCAD00299E03 /* DecayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612131CB1CADC8E800299E03 /* DecayModel.swift */; };
+		612131D11CADCCB700299E03 /* note_curves.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 612131CC1CADC8E800299E03 /* note_curves.h5 */; };
+		612131D31CADCCD600299E03 /* note_curves.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 612131CC1CADC8E800299E03 /* note_curves.h5 */; };
 		6126D7171BE976D9007F8BE4 /* PeakHeightsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6126D7161BE976D9007F8BE4 /* PeakHeightsViewController.swift */; };
 		612CE8CE1CAB0B2800C260EC /* NeuralNet.h in Headers */ = {isa = PBXBuildFile; fileRef = 612CE8CD1CAB0B2800C260EC /* NeuralNet.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		612CE8D51CAB0B2800C260EC /* NeuralNet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 612CE8CB1CAB0B2800C260EC /* NeuralNet.framework */; };
@@ -58,7 +62,6 @@
 		6156937B1BE82C5A0094E204 /* FileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6156937A1BE82C5A0094E204 /* FileViewController.swift */; };
 		615693891BE82F6A0094E204 /* FeaturesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615693881BE82F6A0094E204 /* FeaturesViewController.swift */; };
 		6156938B1BE83D4C0094E204 /* SpectrumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6156938A1BE83D4C0094E204 /* SpectrumViewController.swift */; };
-		616AE4741C728F6900FA6F99 /* DecayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616AE4731C728F6900FA6F99 /* DecayModel.swift */; };
 		616AE4841C73AC0900FA6F99 /* LayerItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616AE4831C73AC0900FA6F99 /* LayerItem.swift */; };
 		616AE4861C73AC3900FA6F99 /* OutputItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616AE4851C73AC3900FA6F99 /* OutputItem.swift */; };
 		616AE4881C73AC6D00FA6F99 /* LabelsItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616AE4871C73AC6D00FA6F99 /* LabelsItem.swift */; };
@@ -85,7 +88,6 @@
 		61AD3A631BEBDD5500FA2DB7 /* FeatureDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AD3A621BEBDD5500FA2DB7 /* FeatureDatabase.swift */; };
 		61B51C001C9C5E8A00644BB5 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B51BFF1C9C5E8A00644BB5 /* main.swift */; };
 		61B51C201C9C6E8100644BB5 /* PolySequenceBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9700EE1BE12C00002A81A3 /* PolySequenceBuilder.swift */; };
-		61B51C211C9C6EBE00644BB5 /* DecayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 616AE4731C728F6900FA6F99 /* DecayModel.swift */; };
 		61B51C221C9C6EC200644BB5 /* String+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479F1BBF2FA000A98419 /* String+Paths.swift */; };
 		61B51C261C9C7E8700644BB5 /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */; };
 		61B51C271C9C7E8700644BB5 /* BrainCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C7A1BF2784E000E0D34 /* BrainCore.framework */; };
@@ -657,6 +659,8 @@
 		610E2A881C500C78006B6016 /* FeatureDatabaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureDatabaseTests.swift; sourceTree = "<group>"; };
 		610E2AE31C52C8D2006B6016 /* NoiseSequenceBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoiseSequenceBuilder.swift; sourceTree = "<group>"; };
 		6117569E1C407B650025446F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
+		612131CB1CADC8E800299E03 /* DecayModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecayModel.swift; sourceTree = "<group>"; };
+		612131CC1CADC8E800299E03 /* note_curves.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = note_curves.h5; sourceTree = "<group>"; };
 		6126D7161BE976D9007F8BE4 /* PeakHeightsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakHeightsViewController.swift; sourceTree = "<group>"; };
 		612CE8CB1CAB0B2800C260EC /* NeuralNet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NeuralNet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		612CE8CD1CAB0B2800C260EC /* NeuralNet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NeuralNet.h; sourceTree = "<group>"; };
@@ -673,7 +677,6 @@
 		6156937A1BE82C5A0094E204 /* FileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileViewController.swift; sourceTree = "<group>"; };
 		615693881BE82F6A0094E204 /* FeaturesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturesViewController.swift; sourceTree = "<group>"; };
 		6156938A1BE83D4C0094E204 /* SpectrumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpectrumViewController.swift; sourceTree = "<group>"; };
-		616AE4731C728F6900FA6F99 /* DecayModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecayModel.swift; sourceTree = "<group>"; };
 		616AE4831C73AC0900FA6F99 /* LayerItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LayerItem.swift; sourceTree = "<group>"; };
 		616AE4851C73AC3900FA6F99 /* OutputItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OutputItem.swift; sourceTree = "<group>"; };
 		616AE4871C73AC6D00FA6F99 /* LabelsItem.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LabelsItem.swift; sourceTree = "<group>"; };
@@ -1076,8 +1079,10 @@
 		8C7845711BB9B06600C88426 /* FeatureExtraction */ = {
 			isa = PBXGroup;
 			children = (
+				612131CC1CADC8E800299E03 /* note_curves.h5 */,
 				8C7845741BB9B06600C88426 /* Info.plist */,
 				61C3CFEE1C7F7F5B002A9C90 /* Configuration.swift */,
+				612131CB1CADC8E800299E03 /* DecayModel.swift */,
 				6141B1D31C6E5B200074BD8C /* Event.swift */,
 				610E29B41C4D7847006B6016 /* Feature.swift */,
 				8C56779C1BE9731E0009ED31 /* FeatureBuilder.swift */,
@@ -1114,7 +1119,6 @@
 				8CDE47921BBF117C00A98419 /* MonoSequenceBuilder.swift */,
 				8C9700EE1BE12C00002A81A3 /* PolySequenceBuilder.swift */,
 				8CDE479F1BBF2FA000A98419 /* String+Paths.swift */,
-				616AE4731C728F6900FA6F99 /* DecayModel.swift */,
 			);
 			path = CompileFeatures;
 			sourceTree = "<group>";
@@ -1670,6 +1674,14 @@
 /* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
+		612131D21CADCCD100299E03 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				612131D31CADCCD600299E03 /* note_curves.h5 in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		612CE8C91CAB0B2800C260EC /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -1705,6 +1717,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				612131D11CADCCB700299E03 /* note_curves.h5 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1778,7 +1791,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				61B51C211C9C6EBE00644BB5 /* DecayModel.swift in Sources */,
 				61B51C201C9C6E8100644BB5 /* PolySequenceBuilder.swift in Sources */,
 				61B51C001C9C5E8A00644BB5 /* main.swift in Sources */,
 				61B51C221C9C6EC200644BB5 /* String+Paths.swift in Sources */,
@@ -1791,6 +1803,7 @@
 			files = (
 				610E29BA1C4D78B6006B6016 /* FeatureGenerator.swift in Sources */,
 				61BBC3D01C407905006C6DF0 /* FeatureDatabase.swift in Sources */,
+				612131D01CADCCAD00299E03 /* DecayModel.swift in Sources */,
 				610E29BF1C4D78B6006B6016 /* SpectrumFeatureGenerator.swift in Sources */,
 				61C3CFF01C7F7F5B002A9C90 /* Configuration.swift in Sources */,
 				610E29BC1C4D78B6006B6016 /* PeakHeightsFeatureGenerator.swift in Sources */,
@@ -1853,6 +1866,7 @@
 			files = (
 				8C56779E1BE976140009ED31 /* FeatureBuilder.swift in Sources */,
 				61AD3A631BEBDD5500FA2DB7 /* FeatureDatabase.swift in Sources */,
+				612131CF1CADCCAD00299E03 /* DecayModel.swift in Sources */,
 				610AAB851BDABEFA008CC910 /* Point.swift in Sources */,
 				61C3CFEF1C7F7F5B002A9C90 /* Configuration.swift in Sources */,
 				61A146071C4D75B60063FE84 /* FeatureGenerator.swift in Sources */,
@@ -1882,7 +1896,6 @@
 				8CDE47A01BBF2FA000A98419 /* String+Paths.swift in Sources */,
 				8CDE47961BBF117C00A98419 /* MonoSequenceBuilder.swift in Sources */,
 				8CDE479C1BBF11A000A98419 /* main.swift in Sources */,
-				616AE4741C728F6900FA6F99 /* DecayModel.swift in Sources */,
 				8C9700EF1BE12C00002A81A3 /* PolySequenceBuilder.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -1,9 +1,8 @@
 //  Copyright © 2016 Venture Media. All rights reserved.
 
-import FeatureExtraction
 import HDF5Kit
 
-class DecayModel {
+public class DecayModel {
     let representableNoteRange: Range<Int>
     let parameterCount = 4
     let file: File
@@ -11,10 +10,12 @@ class DecayModel {
     let parameters: [Float]
     let sums: [Float]
 
-    init(representableNoteRange: Range<Int>) {
+    public init(representableNoteRange: Range<Int>) {
         self.representableNoteRange = representableNoteRange
-        guard let file = File.open("note_curves.h5", mode: .ReadOnly) else {
-            fatalError("Note curve parameters file 'note_curves.h5' not found.")
+
+        let path = NSBundle(forClass: self.dynamicType).pathForResource("note_curves", ofType: "h5")!
+        guard let file = File.open(path, mode: .ReadOnly) else {
+            fatalError("Note curve parameters file not found.")
         }
         self.file = file
 
@@ -28,7 +29,7 @@ class DecayModel {
         precondition(sums.count == representableNoteRange.count * 4)
     }
 
-    func decayValueForNote(note: Note, atOffset offset: Int) -> Float {
+    public func decayValueForNote(note: Note, atOffset offset: Int) -> Float {
         if offset < 0 || offset > 44100 {
             return 0
         }
@@ -42,7 +43,7 @@ class DecayModel {
         return a * exp(b * b * c) + d
     }
 
-    func normalizationForNote(note: Note, windowSize: Int) -> Float {
+    public func normalizationForNote(note: Note, windowSize: Int) -> Float {
         let index = note.midiNoteNumber - representableNoteRange.startIndex
         switch windowSize {
         case 8192: return sums[index + 3 * representableNoteRange.count]
