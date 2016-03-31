@@ -5,13 +5,13 @@ import AudioToolbox
 
 
 class MIDIMixer {
-    let minChunkSize = 3
-    let maxChunkSize = 20
-    let maxDelay = 0.07
+    let minChunkSize = 5
+    let maxChunkSize = 18
+    let maxDelay = 0.3
     let maxMistake = 4
 
     let duplicationProbability = 0.2
-    let mistakeProbability = 0.1
+    let mistakeProbability = 0.25
 
     let mistakeBuffer: Float = 0.05
 
@@ -76,7 +76,7 @@ class MIDIMixer {
     func addDelays(inout chunks: [Chunk]) {
         var offset = 0.0
         applyToChords(&chunks){ chord in
-            let delay = random(min: -self.maxDelay, max: self.maxDelay+1)
+            let delay = random(min: -self.maxDelay, max: self.maxDelay)
             for i in 0..<chord.count {
                 chord[i].timeStamp = max(chord[i].timeStamp + offset + delay, 0)
             }
