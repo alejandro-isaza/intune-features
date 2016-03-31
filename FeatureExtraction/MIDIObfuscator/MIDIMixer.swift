@@ -8,9 +8,12 @@ class MIDIMixer {
     let minChunkSize = 3
     let maxChunkSize = 20
     let maxDelay = 0.07
+    let maxMistake = 4
 
     let duplicationProbability = 0.2
+    let mistakeProbability = 0.1
 
+    let mistakeBuffer: Float = 0.05
 
 
     var inputFile: MIDIFile
@@ -23,6 +26,7 @@ class MIDIMixer {
         var inputEvents = inputFile.noteEvents
         var chunks = splitChunks(&inputEvents)
         duplicateChunks(&chunks)
+        addMistakes(&chunks)
         addDelays(&chunks)
 
         var sequence = sequenceFromChunk(chunks.flatMap({ $0 }))
@@ -77,6 +81,25 @@ class MIDIMixer {
                 chord[i].timeStamp = max(chord[i].timeStamp + offset + delay, 0)
             }
             offset += delay
+        }
+    }
+
+    func addMistakes(inout chunks: [Chunk]) {
+        for i in 0..<chunks.count-1 {
+            if random(probability: mistakeProbability) {
+                var nextChord = chunks[i+1][0]
+                var offset: Float = 0.0
+                for j in 0..<nextChord.count {
+                    print("mistake at \(nextChord[j].note)")
+                    let mistake = random(min: 1, max: maxMistake+1)
+                    let sign = random(probability: 0.5) ? 1 : -1
+                    nextChord[j].note = UInt8(Int(nextChord[j].note) + sign * mistake)
+                    offset = max(offset, nextChord[j].duration + mistakeBuffer)
+                }
+
+                chunks[i].append(nextChord)
+                shiftChunks(&chunks[i+1..<chunks.count], offset: Double(offset))
+            }
         }
     }
 
