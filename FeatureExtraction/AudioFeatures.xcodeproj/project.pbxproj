@@ -146,7 +146,6 @@
 		8CDE47A01BBF2FA000A98419 /* String+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479F1BBF2FA000A98419 /* String+Paths.swift */; };
 		8CDF506A1CAAFEA40015C447 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDF50691CAAFEA40015C447 /* main.swift */; };
 		8CDF506E1CAAFED90015C447 /* Peak.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C961BF2784E000E0D34 /* Peak.framework */; };
-		8CDF50731CAB06940015C447 /* CommandLine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6188C7D71C066D50001A7EAA /* CommandLine.framework */; };
 		8CDF50751CAB07960015C447 /* MIDIMixer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDF50741CAB07960015C447 /* MIDIMixer.swift */; };
 		8CDF50771CAB0B250015C447 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDF50761CAB0B250015C447 /* AudioToolbox.framework */; };
 		8CDF50951CAB164C0015C447 /* Chunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDF50941CAB164C0015C447 /* Chunk.swift */; };
@@ -651,13 +650,6 @@
 			remoteGlobalIDString = 0045498C1BD052B100AC387F;
 			remoteInfo = PeakOSX;
 		};
-		8CDF50711CAB06900015C447 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6188C7D11C066D4F001A7EAA /* CommandLine.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 5D06884219674D7D00BBFAAC;
-			remoteInfo = CommandLine;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -946,7 +938,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8CDF50771CAB0B250015C447 /* AudioToolbox.framework in Frameworks */,
-				8CDF50731CAB06940015C447 /* CommandLine.framework in Frameworks */,
 				8CDF506E1CAAFED90015C447 /* Peak.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1251,8 +1242,7 @@
 				8CDF50961CAB16530015C447 /* Random.swift */,
 				8CDF50741CAB07960015C447 /* MIDIMixer.swift */,
 			);
-			name = MIDIMixer;
-			path = MIDIObfuscator;
+			path = MIDIMixer;
 			sourceTree = "<group>";
 		};
 		B5F7CD465AC17DFE1FC7BC55 /* Frameworks */ = {
@@ -1592,7 +1582,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				8CDF50721CAB06900015C447 /* PBXTargetDependency */,
 				8CDF50701CAAFEE30015C447 /* PBXTargetDependency */,
 			);
 			name = MIDIMixer;
@@ -2395,11 +2384,6 @@
 			isa = PBXTargetDependency;
 			name = PeakOSX;
 			targetProxy = 8CDF506F1CAAFEE30015C447 /* PBXContainerItemProxy */;
-		};
-		8CDF50721CAB06900015C447 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = CommandLine;
-			targetProxy = 8CDF50711CAB06900015C447 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
