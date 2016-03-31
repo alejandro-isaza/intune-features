@@ -144,6 +144,13 @@
 		8CDE47981BBF117C00A98419 /* FeatureCompiler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE47941BBF117C00A98419 /* FeatureCompiler.swift */; };
 		8CDE479C1BBF11A000A98419 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479B1BBF11A000A98419 /* main.swift */; };
 		8CDE47A01BBF2FA000A98419 /* String+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479F1BBF2FA000A98419 /* String+Paths.swift */; };
+		8CDF506A1CAAFEA40015C447 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDF50691CAAFEA40015C447 /* main.swift */; };
+		8CDF506E1CAAFED90015C447 /* Peak.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C961BF2784E000E0D34 /* Peak.framework */; };
+		8CDF50731CAB06940015C447 /* CommandLine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6188C7D71C066D50001A7EAA /* CommandLine.framework */; };
+		8CDF50751CAB07960015C447 /* MIDIMixer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDF50741CAB07960015C447 /* MIDIMixer.swift */; };
+		8CDF50771CAB0B250015C447 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDF50761CAB0B250015C447 /* AudioToolbox.framework */; };
+		8CDF50951CAB164C0015C447 /* Chunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDF50941CAB164C0015C447 /* Chunk.swift */; };
+		8CDF50971CAB16530015C447 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDF50961CAB16530015C447 /* Random.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -637,6 +644,20 @@
 			remoteGlobalIDString = 5D06884219674D7D00BBFAAC;
 			remoteInfo = CommandLine;
 		};
+		8CDF506F1CAAFEE30015C447 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61CE4C661BF2784D000E0D34 /* Peak.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0045498C1BD052B100AC387F;
+			remoteInfo = PeakOSX;
+		};
+		8CDF50711CAB06900015C447 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6188C7D11C066D4F001A7EAA /* CommandLine.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 5D06884219674D7D00BBFAAC;
+			remoteInfo = CommandLine;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -658,6 +679,15 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		61B51BFB1C9C5E8900644BB5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		8CDF50651CAAFEA40015C447 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -778,6 +808,12 @@
 		8CDE479F1BBF2FA000A98419 /* String+Paths.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Paths.swift"; sourceTree = "<group>"; };
 		8CDE47FB1BBF3A6000A98419 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		8CDE47FD1BBF3A8400A98419 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		8CDF50671CAAFEA40015C447 /* MIDIMixer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MIDIMixer; sourceTree = BUILT_PRODUCTS_DIR; };
+		8CDF50691CAAFEA40015C447 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		8CDF50741CAB07960015C447 /* MIDIMixer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIMixer.swift; sourceTree = "<group>"; };
+		8CDF50761CAB0B250015C447 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		8CDF50941CAB164C0015C447 /* Chunk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chunk.swift; sourceTree = "<group>"; };
+		8CDF50961CAB16530015C447 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
 		974BAC90745AC6F802C9D445 /* Pods_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3C00C05497A6CBB3AB74FF6 /* Pods_OSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -902,6 +938,16 @@
 				8C94D98E1C3C3BBA005B7BEF /* HDF5Kit.framework in Frameworks */,
 				8C94D98F1C3C3BBA005B7BEF /* Upsurge.framework in Frameworks */,
 				8C94D98A1C3C3B58005B7BEF /* CommandLine.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8CDF50641CAAFEA40015C447 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8CDF50771CAB0B250015C447 /* AudioToolbox.framework in Frameworks */,
+				8CDF50731CAB06940015C447 /* CommandLine.framework in Frameworks */,
+				8CDF506E1CAAFED90015C447 /* Peak.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1123,6 +1169,7 @@
 				612CE8DA1CAB0B2800C260EC /* NeuralNetTests */,
 				61466E881CAB2AA1001338C1 /* Tracker */,
 				61466E941CAB2AA1001338C1 /* TrackerTests */,
+				8CDF50681CAAFEA40015C447 /* MIDIMixer */,
 				8C7845701BB9B06600C88426 /* Products */,
 				B5F7CD465AC17DFE1FC7BC55 /* Frameworks */,
 			);
@@ -1144,6 +1191,7 @@
 				612CE8D41CAB0B2800C260EC /* NeuralNetTests.xctest */,
 				61466E871CAB2AA1001338C1 /* Tracker.framework */,
 				61466E901CAB2AA1001338C1 /* TrackerTests.xctest */,
+				8CDF50671CAAFEA40015C447 /* MIDIMixer */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1195,9 +1243,22 @@
 			path = CompileFeatures;
 			sourceTree = "<group>";
 		};
+		8CDF50681CAAFEA40015C447 /* MIDIMixer */ = {
+			isa = PBXGroup;
+			children = (
+				8CDF50691CAAFEA40015C447 /* main.swift */,
+				8CDF50941CAB164C0015C447 /* Chunk.swift */,
+				8CDF50961CAB16530015C447 /* Random.swift */,
+				8CDF50741CAB07960015C447 /* MIDIMixer.swift */,
+			);
+			name = MIDIMixer;
+			path = MIDIObfuscator;
+			sourceTree = "<group>";
+		};
 		B5F7CD465AC17DFE1FC7BC55 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8CDF50761CAB0B250015C447 /* AudioToolbox.framework */,
 				6117569E1C407B650025446F /* Accelerate.framework */,
 				61BBC3E01C407A4A006C6DF0 /* HDF5Kit.framework */,
 				61BBC3E11C407A4A006C6DF0 /* Peak.framework */,
@@ -1520,6 +1581,25 @@
 			productReference = 8CDE478A1BBF116900A98419 /* CompileFeatures */;
 			productType = "com.apple.product-type.tool";
 		};
+		8CDF50661CAAFEA40015C447 /* MIDIMixer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8CDF506B1CAAFEA40015C447 /* Build configuration list for PBXNativeTarget "MIDIMixer" */;
+			buildPhases = (
+				8CDF50631CAAFEA40015C447 /* Sources */,
+				8CDF50641CAAFEA40015C447 /* Frameworks */,
+				8CDF50651CAAFEA40015C447 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8CDF50721CAB06900015C447 /* PBXTargetDependency */,
+				8CDF50701CAAFEE30015C447 /* PBXTargetDependency */,
+			);
+			name = MIDIMixer;
+			productName = MIDIObfuscator;
+			productReference = 8CDF50671CAAFEA40015C447 /* MIDIMixer */;
+			productType = "com.apple.product-type.tool";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -1569,6 +1649,9 @@
 					};
 					8CDE47891BBF116900A98419 = {
 						CreatedOnToolsVersion = 7.0.1;
+					};
+					8CDF50661CAAFEA40015C447 = {
+						CreatedOnToolsVersion = 7.3;
 					};
 				};
 			};
@@ -1624,6 +1707,7 @@
 				612CE8D31CAB0B2800C260EC /* NeuralNetTests */,
 				61466E861CAB2AA1001338C1 /* Tracker */,
 				61466E8F1CAB2AA1001338C1 /* TrackerTests */,
+				8CDF50661CAAFEA40015C447 /* MIDIMixer */,
 			);
 		};
 /* End PBXProject section */
@@ -2059,6 +2143,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8CDF50631CAAFEA40015C447 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8CDF50971CAB16530015C447 /* Random.swift in Sources */,
+				8CDF50751CAB07960015C447 /* MIDIMixer.swift in Sources */,
+				8CDF506A1CAAFEA40015C447 /* main.swift in Sources */,
+				8CDF50951CAB164C0015C447 /* Chunk.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -2295,6 +2390,16 @@
 			isa = PBXTargetDependency;
 			name = CommandLine;
 			targetProxy = 8C94D98B1C3C3B5D005B7BEF /* PBXContainerItemProxy */;
+		};
+		8CDF50701CAAFEE30015C447 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PeakOSX;
+			targetProxy = 8CDF506F1CAAFEE30015C447 /* PBXContainerItemProxy */;
+		};
+		8CDF50721CAB06900015C447 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = CommandLine;
+			targetProxy = 8CDF50711CAB06900015C447 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2803,6 +2908,26 @@
 			};
 			name = Release;
 		};
+		8CDF506C1CAAFEA40015C447 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "-";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		8CDF506D1CAAFEA40015C447 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "-";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2928,6 +3053,15 @@
 			buildConfigurations = (
 				8CDE478E1BBF116900A98419 /* Debug */,
 				8CDE478F1BBF116900A98419 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8CDF506B1CAAFEA40015C447 /* Build configuration list for PBXNativeTarget "MIDIMixer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8CDF506C1CAAFEA40015C447 /* Debug */,
+				8CDF506D1CAAFEA40015C447 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
