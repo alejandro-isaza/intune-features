@@ -129,6 +129,10 @@
 		8C25274E1C066BB20038A73F /* ValidateFeatures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C25274D1C066BB20038A73F /* ValidateFeatures.swift */; };
 		8C56779E1BE976140009ED31 /* FeatureBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C56779C1BE9731E0009ED31 /* FeatureBuilder.swift */; };
 		8C64869D1C86490300CE400E /* PeakHeightsFluxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C64869A1C86490300CE400E /* PeakHeightsFluxViewController.swift */; };
+		8C7566AF1CADBEED00CA82EB /* MIDIMixerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C7566AE1CADBEED00CA82EB /* MIDIMixerTests.swift */; };
+		8C7566B41CADBEFC00CA82EB /* Chunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDF50941CAB164C0015C447 /* Chunk.swift */; };
+		8C7566B51CADBEFC00CA82EB /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDF50961CAB16530015C447 /* Random.swift */; };
+		8C7566B61CADBEFC00CA82EB /* MIDIMixer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDF50741CAB07960015C447 /* MIDIMixer.swift */; };
 		8C75C2431C8A5C7400AEDD3F /* FFTViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C75C2421C8A5C7400AEDD3F /* FFTViewController.swift */; };
 		8C7845731BB9B06600C88426 /* FeatureExtraction.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C7845721BB9B06600C88426 /* FeatureExtraction.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8C94D98A1C3C3B58005B7BEF /* CommandLine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6188C7D71C066D50001A7EAA /* CommandLine.framework */; };
@@ -144,6 +148,12 @@
 		8CDE47981BBF117C00A98419 /* FeatureCompiler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE47941BBF117C00A98419 /* FeatureCompiler.swift */; };
 		8CDE479C1BBF11A000A98419 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479B1BBF11A000A98419 /* main.swift */; };
 		8CDE47A01BBF2FA000A98419 /* String+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479F1BBF2FA000A98419 /* String+Paths.swift */; };
+		8CDF506A1CAAFEA40015C447 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDF50691CAAFEA40015C447 /* main.swift */; };
+		8CDF506E1CAAFED90015C447 /* Peak.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C961BF2784E000E0D34 /* Peak.framework */; };
+		8CDF50751CAB07960015C447 /* MIDIMixer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDF50741CAB07960015C447 /* MIDIMixer.swift */; };
+		8CDF50771CAB0B250015C447 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDF50761CAB0B250015C447 /* AudioToolbox.framework */; };
+		8CDF50951CAB164C0015C447 /* Chunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDF50941CAB164C0015C447 /* Chunk.swift */; };
+		8CDF50971CAB16530015C447 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDF50961CAB16530015C447 /* Random.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -637,6 +647,13 @@
 			remoteGlobalIDString = 5D06884219674D7D00BBFAAC;
 			remoteInfo = CommandLine;
 		};
+		8CDF506F1CAAFEE30015C447 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61CE4C661BF2784D000E0D34 /* Peak.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0045498C1BD052B100AC387F;
+			remoteInfo = PeakOSX;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -658,6 +675,15 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 		61B51BFB1C9C5E8900644BB5 /* CopyFiles */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = /usr/share/man/man1/;
+			dstSubfolderSpec = 0;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+		};
+		8CDF50651CAAFEA40015C447 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
 			buildActionMask = 2147483647;
 			dstPath = /usr/share/man/man1/;
@@ -764,6 +790,9 @@
 		8C25274D1C066BB20038A73F /* ValidateFeatures.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ValidateFeatures.swift; sourceTree = "<group>"; };
 		8C56779C1BE9731E0009ED31 /* FeatureBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureBuilder.swift; sourceTree = "<group>"; };
 		8C64869A1C86490300CE400E /* PeakHeightsFluxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakHeightsFluxViewController.swift; sourceTree = "<group>"; };
+		8C7566AC1CADBEED00CA82EB /* MIDIMixerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MIDIMixerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		8C7566AE1CADBEED00CA82EB /* MIDIMixerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MIDIMixerTests.swift; sourceTree = "<group>"; };
+		8C7566B01CADBEED00CA82EB /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8C75C2421C8A5C7400AEDD3F /* FFTViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FFTViewController.swift; sourceTree = "<group>"; };
 		8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureExtraction.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C7845721BB9B06600C88426 /* FeatureExtraction.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = FeatureExtraction.h; sourceTree = "<group>"; };
@@ -778,6 +807,12 @@
 		8CDE479F1BBF2FA000A98419 /* String+Paths.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "String+Paths.swift"; sourceTree = "<group>"; };
 		8CDE47FB1BBF3A6000A98419 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		8CDE47FD1BBF3A8400A98419 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		8CDF50671CAAFEA40015C447 /* MIDIMixer */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = MIDIMixer; sourceTree = BUILT_PRODUCTS_DIR; };
+		8CDF50691CAAFEA40015C447 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		8CDF50741CAB07960015C447 /* MIDIMixer.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MIDIMixer.swift; sourceTree = "<group>"; };
+		8CDF50761CAB0B250015C447 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
+		8CDF50941CAB164C0015C447 /* Chunk.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Chunk.swift; sourceTree = "<group>"; };
+		8CDF50961CAB16530015C447 /* Random.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Random.swift; sourceTree = "<group>"; };
 		974BAC90745AC6F802C9D445 /* Pods_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		D3C00C05497A6CBB3AB74FF6 /* Pods_OSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
@@ -884,6 +919,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8C7566A91CADBEED00CA82EB /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8C78456B1BB9B06600C88426 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -902,6 +944,15 @@
 				8C94D98E1C3C3BBA005B7BEF /* HDF5Kit.framework in Frameworks */,
 				8C94D98F1C3C3BBA005B7BEF /* Upsurge.framework in Frameworks */,
 				8C94D98A1C3C3B58005B7BEF /* CommandLine.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8CDF50641CAAFEA40015C447 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8CDF50771CAB0B250015C447 /* AudioToolbox.framework in Frameworks */,
+				8CDF506E1CAAFED90015C447 /* Peak.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1107,6 +1158,15 @@
 			path = ValidateFeatures;
 			sourceTree = "<group>";
 		};
+		8C7566AD1CADBEED00CA82EB /* MIDIMixerTests */ = {
+			isa = PBXGroup;
+			children = (
+				8C7566AE1CADBEED00CA82EB /* MIDIMixerTests.swift */,
+				8C7566B01CADBEED00CA82EB /* Info.plist */,
+			);
+			path = MIDIMixerTests;
+			sourceTree = "<group>";
+		};
 		8C7845651BB9B06600C88426 = {
 			isa = PBXGroup;
 			children = (
@@ -1123,6 +1183,8 @@
 				612CE8DA1CAB0B2800C260EC /* NeuralNetTests */,
 				61466E881CAB2AA1001338C1 /* Tracker */,
 				61466E941CAB2AA1001338C1 /* TrackerTests */,
+				8CDF50681CAAFEA40015C447 /* MIDIMixer */,
+				8C7566AD1CADBEED00CA82EB /* MIDIMixerTests */,
 				8C7845701BB9B06600C88426 /* Products */,
 				B5F7CD465AC17DFE1FC7BC55 /* Frameworks */,
 			);
@@ -1144,6 +1206,8 @@
 				612CE8D41CAB0B2800C260EC /* NeuralNetTests.xctest */,
 				61466E871CAB2AA1001338C1 /* Tracker.framework */,
 				61466E901CAB2AA1001338C1 /* TrackerTests.xctest */,
+				8CDF50671CAAFEA40015C447 /* MIDIMixer */,
+				8C7566AC1CADBEED00CA82EB /* MIDIMixerTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -1195,9 +1259,21 @@
 			path = CompileFeatures;
 			sourceTree = "<group>";
 		};
+		8CDF50681CAAFEA40015C447 /* MIDIMixer */ = {
+			isa = PBXGroup;
+			children = (
+				8CDF50691CAAFEA40015C447 /* main.swift */,
+				8CDF50941CAB164C0015C447 /* Chunk.swift */,
+				8CDF50961CAB16530015C447 /* Random.swift */,
+				8CDF50741CAB07960015C447 /* MIDIMixer.swift */,
+			);
+			path = MIDIMixer;
+			sourceTree = "<group>";
+		};
 		B5F7CD465AC17DFE1FC7BC55 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				8CDF50761CAB0B250015C447 /* AudioToolbox.framework */,
 				6117569E1C407B650025446F /* Accelerate.framework */,
 				61BBC3E01C407A4A006C6DF0 /* HDF5Kit.framework */,
 				61BBC3E11C407A4A006C6DF0 /* Peak.framework */,
@@ -1479,6 +1555,23 @@
 			productReference = 8C2527361C064E560038A73F /* ValidateFeatures */;
 			productType = "com.apple.product-type.tool";
 		};
+		8C7566AB1CADBEED00CA82EB /* MIDIMixerTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8C7566B11CADBEED00CA82EB /* Build configuration list for PBXNativeTarget "MIDIMixerTests" */;
+			buildPhases = (
+				8C7566A81CADBEED00CA82EB /* Sources */,
+				8C7566A91CADBEED00CA82EB /* Frameworks */,
+				8C7566AA1CADBEED00CA82EB /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = MIDIMixerTests;
+			productName = MIDIMixerTests;
+			productReference = 8C7566AC1CADBEED00CA82EB /* MIDIMixerTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 		8C78456E1BB9B06600C88426 /* FeatureExtraction-OSX */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8C7845831BB9B06600C88426 /* Build configuration list for PBXNativeTarget "FeatureExtraction-OSX" */;
@@ -1518,6 +1611,24 @@
 			name = CompileFeatures;
 			productName = CompileFeatures;
 			productReference = 8CDE478A1BBF116900A98419 /* CompileFeatures */;
+			productType = "com.apple.product-type.tool";
+		};
+		8CDF50661CAAFEA40015C447 /* MIDIMixer */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8CDF506B1CAAFEA40015C447 /* Build configuration list for PBXNativeTarget "MIDIMixer" */;
+			buildPhases = (
+				8CDF50631CAAFEA40015C447 /* Sources */,
+				8CDF50641CAAFEA40015C447 /* Frameworks */,
+				8CDF50651CAAFEA40015C447 /* CopyFiles */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				8CDF50701CAAFEE30015C447 /* PBXTargetDependency */,
+			);
+			name = MIDIMixer;
+			productName = MIDIObfuscator;
+			productReference = 8CDF50671CAAFEA40015C447 /* MIDIMixer */;
 			productType = "com.apple.product-type.tool";
 		};
 /* End PBXNativeTarget section */
@@ -1564,11 +1675,17 @@
 					8C2527351C064E560038A73F = {
 						CreatedOnToolsVersion = 7.1.1;
 					};
+					8C7566AB1CADBEED00CA82EB = {
+						CreatedOnToolsVersion = 7.3;
+					};
 					8C78456E1BB9B06600C88426 = {
 						CreatedOnToolsVersion = 7.0;
 					};
 					8CDE47891BBF116900A98419 = {
 						CreatedOnToolsVersion = 7.0.1;
+					};
+					8CDF50661CAAFEA40015C447 = {
+						CreatedOnToolsVersion = 7.3;
 					};
 				};
 			};
@@ -1624,6 +1741,8 @@
 				612CE8D31CAB0B2800C260EC /* NeuralNetTests */,
 				61466E861CAB2AA1001338C1 /* Tracker */,
 				61466E8F1CAB2AA1001338C1 /* TrackerTests */,
+				8CDF50661CAAFEA40015C447 /* MIDIMixer */,
+				8C7566AB1CADBEED00CA82EB /* MIDIMixerTests */,
 			);
 		};
 /* End PBXProject section */
@@ -1880,6 +1999,13 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8C7566AA1CADBEED00CA82EB /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -2019,6 +2145,17 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		8C7566A81CADBEED00CA82EB /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8C7566AF1CADBEED00CA82EB /* MIDIMixerTests.swift in Sources */,
+				8C7566B41CADBEFC00CA82EB /* Chunk.swift in Sources */,
+				8C7566B61CADBEFC00CA82EB /* MIDIMixer.swift in Sources */,
+				8C7566B51CADBEFC00CA82EB /* Random.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8C78456A1BB9B06600C88426 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2056,6 +2193,17 @@
 				8CDE47961BBF117C00A98419 /* MonoSequenceBuilder.swift in Sources */,
 				8CDE479C1BBF11A000A98419 /* main.swift in Sources */,
 				8C9700EF1BE12C00002A81A3 /* PolySequenceBuilder.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		8CDF50631CAAFEA40015C447 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				8CDF50971CAB16530015C447 /* Random.swift in Sources */,
+				8CDF50751CAB07960015C447 /* MIDIMixer.swift in Sources */,
+				8CDF506A1CAAFEA40015C447 /* main.swift in Sources */,
+				8CDF50951CAB164C0015C447 /* Chunk.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2295,6 +2443,11 @@
 			isa = PBXTargetDependency;
 			name = CommandLine;
 			targetProxy = 8C94D98B1C3C3B5D005B7BEF /* PBXContainerItemProxy */;
+		};
+		8CDF50701CAAFEE30015C447 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PeakOSX;
+			targetProxy = 8CDF506F1CAAFEE30015C447 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -2656,6 +2809,34 @@
 			};
 			name = Release;
 		};
+		8C7566B21CADBEED00CA82EB /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = MIDIMixerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = com.venturemedia.MIDIMixerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		8C7566B31CADBEED00CA82EB /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "-";
+				COMBINE_HIDPI_IMAGES = YES;
+				INFOPLIST_FILE = MIDIMixerTests/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_BUNDLE_IDENTIFIER = com.venturemedia.MIDIMixerTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 		8C7845811BB9B06600C88426 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -2803,6 +2984,26 @@
 			};
 			name = Release;
 		};
+		8CDF506C1CAAFEA40015C447 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "-";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Debug;
+		};
+		8CDF506D1CAAFEA40015C447 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CLANG_ANALYZER_NONNULL = YES;
+				CODE_SIGN_IDENTITY = "-";
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -2905,6 +3106,14 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
+		8C7566B11CADBEED00CA82EB /* Build configuration list for PBXNativeTarget "MIDIMixerTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8C7566B21CADBEED00CA82EB /* Debug */,
+				8C7566B31CADBEED00CA82EB /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
 		8C7845691BB9B06600C88426 /* Build configuration list for PBXProject "AudioFeatures" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
@@ -2928,6 +3137,15 @@
 			buildConfigurations = (
 				8CDE478E1BBF116900A98419 /* Debug */,
 				8CDE478F1BBF116900A98419 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8CDF506B1CAAFEA40015C447 /* Build configuration list for PBXNativeTarget "MIDIMixer" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8CDF506C1CAAFEA40015C447 /* Debug */,
+				8CDF506D1CAAFEA40015C447 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
