@@ -19,7 +19,7 @@ class TrackerEval {
     let playbackOnsets: [Onset]
 
     let playbackAudio: String
-    let cursorMappings = [(Int, Int)]()
+    let cursorMappings: [(Int, Int)]
 
     var count = 0
     var time = 0.0
@@ -37,6 +37,7 @@ class TrackerEval {
         playbackOnsets = onsetsFromMIDI(playbackMIDI)
 
         self.playbackAudio = playbackAudioPath
+        self.cursorMappings = cursorMappings
 
         let midi = MIDIFile(filePath: referenceMIDIPath)!
         tracker = Tracker(onsets: onsetsFromMIDI(midi), configuration: configuration)
