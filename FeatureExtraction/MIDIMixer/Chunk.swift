@@ -4,51 +4,80 @@ import Peak
 import AudioToolbox
 
 
-typealias Chunk = [Chord]
-typealias Chord = [MIDINoteEvent]
+struct Chunk: ArrayLiteralConvertible {
+    var chords = [Chord]()
+
+    var duration: Double {
+        var duration = (chords.last?.timestamp ?? 0.0) - (chords.first?.timestamp ?? 0.0)
+        duration += Double(chords.last?.duration ?? 0.0)
+        return duration
+    }
+
+    init(arrayLiteral chords: Chord...) {
+        self.chords = chords
+    }
+
+    init(events: [MIDINoteEvent]) {
+        var indexDictionary = [MusicTimeStamp:Int]()
+
+        var i = 0
+        for event in events {
+            if let index = indexDictionary[event.timeStamp] {
+                chords[index].events.append(event)
+            } else {
+                indexDictionary[event.timeStamp] = chords.count
+                chords.append(Chord(index: i, event: event))
+                i += 1
+            }
+        }
+    }
+
+    mutating func applyToChords(action: (inout Chord) -> Void) {
+        for i in 0..<chords.count {
+            action(&chords[i])
+        }
+    }
+}
+
+struct Chord {
+    var events = [MIDINoteEvent]()
+    var index: Int
+
+    var timestamp: Double? {
+        return events.first?.timeStamp
+    }
+
+    var duration: Double? {
+        var maxDuration = 0.0
+        for event in events {
+            maxDuration = max(maxDuration, Double(event.duration))
+        }
+        return maxDuration
+    }
+
+    init(index: Int, events: MIDINoteEvent...) {
+        self.events = events
+        self.index = index
+    }
+
+    init(index: Int, event: MIDINoteEvent) {
+        self.events = [event]
+        self.index = index
+    }
+}
 
 func shiftChunks(inout chunks: ArraySlice<Chunk>, offset: Double) {
     for i in chunks.startIndex..<chunks.endIndex {
-        for j in 0..<chunks[i].count {
-            for k in 0..<chunks[i][j].count {
-                chunks[i][j][k].timeStamp += Float64(offset)
+        for j in 0..<chunks[i].chords.count {
+            for k in 0..<chunks[i].chords[j].events.count {
+                chunks[i].chords[j].events[k].timeStamp += Float64(offset)
             }
         }
     }
 }
 
-func duration(chunk: Chunk) -> Double {
-    var duration = (chunk.last?.last?.timeStamp ?? 0.0) - (chunk.first?.first?.timeStamp ?? 0.0)
-    duration += Double(chunk.last?.last?.duration ?? 0.0)
-    return duration
-}
-
-func chunkFromEvents(events: [MIDINoteEvent]) -> Chunk {
-    var chunk = Chunk()
-    var indexDictionary = [MusicTimeStamp:Int]()
-
-    for event in events {
-        if let index = indexDictionary[event.timeStamp] {
-            chunk[index].append(event)
-        } else {
-            indexDictionary[event.timeStamp] = chunk.count
-            chunk.append([event])
-        }
-    }
-
-    return chunk
-}
-
-func applyToChords(inout chunk: Chunk, action: (inout Chord) -> Void) {
-    for i in 0..<chunk.count {
-        action(&chunk[i])
-    }
-}
-
 func applyToChords(inout chunks: [Chunk], action: (inout Chord) -> Void) {
     for i in 0..<chunks.count {
-        for j in 0..<chunks[i].count {
-            action(&chunks[i][j])
-        }
+        chunks[i].applyToChords(action)
     }
 }

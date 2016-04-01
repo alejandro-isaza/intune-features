@@ -53,14 +53,15 @@ guard let inputFile = MIDIFile(filePath: inputFilePath) else {
 }
 
 let midiMixer = MIDIMixer(inputFile: inputFile)
-var outputSequence = midiMixer.mix()
+ midiMixer.mix()
+var outputSequence = midiMixer.constructSequence()
 
 guard let outputFile = MIDIFile.create(midiOutputFilePath, sequence: outputSequence) else {
     fatalError("Could not open: \(midiOutputFilePath)")
 }
 
 let url = NSURL.fileURLWithPath(refOutputFilePath)
-let referenceText = midiMixer.referenceChordIndices.reduce("", combine: { "\($0.0)\($0.1)\n" })
+let referenceText = midiMixer.referenceIndices.reduce("", combine: { "\($0.0)\($0.1)\n" })
 do {
     try referenceText.writeToURL(url, atomically: true, encoding: NSUTF8StringEncoding)
 } catch {
