@@ -38,5 +38,5 @@ guard let configuration = Configuration(file: configOpt.value!) else {
     exit(EX_DATAERR)
 }
 
-let networkEval = NetowrkEval(configuration: configuration)
+let networkEval = NetworkEval(configuration: configuration)
 networkEval.run()

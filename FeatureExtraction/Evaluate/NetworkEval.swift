@@ -4,7 +4,7 @@ import FeatureExtraction
 import NeuralNet
 import Upsurge
 
-class NetowrkEval {
+class NetworkEval {
     let configuration: Configuration
 
     init(configuration: Configuration) {
