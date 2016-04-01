@@ -36,7 +36,7 @@ public class Tracker {
     }
 
     /// Update with the output of the neural net
-    func update(onset: Float, notes: ValueArray<Float>) {
+    public func update(onset: Float, notes: ValueArray<Float>) {
         if onset < onsetThreshold {
             return
         }

@@ -144,6 +144,9 @@
 		8CDE47981BBF117C00A98419 /* FeatureCompiler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE47941BBF117C00A98419 /* FeatureCompiler.swift */; };
 		8CDE479C1BBF11A000A98419 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479B1BBF11A000A98419 /* main.swift */; };
 		8CDE47A01BBF2FA000A98419 /* String+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479F1BBF2FA000A98419 /* String+Paths.swift */; };
+		A94555981CAEDFD800E62839 /* NetworkEval.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94555971CAEDFD800E62839 /* NetworkEval.swift */; };
+		A945559A1CAEDFE200E62839 /* TrackerEval.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94555991CAEDFE200E62839 /* TrackerEval.swift */; };
+		A945559D1CAEDFF300E62839 /* Tracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61466E871CAB2AA1001338C1 /* Tracker.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -637,6 +640,27 @@
 			remoteGlobalIDString = 5D06884219674D7D00BBFAAC;
 			remoteInfo = CommandLine;
 		};
+		A94555831CAED97E00E62839 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61CE4C661BF2784D000E0D34 /* Peak.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0045498C1BD052B100AC387F;
+			remoteInfo = PeakOSX;
+		};
+		A94555951CAED98400E62839 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 61CE4C661BF2784D000E0D34 /* Peak.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 005809441BD04F2700B164F6;
+			remoteInfo = PeakiOS;
+		};
+		A945559B1CAEDFEB00E62839 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 8C7845661BB9B06600C88426 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 61466E861CAB2AA1001338C1;
+			remoteInfo = Tracker;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -779,6 +803,8 @@
 		8CDE47FB1BBF3A6000A98419 /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = System/Library/Frameworks/Accelerate.framework; sourceTree = SDKROOT; };
 		8CDE47FD1BBF3A8400A98419 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		974BAC90745AC6F802C9D445 /* Pods_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		A94555971CAEDFD800E62839 /* NetworkEval.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NetworkEval.swift; sourceTree = "<group>"; };
+		A94555991CAEDFE200E62839 /* TrackerEval.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrackerEval.swift; sourceTree = "<group>"; };
 		D3C00C05497A6CBB3AB74FF6 /* Pods_OSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_OSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -832,6 +858,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A945559D1CAEDFF300E62839 /* Tracker.framework in Frameworks */,
 				612CE8F81CAB1C7F00C260EC /* NeuralNet.framework in Frameworks */,
 				61B51C261C9C7E8700644BB5 /* FeatureExtraction.framework in Frameworks */,
 				61B51C271C9C7E8700644BB5 /* BrainCore.framework in Frameworks */,
@@ -1015,6 +1042,8 @@
 			isa = PBXGroup;
 			children = (
 				61B51BFF1C9C5E8A00644BB5 /* main.swift */,
+				A94555971CAEDFD800E62839 /* NetworkEval.swift */,
+				A94555991CAEDFE200E62839 /* TrackerEval.swift */,
 			);
 			path = Evaluate;
 			sourceTree = "<group>";
@@ -1378,6 +1407,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				A945559C1CAEDFEB00E62839 /* PBXTargetDependency */,
 				612CE8F71CAB1C7900C260EC /* PBXTargetDependency */,
 				61B51C151C9C5EA700644BB5 /* PBXTargetDependency */,
 				61B51C171C9C5EA700644BB5 /* PBXTargetDependency */,
@@ -1403,6 +1433,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				A94555961CAED98400E62839 /* PBXTargetDependency */,
 				61CB2E431C62BFBE0041F7FA /* PBXTargetDependency */,
 				61CB2E451C62BFBE0041F7FA /* PBXTargetDependency */,
 			);
@@ -1491,6 +1522,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				A94555841CAED97E00E62839 /* PBXTargetDependency */,
 				61CE4CBA1BF278CC000E0D34 /* PBXTargetDependency */,
 				61CE4CBC1BF278CC000E0D34 /* PBXTargetDependency */,
 			);
@@ -1951,7 +1983,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				61B51C201C9C6E8100644BB5 /* PolySequenceBuilder.swift in Sources */,
+				A945559A1CAEDFE200E62839 /* TrackerEval.swift in Sources */,
 				61B51C001C9C5E8A00644BB5 /* main.swift in Sources */,
+				A94555981CAEDFD800E62839 /* NetworkEval.swift in Sources */,
 				61B51C221C9C6EC200644BB5 /* String+Paths.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2295,6 +2329,21 @@
 			isa = PBXTargetDependency;
 			name = CommandLine;
 			targetProxy = 8C94D98B1C3C3B5D005B7BEF /* PBXContainerItemProxy */;
+		};
+		A94555841CAED97E00E62839 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PeakOSX;
+			targetProxy = A94555831CAED97E00E62839 /* PBXContainerItemProxy */;
+		};
+		A94555961CAED98400E62839 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PeakiOS;
+			targetProxy = A94555951CAED98400E62839 /* PBXContainerItemProxy */;
+		};
+		A945559C1CAEDFEB00E62839 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 61466E861CAB2AA1001338C1 /* Tracker */;
+			targetProxy = A945559B1CAEDFEB00E62839 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
