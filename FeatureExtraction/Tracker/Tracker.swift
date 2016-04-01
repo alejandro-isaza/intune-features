@@ -5,6 +5,7 @@ import Upsurge
 
 public class Tracker {
     let onsetThreshold = Float(0.5)
+    let lookahead = 3
 
     let configuration: Configuration
     let decayModel: DecayModel
@@ -17,6 +18,8 @@ public class Tracker {
 
     /// Current tempo in beats per second
     public var tempo = 1.0
+
+    public var lastOnsetValue: Float = 0.0
 
     public var didMoveCursorAction: (Int -> Void)?
 
@@ -36,28 +39,42 @@ public class Tracker {
     }
 
     /// Update with the output of the neural net
-    func update(onset: Float, notes: ValueArray<Float>) {
-        if onset < onsetThreshold {
+    public func update(onset: Float, notes: ValueArray<Float>) {
+        defer {
+            lastOnsetValue = onset
+        }
+        if lastOnsetValue < 0.5 || onset > 0.5 {
             return
         }
 
-        let blankLabel = ValueArray<Float>(count: configuration.representableNoteRange.count, repeatedValue: 0.0)
-        let blankDistance = distance(blankLabel, notes)
+        var distances = [(Double, Int)]()
 
-        let currentOnset = onsets[index]
-        let currentLabel = labelForOnset(currentOnset)
-        let currentDistance = distance(currentLabel, notes)
+//        let blankLabel = ValueArray<Float>(count: configuration.representableNoteRange.count, repeatedValue: 0.0)
+//        let blankDistance = distance(blankLabel, notes)
+//        distances.append((blankDistance, 0))
 
-        guard index < onsets.count - 1  else {
-            return
+        for i in 0...lookahead {
+            guard index + i < onsets.count  else {
+                break
+            }
+
+            let onset = onsets[index + i]
+            let label = labelForOnset(onset)
+            let d = distance(label, notes) * (i == 0 ? 1.5 : 1.0)
+            distances.append((d, i))
         }
 
-        let nextOnset = onsets[index + 1]
-        let nextLabel = labelForOnset(nextOnset)
-        let nextDistance = distance(nextLabel, notes)
+        var minDistance: Double? = nil
+        var offset = 0
+        for (d, o) in distances {
+            if minDistance == nil || d < minDistance! {
+                minDistance = d
+                offset = o
+            }
+        }
 
-        if nextDistance < currentDistance && nextDistance < blankDistance {
-            index += 1
+        if offset != 0 {
+            index += offset
             didMoveCursorAction?(index)
         }
     }

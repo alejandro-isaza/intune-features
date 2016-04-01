@@ -190,7 +190,7 @@ class FeatureCompiler {
         var labels = [Label]()
         var features = [Feature]()
 
-        exampleBuilder.forEachWindow { window in
+        exampleBuilder.forEachWindow { window, stop in
             labels.append(window.label)
             features.append(window.feature)
         }

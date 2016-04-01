@@ -77,7 +77,7 @@ class PolySequenceBuilder {
         }
     }
 
-    func forEachWindow(@noescape action: (Window) throws -> ()) rethrows {
+    func forEachWindow(@noescape action: (Window, inout stop: Bool) throws -> ()) rethrows {
         var data = ValueArray<Double>(capacity: Int(audioFile.frameCount))
         withPointer(&data) { pointer in
             data.count = audioFile.readFrames(pointer, count: data.capacity) ?? 0
@@ -101,7 +101,11 @@ class PolySequenceBuilder {
 
             precondition(isfinite(window.label.onset))
 
-            try action(window)
+            var stop = false
+            try action(window, stop: &stop)
+            if stop {
+                break
+            }
         }
     }
 
