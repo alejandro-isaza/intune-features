@@ -32,13 +32,8 @@ class MIDIMixer {
 
     init(inputEvents: [MIDINoteEvent]) {
         self.inputEvents = inputEvents
-    }
+        self.chunks = splitChunks()
 
-    func mix() {
-        chunks = splitChunks()
-        duplicateChunks()
-        addMistakes()
-        addDelays()
     }
 
     func splitChunks() -> [Chunk] {

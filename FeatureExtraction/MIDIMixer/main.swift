@@ -17,6 +17,15 @@ cli.addOptions(midiOutputOpt)
 let refOutputOpt = StringOption(shortFlag: "r", longFlag: "ref-output", required: true, helpMessage: "Output path to write chord reference file.")
 cli.addOptions(refOutputOpt)
 
+let noDuplicateOpt = BoolOption(longFlag: "no-duplicate", helpMessage: "Whether to duplicate sections of the input midi")
+cli.addOptions(noDuplicateOpt)
+
+let noMistakeOpt = BoolOption(longFlag: "no-mistake", helpMessage: "Whether to add mistakes to notes from the input midi")
+cli.addOptions(noMistakeOpt)
+
+let noDelayOpt = BoolOption(longFlag: "no-delay", helpMessage: "Whether to add delays to notes from the input midi")
+cli.addOptions(noDelayOpt)
+
 
 
 // Other options
@@ -38,22 +47,27 @@ if helpOpt.value {
 guard let inputFilePath = inputOpt.value else {
     fatalError("No input file supplied via '--input -i'.")
 }
-
 guard let midiOutputFilePath = midiOutputOpt.value else {
     fatalError("No midi output file supplied.")
 }
-
 guard let refOutputFilePath = refOutputOpt.value else {
     fatalError("No chord reference output file supplied.")
 }
-
 
 guard let inputFile = MIDIFile(filePath: inputFilePath) else {
     fatalError("Could not open: \(inputFilePath)")
 }
 
 let midiMixer = MIDIMixer(inputFile: inputFile)
- midiMixer.mix()
+if !noDuplicateOpt.value {
+    midiMixer.duplicateChunks()
+}
+if !noMistakeOpt.value {
+    midiMixer.addMistakes()
+}
+if !noDelayOpt.value {
+    midiMixer.addDelays()
+}
 var outputSequence = midiMixer.constructSequence()
 
 guard let outputFile = MIDIFile.create(midiOutputFilePath, sequence: outputSequence) else {

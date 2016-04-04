@@ -35,7 +35,9 @@ class MIDIMixerTests: XCTestCase {
             fatalError()
         }
 
-        midiMixer.mix()
+        midiMixer.duplicateChunks()
+        midiMixer.addMistakes()
+        midiMixer.addDelays()
         let inputChunk = Chunk(events: midiMixer.inputEvents)
         let mixedChunk = midiMixer.chunks.reduce(Chunk(), combine: { (chunk, otherChunk) in
             var temp = chunk
