@@ -4,11 +4,15 @@ import FeatureExtraction
 import Upsurge
 
 public class Tracker {
-    let onsetThreshold = Float(0.5)
-    let lookahead = 4
-    let weights: [Double] = [1.5, 1.1, 1.6, 1.7, 1.8]
+    public struct Parameters {
+        var onsetTrigger = Float(0.1)
+        var onsetPeakHeight = Float(0.5)
+        var lookahead = 4
+        var weights: [Double] = [1.5, 1.1, 1.6, 1.7, 1.8]
+    }
 
     let configuration: Configuration
+    let parameters: Parameters
     let decayModel: DecayModel
     
     /// List of reference onsets
@@ -21,11 +25,13 @@ public class Tracker {
     public var tempo = 1.0
 
     public var lastOnsetValue: Float = 0.0
+    public var onsetMaxValue: Float = 0.0
 
     public var didMoveCursorAction: (Int -> Void)?
 
-    public init(onsets: [Onset], configuration: Configuration) {
+    public init(onsets: [Onset], configuration: Configuration, parameters: Parameters = Parameters()) {
         self.configuration = configuration
+        self.parameters = parameters
         self.decayModel = DecayModel(representableNoteRange: configuration.representableNoteRange)
         self.onsets = onsets
     }
@@ -41,23 +47,29 @@ public class Tracker {
 
     /// Update with the output of the neural net
     public func update(onset: Float, notes: ValueArray<Float>) {
-        defer {
-            lastOnsetValue = onset
-        }
-        if lastOnsetValue < 0.5 || onset > 0.5 {
-            return
+        if onset >= parameters.onsetPeakHeight {
+            onsetMaxValue = max(onsetMaxValue, onset)
+        } else if onset <= parameters.onsetTrigger {
+            if onsetMaxValue >= parameters.onsetPeakHeight {
+                updateOnOnset(notes)
+            }
+            onsetMaxValue = 0.0
         }
 
+        lastOnsetValue = onset
+    }
+
+    func updateOnOnset(notes: ValueArray<Float>) {
         var distances = [(Double, Int)]()
 
-        for i in 0...lookahead {
+        for i in 0...parameters.lookahead {
             guard index + i < onsets.count  else {
                 break
             }
 
             let onset = onsets[index + i]
             let label = labelForOnset(onset)
-            let d = distance(label, notes) * weights[i]
+            let d = distance(label, notes) * parameters.weights[i]
             distances.append((d, i))
         }
 
@@ -113,5 +125,29 @@ public class Tracker {
             sum += d * d
         }
         return sqrt(sum)
+    }
+}
+
+extension Tracker.Parameters {
+    public static func loadFromFile(file: String) -> Tracker.Parameters {
+        guard let data = NSData(contentsOfFile: file) else {
+            fatalError("File not found \(file)")
+        }
+
+        var params = Tracker.Parameters()
+        let dict = try! NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions()) as! [String: AnyObject]
+
+        if let v = dict["onset_trigger"] as? NSNumber {
+            params.onsetTrigger = v.floatValue
+        }
+        if let v = dict["onset_height"] as? NSNumber {
+            params.onsetPeakHeight = v.floatValue
+        }
+        if let array = dict["weights"] as? [NSNumber] {
+            params.weights = array.map({ $0.doubleValue })
+            params.lookahead = params.weights.count - 1
+        }
+
+        return params
     }
 }

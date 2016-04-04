@@ -68,6 +68,14 @@
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "--params ../AudioData/MixedMIDI/params.json"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--output ../AudioData/MixedMIDI/score.txt"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "--midi ../AudioData/MixedMIDI/0.mid"
             isEnabled = "YES">
          </CommandLineArgument>

@@ -20,12 +20,13 @@ class TrackerEval {
 
     let playbackAudio: String
     let cursorMappings: [Int]
+    let outputFile: String?
 
     var count = 0
     var time = 0.0
     var cursorLocations = [(Double, Int)]()
 
-    init(configuration: Configuration, referenceMIDIPath: String, playbackMIDIPath: String, playbackAudioPath: String, cursorMappings: [Int]) {
+    init(configuration: Configuration, referenceMIDIPath: String, playbackMIDIPath: String, playbackAudioPath: String, cursorMappings: [Int], trackerParametersPath: String?, outputFile: String?) {
         self.configuration = configuration
 
         self.referenceMIDIPath = referenceMIDIPath
@@ -40,9 +41,15 @@ class TrackerEval {
         self.cursorMappings = cursorMappings
 
         self.cursorLocations.append((0.0, 0))
+        self.outputFile = outputFile
 
         let midi = MIDIFile(filePath: referenceMIDIPath)!
-        tracker = Tracker(onsets: onsetsFromMIDI(midi), configuration: configuration)
+        if let file = trackerParametersPath {
+            let params = Tracker.Parameters.loadFromFile(file)
+            tracker = Tracker(onsets: onsetsFromMIDI(midi), configuration: configuration, parameters: params)
+        } else {
+            tracker = Tracker(onsets: onsetsFromMIDI(midi), configuration: configuration)
+        }
         tracker.didMoveCursorAction = { index in
             self.cursorLocations.append((self.time, index))
             print("\(self.time) -> \(index) should be \(self.expectedCursorLocationAtTime(self.time))")
@@ -86,7 +93,11 @@ class TrackerEval {
             total += 1
         }
 
+        let score = Double(matches) / Double(total)
         print("Matches \(matches) out of \(total) \(100 * Double(matches) / Double(total))%")
+        if let file = outputFile {
+            try! String(score).writeToFile(file, atomically: true, encoding: NSUTF8StringEncoding)
+        }
     }
 
     func cursorLocationAtTime(time: Double) -> Int {

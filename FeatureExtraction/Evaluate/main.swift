@@ -10,14 +10,18 @@ let cli = CommandLine(arguments: Process.arguments)
 // Input options
 let audioFileOpt = StringOption(shortFlag: "a", longFlag: "audio", required: true, helpMessage: "Audio file.")
 let midiFileOpt = StringOption(shortFlag: "m", longFlag: "midi", required: false, helpMessage: "MIDI file.")
-let refMidiFileOpt = StringOption(shortFlag: "r", longFlag: "ref", required: false, helpMessage: "Reference MIDI file.")
-let cursorMappingOpt = StringOption(shortFlag: "u", longFlag: "cursor", required: true, helpMessage: "Mapping from reference cursor positions to playback cursor positions.")
 let networkOpt = StringOption(shortFlag: "n", longFlag: "network", required: true, helpMessage: "Network weights and biases.")
 let configOpt = StringOption(shortFlag: "c", longFlag: "config", required: true, helpMessage: "Configuration options JSON file.")
-cli.addOptions(audioFileOpt, midiFileOpt, refMidiFileOpt, cursorMappingOpt, networkOpt, configOpt)
+cli.addOptions(audioFileOpt, midiFileOpt, networkOpt, configOpt)
+
+// Tracker options
+let refMidiFileOpt = StringOption(shortFlag: "r", longFlag: "ref", required: false, helpMessage: "Reference MIDI file.")
+let cursorMappingOpt = StringOption(shortFlag: "u", longFlag: "cursor", required: true, helpMessage: "Mapping from reference cursor positions to playback cursor positions.")
+let paramsOpt = StringOption(shortFlag: "p", longFlag: "params", required: false, helpMessage: "Tracker parameters.")
+cli.addOptions(refMidiFileOpt, cursorMappingOpt, paramsOpt)
 
 // Output options
-let outputFileOpt = StringOption(shortFlag: "o", longFlag: "output", required: false, helpMessage: "Output CSV file.")
+let outputFileOpt = StringOption(shortFlag: "o", longFlag: "output", required: false, helpMessage: "Output file.")
 cli.addOptions(outputFileOpt)
 
 // Other options
@@ -49,7 +53,7 @@ if let refMidiFile = refMidiFileOpt.value, playMidiFile = midiFileOpt.value, cur
     let cursorMappingsString = String(data: cursorMappingsData, encoding: NSUTF8StringEncoding)!
     let cursorMappings = cursorMappingsString.characters.split("\n").map({ Int(String($0))! })
 
-    let trackerEval = TrackerEval(configuration: configuration, referenceMIDIPath: refMidiFileOpt.value!, playbackMIDIPath: midiFileOpt.value!, playbackAudioPath: audioFileOpt.value!, cursorMappings: cursorMappings)
+    let trackerEval = TrackerEval(configuration: configuration, referenceMIDIPath: refMidiFileOpt.value!, playbackMIDIPath: midiFileOpt.value!, playbackAudioPath: audioFileOpt.value!, cursorMappings: cursorMappings, trackerParametersPath: paramsOpt.value, outputFile: outputFileOpt.value)
     trackerEval.run()
 } else {
     let networkEval = NetworkEval(configuration: configuration, networkFile: networkOpt.value!, audioFile: audioFile, midiFile: midiFile, outputFile: outputFileOpt.value)
