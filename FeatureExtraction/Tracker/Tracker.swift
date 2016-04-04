@@ -5,7 +5,8 @@ import Upsurge
 
 public class Tracker {
     let onsetThreshold = Float(0.5)
-    let lookahead = 3
+    let lookahead = 4
+    let weights: [Double] = [1.5, 1.1, 1.6, 1.7, 1.8]
 
     let configuration: Configuration
     let decayModel: DecayModel
@@ -49,10 +50,6 @@ public class Tracker {
 
         var distances = [(Double, Int)]()
 
-//        let blankLabel = ValueArray<Float>(count: configuration.representableNoteRange.count, repeatedValue: 0.0)
-//        let blankDistance = distance(blankLabel, notes)
-//        distances.append((blankDistance, 0))
-
         for i in 0...lookahead {
             guard index + i < onsets.count  else {
                 break
@@ -60,7 +57,7 @@ public class Tracker {
 
             let onset = onsets[index + i]
             let label = labelForOnset(onset)
-            let d = distance(label, notes) * (i == 0 ? 1.5 : 1.0)
+            let d = distance(label, notes) * weights[i]
             distances.append((d, i))
         }
 

@@ -42,7 +42,7 @@
       </AdditionalOptions>
    </TestAction>
    <LaunchAction
-      buildConfiguration = "Debug"
+      buildConfiguration = "Release"
       selectedDebuggerIdentifier = "Xcode.DebuggerFoundation.Debugger.LLDB"
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       launchStyle = "0"
@@ -64,19 +64,27 @@
       </BuildableProductRunnable>
       <CommandLineArguments>
          <CommandLineArgument
-            argument = "--audio ../AudioData/Polyphonic/MAPS_ISOL_CH0.1_F_AkPnBcht.wav"
+            argument = "--audio ../AudioData/MixedMIDI/0.wav"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--midi ../AudioData/Polyphonic/MAPS_ISOL_CH0.1_F_AkPnBcht.mid"
+            argument = "--midi ../AudioData/MixedMIDI/0.mid"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--network RNNViewer/net.h5"
+            argument = "--ref ../AudioData/MixedMIDI/0_ref.mid"
             isEnabled = "YES">
          </CommandLineArgument>
          <CommandLineArgument
-            argument = "--config configuration.json"
+            argument = "--cursor ../AudioData/MixedMIDI/0.txt"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--network NeuralNet/net.h5"
+            isEnabled = "YES">
+         </CommandLineArgument>
+         <CommandLineArgument
+            argument = "--config NeuralNet/configuration.json"
             isEnabled = "YES">
          </CommandLineArgument>
       </CommandLineArguments>
