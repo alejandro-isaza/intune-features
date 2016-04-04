@@ -5,7 +5,7 @@ import Upsurge
 
 public class Tracker {
     public struct Parameters {
-        var onsetTrigger = Float(0.1)
+        var onsetTrigger = Float(0.5)
         var onsetPeakHeight = Float(0.5)
         var lookahead = 4
         var weights: [Double] = [1.5, 1.1, 1.6, 1.7, 1.8]
@@ -24,7 +24,6 @@ public class Tracker {
     /// Current tempo in beats per second
     public var tempo = 1.0
 
-    public var lastOnsetValue: Float = 0.0
     public var onsetMaxValue: Float = 0.0
 
     public var didMoveCursorAction: (Int -> Void)?
@@ -55,8 +54,6 @@ public class Tracker {
             }
             onsetMaxValue = 0.0
         }
-
-        lastOnsetValue = onset
     }
 
     func updateOnOnset(notes: ValueArray<Float>) {
