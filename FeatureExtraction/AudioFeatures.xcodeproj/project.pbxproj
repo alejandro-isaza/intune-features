@@ -25,21 +25,11 @@
 		610E2A8A1C500C78006B6016 /* FeatureDatabaseTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E2A881C500C78006B6016 /* FeatureDatabaseTests.swift */; };
 		610E2AE41C52C8D2006B6016 /* NoiseSequenceBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E2AE31C52C8D2006B6016 /* NoiseSequenceBuilder.swift */; };
 		611756A21C407B930025446F /* NoteTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610AAB661BD99737008CC910 /* NoteTests.swift */; };
-		612131C51CAC5F6C00299E03 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612131C41CAC5F6C00299E03 /* Utilities.swift */; };
-		612131C71CAC6D8500299E03 /* configuration.json in Resources */ = {isa = PBXBuildFile; fileRef = 612131C61CAC6D8500299E03 /* configuration.json */; };
 		612131CF1CADCCAD00299E03 /* DecayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612131CB1CADC8E800299E03 /* DecayModel.swift */; };
 		612131D01CADCCAD00299E03 /* DecayModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612131CB1CADC8E800299E03 /* DecayModel.swift */; };
 		612131D11CADCCB700299E03 /* note_curves.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 612131CC1CADC8E800299E03 /* note_curves.h5 */; };
 		612131D31CADCCD600299E03 /* note_curves.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 612131CC1CADC8E800299E03 /* note_curves.h5 */; };
 		6126D7171BE976D9007F8BE4 /* PeakHeightsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6126D7161BE976D9007F8BE4 /* PeakHeightsViewController.swift */; };
-		612CE8CE1CAB0B2800C260EC /* NeuralNet.h in Headers */ = {isa = PBXBuildFile; fileRef = 612CE8CD1CAB0B2800C260EC /* NeuralNet.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		612CE8D51CAB0B2800C260EC /* NeuralNet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 612CE8CB1CAB0B2800C260EC /* NeuralNet.framework */; };
-		612CE8DC1CAB0B2800C260EC /* NeuralNetTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612CE8DB1CAB0B2800C260EC /* NeuralNetTests.swift */; };
-		612CE8E01CAB0B2800C260EC /* NeuralNet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 612CE8CB1CAB0B2800C260EC /* NeuralNet.framework */; };
-		612CE8E11CAB0B2800C260EC /* NeuralNet.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 612CE8CB1CAB0B2800C260EC /* NeuralNet.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
-		612CE8EA1CAB0B8E00C260EC /* net.h5 in Resources */ = {isa = PBXBuildFile; fileRef = 612CE8E81CAB0B8E00C260EC /* net.h5 */; };
-		612CE8EB1CAB0B8E00C260EC /* NeuralNet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 612CE8E91CAB0B8E00C260EC /* NeuralNet.swift */; };
-		612CE8F81CAB1C7F00C260EC /* NeuralNet.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 612CE8CB1CAB0B2800C260EC /* NeuralNet.framework */; };
 		6141B1861C6BD3EC0074BD8C /* Peak.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C961BF2784E000E0D34 /* Peak.framework */; };
 		6141B1871C6BD3EC0074BD8C /* Peak.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C961BF2784E000E0D34 /* Peak.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		6141B18A1C6BD3EC0074BD8C /* HDF5Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C861BF2784E000E0D34 /* HDF5Kit.framework */; };
@@ -61,11 +51,6 @@
 		6141B1DA1C6E5C150074BD8C /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6141B1D91C6E5C150074BD8C /* Window.swift */; };
 		6141B1DB1C6E5C150074BD8C /* Window.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6141B1D91C6E5C150074BD8C /* Window.swift */; };
 		6141B1E51C6E9B6A0074BD8C /* Peak.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C961BF2784E000E0D34 /* Peak.framework */; };
-		61466E8A1CAB2AA1001338C1 /* Tracker.h in Headers */ = {isa = PBXBuildFile; fileRef = 61466E891CAB2AA1001338C1 /* Tracker.h */; settings = {ATTRIBUTES = (Public, ); }; };
-		61466E911CAB2AA1001338C1 /* Tracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61466E871CAB2AA1001338C1 /* Tracker.framework */; };
-		61466E961CAB2AA1001338C1 /* TrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61466E951CAB2AA1001338C1 /* TrackerTests.swift */; };
-		61466EA01CAB2BCE001338C1 /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61466E9F1CAB2BCE001338C1 /* Tracker.swift */; };
-		61466EA21CAB2C19001338C1 /* Onset.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61466EA11CAB2C19001338C1 /* Onset.swift */; };
 		6156937B1BE82C5A0094E204 /* FileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6156937A1BE82C5A0094E204 /* FileViewController.swift */; };
 		615693891BE82F6A0094E204 /* FeaturesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 615693881BE82F6A0094E204 /* FeaturesViewController.swift */; };
 		6156938B1BE83D4C0094E204 /* SpectrumViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6156938A1BE83D4C0094E204 /* SpectrumViewController.swift */; };
@@ -93,15 +78,6 @@
 		61AAD7021BF54CC500C9BB65 /* BandsFeaturesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AAD7011BF54CC500C9BB65 /* BandsFeaturesViewController.swift */; };
 		61AAD7041BF54D6000C9BB65 /* SpectrumFluxViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AAD7031BF54D6000C9BB65 /* SpectrumFluxViewController.swift */; };
 		61AD3A631BEBDD5500FA2DB7 /* FeatureDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AD3A621BEBDD5500FA2DB7 /* FeatureDatabase.swift */; };
-		61B51C001C9C5E8A00644BB5 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61B51BFF1C9C5E8A00644BB5 /* main.swift */; };
-		61B51C201C9C6E8100644BB5 /* PolySequenceBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C9700EE1BE12C00002A81A3 /* PolySequenceBuilder.swift */; };
-		61B51C221C9C6EC200644BB5 /* String+Paths.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDE479F1BBF2FA000A98419 /* String+Paths.swift */; };
-		61B51C261C9C7E8700644BB5 /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8C78456F1BB9B06600C88426 /* FeatureExtraction.framework */; };
-		61B51C271C9C7E8700644BB5 /* BrainCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C7A1BF2784E000E0D34 /* BrainCore.framework */; };
-		61B51C281C9C7E8700644BB5 /* CommandLine.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6188C7D71C066D50001A7EAA /* CommandLine.framework */; };
-		61B51C291C9C7E8700644BB5 /* HDF5Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C861BF2784E000E0D34 /* HDF5Kit.framework */; };
-		61B51C2A1C9C7E8700644BB5 /* Peak.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4C961BF2784E000E0D34 /* Peak.framework */; };
-		61B51C2B1C9C7E8700644BB5 /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61CE4CA71BF2784E000E0D34 /* Upsurge.framework */; };
 		61BBC3C01C407891006C6DF0 /* FeatureExtraction.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61BBC3B61C407891006C6DF0 /* FeatureExtraction.framework */; };
 		61BBC3CF1C407905006C6DF0 /* FeatureBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C56779C1BE9731E0009ED31 /* FeatureBuilder.swift */; };
 		61BBC3D01C407905006C6DF0 /* FeatureDatabase.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61AD3A621BEBDD5500FA2DB7 /* FeatureDatabase.swift */; };
@@ -154,9 +130,6 @@
 		8CDF50771CAB0B250015C447 /* AudioToolbox.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8CDF50761CAB0B250015C447 /* AudioToolbox.framework */; };
 		8CDF50951CAB164C0015C447 /* Chunk.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDF50941CAB164C0015C447 /* Chunk.swift */; };
 		8CDF50971CAB16530015C447 /* Random.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDF50961CAB16530015C447 /* Random.swift */; };
-		A94555981CAEDFD800E62839 /* NetworkEval.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94555971CAEDFD800E62839 /* NetworkEval.swift */; };
-		A945559A1CAEDFE200E62839 /* TrackerEval.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94555991CAEDFE200E62839 /* TrackerEval.swift */; };
-		A945559D1CAEDFF300E62839 /* Tracker.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 61466E871CAB2AA1001338C1 /* Tracker.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -180,69 +153,6 @@
 			proxyType = 2;
 			remoteGlobalIDString = 61D046761C48BA5B00DB7279;
 			remoteInfo = "UpsurgeTests tvOS";
-		};
-		612CE8D61CAB0B2800C260EC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8C7845661BB9B06600C88426 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 612CE8CA1CAB0B2800C260EC;
-			remoteInfo = NeuralNet;
-		};
-		612CE8D81CAB0B2800C260EC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8C7845661BB9B06600C88426 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 61EA99771C6BC8D700A4AFB6;
-			remoteInfo = RNNViewer;
-		};
-		612CE8DE1CAB0B2800C260EC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8C7845661BB9B06600C88426 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 612CE8CA1CAB0B2800C260EC;
-			remoteInfo = NeuralNet;
-		};
-		612CE8EC1CAB0C2D00C260EC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8C7845661BB9B06600C88426 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8C78456E1BB9B06600C88426;
-			remoteInfo = "FeatureExtraction-OSX";
-		};
-		612CE8EE1CAB0C2D00C260EC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 61CE4C661BF2784D000E0D34 /* Peak.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0045498C1BD052B100AC387F;
-			remoteInfo = PeakOSX;
-		};
-		612CE8F01CAB0C2D00C260EC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 61CE4C691BF2784D000E0D34 /* HDF5Kit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 61B3149C1BBDBA3100F63C45;
-			remoteInfo = "HDF5Kit-OSX";
-		};
-		612CE8F21CAB0C2D00C260EC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 61CE4C6C1BF2784D000E0D34 /* BrainCore.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 6159F85E1BD1F55D0010F83C;
-			remoteInfo = BrainCore.OSX;
-		};
-		612CE8F41CAB0C2D00C260EC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 61CE4C721BF2784D000E0D34 /* Upsurge.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 614ACA6F1BD1CB7B00A1C13E;
-			remoteInfo = "Upsurge OSX";
-		};
-		612CE8F61CAB1C7900C260EC /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8C7845661BB9B06600C88426 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 612CE8CA1CAB0B2800C260EC;
-			remoteInfo = NeuralNet;
 		};
 		6141B1881C6BD3EC0074BD8C /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -286,20 +196,6 @@
 			remoteGlobalIDString = 0045498C1BD052B100AC387F;
 			remoteInfo = PeakOSX;
 		};
-		61466E921CAB2AA1001338C1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8C7845661BB9B06600C88426 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 61466E861CAB2AA1001338C1;
-			remoteInfo = Tracker;
-		};
-		61466EA31CAB2E17001338C1 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8C7845661BB9B06600C88426 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8C78456E1BB9B06600C88426;
-			remoteInfo = "FeatureExtraction-OSX";
-		};
 		6180A77A1C18ABFC00D63F00 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 8C7845661BB9B06600C88426 /* Project object */;
@@ -341,48 +237,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8C78456E1BB9B06600C88426;
 			remoteInfo = FeatureExtraction;
-		};
-		61B51C141C9C5EA700644BB5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8C7845661BB9B06600C88426 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8C78456E1BB9B06600C88426;
-			remoteInfo = "FeatureExtraction-OSX";
-		};
-		61B51C161C9C5EA700644BB5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 6188C7D11C066D4F001A7EAA /* CommandLine.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 5D06884219674D7D00BBFAAC;
-			remoteInfo = CommandLine;
-		};
-		61B51C181C9C5EA700644BB5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 61CE4C661BF2784D000E0D34 /* Peak.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 0045498C1BD052B100AC387F;
-			remoteInfo = PeakOSX;
-		};
-		61B51C1A1C9C5EA700644BB5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 61CE4C691BF2784D000E0D34 /* HDF5Kit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 61B3149C1BBDBA3100F63C45;
-			remoteInfo = "HDF5Kit-OSX";
-		};
-		61B51C1C1C9C5EA700644BB5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 61CE4C6C1BF2784D000E0D34 /* BrainCore.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 6159F85E1BD1F55D0010F83C;
-			remoteInfo = BrainCore.OSX;
-		};
-		61B51C1E1C9C5EA700644BB5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 61CE4C721BF2784D000E0D34 /* Upsurge.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 614ACA6F1BD1CB7B00A1C13E;
-			remoteInfo = "Upsurge OSX";
 		};
 		61BBC3C11C407891006C6DF0 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -664,13 +518,6 @@
 			remoteGlobalIDString = 005809441BD04F2700B164F6;
 			remoteInfo = PeakiOS;
 		};
-		A945559B1CAEDFEB00E62839 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 8C7845661BB9B06600C88426 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 61466E861CAB2AA1001338C1;
-			remoteInfo = Tracker;
-		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -685,20 +532,10 @@
 				6141B18F1C6BD3EC0074BD8C /* BrainCore.framework in Embed Frameworks */,
 				6141B18B1C6BD3EC0074BD8C /* HDF5Kit.framework in Embed Frameworks */,
 				6141B19B1C6BD3ED0074BD8C /* FeatureExtraction.framework in Embed Frameworks */,
-				612CE8E11CAB0B2800C260EC /* NeuralNet.framework in Embed Frameworks */,
 				6141B1871C6BD3EC0074BD8C /* Peak.framework in Embed Frameworks */,
 			);
 			name = "Embed Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
-		};
-		61B51BFB1C9C5E8900644BB5 /* CopyFiles */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = /usr/share/man/man1/;
-			dstSubfolderSpec = 0;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
 		};
 		8CDF50651CAAFEA40015C447 /* CopyFiles */ = {
 			isa = PBXCopyFilesBuildPhase;
@@ -723,31 +560,13 @@
 		610E2A881C500C78006B6016 /* FeatureDatabaseTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureDatabaseTests.swift; sourceTree = "<group>"; };
 		610E2AE31C52C8D2006B6016 /* NoiseSequenceBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoiseSequenceBuilder.swift; sourceTree = "<group>"; };
 		6117569E1C407B650025446F /* Accelerate.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Accelerate.framework; path = Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS9.2.sdk/System/Library/Frameworks/Accelerate.framework; sourceTree = DEVELOPER_DIR; };
-		612131C41CAC5F6C00299E03 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
-		612131C61CAC6D8500299E03 /* configuration.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = configuration.json; sourceTree = "<group>"; };
 		612131CB1CADC8E800299E03 /* DecayModel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DecayModel.swift; sourceTree = "<group>"; };
 		612131CC1CADC8E800299E03 /* note_curves.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = note_curves.h5; sourceTree = "<group>"; };
 		6126D7161BE976D9007F8BE4 /* PeakHeightsViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PeakHeightsViewController.swift; sourceTree = "<group>"; };
-		612CE8CB1CAB0B2800C260EC /* NeuralNet.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = NeuralNet.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		612CE8CD1CAB0B2800C260EC /* NeuralNet.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = NeuralNet.h; sourceTree = "<group>"; };
-		612CE8CF1CAB0B2800C260EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		612CE8D41CAB0B2800C260EC /* NeuralNetTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = NeuralNetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		612CE8DB1CAB0B2800C260EC /* NeuralNetTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NeuralNetTests.swift; sourceTree = "<group>"; };
-		612CE8DD1CAB0B2800C260EC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		612CE8E81CAB0B8E00C260EC /* net.h5 */ = {isa = PBXFileReference; lastKnownFileType = file; path = net.h5; sourceTree = "<group>"; };
-		612CE8E91CAB0B8E00C260EC /* NeuralNet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NeuralNet.swift; sourceTree = "<group>"; };
 		6141B1C31C6E538F0074BD8C /* Table.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Table.swift; sourceTree = "<group>"; };
 		6141B1D31C6E5B200074BD8C /* Event.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Event.swift; sourceTree = "<group>"; };
 		6141B1D61C6E5B290074BD8C /* Label.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Label.swift; sourceTree = "<group>"; };
 		6141B1D91C6E5C150074BD8C /* Window.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Window.swift; sourceTree = "<group>"; };
-		61466E871CAB2AA1001338C1 /* Tracker.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Tracker.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		61466E891CAB2AA1001338C1 /* Tracker.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = Tracker.h; sourceTree = "<group>"; };
-		61466E8B1CAB2AA1001338C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		61466E901CAB2AA1001338C1 /* TrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = TrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		61466E951CAB2AA1001338C1 /* TrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerTests.swift; sourceTree = "<group>"; };
-		61466E971CAB2AA1001338C1 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		61466E9F1CAB2BCE001338C1 /* Tracker.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
-		61466EA11CAB2C19001338C1 /* Onset.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Onset.swift; sourceTree = "<group>"; };
 		6156937A1BE82C5A0094E204 /* FileViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FileViewController.swift; sourceTree = "<group>"; };
 		615693881BE82F6A0094E204 /* FeaturesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeaturesViewController.swift; sourceTree = "<group>"; };
 		6156938A1BE83D4C0094E204 /* SpectrumViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpectrumViewController.swift; sourceTree = "<group>"; };
@@ -775,7 +594,6 @@
 		61AAD7011BF54CC500C9BB65 /* BandsFeaturesViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = BandsFeaturesViewController.swift; sourceTree = "<group>"; };
 		61AAD7031BF54D6000C9BB65 /* SpectrumFluxViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpectrumFluxViewController.swift; sourceTree = "<group>"; };
 		61AD3A621BEBDD5500FA2DB7 /* FeatureDatabase.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureDatabase.swift; sourceTree = "<group>"; };
-		61B51BFD1C9C5E8900644BB5 /* Evaluate */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Evaluate; sourceTree = BUILT_PRODUCTS_DIR; };
 		61B51BFF1C9C5E8A00644BB5 /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		61BBC3B61C407891006C6DF0 /* FeatureExtraction.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = FeatureExtraction.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		61BBC3BF1C407891006C6DF0 /* FeatureExtractionTests-iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "FeatureExtractionTests-iOS.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -837,36 +655,6 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
-		612CE8C71CAB0B2800C260EC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		612CE8D11CAB0B2800C260EC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				612CE8D51CAB0B2800C260EC /* NeuralNet.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		61466E831CAB2AA1001338C1 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		61466E8D1CAB2AA1001338C1 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				61466E911CAB2AA1001338C1 /* Tracker.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		6180A7711C18ABFC00D63F00 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -879,21 +667,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		61B51BFA1C9C5E8900644BB5 /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				A945559D1CAEDFF300E62839 /* Tracker.framework in Frameworks */,
-				612CE8F81CAB1C7F00C260EC /* NeuralNet.framework in Frameworks */,
-				61B51C261C9C7E8700644BB5 /* FeatureExtraction.framework in Frameworks */,
-				61B51C271C9C7E8700644BB5 /* BrainCore.framework in Frameworks */,
-				61B51C281C9C7E8700644BB5 /* CommandLine.framework in Frameworks */,
-				61B51C291C9C7E8700644BB5 /* HDF5Kit.framework in Frameworks */,
-				61B51C2A1C9C7E8700644BB5 /* Peak.framework in Frameworks */,
-				61B51C2B1C9C7E8700644BB5 /* Upsurge.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -923,7 +696,6 @@
 				6141B18E1C6BD3EC0074BD8C /* BrainCore.framework in Frameworks */,
 				6141B18A1C6BD3EC0074BD8C /* HDF5Kit.framework in Frameworks */,
 				6141B19A1C6BD3ED0074BD8C /* FeatureExtraction.framework in Frameworks */,
-				612CE8E01CAB0B2800C260EC /* NeuralNet.framework in Frameworks */,
 				6141B1861C6BD3EC0074BD8C /* Peak.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -979,48 +751,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		612CE8CC1CAB0B2800C260EC /* NeuralNet */ = {
-			isa = PBXGroup;
-			children = (
-				612131C61CAC6D8500299E03 /* configuration.json */,
-				612CE8E81CAB0B8E00C260EC /* net.h5 */,
-				612CE8CD1CAB0B2800C260EC /* NeuralNet.h */,
-				612CE8CF1CAB0B2800C260EC /* Info.plist */,
-				612CE8E91CAB0B8E00C260EC /* NeuralNet.swift */,
-			);
-			path = NeuralNet;
-			sourceTree = "<group>";
-		};
-		612CE8DA1CAB0B2800C260EC /* NeuralNetTests */ = {
-			isa = PBXGroup;
-			children = (
-				612CE8DB1CAB0B2800C260EC /* NeuralNetTests.swift */,
-				612CE8DD1CAB0B2800C260EC /* Info.plist */,
-			);
-			path = NeuralNetTests;
-			sourceTree = "<group>";
-		};
-		61466E881CAB2AA1001338C1 /* Tracker */ = {
-			isa = PBXGroup;
-			children = (
-				61466E891CAB2AA1001338C1 /* Tracker.h */,
-				61466E8B1CAB2AA1001338C1 /* Info.plist */,
-				61466E9F1CAB2BCE001338C1 /* Tracker.swift */,
-				61466EA11CAB2C19001338C1 /* Onset.swift */,
-				612131C41CAC5F6C00299E03 /* Utilities.swift */,
-			);
-			path = Tracker;
-			sourceTree = "<group>";
-		};
-		61466E941CAB2AA1001338C1 /* TrackerTests */ = {
-			isa = PBXGroup;
-			children = (
-				61466E951CAB2AA1001338C1 /* TrackerTests.swift */,
-				61466E971CAB2AA1001338C1 /* Info.plist */,
-			);
-			path = TrackerTests;
-			sourceTree = "<group>";
-		};
 		6188C7D21C066D4F001A7EAA /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -1201,10 +931,6 @@
 				61EA99791C6BC8D700A4AFB6 /* RNNViewer */,
 				618B7E2F1BBF4A8F0011E8D3 /* Dependencies */,
 				61B51BFE1C9C5E8A00644BB5 /* Evaluate */,
-				612CE8CC1CAB0B2800C260EC /* NeuralNet */,
-				612CE8DA1CAB0B2800C260EC /* NeuralNetTests */,
-				61466E881CAB2AA1001338C1 /* Tracker */,
-				61466E941CAB2AA1001338C1 /* TrackerTests */,
 				8CDF50681CAAFEA40015C447 /* MIDIMixer */,
 				8C7566AD1CADBEED00CA82EB /* MIDIMixerTests */,
 				8C7845701BB9B06600C88426 /* Products */,
@@ -1224,10 +950,6 @@
 				61BBC3BF1C407891006C6DF0 /* FeatureExtractionTests-iOS.xctest */,
 				61EA99781C6BC8D700A4AFB6 /* RNNViewer.app */,
 				61B51BFD1C9C5E8900644BB5 /* Evaluate */,
-				612CE8CB1CAB0B2800C260EC /* NeuralNet.framework */,
-				612CE8D41CAB0B2800C260EC /* NeuralNetTests.xctest */,
-				61466E871CAB2AA1001338C1 /* Tracker.framework */,
-				61466E901CAB2AA1001338C1 /* TrackerTests.xctest */,
 				8CDF50671CAAFEA40015C447 /* MIDIMixer */,
 				8C7566AC1CADBEED00CA82EB /* MIDIMixerTests.xctest */,
 			);
@@ -1312,22 +1034,6 @@
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
-		612CE8C81CAB0B2800C260EC /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				612CE8CE1CAB0B2800C260EC /* NeuralNet.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		61466E841CAB2AA1001338C1 /* Headers */ = {
-			isa = PBXHeadersBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				61466E8A1CAB2AA1001338C1 /* Tracker.h in Headers */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		61BBC3B31C407891006C6DF0 /* Headers */ = {
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
@@ -1347,85 +1053,6 @@
 /* End PBXHeadersBuildPhase section */
 
 /* Begin PBXNativeTarget section */
-		612CE8CA1CAB0B2800C260EC /* NeuralNet */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 612CE8E21CAB0B2800C260EC /* Build configuration list for PBXNativeTarget "NeuralNet" */;
-			buildPhases = (
-				612CE8C61CAB0B2800C260EC /* Sources */,
-				612CE8C71CAB0B2800C260EC /* Frameworks */,
-				612CE8C81CAB0B2800C260EC /* Headers */,
-				612CE8C91CAB0B2800C260EC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				612CE8ED1CAB0C2D00C260EC /* PBXTargetDependency */,
-				612CE8EF1CAB0C2D00C260EC /* PBXTargetDependency */,
-				612CE8F11CAB0C2D00C260EC /* PBXTargetDependency */,
-				612CE8F31CAB0C2D00C260EC /* PBXTargetDependency */,
-				612CE8F51CAB0C2D00C260EC /* PBXTargetDependency */,
-			);
-			name = NeuralNet;
-			productName = NeuralNet;
-			productReference = 612CE8CB1CAB0B2800C260EC /* NeuralNet.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		612CE8D31CAB0B2800C260EC /* NeuralNetTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 612CE8E51CAB0B2800C260EC /* Build configuration list for PBXNativeTarget "NeuralNetTests" */;
-			buildPhases = (
-				612CE8D01CAB0B2800C260EC /* Sources */,
-				612CE8D11CAB0B2800C260EC /* Frameworks */,
-				612CE8D21CAB0B2800C260EC /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				612CE8D71CAB0B2800C260EC /* PBXTargetDependency */,
-				612CE8D91CAB0B2800C260EC /* PBXTargetDependency */,
-			);
-			name = NeuralNetTests;
-			productName = NeuralNetTests;
-			productReference = 612CE8D41CAB0B2800C260EC /* NeuralNetTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
-		61466E861CAB2AA1001338C1 /* Tracker */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 61466E981CAB2AA1001338C1 /* Build configuration list for PBXNativeTarget "Tracker" */;
-			buildPhases = (
-				61466E821CAB2AA1001338C1 /* Sources */,
-				61466E831CAB2AA1001338C1 /* Frameworks */,
-				61466E841CAB2AA1001338C1 /* Headers */,
-				61466E851CAB2AA1001338C1 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				61466EA41CAB2E17001338C1 /* PBXTargetDependency */,
-			);
-			name = Tracker;
-			productName = Tracker;
-			productReference = 61466E871CAB2AA1001338C1 /* Tracker.framework */;
-			productType = "com.apple.product-type.framework";
-		};
-		61466E8F1CAB2AA1001338C1 /* TrackerTests */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 61466E9B1CAB2AA1001338C1 /* Build configuration list for PBXNativeTarget "TrackerTests" */;
-			buildPhases = (
-				61466E8C1CAB2AA1001338C1 /* Sources */,
-				61466E8D1CAB2AA1001338C1 /* Frameworks */,
-				61466E8E1CAB2AA1001338C1 /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-				61466E931CAB2AA1001338C1 /* PBXTargetDependency */,
-			);
-			name = TrackerTests;
-			productName = TrackerTests;
-			productReference = 61466E901CAB2AA1001338C1 /* TrackerTests.xctest */;
-			productType = "com.apple.product-type.bundle.unit-test";
-		};
 		6180A7731C18ABFC00D63F00 /* FeatureExtractionTests-OSX */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6180A77C1C18ABFC00D63F00 /* Build configuration list for PBXNativeTarget "FeatureExtractionTests-OSX" */;
@@ -1552,7 +1179,6 @@
 				6141B1911C6BD3EC0074BD8C /* PBXTargetDependency */,
 				6141B1951C6BD3ED0074BD8C /* PBXTargetDependency */,
 				6141B1991C6BD3ED0074BD8C /* PBXTargetDependency */,
-				612CE8DF1CAB0B2800C260EC /* PBXTargetDependency */,
 			);
 			name = RNNViewer;
 			productName = RNNViewer;
@@ -1666,19 +1292,6 @@
 				LastUpgradeCheck = 0700;
 				ORGANIZATIONNAME = "Venture Media";
 				TargetAttributes = {
-					612CE8CA1CAB0B2800C260EC = {
-						CreatedOnToolsVersion = 7.3;
-					};
-					612CE8D31CAB0B2800C260EC = {
-						CreatedOnToolsVersion = 7.3;
-						TestTargetID = 61EA99771C6BC8D700A4AFB6;
-					};
-					61466E861CAB2AA1001338C1 = {
-						CreatedOnToolsVersion = 7.3;
-					};
-					61466E8F1CAB2AA1001338C1 = {
-						CreatedOnToolsVersion = 7.3;
-					};
 					6180A7731C18ABFC00D63F00 = {
 						CreatedOnToolsVersion = 7.2;
 					};
@@ -1762,10 +1375,6 @@
 				8C2527351C064E560038A73F /* ValidateFeatures */,
 				61EA99771C6BC8D700A4AFB6 /* RNNViewer */,
 				61B51BFC1C9C5E8900644BB5 /* Evaluate */,
-				612CE8CA1CAB0B2800C260EC /* NeuralNet */,
-				612CE8D31CAB0B2800C260EC /* NeuralNetTests */,
-				61466E861CAB2AA1001338C1 /* Tracker */,
-				61466E8F1CAB2AA1001338C1 /* TrackerTests */,
 				8CDF50661CAAFEA40015C447 /* MIDIMixer */,
 				8C7566AB1CADBEED00CA82EB /* MIDIMixerTests */,
 			);
@@ -1952,36 +1561,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		612CE8C91CAB0B2800C260EC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				612131C71CAC6D8500299E03 /* configuration.json in Resources */,
-				612CE8EA1CAB0B8E00C260EC /* net.h5 in Resources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		612CE8D21CAB0B2800C260EC /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		61466E851CAB2AA1001338C1 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		61466E8E1CAB2AA1001338C1 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		6180A7721C18ABFC00D63F00 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2034,40 +1613,6 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
-		612CE8C61CAB0B2800C260EC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				612CE8EB1CAB0B8E00C260EC /* NeuralNet.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		612CE8D01CAB0B2800C260EC /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				612CE8DC1CAB0B2800C260EC /* NeuralNetTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		61466E821CAB2AA1001338C1 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				61466EA21CAB2C19001338C1 /* Onset.swift in Sources */,
-				612131C51CAC5F6C00299E03 /* Utilities.swift in Sources */,
-				61466EA01CAB2BCE001338C1 /* Tracker.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		61466E8C1CAB2AA1001338C1 /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				61466E961CAB2AA1001338C1 /* TrackerTests.swift in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		6180A7701C18ABFC00D63F00 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -2237,51 +1782,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		612CE8D71CAB0B2800C260EC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 612CE8CA1CAB0B2800C260EC /* NeuralNet */;
-			targetProxy = 612CE8D61CAB0B2800C260EC /* PBXContainerItemProxy */;
-		};
-		612CE8D91CAB0B2800C260EC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 61EA99771C6BC8D700A4AFB6 /* RNNViewer */;
-			targetProxy = 612CE8D81CAB0B2800C260EC /* PBXContainerItemProxy */;
-		};
-		612CE8DF1CAB0B2800C260EC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 612CE8CA1CAB0B2800C260EC /* NeuralNet */;
-			targetProxy = 612CE8DE1CAB0B2800C260EC /* PBXContainerItemProxy */;
-		};
-		612CE8ED1CAB0C2D00C260EC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8C78456E1BB9B06600C88426 /* FeatureExtraction-OSX */;
-			targetProxy = 612CE8EC1CAB0C2D00C260EC /* PBXContainerItemProxy */;
-		};
-		612CE8EF1CAB0C2D00C260EC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = PeakOSX;
-			targetProxy = 612CE8EE1CAB0C2D00C260EC /* PBXContainerItemProxy */;
-		};
-		612CE8F11CAB0C2D00C260EC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "HDF5Kit-OSX";
-			targetProxy = 612CE8F01CAB0C2D00C260EC /* PBXContainerItemProxy */;
-		};
-		612CE8F31CAB0C2D00C260EC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = BrainCore.OSX;
-			targetProxy = 612CE8F21CAB0C2D00C260EC /* PBXContainerItemProxy */;
-		};
-		612CE8F51CAB0C2D00C260EC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "Upsurge OSX";
-			targetProxy = 612CE8F41CAB0C2D00C260EC /* PBXContainerItemProxy */;
-		};
-		612CE8F71CAB1C7900C260EC /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 612CE8CA1CAB0B2800C260EC /* NeuralNet */;
-			targetProxy = 612CE8F61CAB1C7900C260EC /* PBXContainerItemProxy */;
-		};
 		6141B1891C6BD3EC0074BD8C /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = PeakOSX;
@@ -2311,16 +1811,6 @@
 			isa = PBXTargetDependency;
 			name = PeakOSX;
 			targetProxy = 6141B1DC1C6E670C0074BD8C /* PBXContainerItemProxy */;
-		};
-		61466E931CAB2AA1001338C1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 61466E861CAB2AA1001338C1 /* Tracker */;
-			targetProxy = 61466E921CAB2AA1001338C1 /* PBXContainerItemProxy */;
-		};
-		61466EA41CAB2E17001338C1 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8C78456E1BB9B06600C88426 /* FeatureExtraction-OSX */;
-			targetProxy = 61466EA31CAB2E17001338C1 /* PBXContainerItemProxy */;
 		};
 		6180A77B1C18ABFC00D63F00 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -2485,11 +1975,6 @@
 			name = PeakiOS;
 			targetProxy = A94555951CAED98400E62839 /* PBXContainerItemProxy */;
 		};
-		A945559C1CAEDFEB00E62839 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 61466E861CAB2AA1001338C1 /* Tracker */;
-			targetProxy = A945559B1CAEDFEB00E62839 /* PBXContainerItemProxy */;
-		};
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
@@ -2512,156 +1997,6 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
-		612CE8E31CAB0B2800C260EC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = NeuralNet/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.venturemedia.NeuralNet;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-			};
-			name = Debug;
-		};
-		612CE8E41CAB0B2800C260EC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = NeuralNet/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.venturemedia.NeuralNet;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		612CE8E61CAB0B2800C260EC /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = NeuralNetTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.venturemedia.NeuralNetTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RNNViewer.app/Contents/MacOS/RNNViewer";
-			};
-			name = Debug;
-		};
-		612CE8E71CAB0B2800C260EC /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = NeuralNetTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.venturemedia.NeuralNetTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RNNViewer.app/Contents/MacOS/RNNViewer";
-			};
-			name = Release;
-		};
-		61466E991CAB2AA1001338C1 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = Tracker/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.venturemedia.Tracker;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-			};
-			name = Debug;
-		};
-		61466E9A1CAB2AA1001338C1 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = YES;
-				DEFINES_MODULE = YES;
-				DYLIB_COMPATIBILITY_VERSION = 1;
-				DYLIB_CURRENT_VERSION = 1;
-				DYLIB_INSTALL_NAME_BASE = "@rpath";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = YES;
-				FRAMEWORK_VERSION = A;
-				INFOPLIST_FILE = Tracker/Info.plist;
-				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.venturemedia.Tracker;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-			};
-			name = Release;
-		};
-		61466E9C1CAB2AA1001338C1 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = TrackerTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.venturemedia.TrackerTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Debug;
-		};
-		61466E9D1CAB2AA1001338C1 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				CLANG_ANALYZER_NONNULL = YES;
-				CODE_SIGN_IDENTITY = "-";
-				COMBINE_HIDPI_IMAGES = YES;
-				INFOPLIST_FILE = TrackerTests/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
-				MACOSX_DEPLOYMENT_TARGET = 10.11;
-				PRODUCT_BUNDLE_IDENTIFIER = com.venturemedia.TrackerTests;
-				PRODUCT_NAME = "$(TARGET_NAME)";
-			};
-			name = Release;
-		};
 		6180A77D1C18ABFC00D63F00 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -3050,42 +2385,6 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		612CE8E21CAB0B2800C260EC /* Build configuration list for PBXNativeTarget "NeuralNet" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				612CE8E31CAB0B2800C260EC /* Debug */,
-				612CE8E41CAB0B2800C260EC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		612CE8E51CAB0B2800C260EC /* Build configuration list for PBXNativeTarget "NeuralNetTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				612CE8E61CAB0B2800C260EC /* Debug */,
-				612CE8E71CAB0B2800C260EC /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		61466E981CAB2AA1001338C1 /* Build configuration list for PBXNativeTarget "Tracker" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				61466E991CAB2AA1001338C1 /* Debug */,
-				61466E9A1CAB2AA1001338C1 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		61466E9B1CAB2AA1001338C1 /* Build configuration list for PBXNativeTarget "TrackerTests" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				61466E9C1CAB2AA1001338C1 /* Debug */,
-				61466E9D1CAB2AA1001338C1 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
 		6180A77C1C18ABFC00D63F00 /* Build configuration list for PBXNativeTarget "FeatureExtractionTests-OSX" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
