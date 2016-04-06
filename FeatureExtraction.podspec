@@ -9,8 +9,9 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = "8.4"
   s.osx.deployment_target = "10.11"
 
-  s.source       = { git: "https://github.com/venturemedia/audio-features.git", tag: s.version }
-  s.source_files  = "FeatureExtraction/FeatureExtraction/*.swift", "FeatureExtraction/FeatureExtraction/**/*.swift"
+  s.source = { git: "https://github.com/venturemedia/audio-features.git", tag: s.version }
+  s.source_files = "FeatureExtraction/FeatureExtraction/*.swift", "FeatureExtraction/FeatureExtraction/**/*.swift"
+  s.resource_bundle = { 'NoteCurves' => 'FeatureExtraction/FeatureExtraction/note_curves.h5' }
 
   s.dependency "Upsurge", '~> 0.1'
   s.dependency "HDF5Kit", '~> 0.1'

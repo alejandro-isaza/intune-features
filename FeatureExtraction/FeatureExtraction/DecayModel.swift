@@ -13,8 +13,19 @@ public class DecayModel {
     public init(representableNoteRange: Range<Int>) {
         self.representableNoteRange = representableNoteRange
 
-        let path = NSBundle(forClass: self.dynamicType).pathForResource("note_curves", ofType: "h5")!
-        guard let file = File.open(path, mode: .ReadOnly) else {
+        let curvesPath: String
+        let bundle = NSBundle(forClass: self.dynamicType)
+        if let path = bundle.pathForResource("note_curves", ofType: "h5") {
+            curvesPath = path
+        } else if let subBundlePath = bundle.pathForResource("NoteCurves", ofType: "bundle"),
+            subBundle = NSBundle(path: subBundlePath),
+            path = subBundle.pathForResource("note_curves", ofType: "h5") {
+            curvesPath = path
+        } else {
+            fatalError("Note curves file not found")
+        }
+        
+        guard let file = File.open(curvesPath, mode: .ReadOnly) else {
             fatalError("Note curve parameters file not found.")
         }
         self.file = file
