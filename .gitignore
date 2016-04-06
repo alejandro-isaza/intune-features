@@ -11,17 +11,3 @@ xcuserdata/
 # Dependecy management
 Pods
 Carthage
-
-# Other directories
-build/
-bin/
-doc/
-data/
-AudioData
-
-# Converter files
-Converters/out/
-Converters/sf/
-
-# Other intermediate files
-*.pyc
