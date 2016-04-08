@@ -17,7 +17,7 @@ public struct Note : Equatable, Hashable, CustomStringConvertible {
         case ASharp = 10
         case B  = 11
 
-        static let count = 12
+        public static let count = 12
     }
 
     public var note: NoteType

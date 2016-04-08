@@ -20,7 +20,7 @@ public struct FeatureBuilder {
     public let spectrumFeature1: SpectrumFeatureGenerator
     public let spectrumFluxFeature: FluxFeatureGenerator
 
-    public init(configuration: Configuration) {
+    public init(configuration: Configuration = Configuration()) {
         self.configuration = configuration
 
         windowingFunction = ValueArray<Double>(count: configuration.windowSize)
