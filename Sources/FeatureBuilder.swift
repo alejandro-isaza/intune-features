@@ -108,7 +108,10 @@ public class FeatureBuilder {
         points.reserveCapacity(spectrum.count)
         for i in 0..<spectrum.count {
             let v = spectrum[i]
-            points.append(Point(x: configuration.baseFrequency * Double(i), y: v))
+            if i >= points1.count {
+                points.append(Point(x: 0, y: 0))
+            }
+            points[i] = Point(x: configuration.baseFrequency * Double(i), y: v)
         }
     }
 }
