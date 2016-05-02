@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name         = "IntuneFeatures"
-  s.version      = "0.3.0"
+  s.version      = "0.3.1"
   s.summary      = "Audio feature extraction"
   s.homepage     = "https://github.com/venturemedia/intune-features"
   s.license      = "Proprietary"
@@ -15,5 +15,5 @@ Pod::Spec.new do |s|
 
   s.dependency 'HDF5Kit', '~> 0.1'
   s.dependency 'Peak/MIDI', '~> 1.2'
-  s.dependency 'Upsurge', '~> 0.7'
+  s.dependency 'Upsurge', '~> 0.7.1'
 end
