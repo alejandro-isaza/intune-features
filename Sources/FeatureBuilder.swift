@@ -3,11 +3,15 @@
 import Accelerate
 import Upsurge
 
-public struct FeatureBuilder {
+public class FeatureBuilder {
     public let configuration: Configuration
 
     // Helpers
     public var windowingFunction: ValueArray<Double>
+    public var spectrum0: ValueArray<Double>
+    public var spectrum1: ValueArray<Double>
+    public var points0: [Point]
+    public var points1: [Point]
     public let fft: FFTDouble
     public let peakExtractor: PeakExtractor
 
@@ -31,6 +35,13 @@ public struct FeatureBuilder {
         fft = FFTDouble(inputLength: configuration.windowSize)
         peakExtractor = PeakExtractor(configuration: configuration)
 
+        spectrum0 = ValueArray<Double>(count: configuration.windowSize / 2)
+        spectrum1 = ValueArray<Double>(count: configuration.windowSize / 2)
+        points0 = [Point]()
+        points0.reserveCapacity(configuration.windowSize / 2)
+        points1 = [Point]()
+        points1.reserveCapacity(configuration.windowSize / 2)
+
         spectrumFeature0 = SpectrumFeatureGenerator(configuration: configuration)
         spectrumFeature1 = SpectrumFeatureGenerator(configuration: configuration)
         spectrumFluxFeature = FluxFeatureGenerator(configuration: configuration)
@@ -52,17 +63,17 @@ public struct FeatureBuilder {
         peakFlux.reset()
     }
 
-    public func generateFeatures<C: LinearType where C.Element == Double>(data0: C, _ data1: C) -> Feature {
+    public func generateFeatures<C: LinearType where C.Element == Double>(data0: C, _ data1: C, inout feature: Feature) {
         let rms0 = Double(rmsq(data0))
         let rms1 = Double(rmsq(data1))
        
         // Compute spectrum
-        let spectrum0 = spectrumValues(data0)
-        let points0 = spectrumPoints(spectrum0)
+        spectrumValues(data0, results: &spectrum0)
+        spectrumPoints(spectrum0, points: &points0)
         spectrumFeature0.update(spectrum: spectrum0, baseFrequency: configuration.baseFrequency)
         
-        let spectrum1 = spectrumValues(data1)
-        let points1 = spectrumPoints(spectrum1)
+        spectrumValues(data1, results: &spectrum1)
+        spectrumPoints(spectrum1, points: &points1)
         spectrumFeature1.update(spectrum: spectrum1, baseFrequency: configuration.baseFrequency)
 
         spectrumFluxFeature.update(data0: spectrumFeature0.data, data1: spectrumFeature1.data)
@@ -84,22 +95,20 @@ public struct FeatureBuilder {
             feature.peakLocations[i] = Float(peakLocations.data[i])
             feature.peakFlux[i] = Float(peakFlux.data[i])
         }
-        return feature
     }
     
     /// Compute the power spectrum values
-    public func spectrumValues<C: LinearType where C.Element == Double>(data: C) -> ValueArray<Double> {
-        return sqrt(fft.forwardMags(data * windowingFunction))
+    public func spectrumValues<Input: LinearType where Input.Element == Double>(data: Input, inout results: ValueArray<Double>) {
+        fft.forwardMags(data * windowingFunction, results: &results)
+        sqrt(results, results: &results)
     }
 
     /// Convert from spectrum values to frequency, value points
-    public func spectrumPoints<C: LinearType where C.Element == Double>(spectrum: C) -> [Point] {
-        var points = [Point]()
+    public func spectrumPoints<C: LinearType where C.Element == Double>(spectrum: C, inout points: [Point]) {
         points.reserveCapacity(spectrum.count)
         for i in 0..<spectrum.count {
             let v = spectrum[i]
             points.append(Point(x: configuration.baseFrequency * Double(i), y: v))
         }
-        return points
     }
 }

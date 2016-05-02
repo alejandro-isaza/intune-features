@@ -6,7 +6,7 @@ target 'IntuneFeatures.OSX' do
   link_with 'IntuneFeatures.OSX', 'IntuneFeaturesTests.OSX'
   pod 'HDF5Kit', '~> 0.1'
   pod 'Peak/MIDI', '~> 1.2'
-  pod 'Upsurge', '~> 0.7'
+  pod 'Upsurge', '~> 0.7.1'
 end
 
 target 'IntuneFeatures.iOS' do
@@ -14,5 +14,5 @@ target 'IntuneFeatures.iOS' do
   link_with 'IntuneFeatures.iOS', 'IntuneFeaturesTests.iOS'
   pod 'HDF5Kit', '~> 0.1'
   pod 'Peak/MIDI', '~> 1.2'
-  pod 'Upsurge', '~> 0.7'
+  pod 'Upsurge', '~> 0.7.1'
 end

@@ -1,16 +1,16 @@
 PODS:
   - HDF5Kit (0.1.2)
   - Peak/MIDI (1.2.1)
-  - Upsurge (0.7.0)
+  - Upsurge (0.7.1)
 
 DEPENDENCIES:
   - HDF5Kit (~> 0.1)
   - Peak/MIDI (~> 1.2)
-  - Upsurge (~> 0.7)
+  - Upsurge (~> 0.7.1)
 
 SPEC CHECKSUMS:
   HDF5Kit: b6762835ec16797ef9fedda5ce83b77f6a230a32
   Peak: 78c2286bfe10b9c75a771610db28271d25dde49e
-  Upsurge: 2e586fe76dddf8c02b850010e09fd886b730b9c6
+  Upsurge: 0018803cd02c9fe1ae461b5407fda36b198e25be
 
 COCOAPODS: 0.39.0
