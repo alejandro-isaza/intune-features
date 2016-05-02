@@ -87,7 +87,6 @@ public class FeatureBuilder {
         peakLocations.update(peaks1)
         peakFlux.update(data0: peakHeights0.data, data1: peakHeights1.data)
 
-        let feature = Feature(bandCount: configuration.bandCount)
         for i in 0..<configuration.bandCount {
             feature.spectrum[i] = Float(spectrumFeature1.data[i])
             feature.spectralFlux[i] = Float(spectrumFluxFeature.data[i])
