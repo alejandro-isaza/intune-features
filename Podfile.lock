@@ -1,16 +1,20 @@
 PODS:
   - HDF5Kit (0.1.2)
-  - Peak/MIDI (1.2.1)
+  - Peak/AudioFile (1.2.3)
+  - Peak/MIDI (1.2.3)
   - Upsurge (0.7.1)
 
 DEPENDENCIES:
   - HDF5Kit (~> 0.1)
+  - Peak/AudioFile (~> 1.2)
   - Peak/MIDI (~> 1.2)
   - Upsurge (~> 0.7.1)
 
 SPEC CHECKSUMS:
-  HDF5Kit: b6762835ec16797ef9fedda5ce83b77f6a230a32
-  Peak: 78c2286bfe10b9c75a771610db28271d25dde49e
-  Upsurge: 0018803cd02c9fe1ae461b5407fda36b198e25be
+  HDF5Kit: c838fef14a2f29b9ca4a18c1b02d24bcb9e16e04
+  Peak: e59497fba5ab7f61fe59627066eb8594aa203e55
+  Upsurge: 16299acc49994efb47cb68249bb506565e0f8680
 
-COCOAPODS: 0.39.0
+PODFILE CHECKSUM: 04dbb5f935098409b4763f72bd80698248b87bae
+
+COCOAPODS: 1.0.0
