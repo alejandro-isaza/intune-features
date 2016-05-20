@@ -1,3 +1,0 @@
-Playgrounds/FeatureExtractionPlayground.playground/Resources/*.h5 filter=lfs diff=lfs merge=lfs -text
-Playgrounds/Net.playground/Resources/*.h5 filter=lfs diff=lfs merge=lfs -text
-FeatureExtraction/*.h5 filter=lfs diff=lfs merge=lfs -text
