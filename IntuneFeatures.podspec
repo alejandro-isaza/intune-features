@@ -1,10 +1,10 @@
 Pod::Spec.new do |s|
   s.name         = "IntuneFeatures"
-  s.version      = "0.3.2"
+  s.version      = "0.3.3"
   s.summary      = "Audio feature extraction"
   s.homepage     = "https://github.com/venturemedia/intune-features"
   s.license      = "Proprietary"
-  s.author       = { "Alejandro Isaza" => "aisaza@venturemedia.com" }
+  s.author       = { "Alejandro Isaza" => "al@isaza.ca" }
   
   s.ios.deployment_target = "8.4"
   s.osx.deployment_target = "10.11"
