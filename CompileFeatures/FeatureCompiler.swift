@@ -12,8 +12,8 @@ import IntuneFeatures
 import HDF5Kit
 import Upsurge
 
-func midiNoteLabel(notes: Range<Int>, note: Int) -> Int {
-    return note - notes.startIndex + 1
+func midiNoteLabel(_ notes: Range<Int>, note: Int) -> Int {
+    return note - notes.lowerBound + 1
 }
 
 class FeatureCompiler {
@@ -52,16 +52,16 @@ class FeatureCompiler {
 
     var inputFiles = [InputFile]()
     
-    let queue: NSOperationQueue
+    let queue: OperationQueue
     
     init(inputFolder: String, outputFolder: String, configuration: Configuration) {
         self.outputFolder = outputFolder
         self.decayModel = DecayModel(representableNoteRange: configuration.representableNoteRange)
         self.configuration = configuration
 
-        queue = NSOperationQueue()
+        queue = OperationQueue()
         queue.name = "Operations"
-        queue.maxConcurrentOperationCount = NSOperationQueueDefaultMaxConcurrentOperationCount
+        queue.maxConcurrentOperationCount = OperationQueue.defaultMaxConcurrentOperationCount
 
         let urls = loadFiles(inputFolder)
         for url in urls {
@@ -77,10 +77,10 @@ class FeatureCompiler {
     func compileFeatures() throws {
         var completeCount = 0
         for file in inputFiles {
-            queue.addOperationWithBlock {
+            queue.addOperation {
                 self.compileFeaturesInFile(file)
 
-                dispatch_async(dispatch_get_main_queue()) {
+                DispatchQueue.main.async {
                     completeCount += 1
                     if FeatureCompiler.isTTY {
                         print(FeatureCompiler.eraseLastLineCommand, terminator: "")
@@ -90,7 +90,7 @@ class FeatureCompiler {
             }
         }
         while true {
-            NSRunLoop.currentRunLoop().runUntilDate(NSDate(timeIntervalSinceNow: 1))
+            RunLoop.current.run(until: Date(timeIntervalSinceNow: 1))
             if queue.operationCount == 0 {
                 break
             }
@@ -98,7 +98,7 @@ class FeatureCompiler {
         print("")
     }
 
-    func compileFeaturesInFile(file: InputFile) {
+    func compileFeaturesInFile(_ file: InputFile) {
         let builder: Builder
         if let midiPath = file.midiPath {
             builder = PolySequenceBuilder(audioFilePath: file.audioPath, midiFilePath: midiPath, decayModel: decayModel, configuration: configuration)
@@ -117,19 +117,19 @@ class FeatureCompiler {
         writeLabels(file.audioPath, labels: labels, features: features, events: builder.events)
     }
 
-    func writeLabels(filePath: String, labels: [Label], features: [Feature], events: [Event]) {
-        dispatch_sync(dispatch_get_main_queue()) {
+    func writeLabels(_ filePath: String, labels: [Label], features: [Feature], events: [Event]) {
+        DispatchQueue.main.sync {
             try! self.writeOnMainThread(filePath, labels: labels, features: features, events: events)
         }
     }
 
-    func writeOnMainThread(filePath: String, labels: [Label], features: [Feature], events: [Event]) throws {
+    func writeOnMainThread(_ filePath: String, labels: [Label], features: [Feature], events: [Event]) throws {
         let fileName = String(format: "%.5d.h5", arguments: [outputCount])
         let databasePath = outputFolder.stringByAppendingPathComponent(fileName)
         outputCount += 1
 
         fileList += "\(filePath), \(databasePath)\n"
-        try! fileList.writeToFile(outputFolder.stringByAppendingPathComponent("file_list.txt"), atomically: true, encoding: NSUTF8StringEncoding)
+        try! fileList.write(toFile: outputFolder.stringByAppendingPathComponent("file_list.txt"), atomically: true, encoding: String.Encoding.utf8)
 
         let database = FeatureDatabase(filePath: databasePath, configuration: configuration)
         try database.writeLabels(labels)
@@ -138,20 +138,20 @@ class FeatureCompiler {
         database.flush()
     }
 
-    func loadFiles(root: String) -> [NSURL] {
-        let fileManager = NSFileManager.defaultManager()
-        guard let rootURLs = try? fileManager.contentsOfDirectoryAtURL(NSURL.fileURLWithPath(root), includingPropertiesForKeys: [NSURLNameKey], options: NSDirectoryEnumerationOptions.SkipsHiddenFiles) else {
+    func loadFiles(_ root: String) -> [URL] {
+        let fileManager = FileManager.default
+        guard let rootURLs = try? fileManager.contentsOfDirectory(at: URL(fileURLWithPath: root), includingPropertiesForKeys: [URLResourceKey.nameKey], options: FileManager.DirectoryEnumerationOptions.skipsHiddenFiles) else {
             fatalError()
         }
         
         var isDirectory: ObjCBool = false
-        var urls = [NSURL]()
+        var urls = [URL]()
         
         for url in rootURLs {
-            if fileManager.fileExistsAtPath(url.path!, isDirectory: &isDirectory) && isDirectory {
-                urls.appendContentsOf(loadFiles(url.path!))
+            if fileManager.fileExists(atPath: url.path, isDirectory: &isDirectory) && isDirectory.boolValue {
+                urls.append(contentsOf: loadFiles(url.path))
             } else {
-                if audioExtensions.contains(url.pathExtension!) {
+                if audioExtensions.contains(url.pathExtension) {
                     urls.append(url)
                 }
             }
@@ -160,22 +160,16 @@ class FeatureCompiler {
         return urls
     }
     
-    func inputFileForURL(url: NSURL) -> InputFile? {
-        let manager = NSFileManager.defaultManager()
-        guard let midFile = url.URLByDeletingPathExtension?.URLByAppendingPathExtension("mid") else {
-            fatalError("Failed to build path")
-        }
-        
-        if manager.fileExistsAtPath(midFile.path!) {
-            return InputFile(audioPath: url.path!, midiPath: midFile.path!)
+    func inputFileForURL(_ url: URL) -> InputFile? {
+        let manager = FileManager.default
+        let midFile = url.deletingPathExtension().appendingPathExtension("mid")
+        if manager.fileExists(atPath: midFile.path) {
+            return InputFile(audioPath: url.path, midiPath: midFile.path)
         }
 
-        guard let csvFile = url.URLByDeletingPathExtension?.URLByAppendingPathExtension("csv") else {
-            fatalError("Failed to build path")
-        }
-
-        if manager.fileExistsAtPath(csvFile.path!) {
-            return InputFile(audioPath: url.path!, csvPath: csvFile.path!)
+        let csvFile = url.deletingPathExtension().appendingPathExtension("csv")
+        if manager.fileExists(atPath: csvFile.path) {
+            return InputFile(audioPath: url.path, csvPath: csvFile.path)
         }
         
         return nil

@@ -30,7 +30,7 @@ class NoiseSequenceBuilder: Builder {
         }
     }
 
-    func forEachWindow(@noescape action: (Window) throws -> ()) rethrows {
+    func forEachWindow(_ action: (Window) throws -> ()) rethrows {
         var data = ValueArray<Double>(capacity: Int(audioFile.frameCount))
         withPointer(&data) { pointer in
             data.count = audioFile.readFrames(pointer, count: data.capacity) ?? 0
@@ -41,7 +41,7 @@ class NoiseSequenceBuilder: Builder {
 
         featureBuilder.reset()
         let totalSampleCount = Int(audioFile.frameCount)
-        for offset in configuration.stepSize.stride(through: totalSampleCount - configuration.windowSize, by: configuration.stepSize) {
+        for offset in stride(from: configuration.stepSize, through: totalSampleCount - configuration.windowSize, by: configuration.stepSize) {
             var window = Window(start: offset, noteCount: configuration.representableNoteRange.count, bandCount: configuration.bandCount)
 
             let range1 = offset - configuration.stepSize..<offset - configuration.stepSize + configuration.windowSize

@@ -8,16 +8,16 @@
 import Foundation
 import Upsurge
 
-public class PeakHeightsFeatureGenerator: BandsFeatureGenerator {
-    public let minRMS = 0.0001
+open class PeakHeightsFeatureGenerator: BandsFeatureGenerator {
+    open let minRMS = 0.0001
 
     var rmsHistory: ValueArray<Double>
     var rmsHistoryIndex = 0
 
-    public var rmsAverage: Double
-    public var peakHeights: ValueArray<Double>
+    open var rmsAverage: Double
+    open var peakHeights: ValueArray<Double>
 
-    public override var data: ValueArray<Double> {
+    open override var data: ValueArray<Double> {
         return peakHeights
     }
 
@@ -29,7 +29,7 @@ public class PeakHeightsFeatureGenerator: BandsFeatureGenerator {
         super.init(configuration: configuration, offsets: offsets, scales: scales)
     }
 
-    public override func reset() {
+    open override func reset() {
         let bandCount = configuration.bandCount
         for i in 0..<configuration.rmsMovingAverageSize {
             rmsHistory[i] = minRMS
@@ -40,7 +40,7 @@ public class PeakHeightsFeatureGenerator: BandsFeatureGenerator {
         }
     }
     
-    public func update(peaks: [Point], rms: Double) {
+    open func update(_ peaks: [Point], rms: Double) {
         let bandCount = configuration.bandCount
         let safeRMS = max(rms, minRMS)
 
@@ -60,7 +60,7 @@ public class PeakHeightsFeatureGenerator: BandsFeatureGenerator {
             let band = configuration.bandForNote(note)
             if band >= 0 && band < bandCount {
                 let newHeight = max(peak.y / rmsAverage, peakHeights[band])
-                precondition(isfinite(newHeight))
+                precondition(newHeight.isFinite)
 
                 let offset = offsets?[band] ?? 0.0
                 let scale = scales?[band] ?? 1.0

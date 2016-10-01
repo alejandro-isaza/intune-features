@@ -9,7 +9,7 @@ import IntuneFeatures
 
 protocol Builder {
     /// Calls the closure for every window in a file
-    func forEachWindow(@noescape action: (Window) throws -> ()) rethrows
+    func forEachWindow( _ action: (Window) throws -> ()) rethrows
 
     /// The list of events compiled from all windows in a file
     var events: [Event] { get }

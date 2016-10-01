@@ -8,15 +8,15 @@
 import Foundation
 
 extension String {
-    mutating func appendPathComponent(component: String) {
+    mutating func appendPathComponent(_ component: String) {
         let strippedComponent: String
-        if let first = component.characters.first where first == "/" {
-            strippedComponent = component.substringFromIndex(component.startIndex.advancedBy(1))
+        if let first = component.characters.first , first == "/" {
+            strippedComponent = component.substring(from: component.characters.index(component.startIndex, offsetBy: 1))
         } else {
             strippedComponent = component
         }
         
-        if let last = self.characters.last where last == "/" {
+        if let last = self.characters.last , last == "/" {
             self += strippedComponent
         } else {
             self += "/" + strippedComponent
@@ -27,22 +27,22 @@ extension String {
         return (self as NSString).lastPathComponent
     }
 
-    func stringByDeletingLastPathComponent(newExtension: String) -> String {
-        return (self as NSString).stringByDeletingLastPathComponent
+    func stringByDeletingLastPathComponent(_ newExtension: String) -> String {
+        return (self as NSString).deletingLastPathComponent
     }
 
-    func stringByReplacingExtensionWith(newExtension: String) -> String {
-        let noExtension: NSString = (self as NSString).stringByDeletingPathExtension
-        return noExtension.stringByAppendingPathExtension(newExtension)!
+    func stringByReplacingExtensionWith(_ newExtension: String) -> String {
+        let noExtension: NSString = (self as NSString).deletingPathExtension as NSString
+        return noExtension.appendingPathExtension(newExtension)!
     }
 
-    func stringByAppendingPathComponent(component: String) -> String {
-        return (self as NSString).stringByAppendingPathComponent(component)
+    func stringByAppendingPathComponent(_ component: String) -> String {
+        return (self as NSString).appendingPathComponent(component)
     }
 
 }
 
-func buildPathFromParts(parts: [String]) -> String {
+func buildPathFromParts(_ parts: [String]) -> String {
     guard var path = parts.first else {
         return ""
     }

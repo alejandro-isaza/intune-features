@@ -21,7 +21,7 @@ public struct Label {
     public init(noteCount: Int) {
         onset = 0
         polyphony = 0
-        notes = [Float](count: noteCount, repeatedValue: 0)
+        notes = [Float](repeating: 0, count: noteCount)
     }
 
     public init(onset: Float, polyphony: Float, notes: [Float]) {

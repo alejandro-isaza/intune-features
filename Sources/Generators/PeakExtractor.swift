@@ -8,19 +8,19 @@
 import Foundation
 import Upsurge
 
-public class PeakExtractor {
+open class PeakExtractor {
     let configuration: Configuration
 
     public init(configuration: Configuration) {
         self.configuration = configuration
     }
 
-    public func process(input: [Point], rms: Double) -> [Point] {
+    open func process(_ input: [Point], rms: Double) -> [Point] {
         let peaks = findPeaks(input)
         return filterPeaks(peaks, rms: rms)
     }
 
-    func findPeaks(input: [Point]) -> [Point] {
+    func findPeaks(_ input: [Point]) -> [Point] {
         var peaks = [Point]()
 
         for i in 1...input.count-2 {
@@ -33,24 +33,24 @@ public class PeakExtractor {
         return peaks
     }
 
-    func filterPeaks(input: [Point], rms: Double) -> [Point] {
+    func filterPeaks(_ input: [Point], rms: Double) -> [Point] {
         let peaks = filterPeaksByHeight(input, rms: rms)
         return choosePeaks(peaks)
     }
 
-    func filterPeaksByHeight(input: [Point], rms: Double) -> [Point] {
+    func filterPeaksByHeight(_ input: [Point], rms: Double) -> [Point] {
         return input.filter { (peak: Point) -> Bool in
             return peak.y > configuration.peakHeightCutoffMultiplier * rms
         }
     }
 
-    func choosePeaks(input: [Point]) -> [Point] {
+    func choosePeaks(_ input: [Point]) -> [Point] {
         var chosenPeaks = [Point]()
 
         var currentPeakRange = 0.0...0.0
         for peak in input {
             if currentPeakRange.contains(peak.x) {
-                if let lastPeak = chosenPeaks.last where lastPeak.y < peak.y {
+                if let lastPeak = chosenPeaks.last , lastPeak.y < peak.y {
                     chosenPeaks.removeLast()
                     chosenPeaks.append(peak)
                     currentPeakRange = binCutoffRange(peak.x)
@@ -64,7 +64,7 @@ public class PeakExtractor {
         return chosenPeaks
     }
 
-    func binCutoffRange(freq: Double) -> ClosedInterval<Double> {
+    func binCutoffRange(_ freq: Double) -> ClosedRange<Double> {
         let note = freqToNote(freq)
 
         let upperBound = noteToFreq(note + configuration.minimumPeakDistance)

@@ -7,10 +7,10 @@
 
 import Upsurge
 
-public class SpectrumFeatureGenerator: BandsFeatureGenerator {
-    public var bands: ValueArray<Double>
+open class SpectrumFeatureGenerator: BandsFeatureGenerator {
+    open var bands: ValueArray<Double>
 
-    public override var data: ValueArray<Double> {
+    open override var data: ValueArray<Double> {
         return bands
     }
 
@@ -19,7 +19,7 @@ public class SpectrumFeatureGenerator: BandsFeatureGenerator {
         super.init(configuration: configuration, offsets: offsets, scales: scales)
     }
 
-    public func update(spectrum data: ValueArray<Double>, baseFrequency fb: Double) {
+    open func update(spectrum data: ValueArray<Double>, baseFrequency fb: Double) {
         let bandCount = configuration.bandCount
 
         for band in 0..<bandCount {

@@ -8,26 +8,26 @@
 import Accelerate
 import Upsurge
 
-public class FeatureBuilder {
-    public let configuration: Configuration
+open class FeatureBuilder {
+    open let configuration: Configuration
 
     // Helpers
-    public var windowingFunction: ValueArray<Double>
-    public var spectrum0: ValueArray<Double>
-    public var spectrum1: ValueArray<Double>
-    public var points0: [Point]
-    public var points1: [Point]
-    public let fft: FFTDouble
-    public let peakExtractor: PeakExtractor
+    open var windowingFunction: ValueArray<Double>
+    open var spectrum0: ValueArray<Double>
+    open var spectrum1: ValueArray<Double>
+    open var points0: [Point]
+    open var points1: [Point]
+    open let fft: FFTDouble
+    open let peakExtractor: PeakExtractor
 
     // Generators
-    public let peakLocations: PeakLocationsFeatureGenerator
-    public let peakHeights0: PeakHeightsFeatureGenerator
-    public let peakHeights1: PeakHeightsFeatureGenerator
-    public let peakFlux: FluxFeatureGenerator
-    public let spectrumFeature0: SpectrumFeatureGenerator
-    public let spectrumFeature1: SpectrumFeatureGenerator
-    public let spectrumFluxFeature: FluxFeatureGenerator
+    open let peakLocations: PeakLocationsFeatureGenerator
+    open let peakHeights0: PeakHeightsFeatureGenerator
+    open let peakHeights1: PeakHeightsFeatureGenerator
+    open let peakFlux: FluxFeatureGenerator
+    open let spectrumFeature0: SpectrumFeatureGenerator
+    open let spectrumFeature1: SpectrumFeatureGenerator
+    open let spectrumFluxFeature: FluxFeatureGenerator
 
     public init(configuration: Configuration = Configuration()) {
         self.configuration = configuration
@@ -57,7 +57,7 @@ public class FeatureBuilder {
         peakFlux = FluxFeatureGenerator(configuration: configuration)
     }
 
-    public func reset() {
+    open func reset() {
         spectrumFeature0.reset()
         spectrumFeature1.reset()
         spectrumFluxFeature.reset()
@@ -68,7 +68,7 @@ public class FeatureBuilder {
         peakFlux.reset()
     }
 
-    public func generateFeatures<C: LinearType where C.Element == Double>(data0: C, _ data1: C, inout feature: Feature) {
+    open func generateFeatures<C: LinearType>(_ data0: C, _ data1: C, feature: inout Feature) where C.Element == Double {
         let rms0 = Double(rmsq(data0))
         let rms1 = Double(rmsq(data1))
        
@@ -102,13 +102,13 @@ public class FeatureBuilder {
     }
     
     /// Compute the power spectrum values
-    public func spectrumValues<Input: LinearType where Input.Element == Double>(data: Input, inout results: ValueArray<Double>) {
+    open func spectrumValues<Input: LinearType>(_ data: Input, results: inout ValueArray<Double>) where Input.Element == Double {
         fft.forwardMags(data * windowingFunction, results: &results)
         sqrt(results, results: &results)
     }
 
     /// Convert from spectrum values to frequency, value points
-    public func spectrumPoints<C: LinearType where C.Element == Double>(spectrum: C, inout points: [Point]) {
+    open func spectrumPoints<C: LinearType>(_ spectrum: C, points: inout [Point]) where C.Element == Double {
         points.reserveCapacity(spectrum.count)
         for i in 0..<spectrum.count {
             let v = spectrum[i]

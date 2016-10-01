@@ -59,14 +59,14 @@ class PolySequenceBuilder: Builder {
             fatalError("Failed to open CSV file \(csvFilePath)")
         }
 
-        let newline = NSCharacterSet.newlineCharacterSet()
+        let newline = NSCharacterSet.newlines
         var lines: [String] = []
-        csvString.stringByTrimmingCharactersInSet(newline).enumerateLines { line, stop in lines.append(line) }
+        csvString.trimmingCharacters(in: newline).enumerateLines { line, stop in lines.append(line) }
         events.reserveCapacity(lines.count)
 
-        let delimiter = NSCharacterSet(charactersInString: ",")
+        let delimiter = CharacterSet(charactersIn: ",")
         for line in lines {
-            let values = line.componentsSeparatedByCharactersInSet(delimiter)
+            let values = line.components(separatedBy: delimiter)
             precondition(values.count == 4 || values.count == 3, "Invalid CSV file")
             let note = Note(midiNoteNumber: Int(values[0])!)
             let start = Int(values[1])!
@@ -82,7 +82,7 @@ class PolySequenceBuilder: Builder {
         }
     }
 
-    func forEachWindow(@noescape action: (Window) throws -> ()) rethrows {
+    func forEachWindow(_ action: (Window) throws -> ()) rethrows {
         var data = ValueArray<Double>(capacity: Int(audioFile.frameCount))
         withPointer(&data) { pointer in
             data.count = audioFile.readFrames(pointer, count: data.capacity) ?? 0
@@ -93,7 +93,7 @@ class PolySequenceBuilder: Builder {
 
         featureBuilder.reset()
         let totalSampleCount = Int(audioFile.frameCount)
-        for offset in configuration.stepSize.stride(through: totalSampleCount - configuration.windowSize, by: configuration.stepSize) {
+        for offset in stride(from: configuration.stepSize, through: totalSampleCount - configuration.windowSize, by: configuration.stepSize) {
             var window = Window(start: offset, noteCount: configuration.representableNoteRange.count, bandCount: configuration.bandCount)
 
             let range1 = offset - configuration.stepSize..<offset - configuration.stepSize + configuration.windowSize
@@ -104,13 +104,13 @@ class PolySequenceBuilder: Builder {
             window.label.notes = notesValueForWindowAt(offset)
             window.label.polyphony = polyphonyValueFromNoteValues(window.label.notes)
 
-            precondition(isfinite(window.label.onset))
+            precondition(window.label.onset.isFinite)
 
             try action(window)
         }
     }
 
-    func onsetValueForWindowAt(windowStart: Int) -> Float {
+    func onsetValueForWindowAt(_ windowStart: Int) -> Float {
         var value = Float(0.0)
         var count = 0
         for event in events {
@@ -124,11 +124,11 @@ class PolySequenceBuilder: Builder {
             value /= Float(count)
         }
 
-        precondition(isfinite(value))
+        precondition(value.isFinite)
         return value
     }
 
-    func polyphonyValueFromNoteValues(values: [Float]) -> Float {
+    func polyphonyValueFromNoteValues(_ values: [Float]) -> Float {
         var value = Float(0)
         for v in values {
             if v > 0 {
@@ -138,16 +138,16 @@ class PolySequenceBuilder: Builder {
         return value
     }
 
-    func notesValueForWindowAt(windowStart: Int) -> [Float] {
-        var value = [Float](count: configuration.representableNoteRange.count, repeatedValue: 0)
+    func notesValueForWindowAt(_ windowStart: Int) -> [Float] {
+        var value = [Float](repeating: 0, count: configuration.representableNoteRange.count)
         for noteNumber in configuration.representableNoteRange {
             let note = Note(midiNoteNumber: noteNumber)
-            value[noteNumber - configuration.representableNoteRange.startIndex] = valueForNote(note, windowStart: windowStart)
+            value[noteNumber - configuration.representableNoteRange.start!] = valueForNote(note, windowStart: windowStart)
         }
         return value
     }
 
-    func valueForNote(note: Note, windowStart: Int) -> Float {
+    func valueForNote(_ note: Note, windowStart: Int) -> Float {
         var value = Float(0)
         for event in events {
             if event.note != note {
@@ -164,7 +164,7 @@ class PolySequenceBuilder: Builder {
         return 2 * value
     }
 
-    func valueForEvent(event: Event, windowStart: Int) -> Float {
+    func valueForEvent(_ event: Event, windowStart: Int) -> Float {
         let start = max(event.start, windowStart)
         let end = min(event.start + event.duration, windowStart + configuration.windowSize)
 
@@ -176,7 +176,7 @@ class PolySequenceBuilder: Builder {
         }
         value /= decayModel.normalizationForNote(event.note, windowSize: configuration.windowSize)
 
-        precondition(isfinite(value))
+        precondition(value.isFinite)
         return value
     }
 }

@@ -8,10 +8,10 @@
 import Foundation
 import Upsurge
 
-public class FluxFeatureGenerator: BandsFeatureGenerator {
-    public var fluxes: ValueArray<Double>
+open class FluxFeatureGenerator: BandsFeatureGenerator {
+    open var fluxes: ValueArray<Double>
 
-    public override var data: ValueArray<Double> {
+    open override var data: ValueArray<Double> {
         return fluxes
     }
 
@@ -20,7 +20,7 @@ public class FluxFeatureGenerator: BandsFeatureGenerator {
         super.init(configuration: configuration, offsets: offsets, scales: scales)
     }
 
-    public func update(data0 data0: ValueArray<Double>, data1: ValueArray<Double>) {
+    open func update(data0: ValueArray<Double>, data1: ValueArray<Double>) {
         let bandCount = configuration.bandCount
         precondition(data0.count == bandCount && data1.count == bandCount)
 

@@ -355,12 +355,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6180A77C1C18ABFC00D63F00 /* Build configuration list for PBXNativeTarget "IntuneFeaturesTests.OSX" */;
 			buildPhases = (
-				8E75B21E09737E444AE2C968 /* 📦 Check Pods Manifest.lock */,
+				8E75B21E09737E444AE2C968 /* [CP] Check Pods Manifest.lock */,
 				6180A7701C18ABFC00D63F00 /* Sources */,
 				6180A7711C18ABFC00D63F00 /* Frameworks */,
 				6180A7721C18ABFC00D63F00 /* Resources */,
-				6B5700D2E524CC2AC23C6973 /* 📦 Embed Pods Frameworks */,
-				F06BF6C58623DB5AA4E41C26 /* 📦 Copy Pods Resources */,
+				6B5700D2E524CC2AC23C6973 /* [CP] Embed Pods Frameworks */,
+				F06BF6C58623DB5AA4E41C26 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -376,11 +376,11 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 61936ACB1CEE74A600603B95 /* Build configuration list for PBXNativeTarget "CompileFeatures" */;
 			buildPhases = (
-				FA7E660289672D62390AF180 /* 📦 Check Pods Manifest.lock */,
+				FA7E660289672D62390AF180 /* [CP] Check Pods Manifest.lock */,
 				61936AC11CEE74A600603B95 /* Sources */,
 				61936AC21CEE74A600603B95 /* Frameworks */,
 				61936AC31CEE74A600603B95 /* CopyFiles */,
-				29FF0B0871677B894ADA0615 /* 📦 Copy Pods Resources */,
+				29FF0B0871677B894ADA0615 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -396,12 +396,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 61BBC3CB1C407891006C6DF0 /* Build configuration list for PBXNativeTarget "IntuneFeatures.iOS" */;
 			buildPhases = (
-				5584C2EF17098F84486500BB /* 📦 Check Pods Manifest.lock */,
+				5584C2EF17098F84486500BB /* [CP] Check Pods Manifest.lock */,
 				61BBC3B11C407891006C6DF0 /* Sources */,
 				61BBC3B21C407891006C6DF0 /* Frameworks */,
 				61BBC3B31C407891006C6DF0 /* Headers */,
 				61BBC3B41C407891006C6DF0 /* Resources */,
-				B62D08978891724619928330 /* 📦 Copy Pods Resources */,
+				B62D08978891724619928330 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -416,12 +416,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 61BBC3CC1C407891006C6DF0 /* Build configuration list for PBXNativeTarget "IntuneFeaturesTests.iOS" */;
 			buildPhases = (
-				40BDAC50D4651C8C8B38EDED /* 📦 Check Pods Manifest.lock */,
+				40BDAC50D4651C8C8B38EDED /* [CP] Check Pods Manifest.lock */,
 				61BBC3BB1C407891006C6DF0 /* Sources */,
 				61BBC3BC1C407891006C6DF0 /* Frameworks */,
 				61BBC3BD1C407891006C6DF0 /* Resources */,
-				88FA187FDBB1163B243110F5 /* 📦 Embed Pods Frameworks */,
-				F4C18B20CD7221D8917B033F /* 📦 Copy Pods Resources */,
+				88FA187FDBB1163B243110F5 /* [CP] Embed Pods Frameworks */,
+				F4C18B20CD7221D8917B033F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -437,12 +437,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8C7845831BB9B06600C88426 /* Build configuration list for PBXNativeTarget "IntuneFeatures.OSX" */;
 			buildPhases = (
-				4E64E1405CD1A79A29EBD8CA /* 📦 Check Pods Manifest.lock */,
+				4E64E1405CD1A79A29EBD8CA /* [CP] Check Pods Manifest.lock */,
 				8C78456A1BB9B06600C88426 /* Sources */,
 				8C78456B1BB9B06600C88426 /* Frameworks */,
 				8C78456C1BB9B06600C88426 /* Headers */,
 				612131D21CADCCD100299E03 /* Resources */,
-				D33A045500BCE2D019E35D73 /* 📦 Copy Pods Resources */,
+				D33A045500BCE2D019E35D73 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -461,7 +461,7 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftUpdateCheck = 0730;
-				LastUpgradeCheck = 0700;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = "Venture Media";
 				TargetAttributes = {
 					6180A7731C18ABFC00D63F00 = {
@@ -469,6 +469,7 @@
 					};
 					61936AC41CEE74A600603B95 = {
 						CreatedOnToolsVersion = 7.3.1;
+						LastSwiftMigration = 0800;
 					};
 					61BBC3B51C407891006C6DF0 = {
 						CreatedOnToolsVersion = 7.2;
@@ -478,6 +479,7 @@
 					};
 					8C78456E1BB9B06600C88426 = {
 						CreatedOnToolsVersion = 7.0;
+						LastSwiftMigration = 0800;
 					};
 				};
 			};
@@ -537,14 +539,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		29FF0B0871677B894ADA0615 /* 📦 Copy Pods Resources */ = {
+		29FF0B0871677B894ADA0615 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -552,14 +554,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CompileFeatures/Pods-CompileFeatures-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		40BDAC50D4651C8C8B38EDED /* 📦 Check Pods Manifest.lock */ = {
+		40BDAC50D4651C8C8B38EDED /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -567,14 +569,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		4E64E1405CD1A79A29EBD8CA /* 📦 Check Pods Manifest.lock */ = {
+		4E64E1405CD1A79A29EBD8CA /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -582,14 +584,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		5584C2EF17098F84486500BB /* 📦 Check Pods Manifest.lock */ = {
+		5584C2EF17098F84486500BB /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -597,14 +599,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		6B5700D2E524CC2AC23C6973 /* 📦 Embed Pods Frameworks */ = {
+		6B5700D2E524CC2AC23C6973 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -612,14 +614,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-IntuneFeatures.OSX-IntuneFeaturesTests.OSX/Pods-IntuneFeatures.OSX-IntuneFeaturesTests.OSX-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		88FA187FDBB1163B243110F5 /* 📦 Embed Pods Frameworks */ = {
+		88FA187FDBB1163B243110F5 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -627,14 +629,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS/Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		8E75B21E09737E444AE2C968 /* 📦 Check Pods Manifest.lock */ = {
+		8E75B21E09737E444AE2C968 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -642,14 +644,14 @@
 			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		B62D08978891724619928330 /* 📦 Copy Pods Resources */ = {
+		B62D08978891724619928330 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -657,14 +659,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-IntuneFeatures.iOS/Pods-IntuneFeatures.iOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		D33A045500BCE2D019E35D73 /* 📦 Copy Pods Resources */ = {
+		D33A045500BCE2D019E35D73 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -672,14 +674,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-IntuneFeatures.OSX/Pods-IntuneFeatures.OSX-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F06BF6C58623DB5AA4E41C26 /* 📦 Copy Pods Resources */ = {
+		F06BF6C58623DB5AA4E41C26 /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -687,14 +689,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-IntuneFeatures.OSX-IntuneFeaturesTests.OSX/Pods-IntuneFeatures.OSX-IntuneFeaturesTests.OSX-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		F4C18B20CD7221D8917B033F /* 📦 Copy Pods Resources */ = {
+		F4C18B20CD7221D8917B033F /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -702,14 +704,14 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS/Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		FA7E660289672D62390AF180 /* 📦 Check Pods Manifest.lock */ = {
+		FA7E660289672D62390AF180 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -832,6 +834,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 9EE9B816947C35B62AEFC9AD /* Pods-IntuneFeatures.OSX-IntuneFeaturesTests.OSX.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "Resources/Tests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
@@ -844,6 +847,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 4D24F1704FF5A366CAAA3F81 /* Pods-IntuneFeatures.OSX-IntuneFeaturesTests.OSX.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
 				INFOPLIST_FILE = "Resources/Tests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
@@ -856,11 +860,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 46A2B86AA72E5AD9AB9AC89F /* Pods-CompileFeatures.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_IDENTITY = "-";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) '@executable_path' '@executable_path/HDF5Kit-OSX' '@executable_path/Peak-AudioFile-MIDI' '@executable_path/Upsurge-OSX'";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -868,11 +873,12 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 01A691A0828E985BE2905E8A /* Pods-CompileFeatures.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_IDENTITY = "-";
-				EMBEDDED_CONTENT_CONTAINS_SWIFT = NO;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) '@executable_path' '@executable_path/HDF5Kit-OSX' '@executable_path/Peak-AudioFile-MIDI' '@executable_path/Upsurge-OSX'";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
@@ -880,7 +886,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 8AD663CE7FAD649FD7BA43F0 /* Pods-IntuneFeatures.iOS.debug.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -900,7 +907,8 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = D1E65C8BC7DA7492AE9F9C71 /* Pods-IntuneFeatures.iOS.release.xcconfig */;
 			buildSettings = {
-				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
@@ -921,6 +929,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 45DB149D78E3E71B69AE355C /* Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Resources/Tests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -934,6 +943,7 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = E499CC473B6EB6AD6090B520 /* Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
 				INFOPLIST_FILE = "Resources/Tests-Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
@@ -947,7 +957,7 @@
 		8C7845811BB9B06600C88426 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -957,8 +967,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
@@ -981,6 +993,7 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -994,7 +1007,7 @@
 		8C7845821BB9B06600C88426 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ALWAYS_SEARCH_USER_PATHS = NO;
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1004,8 +1017,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
@@ -1022,9 +1037,11 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
+				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1034,8 +1051,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 541F84D91559692F9E39C285 /* Pods-IntuneFeatures.OSX.debug.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1049,6 +1067,7 @@
 				PRODUCT_NAME = IntuneFeatures;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
@@ -1056,8 +1075,9 @@
 			isa = XCBuildConfiguration;
 			baseConfigurationReference = 6BD015FF207461BEDAD31515 /* Pods-IntuneFeatures.OSX.release.xcconfig */;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
-				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_IDENTITY = "";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEFINES_MODULE = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
@@ -1070,6 +1090,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.venturemedia.IntuneFeatures-OSX";
 				PRODUCT_NAME = IntuneFeatures;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};

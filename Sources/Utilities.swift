@@ -7,22 +7,22 @@
 
 import Foundation
 
-public func noteToFreq(n: Double) -> Double {
+public func noteToFreq(_ n: Double) -> Double {
     return 440 * exp2((n - 69.0) / 12.0)
 }
 
-public func freqToNote(f: Double) -> Double {
+public func freqToNote(_ f: Double) -> Double {
     return (12 * log2(f / 440.0)) + 69.0
 }
 
-public func parseRange(string: String) -> Range<Int>? {
-    let regEx = try! NSRegularExpression(pattern: "(\\d+)\\.\\.<(\\d+)", options: NSRegularExpressionOptions())
+public func parseRange(_ string: String) -> CountableRange<Int>? {
+    let regEx = try! NSRegularExpression(pattern: "(\\d+)\\.\\.<(\\d+)", options: NSRegularExpression.Options())
     let range = NSRange(location: 0, length: (string as NSString).length)
-    guard let match = regEx.firstMatchInString(string, options: NSMatchingOptions(), range: range) where match.numberOfRanges == 3 else {
+    guard let match = regEx.firstMatch(in: string, options: NSRegularExpression.MatchingOptions(), range: range) , match.numberOfRanges == 3 else {
         return nil
     }
-    if let startIndex = Int((string as NSString).substringWithRange(match.rangeAtIndex(1))),
-        endIndex = Int((string as NSString).substringWithRange(match.rangeAtIndex(2))) {
+    if let startIndex = Int((string as NSString).substring(with: match.rangeAt(1))),
+        let endIndex = Int((string as NSString).substring(with: match.rangeAt(2))) {
             return startIndex..<endIndex
     }
 

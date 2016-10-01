@@ -7,30 +7,30 @@
 
 import HDF5Kit
 
-public class DecayModel {
-    let representableNoteRange: Range<Int>
+open class DecayModel {
+    let representableNoteRange: CountableClosedRange<Int>
     let parameterCount = 4
     let file: File
 
     let parameters: [Float]
     let sums: [Float]
 
-    public init(representableNoteRange: Range<Int>) {
+    public init(representableNoteRange: CountableClosedRange<Int>) {
         self.representableNoteRange = representableNoteRange
 
         let curvesPath: String
-        let bundle = NSBundle(forClass: self.dynamicType)
-        if let path = bundle.pathForResource("note_curves", ofType: "h5") {
+        let bundle = Bundle(for: type(of: self))
+        if let path = bundle.path(forResource: "note_curves", ofType: "h5") {
             curvesPath = path
-        } else if let subBundlePath = bundle.pathForResource("NoteCurves", ofType: "bundle"),
-            subBundle = NSBundle(path: subBundlePath),
-            path = subBundle.pathForResource("note_curves", ofType: "h5") {
+        } else if let subBundlePath = bundle.path(forResource: "NoteCurves", ofType: "bundle"),
+            let subBundle = Bundle(path: subBundlePath),
+            let path = subBundle.path(forResource: "note_curves", ofType: "h5") {
             curvesPath = path
         } else {
             fatalError("Note curves file not found")
         }
         
-        guard let file = File.open(curvesPath, mode: .ReadOnly) else {
+        guard let file = File.open(curvesPath, mode: .readOnly) else {
             fatalError("Note curve parameters file not found.")
         }
         self.file = file
@@ -45,12 +45,12 @@ public class DecayModel {
         precondition(sums.count == representableNoteRange.count * 4)
     }
 
-    public func decayValueForNote(note: Note, atOffset offset: Int) -> Float {
+    open func decayValueForNote(_ note: Note, atOffset offset: Int) -> Float {
         if offset < 0 || offset > 44100 {
             return 0
         }
 
-        let noteIndex = note.midiNoteNumber - representableNoteRange.startIndex
+        let noteIndex = note.midiNoteNumber - representableNoteRange.lowerBound
         let index = noteIndex * parameterCount
         let a = parameters[index + 0]
         let b = Float(offset) - parameters[index + 1]
@@ -59,8 +59,8 @@ public class DecayModel {
         return a * exp(b * b * c) + d
     }
 
-    public func normalizationForNote(note: Note, windowSize: Int) -> Float {
-        let index = note.midiNoteNumber - representableNoteRange.startIndex
+    open func normalizationForNote(_ note: Note, windowSize: Int) -> Float {
+        let index = note.midiNoteNumber - representableNoteRange.lowerBound
         switch windowSize {
         case 8192: return sums[index + 3 * representableNoteRange.count]
         case 4096: return sums[index + 2 * representableNoteRange.count]

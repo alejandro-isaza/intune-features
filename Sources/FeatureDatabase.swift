@@ -8,13 +8,16 @@
 import HDF5Kit
 import Upsurge
 
-public class FeatureDatabase {
-    public enum Error: ErrorType {
-        case DatasetNotFound
-        case DatasetNotCompatible
-    }
 
-    public let chunkSize: Int
+
+open class FeatureDatabase {
+    public enum Error: Swift.Error {
+        case datasetNotFound
+        case datasetNotCompatible
+    }
+    
+
+    open let chunkSize: Int
     let filePath: String
     let file: File
 
@@ -22,7 +25,7 @@ public class FeatureDatabase {
         self.filePath = filePath
         self.chunkSize = chunkSize
 
-        file = File.create(filePath, mode: .Truncate)!
+        file = File.create(filePath, mode: .truncate)!
         file.createGroup("events")
         file.createGroup("labels")
         file.createGroup("features")
@@ -32,7 +35,7 @@ public class FeatureDatabase {
         }
     }
 
-    public func flush() {
+    open func flush() {
         file.flush()
     }
 }
@@ -41,46 +44,46 @@ public class FeatureDatabase {
 // MARK: Events
 
 public extension FeatureDatabase {
-    public func writeEvents(events: [Event]) throws {
+    public func writeEvents(_ events: [Event]) throws {
         try writeEventStarts(events)
         try writeEventDurations(events)
         try writeEventNotes(events)
         try writeEventVelocities(events)
     }
 
-    func writeEventStarts(events: [Event]) throws {
+    func writeEventStarts(_ events: [Event]) throws {
         guard let dataset = file.openIntDataset(Table.eventsStart.rawValue) else {
-            throw Error.DatasetNotFound
+            throw Error.datasetNotFound
         }
         let data = events.map({ $0.start })
         try dataset.append(data, dimensions: [events.count])
     }
 
-    func writeEventDurations(events: [Event]) throws {
+    func writeEventDurations(_ events: [Event]) throws {
         guard let dataset = file.openIntDataset(Table.eventsDuration.rawValue) else {
-            throw Error.DatasetNotFound
+            throw Error.datasetNotFound
         }
         let data = events.map({ $0.duration })
         try dataset.append(data, dimensions: [events.count])
     }
 
-    func writeEventNotes(events: [Event]) throws {
+    func writeEventNotes(_ events: [Event]) throws {
         guard let dataset = file.openIntDataset(Table.eventsNote.rawValue) else {
-            throw Error.DatasetNotFound
+            throw Error.datasetNotFound
         }
         let data = events.map({ $0.note.midiNoteNumber })
         try dataset.append(data, dimensions: [events.count])
     }
 
-    func writeEventVelocities(events: [Event]) throws {
+    func writeEventVelocities(_ events: [Event]) throws {
         guard let dataset = file.openFloatDataset(Table.eventsVelocity.rawValue) else {
-            throw Error.DatasetNotFound
+            throw Error.datasetNotFound
         }
         let data = events.map({ $0.velocity })
         try dataset.append(data, dimensions: [events.count])
     }
 
-    public func readEventAtIndex(index: Int) throws -> Event {
+    public func readEventAtIndex(_ index: Int) throws -> Event {
         var event = Event()
         event.start = try readEventStartAtIndex(index)
         event.duration = try readEventDurationAtIndex(index)
@@ -89,30 +92,30 @@ public extension FeatureDatabase {
         return event
     }
 
-    func readEventStartAtIndex(index: Int) throws -> Int {
+    func readEventStartAtIndex(_ index: Int) throws -> Int {
         guard let dataset = file.openIntDataset(Table.eventsStart.rawValue) else {
-            throw Error.DatasetNotFound
+            throw Error.datasetNotFound
         }
         return try dataset.read([index]).first!
     }
 
-    func readEventDurationAtIndex(index: Int) throws -> Int {
+    func readEventDurationAtIndex(_ index: Int) throws -> Int {
         guard let dataset = file.openIntDataset(Table.eventsDuration.rawValue) else {
-            throw Error.DatasetNotFound
+            throw Error.datasetNotFound
         }
         return try dataset.read([index]).first!
     }
 
-    func readEventNoteAtIndex(index: Int) throws -> Note {
+    func readEventNoteAtIndex(_ index: Int) throws -> Note {
         guard let dataset = file.openIntDataset(Table.eventsNote.rawValue) else {
-            throw Error.DatasetNotFound
+            throw Error.datasetNotFound
         }
         return Note(midiNoteNumber: try dataset.read([index]).first!)
     }
 
-    func readEventVelocityAtIndex(index: Int) throws -> Float {
+    func readEventVelocityAtIndex(_ index: Int) throws -> Float {
         guard let dataset = file.openFloatDataset(Table.eventsVelocity.rawValue) else {
-            throw Error.DatasetNotFound
+            throw Error.datasetNotFound
         }
         return try dataset.read([index]).first!
     }
@@ -122,31 +125,31 @@ public extension FeatureDatabase {
 // MARK: Labels
 
 public extension FeatureDatabase {
-    public func writeLabels(labels: [Label]) throws {
+    public func writeLabels(_ labels: [Label]) throws {
         try writeLabelOnsets(labels)
         try writeLabelPolyphonies(labels)
         try writeLabelNotes(labels)
     }
 
-    func writeLabelOnsets(labels: [Label]) throws {
+    func writeLabelOnsets(_ labels: [Label]) throws {
         guard let dataset = file.openFloatDataset(Table.labelsOnset.rawValue) else {
-            throw Error.DatasetNotFound
+            throw Error.datasetNotFound
         }
         let onsets = labels.map({ $0.onset })
         try dataset.append(onsets, dimensions: [onsets.count])
     }
 
-    func writeLabelPolyphonies(labels: [Label]) throws {
+    func writeLabelPolyphonies(_ labels: [Label]) throws {
         guard let dataset = file.openFloatDataset(Table.labelsPolyphony.rawValue) else {
-            throw Error.DatasetNotFound
+            throw Error.datasetNotFound
         }
         let polyphonies = labels.map({ $0.polyphony })
         try dataset.append(polyphonies, dimensions: [polyphonies.count])
     }
 
-    func writeLabelNotes(labels: [Label]) throws {
+    func writeLabelNotes(_ labels: [Label]) throws {
         guard let dataset = file.openFloatDataset(Table.labelsNotes.rawValue) else {
-            throw Error.DatasetNotFound
+            throw Error.datasetNotFound
         }
         guard let noteCount = labels.first?.notes.count else {
             return
@@ -155,7 +158,7 @@ public extension FeatureDatabase {
         try dataset.append(notes, dimensions: [labels.count, noteCount])
     }
 
-    public func readLabelAtIndex(index: Int) throws -> Label {
+    public func readLabelAtIndex(_ index: Int) throws -> Label {
         var label = Label(noteCount: 0)
         label.onset = try readLabelOnsetAtIndex(index)
         label.polyphony = try readLabelPolyphonyAtIndex(index)
@@ -163,23 +166,23 @@ public extension FeatureDatabase {
         return label
     }
 
-    func readLabelOnsetAtIndex(index: Int) throws -> Float {
+    func readLabelOnsetAtIndex(_ index: Int) throws -> Float {
         guard let dataset = file.openFloatDataset(Table.labelsOnset.rawValue) else {
-            throw Error.DatasetNotFound
+            throw Error.datasetNotFound
         }
         return try dataset.read([index]).first!
     }
 
-    func readLabelPolyphonyAtIndex(index: Int) throws -> Float {
+    func readLabelPolyphonyAtIndex(_ index: Int) throws -> Float {
         guard let dataset = file.openFloatDataset(Table.labelsPolyphony.rawValue) else {
-            throw Error.DatasetNotFound
+            throw Error.datasetNotFound
         }
         return try dataset.read([index]).first!
     }
 
-    func readLabelNotesAtIndex(index: Int) throws -> [Float] {
+    func readLabelNotesAtIndex(_ index: Int) throws -> [Float] {
         guard let dataset = file.openFloatDataset(Table.labelsNotes.rawValue) else {
-            throw Error.DatasetNotFound
+            throw Error.datasetNotFound
         }
         return try dataset.read([index, 0..])
     }
@@ -189,7 +192,7 @@ public extension FeatureDatabase {
 // MARK: Feature Writing
 
 public extension FeatureDatabase {
-    func writeFeatures(features: [Feature]) throws {
+    func writeFeatures(_ features: [Feature]) throws {
         try writeSpectrums(features)
         try writeSpectralFluxes(features)
         try writePeakHeights(features)
@@ -197,9 +200,9 @@ public extension FeatureDatabase {
         try writePeakLocations(features)
     }
 
-    func writeSpectrums(features: [Feature]) throws {
+    func writeSpectrums(_ features: [Feature]) throws {
         guard let dataset = file.openFloatDataset(Table.featuresSpectrum.rawValue) else {
-            throw Error.DatasetNotFound
+            throw Error.datasetNotFound
         }
 
         guard let featureSize = features.first?.spectrum.count else {
@@ -209,9 +212,9 @@ public extension FeatureDatabase {
         try dataset.append(data, dimensions: [features.count, featureSize])
     }
 
-    func writeSpectralFluxes(features: [Feature]) throws {
+    func writeSpectralFluxes(_ features: [Feature]) throws {
         guard let dataset = file.openFloatDataset(Table.featuresFlux.rawValue) else {
-            throw Error.DatasetNotFound
+            throw Error.datasetNotFound
         }
 
         guard let featureSize = features.first?.spectrum.count else {
@@ -221,9 +224,9 @@ public extension FeatureDatabase {
         try dataset.append(data, dimensions: [features.count, featureSize])
     }
 
-    func writePeakHeights(features: [Feature]) throws {
+    func writePeakHeights(_ features: [Feature]) throws {
         guard let dataset = file.openFloatDataset(Table.featuresPeakHeights.rawValue) else {
-            throw Error.DatasetNotFound
+            throw Error.datasetNotFound
         }
 
         guard let featureSize = features.first?.spectrum.count else {
@@ -233,9 +236,9 @@ public extension FeatureDatabase {
         try dataset.append(data, dimensions: [features.count, featureSize])
     }
 
-    func writePeakFluxes(features: [Feature]) throws {
+    func writePeakFluxes(_ features: [Feature]) throws {
         guard let dataset = file.openFloatDataset(Table.featuresPeakFlux.rawValue) else {
-            throw Error.DatasetNotFound
+            throw Error.datasetNotFound
         }
 
         guard let featureSize = features.first?.spectrum.count else {
@@ -245,9 +248,9 @@ public extension FeatureDatabase {
         try dataset.append(data, dimensions: [features.count, featureSize])
     }
 
-    func writePeakLocations(features: [Feature]) throws {
+    func writePeakLocations(_ features: [Feature]) throws {
         guard let dataset = file.openFloatDataset(Table.featuresPeakLocations.rawValue) else {
-            throw Error.DatasetNotFound
+            throw Error.datasetNotFound
         }
 
         guard let featureSize = features.first?.spectrum.count else {
@@ -257,7 +260,7 @@ public extension FeatureDatabase {
         try dataset.append(data, dimensions: [features.count, featureSize])
     }
 
-    public func readFeatureAtIndex(index: Int) throws -> Feature {
+    public func readFeatureAtIndex(_ index: Int) throws -> Feature {
         var feature = Feature(bandCount: 0)
         feature.spectrum = ValueArray(try readSpectrumAtIndex(index))
         feature.spectralFlux = ValueArray(try readFluxAtIndex(index))
@@ -267,37 +270,37 @@ public extension FeatureDatabase {
         return feature
     }
 
-    func readSpectrumAtIndex(index: Int) throws -> [Float] {
+    func readSpectrumAtIndex(_ index: Int) throws -> [Float] {
         guard let dataset = file.openFloatDataset(Table.featuresSpectrum.rawValue) else {
-            throw Error.DatasetNotFound
+            throw Error.datasetNotFound
         }
         return try dataset.read([index, 0..])
     }
 
-    func readFluxAtIndex(index: Int) throws -> [Float] {
+    func readFluxAtIndex(_ index: Int) throws -> [Float] {
         guard let dataset = file.openFloatDataset(Table.featuresFlux.rawValue) else {
-            throw Error.DatasetNotFound
+            throw Error.datasetNotFound
         }
         return try dataset.read([index, 0..])
     }
 
-    func readPeakHeightsAtIndex(index: Int) throws -> [Float] {
+    func readPeakHeightsAtIndex(_ index: Int) throws -> [Float] {
         guard let dataset = file.openFloatDataset(Table.featuresPeakHeights.rawValue) else {
-            throw Error.DatasetNotFound
+            throw Error.datasetNotFound
         }
         return try dataset.read([index, 0..])
     }
 
-    func readPeakFluxAtIndex(index: Int) throws -> [Float] {
+    func readPeakFluxAtIndex(_ index: Int) throws -> [Float] {
         guard let dataset = file.openFloatDataset(Table.featuresPeakFlux.rawValue) else {
-            throw Error.DatasetNotFound
+            throw Error.datasetNotFound
         }
         return try dataset.read([index, 0..])
     }
 
-    func readPeakLocationsAtIndex(index: Int) throws -> [Float] {
+    func readPeakLocationsAtIndex(_ index: Int) throws -> [Float] {
         guard let dataset = file.openFloatDataset(Table.featuresPeakLocations.rawValue) else {
-            throw Error.DatasetNotFound
+            throw Error.datasetNotFound
         }
         return try dataset.read([index, 0..])
     }

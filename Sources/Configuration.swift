@@ -45,11 +45,11 @@ public struct Configuration {
     }
 
     public init?(file: String) {
-        guard let data = NSData(contentsOfFile: file) else {
+        guard let data = try? Data(contentsOf: URL(fileURLWithPath: file)) else {
             return nil
         }
 
-        let jsonObject = try? NSJSONSerialization.JSONObjectWithData(data, options: NSJSONReadingOptions())
+        let jsonObject = try? JSONSerialization.jsonObject(with: data, options: JSONSerialization.ReadingOptions())
         guard let values = jsonObject as? [String: NSObject] else {
             return nil
         }
@@ -58,16 +58,16 @@ public struct Configuration {
             samplingFrequency = value.doubleValue
         }
         if let value = values["windowSize"] as? NSNumber {
-            windowSize = value.integerValue
+            windowSize = value.intValue
         }
         if let value = values["stepSize"] as? NSNumber {
-            stepSize = value.integerValue
+            stepSize = value.intValue
         }
-        if let value = values["representableNoteRange"] as? String, range = parseRange(value) {
-            representableNoteRange = range
+        if let value = values["representableNoteRange"] as? String, let range = parseRange(value) {
+            representableNoteRange = CountableClosedRange(range)
         }
-        if let value = values["spectrumNoteRange"] as? String, range = parseRange(value) {
-            spectrumNoteRange = range
+        if let value = values["spectrumNoteRange"] as? String, let range = parseRange(value) {
+            spectrumNoteRange = CountableClosedRange(range)
         }
         if let value = values["spectrumResolution"] as? NSNumber {
             spectrumResolution = value.doubleValue
@@ -79,12 +79,12 @@ public struct Configuration {
             peakHeightCutoffMultiplier = value.doubleValue
         }
         if let value = values["rmsMovingAverageSize"] as? NSNumber {
-            rmsMovingAverageSize = value.integerValue
+            rmsMovingAverageSize = value.intValue
         }
     }
 
     /// Calculate the number of windows that fit inside the given number of samples
-    public func windowCountInSamples(samples: Int) -> Int {
+    public func windowCountInSamples(_ samples: Int) -> Int {
         if samples < windowSize {
             return 0
         }
@@ -92,7 +92,7 @@ public struct Configuration {
     }
 
     /// Calculate the number of samples in the given number of contiguous windows
-    public func sampleCountInWindows(windowCount: Int) -> Int {
+    public func sampleCountInWindows(_ windowCount: Int) -> Int {
         if windowCount < 1 {
             return 0
         }
@@ -102,23 +102,23 @@ public struct Configuration {
 
     // MARK: Notes
 
-    public func vectorFromNotes(notes: [Note]) -> [Float] {
-        var vector = [Float](count: representableNoteRange.count, repeatedValue: 0.0)
+    public func vectorFromNotes(_ notes: [Note]) -> [Float] {
+        var vector = [Float](repeating: 0.0, count: representableNoteRange.count)
         for note in notes {
-            let index = note.midiNoteNumber - representableNoteRange.startIndex
+            let index = note.midiNoteNumber - representableNoteRange.lowerBound
             vector[index] = 1.0
         }
         return vector
     }
 
-    public func notesFromVector<C: CollectionType where C.Generator.Element == Float, C.Index == Int>(vector: C) -> [Note] {
-        precondition(vector.count == representableNoteRange.count)
+    public func notesFromVector<C: Collection>(_ vector: C) -> [Note] where C.Iterator.Element == Float, C.Index == Int {
+        precondition(Int(vector.count.toIntMax()) == representableNoteRange.count)
         var notes = [Note]()
-        for (index, value) in vector.enumerate() {
+        for (index, value) in vector.enumerated() {
             if value < 0.5 {
                 continue
             }
-            let note = Note(midiNoteNumber: index + representableNoteRange.startIndex)
+            let note = Note(midiNoteNumber: index + representableNoteRange.lowerBound)
             notes.append(note)
         }
         return notes
@@ -131,12 +131,12 @@ public struct Configuration {
         return spectrumNoteRange.count * Int(spectrumResolution)
     }
 
-    public func bandForNote(note: Double) -> Int {
-        return Int(round((note - Double(representableNoteRange.startIndex)) * spectrumResolution))
+    public func bandForNote(_ note: Double) -> Int {
+        return Int(round((note - Double(representableNoteRange.lowerBound)) * spectrumResolution))
     }
 
-    public func noteForBand(band: Int) -> Double {
-        return Double(representableNoteRange.startIndex) + Double(band) / spectrumResolution
+    public func noteForBand(_ band: Int) -> Double {
+        return Double(representableNoteRange.lowerBound) + Double(band) / spectrumResolution
     }
 
 
@@ -174,8 +174,8 @@ public struct Configuration {
             string += "\"\(feature.rawValue)\", "
         }
         if string.hasSuffix(", ") {
-            string.removeAtIndex(string.endIndex.advancedBy(-1))
-            string.removeAtIndex(string.endIndex.advancedBy(-1))
+            string.remove(at: string.characters.index(string.endIndex, offsetBy: -1))
+            string.remove(at: string.characters.index(string.endIndex, offsetBy: -1))
         }
         string += "]\n"
 

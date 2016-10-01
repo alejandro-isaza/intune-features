@@ -7,12 +7,12 @@
 
 import Upsurge
 
-public class BandsFeatureGenerator: FeatureGenerator {
-    public let configuration: Configuration
-    public let offsets: ValueArray<Double>?
-    public let scales: ValueArray<Double>?
+open class BandsFeatureGenerator: FeatureGenerator {
+    open let configuration: Configuration
+    open let offsets: ValueArray<Double>?
+    open let scales: ValueArray<Double>?
 
-    public var data: ValueArray<Double> {
+    open var data: ValueArray<Double> {
         return ValueArray<Double>()
     }
 
@@ -24,5 +24,5 @@ public class BandsFeatureGenerator: FeatureGenerator {
         self.scales = scales
     }
 
-    public func reset() {}
+    open func reset() {}
 }

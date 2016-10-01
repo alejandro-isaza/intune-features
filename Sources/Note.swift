@@ -9,18 +9,18 @@ import Foundation
 
 public struct Note : Equatable, Hashable, CustomStringConvertible {
     public enum NoteType: Int {
-        case C  = 0
-        case CSharp = 1
-        case D  = 2
-        case DSharp = 3
-        case E  = 4
-        case F  = 5
-        case FSharp = 6
-        case G  = 7
-        case GSharp = 8
-        case A  = 9
-        case ASharp = 10
-        case B  = 11
+        case c  = 0
+        case cSharp = 1
+        case d  = 2
+        case dSharp = 3
+        case e  = 4
+        case f  = 5
+        case fSharp = 6
+        case g  = 7
+        case gSharp = 8
+        case a  = 9
+        case aSharp = 10
+        case b  = 11
 
         public static let count = 12
     }
@@ -29,7 +29,7 @@ public struct Note : Equatable, Hashable, CustomStringConvertible {
     public var octave: Int
 
     public var isSharp: Bool {
-        return note == .CSharp || note == .DSharp || note == .FSharp || note == .GSharp || note == .ASharp
+        return note == .cSharp || note == .dSharp || note == .fSharp || note == .gSharp || note == .aSharp
     }
 
     public var midiNoteNumber: Int {
@@ -48,18 +48,18 @@ public struct Note : Equatable, Hashable, CustomStringConvertible {
 
     public var description : String {
         switch note {
-        case .C: return "C\(octave)"
-        case .D: return "D\(octave)"
-        case .E: return "E\(octave)"
-        case .F: return "F\(octave)"
-        case .G: return "G\(octave)"
-        case .A: return "A\(octave)"
-        case .B: return "B\(octave)"
-        case .CSharp: return "C♯\(octave)"
-        case .DSharp: return "D♯\(octave)"
-        case .FSharp: return "F♯\(octave)"
-        case .GSharp: return "G♯\(octave)"
-        case .ASharp: return "A♯\(octave)"
+        case .c: return "C\(octave)"
+        case .d: return "D\(octave)"
+        case .e: return "E\(octave)"
+        case .f: return "F\(octave)"
+        case .g: return "G\(octave)"
+        case .a: return "A\(octave)"
+        case .b: return "B\(octave)"
+        case .cSharp: return "C♯\(octave)"
+        case .dSharp: return "D♯\(octave)"
+        case .fSharp: return "F♯\(octave)"
+        case .gSharp: return "G♯\(octave)"
+        case .aSharp: return "A♯\(octave)"
         }
     }
 

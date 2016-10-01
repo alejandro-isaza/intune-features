@@ -26,38 +26,38 @@ func printUsage() {
     print("-h, --help     Show this help and exit.")
 }
 
-if let helpIndex = Process.arguments.indexOf({ $0.hasPrefix("-h") || $0.hasPrefix("--help") }) {
+if let helpIndex = CommandLine.arguments.index(where: { $0.hasPrefix("-h") || $0.hasPrefix("--help") }) {
     printUsage()
     exit(EXIT_SUCCESS)
 }
 
 let inputPath: String
-if let inputIndex = Process.arguments.indexOf({ $0.hasPrefix("-i") || $0.hasPrefix("--input") }) where inputIndex < Process.arguments.count - 1 {
-    inputPath = Process.arguments[inputIndex + 1]
+if let inputIndex = CommandLine.arguments.index(where: { $0.hasPrefix("-i") || $0.hasPrefix("--input") }) , inputIndex < CommandLine.arguments.count - 1 {
+    inputPath = CommandLine.arguments[inputIndex + 1]
 } else {
     printUsage()
     exit(EX_USAGE)
 }
 
 let outputPath: String
-if let outputIndex = Process.arguments.indexOf("-o") ?? Process.arguments.indexOf("--output") where outputIndex < Process.arguments.count - 1 {
-    outputPath = Process.arguments[outputIndex + 1]
+if let outputIndex = CommandLine.arguments.index(of: "-o") ?? CommandLine.arguments.index(of: "--output") , outputIndex < CommandLine.arguments.count - 1 {
+    outputPath = CommandLine.arguments[outputIndex + 1]
 } else {
     printUsage()
     exit(EX_USAGE)
 }
 
 let windowSize: Int
-if let windowIndex = Process.arguments.indexOf("-w") ?? Process.arguments.indexOf("--window") where windowIndex < Process.arguments.count - 1 {
-    windowSize = Int(Process.arguments[windowIndex + 1])!
+if let windowIndex = CommandLine.arguments.index(of: "-w") ?? CommandLine.arguments.index(of: "--window") , windowIndex < CommandLine.arguments.count - 1 {
+    windowSize = Int(CommandLine.arguments[windowIndex + 1])!
 } else {
     printUsage()
     exit(EX_USAGE)
 }
 
 let stepSize: Int
-if let stepIndex = Process.arguments.indexOf("-s") ?? Process.arguments.indexOf("--step") where stepIndex < Process.arguments.count - 1 {
-    stepSize = Int(Process.arguments[stepIndex + 1])!
+if let stepIndex = CommandLine.arguments.index(of: "-s") ?? CommandLine.arguments.index(of: "--step") , stepIndex < CommandLine.arguments.count - 1 {
+    stepSize = Int(CommandLine.arguments[stepIndex + 1])!
 } else {
     printUsage()
     exit(EX_USAGE)
@@ -66,7 +66,7 @@ if let stepIndex = Process.arguments.indexOf("-s") ?? Process.arguments.indexOf(
 var configuration = Configuration()
 configuration.windowSize = windowSize
 configuration.stepSize = stepSize
-try configuration.serializeToJSON().writeToFile("configuration.json", atomically: true, encoding: NSUTF8StringEncoding)
+try configuration.serializeToJSON().write(toFile: "configuration.json", atomically: true, encoding: String.Encoding.utf8)
 
 let featureCompiler = FeatureCompiler(inputFolder: inputPath, outputFolder: outputPath, configuration: configuration)
 

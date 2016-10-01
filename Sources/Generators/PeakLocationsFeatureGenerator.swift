@@ -8,10 +8,10 @@
 import Foundation
 import Upsurge
 
-public class PeakLocationsFeatureGenerator: BandsFeatureGenerator {
-    public var peakLocations: ValueArray<Double>
+open class PeakLocationsFeatureGenerator: BandsFeatureGenerator {
+    open var peakLocations: ValueArray<Double>
 
-    public override var data: ValueArray<Double> {
+    open override var data: ValueArray<Double> {
         return peakLocations
     }
 
@@ -20,7 +20,7 @@ public class PeakLocationsFeatureGenerator: BandsFeatureGenerator {
         super.init(configuration: configuration, offsets: offsets, scales: scales)
     }
 
-    public func update(peaks: [Point]) {
+    open func update(_ peaks: [Point]) {
         let bandCount = configuration.bandCount
         
         var peaksByBand = [Int: Point]()
