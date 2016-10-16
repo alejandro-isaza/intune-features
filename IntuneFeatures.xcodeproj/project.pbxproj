@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0647014747FCCE1A2029CF9A /* Pods_IntuneFeatures_OSX_IntuneFeaturesTests_OSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4006AEFB6C1E3C4A54101134 /* Pods_IntuneFeatures_OSX_IntuneFeaturesTests_OSX.framework */; };
-		16574C18D2B7A4CC70CC64A6 /* Pods_CompileFeatures.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0020B6C6730D152F96762F69 /* Pods_CompileFeatures.framework */; };
-		51B833287DD780B925A61CFC /* Pods_IntuneFeatures_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A1D14EC0757DEF74EF0CCC0 /* Pods_IntuneFeatures_iOS.framework */; };
-		5652FE8EBC8239EBE3F876EB /* Pods_IntuneFeatures_OSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CCBF5475743E500B4EDB5E9A /* Pods_IntuneFeatures_OSX.framework */; };
 		610AAB851BDABEFA008CC910 /* Point.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610AAB841BDABEFA008CC910 /* Point.swift */; };
 		610E29B51C4D7847006B6016 /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E29B41C4D7847006B6016 /* Feature.swift */; };
 		610E29B61C4D7847006B6016 /* Feature.swift in Sources */ = {isa = PBXBuildFile; fileRef = 610E29B41C4D7847006B6016 /* Feature.swift */; };
@@ -66,7 +62,9 @@
 		8C56779E1BE976140009ED31 /* FeatureBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C56779C1BE9731E0009ED31 /* FeatureBuilder.swift */; };
 		8C7845731BB9B06600C88426 /* IntuneFeatures.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C7845721BB9B06600C88426 /* IntuneFeatures.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		8CDA0EF41BB9BA4300433755 /* Utilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8CDA0EF31BB9BA4300433755 /* Utilities.swift */; };
-		FBE27D466173FE40532D4CB8 /* Pods_IntuneFeatures_iOS_IntuneFeaturesTests_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 293918BBBF4F1EEEC9E033C9 /* Pods_IntuneFeatures_iOS_IntuneFeaturesTests_iOS.framework */; };
+		A9EE99DD1DB43A4000CD96D4 /* HDF5Kit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9EE99C41DB43A1B00CD96D4 /* HDF5Kit.framework */; };
+		A9EE99DE1DB43A4000CD96D4 /* Peak.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9EE99D81DB43A2800CD96D4 /* Peak.framework */; };
+		A9EE99DF1DB43A4000CD96D4 /* Upsurge.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = A9EE99B11DB43A0F00CD96D4 /* Upsurge.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,6 +89,153 @@
 			remoteGlobalIDString = 61BBC3B51C407891006C6DF0;
 			remoteInfo = "FeatureExtraction-iOS";
 		};
+		A9EE99B01DB43A0F00CD96D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9EE99A71DB43A0F00CD96D4 /* Upsurge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 614ACA701BD1CB7B00A1C13E;
+			remoteInfo = "Upsurge OSX";
+		};
+		A9EE99B21DB43A0F00CD96D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9EE99A71DB43A0F00CD96D4 /* Upsurge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 614ACA7A1BD1CB7B00A1C13E;
+			remoteInfo = "UpsurgeTests OSX";
+		};
+		A9EE99B41DB43A0F00CD96D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9EE99A71DB43A0F00CD96D4 /* Upsurge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 614ACACA1BD1CBF300A1C13E;
+			remoteInfo = "Upsurge iOS";
+		};
+		A9EE99B61DB43A0F00CD96D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9EE99A71DB43A0F00CD96D4 /* Upsurge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 614ACAD31BD1CBF300A1C13E;
+			remoteInfo = "UpsurgeTests iOS";
+		};
+		A9EE99B81DB43A0F00CD96D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9EE99A71DB43A0F00CD96D4 /* Upsurge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 61D0466D1C48BA5B00DB7279;
+			remoteInfo = "Upsurge tvOS";
+		};
+		A9EE99BA1DB43A0F00CD96D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9EE99A71DB43A0F00CD96D4 /* Upsurge.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 61D046761C48BA5B00DB7279;
+			remoteInfo = "UpsurgeTests tvOS";
+		};
+		A9EE99C31DB43A1B00CD96D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9EE99BC1DB43A1A00CD96D4 /* HDF5Kit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 61B3149D1BBDBA3100F63C45;
+			remoteInfo = "HDF5Kit-OSX";
+		};
+		A9EE99C51DB43A1B00CD96D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9EE99BC1DB43A1A00CD96D4 /* HDF5Kit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 61B314A71BBDBA3200F63C45;
+			remoteInfo = "HDF5KitTests-OSX";
+		};
+		A9EE99C71DB43A1B00CD96D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9EE99BC1DB43A1A00CD96D4 /* HDF5Kit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6185A7AB1BD3395200CD5FC5;
+			remoteInfo = "HDF5Kit-iOS";
+		};
+		A9EE99C91DB43A1B00CD96D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9EE99BC1DB43A1A00CD96D4 /* HDF5Kit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 6185A7B41BD3395200CD5FC5;
+			remoteInfo = "HDF5KitTests-iOS";
+		};
+		A9EE99D31DB43A2800CD96D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9EE99CB1DB43A2800CD96D4 /* Peak.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 005809451BD04F2700B164F6;
+			remoteInfo = PeakiOS;
+		};
+		A9EE99D51DB43A2800CD96D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9EE99CB1DB43A2800CD96D4 /* Peak.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0058094F1BD04F2700B164F6;
+			remoteInfo = PeakiOSTests;
+		};
+		A9EE99D71DB43A2800CD96D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9EE99CB1DB43A2800CD96D4 /* Peak.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0045498D1BD052B100AC387F;
+			remoteInfo = PeakOSX;
+		};
+		A9EE99D91DB43A2800CD96D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9EE99CB1DB43A2800CD96D4 /* Peak.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 004549961BD052B200AC387F;
+			remoteInfo = PeakOSXTests;
+		};
+		A9EE99DB1DB43A2800CD96D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9EE99CB1DB43A2800CD96D4 /* Peak.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0077C6551C63D42200AC71CA;
+			remoteInfo = PeakiOSExample;
+		};
+		A9EE99E11DB43ABD00CD96D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9EE99CB1DB43A2800CD96D4 /* Peak.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 0045498C1BD052B100AC387F;
+			remoteInfo = PeakOSX;
+		};
+		A9EE99E31DB43ABD00CD96D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9EE99BC1DB43A1A00CD96D4 /* HDF5Kit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 61B3149C1BBDBA3100F63C45;
+			remoteInfo = "HDF5Kit-OSX";
+		};
+		A9EE99E51DB43ABD00CD96D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9EE99A71DB43A0F00CD96D4 /* Upsurge.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 614ACA6F1BD1CB7B00A1C13E;
+			remoteInfo = "Upsurge OSX";
+		};
+		A9EE99E71DB43AC600CD96D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9EE99CB1DB43A2800CD96D4 /* Peak.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 005809441BD04F2700B164F6;
+			remoteInfo = PeakiOS;
+		};
+		A9EE99E91DB43AC600CD96D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9EE99BC1DB43A1A00CD96D4 /* HDF5Kit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 6185A7AA1BD3395200CD5FC5;
+			remoteInfo = "HDF5Kit-iOS";
+		};
+		A9EE99EB1DB43AC600CD96D4 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = A9EE99A71DB43A0F00CD96D4 /* Upsurge.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 614ACAC91BD1CBF300A1C13E;
+			remoteInfo = "Upsurge iOS";
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -106,15 +251,6 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		0020B6C6730D152F96762F69 /* Pods_CompileFeatures.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_CompileFeatures.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		01A691A0828E985BE2905E8A /* Pods-CompileFeatures.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CompileFeatures.release.xcconfig"; path = "Pods/Target Support Files/Pods-CompileFeatures/Pods-CompileFeatures.release.xcconfig"; sourceTree = "<group>"; };
-		0A1D14EC0757DEF74EF0CCC0 /* Pods_IntuneFeatures_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IntuneFeatures_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		293918BBBF4F1EEEC9E033C9 /* Pods_IntuneFeatures_iOS_IntuneFeaturesTests_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IntuneFeatures_iOS_IntuneFeaturesTests_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4006AEFB6C1E3C4A54101134 /* Pods_IntuneFeatures_OSX_IntuneFeaturesTests_OSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IntuneFeatures_OSX_IntuneFeaturesTests_OSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		45DB149D78E3E71B69AE355C /* Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS/Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS.debug.xcconfig"; sourceTree = "<group>"; };
-		46A2B86AA72E5AD9AB9AC89F /* Pods-CompileFeatures.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-CompileFeatures.debug.xcconfig"; path = "Pods/Target Support Files/Pods-CompileFeatures/Pods-CompileFeatures.debug.xcconfig"; sourceTree = "<group>"; };
-		4D24F1704FF5A366CAAA3F81 /* Pods-IntuneFeatures.OSX-IntuneFeaturesTests.OSX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IntuneFeatures.OSX-IntuneFeaturesTests.OSX.release.xcconfig"; path = "Pods/Target Support Files/Pods-IntuneFeatures.OSX-IntuneFeaturesTests.OSX/Pods-IntuneFeatures.OSX-IntuneFeaturesTests.OSX.release.xcconfig"; sourceTree = "<group>"; };
-		541F84D91559692F9E39C285 /* Pods-IntuneFeatures.OSX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IntuneFeatures.OSX.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IntuneFeatures.OSX/Pods-IntuneFeatures.OSX.debug.xcconfig"; sourceTree = "<group>"; };
 		610AAB661BD99737008CC910 /* NoteTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteTests.swift; sourceTree = "<group>"; };
 		610AAB841BDABEFA008CC910 /* Point.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Point.swift; sourceTree = "<group>"; };
 		610E29B41C4D7847006B6016 /* Feature.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Feature.swift; sourceTree = "<group>"; };
@@ -147,17 +283,14 @@
 		61BBC3BF1C407891006C6DF0 /* IntuneFeaturesTests.iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IntuneFeaturesTests.iOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		61C3CFEE1C7F7F5B002A9C90 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		61D485AC1BC4A3D70086CED8 /* Shuffle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shuffle.swift; sourceTree = "<group>"; };
-		6BD015FF207461BEDAD31515 /* Pods-IntuneFeatures.OSX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IntuneFeatures.OSX.release.xcconfig"; path = "Pods/Target Support Files/Pods-IntuneFeatures.OSX/Pods-IntuneFeatures.OSX.release.xcconfig"; sourceTree = "<group>"; };
-		8AD663CE7FAD649FD7BA43F0 /* Pods-IntuneFeatures.iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IntuneFeatures.iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IntuneFeatures.iOS/Pods-IntuneFeatures.iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		8C56779C1BE9731E0009ED31 /* FeatureBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureBuilder.swift; sourceTree = "<group>"; };
 		8C78456F1BB9B06600C88426 /* IntuneFeatures.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = IntuneFeatures.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C7845721BB9B06600C88426 /* IntuneFeatures.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = IntuneFeatures.h; sourceTree = "<group>"; };
 		8CDA0EF31BB9BA4300433755 /* Utilities.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Utilities.swift; sourceTree = "<group>"; };
 		8CDF50761CAB0B250015C447 /* AudioToolbox.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AudioToolbox.framework; path = System/Library/Frameworks/AudioToolbox.framework; sourceTree = SDKROOT; };
-		9EE9B816947C35B62AEFC9AD /* Pods-IntuneFeatures.OSX-IntuneFeaturesTests.OSX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IntuneFeatures.OSX-IntuneFeaturesTests.OSX.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IntuneFeatures.OSX-IntuneFeaturesTests.OSX/Pods-IntuneFeatures.OSX-IntuneFeaturesTests.OSX.debug.xcconfig"; sourceTree = "<group>"; };
-		CCBF5475743E500B4EDB5E9A /* Pods_IntuneFeatures_OSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_IntuneFeatures_OSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		D1E65C8BC7DA7492AE9F9C71 /* Pods-IntuneFeatures.iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IntuneFeatures.iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-IntuneFeatures.iOS/Pods-IntuneFeatures.iOS.release.xcconfig"; sourceTree = "<group>"; };
-		E499CC473B6EB6AD6090B520 /* Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS/Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS.release.xcconfig"; sourceTree = "<group>"; };
+		A9EE99A71DB43A0F00CD96D4 /* Upsurge.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Upsurge.xcodeproj; path = Submodules/Upsurge/Upsurge.xcodeproj; sourceTree = "<group>"; };
+		A9EE99BC1DB43A1A00CD96D4 /* HDF5Kit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HDF5Kit.xcodeproj; path = Submodules/HDF5Kit/HDF5Kit.xcodeproj; sourceTree = "<group>"; };
+		A9EE99CB1DB43A2800CD96D4 /* Peak.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Peak.xcodeproj; path = Submodules/Peak/Peak.xcodeproj; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -166,7 +299,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				6180A7791C18ABFC00D63F00 /* IntuneFeatures.framework in Frameworks */,
-				0647014747FCCE1A2029CF9A /* Pods_IntuneFeatures_OSX_IntuneFeaturesTests_OSX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -174,8 +306,10 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9EE99DD1DB43A4000CD96D4 /* HDF5Kit.framework in Frameworks */,
+				A9EE99DE1DB43A4000CD96D4 /* Peak.framework in Frameworks */,
+				A9EE99DF1DB43A4000CD96D4 /* Upsurge.framework in Frameworks */,
 				61936AD61CEE74EC00603B95 /* IntuneFeatures.framework in Frameworks */,
-				16574C18D2B7A4CC70CC64A6 /* Pods_CompileFeatures.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,7 +317,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				51B833287DD780B925A61CFC /* Pods_IntuneFeatures_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -192,7 +325,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				61BBC3C01C407891006C6DF0 /* IntuneFeatures.framework in Frameworks */,
-				FBE27D466173FE40532D4CB8 /* Pods_IntuneFeatures_iOS_IntuneFeaturesTests_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -200,30 +332,12 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				5652FE8EBC8239EBE3F876EB /* Pods_IntuneFeatures_OSX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		57F08C6CEE144A3B9392D0CC /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				46A2B86AA72E5AD9AB9AC89F /* Pods-CompileFeatures.debug.xcconfig */,
-				01A691A0828E985BE2905E8A /* Pods-CompileFeatures.release.xcconfig */,
-				541F84D91559692F9E39C285 /* Pods-IntuneFeatures.OSX.debug.xcconfig */,
-				6BD015FF207461BEDAD31515 /* Pods-IntuneFeatures.OSX.release.xcconfig */,
-				9EE9B816947C35B62AEFC9AD /* Pods-IntuneFeatures.OSX-IntuneFeaturesTests.OSX.debug.xcconfig */,
-				4D24F1704FF5A366CAAA3F81 /* Pods-IntuneFeatures.OSX-IntuneFeaturesTests.OSX.release.xcconfig */,
-				8AD663CE7FAD649FD7BA43F0 /* Pods-IntuneFeatures.iOS.debug.xcconfig */,
-				D1E65C8BC7DA7492AE9F9C71 /* Pods-IntuneFeatures.iOS.release.xcconfig */,
-				45DB149D78E3E71B69AE355C /* Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS.debug.xcconfig */,
-				E499CC473B6EB6AD6090B520 /* Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
 		613A92211CB56FEA00D9EEB8 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
@@ -268,9 +382,9 @@
 				8C78457D1BB9B06600C88426 /* Tests */,
 				613A92211CB56FEA00D9EEB8 /* Resources */,
 				61936AC61CEE74A600603B95 /* CompileFeatures */,
-				8C7845701BB9B06600C88426 /* Products */,
+				A9EE99E01DB43A8D00CD96D4 /* Dependencies */,
 				B5F7CD465AC17DFE1FC7BC55 /* Frameworks */,
-				57F08C6CEE144A3B9392D0CC /* Pods */,
+				8C7845701BB9B06600C88426 /* Products */,
 			);
 			sourceTree = "<group>";
 		};
@@ -316,15 +430,56 @@
 			path = Tests;
 			sourceTree = "<group>";
 		};
+		A9EE99A81DB43A0F00CD96D4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A9EE99B11DB43A0F00CD96D4 /* Upsurge.framework */,
+				A9EE99B31DB43A0F00CD96D4 /* UpsurgeTests OSX.xctest */,
+				A9EE99B51DB43A0F00CD96D4 /* Upsurge.framework */,
+				A9EE99B71DB43A0F00CD96D4 /* UpsurgeTests iOS.xctest */,
+				A9EE99B91DB43A0F00CD96D4 /* Upsurge.framework */,
+				A9EE99BB1DB43A0F00CD96D4 /* UpsurgeTests tvOS.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A9EE99BD1DB43A1A00CD96D4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A9EE99C41DB43A1B00CD96D4 /* HDF5Kit.framework */,
+				A9EE99C61DB43A1B00CD96D4 /* HDF5KitTests.xctest */,
+				A9EE99C81DB43A1B00CD96D4 /* HDF5Kit.framework */,
+				A9EE99CA1DB43A1B00CD96D4 /* HDF5KitTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A9EE99CC1DB43A2800CD96D4 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				A9EE99D41DB43A2800CD96D4 /* Peak.framework */,
+				A9EE99D61DB43A2800CD96D4 /* PeakiOSTests.xctest */,
+				A9EE99D81DB43A2800CD96D4 /* Peak.framework */,
+				A9EE99DA1DB43A2800CD96D4 /* PeakOSXTests.xctest */,
+				A9EE99DC1DB43A2800CD96D4 /* PeakiOSExample.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		A9EE99E01DB43A8D00CD96D4 /* Dependencies */ = {
+			isa = PBXGroup;
+			children = (
+				A9EE99CB1DB43A2800CD96D4 /* Peak.xcodeproj */,
+				A9EE99BC1DB43A1A00CD96D4 /* HDF5Kit.xcodeproj */,
+				A9EE99A71DB43A0F00CD96D4 /* Upsurge.xcodeproj */,
+			);
+			name = Dependencies;
+			sourceTree = "<group>";
+		};
 		B5F7CD465AC17DFE1FC7BC55 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
 				8CDF50761CAB0B250015C447 /* AudioToolbox.framework */,
-				0020B6C6730D152F96762F69 /* Pods_CompileFeatures.framework */,
-				CCBF5475743E500B4EDB5E9A /* Pods_IntuneFeatures_OSX.framework */,
-				4006AEFB6C1E3C4A54101134 /* Pods_IntuneFeatures_OSX_IntuneFeaturesTests_OSX.framework */,
-				0A1D14EC0757DEF74EF0CCC0 /* Pods_IntuneFeatures_iOS.framework */,
-				293918BBBF4F1EEEC9E033C9 /* Pods_IntuneFeatures_iOS_IntuneFeaturesTests_iOS.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -355,12 +510,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 6180A77C1C18ABFC00D63F00 /* Build configuration list for PBXNativeTarget "IntuneFeaturesTests.OSX" */;
 			buildPhases = (
-				8E75B21E09737E444AE2C968 /* [CP] Check Pods Manifest.lock */,
 				6180A7701C18ABFC00D63F00 /* Sources */,
 				6180A7711C18ABFC00D63F00 /* Frameworks */,
 				6180A7721C18ABFC00D63F00 /* Resources */,
-				6B5700D2E524CC2AC23C6973 /* [CP] Embed Pods Frameworks */,
-				F06BF6C58623DB5AA4E41C26 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -376,11 +528,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 61936ACB1CEE74A600603B95 /* Build configuration list for PBXNativeTarget "CompileFeatures" */;
 			buildPhases = (
-				FA7E660289672D62390AF180 /* [CP] Check Pods Manifest.lock */,
 				61936AC11CEE74A600603B95 /* Sources */,
 				61936AC21CEE74A600603B95 /* Frameworks */,
 				61936AC31CEE74A600603B95 /* CopyFiles */,
-				29FF0B0871677B894ADA0615 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -396,16 +546,17 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 61BBC3CB1C407891006C6DF0 /* Build configuration list for PBXNativeTarget "IntuneFeatures.iOS" */;
 			buildPhases = (
-				5584C2EF17098F84486500BB /* [CP] Check Pods Manifest.lock */,
 				61BBC3B11C407891006C6DF0 /* Sources */,
 				61BBC3B21C407891006C6DF0 /* Frameworks */,
 				61BBC3B31C407891006C6DF0 /* Headers */,
 				61BBC3B41C407891006C6DF0 /* Resources */,
-				B62D08978891724619928330 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A9EE99E81DB43AC600CD96D4 /* PBXTargetDependency */,
+				A9EE99EA1DB43AC600CD96D4 /* PBXTargetDependency */,
+				A9EE99EC1DB43AC600CD96D4 /* PBXTargetDependency */,
 			);
 			name = IntuneFeatures.iOS;
 			productName = "FeatureExtraction-iOS";
@@ -416,12 +567,9 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 61BBC3CC1C407891006C6DF0 /* Build configuration list for PBXNativeTarget "IntuneFeaturesTests.iOS" */;
 			buildPhases = (
-				40BDAC50D4651C8C8B38EDED /* [CP] Check Pods Manifest.lock */,
 				61BBC3BB1C407891006C6DF0 /* Sources */,
 				61BBC3BC1C407891006C6DF0 /* Frameworks */,
 				61BBC3BD1C407891006C6DF0 /* Resources */,
-				88FA187FDBB1163B243110F5 /* [CP] Embed Pods Frameworks */,
-				F4C18B20CD7221D8917B033F /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -437,16 +585,17 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8C7845831BB9B06600C88426 /* Build configuration list for PBXNativeTarget "IntuneFeatures.OSX" */;
 			buildPhases = (
-				4E64E1405CD1A79A29EBD8CA /* [CP] Check Pods Manifest.lock */,
 				8C78456A1BB9B06600C88426 /* Sources */,
 				8C78456B1BB9B06600C88426 /* Frameworks */,
 				8C78456C1BB9B06600C88426 /* Headers */,
 				612131D21CADCCD100299E03 /* Resources */,
-				D33A045500BCE2D019E35D73 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
 			dependencies = (
+				A9EE99E21DB43ABD00CD96D4 /* PBXTargetDependency */,
+				A9EE99E41DB43ABD00CD96D4 /* PBXTargetDependency */,
+				A9EE99E61DB43ABD00CD96D4 /* PBXTargetDependency */,
 				A94555841CAED97E00E62839 /* PBXTargetDependency */,
 			);
 			name = IntuneFeatures.OSX;
@@ -466,6 +615,7 @@
 				TargetAttributes = {
 					6180A7731C18ABFC00D63F00 = {
 						CreatedOnToolsVersion = 7.2;
+						LastSwiftMigration = 0800;
 					};
 					61936AC41CEE74A600603B95 = {
 						CreatedOnToolsVersion = 7.3.1;
@@ -473,9 +623,11 @@
 					};
 					61BBC3B51C407891006C6DF0 = {
 						CreatedOnToolsVersion = 7.2;
+						LastSwiftMigration = 0800;
 					};
 					61BBC3BE1C407891006C6DF0 = {
 						CreatedOnToolsVersion = 7.2;
+						LastSwiftMigration = 0800;
 					};
 					8C78456E1BB9B06600C88426 = {
 						CreatedOnToolsVersion = 7.0;
@@ -494,6 +646,20 @@
 			mainGroup = 8C7845651BB9B06600C88426;
 			productRefGroup = 8C7845701BB9B06600C88426 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = A9EE99BD1DB43A1A00CD96D4 /* Products */;
+					ProjectRef = A9EE99BC1DB43A1A00CD96D4 /* HDF5Kit.xcodeproj */;
+				},
+				{
+					ProductGroup = A9EE99CC1DB43A2800CD96D4 /* Products */;
+					ProjectRef = A9EE99CB1DB43A2800CD96D4 /* Peak.xcodeproj */;
+				},
+				{
+					ProductGroup = A9EE99A81DB43A0F00CD96D4 /* Products */;
+					ProjectRef = A9EE99A71DB43A0F00CD96D4 /* Upsurge.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8C78456E1BB9B06600C88426 /* IntuneFeatures.OSX */,
@@ -504,6 +670,114 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		A9EE99B11DB43A0F00CD96D4 /* Upsurge.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Upsurge.framework;
+			remoteRef = A9EE99B01DB43A0F00CD96D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A9EE99B31DB43A0F00CD96D4 /* UpsurgeTests OSX.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "UpsurgeTests OSX.xctest";
+			remoteRef = A9EE99B21DB43A0F00CD96D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A9EE99B51DB43A0F00CD96D4 /* Upsurge.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Upsurge.framework;
+			remoteRef = A9EE99B41DB43A0F00CD96D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A9EE99B71DB43A0F00CD96D4 /* UpsurgeTests iOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "UpsurgeTests iOS.xctest";
+			remoteRef = A9EE99B61DB43A0F00CD96D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A9EE99B91DB43A0F00CD96D4 /* Upsurge.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Upsurge.framework;
+			remoteRef = A9EE99B81DB43A0F00CD96D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A9EE99BB1DB43A0F00CD96D4 /* UpsurgeTests tvOS.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = "UpsurgeTests tvOS.xctest";
+			remoteRef = A9EE99BA1DB43A0F00CD96D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A9EE99C41DB43A1B00CD96D4 /* HDF5Kit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = HDF5Kit.framework;
+			remoteRef = A9EE99C31DB43A1B00CD96D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A9EE99C61DB43A1B00CD96D4 /* HDF5KitTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = HDF5KitTests.xctest;
+			remoteRef = A9EE99C51DB43A1B00CD96D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A9EE99C81DB43A1B00CD96D4 /* HDF5Kit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = HDF5Kit.framework;
+			remoteRef = A9EE99C71DB43A1B00CD96D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A9EE99CA1DB43A1B00CD96D4 /* HDF5KitTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = HDF5KitTests.xctest;
+			remoteRef = A9EE99C91DB43A1B00CD96D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A9EE99D41DB43A2800CD96D4 /* Peak.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Peak.framework;
+			remoteRef = A9EE99D31DB43A2800CD96D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A9EE99D61DB43A2800CD96D4 /* PeakiOSTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = PeakiOSTests.xctest;
+			remoteRef = A9EE99D51DB43A2800CD96D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A9EE99D81DB43A2800CD96D4 /* Peak.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = Peak.framework;
+			remoteRef = A9EE99D71DB43A2800CD96D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A9EE99DA1DB43A2800CD96D4 /* PeakOSXTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = PeakOSXTests.xctest;
+			remoteRef = A9EE99D91DB43A2800CD96D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		A9EE99DC1DB43A2800CD96D4 /* PeakiOSExample.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = PeakiOSExample.app;
+			remoteRef = A9EE99DB1DB43A2800CD96D4 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		612131D21CADCCD100299E03 /* Resources */ = {
@@ -537,189 +811,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
-
-/* Begin PBXShellScriptBuildPhase section */
-		29FF0B0871677B894ADA0615 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-CompileFeatures/Pods-CompileFeatures-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		40BDAC50D4651C8C8B38EDED /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		4E64E1405CD1A79A29EBD8CA /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		5584C2EF17098F84486500BB /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		6B5700D2E524CC2AC23C6973 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-IntuneFeatures.OSX-IntuneFeaturesTests.OSX/Pods-IntuneFeatures.OSX-IntuneFeaturesTests.OSX-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		88FA187FDBB1163B243110F5 /* [CP] Embed Pods Frameworks */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Embed Pods Frameworks";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS/Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS-frameworks.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		8E75B21E09737E444AE2C968 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-		B62D08978891724619928330 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-IntuneFeatures.iOS/Pods-IntuneFeatures.iOS-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		D33A045500BCE2D019E35D73 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-IntuneFeatures.OSX/Pods-IntuneFeatures.OSX-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F06BF6C58623DB5AA4E41C26 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-IntuneFeatures.OSX-IntuneFeaturesTests.OSX/Pods-IntuneFeatures.OSX-IntuneFeaturesTests.OSX-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		F4C18B20CD7221D8917B033F /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS/Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS-resources.sh\"\n";
-			showEnvVarsInLog = 0;
-		};
-		FA7E660289672D62390AF180 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
-			showEnvVarsInLog = 0;
-		};
-/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		6180A7701C18ABFC00D63F00 /* Sources */ = {
@@ -827,12 +918,41 @@
 			isa = PBXTargetDependency;
 			name = PeakOSX;
 		};
+		A9EE99E21DB43ABD00CD96D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PeakOSX;
+			targetProxy = A9EE99E11DB43ABD00CD96D4 /* PBXContainerItemProxy */;
+		};
+		A9EE99E41DB43ABD00CD96D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "HDF5Kit-OSX";
+			targetProxy = A9EE99E31DB43ABD00CD96D4 /* PBXContainerItemProxy */;
+		};
+		A9EE99E61DB43ABD00CD96D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Upsurge OSX";
+			targetProxy = A9EE99E51DB43ABD00CD96D4 /* PBXContainerItemProxy */;
+		};
+		A9EE99E81DB43AC600CD96D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = PeakiOS;
+			targetProxy = A9EE99E71DB43AC600CD96D4 /* PBXContainerItemProxy */;
+		};
+		A9EE99EA1DB43AC600CD96D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "HDF5Kit-iOS";
+			targetProxy = A9EE99E91DB43AC600CD96D4 /* PBXContainerItemProxy */;
+		};
+		A9EE99EC1DB43AC600CD96D4 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "Upsurge iOS";
+			targetProxy = A9EE99EB1DB43AC600CD96D4 /* PBXContainerItemProxy */;
+		};
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
 		6180A77D1C18ABFC00D63F00 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 9EE9B816947C35B62AEFC9AD /* Pods-IntuneFeatures.OSX-IntuneFeaturesTests.OSX.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -840,12 +960,12 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.venturemedia.IntuneFeaturesTests-OSX";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		6180A77E1C18ABFC00D63F00 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4D24F1704FF5A366CAAA3F81 /* Pods-IntuneFeatures.OSX-IntuneFeaturesTests.OSX.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				COMBINE_HIDPI_IMAGES = YES;
@@ -853,12 +973,12 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.venturemedia.IntuneFeaturesTests-OSX";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 			};
 			name = Release;
 		};
 		61936AC91CEE74A600603B95 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 46A2B86AA72E5AD9AB9AC89F /* Pods-CompileFeatures.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -871,7 +991,6 @@
 		};
 		61936ACA1CEE74A600603B95 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 01A691A0828E985BE2905E8A /* Pods-CompileFeatures.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ANALYZER_NONNULL = YES;
@@ -884,7 +1003,6 @@
 		};
 		61BBC3C71C407891006C6DF0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 8AD663CE7FAD649FD7BA43F0 /* Pods-IntuneFeatures.iOS.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -899,13 +1017,13 @@
 				PRODUCT_NAME = IntuneFeatures;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
 		61BBC3C81C407891006C6DF0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = D1E65C8BC7DA7492AE9F9C71 /* Pods-IntuneFeatures.iOS.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "";
@@ -920,6 +1038,7 @@
 				PRODUCT_NAME = IntuneFeatures;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -927,7 +1046,6 @@
 		};
 		61BBC3C91C407891006C6DF0 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 45DB149D78E3E71B69AE355C /* Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -936,12 +1054,12 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.venturemedia.IntuneFeaturesTests-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 3.0;
 			};
 			name = Debug;
 		};
 		61BBC3CA1C407891006C6DF0 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = E499CC473B6EB6AD6090B520 /* Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
@@ -950,6 +1068,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.venturemedia.IntuneFeaturesTests-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
+				SWIFT_VERSION = 3.0;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -958,6 +1077,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -992,7 +1112,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -1008,6 +1128,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ALWAYS_SEARCH_USER_PATHS = NO;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
 				CLANG_CXX_LIBRARY = "libc++";
 				CLANG_ENABLE_MODULES = YES;
@@ -1036,7 +1157,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 8.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
@@ -1049,7 +1170,6 @@
 		};
 		8C7845841BB9B06600C88426 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 541F84D91559692F9E39C285 /* Pods-IntuneFeatures.OSX.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -1073,7 +1193,6 @@
 		};
 		8C7845851BB9B06600C88426 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 6BD015FF207461BEDAD31515 /* Pods-IntuneFeatures.OSX.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
