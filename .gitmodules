@@ -1,9 +1,0 @@
-[submodule "Submodules/HDF5Kit"]
-	path = Submodules/HDF5Kit
-	url = https://github.com/aleph7/HDF5Kit.git
-[submodule "Submodules/Peak"]
-	path = Submodules/Peak
-	url = git@github.com:hoseking/Peak.git
-[submodule "Submodules/Upsurge"]
-	path = Submodules/Upsurge
-	url = git@github.com:aleph7/Upsurge.git

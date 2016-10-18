@@ -1,0 +1,30 @@
+PODS:
+  - HDF5Kit (0.2.0)
+  - Peak/AudioFile (2.0.0)
+  - Peak/MIDI (2.0.0)
+  - Upsurge (0.8.0)
+
+DEPENDENCIES:
+  - HDF5Kit (~> 0.2)
+  - Peak/AudioFile (from `https://github.com/hoseking/Peak.git`, branch `master`)
+  - Peak/MIDI (from `https://github.com/hoseking/Peak.git`, branch `master`)
+  - Upsurge (~> 0.8)
+
+EXTERNAL SOURCES:
+  Peak:
+    :branch: master
+    :git: https://github.com/hoseking/Peak.git
+
+CHECKOUT OPTIONS:
+  Peak:
+    :commit: d17fdeb3a3f1aecb40278d0957f07313a969befc
+    :git: https://github.com/hoseking/Peak.git
+
+SPEC CHECKSUMS:
+  HDF5Kit: 6e84f7e84de9e86df56e2d1090dac9f4e8ffc224
+  Peak: 36f86f3ed596311bd8300514fb005f8aacf5af17
+  Upsurge: 614412863a3b5470b31636a004654b6ef3a34f47
+
+PODFILE CHECKSUM: d9b71ee6e90a6949e03597b189c2683aeade7e14
+
+COCOAPODS: 1.1.0.rc.3
