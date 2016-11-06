@@ -61,6 +61,7 @@
 		61C3CFEF1C7F7F5B002A9C90 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C3CFEE1C7F7F5B002A9C90 /* Configuration.swift */; };
 		61C3CFF01C7F7F5B002A9C90 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61C3CFEE1C7F7F5B002A9C90 /* Configuration.swift */; };
 		61D485AD1BC4A3D70086CED8 /* Shuffle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 61D485AC1BC4A3D70086CED8 /* Shuffle.swift */; };
+		64A69A8474827DE39C569868 /* Pods_osx_IntuneFeatures_OSX.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6E3B6B19AC8A17A7D0E9E583 /* Pods_osx_IntuneFeatures_OSX.framework */; };
 		6C1CE02909D5EC510E9E0576 /* Pods_IntuneFeatures_iOS_IntuneFeaturesTests_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = CAEADBC47808E73ED211CE40 /* Pods_IntuneFeatures_iOS_IntuneFeaturesTests_iOS.framework */; };
 		8C56779E1BE976140009ED31 /* FeatureBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C56779C1BE9731E0009ED31 /* FeatureBuilder.swift */; };
 		8C7845731BB9B06600C88426 /* IntuneFeatures.h in Headers */ = {isa = PBXBuildFile; fileRef = 8C7845721BB9B06600C88426 /* IntuneFeatures.h */; settings = {ATTRIBUTES = (Public, ); }; };
@@ -106,6 +107,8 @@
 
 /* Begin PBXFileReference section */
 		095756151E123BD2B414D10C /* Pods-osx-CompileFeatures.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-osx-CompileFeatures.release.xcconfig"; path = "Pods/Target Support Files/Pods-osx-CompileFeatures/Pods-osx-CompileFeatures.release.xcconfig"; sourceTree = "<group>"; };
+		1DCFEBA235027B2710FC5923 /* Pods-osx-IntuneFeatures.OSX.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-osx-IntuneFeatures.OSX.release.xcconfig"; path = "Pods/Target Support Files/Pods-osx-IntuneFeatures.OSX/Pods-osx-IntuneFeatures.OSX.release.xcconfig"; sourceTree = "<group>"; };
+		3BA59CA35CC473E2B26AB069 /* Pods-osx-IntuneFeatures.OSX.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-osx-IntuneFeatures.OSX.debug.xcconfig"; path = "Pods/Target Support Files/Pods-osx-IntuneFeatures.OSX/Pods-osx-IntuneFeatures.OSX.debug.xcconfig"; sourceTree = "<group>"; };
 		5EBCBBDF18627ED23AFA09CA /* Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS/Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		5FEDB69848DA0AE591186AE5 /* Pods-IntuneFeatures.iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IntuneFeatures.iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-IntuneFeatures.iOS/Pods-IntuneFeatures.iOS.release.xcconfig"; sourceTree = "<group>"; };
 		610AAB661BD99737008CC910 /* NoteTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NoteTests.swift; sourceTree = "<group>"; };
@@ -140,6 +143,7 @@
 		61BBC3BF1C407891006C6DF0 /* IntuneFeaturesTests.iOS.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = IntuneFeaturesTests.iOS.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		61C3CFEE1C7F7F5B002A9C90 /* Configuration.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
 		61D485AC1BC4A3D70086CED8 /* Shuffle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Shuffle.swift; sourceTree = "<group>"; };
+		6E3B6B19AC8A17A7D0E9E583 /* Pods_osx_IntuneFeatures_OSX.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_osx_IntuneFeatures_OSX.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		80ED6E9FBFA7A0431D3B70F2 /* Pods-IntuneFeatures.iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-IntuneFeatures.iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-IntuneFeatures.iOS/Pods-IntuneFeatures.iOS.debug.xcconfig"; sourceTree = "<group>"; };
 		8C56779C1BE9731E0009ED31 /* FeatureBuilder.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FeatureBuilder.swift; sourceTree = "<group>"; };
 		8C78456F1BB9B06600C88426 /* IntuneFeatures.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = IntuneFeatures.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -196,6 +200,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				64A69A8474827DE39C569868 /* Pods_osx_IntuneFeatures_OSX.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -213,6 +218,8 @@
 				095756151E123BD2B414D10C /* Pods-osx-CompileFeatures.release.xcconfig */,
 				E651742FC2A0F2A0F0580409 /* Pods-osx-IntuneFeaturesTests.OSX.debug.xcconfig */,
 				8E93B6C8950B175BD0DE9900 /* Pods-osx-IntuneFeaturesTests.OSX.release.xcconfig */,
+				3BA59CA35CC473E2B26AB069 /* Pods-osx-IntuneFeatures.OSX.debug.xcconfig */,
+				1DCFEBA235027B2710FC5923 /* Pods-osx-IntuneFeatures.OSX.release.xcconfig */,
 			);
 			name = Pods;
 			sourceTree = "<group>";
@@ -317,6 +324,7 @@
 				CAEADBC47808E73ED211CE40 /* Pods_IntuneFeatures_iOS_IntuneFeaturesTests_iOS.framework */,
 				BB29211D740EE98EC395E3C7 /* Pods_osx_CompileFeatures.framework */,
 				FB2BEFB358D549DB30B72514 /* Pods_osx_IntuneFeaturesTests_OSX.framework */,
+				6E3B6B19AC8A17A7D0E9E583 /* Pods_osx_IntuneFeatures_OSX.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -429,10 +437,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8C7845831BB9B06600C88426 /* Build configuration list for PBXNativeTarget "IntuneFeatures.OSX" */;
 			buildPhases = (
+				E53D13312B24BB48428CA4C1 /* [CP] Check Pods Manifest.lock */,
 				8C78456A1BB9B06600C88426 /* Sources */,
 				8C78456B1BB9B06600C88426 /* Frameworks */,
 				8C78456C1BB9B06600C88426 /* Headers */,
 				612131D21CADCCD100299E03 /* Resources */,
+				24FE42575339D1582D348850 /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -531,6 +541,21 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
+		24FE42575339D1582D348850 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-osx-IntuneFeatures.OSX/Pods-osx-IntuneFeatures.OSX-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
 		282D3D0704F33A7DE91871CD /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -681,6 +706,21 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS/Pods-IntuneFeatures.iOS-IntuneFeaturesTests.iOS-resources.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
+		E53D13312B24BB48428CA4C1 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
+			showEnvVarsInLog = 0;
+		};
 /* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
@@ -798,7 +838,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.venturemedia.IntuneFeaturesTests-OSX";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 3.0.1;
 			};
 			name = Debug;
 		};
@@ -812,7 +852,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/../Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.venturemedia.IntuneFeaturesTests-OSX";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 3.0.1;
 			};
 			name = Release;
 		};
@@ -823,9 +863,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_IDENTITY = "-";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) '@executable_path' '@executable_path/HDF5Kit-OSX' '@executable_path/Peak-AudioFile-MIDI' '@executable_path/Upsurge-OSX'";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) '@executable_path' '@executable_path/HDF5Kit-OSX' '@executable_path/Peak-AudioFile-MIDI' '@executable_path/Upsurge-OSX' '@loader_path/Libraries' '@loader_path/../Libraries' '@loader_path/../Frameworks' '@loader_path/Frameworks' '@executable_path/../Frameworks' '@executable_path/Frameworks'";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 3.0.1;
 			};
 			name = Debug;
 		};
@@ -836,9 +876,9 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CLANG_ANALYZER_NONNULL = YES;
 				CODE_SIGN_IDENTITY = "-";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) '@executable_path' '@executable_path/HDF5Kit-OSX' '@executable_path/Peak-AudioFile-MIDI' '@executable_path/Upsurge-OSX'";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) '@executable_path' '@executable_path/HDF5Kit-OSX' '@executable_path/Peak-AudioFile-MIDI' '@executable_path/Upsurge-OSX' '@loader_path/Libraries' '@loader_path/../Libraries' '@loader_path/../Frameworks' '@loader_path/Frameworks' '@executable_path/../Frameworks' '@executable_path/Frameworks'";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 3.0.1;
 			};
 			name = Release;
 		};
@@ -859,7 +899,7 @@
 				PRODUCT_NAME = IntuneFeatures;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 3.0.1;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
@@ -881,7 +921,7 @@
 				PRODUCT_NAME = IntuneFeatures;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 3.0.1;
 				TARGETED_DEVICE_FAMILY = "1,2";
 				VALIDATE_PRODUCT = YES;
 			};
@@ -898,7 +938,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.venturemedia.IntuneFeaturesTests-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 3.0.1;
 			};
 			name = Debug;
 		};
@@ -913,7 +953,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = "com.venturemedia.IntuneFeaturesTests-iOS";
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = iphoneos;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 3.0.1;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
@@ -958,12 +998,13 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) '@executable_path' '@executable_path/HDF5Kit-OSX' '@executable_path/Peak-AudioFile-MIDI' '@executable_path/Upsurge-OSX' '@loader_path/Libraries' '@loader_path/../Libraries' '@loader_path/../Frameworks' '@loader_path/Frameworks' '@executable_path/../Frameworks' '@executable_path/Frameworks'";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 3.0.1;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1003,11 +1044,12 @@
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				IPHONEOS_DEPLOYMENT_TARGET = 9.3;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) '@executable_path' '@executable_path/HDF5Kit-OSX' '@executable_path/Peak-AudioFile-MIDI' '@executable_path/Upsurge-OSX' '@loader_path/Libraries' '@loader_path/../Libraries' '@loader_path/../Frameworks' '@loader_path/Frameworks' '@executable_path/../Frameworks' '@executable_path/Frameworks'";
 				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = macosx;
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
+				SWIFT_VERSION = 3.0.1;
 				VERSIONING_SYSTEM = "apple-generic";
 				VERSION_INFO_PREFIX = "";
 			};
@@ -1015,6 +1057,7 @@
 		};
 		8C7845841BB9B06600C88426 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 3BA59CA35CC473E2B26AB069 /* Pods-osx-IntuneFeatures.OSX.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -1027,17 +1070,18 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "Resources/Framework-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) '@executable_path' '@executable_path/HDF5Kit-OSX' '@executable_path/Peak-AudioFile-MIDI' '@executable_path/Upsurge-OSX' '@loader_path/Libraries' '@loader_path/../Libraries' '@loader_path/../Frameworks' '@loader_path/Frameworks' '@executable_path/../Frameworks' '@executable_path/Frameworks'";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.venturemedia.IntuneFeatures-OSX";
 				PRODUCT_NAME = IntuneFeatures;
 				SKIP_INSTALL = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 3.0.1;
 			};
 			name = Debug;
 		};
 		8C7845851BB9B06600C88426 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 1DCFEBA235027B2710FC5923 /* Pods-osx-IntuneFeatures.OSX.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CLANG_ENABLE_MODULES = YES;
@@ -1050,11 +1094,11 @@
 				FRAMEWORK_VERSION = A;
 				INFOPLIST_FILE = "Resources/Framework-Info.plist";
 				INSTALL_PATH = "$(LOCAL_LIBRARY_DIR)/Frameworks";
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/../Frameworks @loader_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) '@executable_path' '@executable_path/HDF5Kit-OSX' '@executable_path/Peak-AudioFile-MIDI' '@executable_path/Upsurge-OSX' '@loader_path/Libraries' '@loader_path/../Libraries' '@loader_path/../Frameworks' '@loader_path/Frameworks' '@executable_path/../Frameworks' '@executable_path/Frameworks'";
 				PRODUCT_BUNDLE_IDENTIFIER = "com.venturemedia.IntuneFeatures-OSX";
 				PRODUCT_NAME = IntuneFeatures;
 				SKIP_INSTALL = YES;
-				SWIFT_VERSION = 3.0;
+				SWIFT_VERSION = 3.0.1;
 			};
 			name = Release;
 		};
